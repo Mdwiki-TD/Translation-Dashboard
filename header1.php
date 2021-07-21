@@ -41,6 +41,7 @@
                 <ul class="nav navbar-nav navbar-left">
                     <li><a href="leaderboard.php"><span style="font-size:16px">Leaderboard</span></a></li>
                     <li><a href="missing.php"><span style="font-size:16px">Missing</span></a></li>
+                    <li><a href="https://github.com/MrIbrahem/Translation-Dashboard" target="_blank"><span style="font-size:16px">Github</span></a></li>
                 </ul>
 <?php
 //--------------------
