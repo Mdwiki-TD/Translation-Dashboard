@@ -45,7 +45,7 @@
                 </ul>
 <?php
 //--------------------
-require ('login2.php');
+require('login2.php');
 //--------------------
 $SCRIPT_NAME = htmlspecialchars( $_SERVER['SCRIPT_NAME'] ) ; 
 //--------------------

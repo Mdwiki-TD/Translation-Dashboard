@@ -89,12 +89,12 @@ $gConsumerKey = $ini['consumerKey'];
 $gConsumerSecret = $ini['consumerSecret'];
 
 // Load the user token (request or access) from the session
-//=================
+//==========================
 $username = '';
-//=================
+//==========================
 $gTokenKey = '';
 $gTokenSecret = '';
-//=================
+//==========================
 session_start();
 if ( isset( $_SESSION['tokenKey'] ) ) {
     $gTokenKey = $_SESSION['tokenKey'];
@@ -103,11 +103,11 @@ if ( isset( $_SESSION['tokenKey'] ) ) {
 session_write_close();
 
 // Fetch the access token if this is the callback from requesting authorization
-if ( isset( $_GET['oauth_verifier'] ) && $_GET['oauth_verifier'] ) {fetchAccessToken();}
+if ( isset( $_REQUEST['oauth_verifier'] ) && $_REQUEST['oauth_verifier'] ) {fetchAccessToken();}
 
 
 // Take any requested action
-switch ( isset( $_GET['action'] ) ? $_GET['action'] : '' ) {
+switch ( isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : '' ) {
     case 'login':
         doAuthorizationRedirect();
         return;
@@ -149,7 +149,7 @@ if ( $username != '' ) {
     print "<li><a href='$SCRIPT_NAME?action=login'>Login</a></li>";
 }
 */
-//=================
+//==========================
 /**
  * Utility function to sign a request
  *
@@ -254,9 +254,9 @@ function doAuthorizationRedirect() {
         echo 'Invalid response from token request';
         exit(0);
     }
-    //--------------------------
+    //--------------------
     //echo var_dump($token);
-    //--------------------------
+    //--------------------
     // Now we have the request token, we need to save it for later.
     session_start();
     $_SESSION['tokenKey'] = $token->key;
@@ -285,7 +285,7 @@ function fetchAccessToken() {
     $url .= strpos( $url, '?' ) ? '&' : '?';
     $url .= http_build_query( array(
         'format' => 'json',
-        'oauth_verifier' => $_GET['oauth_verifier'],
+        'oauth_verifier' => $_REQUEST['oauth_verifier'],
 
         // OAuth information
         'oauth_consumer_key' => $gConsumerKey,
@@ -374,7 +374,7 @@ function doIdentify($gg) {
         exit(0);
     }
     $err = json_decode( $data );
-    //=------------------
+    //==========================------------------
     if ( is_object( $err ) && isset( $err->error ) && $err->error === 'mwoauthdatastore-access-token-not-found' ) {
         // We're not authorized!
         //echo "You haven't authorized this application yet! Go <a href='" . htmlspecialchars( $_SERVER['SCRIPT_NAME'] ) . "?action=login'>here</a> to do that.";
@@ -421,16 +421,16 @@ function doIdentify($gg) {
         echo 'Invalid payload in identify response: ' . htmlspecialchars( $data );
         exit(0);
     }
-    //=------------------
+    //==========================------------------
     
     //return $payload
     //$dd = var_export( $payload, 1 );
     $username = $payload->{'username'};
-    //=------------------
+    //==========================------------------
     if ( $gg != '' ) {
         echo 'JWT payload: <pre>' . htmlspecialchars( var_export( $payload, 1 ) ) . '</pre><br><hr>';
         }
-    //=------------------
+    //==========================------------------
 }
 
 // ******************** WEBPAGE ********************

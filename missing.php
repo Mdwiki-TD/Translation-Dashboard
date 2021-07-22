@@ -1,27 +1,26 @@
 <?PHP
-//-----------------
-require ('header1.php');
-//-----------------
+//--------------------
+require('header1.php');
+require('langcode.php');
+//--------------------
 print '';
 print '<div class="col-md-10 col-md-offset-1" align=left >';
 //print '<h1 class="text-center">Leaderboard</h1>';
 print '<div class="text-center clearfix leaderboard" >';
-//=============================
-require ('langcode.php');
-//=============================
-//-----------------
+//==========================
+//--------------------
 $missingfile = file_get_contents("cash/missing.json");
 //print $wordsjson;
 $MIS = json_decode ( $missingfile ) ; //{'all' : len(listenew), 'date' : Day_History, 'langs' : {} }
-//=============================
+//==========================
 //$lenth = file_get_contents("len.csv"); 
 $lenth = $MIS->{'all'}; 
 $lenth2 = number_format($lenth); 
-//=============================
+//==========================
 //$date = '15-05-2021';
 $date = $MIS->{'date'}; 
-//=============================
-//=============================
+//==========================
+//==========================
 /*
 $Table = array();
 foreach ( $code_to_lang as $code => $name ) {
@@ -37,10 +36,10 @@ foreach ( $code_to_lang as $code => $name ) {
     $Table[$code] = $nana;
     
 };*/
-#-----------------
+//--------------------
 $Table = array(); 
 $langs = $MIS->{'langs'}; 
-#-----------------
+//--------------------
 foreach ( $langs as $code => $tabe ) {
     //$tabe = { 'missing' leeen :  , 'exists' : len( table[langs] ) };
     
@@ -48,13 +47,13 @@ foreach ( $langs as $code => $tabe ) {
     //$aaa = number_format( $aaa );
     $Table[$code] = $aaa;
 };
-#-----------------
+//--------------------
 arsort( $Table );
-#-----------------
-//=============================
+//--------------------
+//==========================
 print "<h3>Top languages by missing Articles ($date)</h3>";
 print "<h4>Number of pages in Category:RTT : $lenth</h4>";
-//--------------------------
+//--------------------
 function Make_lang_table( $tabe ) {
     global $code_to_lang;
     global $langs;
@@ -69,19 +68,19 @@ function Make_lang_table( $tabe ) {
     <th onclick="sortTable(1)">Number of missing Articles</th>
     </tr>
     ';
-    #-----------------
+    //--------------------
     $num = 0;
-    #-----------------
+    //--------------------
     //<!-- <td><a target="" href="langs.php?langcode=' . $langcode . '">' . $numb . '</a></td> -->
-    #-----------------
+    //--------------------
     foreach ( $tabe as $langcode => $missing ) {
         $num = $num + 1;
         $langname = isset($code_to_lang[$langcode]) ? $code_to_lang[$langcode] : $langcode;
         $langname = str_replace ( "($langcode) " , '' , $langname ) ;
-        //-------------------------
+        //--------------------
         $exists = bcsub($lenth , $missing);
         $exists = $langs->{$langcode}->{'exists'}; 
-        //-------------------------
+        //--------------------
         $text .= '
     <tr>
         <td>' . $num . '</td>
@@ -92,21 +91,21 @@ function Make_lang_table( $tabe ) {
     </tr>
         ';
     };
-    #-----------------
+    //--------------------
     $text .= '
 </table>';
-    #-----------------
+    //--------------------
     return $text;
 }
-//=============================
-//-----------------
+//==========================
+//--------------------
 print Make_lang_table( $Table );
-//-----------------
+//--------------------
 ?>
 <?PHP
-//-----------------
+//--------------------
 print "</div>";
-//-----------------
+//--------------------
 
 print "
 </main>
@@ -114,6 +113,6 @@ print "
 </body>
 </html>
 </div>"
-//-----------------
+//--------------------
 
 ?>

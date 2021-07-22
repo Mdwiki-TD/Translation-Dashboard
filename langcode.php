@@ -14,7 +14,7 @@
     "(zh-min-nan) Bân-lâm-gú"   =>   "zh-min-nan",
     "zh-min-nan"    =>   "nan",
     'zh-yue' => 'yue',*/
-//-------------------------------------------
+//--------------------
 $lang_to_code_old = array(
     "(ar) العربية" =>  "ar",
     "(id) Bahasa Indonesia"     =>   "id",
@@ -76,7 +76,7 @@ $lang_to_code_old = array(
     "(vi) Tiếng Việt"   =>   "vi",
     "(zh) 中文"           =>   "zh",
     );
-//--------------------------
+//--------------------
 
 $lang_to_code = array(
     "(aa) Afar" => "aa",
@@ -399,9 +399,9 @@ $lang_to_code = array(
     "(zu) isiZulu" => "zu",
 
     );
-//--------------------------
+//--------------------
 $code_to_lang = array();
-//--------------------------
+//--------------------
 foreach ( $lang_to_code AS $lange => $cod ) {
     $code_to_lang[$cod] = $lange ;
     //$code_to_lang->{$cod} = $lange ;
