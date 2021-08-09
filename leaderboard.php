@@ -1,9 +1,59 @@
 <?PHP
 //--------------------
 require('header1.php');
+//--------------------
+// require('arrays.php');
 require('tables.php');
 require('functions.php');
+require('langcode.php');
 //--------------------
+//==========================
+//==========================
+
+$qua_views2 = "select p.target, p.user, v.lang, v.count
+from pages p,views v
+where p.lang = v.lang
+and p.target = v.target
+;
+";
+$views_quarye = quary2($qua_views2);
+//---
+$all_views_by_lang = array();
+$all_views_by_user = array();
+$views_by_target = array();
+// $views_by_user = array();
+$global_views = 0;
+//----
+foreach ( $views_quarye AS $Key => $tablea ) {
+    //--------------------
+    $llang  = $tablea['lang'];
+    $use    = $tablea['user'];
+    $Counte = $tablea['count'];
+    $tat = $tablea['target'];
+    //---------------------
+	// $lang_count = isset($sql_Languages_tab[$llang]) ? $sql_Languages_tab[$llang] : "";
+	// if ($lang_count == '') { $sql_Languages_tab[$llang] = array(); };
+    //---------------------
+	
+	$lang_in = isset($all_views_by_lang[$llang]) ? $all_views_by_lang[$llang] : "";
+	if ($lang_in == '') { $all_views_by_lang[$llang] = 0; };
+	
+    $all_views_by_lang[$llang] = $all_views_by_lang[$llang] + $Counte;
+    //--------------------
+	$user_in = isset($all_views_by_user[$use]) ? $all_views_by_user[$use] : "";
+	if ($user_in == '') { $all_views_by_user[$use] = 0; };
+	
+    $all_views_by_user[$use] = $all_views_by_user[$use] + $Counte;
+    //--------------------
+    //--------------------
+    //--------------------
+    //--------------------
+    $views_by_target[$tat] = $Counte;
+    //--------------------
+    $global_views = $global_views + $Counte;
+    //--------------------
+    };
+//==========================
 //==========================
 $sql_t = 'select user,lang,word,target 
 from pages
@@ -77,7 +127,7 @@ $sato = '
 $sato .= '<tr><td><b>Users</b></td><td>' .     count($sql_users_tab)     . '</td></tr>';
 $sato .= '<tr><td><b>Articles</b></td><td>' .  $Articles_number         . '</td></tr>';
 $sato .= '<tr><td><b>Languages</b></td><td>' . count($sql_Languages_tab) . '</td></tr>';
-$sato .= '<tr><td><b>Pageviews</b></td><td>' . number_format($views_table->{'total'}) . '</td></tr>';
+$sato .= '<tr><td><b>Pageviews</b></td><td>' . number_format($global_views) . '</td></tr>';
 $sato .= '</table>';
 //--------------------
 print $sato;
@@ -89,7 +139,7 @@ print '</span>
 //==========================
 function Make_users_table() {
     //--------------------
-    global $views_table;
+    global $all_views_by_user;
     global $sql_users_tab;
     global $sql_users_tab_word;
     //--------------------
@@ -109,8 +159,7 @@ function Make_users_table() {
     foreach ( $sql_users_tab as $user => $number ) {
         //if ($user != 'test') { 
             //--------------------
-            $view = $views_table->{'byuser'};
-            $views = $view->{$user};
+            $views = $all_views_by_user[$user];
             $words = $sql_users_tab_word[$user];
             //--------------------
             $use = rawurlEncode($user);
@@ -148,7 +197,7 @@ print '</span>
 //--------------------
 function Make_lang_table() {
     //--------------------
-    global $views_table;
+    global $all_views_by_lang;
     global $code_to_lang;
     //--------------------
     global $sql_Languages_tab;
@@ -172,7 +221,7 @@ function Make_lang_table() {
             //--------------------
             $langname  = isset($code_to_lang[$langcode]) ? $code_to_lang[$langcode] : $langcode;
             //--------------------
-            $view = $views_table->{'bylang'}->{$langcode}->{'total'};
+            $view = $all_views_by_lang[$langcode];
             //--------------------
             //--------------------
             if ($comp != 0) {

@@ -1,16 +1,19 @@
 <?PHP
 //--------------------
-require('tables.php');
-//--------------------
-function get_request ( $key , $default = "" ) /*:string*/ {
+// require('tables.php');
+//-------------------- 
+/*
+$prefilled_requests = [] ;
+//-------------------- 
+function get_request ( $key , $default = "" )  {
     if ( isset ( $prefilled_requests[$key] ) ) return $prefilled_requests[$key] ;
     if ( isset ( $_REQUEST[$key] ) ) return str_replace ( "\'" , "'" , $_REQUEST[$key] ) ;
     return $default ;
-};
+};*/
 //--------------------
 function quary($quae) {
     //--------------------
-    $ts_pw = posix_getpwuid(posix_getuid());
+    $ts_pw = posix_getpwuid(posix_getuid()); 
     // replica.my.cnf
     $ts_mycnf = parse_ini_file($ts_pw['dir'] . "/replica.my.cnf");
     //--------------------
@@ -45,7 +48,10 @@ function quary($quae) {
 };
 //--------------------
 function quary2($quae) {
-    $sql_u = quary($quae);
+    //--------------------
+    if ( $_SERVER['SERVER_NAME'] == 'localhost' ) { return array(); };
+    //--------------------
+	$sql_u = quary($quae);
     //--------------------
     $sql_result = array();
     //--------------------
@@ -62,21 +68,17 @@ function quary2($quae) {
     return $sql_result;
 }; 
 //--------------------
-function make_view($target , $lang) {
-    //--------------------
-    global $views_table;
-    //--------------------
-    $vav = $views_table->{'bylang'};
-    $numb = $vav->{$lang};
-    $numb = $numb->{$target};
-    //--------------------
+function make_view_by_number($target , $numb) {
+    //---------------
+    $numb2 = ($numb != '') ? $numb : "?";
+    //---------------
     $urln = 'https://'.'pageviews.toolforge.org/?project='. $lang .'.wikipedia.org&platform=all-access&agent=all-agents&redirects=0&range=this-year&pages=' . rawurlEncode($target);
-    
-    $link = '<a target="_blank" href="' . $urln . '">' . $numb . '</a>';
-    //--------------------
+    //---------------
+    $link = '<a target="_blank" href="' . $urln . '">' . $numb2 . '</a>';
+    //---------------
     return $link ;
     };
-//--------------------
+//-----------------
 function make_mdwiki_title($tit) {
     $title = $tit;
     if ($title != '') {

@@ -3,53 +3,38 @@
 require('header1.php');
 require('tables.php');
 require('functions.php');
+require('langcode.php');
 //--------------------
 $test = $_REQUEST['test'];
 $mainuser = $_REQUEST['user'];
 $mainuser = rawurldecode( str_replace ( '_' , ' ' , $mainuser ) );
 //--------------------
-$man = make_mdwiki_user_url($mainuser);
-print '<div class="col-md-10 col-md-offset-1" align=left >';
-print "
-<h1 class='text-center'>$man</h1>
-";
-print '<div class="text-center clearfix leaderboard" >
-';
 //==========================
-$table_leg = '  <table class="sortable table table-striped alignleft">
-        <tr>
-            <th onclick="sortTable(0)">#</th>
-            <th onclick="sortTable(1)">Language</th>
-            <th onclick="sortTable(2)">Title</th>
-            <!--<th onclick="sortTable(3)">Start date</th> -->
-            <th onclick="sortTable(4)">Category</th>
-            <th onclick="sortTable(5)">Words</th>
-            <th onclick="sortTable(6)">Translated</th>
-';
-//-------------------- 
 //==========================
+$views_sql = array();
 //--------------------
-$vieww = $views_table->{'byuser'};
-$vviews = $vieww->{$mainuser};
-//--------------------
-$vas = 'Pageviews';
-if ( $vviews != '') { $vas .= "<br>($vviews)"; };
-//--------------------
-$sato = $table_leg . "
-            <th onclick='sortTable(7)'>Completion date</th><th onclick='sortTable(6)'>$vas</th>";
+$quaa_view = "select p.target,v.count
+from pages p,views v
+where p.user = '$mainuser'
+and p.target = v.target
+;";
+$views_query = quary2($quaa_view);
+//---
+$user_total_views = 0;
+//----
+foreach ( $views_query AS $Key => $table ) {
+	$Count = $table['count'];
+	$targ = $table['target'];
+	$views_sql[$targ] = $Count;
+	//--------------------
+	$user_total_views = $user_total_views + $Count;
+	//--------------------
+};
 //==========================
-if ($test != '') $sato .= '
-            <th onclick="sortTable(8)">User</th>';
 //==========================
-$sato .= '
-        </tr>';
-//==========================
-# { 'user' : useradd , 'lang' : code , 'title' : title , 'word' : Words.get(title,0) , 'date' : menet }
-//-------------------- 
-//--------------------
-function make_td($tat,$tabg,$nnnn) {
+function make_td($tabg,$nnnn) {
     // ------------------
-    global $code_to_lang, $Words_table;
+    global $code_to_lang, $Words_table, $views_sql;
     // ------------------
     $date     = $tabg['date'];
     //--------------------
@@ -62,6 +47,8 @@ function make_td($tat,$tabg,$nnnn) {
     $targe    = $tabg['target'];
     $pupdate  = isset($tabg['pupdate']) ? $tabg['pupdate'] : '';
     // ------------------
+    $views_number = isset($views_sql[$targe]) ? $views_sql[$targe] : '?';
+    // ------------------
     $lang2 = isset($code_to_lang[$llang]) ? $code_to_lang[$llang] : $llang;
     $md_title = isset($md_title) ? $md_title : '';
     //--------------------
@@ -73,7 +60,7 @@ function make_td($tat,$tabg,$nnnn) {
     //--------------------
     $targe33 = make_target_url( $targe , $llang );
     //--------------------
-    $view = make_view($targe , $llang) ;
+    $view = make_view_by_number($targe , $views_number) ;
     //--------------------
     $laly = '
         <tr>
@@ -94,54 +81,45 @@ function make_td($tat,$tabg,$nnnn) {
     return $laly;
 };
 //--------------------
+$man = make_mdwiki_user_url($mainuser);
+//--------------------
+print '<div class="col-md-10 col-md-offset-1" align=left >';
+print "
+<h1 class='text-center'>$man</h1>
+";
+print '<div class="text-center clearfix leaderboard" >
+';
 //==========================
+$table_leg = '  <table class="sortable table table-striped alignleft">
+        <tr>
+            <th onclick="sortTable(0)">#</th>
+            <th onclick="sortTable(1)">Language</th>
+            <th onclick="sortTable(2)">Title</th>
+            <!--<th onclick="sortTable(3)">Start date</th> -->
+            <th onclick="sortTable(4)">Category</th>
+            <th onclick="sortTable(5)">Words</th>
+            <th onclick="sortTable(6)">Translated</th>
+';
+//--------------------
+//==========================
+$vas = 'Pageviews';
+if ( $user_total_views != 0) { $vas .= "<br>($user_total_views)"; };
+//--------------------
+$sato = $table_leg . "
+            <th onclick='sortTable(7)'>Completion date</th><th onclick='sortTable(6)'>$vas</th>";
+//==========================
+if ($test != '') $sato .= '
+            <th onclick="sortTable(8)">User</th>';
+//==========================
+$sato .= '
+        </tr>';
+//--------------------
 $quaa = "select * from pages where user = '$mainuser'";
-// print($quaa);
-//--------------------
-if ($_SERVER['SERVER_NAME'] == 'mdwiki.toolforge.org') { 
-    $sql_u = quary($quaa);
-} else {
-    $datna = array('code'  => $quaa,'raw' => 't');
-    $postdata = http_build_query($datna);
-    //--------------------
-    $opts = array('http' =>
-        array( 
-            'method'  => 'POST',
-            'header'  => 'Content-type: application/x-www-form-urlencoded',
-            'content' => $postdata
-        )
-    );
-    $url ='//mdwiki.toolforge.org/Translation_Dashboard/sql.php';
-    // $contextv = stream_context_create($opts);
-    // $sql_u = file_get_contents($url, false, $contextv);
-    //--------------------
-    $url .= '?' . http_build_query($datna, '', '&');
-    $sql_u = file_get_contents($url);
-    $sql_u = json_decode($sql_u);
-    //--------------------
-    print($url);
-    print($sql_u);
-    //--------------------
-};
-//--------------------
-$sql_result = array();
-//--------------------
-$n = 0;
-//--------------------
-foreach ( $sql_u AS $id => $row ) {
-    $ff = array();
-    $n = $n + 1 ;
-    foreach ( $row AS $nas => $value ) {
-        $ff[$nas] = $value;
-    };
-    $sql_result[$n] = $ff;
-};
-//--------------------
-// print(var_dump($sql_result));
+$sql_result = quary2($quaa);
+//==========================
 //--------------------
 $dd_Pending = array();
 $dd = array();
-// foreach ( $sql_result AS $lkl => $gg ) {
 foreach ( $sql_result AS $tait => $tabg ) {
         //--------------------
         // $kry = str_replace('-','',$tabg['pupdate']) . ':' . $tabg['target'] ;
@@ -155,7 +133,6 @@ foreach ( $sql_result AS $tait => $tabg ) {
         };
         //--------------------
     };
-// };
 //--------------------
 krsort($dd);
 // print( count($dd) );
@@ -164,8 +141,7 @@ $noo = 0;
 foreach ( $dd AS $tat => $tabe ) {
     //--------------------
     $noo = $noo + 1;
-    //--------------------
-    $sato .= make_td($tat,$tabe,$noo);
+    $sato .= make_td($tabe,$noo);
     //--------------------
 };
 //--------------------

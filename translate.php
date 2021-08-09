@@ -63,7 +63,6 @@ INSERT INTO pages (title, word, cat, lang, date, user, target, pupdate)
         )
 ";
     //--------------------
-    
     quary($quae_new);
     //--------------------
     //==========================

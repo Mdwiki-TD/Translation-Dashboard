@@ -1,9 +1,9 @@
 <?PHP
 
 //--------------------
+require('header1.php');
 require('tables.php');
 require('langcode.php');
-require('header1.php');
 require('functions.php');
 //--------------------
 $doit = isset($_REQUEST['doit']);
@@ -15,8 +15,8 @@ $code = strtolower($_REQUEST['code']);
 $code = isset($lang_to_code[$code]) ? $lang_to_code[$code] : $code;
 $code_lang_name = $code_to_lang[$code]; 
 //--------------------
-$depth = get_request ( 'depth' , '1' ) * 1 ;
-$cat = get_request ( 'cat' , 'RTT' ) ;
+$depth  = $_REQUEST['depth'] * 1 ;
+$cat    = $_REQUEST['cat'];
 $cat_ch = htmlspecialchars($cat,ENT_QUOTES);
 //--------------------
 function print_index_start() {

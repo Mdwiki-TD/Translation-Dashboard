@@ -7,11 +7,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Wiki Project Med Translation Dashboard</title>
 
-<script src="/jquery.min.js" type="text/javascript"></script>
-<script src="sorttable.js"></script>
+<script src="/Translation_Dashboard/jquery.min.js" type="text/javascript"></script>
+<script src="/Translation_Dashboard/sorttable.js"></script>
 <script src="/bootstrap1.min.js" type="text/javascript"></script>
 
-<link href="dashboard.css" rel="stylesheet">
+<link href="/Translation_Dashboard/dashboard.css" rel="stylesheet">
 
 <!--<link href="/mem.css" rel="stylesheet">-->
 <link href="/bootstrap.min.css" rel="stylesheet">

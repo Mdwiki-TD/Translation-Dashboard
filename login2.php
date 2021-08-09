@@ -20,10 +20,10 @@
  * - consumerSecret: The "secret token" given to you when registering your app
  */
  
-if ( $_SERVER['SERVER_NAME'] == 'mdwiki.toolforge.org' ) { 
-    $inifile = '/data/project/mdwiki/OAuthConfig.ini';
-} else {
+if ( $_SERVER['SERVER_NAME'] == 'localhost' ) { 
     $inifile = 'OAuthConfig.ini';
+} else {
+    $inifile = '/data/project/mdwiki/OAuthConfig.ini';
 }
 /**
  * Set this to the Special:OAuth/authorize URL. 
