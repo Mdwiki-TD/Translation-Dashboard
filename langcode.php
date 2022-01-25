@@ -15,69 +15,6 @@
     "zh-min-nan"    =>   "nan",
     'zh-yue' => 'yue',*/
 //--------------------
-$lang_to_code_old = array(
-    "(ar) العربية" =>  "ar",
-    "(id) Bahasa Indonesia"     =>   "id",
-    "(sr) Српски / srpski"  =>   "sr",
-    "(ug) ئۇيغۇرچە / Uyghurche"     =>   "ug",
-    "(sh) Srpskohrvatski / српскохрватски"  =>   "sh",
-    "(simple) Simple English"   =>   "simple",
-    "(ms) Bahasa Melayu"=>   "ms",
-    "(nn) Norsk nynorsk"    =>   "nn",
-    "(nb) Norsk bokmål"     =>   "no",
-    "(ar) العربية"      =>   "ar",
-    "(en) English"      =>   "en",
-    "(de) Deutsch"      =>   "de",
-    "(fr) Français"     =>   "fr",
-    "(fa) فارسی"        =>   "fa",
-    "(es) Español"      =>   "es",
-    "(ast) Asturianu"   =>   "ast",
-    "(azb) تۆرکجه"      =>   "azb",
-    "(bg) Български"    =>   "bg",
-    "(bs) Bosanski"     =>   "bs",
-    "(ca) Català"       =>   "ca",
-    "(ckb) کوردی"       =>   "ckb",
-    "(cs) Čeština"      =>   "cs",
-    "(da) Dansk"        =>   "da",
-    "(el) Ελληνικά"     =>   "el",
-    "(eo) Esperanto"    =>   "eo",
-    "(et) Eesti"        =>   "et",
-    "(eu) Euskara"      =>   "eu",
-    "(fi) Suomi"        =>   "fi",
-    "(gl) Galego"       =>   "gl",
-    "(glk) گیلکی"       =>   "glk",
-    "(he) עברית"        =>   "he",
-    "(hr) Hrvatski"     =>   "hr",
-    "(hu) Magyar"       =>   "hu",
-    "(it) Italiano"     =>   "it",
-    "(ja) 日本語"      =>   "ja",
-    "(ko) 한국어"      =>   "ko",
-    "(ks) कॉशुर / کٲشُر"    =>   "ks",
-    "(lrc) لۊری شومالی" =>   "lrc",
-    "(lt) Lietuvių"     =>   "lt",
-    "(lv) Latviešu"     =>   "lv",
-    "(ml) മലയാളം"       =>   "ml",
-    "(mzn) مازِرونی"        =>   "mzn",
-    "(nl) Nederlands"   =>   "nl",
-    "(pl) Polski"       =>   "pl",
-    "(pnb) پنجابی"      =>   "pnb",
-    "(ps) پښتو"         =>   "ps",
-    "(pt) Português"    =>   "pt",
-    "(ro) Română"       =>   "ro",
-    "(ru) Русский"      =>   "ru",
-    "(sd) سنڌي"         =>   "sd",
-    "(sk) Slovenčina"   =>   "sk",
-    "(sl) Slovenščina"  =>   "sl",
-    "(sv) Svenska"      =>   "sv",
-    "(th) ไทย"          =>   "th",
-    "(tr) Türkçe"       =>   "tr",
-    "(uk) Українська"   =>   "uk",
-    "(ur) اردو"         =>   "ur",
-    "(vi) Tiếng Việt"   =>   "vi",
-    "(zh) 中文"           =>   "zh",
-    );
-//--------------------
-
 $lang_to_code = array(
     "(aa) Afar" => "aa",
     "(ab) Аԥсуа" => "ab",
@@ -404,6 +341,7 @@ $code_to_lang = array();
 //--------------------
 foreach ( $lang_to_code AS $lange => $cod ) {
     $code_to_lang[$cod] = $lange ;
+    // $code_to_lang[str_replace ( "($cod) " , "$cod: " , $lange )] = $lange ;
     //$code_to_lang->{$cod} = $lange ;
 };
 ?>

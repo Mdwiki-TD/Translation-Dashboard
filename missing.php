@@ -1,10 +1,13 @@
 <?PHP
 //--------------------
-require('header1.php');
+require('header.php');
 require('langcode.php');
 //--------------------
 print '';
-print '<div class="col-md-10 col-md-offset-1" align=left >';
+//==========================
+// print '<div class="col-md-10 col-md-offset-1" align=left >';
+print '<div style="margin-right:8%;margin-left:8%;boxSizing:border-box;" align=left>';
+//==========================
 //print '<h1 class="text-center">Leaderboard</h1>';
 print '<div class="text-center clearfix leaderboard" >';
 //==========================

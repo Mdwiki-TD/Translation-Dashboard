@@ -1,24 +1,24 @@
 <?php
 //--------------------
-require('header1.php');
+require('header.php');
 require('tables.php');
-require('functions.php');
+include_once('functions.php');
 require('newtranslate.php');
 //--------------------
-echo '<div class="col-md-10 col-md-offset-1" align=left >
+$nana = '<div class="col-md-10 col-md-offset-1" align=left >
 <span class="btn btn-primary btn-lg btn-block"></span>
 ';
 //--------------------
 $coden = strtolower($_REQUEST['code']);
 $title_o = $_REQUEST['title'];
 //--------------------
-echo "<pre>
+$nana .= "<div class='ppre'>
 <form action='translate.php' method='GET'>
 <label>title: </label><input class='span2' type='text' value='$title_o' name='title'></input><br>
 <label>code : </label><input class='span2' type='text' value='$coden' name='code'><br>
 <input class='btn btn-lg' type='submit' name='start' value='Start' />
 </form>
-</pre>";
+</div>";
 //--------------------
 //--------------------
 if ($title_o != '' and $coden != '') {
@@ -27,6 +27,7 @@ if ($title_o != '' and $coden != '') {
     $cat = $_REQUEST['cat'];
     $test = $_REQUEST['test'];
     $fixref = $_REQUEST['fixref'];
+    $Translat_type  = $_REQUEST['type'];
     //--------------------
     $useree = rawurldecode($useree);
     $cat = rawurldecode($cat);
@@ -38,22 +39,23 @@ if ($title_o != '' and $coden != '') {
     //--------------------
     $user2  = rawurlencode(str_replace ( ' ' , '_' , $useree ));
     $cat2   = rawurlencode(str_replace ( ' ' , '_' , $cat ));
-
     //==========================
-    $word = $Words_table->{$title_o};
+    $word = $Words_table->{$title_o}; 
+    //--------------------
+    if ($Translat_type == 'all') { $word = $All_Words_table->{$title_o};  };
     //--------------------
     $objDateTime = new DateTime('NOW');
     $date = $objDateTime->format('Y-m-d');
     //--------------------
     //--------------------
     $quae = "
-INSERT INTO pages (title, word, cat, lang, date, user, target, pupdate)
-VALUES ('$title_o', '$word', '$cat', '$coden', '$date', '$useree', '', '')
+INSERT INTO pages (title, word, translate_type, cat, lang, date, user, target, pupdate)
+VALUES ('$title_o', '$word', '$Translat_type', '$cat', '$coden', '$date', '$useree', '', '')
 ";
     //--------------------
     $quae_new = "
-INSERT INTO pages (title, word, cat, lang, date, user, target, pupdate)
-    SELECT '$title_o', '$word', '$cat', '$coden', '$date', '$useree', '', ''
+INSERT INTO pages (title, word, translate_type, cat, lang, date, user, target, pupdate)
+    SELECT '$title_o', '$word', '$Translat_type', '$cat', '$coden', '$date', '$useree', '', ''
     WHERE NOT EXISTS
         (SELECT 1
          FROM pages 
@@ -66,28 +68,42 @@ INSERT INTO pages (title, word, cat, lang, date, user, target, pupdate)
     quary($quae_new);
     //--------------------
     //==========================
-    $output = start_trans_py($title_o,$test,$fixref);
+    $output = start_trans_py($title_o,$test,$fixref,$Translat_type);
     //--------------------
     if (trim($output) == 'true' ) {
-        print "<script type='text/javascript'>";
         $title_o2 = rawurlEncode($title_o);
         //--------------------
-        $url = "//$coden.wikipedia.org/wiki/Special:ContentTranslation?page=User%3AMr._Ibrahem%2F$title_o2&from=en&to=$coden&targettitle=$title_o2";
+        $url = "//$coden.wikipedia.org/wiki/Special:ContentTranslation?page=User%3AMr.+Ibrahem%2F$title_o2";
+        $url .= "&from=en&to=$coden&targettitle=$title_o2#draft";
         //--------------------
         if ($test != "") {
+            //--------------------
+            print $nana;
+            print '<br>trim($output) == true<br>';
+            print 'start_trans_py<br>';
             print $url;
+            //--------------------
         } else {
-            print "window.open('$url', '_self');";
+            // =======================
+            header( "Location: " . $url );
+            exit;
+            // =======================
+            $zaza = "
+    <script type='text/javascript'>
+    window.open('$url', '_self');
+</script>";
+            // =======================
+            print $zaza;
         };
-        //--------------------
-        print "</script>";
+    //--------------------
     } else {
+        print $nana;
         print 'error..<br>';
         print $output;
     }
-    }
+};
 //--------------------
-require('foter1.php');
+require('foter.php');
 print '</div>';
     //--------------------
 //--------------------

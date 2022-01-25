@@ -1,6 +1,14 @@
 <?PHP
 //--------------------
 // require('tables.php');
+// include_once('login5.php');
+//-------------------- 
+//--------------------
+$projects_dirr1 = '/mnt/nfs/labstore-secondary-tools-project';
+//--------------------
+if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost') { 
+    $projects_dirr1 = '/master';
+};
 //-------------------- 
 /*
 $prefilled_requests = [] ;
@@ -10,7 +18,58 @@ function get_request ( $key , $default = "" )  {
     if ( isset ( $_REQUEST[$key] ) ) return str_replace ( "\'" , "'" , $_REQUEST[$key] ) ;
     return $default ;
 };*/
+//==========================
+function strstartswithn ( $haystack, $needle ) {
+  return strpos( $haystack , $needle ) === 0;
+};
+//==========================
 //--------------------
+function quary_local_old($quae) {
+    //------------
+    try {
+        // إجراء الإتصال
+        $db = new PDO( 
+                "mysql:host=localhost:3306;dbname=mdwiki", 
+                'root', 
+                'root'
+                );
+        //--------------------
+        //--------------------
+        $q = $db->prepare($quae);
+        //--------------------
+        $q->execute();
+        $result = $q->fetchAll();
+        return $result;
+        //--------------------
+    } 
+    catch(PDOException $e) {
+        echo $quae . "<br>" . $e->getMessage();
+    }
+
+    //--------------------
+    // إغلاق الإتصال
+    $db = null;
+    //--------------------
+};
+//--------------------
+//==========================
+//--------------------
+function quary_local($quae) {
+    //------------
+	// 
+    //------------
+	$uss = strstartswithn($quae,"select * from pages where user = '");
+    //------------
+	if ($uss) {
+		$tt = array();
+		$tt[] = array('id'=>32,'title'=>'Spinal shock','word'=>203,'cat'=>'RTT','lang'=>'ar','date'=>'2021-07-10','user'=>'عرين أسد أبو رمان','pupdate'=>'2021-07-10','target'=>'صدمة نخاعية');
+		$tt[] = array('id'=>1,'title'=>'Spinal','word'=>333,'cat'=>'RTT','lang'=>'ar','date'=>'2021-07-10','user'=>'Mr. Ibrahem','pupdate'=>'','target'=>'');
+		return $tt;
+	};
+    //------------
+		
+};
+//==========================
 function quary($quae) {
     //--------------------
     $ts_pw = posix_getpwuid(posix_getuid()); 
@@ -49,9 +108,13 @@ function quary($quae) {
 //--------------------
 function quary2($quae) {
     //--------------------
-    if ( $_SERVER['SERVER_NAME'] == 'localhost' ) { return array(); };
+    if ( isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost' ) { 
+        $sql_u = quary_local($quae);
+    } else {
+        $sql_u = quary($quae);
+    };
     //--------------------
-	$sql_u = quary($quae);
+    
     //--------------------
     $sql_result = array();
     //--------------------
@@ -68,11 +131,11 @@ function quary2($quae) {
     return $sql_result;
 }; 
 //--------------------
-function make_view_by_number($target , $numb) {
+function make_view_by_number($target , $numb, $lang) {
     //---------------
     $numb2 = ($numb != '') ? $numb : "?";
     //---------------
-    $urln = 'https://'.'pageviews.toolforge.org/?project='. $lang .'.wikipedia.org&platform=all-access&agent=all-agents&redirects=0&range=this-year&pages=' . rawurlEncode($target);
+    $urln = 'https://' . 'pageviews.toolforge.org/?project='. $lang .'.wikipedia.org&platform=all-access&agent=all-agents&redirects=0&range=this-year&pages=' . rawurlEncode($target);
     //---------------
     $link = '<a target="_blank" href="' . $urln . '">' . $numb2 . '</a>';
     //---------------

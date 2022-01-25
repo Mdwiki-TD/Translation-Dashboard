@@ -6,8 +6,7 @@ include_once('functions.php');
 require('langcode.php');
 //--------------------
 $test = $_REQUEST['test'];
-$mainuser = $_REQUEST['user'];
-$mainuser = rawurldecode( str_replace ( '_' , ' ' , $mainuser ) );
+// $mainuser = rawurldecode( str_replace ( '_' , ' ' , $username ) );
 //--------------------
 //==========================
 //==========================
@@ -16,7 +15,7 @@ $views_sql = array();
 // views (target, countall, count2021, count2022, count2023, lang)
 $quaa_view = "select p.target,v.countall
 from pages p,views v
-where p.user = '$mainuser'
+where p.user = '$username'
 and p.target = v.target
 ;";
 $views_query = quary2($quaa_view);
@@ -89,7 +88,7 @@ function make_td($tabg,$nnnn) {
     return $laly;
 };
 //--------------------
-$man = make_mdwiki_user_url($mainuser);
+$man = make_mdwiki_user_url($username);
 //--------------------
 // print '<div class="col-md-10 col-md-offset-1" align=left >';
 print '<div style="margin-right:25px;margin-left:25px;boxSizing:border-box;" align=left >';
@@ -124,7 +123,7 @@ if ($test != '') $sato .= '
 $sato .= '
         </tr>';
 //--------------------
-$quaa = "select * from pages where user = '$mainuser'";
+$quaa = "select * from pages where user = '$username'";
 $sql_result = quary2($quaa);
 //==========================
 //--------------------
@@ -179,6 +178,9 @@ $sato_Pending ='  <table class="sortable table table-striped alignleft">
             <th onclick="sortTable(7)">Start date</th>
 ';
 //--------------------
+$sato_Pending .= '<th onclick="sortTable(8)">Completion</th>'; 
+// $sato_Pending .= '<th onclick="sortTable(9)">Remove</th>'; 
+//--------------------
 $sato_Pending .= '
     </tr>';
 //--------------------
@@ -215,6 +217,14 @@ foreach ( $dd_Pending AS $title=> $kk ) {
             <td>Pending</td>
             <td>' . $kk['date']  . '</td>
 ';
+    //--------------------
+    $md_title2 = rawurlencode(str_replace ( ' ' , '_' , $md_title ) );
+    $urle = "//$lange.wikipedia.org/wiki/Special:ContentTranslation?page=User%3AMr._Ibrahem%2F$md_title2&from=en&to=$lange";
+    print "<td><a href='$urle'>Completion</a></td>"; 
+    //--------------------------------
+    // $qua = rawurlencode( "delete from pages where user = '$username' and title = '$md_title' and lang = '$lange';" );
+    // $urle = "sql.php?code=$qua&pass=yemen&raw=66";
+    // print "<td><a href='$urle' target='_blank'>Remove</a></td>"; 
     //--------------------
     print '</tr>';
     //--------------------

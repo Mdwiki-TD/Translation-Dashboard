@@ -1,8 +1,8 @@
 <?PHP
 //--------------------
-require('header1.php');
+require('header.php');
 require('tables.php');
-require('functions.php');
+include_once('functions.php');
 require('langcode.php');
 //--------------------
 $mainlang = $_REQUEST['langcode'];
@@ -13,12 +13,13 @@ $langname = isset($code_to_lang[$mainlang]) ? $code_to_lang[$mainlang] : $mainla
 //==========================
 $printlang = $langname;
 //==========================
-if ( $_SERVER['SERVER_NAME'] != 'mdwiki.toolforge.org' ) { 
+if ( $_SERVER['SERVER_NAME'] == 'localhost' ) { 
     $printlang .= ' <a target="_blank" href="http://' . $mainlang . '.wikipedia.org/wiki/Category:Translated_from_MDWiki">(cat)</a>';
 };
 //==========================
 print '';
-print '<div class="col-md-10 col-md-offset-1" align=left >';
+// print '<div class="col-md-10 col-md-offset-1" align=left >';
+print '<div style="margin-right:25px;margin-left:25px;boxSizing:border-box;" align=left >';
 print "<h1 class='text-center'>$printlang</h1>";
 print '<div class="text-center clearfix leaderboard" >';
 //==========================
@@ -30,13 +31,15 @@ $table_leg = '  <table class="sortable table table-striped alignleft">
             <!--<th onclick="sortTable(3)">Start date</th> -->
             <th onclick="sortTable(4)">Category</th>
             <th onclick="sortTable(5)">Words</th>
-            <th onclick="sortTable(6)">Translated</th>
+            <th onclick="sortTable(6)">Translate type</th>
+            <th onclick="sortTable(7)">Translated</th>
 ';
 //--------------------
 //==========================
+// views (target, countall, count2021, count2022, count2023, lang)
 $qua_views = "select 
 #p.title, p.user, p.date, p.word, p.lang, p.cat, p.pupdate, 
-p.target, v.count
+p.target, v.countall
 
 from pages p,views v
 where p.lang = '$mainlang'
@@ -50,11 +53,13 @@ $table_of_views = array();
 $lang_total_views = 0;
 //----
 foreach ( $views_quary AS $Key => $tablea ) {
-    $Counte = $tablea['count'];
-    $tat = $tablea['target'];
-    $table_of_views[$tat] = $Counte;
     //--------------------
-    $lang_total_views = $lang_total_views + $Counte;
+    $countall = $tablea['countall'];
+    //--------------------
+    $tat = $tablea['target'];
+    $table_of_views[$tat] = $countall;
+    //--------------------
+    $lang_total_views = $lang_total_views + $countall;
     //--------------------
     };
 //==========================
@@ -116,6 +121,12 @@ function make_td_na($tabb,$number) {
     $use = rawurlEncode($user);
     $use = str_replace ( '+' , '_' , $use );
     //--------------------
+    // $tran_type = $tabb['translate_type'];
+    $tran_type = isset($tabb['translate_type']) ? $tabb['translate_type'] : '';
+    if ($tran_type == 'all') { 
+        $tran_type = 'Whole article';
+    };
+    //--------------------
     $laly = '
     <tr>
         <td>' . $number . '</td>
@@ -124,11 +135,12 @@ function make_td_na($tabb,$number) {
         <!-- <td>' . $date  . '</td> -->
         <td>' . $ccat . '</td>
         <td>' . $word . '</td>
+        <td>' . $tran_type . '</td>
         <td>' . $target_link . '</td>
         ';
     //--------------------
     $view_number = isset($table_of_views[$target]) ? $table_of_views[$target] : '?';
-    $view = make_view_by_number($target , $view_number);
+    $view = make_view_by_number($target , $view_number , $lang);
     //--------------------
     $laly .= '
     <td>' . $pupdate . '</td>
@@ -140,7 +152,7 @@ function make_td_na($tabb,$number) {
 };
 //--------------------
 //==========================
-$sato = $table_leg . "
+$lalo = $table_leg . "
 ";
 //==========================
 //--------------------
@@ -151,11 +163,11 @@ krsort($mamo);
 foreach ( $mamo AS $uuu => $tabb ) {
     // $tabb = $mains[$title];
     $n = $n + 1 ;
-    $sato .= make_td_na($tabb,$n);
+    $lalo .= make_td_na($tabb,$n);
 };
 //--------------------
-$sato .= '</table>';
-print $sato;
+$lalo .= '</table>';
+print $lalo;
 //--------------------
 //==========================
 $Pending_table = '  <table class="sortable table table-striped alignleft">
@@ -163,10 +175,11 @@ $Pending_table = '  <table class="sortable table table-striped alignleft">
             <th onclick="sortTable(0)">#</th>
             <th onclick="sortTable(1)">User</th>
             <th onclick="sortTable(2)">Title</th>
-            <th onclick="sortTable(3)">Start date</th>
-            <th onclick="sortTable(4)">Category</th>
-            <th onclick="sortTable(5)">Words</th>
-            <th onclick="sortTable(6)">Translated</th>
+            <th onclick="sortTable(3)">Category</th>
+            <th onclick="sortTable(4)">Words</th>
+            <th onclick="sortTable(5)">Translate type</th>
+            <th onclick="sortTable(6)">Start date</th>
+            <th onclick="sortTable(7)">Translated</th>
         </tr>
 ';
 //--------------------
@@ -188,6 +201,12 @@ foreach ( $mamo_Pending AS $uuu => $tabb ) {
     $lang    = $tabb['lang'];
     $cat     = $tabb['cat'];
     //--------------------
+    // $tran_type = $tabb['translate_type'];
+    $tran_type = isset($tabb['translate_type']) ? $tabb['translate_type'] : '';
+    if ($tran_type == 'all') { 
+        $tran_type = 'Whole article';
+    };
+    //--------------------
     $nana = make_mdwiki_title( $mdtitle );
     $ccat = make_cat_url($cat);
     //--------------------
@@ -201,9 +220,10 @@ foreach ( $mamo_Pending AS $uuu => $tabb ) {
         <td>' . $n_Pending . '</td>
         <td><a target="" href="users.php?user=' . $use . '"><span style="white-space: nowrap;">' . $user . '</span></a>' . '</td>
         <td>' . $nana . '</td>
-        <td>' . $date  . '</td>
         <td>' . $ccat . '</td>
         <td>' . $word . '</td>
+        <td>' . $tran_type . '</td>
+        <td>' . $date  . '</td>
         <td>Pending</td>
     </tr>
         ';
@@ -216,7 +236,7 @@ print $Pending_table;
 //--------------------
 print "</div>";
 //--------------------
-require('foter1.php');
+require('foter.php');
 print "</div>"
 //--------------------
 ?>
