@@ -1,7 +1,22 @@
 <?PHP
 //--------------------
 require('header.php');
-require('leader_tables_new.php');
+require('tables.php');
+include_once('functions.php');
+// require('langcode.php');
+require('calendar_tables.php');
+//--------------------
+$test = $_REQUEST['test'];
+//--------------------
+//==========================
+$get_month = $_REQUEST['month'];
+$last_month = '';
+//----
+$views_sql = array();
+//--------------------
+//==========================
+$month_to_work = $get_month != '' ? $get_month : $last_month;
+//==========================
 //--------------------
 //==========================
 print '
@@ -27,18 +42,16 @@ print months_start();
 print '
 <section class="container" style="margin-left:20px;margin-left:20px;">';
 //==========================
-$key_year = 'all';
-$get_year = $_REQUEST['year'];
-//==========================
-print "<h1 class='text-center'>$get_year Leaderboard</h1>";
+print "<h1 class='text-center'>$month_to_work Leaderboard</h1>";
 print '<div class="text-center clearfix">';
 //==========================
-if ($get_year != '') {
-    $key_year = $get_year;
-};
-//==========================
 print '<span class="colsm4" style="width:20%;">';
-print ma_Numbers_table($key_year);
+print Make_Numbers_table(
+    count($Count_users_cal[$month_to_work]), 
+    number_format($Count_articles_cal[$month_to_work]), 
+    number_format($Total_words_cal[$month_to_work]), 
+    count($Count_langs_cal[$month_to_work])
+);
 print '</span>';
 //--------------------
 //==========================
@@ -46,33 +59,23 @@ print'<span class="colsm4" style="width:45%;">';
 print "<h3>Top users by number of translations</h3>";
 
 print'<div style="max-height:300px; overflow: auto; padding: 2px 0 2px 5px; background-color:transparent;vertical-align:top;font-size:100%">';
-print Make_users_table($Views_by_users[$key_year],$sql_users_tab[$key_year],$Users_word_table[$key_year]);
+// print Make_users_table_cal($Views_by_users[$month_to_work],$Count_users_cal[$month_to_work],$Users_words_cal[$month_to_work]);
+print Make_users_table_cal(array(),$Count_users_cal[$month_to_work],$Users_words_cal[$month_to_work]);
 print '</div>';
 
 print '</span>';
 //==========================
 //==========================
 print'<span class="colsm4" style="width:35%;">';
-print Make_lang_table($sql_Languages_tab[$key_year],$all_views_by_lang[$key_year]);
+// print Make_lang_table_cal($Count_langs_cal[$month_to_work],$all_views_by_lang[$month_to_work]);
+print Make_lang_table_cal($Count_langs_cal[$month_to_work],array());
 print '</span>';
 //==========================
+
 //--------------------
-print '
-</div>
-';
 //==========================
-if ($get_year == '') {
-    //==========================
-    print '<br/>';
-    print '<h1 class="text-center">Translations in process</h1>';
-    //==========================
-    print '<span class="colsm4" style="width:33%;">';
-    print Make_Pinding_table();
-    print "</span>";
-};
-//==========================
-print "</div>";
 print "
+</div>
 </section>
 </main>
 <!-- Footer 

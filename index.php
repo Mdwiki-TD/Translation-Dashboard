@@ -315,10 +315,18 @@ function get_categorymembers( $cat ) {
     //-------------------
     $ch = null;
     //-------------------
+    $cat2 = $cat;
+    $ss = strstartswithn($cat , 'Category:');
+    if ($ss) {
+        $cat2 = $cat;
+    } else {
+        $cat2 = "Category:$cat";
+    };
+    //-------------------
     $params = array(
         "action" => "query",
         "list" => "categorymembers",
-        "cmtitle" => "Category:$cat",
+        "cmtitle" => "$cat2",
         "cmlimit" => "max",
         "cmtype" => "page|subcat",
         "format" => "json"
@@ -336,7 +344,7 @@ function get_categorymembers( $cat ) {
         // $RTTtext = file_get_contents("cash/RTT.json");
         // $RTT = json_decode ( $RTTtext ) ;
         //--------------------
-        $resa = doApiQuery_localhost( $params );
+        // $resa = doApiQuery_localhost( $params );
         // return $RTT->list;
         //--------------------
     // } else {
@@ -381,7 +389,7 @@ function get_cat_from_cach( $cat ) {
     //--------------------
     $liste = $RTT->list;
     //--------------------
-	test_print("<br>get_cat_from_cach: liste size:" . sizeof($liste) );
+    test_print("<br>get_cat_from_cach: liste size:" . sizeof($liste) );
     //--------------------
     return $liste;
     //--------------------
@@ -460,7 +468,7 @@ function get_cat_members_from_mdwiki( $cat ) {
 //======================
 function get_cat_members_with_php( $cat , $depth , $code , $test ) {
     //--------------------
-    global $medwiki_to_enwiki;
+    // global $medwiki_to_enwiki;
     //--------------------
     $members_to = get_cat_members_from_mdwiki( $cat );
     //-------------------
@@ -470,13 +478,14 @@ function get_cat_members_with_php( $cat , $depth , $code , $test ) {
     //-------------------
     foreach( $members_to as $mr ) {
         //-----------------
-        $mrno = $medwiki_to_enwiki->{$mr};
+        // $mrno = $medwiki_to_enwiki->{$mr};
         //-----------------
         // $mrno = Get_it( $medwiki_to_enwiki, $mr );
         // if ($mrno != '') { test_print("<br>mrno: $mrno");};
         //-----------------
-        $mrn = $mrno != '' ? $mrno : $mr;
-        $members[] = $mrn;
+        // $mrn = $mrno != '' ? $mrno : $mr;
+        //-----------------
+        $members[] = $mr;
     }; 
     //-------------------
     test_print("<br>members size:" . sizeof($members) );

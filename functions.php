@@ -31,7 +31,7 @@ function quary_local_old($quae) {
         $db = new PDO( 
                 "mysql:host=localhost:3306;dbname=mdwiki", 
                 'root', 
-                'root'
+                'root11'
                 );
         //--------------------
         //--------------------
@@ -53,23 +53,34 @@ function quary_local_old($quae) {
 };
 //--------------------
 //==========================
-//--------------------
-function quary_local($quae) {
-    //------------
-	// 
-    //------------
-	$uss = strstartswithn($quae,"select * from pages where user = '");
-    //------------
-	if ($uss) {
-		$tt = array();
-		$tt[] = array('id'=>32,'title'=>'Spinal shock','word'=>203,'cat'=>'RTT','lang'=>'ar','date'=>'2021-07-10','user'=>'عرين أسد أبو رمان','pupdate'=>'2021-07-10','target'=>'صدمة نخاعية');
-		$tt[] = array('id'=>1,'title'=>'Spinal','word'=>333,'cat'=>'RTT','lang'=>'ar','date'=>'2021-07-10','user'=>'Mr. Ibrahem','pupdate'=>'','target'=>'');
-		return $tt;
-	};
-    //------------
-		
+function sqlquary_localhost($quae) {
+    //--------------------
+    $host = 'localhost:3306';
+    $dbname = "mdwiki";
+    //--------------------
+    try {
+        // إجراء الإتصال
+        $db = new PDO(
+                "mysql:host=$host;dbname=$dbname", 
+                'root', 
+                'root11'
+                );
+        //--------------------
+        $q = $db->prepare($quae);
+        $q->execute();
+        $result = $q->fetchAll();
+        //--------------------
+        return $result;
+    } 
+    catch(PDOException $e) {
+        echo $quae . "<br>" . $e->getMessage();
+    }
+    //--------------------
+    // إغلاق الإتصال
+    $db = null;
+    //--------------------
 };
-//==========================
+//--------------------
 function quary($quae) {
     //--------------------
     $ts_pw = posix_getpwuid(posix_getuid()); 
@@ -109,12 +120,10 @@ function quary($quae) {
 function quary2($quae) {
     //--------------------
     if ( isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost' ) { 
-        $sql_u = quary_local($quae);
+        $sql_u = sqlquary_localhost($quae);
     } else {
         $sql_u = quary($quae);
     };
-    //--------------------
-    
     //--------------------
     $sql_result = array();
     //--------------------
@@ -130,6 +139,78 @@ function quary2($quae) {
     };
     return $sql_result;
 }; 
+//--------------------
+function years_start() {
+    //--------------------
+    $years_q = "select
+    CONCAT(left(pupdate,4)) as year
+    from pages where pupdate != ''
+    group by left(pupdate,4)
+    ;";
+    $years = quary2($years_q);
+    //----
+    /*if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost') { 
+        $years = array ( 0 => array ( 'year' => '2021', 0 => '2021', ), 1 => array ( 'year' => '2022', 0 => '2022', ), );
+    };*/
+    $lines = '';
+    //----
+    $f = 0;
+    //----
+	$tt = '';
+    //----
+    foreach ( $years AS $Key => $table ) {
+        $year = $table['year'];
+        if ( $f != 0) { $tt = ' - ';};
+        $lines .= "$tt<div class='menu_item'><a href='leaderboard.php?year=$year'>$year</a></div>";
+		$f = $f + 1;
+    };
+    $texte = "<div class='menu'>$lines</div>";
+    
+    //----
+    /*if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost') { 
+        $texte = "<div class='menu'><div class='menu_item'><a href='leaderboard.php?year=2021'>2021</a></div>
+<div class='menu_item'> - <a href='leaderboard.php?year=2022'>2022</a></div></div>";
+    };*/
+    //----
+    return $texte;
+    //----
+};
+//--------------------
+function months_start() {
+    //--------------------
+    $months_qu = "select
+    CONCAT(left(pupdate,7)) as month
+    from pages where pupdate != ''
+    group by left(pupdate,7)
+    ;";
+    $months = quary2($months_qu);
+    //----
+	/*if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost') { 
+		$months = array ( 0 => array ( 'month' => '2021-05', 0 => '2021-05', ), 1 => array ( 'month' => '2021-06', 0 => '2021-06', ), 2 => array ( 'month' => '2021-07', 0 => '2021-07', ), 3 => array ( 'month' => '2021-08', 0 => '2021-08', ), 4 => array ( 'month' => '2021-09', 0 => '2021-09', ), 5 => array ( 'month' => '2021-10', 0 => '2021-10', ), 6 => array ( 'month' => '2021-11', 0 => '2021-11', ), 7 => array ( 'month' => '2021-12', 0 => '2021-12', ), 8 => array ( 'month' => '2022-01', 0 => '2022-01', ), );
+	};*/
+    //----
+    // echo var_export($months);
+    //----
+    $months_line = '';
+    //----
+    foreach ( $months AS $Key => $table ) {
+        $month = $table['month'];
+        $last_month = $table['month'];
+        $months_line .= "
+<div class='menu_item colsm5'><a href='calendar.php?month=$month'>$month</a></div>";
+    };
+    $texte = "
+<div class='menu'>
+<span class='colsm5'>
+$months_line
+</span>
+</div>";
+    //----
+    return $texte;
+    //----
+};
+//--------------------
+
 //--------------------
 function make_view_by_number($target , $numb, $lang) {
     //---------------

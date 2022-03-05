@@ -18,7 +18,61 @@
 <link href="dashboard.css" rel="stylesheet">
 <!--<link href="/mem.css" rel="stylesheet">-->
 <link href="../bootstrap.min.css" rel="stylesheet">
+<style>
+.menu {
+    font-size: 100%;
+    letter-spacing: 0.04em;
+    font-weight: bold;
+    padding: 0px 0px 0px 0px;
+    height: 20px;
+    white-space: nowrap;
+    text-align: center;
+}
+.menu_item {
+    display: inline-block;
+    padding: 0px 0px;
+    margin: 2px 5px;
+    line-height: 20px;
+    font-weight: bold;
+    background-color: #fff;
+    border-radius: 2px;
+}
 
+.colsm4{
+    position: relative;
+    min-height: 1px;
+}
+
+.colsm5{
+	position: relative;
+	min-height: 1px;
+	padding-right: 1px;
+	padding-left: 1px
+}
+
+@media (min-width:1200px) {
+    .colsm4{
+      padding-right: 35px;
+      padding-left: 35px
+    }
+	.colsm5 {
+    text-align: center
+	}
+}
+
+@media (min-width:768px) {
+    .colsm4{
+      float: left;
+      width: 33.33333333%
+    }
+}
+@media (max-width:768px) {
+    .colsm5{
+      float: left
+    }
+}
+
+</style>
 </head>
 
 <body wfd-invisible="true">
@@ -43,7 +97,8 @@
             <div class="collapse navbar-collapse" id="main-navigation">
                 <ul class="nav navbar-nav navbar-left">
                     <li><a href="leaderboard.php"><span style="font-size:16px">Leaderboard</span></a></li>
-                    <li><a href="my.php"><span style="font-size:16px">My</span></a></li>
+                    <li><a href="my.php"><span style="font-size:16px">My Board</span></a></li>
+                    <!--<li><a href="calendar.php"><span style="font-size:16px">calendar</span></a></li> -->
                     <li><a href="missing.php"><span style="font-size:16px">Missing</span></a></li>
                     <li><a href="https://github.com/MrIbrahem/Translation-Dashboard" target="_blank"><span style="font-size:16px">Github</span></a></li>
                 </ul>

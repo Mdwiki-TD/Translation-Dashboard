@@ -179,7 +179,9 @@ $sato_Pending ='  <table class="sortable table table-striped alignleft">
 ';
 //--------------------
 $sato_Pending .= '<th onclick="sortTable(8)">Completion</th>'; 
-// $sato_Pending .= '<th onclick="sortTable(9)">Remove</th>'; 
+if ($username == "Mr. Ibrahem") {
+    $sato_Pending .= '<th onclick="sortTable(9)">Remove</th>';
+};
 //--------------------
 $sato_Pending .= '
     </tr>';
@@ -222,9 +224,12 @@ foreach ( $dd_Pending AS $title=> $kk ) {
     $urle = "//$lange.wikipedia.org/wiki/Special:ContentTranslation?page=User%3AMr._Ibrahem%2F$md_title2&from=en&to=$lange";
     print "<td><a href='$urle'>Completion</a></td>"; 
     //--------------------------------
-    // $qua = rawurlencode( "delete from pages where user = '$username' and title = '$md_title' and lang = '$lange';" );
-    // $urle = "sql.php?code=$qua&pass=yemen&raw=66";
-    // print "<td><a href='$urle' target='_blank'>Remove</a></td>"; 
+    $qua = rawurlencode( "delete from pages where user = '$username' and title = '$md_title' and lang = '$lange';" );
+    $urle = "sql.php?code=$qua&pass=yemen&raw=66";
+    //--------------------
+    if ($username == "Mr. Ibrahem") {
+        print "<td><a href='$urle' target='_blank'>Remove</a></td>"; 
+    };
     //--------------------
     print '</tr>';
     //--------------------

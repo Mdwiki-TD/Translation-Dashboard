@@ -68,6 +68,34 @@ if ( $raw == '' ) {
     ";
 };
 //--------------------
+function sqlquary_localhost($quae) {
+    //--------------------
+    $host = '127.0.0.1:3306';
+    $dbname = "mdwiki";
+    //--------------------
+    try {
+        // إجراء الإتصال
+        $db = new PDO(
+                "mysql:host=$host;dbname=$dbname", 
+                'root', 
+                'root11'
+                );
+        //--------------------
+        $q = $db->prepare($quae);
+        $q->execute();
+        $result = $q->fetchAll();
+        //--------------------
+        return $result;
+    } 
+    catch(PDOException $e) {
+        echo $quae . "<br>" . $e->getMessage();
+    }
+    //--------------------
+    // إغلاق الإتصال
+    $db = null;
+    //--------------------
+};
+//--------------------
 function sqlquary($quae) {
     //--------------------
     $ts_pw = posix_getpwuid(posix_getuid());
@@ -106,16 +134,7 @@ if ( $qua != '' and $pass == 'yemen' ) {
     if ($_SERVER['SERVER_NAME'] == 'mdwiki.toolforge.org') {
         $uu = sqlquary($qua);
     } else {
-        $uu = Array ();
-        $uu["0"] = Array ( "id" => 1,
-            "title" => "Refractive error",
-            1 => 302,
-            "word" => 302,
-            "cat" => "RTT",
-            "lang" => "el",
-            "date" => "2021-05-30",
-            "user" => "Saintfevrier"
-            );
+        $uu = sqlquary_localhost($qua);
     };
     //==========================
     $start = '<table class="sortable table table-striped alignleft"><tr>';
@@ -152,7 +171,7 @@ if ( $qua != '' and $pass == 'yemen' ) {
         PRINT($start . $text . '</table>');
         //==========================
         // if ($test != '') { print_r($uu);};
-        if ($test != '') { print(var_dump($uu)) ;};
+        if ($test != '') { print(var_export($uu)) ;};
         //==========================
         if ($text == '') {
             if ($test != '') {
