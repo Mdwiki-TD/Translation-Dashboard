@@ -3,7 +3,6 @@
 require('header.php');
 require('tables.php');
 include_once('functions.php');
-require('newtranslate.php');
 //--------------------
 $nana = '<div class="col-md-10 col-md-offset-1" align=left >
 <span class="btn btn-primary btn-lg btn-block"></span>
@@ -20,6 +19,24 @@ $nana .= "<div class='ppre'>
 </form>
 </div>";
 //--------------------
+function start_trans_py($title,$test,$fixref,$tra_type) {
+	//--------------------
+	$title2 = $title;
+	$title2 = rawurlencode(str_replace ( ' ' , '_' , $title2 ) );
+	//--------------------
+	$dd = "python3 translate.py -title:$title2" ;
+	if ($fixref != '' ) $dd = $dd . ' fixref';
+	//--------------------	
+	if ($tra_type == 'all' ) $dd = $dd . ' wholearticle';
+
+	//--------------------	
+	if ($test != "") { print $dd . '<br>'; } ; 
+	//--------------------	
+	$command = escapeshellcmd( $dd );
+	$output = shell_exec($command);
+	//--------------------	
+	return $output;
+};
 //--------------------
 if ($title_o != '' and $coden != '') {
     //--------------------
