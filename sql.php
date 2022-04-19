@@ -1,6 +1,51 @@
 <?php
-//--------------------
 /*
+//--------------------
+delete table
+DROP table views_by_month ;
+//--------------------
+// remove columns
+ALTER TABLE views_by_month_21
+DROP title
+;
+
+//--------------------
+
+CREATE TABLE views_by_month_22 (
+    id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    target VARCHAR(120) NOT NULL,
+    lang VARCHAR(30) NOT NULL,
+    v_2022_01 INT(6) NULL,
+    v_2022_02 INT(6) NULL,
+    v_2022_03 INT(6) NULL,
+    v_2022_04 INT(6) NULL,
+    v_2022_05 INT(6) NULL,
+    v_2022_06 INT(6) NULL,
+    v_2022_07 INT(6) NULL,
+    v_2022_08 INT(6) NULL,
+    v_2022_09 INT(6) NULL,
+    v_2022_10 INT(6) NULL,
+    v_2022_11 INT(6) NULL,
+    v_2022_12 INT(6) NULL
+    )
+//--------------------
+// add columns
+
+ALTER TABLE `views_by_month_22` ADD `target` VARCHAR(120) NULL DEFAULT NULL AFTER `lang`;
+
+ALTER TABLE `views_by_month_21` ADD `v_2021_01` INT(120) NULL DEFAULT NULL AFTER `target`;
+ALTER TABLE `views_by_month_21` ADD `v_2021_02` INT(120) NULL DEFAULT NULL AFTER `v_2021_01`;
+ALTER TABLE `views_by_month_21` ADD `v_2021_03` INT(120) NULL DEFAULT NULL AFTER `v_2021_02`;
+ALTER TABLE `views_by_month_21` ADD `v_2021_04` INT(120) NULL DEFAULT NULL AFTER `v_2021_03`;
+
+//--------------------
+CREATE TABLE views_by_month (
+    id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(120) NOT NULL,
+    lang VARCHAR(30) NOT NULL,
+    v_2021_05 INT(6) NULL
+    )
+//--------------------
 CREATE TABLE pages (
     id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(120) NOT NULL,
@@ -51,6 +96,7 @@ if ( $raw == '' ) {
     echo "
     <ul>
     <li><a href='sql.php?code=show tables;'>show tables</a></li>
+    <li><a href='sql.php?code=describe views_by_month;'>describe views_by_month;</a></li>
     <li><a href='sql.php?code=describe words;'>describe words;</a></li>
     <li><a href='sql.php?code=select * from words;'>select * from words;</a></li>
     <li><a href='sql.php?code=describe pages;'>describe pages;</a></li>
@@ -129,7 +175,7 @@ function sqlquary($quae) {
     //--------------------
 };
 //--------------------
-if ( $qua != '' and $pass == 'yemen' ) {
+if ( $qua != '' and ($pass == 'yemen' or $_SERVER['SERVER_NAME'] == 'localhost') ) {
     //==========================
     if ($_SERVER['SERVER_NAME'] == 'mdwiki.toolforge.org') {
         $uu = sqlquary($qua);
@@ -226,12 +272,10 @@ $result = $this->db->getConnection()->exec($sql);
 //==========================
 //--------------------
 if ( $raw == '' ) {
-    print "</div>
-    </main>
-    <!-- Footer -->
-    </body>
-    </html>
-    </div>";
+    print "</div>";
+    //--------------------
+    require('foter.php');
+    //--------------------
 };
 //==========================
 ?>

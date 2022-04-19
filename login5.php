@@ -93,6 +93,7 @@ $gConsumerSecret = $ini['consumerSecret'];
 $username = '';
 if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost') { 
     $username = 'Mr. Ibrahem';
+    // $username = '';
 };
 //==========================
 if(isset($_COOKIE['username'])) { $username = $_COOKIE['username']; };

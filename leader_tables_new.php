@@ -221,10 +221,9 @@ function ma_Numbers_table($uu) {
     global $sql_users_tab,$Articles_number,$Words_total,$sql_Languages_tab,$global_views;
     //--------------------
     $Numbers_table = '
-    <h3>Numbers</h3>
     <table class="sortable table table-striped alignleft">
     <tr>
-    <th onclick="sortTable(0)" class="text-nowrap">Type</th>
+    <th onclick="sortTable(0)" class="spannowrap">Type</th>
     <th onclick="sortTable(1)">Number</th>
     </tr>
     ';
@@ -243,9 +242,9 @@ function Make_users_table($Viewstable,$Users_tables,$Words_tables) {
     //--------------------
     //---------
     $text = '
-    <table class="sortable table table-striped alignleft" style="width:100%;">
+    <table class="sortable table table-striped alignleft" style="width:97%;">
     <tr>
-    <th onclick="sortTable(0)" class="text-nowrap">User</th>
+    <th onclick="sortTable(0)" class="spannowrap">User</th>
     <th onclick="sortTable(1)">Number</th>
     <th onclick="sortTable(1)">Words</th>
     <th onclick="sortTable(1)">Pageviews</th>
@@ -287,10 +286,9 @@ function Make_lang_table($lang_array,$views_array) {
     arsort($lang_array);
     //--------------------
     $text = '
-    <h3>Top languages by number of Articles</h3>
     <table class="sortable table table-striped alignleft">
     <tr>
-    <th onclick="sortTable(0)" class="text-nowrap">Language</th>
+    <th onclick="sortTable(0)" class="spannowrap">Language</th>
     <th onclick="sortTable(2)">Count</th>
     <th onclick="sortTable(2)">Pageviews</th>
     </tr>
@@ -338,14 +336,15 @@ function Make_Pinding_table() {
     global $user_process_tab;
     //--------------------
     $text = '
-<h3>Number of translations</h3>
     <table class="sortable table table-striped alignleft">
     <tr>
-    <th onclick="sortTable(0)" class="text-nowrap">User</th>
+    <th onclick="sortTable(0)" class="spannowrap">User</th>
     <th onclick="sortTable(1)">Number</th>';
     
     //--------------------
-    if ($_REQUEST['test'] != '') $text .= '<th onclick="sortTable(1)">comp</th><th onclick="sortTable(1)">all</th>';
+    if ($_REQUEST['test'] != '') {
+        $text .= '<th onclick="sortTable(1)">comp</th><th onclick="sortTable(1)">all</th>';
+    };
     //--------------------
     $text .= '
     </tr>
@@ -354,7 +353,7 @@ function Make_Pinding_table() {
     arsort($user_process_tab);
     //--------------------
     foreach ( $user_process_tab AS $user => $pinde ) {
-        if ($user != 'test') { 
+        if ($user != 'test' && $user != '') {
             //--------------------
             $use = rawurlEncode($user);
             $use = str_replace ( '+' , '_' , $use );

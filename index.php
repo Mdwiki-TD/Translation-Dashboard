@@ -28,100 +28,11 @@ $depth  = $_REQUEST['depth'] * 1 ;
 $cat    = $_REQUEST['cat'];
 $cat_ch = htmlspecialchars($cat,ENT_QUOTES);
 //--------------------
-function test_print($s) {
-    global $test;
-    if ($test != '') { print $s; };
-};
-//--------------------
-function print_index_start() {
-    return '
-<!-- <div class="col-md-10 col-md-offset-1" align=left > -->
-<div style="margin-right:8%;margin-left:8%;boxSizing:border-box;" align=left >
-<div style="float:right">
-<img src="//upload.wikimedia.org/wikipedia/commons/thumb/5/58/Wiki_Project_Med_Foundation_logo.svg/400px-Wiki_Project_Med_Foundation_logo.svg.png" decoding="async" width="200" height="200" >
-</div>
-<p>This tool looks for Wikidata items that have a page on mdwiki.org but not in another wikipedia language <a href="?cat=RTT&depth=1&code=ceb&doit=Do+it"><b>(Example)</b></a>.</p>
-<p><a href="//mdwiki.org/wiki/WikiProjectMed:Translation_task_force"><b>How to use.</b></a></p>
-' ;
-};
-//--------------------
-function make_datalist() {
-    global $lang_to_code,$code_lang_name,$code;
-    //--------------------
-    $coco = $code_lang_name;
-    if ( $coco == '') { $coco = $code ; };
-    //--------------------
-    $str = '';
-    //--------------------
-    $str .= "<input size=25 list='Languages' class='span2' type='text' placeholder='two letter code' name='code' id='code' value='$coco'>";
-    //--------------------
-    $str .= '<datalist id="Languages">';
-    //--------------------
-    foreach ( $lang_to_code AS $lange => $cod ) {
-        $str .= "<option value='$cod'>$lange</option>";
-    };
-    //--------------------
-    $str .= '</datalist></input>' ;
-    //--------------------
-    return $str;
-    //--------------------
-};
-//--------------------
-function make_drop() {
-    global $lang_to_code,$code;
-    print '<select dir="ltr" id="code" class="form-control custom-select">';
-    //--------------------
-    foreach ( $lang_to_code AS $lange => $cod ) {
-        $cdcdc = $code == $cod ? "selected" : "";
-        print "<option id='$cod' $cdcdc>$lange</option>";
-    };
-    //--------------------
-    print '
-        </select>
-    ' ;
-};
-//--------------------
 function print_form_start() {
     //--------------------
-    global $cat_ch,$depth,$code_lang_name,$code , $form_start_done , $Translate_type;
+    global $lang_to_code, $doit;
+    global $cat_ch, $depth, $code_lang_name, $code, $username, $Translate_type;
     //--------------------
-    $cate = $cat_ch != '' ? $cat_ch : 'RTT' ;
-    //--------------------
-    $d = '';
-    //--------------------
-    if ($form_start_done == false ) {
-        $d .= "
-    <form method='GET' action='index.php' class='form-inline'>
-    ";
-    };
-    //--------------------
-    $d .= "
-<hr/>
-<table class='table-condensed' border=0><tbody>
-<tr>
-<td><b>Mdwiki category</b></td>
-<td>
-<input class='span4' type='text' size=25 name='cat' id='cat' value='$cate' placeholder='Root category' /> Depth <input class='span1' name='depth' type='text' size='5' value='$depth' /> (optional)
-</td>
-</tr>
-";
-    //--------------------
-    $d .= "<tr><td nowrap><b>Target language</b></td>
-<td style='width:100%'>" ;
-    //--------------------
-    $d .= make_datalist();
-    // make_drop();
-    //--------------------
-    if ($code_lang_name == '' and $code != '') { 
-        $d .= "<span style='font-size:13pt;color:red'> code ($code) not valid wiki.</span>";
-    } else {
-        if ($code != '') {
-            $_SESSION['code'] = $code;
-        };
-    };
-    // -------------
-    $d .= '</td></tr>';
-    // -------------
     $lead_checked = "checked";
     $all_checked = "";
     // -------------
@@ -130,45 +41,92 @@ function print_form_start() {
         $all_checked = "checked";
     };
     //-------------
+    $cate = $cat_ch != '' ? $cat_ch : 'RTT' ;
+    //--------------------
+    $d = '';
+    //--------------------
+    if ($username != '' ) {
+        $d .= "
+    <form method='GET' action='index.php' class='form-inline'>
+    ";
+    };
+    //--------------------
     $d .= "
-<tr>
-    <td>
-        <b>Type</b>
-    </td>
-    <td colspan='2'>
-        <input type='radio' name='type' value='lead' $lead_checked> The lead only<br>
-        <input type='radio' name='type' value='all' $all_checked> The whole article
-    </td>
-</tr>
-";
+    <hr/>
+    <table class='table-condensed' border=0><tbody>
+    <tr>
+        <td><b>Mdwiki category</b></td>
+        <td>
+        <input class='span4' type='text' size=25 name='cat' id='cat' value='$cate' placeholder='Root category' /> Depth <input class='span1' name='depth' type='text' size='5' value='$depth' /> (optional)
+        </td>
+    </tr>
+    <tr>
+        <td class='spannowrap'><b>Target language</b></td>
+        <td style='width:100%'>
+        " ;
+    //--------------------
+    $d .= make_datalist($lang_to_code,$code_lang_name,$code);
+    // make_drop($lang_to_code,$code);
+    //--------------------
+    if ($code_lang_name == '' and $code != '') { 
+        $d .= "
+            <span style='font-size:13pt;color:red'> code ($code) not valid wiki.</span>";
+    } elseif ( $code == '' and $doit != '' ) { 
+            $d .= "
+            <span style='font-size:13pt;color:red'> enter wiki code.</span>";
+        } else {
+        if ($code != '') {
+            $_SESSION['code'] = $code;
+        };
+    };
     // -------------
+    $d .= "
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <b>Type</b>
+        </td>
+        <td colspan='2'>
+            <input type='radio' name='type' value='lead' $lead_checked> The lead only<br>
+            <input type='radio' name='type' value='all' $all_checked> The whole article
+        </td>
+    </tr>
+    <tr>
+    <td colspan='3' class='aligncenter'>
+    ";
     // -------------
-    $d .= '<tr><td colspan="3" class="aligncenter">';
-    // -------------
+    if ( $username != '' ) {
+        $d .= '<input type="submit" name="doit" class="btn w3-button w3-round-large w3-blue" value="Do it"/>';
+    } else {
+        $d .= '<button type="submit" class="btn btn-default" name="action" value="login"><span class="glyphicon glyphicon-log-in"></span> Login </button>';
+    };  
+    //-------------
+        
+    $d .= "</td></tr>
+    </tbody>
+    </table>
+    <hr/>
+    </form>";
+    //-------------
     return $d;
     // -------------
 };
 //--------------------
-function print_form_last() {
-    return "
-</td>
-</tr>
-</tbody>
-</table>
-<hr/>
-</form>";
-};
+$img_src = '//upload.wikimedia.org/wikipedia/commons/thumb/5/58/Wiki_Project_Med_Foundation_logo.svg/400px-Wiki_Project_Med_Foundation_logo.svg.png';
 //--------------------
-echo print_index_start();
+echo '
+<div class="mainindex" align=left>
+    <div style="float:right">
+        <img class="medlogo img-thumbnail" src="' . $img_src . '" decoding="async" alt="Wiki Project Med Foundation logo" style="">
+		
+    </div>
+    <p>This tool looks for Wikidata items that have a page on mdwiki.org but not in another wikipedia language <a href="?cat=RTT&depth=1&code=ceb&doit=Do+it"><b>(Example)</b></a>.</p>
+    <p><a href="//mdwiki.org/wiki/WikiProjectMed:Translation_task_force"><b>How to use.</b></a></p>
+' ;
 //--------------------
 echo print_form_start();
-//--------------------
-if ( $username != '' ) {
-        echo '<input type="submit" name="doit" class="btn w3-button w3-round-large w3-blue" value="Do it"/>';
-    } else {
-        echo $input_login_str;
-};
-echo print_form_last();
+//-----
 //==========================
 function make_table( $items , $cod , $cat ) {
     global $username,$Words_table,$All_Words_table,$Assessments_table,$Assessments_fff ,$Translate_type ;
@@ -187,15 +145,15 @@ function make_table( $items , $cod , $cat ) {
         };
     //========================
     $frist .= '
-<thead><tr>
-<th onclick="sortTable(0)" class="num">#</th>
-<th onclick="sortTable(1)" class="text-nowrap" tt="h_title">Title</th>
-<th onclick="sortTable(2)" class="text-nowrap" tt="h_len">Importance</th>
-<th onclick="sortTable(3)" class="text-nowrap" tt="h_len">' . $Words_word . '</th>
-<th onclick="sortTable(3)" class="text-nowrap" tt="h_len">' . $Refs_word . '</th>
-<th  class="text-nowrap" tt="h_len">Translate</th>
-</tr></thead><tbody>
-' ;
+    <thead><tr>
+    <th onclick="sortTable(0)" class="num">#</th>
+    <th onclick="sortTable(1)" class="spannowrap" tt="h_title">Title</th>
+    <th onclick="sortTable(2)" class="spannowrap" tt="h_len">Importance</th>
+    <th onclick="sortTable(3)" class="spannowrap" tt="h_len">' . $Words_word . '</th>
+    <th onclick="sortTable(3)" class="spannowrap" tt="h_len">' . $Refs_word . '</th>
+    <th class="spannowrap" tt="h_len">Translate</th>
+    </tr></thead><tbody>
+    ' ;
     //--------------------
     //--------------------
     $dd = array();
@@ -245,7 +203,7 @@ function make_table( $items , $cod , $cat ) {
                 "code" => $cod,
                 "username" => $username,
                 "cat" => $cat2,
-                "type" => $Translate_type,
+                "type" => $Translate_type
                 );
             $translate_url = 'translate.php?' . http_build_query($params);
             //--------------------
@@ -259,7 +217,7 @@ function make_table( $items , $cod , $cat ) {
             $list .= "
         <tr>
         <td class='num'>$cnt</td>
-        <td class='link_container'><a target='_blank' href='$urle'>$title</a></td>
+        <td class='link_container spannowrap'><a target='_blank' href='$urle'>$title</a></td>
         <td class='num'>$asse</td>
         <td class='num'>$word</td>
         <td class='num'>$refs</td>
@@ -276,7 +234,7 @@ function make_table( $items , $cod , $cat ) {
     if ($script =='3') {  $script = ''; };
     //--------------------
     $last = "</tbody></table>
-" ;
+    " ;
     return $frist . $list . $last . $script ;
     //--------------------
     }
@@ -285,29 +243,6 @@ $doit2 = false ;
 //--------------------
 if ( $code_lang_name != '' ) { $doit2 = true ; };
 //--------------------
-//==========================
-
-function Get_it( $array, $key ) {
-    $uu = $array[$key] != '' ? $array[$key] : $array->{$key};
-    return $uu;
-};
-//==========================
-function doApiQuery_localhost( $params ) {
-    $endPoint = "https://"."mdwiki.org/w/api.php";
-    test_print("<br>doApiQuery_localhost:<br>");
-    $url = $endPoint . "?" . http_build_query( $params );
-
-    $ch = curl_init( $url );
-    curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-    $output = curl_exec( $ch );
-    curl_close( $ch );
-    //------------------
-    test_print("<br>output:<br>$output");
-    //------------------
-    $result = json_decode( $output, true );
-    
-    return $result;
-};
 //==========================
 function get_categorymembers( $cat ) {
     //-------------------
@@ -380,19 +315,6 @@ function get_categorymembers( $cat ) {
     //-------------------
     return $items;
     //-------------------
-};
-//======================
-function get_cat_from_cach( $cat ) {
-    $RTTtext = file_get_contents("cash/$cat.json");
-    //--------------------
-    $RTT = json_decode ( $RTTtext );
-    //--------------------
-    $liste = $RTT->list;
-    //--------------------
-    test_print("<br>get_cat_from_cach: liste size:" . sizeof($liste) );
-    //--------------------
-    return $liste;
-    //--------------------
 };
 //======================
 function get_cat_members_from_mdwiki( $cat ) {
@@ -586,20 +508,9 @@ if ( $doit and $doit2 ) {
     };
 };
 //--------------------
-print "</main>
-<!-- Footer -->";
+?>
+<?php
 //--------------------
-if ( $doit ) {
-    print "";
-} else {
-    print "
-<footer class='app-footer'>
-</footer>";
-};
-//--------------------
-print "
-</body>
-</html>
-</div>";
+require('foter.php');
 //--------------------
 ?>

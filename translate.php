@@ -3,43 +3,44 @@
 require('header.php');
 require('tables.php');
 include_once('functions.php');
-//--------------------
-$nana = '<div class="col-md-10 col-md-offset-1" align=left >
-<span class="btn btn-primary btn-lg btn-block"></span>
-';
+// require('translatephp.php');
 //--------------------
 $coden = strtolower($_REQUEST['code']);
 $title_o = $_REQUEST['title'];
 //--------------------
-$nana .= "<div class='ppre'>
-<form action='translate.php' method='GET'>
-<label>title: </label><input class='span2' type='text' value='$title_o' name='title'></input><br>
-<label>code : </label><input class='span2' type='text' value='$coden' name='code'><br>
-<input class='btn btn-lg' type='submit' name='start' value='Start' />
-</form>
-</div>";
+$nana = "
+<div class='col-md-10 col-md-offset-1' align=left >
+    <div class='ppre'>
+    <form action='translate.php' method='GET'>
+        <label>title: </label><input class='span2' type='text' value='$title_o' name='title'></input><br>
+        <label>code : </label><input class='span2' type='text' value='$coden' name='code'><br>
+        <input class='btn btn-lg' type='submit' name='start' value='Start' />
+    </form>
+    </div>
+    ";
 //--------------------
 function start_trans_py($title,$test,$fixref,$tra_type) {
-	//--------------------
-	$title2 = $title;
-	$title2 = rawurlencode(str_replace ( ' ' , '_' , $title2 ) );
-	//--------------------
-	$dd = "python3 translate.py -title:$title2" ;
-	if ($fixref != '' ) $dd = $dd . ' fixref';
-	//--------------------	
-	if ($tra_type == 'all' ) $dd = $dd . ' wholearticle';
+    //--------------------
+    $title2 = $title;
+    $title2 = rawurlencode(str_replace ( ' ' , '_' , $title2 ) );
+    //--------------------
+    $dd = "python3 /mnt/nfs/labstore-secondary-tools-project/mdwiki/TDpy/translate.py -title:$title2" ;
+    if ($fixref != '' ) $dd = $dd . ' fixref';
+    //--------------------  
+    if ($tra_type == 'all' ) $dd = $dd . ' wholearticle';
 
-	//--------------------	
-	if ($test != "") { print $dd . '<br>'; } ; 
-	//--------------------	
-	$command = escapeshellcmd( $dd );
-	$output = shell_exec($command);
-	//--------------------	
-	return $output;
+    //--------------------  
+    if ($test != "") { print $dd . '<br>'; } ; 
+    //--------------------  
+    $command = escapeshellcmd( $dd );
+    $output = shell_exec($command);
+    //--------------------  
+    return $output;
 };
 //--------------------
 if ($title_o != '' and $coden != '') {
     //--------------------
+    $newaa = $_REQUEST['newaa'];
     $useree = $_REQUEST['username'];
     $cat = $_REQUEST['cat'];
     $test = $_REQUEST['test'];
@@ -64,7 +65,6 @@ if ($title_o != '' and $coden != '') {
     $objDateTime = new DateTime('NOW');
     $date = $objDateTime->format('Y-m-d');
     //--------------------
-    //--------------------
     $quae = "
 INSERT INTO pages (title, word, translate_type, cat, lang, date, user, target, pupdate)
 VALUES ('$title_o', '$word', '$Translat_type', '$cat', '$coden', '$date', '$useree', '', '')
@@ -84,10 +84,14 @@ INSERT INTO pages (title, word, translate_type, cat, lang, date, user, target, p
     //--------------------
     quary($quae_new);
     //--------------------
-    //==========================
-    $output = start_trans_py($title_o,$test,$fixref,$Translat_type);
+    //====================
+    // if ($newaa != '') {
+        // $output = start_trans_php($title_o,$test,$fixref,$Translat_type);
+    // } else {
+	$output = start_trans_py($title_o,$test,$fixref,$Translat_type);
+    // };
     //--------------------
-    if (trim($output) == 'true' ) {
+    if (trim($output) == 'true') {
         $title_o2 = rawurlEncode($title_o);
         //--------------------
         $url = "//$coden.wikipedia.org/wiki/Special:ContentTranslation?page=User%3AMr.+Ibrahem%2F$title_o2";
@@ -102,13 +106,16 @@ INSERT INTO pages (title, word, translate_type, cat, lang, date, user, target, p
             //--------------------
         } else {
             // =======================
-            header( "Location: " . $url );
-            exit;
+            // header( "Location: " . $url );
+            // exit;
             // =======================
             $zaza = "
     <script type='text/javascript'>
     window.open('$url', '_self');
-</script>";
+</script>
+<noscript>
+    <meta http-equiv='refresh' content='0; url=$url'>
+</noscript>";
             // =======================
             print $zaza;
         };
@@ -120,8 +127,9 @@ INSERT INTO pages (title, word, translate_type, cat, lang, date, user, target, p
     }
 };
 //--------------------
+echo '</div>';
+//--------------------
 require('foter.php');
-print '</div>';
     //--------------------
 //--------------------
 ?>

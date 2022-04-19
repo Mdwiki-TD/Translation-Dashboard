@@ -3,13 +3,6 @@
 require('header.php');
 require('langcode.php');
 //--------------------
-print '';
-//==========================
-// print '<div class="col-md-10 col-md-offset-1" align=left >';
-print '<div style="margin-right:8%;margin-left:8%;boxSizing:border-box;" align=left>';
-//==========================
-//print '<h1 class="text-center">Leaderboard</h1>';
-print '<div class="text-center clearfix leaderboard" >';
 //==========================
 //--------------------
 $missingfile = file_get_contents("cash/missing.json");
@@ -24,28 +17,11 @@ $lenth2 = number_format($lenth);
 $date = $MIS->{'date'}; 
 //==========================
 //==========================
-/*
-$Table = array();
-foreach ( $code_to_lang as $code => $name ) {
-    $tex = file_get_contents("cash/" . $code . "_exists.csv");
-    if ($tex != '') {
-        $lines = explode("\n",$tex);
-        $len = count($lines);
-    } else {
-        $len = '0';
-    };
-    //print var_dump($len) + '<br>';
-    $nana = bcsub($lenth , $len);
-    $Table[$code] = $nana;
-    
-};*/
-//--------------------
 $Table = array(); 
 $langs = $MIS->{'langs'}; 
 //--------------------
 foreach ( $langs as $code => $tabe ) {
     //$tabe = { 'missing' leeen :  , 'exists' : len( table[langs] ) };
-    
     $aaa = $tabe->{'missing'};
     //$aaa = number_format( $aaa );
     $Table[$code] = $aaa;
@@ -54,21 +30,25 @@ foreach ( $langs as $code => $tabe ) {
 arsort( $Table );
 //--------------------
 //==========================
-print "<h3>Top languages by missing Articles ($date)</h3>";
-print "<h4>Number of pages in Category:RTT : $lenth</h4>";
-//--------------------
+$tab_start = '
+<div class="table-responsive">
+<table class="sortable table table-striped alignleft">
+';
+
+$tab_end = '
+</table>
+</div>';
+//==========================
 function Make_lang_table( $tabe ) {
-    global $code_to_lang;
-    global $langs;
-    global $lenth;
-    $text = '
-    <table class="sortable table table-striped alignleft">
+    global $tab_end, $tab_start;
+    global $code_to_lang, $langs, $lenth;
+    $text = $tab_start . '
     <tr>
-    <th onclick="sortTable(0)" class="text-nowrap">#</th>
-    <th onclick="sortTable(0)" class="text-nowrap">Language code</th>
-    <th onclick="sortTable(0)" class="text-nowrap">Language name</th>
-    <th onclick="sortTable(1)">Number of exists Articles</th>
-    <th onclick="sortTable(1)">Number of missing Articles</th>
+    <th onclick="sortTable(0)" class="spannowrap">#</th>
+    <th onclick="sortTable(1)" class="spannowrap">Language code</th>
+    <th onclick="sortTable(2)" class="spannowrap">Language name</th>
+    <th onclick="sortTable(3)">Exists Articles</th>
+    <th onclick="sortTable(4)">Missing Articles</th>
     </tr>
     ';
     //--------------------
@@ -95,27 +75,26 @@ function Make_lang_table( $tabe ) {
         ';
     };
     //--------------------
-    $text .= '
-</table>';
+    $text .= $tab_end;
     //--------------------
     return $text;
 }
 //==========================
+print "
+        <div align=center>
+        <h3>Top languages by missing Articles ($date)</h3>
+        <h4>Number of pages in Category:RTT : $lenth</h4>
+        </div>
+        <div class='clearfix leaderboard'>
+";
+//==========================
 //--------------------
 print Make_lang_table( $Table );
 //--------------------
-?>
-<?PHP
 //--------------------
-print "</div>";
-//--------------------
-
 print "
-</main>
-<!-- Footer -->
-</body>
-</html>
-</div>"
+        </div>";
 //--------------------
-
+require('foter.php');
+//--------------------
 ?>

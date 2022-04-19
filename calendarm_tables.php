@@ -80,13 +80,12 @@ foreach ( $sql_cu AS $id => $table ) {
     };
 };
 //--------------------
-function Make_Numbers_table($Users_n,$artic_n,$words_n,$langs_n) {
+function Make_Numbers_table($Users_n,$artic_n,$words_n,$langs_n,$views) {
 	//--------------------
 	$Numbers_table = '
-	<h3>Numbers</h3>
 	<table class="sortable table table-striped alignleft">
 	<tr>
-	<th onclick="sortTable(0)" class="text-nowrap">Type</th>
+	<th onclick="sortTable(0)" class="spannowrap">Type</th>
 	<th onclick="sortTable(1)">Number</th>
 	</tr>
 	';
@@ -95,6 +94,7 @@ function Make_Numbers_table($Users_n,$artic_n,$words_n,$langs_n) {
 	$Numbers_table .= '<tr><td><b>Articles</b></td><td>' .  $artic_n		. '</td></tr>';
 	$Numbers_table .= '<tr><td><b>Words</b></td><td>' .     $words_n		. '</td></tr>';
 	$Numbers_table .= '<tr><td><b>Languages</b></td><td>' . $langs_n		. '</td></tr>';
+	$Numbers_table .= '<tr><td><b>Pageviews</b></td><td>' . $views		. '</td></tr>';
 	$Numbers_table .= '</table>';
 	//--------------------
 	return $Numbers_table;
@@ -104,37 +104,32 @@ function Make_users_table_cal($Viewstable,$Users_tables,$Words_tables) {
     //--------------------
     //---------
     $text = '
-    <table class="sortable table table-striped alignleft" style="width:100%;">
+    <table class="sortable table table-striped alignleft" style="width:95%;">
     <tr>
-    <th onclick="sortTable(0)" class="text-nowrap">User</th>
+    <th onclick="sortTable(0)" class="spannowrap">User</th>
     <th onclick="sortTable(1)">Number</th>
     <th onclick="sortTable(1)">Words</th>
-    ';
-    // <th onclick="sortTable(1)">Pageviews</th>
+    <th onclick="sortTable(1)">Pageviews</th>
+	';
 	$text .= '
 	</tr>';
     //--------------------
     arsort($Users_tables);
     //--------------------
     foreach ( $Users_tables as $user => $number ) {
-        //if ($user != 'test') { 
-            //--------------------
-            // $views = $Viewstable[$user];
-            $words = $Words_tables[$user];
-            //--------------------
-            $use = rawurlEncode($user);
-            $use = str_replace ( '+' , '_' , $use );
-            //--------------------
-            $text .= '
+        //--------------------
+        $views = $Viewstable[$user];
+        $words = $Words_tables[$user];
+        //--------------------
+        $use = rawurlEncode($user);
+        $use = str_replace ( '+' , '_' , $use );
+        //--------------------
+        $text .= '
         <tr>
-            <td><a href="users.php?user=' . $use . '">' . $user . '</a></td>
-            <td>' . $number . '</td>
-            <td>' . number_format($words) . '</td>
-            ';
-            // <td>' . number_format($views) . '</td>
-			$text .= '
-		</tr>';
-        //};
+        <td><a href="users.php?user=' . $use . '">' . $user . '</a></td>
+        <td>' . $number . '</td>
+        <td>' . number_format($words) . '</td>
+        <td>' . number_format($views) . '</td></tr>';
     };
     //--------------------
     $text .= '
@@ -150,12 +145,11 @@ function Make_lang_table_cal($langs_counts,$langs_views) {
     arsort($langs_counts);
     //--------------------
     $text = '
-    <h3>Top languages by number of Articles</h3>
     <table class="sortable table table-striped alignleft">
     <tr>
-    <th onclick="sortTable(0)" class="text-nowrap">Language</th>
+    <th onclick="sortTable(0)" class="spannowrap">Language</th>
     <th onclick="sortTable(2)">Count</th>';
-	// $text .= ' <th onclick="sortTable(2)">Pageviews</th>';
+	$text .= ' <th onclick="sortTable(2)">Pageviews</th>';
     $text .= '</tr>';
     //--------------------
     foreach ( $langs_counts as $langcode => $comp ) {
@@ -166,7 +160,7 @@ function Make_lang_table_cal($langs_counts,$langs_views) {
             //--------------------
             $langname  = isset($code_to_lang[$langcode]) ? $code_to_lang[$langcode] : $langcode;
             //--------------------
-            // $view = $langs_views[$langcode];
+            $view = $langs_views[$langcode];
             //--------------------
             //--------------------
             if ($comp != 0) {
@@ -174,7 +168,7 @@ function Make_lang_table_cal($langs_counts,$langs_views) {
             <tr>
                 <td><a href="langs.php?langcode=' . $langcode . '">' . $langname . '</a></td>
                 <td>' . $comp . '</td>';
-                // $text .= '<td>' . number_format($view) . '</td>';
+                $text .= '<td>' . number_format($view) . '</td>';
                 
             //--------------------
             if ( $_SERVER['SERVER_NAME'] == 'localhost' ) { 

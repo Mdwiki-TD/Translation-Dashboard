@@ -3,12 +3,15 @@
 // require('tables.php');
 // include_once('login5.php');
 //-------------------- 
+include_once('func_2nd.php');
 //--------------------
 $projects_dirr1 = '/mnt/nfs/labstore-secondary-tools-project';
 //--------------------
 if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost') { 
     $projects_dirr1 = '/master';
 };
+//--------------------
+$test = $_REQUEST['test'];
 //-------------------- 
 /*
 $prefilled_requests = [] ;
@@ -18,6 +21,35 @@ function get_request ( $key , $default = "" )  {
     if ( isset ( $_REQUEST[$key] ) ) return str_replace ( "\'" , "'" , $_REQUEST[$key] ) ;
     return $default ;
 };*/
+//==========================
+function doApiQuery_localhost( $params ) {
+    $endPoint = "https://"."mdwiki.org/w/api.php";
+    test_print("<br>doApiQuery_localhost:<br>");
+    $url = $endPoint . "?" . http_build_query( $params );
+
+    $ch = curl_init( $url );
+    curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+    $output = curl_exec( $ch );
+    curl_close( $ch );
+    //------------------
+    test_print("<br>output:<br>$output");
+    //------------------
+    $result = json_decode( $output, true );
+    return $result;
+};
+//==========================
+function get_cat_from_cach( $cat ) {
+    $RTTtext = file_get_contents("cash/$cat.json");
+    //--------------------
+    $RTT = json_decode( $RTTtext );
+    //--------------------
+    $liste = $RTT->list;
+    //--------------------
+    test_print("<br>get_cat_from_cach: liste size:" . sizeof($liste) );
+    //--------------------
+    return $liste;
+    //--------------------
+};
 //==========================
 function strstartswithn ( $haystack, $needle ) {
   return strpos( $haystack , $needle ) === 0;
@@ -83,6 +115,11 @@ function sqlquary_localhost($quae) {
 //--------------------
 function quary($quae) {
     //--------------------
+    // if ( isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost' ) { 
+        // $sql_u = sqlquary_localhost($quae);
+        // return $sql_u;
+    // };
+    //--------------------
     $ts_pw = posix_getpwuid(posix_getuid()); 
     // replica.my.cnf
     $ts_mycnf = parse_ini_file($ts_pw['dir'] . "/replica.my.cnf");
@@ -140,7 +177,11 @@ function quary2($quae) {
     return $sql_result;
 }; 
 //--------------------
+$my_years = array();
+//--------------------
 function years_start() {
+    //--------------------
+    global $my_years;
     //--------------------
     $years_q = "select
     CONCAT(left(pupdate,4)) as year
@@ -152,25 +193,52 @@ function years_start() {
     /*if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost') { 
         $years = array ( 0 => array ( 'year' => '2021', 0 => '2021', ), 1 => array ( 'year' => '2022', 0 => '2022', ), );
     };*/
-    $lines = '';
     //----
     $f = 0;
     //----
 	$tt = '';
     //----
-    foreach ( $years AS $Key => $table ) {
-        $year = $table['year'];
-        if ( $f != 0) { $tt = ' - ';};
-        $lines .= "$tt<div class='menu_item'><a href='leaderboard.php?year=$year'>$year</a></div>";
-		$f = $f + 1;
-    };
-    $texte = "<div class='menu'>$lines</div>";
-    
+    $lines_1 = '';
+    $lines = '<ul class="nav nav-tabs">
+    <li></li>
+    <li></li>
+    <li></li>
+    ';
     //----
-    /*if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost') { 
-        $texte = "<div class='menu'><div class='menu_item'><a href='leaderboard.php?year=2021'>2021</a></div>
-<div class='menu_item'> - <a href='leaderboard.php?year=2022'>2022</a></div></div>";
-    };*/
+    $y_req = $_REQUEST['year'];
+    //----
+    $active_done = false;
+    //----
+    foreach ( $years AS $Key => $table ) {
+        //--------------------------
+        $year = $table['year'];
+        $my_years[] = $year;
+        //--------------------------
+        if ( $f != 0) { $tt = ' - ';};
+		$f = $f + 1;
+        //--------------------------
+        $url = "<a href='leaderboard.php?year=$year'>$year</a>";
+        $lines_1 .= "$tt<div class='menu_item'>$url</div>";
+        //--------------------------
+        $active = '';
+        if ( $active_done == false ) {
+           if ( $y_req == $year or $y_req == '' ) {
+            $active = 'active';
+            $active_done = true;
+         };
+        };
+        //--------------------------
+        $lines .= "<li class='menu_item $active'><a href='leaderboard.php?year=$year'>$year</a></li>";
+        //--------------------------
+        $lines .= "
+    ";
+    };
+    //----
+    $lines .= '</ul>';
+    $texte = "
+    <div class='tab-content'>
+        $lines
+    </div>";
     //----
     return $texte;
     //----
@@ -178,87 +246,96 @@ function years_start() {
 //--------------------
 function months_start() {
     //--------------------
+    global $my_years;
+    //--------------------
+    $y_line = years_start();
+    //--------------------
+    $calendar = 'calendarm.php';
+    //--------------------
     $months_qu = "select
-    CONCAT(left(pupdate,7)) as month
+    CONCAT(left(pupdate,7)) as month, CONCAT(left(pupdate,4)) as year
     from pages where pupdate != ''
     group by left(pupdate,7)
     ;";
     $months = quary2($months_qu);
     //----
-	/*if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost') { 
-		$months = array ( 0 => array ( 'month' => '2021-05', 0 => '2021-05', ), 1 => array ( 'month' => '2021-06', 0 => '2021-06', ), 2 => array ( 'month' => '2021-07', 0 => '2021-07', ), 3 => array ( 'month' => '2021-08', 0 => '2021-08', ), 4 => array ( 'month' => '2021-09', 0 => '2021-09', ), 5 => array ( 'month' => '2021-10', 0 => '2021-10', ), 6 => array ( 'month' => '2021-11', 0 => '2021-11', ), 7 => array ( 'month' => '2021-12', 0 => '2021-12', ), 8 => array ( 'month' => '2022-01', 0 => '2022-01', ), );
-	};*/
-    //----
-    // echo var_export($months);
-    //----
     $months_line = '';
     //----
+	$months_urls = array();
+    //----
     foreach ( $months AS $Key => $table ) {
+        $year = $table['year'];
         $month = $table['month'];
         $last_month = $table['month'];
-        $months_line .= "
-<div class='menu_item colsm5'><a href='calendar.php?month=$month'>$month</a></div>";
+		//-----------------------------
+        $month_url = "<a href='$calendar?month=$month&year=$year'>$month</a>";
+        $months_urls[$month] = $month_url;
+		//-----------------------------
     };
+    //----
+    // $months_line = implode(' - ', $months_urls);
+    //----
+    $lines_by_year = array();
+    $lines_by_year_ul = array();
+    //----
+    $number_months = array('01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12');
+    //----
+    foreach ( $my_years AS $kk => $year ) {
+        //-----------------------------
+        if ( !isset($lines_by_year_ul[$year]) ) { $lines_by_year_ul[$year] = ''; };
+        if ( !isset($lines_by_year[$year]) ) { $lines_by_year[$year] = ''; };
+        //-----------------------------
+        foreach ( $number_months AS $Key => $month ) {
+            //-----------------------------
+            $month_y = "$year-$month";
+            $line = $month_y;
+            //-----------------------------
+            if ( isset($months_urls[$month_y]) ) {
+                $line = $months_urls[$month_y];
+            };
+            //-----------------------------
+            $lines_by_year[$year] .= "<div class='col-sm-1 menu_item2 colsm5'>$line</div>";
+            //-----------------------------
+            $lines_by_year_ul[$year] .= "<li>$line</li>";
+            //-----------------------------
+        };
+    };
+    //----
+    $y_req = $_REQUEST['year'];
+    //----
+    $months_lines = '';
+    //----
+    foreach ($lines_by_year AS $ii => $y ) {
+        //-----------------------------
+        if ($y_req == $ii or $y_req == '') {
+            $months_lines .= $y;
+            break;
+        };
+        
+    }
     $texte = "
-<div class='menu'>
-<span class='colsm5'>
-$months_line
-</span>
-</div>";
+    $y_line
+    <div class='panel panel-default' style='font-weight: bold;'>
+            <div class='panel-body'>
+                $months_lines
+            </div>
+    </div>
+    ";
+    //--------------------
+    //--------------------
+    $months_lines_ul = implode('<br>', $lines_by_year_ul);
+    //--------------------
+    $texte_ul = "
+    $y_line
+    <ul class='nav nav-pills'>
+        $months_lines_ul
+    </ul>
+    ";
     //----
     return $texte;
     //----
 };
 //--------------------
-
-//--------------------
-function make_view_by_number($target , $numb, $lang) {
-    //---------------
-    $numb2 = ($numb != '') ? $numb : "?";
-    //---------------
-    $urln = 'https://' . 'pageviews.toolforge.org/?project='. $lang .'.wikipedia.org&platform=all-access&agent=all-agents&redirects=0&range=this-year&pages=' . rawurlEncode($target);
-    //---------------
-    $link = '<a target="_blank" href="' . $urln . '">' . $numb2 . '</a>';
-    //---------------
-    return $link ;
-    };
-//-----------------
-function make_mdwiki_title($tit) {
-    $title = $tit;
-    if ($title != '') {
-        $title2 = rawurlencode( str_replace ( ' ' , '_' , $title ) );
-        $title = '<a href="https://mdwiki.org/wiki/' . $title2 . '">' . $title . '</a>';
-    };
-    return $title;
-};
-//-------------------- 
-function make_cat_url ($ca) {
-    $cat = $ca;
-    if ($cat != '') {
-        $cat2 = rawurlencode( str_replace ( ' ' , '_' , $cat ) );
-        $cat = '<a href="https://mdwiki.org/wiki/Category:' . $cat2 . '">Category:' . $cat . '</a>';
-    };
-    return $cat;
-};
-//-------------------- 
-function make_mdwiki_user_url($ud) {
-    $user = $ud;
-    if ($user != '') {
-        $user2 = rawurlencode( str_replace ( ' ' , '_' , $user ) );
-        $user = '<a href="https://mdwiki.org/wiki/User:' . $user2 . '">' . $user . '</a>';
-    };
-    return $user;
-};
-//-------------------- 
-function make_target_url ($ta , $lang) {
-    $target = $ta ;
-    if ($target != '') {
-        $target2 = rawurlencode( str_replace ( ' ' , '_' , $target ) );
-        $target = '<a href="https://' . $lang . '.wikipedia.org/wiki/' . $target2 . '">' . $target . '</a>';
-    };
-    return $target;
-};
-//-------------------- 
 //-------------------- 
 
 ?>

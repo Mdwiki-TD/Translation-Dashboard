@@ -50,7 +50,6 @@ function make_td($tabg,$nnnn) {
     $views_number = isset($views_sql[$targe]) ? $views_sql[$targe] : '?';
     // ------------------
     $lang2 = isset($code_to_lang[$llang]) ? $code_to_lang[$llang] : $llang;
-    
     //--------------------
     $ccat = make_cat_url( $cat );
     //--------------------
@@ -88,17 +87,48 @@ function make_td($tabg,$nnnn) {
     return $laly;
 };
 //--------------------
+$quaa = "select * from pages where user = '$username'";
+$sql_result = quary2($quaa);
+//==========================
+//--------------------
+$dd_Pending = array();
+$dd = array();
+foreach ( $sql_result AS $tait => $tabg ) {
+        //--------------------
+        // $kry = str_replace('-','',$tabg['pupdate']) . ':' . $tabg['target'] ;
+        $kry = str_replace('-','',$tabg['pupdate']) . ':' . $tabg['lang'] . ':' . $tabg['title'] ;
+        //print $kry . '<br>';
+        //--------------------
+        if ( $tabg['target'] != '' ) {
+            $dd[$kry] = $tabg;
+        } else {
+            $dd_Pending[$kry] = $tabg;
+        };
+        //--------------------
+    };
+//--------------------
+//--------------------
+krsort($dd);
+// print( count($dd) );
+//--------------------
 $man = make_mdwiki_user_url($username);
 //--------------------
 // print '<div class="col-md-10 col-md-offset-1" align=left >';
-print '<div style="margin-right:25px;margin-left:25px;boxSizing:border-box;" align=left >';
-print "
-<h1 class='text-center'>$man</h1>
+echo "
+    <div style='margin-right:25px;margin-left:25px;boxSizing:border-box;' align=left>
+        <h1 class='text-center'>$man</h1>
+        <div class='text-center clearfix leaderboard'>
 ";
-print '<div class="text-center clearfix leaderboard" >
-';
 //==========================
-$table_leg = '  <table class="sortable table table-striped alignleft">
+$tab_start = '
+    <div class="table-responsive">          
+    <table class="table table-striped sortable alignleft">
+';
+$tab_end = '
+        </table>
+    </div>';
+//==========================
+$table_leg = $tab_start . '
         <tr>
             <th onclick="sortTable(0)">#</th>
             <th onclick="sortTable(1)">Language</th>
@@ -123,29 +153,6 @@ if ($test != '') $sato .= '
 $sato .= '
         </tr>';
 //--------------------
-$quaa = "select * from pages where user = '$username'";
-$sql_result = quary2($quaa);
-//==========================
-//--------------------
-$dd_Pending = array();
-$dd = array();
-foreach ( $sql_result AS $tait => $tabg ) {
-        //--------------------
-        // $kry = str_replace('-','',$tabg['pupdate']) . ':' . $tabg['target'] ;
-        $kry = str_replace('-','',$tabg['pupdate']) . ':' . $tabg['lang'] . ':' . $tabg['title'] ;
-        //print $kry . '<br>';
-        //--------------------
-        if ( $tabg['target'] != '' ) {
-            $dd[$kry] = $tabg;
-        } else {
-            $dd_Pending[$kry] = $tabg;
-        };
-        //--------------------
-    };
-//--------------------
-krsort($dd);
-// print( count($dd) );
-//--------------------
 $noo = 0;
 foreach ( $dd AS $tat => $tabe ) {
     //--------------------
@@ -154,8 +161,7 @@ foreach ( $dd AS $tat => $tabe ) {
     //--------------------
 };
 //--------------------
-$sato .= '
-    </table>';
+$sato .= $tab_end;
 print $sato;
 print "
 </div>";
@@ -165,8 +171,11 @@ print '
     <h1 class="text-center">Translations in process</h1>
 ';
 //==========================
-//--------------------
-$sato_Pending ='  <table class="sortable table table-striped alignleft">
+if ($username == "Mr. Ibrahem") {
+    $Pending_a = '<th onclick="sortTable(9)">Remove</th>';
+};
+//==========================
+echo $tab_start . '
         <tr>
             <th onclick="sortTable(0)">#</th>
             <th onclick="sortTable(1)">Language</th>
@@ -176,17 +185,9 @@ $sato_Pending ='  <table class="sortable table table-striped alignleft">
             <th onclick="sortTable(5)">Translate type</th>
             <th onclick="sortTable(6)">Translated</th>
             <th onclick="sortTable(7)">Start date</th>
-';
-//--------------------
-$sato_Pending .= '<th onclick="sortTable(8)">Completion</th>'; 
-if ($username == "Mr. Ibrahem") {
-    $sato_Pending .= '<th onclick="sortTable(9)">Remove</th>';
-};
-//--------------------
-$sato_Pending .= '
-    </tr>';
-//--------------------
-print $sato_Pending;
+            <th onclick="sortTable(8)">Completion</th>
+            ' . $Pending_a . '
+        </tr>'; 
 //--------------------
 $dff = 0;
 foreach ( $dd_Pending AS $title=> $kk ) {
@@ -221,7 +222,7 @@ foreach ( $dd_Pending AS $title=> $kk ) {
 ';
     //--------------------
     $md_title2 = rawurlencode(str_replace ( ' ' , '_' , $md_title ) );
-    $urle = "//$lange.wikipedia.org/wiki/Special:ContentTranslation?page=User%3AMr._Ibrahem%2F$md_title2&from=en&to=$lange";
+    $urle = "//$lange.wikipedia.org/wiki/Special:ContentTranslation?page=User%3AMr._Ibrahem%2F" . $md_title2 . "&from=en&to=" . $lange;
     print "<td><a href='$urle'>Completion</a></td>"; 
     //--------------------------------
     $qua = rawurlencode( "delete from pages where user = '$username' and title = '$md_title' and lang = '$lange';" );
@@ -235,15 +236,11 @@ foreach ( $dd_Pending AS $title=> $kk ) {
     //--------------------
 };
 //--------------------
-print '
-   </table>';
-print "
+print $tab_end . '
 </div>
-";
-//--------------------
+';
 //--------------------
 require('foter.php');
-print "</div>";
 //--------------------
 
 ?>

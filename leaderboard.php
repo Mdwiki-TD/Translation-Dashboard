@@ -2,85 +2,105 @@
 //--------------------
 require('header.php');
 require('leader_tables_new.php');
-//--------------------
 //==========================
-print '
-<style>
-
-.table {
-    width: 95%;
-}
-  .table>tbody>tr>td,
-  .table>tbody>tr>th,
-  .table>thead>tr>td,
-  .table>thead>tr>th {
-    padding: 6px;
-    line-height: 1.42857143;
-    vertical-align: top;
-    border-top: 1px solid #ddd
+echo '
+  <style>
+  .table {
+      width: 95%;
   }
-</style>';
+    .table>tbody>tr>td,
+    .table>tbody>tr>th,
+    .table>thead>tr>td,
+    .table>thead>tr>th {
+      padding: 6px;
+      line-height: 1.42857143;
+      vertical-align: top;
+      border-top: 1px solid #ddd
+    }
+  </style>';
 //==========================
-print years_start();
-print months_start();
+echo months_start();
 //==========================
-print '
-<section class="container" style="margin-left:20px;margin-left:20px;">';
+echo '<section>';
 //==========================
 $key_year = 'all';
 $get_year = $_REQUEST['year'];
+$get_month = $_REQUEST['month'];
 //==========================
-print "<h1 class='text-center'>$get_year Leaderboard</h1>";
-print '<div class="text-center clearfix">';
+if ($get_year != '') {    $key_year = $get_year;  };
+//========================== padding: 2px 0 2px 5px;
+// if ($get_month != '') {  echo get_month_table($get_month,$key_year);};
 //==========================
-if ($get_year != '') {
-    $key_year = $get_year;
+function print_year_table($y) {
+  //---------
+  global $Views_by_users, $sql_users_tab, $Users_word_table, $sql_Languages_tab, $all_views_by_lang;
+  //---------
+  $tab1 = ma_Numbers_table($y);
+  //---------
+  $tables_main = '';
+  $tables_main .= make_col_sm_4('Numbers',$tab1, $numb = '3');
+  //---------
+  $tab2 = Make_users_table($Views_by_users[$y],$sql_users_tab[$y],$Users_word_table[$y]);
+
+  $tables_main .= make_col_sm_4('Top users by number of translation', $tab2, $numb = '5');
+  //---------
+  $tab3 = Make_lang_table($sql_Languages_tab[$y],$all_views_by_lang[$y]);
+
+  $tables_main .= make_col_sm_4('Top languages by number of Articles',$tab3);
+  //==========================
+  $titlea = "$y Leaderboard";
+  if ($y == 'all') {$titlea = 'Leaderboard';};
+  //==========================
+  return "
+  <div class='panel panel-default'>
+    <div class='panel-heading aligncenter'>
+      <div class='panel-title' style='font-size:200%;'>
+        $titlea
+      </div>
+    </div>
+    <div class='panel-body'>
+      <div class='row'>
+        $tables_main
+      </div>
+    </div>
+  </div>";
+  //==========================
 };
 //==========================
-print '<span class="colsm4" style="width:20%;">';
-print ma_Numbers_table($key_year);
-print '</span>';
-//--------------------
+function print_pinding_table(){
+  $tbe = Make_Pinding_table();
+  //==========================
+  $tab4 = make_col_sm_4('Number of translations',$tbe);
+  //==========================
+  return "
+  <div class='panel panel-default'>
+    <div class='panel-heading aligncenter'>
+      <div class='panel-title' style='font-size:200%;'>
+        Translations in process
+      </div>
+    </div>
+    <div class='panel-body'>
+      <div class='row'>
+        $tab4
+      </div>
+    </div>
+  </div>";
+};
 //==========================
-print'<span class="colsm4" style="width:45%;">';
-print "<h3>Top users by number of translations</h3>";
-
-print'<div style="max-height:300px; overflow: auto; padding: 2px 0 2px 5px; background-color:transparent;vertical-align:top;font-size:100%">';
-print Make_users_table($Views_by_users[$key_year],$sql_users_tab[$key_year],$Users_word_table[$key_year]);
-print '</div>';
-
-print '</span>';
-//==========================
-//==========================
-print'<span class="colsm4" style="width:35%;">';
-print Make_lang_table($sql_Languages_tab[$key_year],$all_views_by_lang[$key_year]);
-print '</span>';
-//==========================
-//--------------------
-print '
-</div>
-';
+echo "\n<div class='container'>\n";
+echo print_year_table($key_year);
 //==========================
 if ($get_year == '') {
-    //==========================
-    print '<br/>';
-    print '<h1 class="text-center">Translations in process</h1>';
-    //==========================
-    print '<span class="colsm4" style="width:33%;">';
-    print Make_Pinding_table();
-    print "</span>";
+    echo print_pinding_table();
 };
 //==========================
-print "</div>";
-print "
+// echo "<h1 class='text-center'>$get_year Leaderboard</h1>";
+// echo '<div class="text-center clearfix">';
+//==========================
+echo "</div>
 </section>
-</main>
-<!-- Footer 
-<footer class='app-footer'>
-</footer>
--->
-</body>
-</html>
-</div>"
+";
+//--------------------
+require('foter.php');
 //--------------------
 ?>
