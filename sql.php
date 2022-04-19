@@ -68,6 +68,23 @@ CREATE TABLE allwords (
     )
 */
 //--------------------
+// ******************
+// Read the ini file
+$inifile_local = '../OAuthConfig.ini';
+$inifile_mdwiki = '/data/project/mdwiki/OAuthConfig.ini';
+// ******************
+$inifile = $inifile_mdwiki;
+// ******************
+$teste = file_get_contents($inifile_mdwiki);
+if ( $teste != '' ) { 
+    $inifile = $inifile_mdwiki;
+} else {
+    $inifile = $inifile_local;
+};
+// ******************
+$ini = parse_ini_file( $inifile );
+$sqlpass = $ini['sqlpass'];
+//--------------------
 $pass = $_REQUEST['pass'];
 $qua  = $_REQUEST['code'];
 $raw  = $_REQUEST['raw'];
@@ -120,7 +137,7 @@ function sqlquary_localhost($quae) {
     $dbname = "mdwiki";
     //--------------------
     try {
-        // إجراء الإتصال
+        // start
         $db = new PDO(
                 "mysql:host=$host;dbname=$dbname", 
                 'root', 
@@ -137,7 +154,7 @@ function sqlquary_localhost($quae) {
         echo $quae . "<br>" . $e->getMessage();
     }
     //--------------------
-    // إغلاق الإتصال
+    // end 
     $db = null;
     //--------------------
 };
@@ -152,7 +169,7 @@ function sqlquary($quae) {
     $dbname = $ts_mycnf['user'] . "__mdwiki";
     //--------------------
     try {
-        // إجراء الإتصال
+        // start
         $db = new PDO(
                 "mysql:host=$host;dbname=$dbname", 
                 $ts_mycnf['user'], 
@@ -170,12 +187,12 @@ function sqlquary($quae) {
         echo $quae . "<br>" . $e->getMessage();
     }
     //--------------------
-    // إغلاق الإتصال
+    // end 
     $db = null;
     //--------------------
 };
 //--------------------
-if ( $qua != '' and ($pass == 'yemen' or $_SERVER['SERVER_NAME'] == 'localhost') ) {
+if ( $qua != '' and ($pass == $sqlpass or $_SERVER['SERVER_NAME'] == 'localhost') ) {
     //==========================
     if ($_SERVER['SERVER_NAME'] == 'mdwiki.toolforge.org') {
         $uu = sqlquary($qua);
