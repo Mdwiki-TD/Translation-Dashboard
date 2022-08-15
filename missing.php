@@ -7,22 +7,22 @@ require('langcode.php');
 //--------------------
 $missingfile = file_get_contents("cash/missing.json");
 //print $wordsjson;
-$MIS = json_decode ( $missingfile ) ; //{'all' : len(listenew), 'date' : Day_History, 'langs' : {} }
+$MIS = json_decode( $missingfile, true) ; //{'all' : len(listenew), 'date' : Day_History, 'langs' : {} }
 //==========================
 //$lenth = file_get_contents("len.csv"); 
-$lenth = $MIS->{'all'}; 
+$lenth = $MIS['all']; 
 $lenth2 = number_format($lenth); 
 //==========================
 //$date = '15-05-2021';
-$date = $MIS->{'date'}; 
+$date = $MIS['date']; 
 //==========================
 //==========================
 $Table = array(); 
-$langs = $MIS->{'langs'}; 
+$langs = $MIS['langs']; 
 //--------------------
 foreach ( $langs as $code => $tabe ) {
     //$tabe = { 'missing' leeen :  , 'exists' : len( table[langs] ) };
-    $aaa = $tabe->{'missing'};
+    $aaa = $tabe['missing'];
     //$aaa = number_format( $aaa );
     $Table[$code] = $aaa;
 };
@@ -62,7 +62,8 @@ function Make_lang_table( $tabe ) {
         $langname = str_replace ( "($langcode) " , '' , $langname ) ;
         //--------------------
         $exists = bcsub($lenth , $missing);
-        $exists = $langs->{$langcode}->{'exists'}; 
+        // $exists = $langs->{$langcode}->{'exists'}; 
+        $exists = $langs[$langcode]['exists']; 
         //--------------------
         $text .= '
     <tr>
@@ -70,7 +71,7 @@ function Make_lang_table( $tabe ) {
         <td>' . $langcode . '</td>
         <td><a target="" href="https://' . $langcode . '.wikipedia.org">' . $langname . '</a></td>
         <td>' . $exists . '</td>
-        <td><a target="" href="index.php?cat=RTT&depth=1&proj1=wiki&format=html&doit=Do+it&code='. $langcode .'">' . number_format($missing) . '</a></td>
+        <td><a target="" href="index.php?cat=RTT&depth=1&doit=Do+it&code='. $langcode .'&type=all">' . number_format($missing) . '</a></td>
     </tr>
         ';
     };

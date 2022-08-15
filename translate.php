@@ -58,9 +58,9 @@ if ($title_o != '' and $coden != '') {
     $user2  = rawurlencode(str_replace ( ' ' , '_' , $useree ));
     $cat2   = rawurlencode(str_replace ( ' ' , '_' , $cat ));
     //==========================
-    $word = $Words_table->{$title_o}; 
+    $word = $Words_table[$title_o]; 
     //--------------------
-    if ($Translat_type == 'all') { $word = $All_Words_table->{$title_o};  };
+    if ($Translat_type == 'all') { $word = $All_Words_table[$title_o];  };
     //--------------------
     $objDateTime = new DateTime('NOW');
     $date = $objDateTime->format('Y-m-d');

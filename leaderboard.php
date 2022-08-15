@@ -19,13 +19,17 @@ echo '
     }
   </style>';
 //==========================
-echo months_start();
-//==========================
-echo '<section>';
-//==========================
 $key_year = 'all';
 $get_year = $_REQUEST['year'];
 $get_month = $_REQUEST['month'];
+//==========================
+echo years_start();
+if ($get_year != '') {
+	echo months_start();
+};
+//==========================
+echo '<section>';
+//==========================
 //==========================
 if ($get_year != '') {    $key_year = $get_year;  };
 //========================== padding: 2px 0 2px 5px;

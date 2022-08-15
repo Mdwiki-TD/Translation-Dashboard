@@ -53,7 +53,7 @@ function make_td($tabg,$nnnn) {
     //--------------------
     $ccat = make_cat_url( $cat );
     //--------------------
-    $worde = isset($word) ? $word : $Words_table->{$md_title};
+    $worde = isset($word) ? $word : $Words_table[$md_title];
     //--------------------
     $nana = make_mdwiki_title( $md_title );
     //--------------------
@@ -207,7 +207,7 @@ foreach ( $dd_Pending AS $title=> $kk ) {
     $word     = $kk['word'];
     $lang2    = isset($lang2) ? $lang2 : $lange;
     //--------------------
-    $worde = isset($word) ? $word : $Words_table->{$md_title};
+    $worde = isset($word) ? $word : $Words_table[$md_title];
     $nana = make_mdwiki_title( $md_title );
     print '
         <tr>

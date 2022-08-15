@@ -55,7 +55,7 @@ function make_td($tabg,$nnnn) {
     //--------------------
     $ccat = make_cat_url( $cat );
     //--------------------
-    $worde = isset($word) ? $word : $Words_table->{$md_title};
+    $worde = isset($word) ? $word : $Words_table[$md_title];
     //--------------------
     $nana = make_mdwiki_title( $md_title );
     //--------------------
@@ -68,9 +68,10 @@ function make_td($tabg,$nnnn) {
         $tran_type = 'Whole article';
     };
     //--------------------
+    $year = substr($pupdate,0,4);
     //--------------------
     $laly = '
-        <tr>
+        <tr class="filterDiv show2 ' . $year . '">
             <td>' . $nnnn   . '</td>
             <td><a target="" href="langs.php?langcode=' . $llang . '">' . $lang2 . '</a>' . '</td>
             <td>' . $nana  . '</td>
@@ -157,6 +158,9 @@ foreach ( $dd AS $tat => $tabe ) {
 //--------------------
 $sato .= '
     </table>';
+//--------------------
+require("filter-table.php");
+//--------------------
 print $sato;
 print "
 </div>";
@@ -202,7 +206,7 @@ foreach ( $dd_Pending AS $title=> $kk ) {
     $word     = $kk['word'];
     $lang2    = isset($lang2) ? $lang2 : $lange;
     //--------------------
-    $worde = isset($word) ? $word : $Words_table->{$md_title};
+    $worde = isset($word) ? $word : $Words_table[$md_title];
     $nana = make_mdwiki_title( $md_title );
     print '
         <tr>

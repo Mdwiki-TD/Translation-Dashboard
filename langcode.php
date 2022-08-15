@@ -342,6 +342,5 @@ $code_to_lang = array();
 foreach ( $lang_to_code AS $lange => $cod ) {
     $code_to_lang[$cod] = $lange ;
     // $code_to_lang[str_replace ( "($cod) " , "$cod: " , $lange )] = $lange ;
-    //$code_to_lang->{$cod} = $lange ;
 };
 ?>

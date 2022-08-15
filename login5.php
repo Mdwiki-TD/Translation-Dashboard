@@ -538,7 +538,7 @@ function doApiQuery( $post, &$ch = null ) {
         echo 'Curl error: ' . htmlspecialchars( curl_error( $ch ) );
         exit(0);
     }
-    $ret = json_decode( $data );
+    $ret = json_decode( $data, true );
     if ( $ret === null ) {
         header( "HTTP/1.1 $errorCode Internal Server Error" );
         echo 'Unparsable API response: <pre>' . htmlspecialchars( $data ) . '</pre>';

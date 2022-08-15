@@ -13,19 +13,23 @@
     //----------------
     // require('login5.php');
     include_once('login5.php');
-    //---------------- 
-    $old = '
-    <script src="https://tools-static.wmflabs.org/cdnjs/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-    <script src="/bootstrap1.min.js"></script>
-    <link href="../bootstrap.min.css" rel="stylesheet">';
-    //---------------- 
-    $new = '
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    //----------------
+    $new= '
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js"></script>
     ';
     //---------------- 
+    if ($_REQUEST['bs5'] != '') {
+        $new = '
+        <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+        ';
+    };
+    //---------------- 
     if ( $_SERVER['SERVER_NAME'] == 'localhost' ) { 
+        echo '<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>';
         echo $new;
     } else {
         echo ' 
@@ -35,110 +39,105 @@
     ';
     };
     //----------------
-    echo '<span id="myusername" style="display:none">' . $username . '</span>';
+    echo '<span id="myusername" style="display:none">' . $username . '</span>
+    ';
     //----------------
 ?>
-    <style>
-        .alignleft{text-align:left; vertical-align: middle}
-        .alignright{text-align:right; vertical-align: middle}
-        .aligncenter{text-align:center; vertical-align: middle}
-        body {
-            padding-bottom:10px;
-            padding-top:10px;
-            padding-right:30px;
-            padding-left:30px;
-        }
-        .menu {
-            font-size: 100%;
-            letter-spacing: 0.04em;
-            font-weight: bold;
-            padding: 0px 0px 0px 0px;
-            height: 20px;
-            white-space: nowrap;
-            text-align: center;
-        }
-        .menu_item {
-            padding: 0px 0px;
-            margin: 2px 20px;
-            line-height: 20px;
-            font-weight: bold;
-            border-radius: 2px;
-        }
+<style>
+    .alignleft{text-align:left; vertical-align: middle}
+    .alignright{text-align:right; vertical-align: middle}
+    .aligncenter{text-align:center; vertical-align: middle}
+    body {
+        padding-bottom:10px;
+        padding-top:10px;
+        padding-right:30px;
+        padding-left:30px;
+    }
+    .menu {
+        font-size: 100%;
+        letter-spacing: 0.04em;
+        font-weight: bold;
+        padding: 0px 0px 0px 0px;
+        height: 20px;
+        white-space: nowrap;
+        text-align: center;
+    }
+    .menu_item {
+        padding: 0px 0px;
+        margin: 2px 20px;
+        line-height: 20px;
+        font-weight: bold;
+        border-radius: 2px;
+    }
 
-        .colsm5{
-            text-align: center;
-            position: relative;
-            min-height: 1px;
-            padding-right: 1px;
-            padding-left: 1px
+    .colsm5{
+        text-align: center;
+        position: relative;
+        min-height: 1px;
+        padding-right: 1px;
+        padding-left: 1px
+    }
+    .mainindex{
+        margin-right:20px;
+        margin-left:20px;
+    }
+    .medlogo {
+        width: 200px;
+        height: auto;
+    }
+    .spannowrap {
+        white-space: nowrap;
+    }
+    @media (max-width:768px) {
+        .spannowrap { 
+            white-space: normal;
         }
         .mainindex{
-			margin-right:20px;
-			margin-left:20px;
-		}
+            margin-right:5px;
+            margin-left:5px;
+        }
         .medlogo {
-            width: 200px;
+            width: 100px;
             height: auto;
+            float: right;
         }
-		.spannowrap {
-			white-space: nowrap;
-		}
-        @media (max-width:768px) {
-			.spannowrap { 
-                white-space: normal;
-            }
-			.mainindex{
-				margin-right:5px;
-				margin-left:5px;
-			}
-            .medlogo {
-                width: 100px;
-                height: auto;
-                float: right;
-            }
-            body {
-                padding-right:10px;
-                padding-left:10px;
-            }
-            .container {
-                padding-right:5px;
-                padding-left:5px;
-            }
-            .panel-body {
-                padding: 5px;
-            }
-            .colsm5{
-                float: left
-            }
-			
-			.menu_item2 {
-				display: inline-block;
-				padding: 0px 0px;
-				margin: 2px 5px;
-				line-height: 20px;
-				font-weight: bold;
-				background-color: #fff;
-				border-radius: 2px;
-			}
+        body {
+            padding-right:10px;
+            padding-left:10px;
         }
+        .container {
+            padding-right:5px;
+            padding-left:5px;
+        }
+        .panel-body {
+            padding: 5px;
+        }
+        .colsm5{
+            float: left
+        }
+        
+        .menu_item2 {
+            display: inline-block;
+            padding: 0px 0px;
+            margin: 2px 5px;
+            line-height: 20px;
+            font-weight: bold;
+            background-color: #fff;
+            border-radius: 2px;
+        }
+    }
 
-    </style>
+</style>
 </head>
 
 <body>
-<?php
-    if ($username == '') {
-        echo "
-    <form method='GET' action='login5.php' class='form-inline'>
-";
-    }
-?>
     <header>
         <nav class="navbar navbar-default">
             <div class="container-fluid">
 			    <div class="navbar-header">
                     <a class="navbar-brand" href='index.php' style="color:blue;">Wiki Project Med Translation Dashboard</a>
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-navigation" aria-expanded="false" wfd-invisible="true">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" 
+                    data-target="#main-navigation" aria-expanded="false" wfd-invisible="true">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -164,16 +163,17 @@
                     <ul class='nav navbar-nav navbar-right'>
                         <li>
                             <div id="logged" class="navbar-text" style="display:none">
-                                You are logged in as: <span id="user_name"></span>
+                                
                             </div>
                         </li>
                         <li>
                             <div id="loginli" class="navbar-text" >
-                                <button id="btnlogin" type='submit' class='btn btn-default' style="padding:2px;border:0px;" name='action' value='login'><span class='glyphicon glyphicon-log-in'></span> Login </button>
+                                <a class='btn btn-default' style="padding:2px;border:0px;" onclick="login()"><span class='glyphicon glyphicon-log-in'></span> Login </a>
                             </div>
                         </li>
                         <li>
                             <div id='logoutli' class="navbar-text" style="display:none">
+                                User: <span id="user_name"></span>
                                 <a id="logout-btn" href="index.php?action=logout">
                                     <span class="glyphicon glyphicon-log-out"></span> Logout
                                 </a>

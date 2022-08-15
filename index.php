@@ -6,18 +6,8 @@ require('langcode.php');
 // include_once('functions.php');
 require('functions.php');
 //--------------------
-$python3 = 'python3';
-$projects_dirr = '/mnt/nfs/labstore-secondary-tools-project';
-//--------------------
-if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost') { 
-    $projects_dirr = '/master';
-    $python3 = 'python';
-};
-//--------------------
 $doit = isset($_REQUEST['doit']);
 $test = $_REQUEST['test'];
-//--------------------
-$prefilled_requests = [] ;
 //--------------------
 $code = $_REQUEST['code'];
 $code = $lang_to_code[$code] != '' ? $lang_to_code[$code] : $code;
@@ -68,16 +58,18 @@ function print_form_start() {
     $d .= make_datalist($lang_to_code,$code_lang_name,$code);
     // make_drop($lang_to_code,$code);
     //--------------------
+    $err = '';
+    //--------------------
     if ($code_lang_name == '' and $code != '') { 
-        $d .= "
-            <span style='font-size:13pt;color:red'> code ($code) not valid wiki.</span>";
+        $err = "code ($code) not valid wiki.";
     } elseif ( $code == '' and $doit != '' ) { 
-            $d .= "
-            <span style='font-size:13pt;color:red'> enter wiki code.</span>";
-        } else {
-        if ($code != '') {
-            $_SESSION['code'] = $code;
-        };
+        $err = "enter wiki code.";
+    } else {
+        if ($code != '') { $_SESSION['code'] = $code; };
+    };
+    //--------------------
+    if ($err != '') {
+        $d .= " <span style='font-size:13pt;color:red'> $err </span>";
     };
     // -------------
     $d .= "
@@ -97,7 +89,7 @@ function print_form_start() {
     ";
     // -------------
     if ( $username != '' ) {
-        $d .= '<input type="submit" name="doit" class="btn w3-button w3-round-large w3-blue" value="Do it"/>';
+        $d .= '<input type="submit" name="doit" class="btn btn-primary" value="Do it"/>';
     } else {
         $d .= '<button type="submit" class="btn btn-default" name="action" value="login"><span class="glyphicon glyphicon-log-in"></span> Login </button>';
     };  
@@ -160,7 +152,7 @@ function make_table( $items , $cod , $cat ) {
     foreach ( $items AS $t ) {
         $t = str_replace ( '_' , ' ' , $t );
         //--------------------
-        $aa = $Assessments_table->{$t}; 
+        $aa = $Assessments_table[$t]; 
         //--------------------
         $kry = $Assessments_fff[$aa] != '' ? $Assessments_fff[$aa] : $Assessments_fff['Unknown'];
         //--------------------
@@ -186,16 +178,16 @@ function make_table( $items , $cod , $cat ) {
             $urle = "//mdwiki.org/wiki/$title2";
             $urle = str_replace ( '+' , '_' , $urle );
             //--------------------
-            $word = $Words_table->{$title}; 
+            $word = $Words_table[$title]; 
             //--------------------
-            $refs = $Lead_Refs_table->{$title}; 
+            $refs = $Lead_Refs_table[$title]; 
             //--------------------
             if ($Translate_type == 'all') { 
-                $word = $All_Words_table->{$title};
-                $refs = $All_Refs_table->{$title};
+                $word = $All_Words_table[$title];
+                $refs = $All_Refs_table[$title];
                 };
             //--------------------
-            $asse = $Assessments_table->{$title}; 
+            $asse = $Assessments_table[$title]; 
             if ( $asse == '' ) { $asse = 'Unknown'; }; 
             //--------------------
             $params = array(
@@ -208,10 +200,9 @@ function make_table( $items , $cod , $cat ) {
             $translate_url = 'translate.php?' . http_build_query($params);
             //--------------------
             if ( $username != '' ) {
-                // $tab = "<a href='translate.php?title=$title2&code=$cod&username=$username&cat=$cat2' class='w3-button w3-round-large w3-blue'>Translate</a>";
-                $tab = "<a href='" . $translate_url . "' class='w3-button w3-round-large w3-blue'>Translate</a>";
+                $tab = "<a href='" . $translate_url . "' class='btn btn-primary'>Translate</a>";
             } else {
-                $tab = "<a class='w3-button w3-round-large w3-red' href='login5.php?action=login'><span class='glyphicon glyphicon-log-in'></span> Login</a>";
+                $tab = "<a class='btn btn-danger' href='login5.php?action=login'><span class='glyphicon glyphicon-log-in'></span> Login</a>";
             };
             //--------------------
             $list .= "
@@ -277,31 +268,31 @@ function get_categorymembers( $cat ) {
     // if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost') { 
         //--------------------
         // $RTTtext = file_get_contents("cash/RTT.json");
-        // $RTT = json_decode ( $RTTtext ) ;
+        // $RTT = json_decode( $RTTtext ) ;
         //--------------------
         // $resa = doApiQuery_localhost( $params );
         // return $RTT->list;
         //--------------------
     // } else {
-    $resa = doApiQuery( $params , $ch );
+    $resa = doApiQuery( $params, $ch );
     // };
     //-------------------
     $items = array();
     //-------------------
-    $continue   = $resa->{"continue"};
-    $cmcontinue = $continue->{"cmcontinue"};// "continue":{"cmcontinue":"page|434c4f42415a414d|60836",
+    $continue   = $resa["continue"];
+    $cmcontinue = $continue["cmcontinue"];// "continue":{"cmcontinue":"page|434c4f42415a414d|60836",
     //-------------------
-    $query = $resa->{"query"};
-    $categorymembers = $query->{"categorymembers"};
+    $query = $resa["query"];
+    $categorymembers = $query["categorymembers"];
     $categorymembers = $categorymembers != '' ? $categorymembers : array();
     //-------------------
     // print htmlspecialchars( var_export( $categorymembers, 1 ) );
     //-------------------
     //
     foreach( $categorymembers as $pages ){
-        // echo( $pages->{"title"} . "\n" );
-        if ($pages->{"ns"} == 0 or $pages->{"ns"} == 14) {
-            $items[] = $pages->{"title"};
+        // echo( $pages["title"] . "\n" );
+        if ($pages["ns"] == 0 or $pages["ns"] == 14) {
+            $items[] = $pages["title"];
         };
     };
     //-------------------
@@ -400,13 +391,6 @@ function get_cat_members_with_php( $cat , $depth , $code , $test ) {
     //-------------------
     foreach( $members_to as $mr ) {
         //-----------------
-        // $mrno = $medwiki_to_enwiki->{$mr};
-        //-----------------
-        // $mrno = Get_it( $medwiki_to_enwiki, $mr );
-        // if ($mrno != '') { test_print("<br>mrno: $mrno");};
-        //-----------------
-        // $mrn = $mrno != '' ? $mrno : $mr;
-        //-----------------
         $members[] = $mr;
     }; 
     //-------------------
@@ -416,11 +400,20 @@ function get_cat_members_with_php( $cat , $depth , $code , $test ) {
     //-------------------
     test_print("get:textfile_csv:$textfile_csv");
     //-------------------
-    $text = file_get_contents($textfile_csv);
+    //$text = file_get_contents($textfile_csv);
+    //$exists = explode("\n",$text);
     //--------------------
-    $exists = explode("\n",$text);
+    $json_file = "cash/$code" . "_exists.json";
+    $exists = json_decode(file_get_contents($json_file), true);
     //--------------------
-    $missing = array_diff($members,$exists);
+    // $missing = array_diff($members,$exists);
+    $missing = array();
+    //--------------------
+    foreach( $members as $mem ) {
+        if (!in_array($mem,$exists)) {
+            $missing[] = $mem;
+        };
+    };
     //--------------------
     $exs_len = sizeof($members) - sizeof($missing);
     //--------------------
@@ -454,18 +447,18 @@ if ( $doit and $doit2 ) {
         // $items = get_cat_members_with_py( $cat , $depth , $code , $test ) ; # mdwiki pages in the cat
     // };
     //--------------------
-    $len_of_all = $items->{'len_of_all'} ? $items->{'len_of_all'} : $items['len_of_all'];
+    $len_of_all = $items['len_of_all'];
     $len_of_all = $len_of_all != '' ? $len_of_all : 0 ;
     
-    $len_of_exists_pages = $items->{'len_of_exists'} ? $items->{'len_of_exists'} : $items['len_of_exists'];
+    $len_of_exists_pages = $items['len_of_exists'];
     $len_of_exists_pages = $len_of_exists_pages != '' ? $len_of_exists_pages : 0 ;
     
-    $len_of_missing_pages = $items->{'len_of_missing'} ? $items->{'len_of_missing'} : $items['len_of_missing'];
+    $len_of_missing_pages = $items['len_of_missing'];
     $len_of_missing_pages = $len_of_missing_pages != '' ? $len_of_missing_pages : 0 ;
     //--------------------
     print "<h4>Find $len_of_all pages in categories, $len_of_exists_pages exists, and $len_of_missing_pages missing in (<a href='https://$code.wikipedia.org'>https://$code.wikipedia.org</a>)." ;
     //--------------------
-    $diff = $items->{'diff'} ? $items->{'diff'} : $items['diff'];
+    $diff = $items['diff'];
     if ($diff != '' ) {
         print(" diff:($diff)");
     };
@@ -480,12 +473,12 @@ if ( $doit and $doit2 ) {
     //--------------------
     print "<h3>$res_line</h3>" ;
     //--------------------
-    $items_missing = $items->{'missing'} ? $items->{'missing'} : $items['missing'];
+    $items_missing = $items['missing'];
     $table = make_table( $items_missing , $code , $cat ) ;
     //--------------------
     print $table ;
     //--------------------
-    $misso  = $items->{'misso'} ? $items->{'misso'} : $items['misso'];
+    $misso  = $items['misso'];
     if ($misso != '') {
         print "<h3>pages exists in mdwiki and missing in enwiki:</h3>" ;
         $table3 = make_table( $misso , $code , $cat ) ;
@@ -493,7 +486,7 @@ if ( $doit and $doit2 ) {
     };
     //--------------------
     if ($test != '') {
-        $enwiki_missing = $items->{'enwiki_missing'};
+        $enwiki_missing = $items['enwiki_missing'];
         $table2 = make_table( $enwiki_missing , $code , $cat ) ;
         print $table2 ;
     };

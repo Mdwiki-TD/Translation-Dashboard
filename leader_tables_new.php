@@ -228,11 +228,16 @@ function ma_Numbers_table($uu) {
     </tr>
     ';
     //--------------------
-    $Numbers_table .= '<tr><td><b>Users</b></td><td>' .     count($sql_users_tab[$uu])           . '</td></tr>';
-    $Numbers_table .= '<tr><td><b>Articles</b></td><td>' .  number_format($Articles_number[$uu]) . '</td></tr>';
-    $Numbers_table .= '<tr><td><b>Words</b></td><td>' .     number_format($Words_total[$uu])     . '</td></tr>';
-    $Numbers_table .= '<tr><td><b>Languages</b></td><td>' . count($sql_Languages_tab[$uu])       . '</td></tr>';
-    $Numbers_table .= '<tr><td><b>Pageviews</b></td><td>' . number_format($global_views[$uu])    . '</td></tr>';
+    $Numbers_table .= '<tr><td><b>Users</b></td><td>' .     count($sql_users_tab[$uu])           . '</td></tr>
+    ';
+    $Numbers_table .= '<tr><td><b>Articles</b></td><td>' .  number_format($Articles_number[$uu]) . '</td></tr>
+    ';
+    $Numbers_table .= '<tr><td><b>Words</b></td><td>' .     number_format($Words_total[$uu])     . '</td></tr>
+    ';
+    $Numbers_table .= '<tr><td><b>Languages</b></td><td>' . count($sql_Languages_tab[$uu])       . '</td></tr>
+    ';
+    $Numbers_table .= '<tr><td><b>Pageviews</b></td><td>' . number_format($global_views[$uu])    . '</td></tr>
+    ';
     $Numbers_table .= '</table>';
     //--------------------
     return $Numbers_table;
@@ -360,10 +365,13 @@ function Make_Pinding_table() {
             //--------------------
             if ($pinde > 0 ) {
                 //--------------------
-                $text .= '<tr>
-                <td><a href="users.php?user=' . $use . '">' . $user . '</a></td>
-                <td>' . $pinde . '</td>';
-                $text .= '</tr>';
+                $text .= '
+                <tr>
+                    <td><a href="users.php?user=' . $use . '">' . $user . '</a></td>
+                    <td>' . $pinde . '</td>';
+                $text .= '
+                </tr>
+                ';
             };
         };
     };

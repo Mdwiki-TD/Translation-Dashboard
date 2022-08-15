@@ -12,15 +12,6 @@ if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost') {
 };
 //--------------------
 $test = $_REQUEST['test'];
-//-------------------- 
-/*
-$prefilled_requests = [] ;
-//-------------------- 
-function get_request ( $key , $default = "" )  {
-    if ( isset ( $prefilled_requests[$key] ) ) return $prefilled_requests[$key] ;
-    if ( isset ( $_REQUEST[$key] ) ) return str_replace ( "\'" , "'" , $_REQUEST[$key] ) ;
-    return $default ;
-};*/
 //==========================
 function doApiQuery_localhost( $params ) {
     $endPoint = "https://"."mdwiki.org/w/api.php";
@@ -41,11 +32,11 @@ function doApiQuery_localhost( $params ) {
 function get_cat_from_cach( $cat ) {
     $RTTtext = file_get_contents("cash/$cat.json");
     //--------------------
-    $RTT = json_decode( $RTTtext );
+    $RTT = json_decode( $RTTtext, true );
     //--------------------
-    $liste = $RTT->list;
+    $liste = $RTT['list'];
     //--------------------
-    test_print("<br>get_cat_from_cach: liste size:" . sizeof($liste) );
+    test_print("<br>get_cat_from_cach: list lenth:" . sizeof($liste) );
     //--------------------
     return $liste;
     //--------------------
@@ -179,56 +170,46 @@ function quary2($quae) {
 //--------------------
 $my_years = array();
 //--------------------
+$years_q = "select
+CONCAT(left(pupdate,4)) as year
+from pages where pupdate != ''
+group by left(pupdate,4)
+;";
+$years = quary2($years_q);
+//----
+foreach ( $years AS $Key => $table ) {
+	$year = $table['year'];
+	$my_years[] = $year;
+};
+//--------------------
 function years_start() {
     //--------------------
     global $my_years;
-    //--------------------
-    $years_q = "select
-    CONCAT(left(pupdate,4)) as year
-    from pages where pupdate != ''
-    group by left(pupdate,4)
-    ;";
-    $years = quary2($years_q);
-    //----
-    /*if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost') { 
-        $years = array ( 0 => array ( 'year' => '2021', 0 => '2021', ), 1 => array ( 'year' => '2022', 0 => '2022', ), );
-    };*/
-    //----
-    $f = 0;
-    //----
 	$tt = '';
-    //----
-    $lines_1 = '';
-    $lines = '<ul class="nav nav-tabs">
-    <li></li>
-    <li></li>
-    <li></li>
-    ';
     //----
     $y_req = $_REQUEST['year'];
     //----
-    $active_done = false;
+    $lines_1 = '';
+	$activeold = "";
+	//--------------
+	if ( $y_req == '' ) {
+        $activeold = "active";
+    };
+	//--------------
+    $lines = "<ul class='nav nav-tabs'>
+	<li class='menu_item $activeold'><a style='padding: 10px 70px;' href='leaderboard.php'>All</a></li>
+    ";
     //----
-    foreach ( $years AS $Key => $table ) {
-        //--------------------------
-        $year = $table['year'];
-        $my_years[] = $year;
-        //--------------------------
-        if ( $f != 0) { $tt = ' - ';};
-		$f = $f + 1;
+    foreach ( $my_years AS $Key => $year ) {
         //--------------------------
         $url = "<a href='leaderboard.php?year=$year'>$year</a>";
-        $lines_1 .= "$tt<div class='menu_item'>$url</div>";
         //--------------------------
         $active = '';
-        if ( $active_done == false ) {
-           if ( $y_req == $year or $y_req == '' ) {
+        if ( $y_req == $year ) {
             $active = 'active';
-            $active_done = true;
-         };
         };
         //--------------------------
-        $lines .= "<li class='menu_item $active'><a href='leaderboard.php?year=$year'>$year</a></li>";
+        $lines .= "<li class='menu_item $active'><a style='padding: 10px 70px;' href='leaderboard.php?year=$year'>$year</a></li>";
         //--------------------------
         $lines .= "
     ";
@@ -248,9 +229,7 @@ function months_start() {
     //--------------------
     global $my_years;
     //--------------------
-    $y_line = years_start();
-    //--------------------
-    $calendar = 'calendarm.php';
+    $calendar = 'calendar.php';
     //--------------------
     $months_qu = "select
     CONCAT(left(pupdate,7)) as month, CONCAT(left(pupdate,4)) as year
@@ -294,7 +273,8 @@ function months_start() {
                 $line = $months_urls[$month_y];
             };
             //-----------------------------
-            $lines_by_year[$year] .= "<div class='col-sm-1 menu_item2 colsm5'>$line</div>";
+            $lines_by_year[$year] .= "<div class='col-sm-1 menu_item2 colsm5'>$line</div>
+                ";
             //-----------------------------
             $lines_by_year_ul[$year] .= "<li>$line</li>";
             //-----------------------------
@@ -314,7 +294,6 @@ function months_start() {
         
     }
     $texte = "
-    $y_line
     <div class='panel panel-default' style='font-weight: bold;'>
             <div class='panel-body'>
                 $months_lines
@@ -322,11 +301,9 @@ function months_start() {
     </div>
     ";
     //--------------------
-    //--------------------
     $months_lines_ul = implode('<br>', $lines_by_year_ul);
     //--------------------
     $texte_ul = "
-    $y_line
     <ul class='nav nav-pills'>
         $months_lines_ul
     </ul>

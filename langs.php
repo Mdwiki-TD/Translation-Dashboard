@@ -127,8 +127,11 @@ function make_td_na($tabb,$number) {
         $tran_type = 'Whole article';
     };
     //--------------------
+    //--------------------
+    $year = substr($date,0,4);
+    //--------------------
     $laly = '
-    <tr>
+    <tr class="filterDiv show2 ' . $year . '">
         <td>' . $number . '</td>
         <td><a target="" href="users.php?user=' . $use . '"><span style="white-space: nowrap;">' . $user . '</span></a>' . '</td>
         <td>' . $nana . '</td>
@@ -167,6 +170,9 @@ foreach ( $mamo AS $uuu => $tabb ) {
 };
 //--------------------
 $lalo .= '</table>';
+//--------------------
+require("filter-table.php");
+//--------------------
 print $lalo;
 //--------------------
 //==========================
