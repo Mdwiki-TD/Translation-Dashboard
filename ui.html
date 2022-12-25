@@ -1,0 +1,408 @@
+
+<!DOCTYPE html>
+<HTML lang=en dir=ltr xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+    <meta name="robots" content="noindex">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Wiki Project Med Translation Dashboard</title>
+    <script src='https://tools-static.wmflabs.org/cdnjs/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
+    <script src="https://tools-static.wmflabs.org/cdnjs/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+	<script src="https://tools-static.wmflabs.org/cdnjs/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
+    <script src='https://tools-static.wmflabs.org/cdnjs/ajax/libs/bootstrap/4.6.0/js/bootstrap.min.js'></script>
+
+    <link href='https://tools-static.wmflabs.org/cdnjs/ajax/libs/bootstrap/4.6.0/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
+    <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://tools-static.wmflabs.org/cdnjs/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+
+
+</head>
+<style>fieldset {
+    border: 1px solid blue;
+    width: 360px;
+    border-radius: 5px;
+  }
+  
+  legend, label{
+    color: blue; 
+    font-size: 24px;
+    font-family: sans-serif;
+  }
+  
+  input {
+    font-size: 18px;
+    padding: 5px;
+    height: 35px;
+    width: 350px;
+    border: 1px solid blue;
+    outline: none;
+    border-radius: 5px;
+    color: blue;
+  /*   border-bottom: none; */
+  }
+  datalist {
+    position: absolute;
+    background-color: white;
+    border: 1px solid blue;
+    border-radius: 0 0 5px 5px;
+    border-top: none;
+    font-family: sans-serif;
+    width: 350px;
+    padding: 5px;
+    max-height: 10rem;
+    overflow-y: auto
+    
+  }
+  
+  option {
+    background-color: white;
+    padding: 4px;
+    color: blue;
+    margin-bottom: 1px;
+     font-size: 18px;
+    cursor: pointer;
+  }
+  
+  option:hover,  .active{
+    background-color: lightblue;
+  }</style>
+<body>
+    <div class="panel panel-default">
+        <div class="panel-heading aligncenter" style="font-size:110%;font-weight:bold;"></div>
+        <div class="panel-body" style="padding:50px 50px 50px 50px;">
+            <fieldset>
+                <legend>
+                Datalist Form
+                </legend>
+            <input autocomplete="off" role="combobox" list="" id="code" name="code" placeholder="Select your fav browser">
+                <datalist id="Languages" role="listbox">
+                    <option value='aa'>(aa) Afar</option>
+                    <option value='ab'>(ab) Аԥсуа</option>
+                    <option value='ace'>(ace) Basa Acèh</option>
+                    <option value='ady'>(ady) Адыгэбзэ</option>
+                    <option value='af'>(af) Afrikaans</option>
+                    <option value='ak'>(ak) Akana</option>
+                    <option value='als'>(als) Alemannisch</option>
+                    <option value='alt'>(alt) Алтай</option>
+                    <option value='am'>(am) አማርኛ</option>
+                    <option value='an'>(an) Aragonés</option>
+                    <option value='ang'>(ang) Englisc</option>
+                    <option value='ar'>(ar) العربية</option>
+                    <option value='as'>(as) অসমীয়া</option>
+                    <option value='ast'>(ast) Asturianu</option>
+                    <option value='atj'>(atj) Atikamekw</option>
+                    <option value='av'>(av) Авар</option>
+                    <option value='avk'>(avk) Kotava</option>
+                    <option value='awa'>(awa) अवधी</option>
+                    <option value='ay'>(ay) Aymar</option>
+                    <option value='az'>(az) Azərbaycanca</option>
+                    <option value='azb'>(azb) تۆرکجه</option>
+                    <option value='ba'>(ba) Башҡорт</option>
+                    <option value='ban'>(ban) Bali</option>
+                    <option value='bar'>(bar) Boarisch</option>
+                    <option value='bat-smg'>(bat-smg) Žemaitėška</option>
+                    <option value='bcl'>(bcl) Bikol</option>
+                    <option value='be'>(be) Беларуская</option>
+                    <option value='be-tarask'>(be-tarask) Беларуская (тарашкевіца)</option>
+                    <option value='bg'>(bg) Български</option>
+                    <option value='bh'>(bh) भोजपुरी</option>
+                    <option value='bi'>(bi) Bislama</option>
+                    <option value='bjn'>(bjn) Bahasa Banjar</option>
+                    <option value='bm'>(bm) Bamanankan</option>
+                    <option value='bn'>(bn) বাংলা</option>
+                    <option value='bo'>(bo) བོད་སྐད</option>
+                    <option value='bpy'>(bpy) ইমার ঠার/বিষ্ণুপ্রিয়া মণিপুরী</option>
+                    <option value='br'>(br) Brezhoneg</option>
+                    <option value='bs'>(bs) Bosanski</option>
+                    <option value='bug'>(bug) Basa Ugi</option>
+                    <option value='bxr'>(bxr) Буряад</option>
+                    <option value='ca'>(ca) Català</option>
+                    <option value='cbk-zam'>(cbk-zam) Chavacano de Zamboanga</option>
+                    <option value='cdo'>(cdo) Mìng-dĕ̤ng-ngṳ̄</option>
+                    <option value='ce'>(ce) Нохчийн</option>
+                    <option value='ceb'>(ceb) Sinugboanong Binisaya</option>
+                    <option value='ch'>(ch) Chamoru</option>
+                    <option value='cho'>(cho) Choctaw</option>
+                    <option value='chr'>(chr) ᏣᎳᎩ</option>
+                    <option value='chy'>(chy) Tsetsêhestâhese</option>
+                    <option value='ckb'>(ckb) Soranî / کوردی</option>
+                    <option value='co'>(co) Corsu</option>
+                    <option value='cr'>(cr) Nehiyaw</option>
+                    <option value='crh'>(crh) Qırımtatarca</option>
+                    <option value='cs'>(cs) Čeština</option>
+                    <option value='csb'>(csb) Kaszëbsczi</option>
+                    <option value='cu'>(cu) Словѣньскъ</option>
+                    <option value='cv'>(cv) Чăваш</option>
+                    <option value='cy'>(cy) Cymraeg</option>
+                    <option value='da'>(da) Dansk</option>
+                    <option value='de'>(de) Deutsch</option>
+                    <option value='din'>(din) Thuɔŋjäŋ</option>
+                    <option value='diq'>(diq) Zazaki</option>
+                    <option value='dsb'>(dsb) Dolnoserbski</option>
+                    <option value='dty'>(dty) डोटेली</option>
+                    <option value='dv'>(dv) ދިވެހިބަސް</option>
+                    <option value='dz'>(dz) ཇོང་ཁ</option>
+                    <option value='ee'>(ee) Eʋegbe</option>
+                    <option value='el'>(el) Ελληνικά</option>
+                    <option value='eml'>(eml) Emiliàn e rumagnòl</option>
+                    <option value='en'>(en) English</option>
+                    <option value='eo'>(eo) Esperanto</option>
+                    <option value='es'>(es) Español</option>
+                    <option value='et'>(et) Eesti</option>
+                    <option value='eu'>(eu) Euskara</option>
+                    <option value='ext'>(ext) Estremeñu</option>
+                    <option value='fa'>(fa) فارسی</option>
+                    <option value='ff'>(ff) Fulfulde</option>
+                    <option value='fi'>(fi) Suomi</option>
+                    <option value='fiu-vro'>(fiu-vro) Võro</option>
+                    <option value='fj'>(fj) Na Vosa Vakaviti</option>
+                    <option value='fo'>(fo) Føroyskt</option>
+                    <option value='fr'>(fr) Français</option>
+                    <option value='frp'>(frp) Arpetan</option>
+                    <option value='frr'>(frr) Nordfriisk</option>
+                    <option value='fur'>(fur) Furlan</option>
+                    <option value='fy'>(fy) Frysk</option>
+                    <option value='ga'>(ga) Gaeilge</option>
+                    <option value='gag'>(gag) Gagauz</option>
+                    <option value='gan'>(gan) 贛語</option>
+                    <option value='gcr'>(gcr) Kriyòl Gwiyannen</option>
+                    <option value='gd'>(gd) Gàidhlig</option>
+                    <option value='gl'>(gl) Galego</option>
+                    <option value='glk'>(glk) گیلکی</option>
+                    <option value='gn'>(gn) Avañe'ẽ</option>
+                    <option value='gom'>(gom) गोंयची कोंकणी / Gõychi Konknni</option>
+                    <option value='gor'>(gor) Hulontalo</option>
+                    <option value='got'>(got) 𐌲𐌿𐍄𐌹𐍃𐌺</option>
+                    <option value='gu'>(gu) ગુજરાતી</option>
+                    <option value='gv'>(gv) Gaelg</option>
+                    <option value='ha'>(ha) Hausa / هَوُسَ</option>
+                    <option value='hak'>(hak) Hak-kâ-fa / 客家話</option>
+                    <option value='haw'>(haw) Hawaiʻi</option>
+                    <option value='he'>(he) עברית</option>
+                    <option value='hi'>(hi) हिन्दी</option>
+                    <option value='hif'>(hif) Fiji Hindi</option>
+                    <option value='ho'>(ho) Hiri Motu</option>
+                    <option value='hr'>(hr) Hrvatski</option>
+                    <option value='hsb'>(hsb) Hornjoserbsce</option>
+                    <option value='ht'>(ht) Krèyol ayisyen</option>
+                    <option value='hu'>(hu) Magyar</option>
+                    <option value='hy'>(hy) Հայերեն</option>
+                    <option value='hyw'>(hyw) Արեւմտահայերէն</option>
+                    <option value='hz'>(hz) Otsiherero</option>
+                    <option value='ia'>(ia) Interlingua</option>
+                    <option value='id'>(id) Bahasa Indonesia</option>
+                    <option value='ie'>(ie) Interlingue</option>
+                    <option value='ig'>(ig) Ìgbò</option>
+                    <option value='ii'>(ii) ꆇꉙ</option>
+                    <option value='ik'>(ik) Iñupiatun</option>
+                    <option value='ilo'>(ilo) Ilokano</option>
+                    <option value='inh'>(inh) ГӀалгӀай</option>
+                    <option value='io'>(io) Ido</option>
+                    <option value='is'>(is) Íslenska</option>
+                    <option value='it'>(it) Italiano</option>
+                    <option value='iu'>(iu) ᐃᓄᒃᑎᑐᑦ</option>
+                    <option value='ja'>(ja) 日本語</option>
+                    <option value='jam'>(jam) Jumiekan Kryuol</option>
+                    <option value='jbo'>(jbo) Lojban</option>
+                    <option value='jv'>(jv) Basa Jawa</option>
+                    <option value='ka'>(ka) ქართული</option>
+                    <option value='kaa'>(kaa) Qaraqalpaqsha</option>
+                    <option value='kab'>(kab) Taqbaylit</option>
+                    <option value='kbd'>(kbd) Адыгэбзэ (Adighabze)</option>
+                    <option value='kbp'>(kbp) Kabɩyɛ</option>
+                    <option value='kg'>(kg) Kikôngo</option>
+                    <option value='ki'>(ki) Gĩkũyũ</option>
+                    <option value='kj'>(kj) Kuanyama</option>
+                    <option value='kk'>(kk) Қазақша</option>
+                    <option value='kl'>(kl) Kalaallisut</option>
+                    <option value='km'>(km) ភាសាខ្មែរ</option>
+                    <option value='kn'>(kn) ಕನ್ನಡ</option>
+                    <option value='ko'>(ko) 한국어</option>
+                    <option value='koi'>(koi) Перем Коми (Perem Komi)</option>
+                    <option value='kr'>(kr) Kanuri</option>
+                    <option value='krc'>(krc) Къарачай-Малкъар (Qarachay-Malqar)</option>
+                    <option value='ks'>(ks) कश्मीरी / كشميري</option>
+                    <option value='ksh'>(ksh) Ripoarisch</option>
+                    <option value='ku'>(ku) Kurdî / كوردی</option>
+                    <option value='kv'>(kv) Коми</option>
+                    <option value='kw'>(kw) Kernowek/Karnuack</option>
+                    <option value='ky'>(ky) Кыргызча</option>
+                    <option value='la'>(la) Latina</option>
+                    <option value='lad'>(lad) Dzhudezmo</option>
+                    <option value='lb'>(lb) Lëtzebuergesch</option>
+                    <option value='lbe'>(lbe) Лакку</option>
+                    <option value='lez'>(lez) Лезги чІал (Lezgi č’al)</option>
+                    <option value='lfn'>(lfn) Lingua franca nova</option>
+                    <option value='lg'>(lg) Luganda</option>
+                    <option value='li'>(li) Limburgs</option>
+                    <option value='lij'>(lij) Lìgure</option>
+                    <option value='lld'>(lld) Lingaz</option>
+                    <option value='lmo'>(lmo) Lumbaart</option>
+                    <option value='ln'>(ln) Lingala</option>
+                    <option value='lo'>(lo) ລາວ</option>
+                    <option value='lrc'>(lrc) لۊری شومالی</option>
+                    <option value='lt'>(lt) Lietuvių</option>
+                    <option value='ltg'>(ltg) Latgaļu</option>
+                    <option value='lv'>(lv) Latviešu</option>
+                    <option value='mad'>(mad) Madhurâ</option>
+                    <option value='mai'>(mai) मैथिली</option>
+                    <option value='map-bms'>(map-bms) Basa Banyumasan</option>
+                    <option value='mdf'>(mdf) Мокшень (Mokshanj Kälj)</option>
+                    <option value='mg'>(mg) Malagasy</option>
+                    <option value='mh'>(mh) Ebon</option>
+                    <option value='mhr'>(mhr) Олык Марий (Olyk Marij)</option>
+                    <option value='mi'>(mi) Māori</option>
+                    <option value='min'>(min) Minangkabau</option>
+                    <option value='mk'>(mk) Македонски</option>
+                    <option value='ml'>(ml) മലയാളം</option>
+                    <option value='mn'>(mn) Монгол</option>
+                    <option value='mni'>(mni) ꯃꯤꯇꯩꯂꯣꯟ</option>
+                    <option value='mnw'>(mnw) မန်</option>
+                    <option value='mr'>(mr) मराठी</option>
+                    <option value='mrj'>(mrj) Кырык Мары (Kyryk Mary)</option>
+                    <option value='ms'>(ms) Bahasa Melayu</option>
+                    <option value='mt'>(mt) Malti</option>
+                    <option value='mus'>(mus) Muskogee</option>
+                    <option value='mwl'>(mwl) Mirandés</option>
+                    <option value='my'>(my) မြန်မာဘာသာ</option>
+                    <option value='myv'>(myv) Эрзянь (Erzjanj Kelj)</option>
+                    <option value='mzn'>(mzn) مَزِروني</option>
+                    <option value='na'>(na) dorerin Naoero</option>
+                    <option value='nah'>(nah) Nāhuatl</option>
+                    <option value='nap'>(nap) Nnapulitano</option>
+                    <option value='nds'>(nds) Plattdüütsch</option>
+                    <option value='nds-nl'>(nds-nl) Nedersaksisch</option>
+                    <option value='ne'>(ne) नेपाली</option>
+                    <option value='new'>(new) नेपाल भाषा</option>
+                    <option value='ng'>(ng) Ndonga</option>
+                    <option value='nia'>(nia) Li Niha</option>
+                    <option value='nl'>(nl) Nederlands</option>
+                    <option value='nn'>(nn) Nynorsk</option>
+                    <option value='no'>(no) Norsk (Bokmål)</option>
+                    <option value='nov'>(nov) Novial</option>
+                    <option value='nqo'>(nqo) ߒߞߏ</option>
+                    <option value='nrm'>(nrm) Nouormand/Normaund</option>
+                    <option value='nso'>(nso) Sepedi</option>
+                    <option value='nv'>(nv) Diné bizaad</option>
+                    <option value='ny'>(ny) Chichewa</option>
+                    <option value='oc'>(oc) Occitan</option>
+                    <option value='olo'>(olo) Karjalan</option>
+                    <option value='om'>(om) Oromoo</option>
+                    <option value='or'>(or) ଓଡ଼ିଆ</option>
+                    <option value='os'>(os) Иронау</option>
+                    <option value='pa'>(pa) ਪੰਜਾਬੀ</option>
+                    <option value='pag'>(pag) Pangasinan</option>
+                    <option value='pam'>(pam) Kapampangan</option>
+                    <option value='pap'>(pap) Papiamentu</option>
+                    <option value='pcd'>(pcd) Picard</option>
+                    <option value='pdc'>(pdc) Deitsch</option>
+                    <option value='pfl'>(pfl) Pälzisch</option>
+                    <option value='pi'>(pi) पाऴि</option>
+                    <option value='pih'>(pih) Norfuk</option>
+                    <option value='pl'>(pl) Polski</option>
+                    <option value='pms'>(pms) Piemontèis</option>
+                    <option value='pnb'>(pnb) شاہ مکھی پنجابی (Shāhmukhī Pañjābī)</option>
+                    <option value='pnt'>(pnt) Ποντιακά</option>
+                    <option value='ps'>(ps) پښتو</option>
+                    <option value='pt'>(pt) Português</option>
+                    <option value='qu'>(qu) Runa Simi</option>
+                    <option value='rm'>(rm) Rumantsch</option>
+                    <option value='rmy'>(rmy) romani - रोमानी</option>
+                    <option value='rn'>(rn) Ikirundi</option>
+                    <option value='ro'>(ro) Română</option>
+                    <option value='roa-rup'>(roa-rup) Armãneashce</option>
+                    <option value='roa-tara'>(roa-tara) Tarandíne</option>
+                    <option value='ru'>(ru) Русский</option>
+                    <option value='rue'>(rue) Русиньскый</option>
+                    <option value='rw'>(rw) Ikinyarwanda</option>
+                    <option value='sa'>(sa) संस्कृतम्</option>
+                    <option value='sah'>(sah) Саха тыла (Saxa Tyla)</option>
+                    <option value='sat'>(sat) ᱥᱟᱱᱛᱟᱲᱤ</option>
+                    <option value='sc'>(sc) Sardu</option>
+                    <option value='scn'>(scn) Sicilianu</option>
+                    <option value='sco'>(sco) Scots</option>
+                    <option value='sd'>(sd) سنڌي، سندھی ، सिन्ध</option>
+                    <option value='se'>(se) Sámegiella</option>
+                    <option value='sg'>(sg) Sängö</option>
+                    <option value='sh'>(sh) Srpskohrvatski / Српскохрватски</option>
+                    <option value='shn'>(shn) လိၵ်ႈတႆး</option>
+                    <option value='si'>(si) සිංහල</option>
+                    <option value='simple'>(simple) Simple English</option>
+                    <option value='sk'>(sk) Slovenčina</option>
+                    <option value='skr'>(skr) سرائیکی</option>
+                    <option value='sl'>(sl) Slovenščina</option>
+                    <option value='sm'>(sm) Gagana Samoa</option>
+                    <option value='smn'>(smn) Anarâškielâ</option>
+                    <option value='sn'>(sn) chiShona</option>
+                    <option value='so'>(so) Soomaali</option>
+                    <option value='sq'>(sq) Shqip</option>
+                    <option value='sr'>(sr) Српски / Srpski</option>
+                    <option value='srn'>(srn) Sranantongo</option>
+                    <option value='ss'>(ss) SiSwati</option>
+                    <option value='st'>(st) Sesotho</option>
+                    <option value='stq'>(stq) Seeltersk</option>
+                    <option value='su'>(su) Basa Sunda</option>
+                    <option value='sv'>(sv) Svenska</option>
+                    <option value='sw'>(sw) Kiswahili</option>
+                    <option value='szl'>(szl) Ślůnski</option>
+                    <option value='szy'>(szy) Sakizaya</option>
+                    <option value='ta'>(ta) தமிழ்</option>
+                    <option value='tay'>(tay) Tayal</option>
+                    <option value='tcy'>(tcy) ತುಳು</option>
+                    <option value='te'>(te) తెలుగు</option>
+                    <option value='tet'>(tet) Tetun</option>
+                    <option value='tg'>(tg) Тоҷикӣ</option>
+                    <option value='th'>(th) ไทย</option>
+                    <option value='ti'>(ti) ትግርኛ</option>
+                    <option value='tk'>(tk) Türkmen</option>
+                    <option value='tl'>(tl) Tagalog</option>
+                    <option value='tn'>(tn) Setswana</option>
+                    <option value='to'>(to) faka Tonga</option>
+                    <option value='tpi'>(tpi) Tok Pisin</option>
+                    <option value='tr'>(tr) Türkçe</option>
+                    <option value='trv'>(trv) Taroko</option>
+                    <option value='ts'>(ts) Xitsonga</option>
+                    <option value='tt'>(tt) Tatarça / Татарча</option>
+                    <option value='tum'>(tum) chiTumbuka</option>
+                    <option value='tw'>(tw) Twi</option>
+                    <option value='ty'>(ty) Reo Mā`ohi</option>
+                    <option value='tyv'>(tyv) Тыва</option>
+                    <option value='udm'>(udm) Удмурт кыл</option>
+                    <option value='ug'>(ug) ئۇيغۇر تىلى</option>
+                    <option value='uk'>(uk) Українська</option>
+                    <option value='ur'>(ur) اردو</option>
+                    <option value='uz'>(uz) O‘zbek</option>
+                    <option value='ve'>(ve) Tshivenda</option>
+                    <option value='vec'>(vec) Vèneto</option>
+                    <option value='vep'>(vep) Vepsän</option>
+                    <option value='vi'>(vi) Tiếng Việt</option>
+                    <option value='vls'>(vls) West-Vlams</option>
+                    <option value='vo'>(vo) Volapük</option>
+                    <option value='wa'>(wa) Walon</option>
+                    <option value='war'>(war) Winaray</option>
+                    <option value='wo'>(wo) Wolof</option>
+                    <option value='wuu'>(wuu) 吴语</option>
+                    <option value='xal'>(xal) Хальмг</option>
+                    <option value='xh'>(xh) isiXhosa</option>
+                    <option value='xmf'>(xmf) მარგალური (Margaluri)</option>
+                    <option value='yi'>(yi) ייִדיש</option>
+                    <option value='yo'>(yo) Yorùbá</option>
+                    <option value='za'>(za) Cuengh</option>
+                    <option value='zea'>(zea) Zeêuws</option>
+                    <option value='zh'>(zh) 中文</option>
+                    <option value='zh-classical'>(zh-classical) 古文 / 文言文</option>
+                    <option value='zh-min-nan'>(zh-min-nan) Bân-lâm-gú</option>
+                    <option value='zh-yue'>(zh-yue) 粵語</option>
+                    <option value='zu'>(zu) isiZulu</option>
+            </datalist>
+            </fieldset>
+        </form>
+
+</div>
+</div>
+</div>
+</body>
+</html>

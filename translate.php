@@ -1,13 +1,12 @@
 <?php
-//--------------------
+//---
 require('header.php');
 require('tables.php');
 include_once('functions.php');
-// require('translatephp.php');
-//--------------------
+//---
 $coden = strtolower($_REQUEST['code']);
 $title_o = $_REQUEST['title'];
-//--------------------
+//---
 $nana = "
 <div class='col-md-10 col-md-offset-1' align=left >
     <div class='ppre'>
@@ -18,61 +17,62 @@ $nana = "
     </form>
     </div>
     ";
-//--------------------
+//---
 function start_trans_py($title,$test,$fixref,$tra_type) {
-    //--------------------
+    //---
     $title2 = $title;
     $title2 = rawurlencode(str_replace ( ' ' , '_' , $title2 ) );
-    //--------------------
+    //---
     $dd = "python3 /mnt/nfs/labstore-secondary-tools-project/mdwiki/TDpy/translate.py -title:$title2" ;
     if ($fixref != '' ) $dd = $dd . ' fixref';
-    //--------------------  
+    //---  
     if ($tra_type == 'all' ) $dd = $dd . ' wholearticle';
-
-    //--------------------  
+    //---  
     if ($test != "") { print $dd . '<br>'; } ; 
-    //--------------------  
+    //---  
     $command = escapeshellcmd( $dd );
     $output = shell_exec($command);
-    //--------------------  
+    //---  
     return $output;
 };
-//--------------------
+//---
 if ($title_o != '' and $coden != '') {
-    //--------------------
-    $newaa = $_REQUEST['newaa'];
-    $useree = $_REQUEST['username'];
-    $cat = $_REQUEST['cat'];
-    $test = $_REQUEST['test'];
-    $fixref = $_REQUEST['fixref'];
-    $Translat_type  = $_REQUEST['type'];
-    //--------------------
+    //---
+    $newaa 	 = $_REQUEST['newaa'];
+    $useree  = $_REQUEST['username'];
+    $cat 	 = $_REQUEST['cat'];
+    $test 	 = $_REQUEST['test'];
+    $fixref  = $_REQUEST['fixref'];
+    $tr_type = $_REQUEST['type'];
+    //---
     $useree = rawurldecode($useree);
     $cat = rawurldecode($cat);
     $title_o = rawurldecode($title_o);
-    //--------------------
+    //---
     $title_o2 = $title_o;
     //$title_o2 = ucfirst(trim($title_o2));
     $title_o2 = rawurlencode(str_replace ( ' ' , '_' , $title_o2 ) );
-    //--------------------
+    //---
     $user2  = rawurlencode(str_replace ( ' ' , '_' , $useree ));
     $cat2   = rawurlencode(str_replace ( ' ' , '_' , $cat ));
-    //==========================
-    $word = $Words_table[$title_o]; 
-    //--------------------
-    if ($Translat_type == 'all') { $word = $All_Words_table[$title_o];  };
-    //--------------------
+    //===
+    $word = isset($Words_table[$title_o]) ? $Words_table[$title_o] : 0; 
+    //---
+    if ($tr_type == 'all') { 
+        $word = isset($All_Words_table[$title_o]) ? $All_Words_table[$title_o] : 0;
+    };
+    //---
     $objDateTime = new DateTime('NOW');
     $date = $objDateTime->format('Y-m-d');
-    //--------------------
+    //---
     $quae = "
 INSERT INTO pages (title, word, translate_type, cat, lang, date, user, target, pupdate)
-VALUES ('$title_o', '$word', '$Translat_type', '$cat', '$coden', '$date', '$useree', '', '')
+VALUES ('$title_o', '$word', '$tr_type', '$cat', '$coden', '$date', '$useree', '', '')
 ";
-    //--------------------
+    //---
     $quae_new = "
 INSERT INTO pages (title, word, translate_type, cat, lang, date, user, target, pupdate)
-    SELECT '$title_o', '$word', '$Translat_type', '$cat', '$coden', '$date', '$useree', '', ''
+    SELECT '$title_o', '$word', '$tr_type', '$cat', '$coden', '$date', '$useree', '', ''
     WHERE NOT EXISTS
         (SELECT 1
          FROM pages 
@@ -81,29 +81,29 @@ INSERT INTO pages (title, word, translate_type, cat, lang, date, user, target, p
                    AND user = '$useree'
         )
 ";
-    //--------------------
+    //---
     quary($quae_new);
-    //--------------------
-    //====================
+    //---
+    //===
     // if ($newaa != '') {
-        // $output = start_trans_php($title_o,$test,$fixref,$Translat_type);
+        // $output = start_trans_php($title_o,$test,$fixref,$tr_type);
     // } else {
-	$output = start_trans_py($title_o,$test,$fixref,$Translat_type);
+	$output = start_trans_py($title_o,$test,$fixref,$tr_type);
     // };
-    //--------------------
+    //---
     if (trim($output) == 'true') {
         $title_o2 = rawurlEncode($title_o);
-        //--------------------
+        //---
         $url = "//$coden.wikipedia.org/wiki/Special:ContentTranslation?page=User%3AMr.+Ibrahem%2F$title_o2";
         $url .= "&from=en&to=$coden&targettitle=$title_o2#draft";
-        //--------------------
+        //---
         if ($test != "") {
-            //--------------------
+            //---
             print $nana;
             print '<br>trim($output) == true<br>';
             print 'start_trans_py<br>';
             print $url;
-            //--------------------
+            //---
         } else {
             // =======================
             // header( "Location: " . $url );
@@ -119,17 +119,18 @@ INSERT INTO pages (title, word, translate_type, cat, lang, date, user, target, p
             // =======================
             print $zaza;
         };
-    //--------------------
+    //---
     } else {
         print $nana;
         print 'error..<br>';
         print $output;
     }
 };
-//--------------------
+//---
 echo '</div>';
-//--------------------
+if ($_REQUEST['test'] != '' ) echo "<br>load " . str_replace ( __dir__ , '' , __file__ ) . " true.";
+//---
 require('foter.php');
-    //--------------------
-//--------------------
+    //---
+//---
 ?>

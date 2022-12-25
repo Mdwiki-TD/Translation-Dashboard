@@ -1,0 +1,130 @@
+
+        thead th {
+        position: sticky;
+        top: 0;
+        background: #fff;
+        }
+        .alignleft{text-align:left; vertical-align: middle}
+        .alignright{text-align:right; vertical-align: middle}
+        .aligncenter{text-align:center; vertical-align: middle}
+        body {
+            padding-bottom:10px;
+            padding-top:10px;
+            padding-right:30px;
+            padding-left:30px;
+        }
+        .menu {
+            font-size: 100%;
+            letter-spacing: 0.04em;
+            font-weight: bold;
+            padding: 0px 0px 0px 0px;
+            height: 20px;
+            white-space: nowrap;
+            text-align: center;
+        }
+        .menu_item {
+            padding: 0px 0px;
+            margin: 2px 20px;
+            line-height: 20px;
+            font-weight: bold;
+            border-radius: 2px;
+        }
+
+        .colsm5{
+            text-align: center;
+            position: relative;
+            min-height: 1px;
+            padding-right: 1px;
+            padding-left: 1px
+        }
+        .mainindex{
+            margin-right:20px;
+            margin-left:20px;
+        }
+        .medlogo {
+            width: 200px;
+            height: auto;
+        }
+        .spannowrap {
+            white-space: nowrap;
+        }
+        @media (max-width:768px) {
+            .spannowrap { 
+                white-space: normal;
+            }
+            .mainindex{
+                margin-right:5px;
+                margin-left:5px;
+            }
+            .medlogo {
+                width: 100px;
+                height: auto;
+                float: right;
+            }
+            body {
+                padding-right:10px;
+                padding-left:10px;
+            }
+            .container {
+                padding-right:5px;
+                padding-left:5px;
+            }
+            .panel-body {
+                padding: 5px;
+            }
+            .colsm5{
+                float: left
+            }
+            
+            .menu_item2 {
+                display: inline-block;
+                padding: 0px 0px;
+                margin: 2px 5px;
+                line-height: 20px;
+                font-weight: bold;
+                background-color: #fff;
+                border-radius: 2px;
+            }
+        }
+    .shadow {
+        box-shadow: 0 .15rem 1.75rem 0 rgba(58,59,69,.15)!important;
+    }
+    .scrollbody {
+        display: block; /* makes it sizeable */
+        height: 330px; /* height of scrollable area */
+        overflow: auto; /* scroll rather than overflow */
+        width: 100%;
+    }
+    .scrollbody tbody td {width: 100%;  } /* fixed width for TDs */
+
+ fieldset {
+    border: 1px solid blue;
+    width: 360px;
+    border-radius: 5px;
+  }
+  
+	
+  .code_11 {
+    /* font-size: 18px; */
+    padding: 5px;
+    height: 35px;
+    width: 350px;
+    border: 1px solid;
+    /* outline: none; */
+    border-radius: 5px;
+    /* color: blue; */
+    /* border-bottom: none; */
+  }
+  .selectpickerr {
+    /* position: absolute; */
+    background-color: white;
+    border: 1px solid blue;
+    border-radius: 0 0 5px 5px;
+    border-top: none;
+    /* font-family: sans-serif; */
+    width: 350px;
+    padding: 5px;
+    max-height: 30rem;
+    overflow-y: auto
+    
+  }

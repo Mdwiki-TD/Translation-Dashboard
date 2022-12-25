@@ -1,4 +1,10 @@
 <?php
+if ($_GET['test'] != '') {
+    // echo(__file__);
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+};
 /**
 1: login with doAuthorizationRedirect();
  * Written in 2013 by Brad Jorsch
@@ -62,8 +68,9 @@ $inifile_mdwiki = '/data/project/mdwiki/OAuthConfig.ini';
 // ******************
 $inifile = $inifile_mdwiki;
 // ******************
-$teste = file_get_contents($inifile_mdwiki);
-if ( $teste != '' ) { 
+// $teste = file_get_contents($inifile_mdwiki);
+// if ( $teste != '' ) { 
+if ( strpos( __file__ , '/mnt/' ) === 0 ) {
     $inifile = $inifile_mdwiki;
 } else {
     $inifile = $inifile_local;
@@ -89,20 +96,20 @@ $gConsumerKey = $ini['consumerKey'];
 $gConsumerSecret = $ini['consumerSecret'];
 
 // Load the user token (request or access) from the session
-//==========================
+//===
 $username = '';
 if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost') { 
     $username = 'Mr. Ibrahem';
     // $username = '';
 };
-//==========================
+//===
 if(isset($_COOKIE['username'])) { $username = $_COOKIE['username']; };
-//==========================
+//===
 $gTokenKey = '';
 $gTokenSecret = '';
-//==========================
+//===
 session_start();
-//==========================
+//===
 if ( isset( $_SESSION['tokenKey'] ) ) {
     
     $gTokenKey = $_SESSION['tokenKey'];
@@ -114,9 +121,9 @@ if ( isset( $_SESSION['tokenKey'] ) ) {
     $gTokenSecret = $_COOKIE['tokenSecret'];
     
 };
-//==========================
+//===
 session_write_close();
-//==========================
+//===
 
 // Fetch the access token if this is the callback from requesting authorization
 // we get it after login
@@ -147,9 +154,19 @@ switch ( isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : '' ) {
 
     case 'logout':
         // session_unset();
-        setcookie('username', '', time() - 3600,'/','mdwiki.toolforge.org',true,true);
-        session_start();
+        // unset cookies
+        if (isset($_SERVER['HTTP_COOKIE'])) {
+            $cookies = explode(';', $_SERVER['HTTP_COOKIE']);
+            foreach($cookies as $cookie) {
+                $parts = explode('=', $cookie);
+                $name = trim($parts[0]);
+                // setcookie($name, '', time()-$twoYears);
+                setcookie($name, '', time()-$twoYears,'/','mdwiki.toolforge.org',true,true);
+            };
+        };
+        // session_start();
         
+        unset($_COOKIE['username']);
         unset($_SESSION["tokenKey"]);
         unset($_SESSION["tokenSecret"]);
         unset($username);
@@ -174,7 +191,7 @@ if ( $username != '' ) {
     print "<li><a href='$SCRIPT_NAME?action=login'>Login</a></li>";
 }
 */
-//==========================
+//===
 /**
  * Utility function to sign a request
  *
@@ -297,9 +314,9 @@ function doAuthorizationRedirect() {
         echo 'Invalid response from token request';
         // exit(0);
     }
-    //--------------------
+    //---
     //echo var_dump($token);
-    //--------------------
+    //---
     // Now we have the request token, we need to save it for later.
     session_start();
     $_SESSION['tokenKey'] = $token->key;
@@ -313,11 +330,11 @@ function doAuthorizationRedirect() {
         'oauth_token' => $token->key,
         'oauth_consumer_key' => $gConsumerKey,
     ) );
-    //--------------------------
+    //---
     // if ( $_REQUEST['type'] != 'test' ) {
     header( "Location: $url" );
     // };
-    //--------------------------
+    //---
     echo 'Please see <a href="' . htmlspecialchars( $url ) . '">' . htmlspecialchars( $url ) . '</a>';
 }
 
@@ -430,7 +447,7 @@ function doIdentify($gg) {
         exit(0);
     }
     $err = json_decode( $data );
-    //==========================------------------
+    //---
     if ( is_object( $err ) && isset( $err->error ) && $err->error === 'mwoauthdatastore-access-token-not-found' ) {
         // We're not authorized!
         //echo "You haven't authorized this application yet! Go <a href='" . htmlspecialchars( $_SERVER['SCRIPT_NAME'] ) . "?action=login'>here</a> to do that.";
@@ -477,29 +494,29 @@ function doIdentify($gg) {
         echo 'Invalid payload in identify response: ' . htmlspecialchars( $data );
         exit(0);
     }
-    //==========================------------------
+    //---
     
     //return $payload
     //$dd = var_export( $payload, 1 );
     $username = $payload->{'username'};
-    //==========================------------------
+    //---
     
     setcookie('username',$username,$twoYears,'/','mdwiki.toolforge.org',true,true);
-    //==========================------------------
+    //---
     if ( $gg != '' ) {
         echo 'JWT payload: <pre>' . htmlspecialchars( var_export( $payload, 1 ) ) . '</pre><br><hr>';
         }
-    //==========================------------------
+    //---
 }
 
 // ******************** WEBPAGE ********************
 
 function doApiQuery( $post, &$ch = null ) {
     global $apiUrl, $gUserAgent, $gConsumerKey, $errorCode;
-    //-------------------------
+    //---
     //temps:
     global $gTokenKey;
-    //-------------------------
+    //---
 
     $headerArr = array(
         // OAuth information
@@ -547,6 +564,7 @@ function doApiQuery( $post, &$ch = null ) {
     return $ret;
 }
 
+if ($_REQUEST['test'] != '' ) echo "<br>load " . str_replace ( __dir__ , '' , __file__ ) . " true.";
 //}
 //login()
 ?>

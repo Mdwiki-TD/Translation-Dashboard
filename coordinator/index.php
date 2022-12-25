@@ -1,0 +1,3 @@
+<?PHP
+require('last.php');
+?>

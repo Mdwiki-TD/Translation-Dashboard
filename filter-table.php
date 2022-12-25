@@ -23,8 +23,7 @@
 .btne:hover {
   background-color: #ddd;
 }
-.btne.active {
-}
+/* .btne.active {} */
 </style>
 <div id="myBtnContainer">
 <button class="btne active" onclick="filterSelection('all')"> All</button>
