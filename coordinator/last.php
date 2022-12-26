@@ -1,5 +1,5 @@
 <script src="sorttable.js"></script>
-<h3>Most recent translation:</h3>
+<h4>Most recent translation:</h4>
 <?PHP
 //--
 //===
@@ -55,13 +55,13 @@ function make_td($tabg, $nnnn) {
 };
 //---
 $quaa = "select * from pages where target != ''
-ORDER BY id DESC
+ORDER BY pupdate DESC
 limit 20
 ;";
 $dd = quary2($quaa);
 //===
 $sato = '
-	<table class="table table-striped sortable alignleft">
+	<table class="table table-striped sortable alignleft" style="font-size:90%;">
         <tr>
             <th>#</th>
             <th>User</th>

@@ -220,6 +220,20 @@ function years_start($page) {
     //---
     $y_req = $_REQUEST['year'];
     //---
+    $lines = "";
+    //---
+    foreach ( $my_years AS $Key => $year ) {
+        //---
+        $active = '';
+        //---
+        if ( $y_req == $year ) $active = 'active';
+        //---
+        $lines .= "
+	<li class='nav-item menu_item'><a class='nav-link $active' href='leaderboard.php?year=$year'>$year</a></li>
+		";
+        //---
+    };
+    //---
 	$activeold = "";
 	//---
 	if ( $y_req == '' ) {
@@ -230,30 +244,13 @@ function years_start($page) {
         };
     };
 	//---
-    $lines = "<ul class='nav nav-tabs'>
-	<li class='years menu_item $activeold'><a class='' href='leaderboard.php'>All</a></li>
-    ";
-    //---
-    foreach ( $my_years AS $Key => $year ) {
-        //---
-        $url = "<a href='leaderboard.php?year=$year'>$year</a>";
-        //---
-        $active = '';
-        if ( $y_req == $year ) {
-            $active = 'active';
-        };
-        //---
-        $lines .= "<li class='years menu_item $active'><a class='' href='leaderboard.php?year=$year'>$year</a></li>";
-        //---
-        $lines .= "
-    ";
-    };
-    //---
-    $lines .= '</ul>';
     $texte = "
-    <div class='tab-content'>
-        $lines
-    </div>";
+	<div class='tab-content'>
+		<ul class='nav nav-tabs nav-justified'>
+			<li class='nav-item menu_item'><a class='nav-link $activeold' href='leaderboard.php'>All</a></li>
+			$lines
+			</ul>
+	</div>";
     //---
     return $texte;
     //---
@@ -306,7 +303,7 @@ function months_start() {
             //---
             $line = isset($months_urls[$month_y]) ? $months_urls[$month_y] : $month_y;
             //---
-            $lines_by_year[$year] .= "<div class='col-sm-1 menu_item2 colsm5'>$line</div>
+            $lines_by_year[$year] .= "<div class='col-md-1 menu_item2 colsm5' style='width: 25%;'>$line</div>
                 ";
             //---
             $lines_by_year_ul[$year] .= "<li>$line</li>";
@@ -326,10 +323,14 @@ function months_start() {
         };
     }
     $texte = "
-    <div class='panel panel-default' style='font-weight: bold;'>
-            <div class='panel-body'>
-                $months_lines
-            </div>
+    <div class='card' style='font-weight: bold;'>
+		<div class='card-body'>
+			
+				<div class='row'>
+					$months_lines
+				</div>
+			
+		</div>
     </div>
     ";
     //---

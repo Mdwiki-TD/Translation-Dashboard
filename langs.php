@@ -192,7 +192,7 @@ $lalo .= '
     echo "<table border=0 style='width:100%;'>
     <tr>
         <td style='width:33%;'>$table2</td>
-        <td style='width:33%;'><h1 class='text-center'>$printlang</h1></td>
+        <td style='width:33%;'><h2 class='text-center'>$printlang</h2></td>
         <td style='width:33%;'></td>
     </tr>
     </table>
@@ -203,8 +203,8 @@ $lalo .= '
 // require("filter-table.php");
 //---
     //---
-    print "<div class='panel panel-default'>
-  <div class='panel-body' style='padding:5px 0px 5px 5px;'>
+    print "<div class='card'>
+  <div class='card-body' style='padding:5px 0px 5px 5px;'>
   $lalo
   </div>
   </div>"
@@ -230,7 +230,7 @@ $Pending_table = '
 //---
 print '</div>
 <div class="text-center clearfix leaderboard" >
-<h1 class="text-center">Translations in process</h1>
+<h2 class="text-center">Translations in process</h2>
 ';
 //---
 krsort($mamo_Pending);

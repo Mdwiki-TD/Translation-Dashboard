@@ -10,18 +10,18 @@ $ty = $_REQUEST['ty'];
 echo '</div>
 <div class="container-fluid">
   <div class="row content">
-    <div class="col-sm-2 sidenav">
-      <h4>coordinator tools</h4>
-      <ul class="nav nav-pills nav-stacked">
-        <li id="Home"><a href="coordinator.php">Home</a></li>
-        <li id="Campaigns"><a href="coordinator.php?ty=Campaigns">Campaigns</a></li>
-        <li id="Emails"><a href="coordinator.php?ty=Emails">Emails</a></li>
-        <li id="others"><a href="coordinator.php?ty=others">Others</a></li>
-      </ul><br>
+    <div class="col-md-2">
+		<h5>coordinator tools</h5>
+		<ul class="nav flex-column nav-pills">
+			<li id="Home" class="nav-item"><a class="nav-link" href="coordinator.php">Home</a></li>
+			<li id="Campaigns" class="nav-item"><a class="nav-link" href="coordinator.php?ty=Campaigns">Campaigns</a></li>
+			<li id="Emails" class="nav-item"><a class="nav-link" href="coordinator.php?ty=Emails">Emails</a></li>
+			<li id="others" class="nav-item"><a class="nav-link" href="coordinator.php?ty=others">Others</a></li>
+		</ul>
     </div>
-    <div class="col-sm-10">
-      <div class="panel panel-default">
-        <div class="panel-body">
+    <div class="col-md-10">
+      <div class="card">
+        <div class="card-body">
 ';
 //---
 if ($_GET['test'] != '') {

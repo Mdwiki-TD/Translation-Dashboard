@@ -68,23 +68,20 @@ function make_td($tabg,$nnnn) {
     };
     //---
     //---
-    $laly = '
+    $laly = "
         <tr>
-            <td>' . $nnnn   . '</td>
-            <td><a target="" href="langs.php?langcode=' . $llang . '">' . $lang2 . '</a>' . '</td>
-            <td>' . $nana  . '</td>
-            <!-- <td>' . $date  . '</td> -->
-            <td>' . $ccat  . '</td>
-            <td>' . $worde . '</td>
-            <td>' . $tran_type . '</td>
-            <td>' . $targe33 . '</td>
-            <td>' . $pupdate . '</td>
-            <td>' . $view . '</td>
-            <td><a target="" href="../fixwikirefs.php?title=' . $targe . '&lang=' . $llang . '">fix</a>' . '</td>
-            '; 
-    //---
-    $laly .= '
-        </tr>';
+            <td>$nnnn</td>
+            <td><a target='' href='langs.php?langcode=$llang'>$lang2</a></td>
+            <td>$nana</td>
+            <!-- <td>$date</td> -->
+            <td>$ccat</td>
+            <td>$worde</td>
+            <td>$tran_type</td>
+            <td>$targe33</td>
+            <td>$pupdate</td>
+            <td>$view</td>
+            <td><a target='' href='../fixwikirefs.php?title=$targe&lang=$llang'>fix</a></td>
+        </tr>";
     //---
     return $laly;
 };
@@ -97,9 +94,7 @@ $dd_Pending = array();
 $dd = array();
 foreach ( $sql_result AS $tait => $tabg ) {
         //---
-        // $kry = str_replace('-','',$tabg['pupdate']) . ':' . $tabg['target'] ;
         $kry = str_replace('-','',$tabg['pupdate']) . ':' . $tabg['lang'] . ':' . $tabg['title'] ;
-        //print $kry . '<br>';
         //---
         if ( $tabg['target'] != '' ) {
             $dd[$kry] = $tabg;
@@ -115,11 +110,10 @@ krsort($dd);
 //---
 $man = make_mdwiki_user_url($username);
 //---
-// print '<div class="col-md-10 col-md-offset-1" align=left >';
 echo "
-    <div style='margin-right:25px;margin-left:25px;boxSizing:border-box;' align=left>
-        <h1 class='text-center'>$man</h1>
-        <div class='text-center clearfix leaderboard'>
+	<div style='margin-right:25px;margin-left:25px;boxSizing:border-box;' align=left>
+	<h2 class='text-center'>$man</h2>
+	<div class='text-center clearfix leaderboard'>
 ";
 //===
 $tab_start = '
@@ -171,7 +165,7 @@ print "
 //---
 print '
 <div class="text-center clearfix leaderboard" >
-    <h1 class="text-center">Translations in process</h1>
+    <h2 class="text-center">Translations in process</h2>
 ';
 //===
 if ($username == "Mr. Ibrahem") {
@@ -214,14 +208,14 @@ foreach ( $dd_Pending AS $title=> $kk ) {
     $nana = make_mdwiki_title( $md_title );
     print '
         <tr>
-            <td>' . $dff   . '</td>
+            <td>' . $dff  .'</td>
             <td><a target="" href="langs.php?langcode=' . $lange . '">' . $lang2 . '</a>' . '</td>
-            <td>' . $nana  . '</td>
-            <td>' . make_cat_url( $kk['cat'] )  . '</td>
+            <td>' . $nana .'</td>
+            <td>' . make_cat_url( $kk['cat'] ) .'</td>
             <td>' . $worde . '</td>
             <td>' . $tran_type . '</td>
             <td>Pending</td>
-            <td>' . $kk['date']  . '</td>
+            <td>' . $kk['date'] .'</td>
 ';
     //---
     $md_title2 = rawurlencode(str_replace ( ' ' , '_' , $md_title ) );

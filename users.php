@@ -217,7 +217,7 @@ function make_user_table($user_main, $test, $limit) {
     echo "<table border=0 style='width:100%;'>
     <tr>
         <td style='width:33%;'>$table2</td>
-        <td style='width:33%;'><h1 class='text-center'>$man</h1></td>
+        <td style='width:33%;'><h2 class='text-center'>$man</h2></td>
         <td style='width:33%;'></td>
     </tr>
     </table>
@@ -227,8 +227,8 @@ function make_user_table($user_main, $test, $limit) {
     //---
     // require("filter-table.php");
     //---
-    print "<div class='panel panel-default'>
-  <div class='panel-body' style='padding:5px 0px 5px 5px;'>
+    print "<div class='card'>
+  <div class='card-body' style='padding:5px 0px 5px 5px;'>
   $sato
   </div>
   </div>"
@@ -237,7 +237,7 @@ function make_user_table($user_main, $test, $limit) {
     //---
     print '
     <div class="text-center clearfix leaderboard" >
-        <h1 class="text-center">Translations in process</h1>
+        <h2 class="text-center">Translations in process</h2>
     ';
     //===
     //---
@@ -310,7 +310,7 @@ $limit = isset($_GET['limit']) ? $_GET['limit'] : null;
 if ($mainuser != '') {
     make_user_table($mainuser, $test, $limit);
 } else {
-    print "<h1 class='text-center'>no user name..</h1>";
+    print "<h2 class='text-center'>no user name..</h2>";
 };
 //---
 echo "<script>

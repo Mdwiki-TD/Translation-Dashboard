@@ -1,5 +1,5 @@
 
-<h4>Translation campaigns:</h4>
+<h5>Translation campaigns:</h5>
 <form action="coordinator.php?ty=Campaigns" method="POST">
 	<input name='ty' value="Campaigns" hidden/>
 	  <div class="form-group">

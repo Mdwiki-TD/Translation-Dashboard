@@ -2,12 +2,12 @@
 //===
 function make_col_sm_4($title, $table, $numb = '4') {
     return "
-    <div class='col-sm-$numb'>
-      <div class='panel panel-default'>
-          <div class='panel-heading aligncenter' style='font-size:110%;font-weight:bold;'>
+    <div class='col-md-$numb'>
+      <div class='card'>
+          <div class='card-header aligncenter' style='font-weight:bold;'>
               $title
           </div>
-          <div class='panel-body' style='padding:5px 0px 5px 5px; max-height:800px; overflow: auto;'>
+          <div class='card-body' style='padding:5px 0px 5px 5px; max-height:800px; overflow: auto;'>
             $table
           </div>
       </div>
@@ -17,12 +17,12 @@ function make_col_sm_4($title, $table, $numb = '4') {
 //=== 
 function make_col_sm_4_new($title, $table, $numb = '4') {
     return "
-    <div class='col-sm-$numb'>
-      <div class='panel panel-default'>
-          <div class='panel-heading aligncenter' style='font-size:110%;font-weight:bold;'>
+    <div class='col-md-$numb'>
+      <div class='card'>
+          <div class='card-header aligncenter' style='font-weight:bold;'>
               $title
           </div>
-          <!-- <div class='panel-body' style='padding:5px 0px 5px 5px; max-height:330px; overflow: auto;'> -->
+          <!-- <div class='card-body' style='padding:5px 0px 5px 5px; max-height:330px; overflow: auto;'> -->
             $table
           <!-- </div> -->
       </div>

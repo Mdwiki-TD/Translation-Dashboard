@@ -63,7 +63,7 @@ function make_calendar_arrays($month_to_work) {
     ;
     ";
     //---
-    // echo '<h1>' . $sqlqua . '</h1>';
+    // echo '<h2>' . $sqlqua . '</h2>';
     //---
     $sql_cu = quary2($sqlqua);
     //---
@@ -133,18 +133,19 @@ $tab_m3 = Make_lang_table_cal($Count_langs_cal[$month_to_work],$Views_by_lang_fo
 $month_main .= make_col_sm_4('Top languages by number of Articles',$tab_m3);
 //===
 echo "
-  <div class='panel panel-default'>
-    <div class='panel-heading aligncenter'>
-      <div class='panel-title' style='font-size:200%;'>
-        $month_to_work Leaderboard
+  <div class='card'>
+    <div class='card-header aligncenter'>
+		<div class='card-title' style='margin-bottom: 0rem;' >
+			<h3>$month_to_work Leaderboard</h3>
       </div>
     </div>
-    <div class='panel-body'>
+    <div class='card-body'>
       <div class='row'>
         $month_main
       </div>
     </div>
-  </div>";
+  </div>
+";
 //===
 echo "
 </div>

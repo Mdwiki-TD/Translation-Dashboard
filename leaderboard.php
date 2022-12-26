@@ -56,18 +56,19 @@ function print_year_table($y) {
   if ($y == 'all') {$titlea = 'Leaderboard';};
   //===
   return "
-  <div class='panel panel-default'>
-    <div class='panel-heading aligncenter'>
-      <div class='panel-title' style='font-size:200%;'>
-        $titlea
+  <div class='card'>
+  <div class='card-header aligncenter'>
+      <div class='card-title' style='margin-bottom: 0rem;' >
+        <h3>$titlea</h3>
       </div>
-    </div>
-    <div class='panel-body'>
+  </div>
+  <div class='card-body'>
       <div class='row'>
         $tables_main
       </div>
-    </div>
-  </div>";
+  </div>
+</div>
+  ";
   //===
 };
 //===
@@ -77,13 +78,13 @@ function print_pinding_table(){
   $tab4 = make_col_sm_4('Number of translations',$tbe);
   //===
   return "
-  <div class='panel panel-default'>
-    <div class='panel-heading aligncenter'>
-      <div class='panel-title' style='font-size:200%;'>
-        Translations in process
+  <div class='card'>
+    <div class='card-header aligncenter'>
+		<div class='card-title' style='margin-bottom: 0rem;' >
+			<h3>Translations in process</h3>
       </div>
     </div>
-    <div class='panel-body'>
+    <div class='card-body'>
       <div class='row'>
         $tab4
       </div>
@@ -98,7 +99,7 @@ if ($get_year == '') {
     echo print_pinding_table();
 };
 //===
-// echo "<h1 class='text-center'>$get_year Leaderboard</h1>";
+// echo "<h2 class='text-center'>$get_year Leaderboard</h2>";
 // echo '<div class="text-center clearfix">';
 //===
 echo "</div>

@@ -103,37 +103,37 @@ function print_form_start() {
     // $catinput = "<input class='span4' type='text' size=25 name='cat' id='cat' value='$cate' placeholder='Root category' /> <!-- Depth <input name='depth' type='number' size='1' min=0 max=10 value='$depth' /> (optional) -->";
     //---
     $d = "$do
-    <hr/>
-    <table class='table-condensed' border=0><tbody>
-    <tr>
-        <td><b>Translation campaign</b></td>
-        <td>
-            $catinput
-        </td>
-    </tr>
-    <tr> 
-        <td class='spannowrap'><b>Target language</b></td>
-        <td style='width:100%'>
-            $langse
-            $err
-        </td>
-    </tr>
-    <tr>
-        <td>
+    
+    <table class='table-sm' border='0'>
+	  <tbody>
+		<tr>
+		  <td><b>Translation campaign</b></td>
+		  <td>$catinput</td>
+		</tr>
+		<tr>
+		  <td class='spannowrap'><b>Target language</b></td>
+		  <td style='width:100%'>
+			$langse
+			$err
+		  </td>
+		</tr>
+		<tr>
+		  <td>
             <b>Type</b>
-        </td>
-        <td colspan='2'>
-            <input type='radio' name='type' value='lead' $lead_checked> The lead only<br>
-            <input type='radio' name='type' value='all' $all_checked> The whole article
-        </td>
-    </tr>
-    <tr>
-        <td colspan='3' class='aligncenter'>
-            $uiu
-        </td>
-    </tr>
-    </tbody>
-    </table>
+		  </td>
+		  <td colspan='2'>
+			<input type='radio' name='type' value='lead' $lead_checked>The lead only
+			<br>
+			<input type='radio' name='type' value='all' $all_checked>The whole article
+		  </td>
+		</tr>
+		<tr>
+		  <td colspan='3' class='aligncenter'>
+			$uiu
+		  </td>
+		</tr>
+	  </tbody>
+	</table>
     
     </form>";
     //---
@@ -143,26 +143,24 @@ function print_form_start() {
 //---
 $img_src = '//upload.wikimedia.org/wikipedia/commons/thumb/5/58/Wiki_Project_Med_Foundation_logo.svg/400px-Wiki_Project_Med_Foundation_logo.svg.png';
 //---
-echo '
-
-<div class="panel panel-default">
-  <div class="panel-heading aligncenter" style="font-size:110%;font-weight:bold;"></div>
-  <div class="panel-body" style="padding:5px 0px 5px 5px; max-height:800px; overflow: auto;">
-<div class="mainindex" align=left>
-    <div style="float:right">
-        <img class="medlogo" src="' . $img_src . '" decoding="async" alt="Wiki Project Med Foundation logo" style="">
-        
-    </div>
-    <p>This tool looks for Wikidata items that have a page on mdwiki.org but not in another wikipedia language <a href="?cat=RTT&depth=1&code=ceb&doit=Do+it"><b>(Example)</b></a>.</p>
-    <p><a href="//mdwiki.org/wiki/WikiProjectMed:Translation_task_force"><b>How to use.</b></a></p>
-' ;
+$form_start = print_form_start();
 //---
-echo print_form_start();
+echo "
+<div class='card'>
+	<div class='card-header aligncenter' style='font-weight:bold;'></div>
+	<div class='card-body'>
+		<div class='mainindex' align='left'>
+			<div style='float:right'>
+				<img class='medlogo' src='$img_src' decoding='async' alt='Wiki Project Med Foundation logo'>
+			</div>
+			<p>This tool looks for Wikidata items that have a page on mdwiki.org but not in another wikipedia language <a href='?cat=RTT&depth=1&code=ceb&doit=Do+it'><b>(Example)</b></a>.</p>
+			<p><a href='//mdwiki.org/wiki/WikiProjectMed:Translation_task_force'><b>How to use.</b></a></p>
+			$form_start
+		</div>
+	</div>
+</div>
+";
 //---
-echo '
-</div>
-</div>
-</div>';
 //===
 function make_table( $items, $cod, $cat ) {
     global $username, $Words_table, $All_Words_table, $Assessments_table, $Assessments_fff ,$Translate_type;
@@ -326,14 +324,6 @@ if ( $doit && $doit2 ) {
     
     $len_of_missing_pages = isset($items['len_of_missing']) ? $items['len_of_missing'] : 0 ;
     //---
-    $ix =  "Find $len_of_all pages in categories, $len_of_exists_pages exists, and $len_of_missing_pages missing in (<a href='https://$code.wikipedia.org'>https://$code.wikipedia.org</a>)." ;
-    //---
-    $diff = isset($items['diff']) ? $items['diff'] : '';
-    if ($diff != '' ) {
-        $ix .= " diff:($diff)";
-    };
-    //print var_dump($items) ;
-    //---
     $res_line = " Results " ;//. ($start+1) . "&ndash;" . ($start+$limit) ;
     //---
     if ($test != '') { 
@@ -343,25 +333,36 @@ if ( $doit && $doit2 ) {
     $items_missing = isset($items['missing']) ? $items['missing'] : array();
     $table = make_table( $items_missing, $code , $cat ) ;
     //---
-    echo "<div class='panel panel-default'>
-    <h3>$res_line:</h3>
-  <div class='panel-heading'><h4>$ix</h4></div>
-  <div class='panel-body' style='padding:5px 0px 5px 5px;'>
-  $table
-  </div>
-  </div>";
+    $ix =  "Find $len_of_all pages in categories, $len_of_exists_pages exists, and $len_of_missing_pages missing in (<a href='https://$code.wikipedia.org'>https://$code.wikipedia.org</a>)." ;
+    //---
+    $diff = isset($items['diff']) ? $items['diff'] : '';
+    if ($diff != '' ) {
+        $ix .= " diff:($diff)";
+    };
+    //---
+    echo "
+	<br>
+<div class='card'>
+	<h4>$res_line:</h4>
+	<div class='card-header'>
+		<h5>$ix</h5>
+    </div>
+    <div class='card-body'>
+		$table
+	</div>
+</div>";
     //---
     $misso  = isset($items['misso']) ? $items['misso'] : array();
     if ($misso != '') {
         $table3 = make_table( $misso, $code , $cat ) ;
-        print "<div class='panel panel-default'>
-  <div class='panel-heading'>
-  <h3>pages exists in mdwiki and missing in enwiki:</h3>
-  </div>
-  <div class='panel-body' style='padding:5px 0px 5px 5px;'>
-  $table3
-  </div>
-  </div>
+        print "<div class='card'>
+    <div class='card-header'>
+         <h4>pages exists in mdwiki and missing in enwiki:</h4>
+    </div>
+    <div class='card-body' style='padding:5px 0px 5px 5px;'>
+$table3
+</div>
+</div>
   " ;
     };
     //---

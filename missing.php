@@ -81,13 +81,13 @@ $text .= '
 //---
 print "
         <div align=center>
-        <h3>Top languages by missing Articles ($date)</h3>
-        <h4>Number of pages in Category:RTT : $lenth</h4>
+        <h4>Top languages by missing Articles ($date)</h4>
+        <h5>Number of pages in Category:RTT : $lenth</h5>
         </div>
 ";
 //===
-print "<div class='panel panel-default'>
-  <div class='panel-body' style='padding:5px 0px 5px 5px;'>
+print "<div class='card'>
+  <div class='card-body' style='padding:5px 0px 5px 5px;'>
   $text
   </div>
   </div>"
