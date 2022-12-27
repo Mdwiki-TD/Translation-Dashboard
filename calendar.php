@@ -111,7 +111,7 @@ function make_calendar_arrays($month_to_work) {
 make_calendar_arrays($month_to_work);
 //===
 echo '<section>
-<div class="container">';
+<div class="container-fluid">';
 //===
 $month_main = '';
 //===

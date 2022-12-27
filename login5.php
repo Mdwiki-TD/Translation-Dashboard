@@ -98,7 +98,7 @@ $gConsumerSecret = $ini['consumerSecret'];
 // Load the user token (request or access) from the session
 //===
 $username = '';
-if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost') { 
+if (!isset($_GET['test1']) && $_SERVER['SERVER_NAME'] == 'localhost') { 
     $username = 'Mr. Ibrahem';
     // $username = '';
 };

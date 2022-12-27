@@ -36,7 +36,7 @@ function test_print($s) {
 };
 //===
 function make_drop($uxutable, $code, $id) {
-    $ux =  "<select dir='ltr' id='$id' name='$id' class='form-control custom-select'>";
+    $ux =  "<select dir='ltr' id='$id' name='$id' class='form-control custom-select' style='width:70%;'>";
     //---
     foreach ( $uxutable AS $name => $cod ) {
         $cdcdc = $code == $cod ? "selected" : "";
@@ -68,13 +68,38 @@ function Get_it( $array, $key ) {
     return $uu;
 };
 //===
-function make_view_by_number($target , $numb, $lang) {
+function get_views($target, $lang) {
+    $view = 0;
+    //---
+    $url = 'https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/' . $lang . '.wikipedia/all-access/all-agents/' . rawurlencode($target) . '/daily/2019010100/2030010100';
+    //---
+    $output = file_get_contents( $url );
+    //---
+    $result = json_decode( $output, true );
+    //---
+    foreach ($result['items'] AS $da){
+        $view += $da['views'];
+    };
+    //---
+    // print($url.'<br>' );
+    //---
+    return $view;
+};
+//===
+function make_view_by_number($target, $numb, $lang) {
     //---
     $numb2 = ($numb != '') ? $numb : "?";
     //---
-    $urln = 'https://' . 'pageviews.toolforge.org/?project='. $lang .'.wikipedia.org&platform=all-access&agent=all-agents&redirects=0&range=this-year&pages=' . rawurlEncode($target);
+    // if ($numb2 == '?' || $numb2 == 0 || $numb2 == '0') $numb2 = get_views($target, $lang);
     //---
-    $link = '<a target="_blank" href="' . $urln . '">' . $numb2 . '</a>';
+    $url = 'https://' . 'pageviews.toolforge.org/?project='. $lang .'.wikipedia.org&platform=all-access&agent=all-agents&redirects=0&range=this-year&pages=' . rawurlEncode($target);
+    //---
+    $url2 = 'https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/' . $lang . '.wikipedia/all-access/all-agents/' . rawurlencode($target) . '/daily/2019010100/2030010100';
+    //---
+    $link = "<a target='_blank' href='$url'>$numb2</a>";
+    if ($numb2 == '?' || $numb2 == 0 || $numb2 == '0') {
+        $link = "<a target='_blank' name='toget' hrefjson='$url2' href='$url'>$numb2</a>";
+    };
     //---
     return $link ;
     };

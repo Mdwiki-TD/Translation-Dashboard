@@ -28,7 +28,7 @@ if ($get_year != '') {
 	echo months_start();
 };
 //===
-echo '<section>';
+// echo '<section>';
 //===
 //===
 if ($get_year != '') {    $key_year = $get_year;  };
@@ -92,7 +92,7 @@ function print_pinding_table(){
   </div>";
 };
 //===
-echo "\n<div class='container'>\n";
+echo "\n<div class='container-fluid'>\n";
 echo print_year_table($key_year);
 //===
 if ($get_year == '') {
@@ -103,8 +103,8 @@ if ($get_year == '') {
 // echo '<div class="text-center clearfix">';
 //===
 echo "</div>
-</section>
-";
+<!--</section>-->
+"; 
 //---
 require('foter.php');
 //---

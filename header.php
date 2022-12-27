@@ -6,10 +6,6 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Wiki Project Med Translation Dashboard</title>
-	<!-- <script src="to.js"></script> -->
-	<!-- <script src="sorttable.js"></script> -->
-	<!-- Custom fonts for this template-->
-	<!-- <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet"> -->
 <?php 
 	//---
 	if ($_GET['test'] != '') {
@@ -25,7 +21,7 @@
 	$hoste = 'https://tools-static.wmflabs.org/cdnjs';
 	if ( $_SERVER['SERVER_NAME'] == 'localhost' )  $hoste = 'https://cdnjs.cloudflare.com';
 	#---
-	if ($_GET['noboot'] == '') {
+	if (isset($_GET['noboot']) == '') {
 		echo "
 		<link href='$hoste/ajax/libs/font-awesome/5.15.3/css/all.min.css' rel='stylesheet' type='text/css'>
 		<script src='$hoste/ajax/libs/jquery/3.6.1/jquery.min.js'></script>
@@ -74,6 +70,10 @@ function get_coord_users($username) {
 	
 	<!-- <link href="css/sb-admin-2.min.css" rel="stylesheet"> -->
 	<link href="dashboard_new.css" rel="stylesheet">
+	<script src="to.js"></script>
+	<!-- <script src="sorttable.js"></script> -->
+	<!-- Custom fonts for this template-->
+	<!-- <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet"> -->
 </head>
 
 <body>
@@ -112,15 +112,14 @@ function get_coord_users($username) {
       </ul>
       <ul class="nav navbar-nav ml-auto">
         <li class="nav-item">
-          <div id="loginli" class="nav-link">
-            <a class="nav-link" style="padding:2px;border:0px;" onclick="login()">
-              <i class="fas fa-sign-in-alt fa-sm fa-fw mr-2"></i>Login</a>
-          </div>
-        </li>
-        <li class="nav-item">
             <a id="username_li" class="nav-link" style="display:none">
 				<i class="fas fa-user fa-sm fa-fw mr-2"></i> <span class="navtitles" id="user_name"></span>
             </a>
+        </li>
+        <li class="nav-item">
+            <a role="button" id="loginli" class="nav-link" onclick="login()">
+              <i class="fas fa-sign-in-alt fa-sm fa-fw mr-2"></i><span class="navtitles">Login</span>
+			</a>
         </li>
         <li class="nav-item">
             <a id="logout_btn" class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal" style="display:none">
@@ -149,18 +148,7 @@ function get_coord_users($username) {
     </div>
   </div>
 </header>
-<script>
-	
-	function login(){
-		var cat = $('#cat').val();
-		var depth = $('#depth').val();
-		var code = $('#code').val();
-		var type = $('input[name=type]:checked').val();
-	
-		var url = 'login5.php?action=login&code=' + code + '&cat=' + cat + '&depth=' + depth + '&type=' + type;
-		window.location.href = url;
-	}
-	
+<script>	
 	// $(document).ready(function() {
 	var lo = $('#myusername').text();
 	if ( lo != '' ) {

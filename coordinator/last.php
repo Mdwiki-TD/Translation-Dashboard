@@ -30,14 +30,17 @@ function make_td($tabg, $nnnn) {
     //---
     $nana = make_mdwiki_title( $md_title );
     //---
-    $targe33 = make_target_url( $targe , $llang );
+    $targe33 = make_target_url( $targe, $llang );
     //---
-    $view = make_view_by_number($targe , $views_number, $llang) ;
+    $view = make_view_by_number($targe, $views_number, $llang);
+    //---
+    $mail = '';
     //---
     $laly = '
         <tr>
             <td>' . $nnnn   . '</td>
             <td><a target="" href="users.php?user=' . $user . '">' . $user . '</a>' . '</td>
+            <td>' . $mail . '</td>
             <td><a target="" href="langs.php?langcode=' . $llang . '">' . $lang2 . '</a>' . '</td>
             <td>' . $nana  . '</td>
             <!-- <td>' . $date  . '</td> -->
@@ -45,7 +48,7 @@ function make_td($tabg, $nnnn) {
             <!-- <td>' . $worde . '</td> -->
             <td>' . $targe33 . '</td>
             <td>' . $pupdate . '</td>
-            <!-- <td>' . $view . '</td> -->
+            <td>' . $view . '</td>
             '; 
     //---
     $laly .= '
@@ -65,13 +68,14 @@ $sato = '
         <tr>
             <th>#</th>
             <th>User</th>
+            <th>Email</th>
             <th><span data-toggle="tooltip" title="Language">Lang.</span></th>
             <th>Title</th>
             <th>Category</th>
             <!-- <th>Words</th> -->
             <th>Translated</th>
             <th>Date</th>
-            <!-- <th>Views</th> -->
+            <th>Views</th>
         </tr>
 ';
 //---
