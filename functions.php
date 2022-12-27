@@ -26,32 +26,6 @@ function doApiQuery_localhost( $params ) {
     $result = json_decode( $output, true );
     return $result;
 };
-//===
-function get_cat_from_cach( $cat ) {
-    $RTTtext = file_get_contents("cash/$cat.json");
-    //---
-    $RTT = json_decode( $RTTtext, true );
-    //---
-    $liste = $RTT['list'];
-    //---
-    $new_liste = array();
-    foreach ($liste as $key => $value) {
-        // find if not starts with Category:
-        $test_value = preg_match('/^(Category|File|Template|User):/', $value);
-        // find if not ends with (disambiguation)
-        $test_value2 = preg_match('/\(disambiguation\)$/', $value);
-        //---
-        if ($test_value == 0 && $test_value2 == 0) {
-            $new_liste[] = $value;
-        };
-    };
-    //---
-    test_print("<br>get_cat_from_cach: list lenth:" . sizeof($new_liste) );
-    //---
-    return $new_liste;
-    //---
-};
-//===
 //---
 function quary_local_old($quae) {
     //---

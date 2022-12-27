@@ -91,8 +91,7 @@ function make_table( $items, $cod, $cat ) {
     //---
     $list = "" ;
     $cnt = 1 ;
-    //print $username;
-    // foreach ( $items AS $v ) {
+    //---
     foreach ( $dd AS $v => $gt) {
         if ( $v != '' ) {
             $title = str_replace ( '_' , ' ' , $v );
@@ -105,7 +104,7 @@ function make_table( $items, $cod, $cat ) {
             $urle = str_replace( '+' , '_' , $urle );
             //---
             $pageviews = isset($enwiki_pageviews_table[$title]) ? $enwiki_pageviews_table[$title] : 0; 
-            // };
+            //---
             $word = isset($Words_table[$title]) ? $Words_table[$title] : 0; 
             //---
             $refs = isset($Lead_Refs_table[$title]) ? $Lead_Refs_table[$title] : 0; 
@@ -172,12 +171,7 @@ if ( $doit && $doit2 ) {
     //---
     $items = array() ;
     //---
-    // if ($test == 'test') {
-    //---
-    $items = get_cat_members_with_php( $cat, $depth, $code, $test ) ; # mdwiki pages in the cat
-    // } else {
-        // $items = get_cat_members_with_py( $cat , $depth , $code , $test ) ; # mdwiki pages in the cat
-    // };
+    $items = get_cat_members( $cat, $depth, $code, $test ) ; # mdwiki pages in the cat
     //---
     $len_of_all = isset($items['len_of_all']) ? $items['len_of_all'] : 0 ;
     

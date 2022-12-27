@@ -2,6 +2,7 @@
 *.csv
 cok.php
 Tables/*.json
+cash_exists/*.*
 cash/*.csv
 tests/*.*
 css/*.*

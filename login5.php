@@ -155,6 +155,8 @@ switch ( isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : '' ) {
     case 'logout':
         // session_unset();
         // unset cookies
+		setcookie('username', '', time()-$twoYears,'/','mdwiki.toolforge.org',true,true);
+		setcookie('OAuthHelloWorld', '', time()-$twoYears,'/','mdwiki.toolforge.org',true,true);
         if (isset($_SERVER['HTTP_COOKIE'])) {
             $cookies = explode(';', $_SERVER['HTTP_COOKIE']);
             foreach($cookies as $cookie) {

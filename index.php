@@ -72,11 +72,11 @@ function print_form_start() {
     };
     //---<a class="btn btn-danger" href="login5.php?action=login"> Login</a>
     $uiu = '
-	<a role="button" class="btn btn-primary nav-link" onclick="login()">
+	<a role="button" class="btn btn-primary" onclick="login()">
 		<i class="fas fa-sign-in-alt fa-sm fa-fw mr-1"></i><span class="navtitles">Login</span>
 	</a>';
     //---
-    $uiu = '<button class="btn btn-primary" onclick="login()"><i class="fas fa-sign-in-alt fa-sm fa-fw mr-1"></i><span class="navtitles">Login</span> </button>';
+    // $uiu = '<button class="btn btn-primary" onclick="login()"><i class="fas fa-sign-in-alt fa-sm fa-fw mr-1"></i><span class="navtitles">Login</span> </button>';
     // -------------
     if ( $username != '' ) $uiu = '<input type="submit" name="doit" class="btn btn-primary" value="Do it"/>';
     //---
