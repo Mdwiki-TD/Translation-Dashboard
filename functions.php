@@ -12,18 +12,23 @@ function strstartswithn ( $haystack, $needle ) {
 };
 //===
 function doApiQuery_localhost( $params ) {
+	//---
     $endPoint = "https://"."mdwiki.org/w/api.php";
-    test_print("<br>doApiQuery_localhost:<br>");
     $url = $endPoint . "?" . http_build_query( $params );
-
-    $ch = curl_init( $url );
-    curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-    $output = curl_exec( $ch );
-    curl_close( $ch );
+	//---
+    test_print("<br>doApiQuery_localhost:$url<br>");
+	//---
+	$output = file_get_contents($url);
+	//---
+    // $ch = curl_init( $url );
+    // curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+    // $output = curl_exec( $ch );
+    // curl_close( $ch );
     //---
-    test_print("<br>output:<br>$output");
+    // test_print("<br>output:<br>$output");
     //---
     $result = json_decode( $output, true );
+    //---
     return $result;
 };
 //---

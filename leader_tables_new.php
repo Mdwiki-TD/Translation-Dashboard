@@ -9,7 +9,7 @@ function strstartswith ( $haystack, $needle ) {
 };
 //===
 // views (target, countall, count2021, count2022, count2023, lang)
-$qua_views2 = "select p.target, p.user, 
+$qua_views2 = "select p.target, p.user, p.cat, 
 v.lang, v.countall, v.count2021, v.count2022, v.count2023, 
 p.pupdate, year(p.pupdate) as pup_y
 from pages p,views v
@@ -32,29 +32,13 @@ $global_views['all'] = 0;
 //---
 foreach ( $views_quarye AS $Key => $tablea ) {
     //---
+    $cat    = $tablea['cat'];
     $llang  = $tablea['lang'];
     $use    = $tablea['user'];
     $allviews = $tablea['countall'];
     $tat    = $tablea['target'];
     //---
-    // if (isset($sql_Languages_tab[$llang]) == '') $sql_Languages_tab[$llang] = array();
-    //---
-    if (isset($all_views_by_lang['all'][$llang]) == '') $all_views_by_lang['all'][$llang] = 0;
-    $all_views_by_lang['all'][$llang] = $all_views_by_lang['all'][$llang] + $allviews;
-    //---
-    if (isset($Views_by_users['all'][$use]) == '') { $Views_by_users['all'][$use] = 0; };
-    //---
-    $Views_by_users['all'][$use] = $Views_by_users['all'][$use] + $allviews;
-    //---
-    $views_by_target[$tat] = $allviews;
-    //---
-    $global_views['all'] = $global_views['all'] + $allviews;
-    //---
-    // 2021
-    //---
     $the_year    = $tablea['pup_y'];
-    //===
-    if (isset($all_views_by_lang[$the_year]) == '') $all_views_by_lang[$the_year] = array();
     //---
     $pupdate     = $tablea['pupdate'];
     //---
@@ -66,20 +50,60 @@ foreach ( $views_quarye AS $Key => $tablea ) {
     //===
     $coco = isset($counts[$the_year]) ? $counts[$the_year] : 0;
     //===
+    //---
+    // if (isset($sql_Languages_tab[$llang]) == '') $sql_Languages_tab[$llang] = array();
+    //---
+    if (isset($all_views_by_lang['all'][$llang]) == '') $all_views_by_lang['all'][$llang] = 0;
+    $all_views_by_lang['all'][$llang] = $all_views_by_lang['all'][$llang] + $allviews;
+    //---
+    if (isset($all_views_by_lang[$the_year]) == '') $all_views_by_lang[$the_year] = array();
+    //---
     if (isset($all_views_by_lang[$the_year][$llang]) == '') $all_views_by_lang[$the_year][$llang] = 0;
     $all_views_by_lang[$the_year][$llang] = $all_views_by_lang[$the_year][$llang] + $allviews;
+    //---
+    if (!isset($all_views_by_lang[$cat])) $all_views_by_lang[$cat] = array();
+    //---
+    if (!isset($all_views_by_lang[$cat][$llang])) $all_views_by_lang[$cat][$llang] = 0;
+    //---
+    $all_views_by_lang[$cat][$llang] += $allviews;
+    //---
+    
+    
+    //---
+    if (isset($Views_by_users['all'][$use]) == '') { $Views_by_users['all'][$use] = 0; };
+    //---
+    $Views_by_users['all'][$use] = $Views_by_users['all'][$use] + $allviews;
     //---
     if (isset($Views_by_users[$the_year]) == '') $Views_by_users[$the_year] = array();
     // views (target, countall, count2021, count2022, count2023, lang)
     if (isset($Views_by_users[$the_year][$use]) == '') $Views_by_users[$the_year][$use] = 0;
     $Views_by_users[$the_year][$use] = $Views_by_users[$the_year][$use] + $coco;
     //---
+    if (!isset($Views_by_users[$cat])) $Views_by_users[$cat] = array();
+    if (!isset($Views_by_users[$cat][$use])) $Views_by_users[$cat][$use] = 0;
+    //---
+    $Views_by_users[$cat][$use] = $Views_by_users[$cat][$use] + $allviews;
+    //---
+    
+    
+    //---
+    $views_by_target[$tat] = $allviews;
+    //---
+    $global_views['all'] = $global_views['all'] + $allviews;
+    //---
     if (isset($global_views[$the_year]) == '') $global_views[$the_year] = 0;
     $global_views[$the_year] = $global_views[$the_year] + $coco;
     //---
+    
+    
+    //---
+    if (!isset($global_views[$cat])) $global_views[$cat] = 0;
+    //---
+    $global_views[$cat] += $allviews;
+    //---
     };
 //===
-$sql_t = 'select user, lang, word, target, pupdate, year(pupdate) as pup_y
+$sql_t = 'select user, lang, word, target, pupdate, year(pupdate) as pup_y, cat
 from pages
 #where target != "";
 ';
@@ -110,47 +134,75 @@ foreach ( $sql_u AS $id => $table ) {
     $word = $table['word'];
     // $word = number_format( $table['word']);
     $lang = $table['lang'];
+    $cat  = $table['cat'];
     //---
     if ($target != '') {
-        // completd translations
-        if (isset($sql_Languages_tab['all'][$lang]) == '') $sql_Languages_tab['all'][$lang] = 0;
-        //---
-        $sql_Languages_tab['all'][$lang] = $sql_Languages_tab['all'][$lang] + 1 ;
-        //---
-        if (isset($sql_users_tab['all'][$user]) == '') $sql_users_tab['all'][$user] = 0;
-        if (isset($Users_word_table['all'][$user]) == '') $Users_word_table['all'][$user] = 0;
-        //---
-        $sql_users_tab['all'][$user] = $sql_users_tab['all'][$user] + 1 ;
-        $Users_word_table['all'][$user] = $Users_word_table['all'][$user] + $word ;
-        //---
-        $Articles_number['all'] = $Articles_number['all'] + 1 ;
-        $Words_total['all'] = $Words_total['all'] + $word ;
         //---
         $pupdate  = $table['pupdate'];
-        //===
-        //---
         $the_year = $table['pup_y'];
         //---
-		if (isset($sql_Languages_tab[$the_year]) == '') $sql_Languages_tab[$the_year] = array();
-		//---
-        if (isset($sql_Languages_tab[$the_year][$lang]) == '') { $sql_Languages_tab[$the_year][$lang] = 0; };
+        // completd translations
+        if (!isset($sql_Languages_tab['all'][$lang]))       $sql_Languages_tab['all'][$lang] = 0;
         //---
-        $sql_Languages_tab[$the_year][$lang] = $sql_Languages_tab[$the_year][$lang] + 1 ;
+        $sql_Languages_tab['all'][$lang] =                  $sql_Languages_tab['all'][$lang] + 1 ;
         //---
-        if (isset($sql_users_tab[$the_year]) == '') $sql_users_tab[$the_year] = array();
-        if (isset($Users_word_table[$the_year]) == '') $Users_word_table[$the_year] = array();
+        if (!isset($sql_Languages_tab[$the_year]))          $sql_Languages_tab[$the_year] = array();
+        if (!isset($sql_Languages_tab[$the_year][$lang]))   $sql_Languages_tab[$the_year][$lang] = 0;
+        $sql_Languages_tab[$the_year][$lang] =              $sql_Languages_tab[$the_year][$lang] + 1 ;
         //---
-        if (isset($sql_users_tab[$the_year][$user]) == '') $sql_users_tab[$the_year][$user] = 0;
-        if (isset($Users_word_table[$the_year][$user]) == '') $Users_word_table[$the_year][$user] = 0;
+        if (!isset($sql_Languages_tab[$cat]))          $sql_Languages_tab[$cat] = array();
+        if (!isset($sql_Languages_tab[$cat][$lang]))   $sql_Languages_tab[$cat][$lang] = 0;
+        $sql_Languages_tab[$cat][$lang] =              $sql_Languages_tab[$cat][$lang] + 1 ;
         //---
+
+        
+        //---
+        if (!isset($sql_users_tab['all'][$user])) $sql_users_tab['all'][$user] = 0;
+        $sql_users_tab['all'][$user] = $sql_users_tab['all'][$user] + 1 ;
+        //---
+        if (!isset($sql_users_tab[$the_year])) $sql_users_tab[$the_year] = array();
+        if (!isset($sql_users_tab[$the_year][$user])) $sql_users_tab[$the_year][$user] = 0;
         $sql_users_tab[$the_year][$user] = $sql_users_tab[$the_year][$user] + 1 ;
-        $Users_word_table[$the_year][$user] = $Users_word_table[$the_year][$user] + $word ;
         //---
-        if (isset($Articles_number[$the_year]) == '') $Articles_number[$the_year] = 0;
+        if (!isset($sql_users_tab[$cat])) $sql_users_tab[$cat] = array();
+        if (!isset($sql_users_tab[$cat][$user])) $sql_users_tab[$cat][$user] = 0;
+        $sql_users_tab[$cat][$user] = $sql_users_tab[$cat][$user] + 1 ;
+        //---
+
+
+        //---
+        if (!isset($Users_word_table['all'][$user])) $Users_word_table['all'][$user] = 0;
+        $Users_word_table['all'][$user] = $Users_word_table['all'][$user] + $word ;
+        //---
+        if (!isset($Users_word_table[$the_year]))           $Users_word_table[$the_year] = array();
+        if (!isset($Users_word_table[$the_year][$user]))    $Users_word_table[$the_year][$user] = 0;
+        $Users_word_table[$the_year][$user] =               $Users_word_table[$the_year][$user] + $word ;
+        //---
+        if (!isset($Users_word_table[$cat]))           $Users_word_table[$cat] = array();
+        if (!isset($Users_word_table[$cat][$user]))    $Users_word_table[$cat][$user] = 0;
+        $Users_word_table[$cat][$user] =               $Users_word_table[$cat][$user] + $word ;
+        //---
+
+
+        //---
+        $Articles_number['all'] = $Articles_number['all'] + 1 ;
+        //---
+        if (!isset($Articles_number[$the_year])) $Articles_number[$the_year] = 0;
         $Articles_number[$the_year] = $Articles_number[$the_year] + 1 ;
         //---
-        if (isset($Words_total[$the_year]) == '') $Words_total[$the_year] = 0;
+        if (!isset($Articles_number[$cat])) $Articles_number[$cat] = 0;
+        $Articles_number[$cat] = $Articles_number[$cat] + 1 ;
+        //---
+
+
+        //---
+        $Words_total['all'] = $Words_total['all'] + $word ;
+        //---
+        if (!isset($Words_total[$the_year])) $Words_total[$the_year] = 0;
         $Words_total[$the_year] = $Words_total[$the_year] + $word ;
+        //---
+        if (!isset($Words_total[$cat])) $Words_total[$cat] = 0;
+        $Words_total[$cat] = $Words_total[$cat] + $word ;
         //---
     } else {
         // Translations in process
@@ -207,12 +259,12 @@ function Make_users_table($Viewstable,$Users_tables,$Words_tables) {
     //---
     arsort($Users_tables);
     //---
-	$numb = 0;
+    $numb = 0;
     //---
     foreach ( $Users_tables as $user => $number ) {
         //if ($user != 'test') { 
             //---
-			$numb += 1;
+            $numb += 1;
             //---
             $views = isset($Viewstable[$user]) ? $Viewstable[$user] : 0;
             $words = isset($Words_tables[$user]) ? $Words_tables[$user] : 0;
@@ -235,7 +287,7 @@ function Make_users_table($Viewstable,$Users_tables,$Words_tables) {
     $text .= '
     </tbody>
     <tfoot></tfoot>
-</table>';
+    </table>';
     //---
     return $text;
 }
@@ -292,7 +344,7 @@ function Make_lang_table($lang_array,$views_array) {
     };
     //---
     $text .= '
-</table>';
+    </table>';
     //---
     return $text;
 }
@@ -338,7 +390,7 @@ function Make_Pinding_table() {
     };
     //---
     $text .= '
-</table>';
+    </table>';
     //---
     return $text;
 }

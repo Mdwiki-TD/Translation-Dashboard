@@ -5,7 +5,7 @@
 //===
 function make_td($tabg, $nnnn) {
     // ------------------
-    global $code_to_lang, $Words_table, $views_sql;
+    global $code_to_lang, $Words_table, $views_sql, $username;
     // ------------------
     $id       = $tabg['id'];
     $date     = $tabg['date'];
@@ -34,12 +34,18 @@ function make_td($tabg, $nnnn) {
     //---
     $view = make_view_by_number($targe, $views_number, $llang);
     //---
-    $mail = '';
+    $mail_params = array( 'user' => $user, 'lang' => $llang, 'target' => $targe, 'date' => $pupdate, 'title' => $md_title, 'nonav' => '1');
+    //---
+    $mail_url = "coordinator.php?ty=email&" . http_build_query( $mail_params );
+    //---
+	$onclick = 'pupwindow("' . $mail_url . '")';
+    //---
+    $mail = "<button class='btn btn-primary btn-md' onclick='$onclick'>Email</span>";
     //---
     $laly = '
         <tr>
             <td>' . $nnnn   . '</td>
-            <td><a target="" href="users.php?user=' . $user . '">' . $user . '</a>' . '</td>
+            <td><a target="" href="users.php?user=' . $user . '">' . $user . '</a></td>
             <td>' . $mail . '</td>
             <td><a target="" href="langs.php?langcode=' . $llang . '">' . $lang2 . '</a>' . '</td>
             <td>' . $nana  . '</td>
@@ -68,7 +74,7 @@ $sato = '
         <tr>
             <th>#</th>
             <th>User</th>
-            <th>Email</th>
+            <th></th>
             <th><span data-toggle="tooltip" title="Language">Lang.</span></th>
             <th>Title</th>
             <th>Category</th>
@@ -92,6 +98,9 @@ print $sato;
 //---
 ?>
 <script>
+    function pupwindow(url) {
+        window.open(url, 'popupWindow', 'width=750,height=550,scrollbars=yes');
+    };
 $(document).ready( function () {
   $('[data-toggle="tooltip"]').tooltip();   
 });

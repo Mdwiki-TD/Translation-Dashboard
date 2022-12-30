@@ -36,10 +36,11 @@ function start_trans_py($title,$test,$fixref,$tra_type) {
     return $output;
 };
 //---
-if ($title_o != '' and $coden != '') {
+$useree  = isset($_REQUEST['username']) ? $_REQUEST['username'] : $username;
+//---
+if ($title_o != '' && $coden != '' && $useree != '' ) {
     //---
     $newaa 	 = $_REQUEST['newaa'];
-    $useree  = $_REQUEST['username'];
     $cat 	 = $_REQUEST['cat'];
     $test 	 = $_REQUEST['test'];
     $fixref  = $_REQUEST['fixref'];
@@ -69,6 +70,8 @@ if ($title_o != '' and $coden != '') {
 INSERT INTO pages (title, word, translate_type, cat, lang, date, user, target, pupdate)
 VALUES ('$title_o', '$word', '$tr_type', '$cat', '$coden', '$date', '$useree', '', '')
 ";
+    //---
+	if (isset($test)) echo "<br>$quae<br>";
     //---
     $quae_new = "
 INSERT INTO pages (title, word, translate_type, cat, lang, date, user, target, pupdate)

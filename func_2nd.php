@@ -92,7 +92,7 @@ function make_view_by_number($target, $numb, $lang) {
     //---
     // if ($numb2 == '?' || $numb2 == 0 || $numb2 == '0') $numb2 = get_views($target, $lang);
     //---
-    $url = 'https://' . 'pageviews.toolforge.org/?project='. $lang .'.wikipedia.org&platform=all-access&agent=all-agents&redirects=0&range=this-year&pages=' . rawurlEncode($target);
+    $url = 'https://' . 'pageviews.toolforge.org/?project='. $lang .'.wikipedia.org&platform=all-access&agent=all-agents&redirects=0&range=all-time&pages=' . rawurlEncode($target);
     //---
     $url2 = 'https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/' . $lang . '.wikipedia/all-access/all-agents/' . rawurlencode($target) . '/daily/2019010100/2030010100';
     //---

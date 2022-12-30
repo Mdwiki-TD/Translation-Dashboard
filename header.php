@@ -78,8 +78,7 @@ function get_coord_users($username) {
 
 <body>
 <header>
-
-<nav class="navbar navbar-expand-md bg-light navbar-light shadow">
+<nav id="mainnav" class="navbar navbar-expand-md bg-light navbar-light shadow">
     <a class="navbar-brand" href="index.php" style="color:blue;">Wiki Project Med Translation Dashboard</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
     <span class="navbar-toggler-icon"></span>
@@ -87,7 +86,7 @@ function get_coord_users($username) {
   <div class="collapse navbar-collapse" id="collapsibleNavbar">
     <ul class="navbar-nav">
         <li class="nav-item">
-          <a href="leaderboard.php" class="nav-link">
+          <a href="leaderboard_bycat.php" class="nav-link">
             <span class="navtitles">Leaderboard</span>
           </a>
         </li>
@@ -177,5 +176,5 @@ function get_coord_users($username) {
 // require('sidebar.php');	
 ?>
 <main id="body">
-	<div class="container-fluid">
+	<div id="maindiv" class="container-fluid">
 	<br>
