@@ -6,11 +6,16 @@
 include_once('func_2nd.php');
 //---
 $test = $_REQUEST['test'];
-//===
+//---
+function get_request( $key ) {
+    $uu = isset($_REQUEST[$key]) ? $_REQUEST[$key] : null;
+    return $uu;
+};
+//---
 function strstartswithn ( $haystack, $needle ) {
     return strpos( $haystack , $needle ) === 0;
 };
-//===
+//---
 function doApiQuery_localhost( $params ) {
 	//---
     $endPoint = "https://"."mdwiki.org/w/api.php";
@@ -60,7 +65,7 @@ function quary_local_old($quae) {
     //---
 };
 //---
-//===
+//---
 function sqlquary_localhost($quae) {
     //---
     $host = 'localhost:3306';

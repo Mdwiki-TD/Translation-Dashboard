@@ -90,7 +90,7 @@ function make_td_fo_user($tabg, $nnnn) {
     //---
     return $laly;
 };
-//===
+//---
 function make_user_table($user_main, $test, $limit) {
     //---
     global $code_to_lang, $Words_table, $user_views_sql, $user_total_words;
@@ -143,7 +143,7 @@ function make_user_table($user_main, $test, $limit) {
         $offset += 200;
         //---
     };
-    //===
+    //---
     $sato = '  
     <table id="myTable" class="table display"> <!-- scrollbody -->
         <thead>
@@ -162,7 +162,7 @@ function make_user_table($user_main, $test, $limit) {
     //---
     if ($test != '') $sato .= '
                 <th onclick="sortTable(10)">User</th>';
-    //===
+    //---
     $sato .= '
             </tr>
         </thead>
@@ -208,12 +208,12 @@ function make_user_table($user_main, $test, $limit) {
         </table>';
     //---
     $man = make_mdwiki_user_url($user_main);
-    //===
+    //---
     $table2 = "<table class='table table-striped' style='width:70%;'>
     <tr><td>Words: </td><td>$user_total_words</td></tr>
     <tr><td>Pageviews: </td><td>$user_total_views</td></tr>
     </table>";
-    //=== 
+    //--- 
     echo "<table border=0 style='width:100%;'>
     <tr>
         <td style='width:33%;'>$table2</td>
@@ -235,11 +235,6 @@ function make_user_table($user_main, $test, $limit) {
   ;
     // print "</div>";
     //---
-    print '
-    <div class="text-center clearfix leaderboard" >
-        <h2 class="text-center">Translations in process</h2>
-    ';
-    //===
     //---
     $sato_Pending ='  <table class="sortable table table-striped alignleft"> <!-- scrollbody -->
             <tr>
@@ -256,7 +251,8 @@ function make_user_table($user_main, $test, $limit) {
     $sato_Pending .= '
         </tr>';
     //---
-    print $sato_Pending;
+    $bnd = '';
+    $bnd .= $sato_Pending;
     //---
     $dff = 0;
     foreach ( $dd_Pending AS $title=> $kk ) {
@@ -278,7 +274,7 @@ function make_user_table($user_main, $test, $limit) {
         //---
         $worde = isset($word) ? $word : $Words_table[$md_title];
         $nana = make_mdwiki_title( $md_title );
-        print '
+        $bnd .= '
             <tr>
                 <td>' . $dff   . '</td>
                 <td><a target="" href="langs.php?langcode=' . $lange . '">' . $lang2 . '</a>' . '</td>
@@ -290,12 +286,23 @@ function make_user_table($user_main, $test, $limit) {
                 <td>' . $kk['date']  . '</td>
     ';
         //---
-        print '</tr>';
+        $bnd .= '</tr>';
         //---
     };
     //---
-    print '
+    $bnd .= '
     </table>';
+    //---
+    print "
+    <br>
+    <div class='card'>
+        <div class='card-body' style='padding:5px 0px 5px 5px;'>
+            <h2 class='text-center'>Translations in process</h2>
+            $bnd
+        </div>
+    </div>"
+    ;
+    //---
     print "
     </div>
     <div>
@@ -315,7 +322,9 @@ if ($mainuser != '') {
 //---
 echo "<script>
 $(document).ready( function () {
-    $('#myTable').DataTable();
+    $('#myTable').DataTable({
+	'lengthMenu': [[25, 50, 100, 150, -1], [25, 50, 100, 150, 'All']]
+	});
 } );
 </script>";
 //---
@@ -324,5 +333,4 @@ print "</div>";
 //---
 if ($_GET['test'] != '') print_mem();
 //---
-
 ?>

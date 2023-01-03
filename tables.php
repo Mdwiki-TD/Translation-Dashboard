@@ -32,6 +32,9 @@ if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost') {
 $pv_file = file_get_contents("Tables/enwiki_pageviews.json");
 $enwiki_pageviews_table = json_decode( $pv_file, true) ;
 //---
+$lc_file = file_get_contents("Tables/lang_code_to_en.json");
+$lang_code_to_en = json_decode( $lc_file, true) ;
+//---
 $wordfile = file_get_contents("Tables/words.json");
 $Words_table = json_decode( $wordfile, true) ;
 //--- 

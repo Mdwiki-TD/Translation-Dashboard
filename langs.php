@@ -24,14 +24,14 @@ $mainlang = rawurldecode( str_replace ( '_' , ' ' , $mainlang ) );
 //---
 $man = $mainlang;
 $langname = isset($code_to_lang[$mainlang]) ? $code_to_lang[$mainlang] : $mainlang;
-//===
+//---
 $printlang = $langname;
-//===
+//---
 if ( $_SERVER['SERVER_NAME'] == 'localhost' || $test != '' ) { 
     $printlang .= ' <a target="_blank" href="http://' . $mainlang . '.wikipedia.org/wiki/Category:Translated_from_MDWiki">(cat)</a>';
 };
-//===
-//===
+//---
+//---
 // views (target, countall, count2021, count2022, count2023, lang)
 $qua_views = "select 
 #p.title, p.user, p.date, p.word, p.lang, p.cat, p.pupdate, 
@@ -62,7 +62,7 @@ foreach ( $views_quary AS $Key => $tablea ) {
 //---
 $quae = "select * from pages where lang = '$mainlang'";
 $mains = quary2($quae);
-//===
+//---
 $mamo = array();
 $mamo_Pending = array();
 //---
@@ -147,7 +147,7 @@ function make_td_na($tabb,$number) {
     //---
 };
 //---
-//===
+//---
 $lalo = '
 <table id="myTable" class="table display">
     <thead>
@@ -166,7 +166,7 @@ $lalo = '
     </thead>
     <tbody>
 ';
-//===
+//---
 //---
 $n = 0;
 //---
@@ -183,12 +183,12 @@ $lalo .= '
 ';
 //---
 
-    //===
+    //---
     $table2 = "<table class='table table-striped' style='width:70%;'>
     <tr><td>Words: </td><td>$lang_total_words</td></tr>
     <tr><td>Pageviews: </td><td>$lang_total_views</td></tr>
     </table>";
-    //=== 
+    //--- 
     echo "<table border=0 style='width:100%;'>
     <tr>
         <td style='width:33%;'>$table2</td>
@@ -198,7 +198,7 @@ $lalo .= '
     </table>
     ";
     //---
-//===
+//---
 // print '<div class="text-center clearfix leaderboard" >';
 // require("filter-table.php");
 //---
@@ -210,7 +210,7 @@ $lalo .= '
   </div>"
   ;
 //---
-//===
+//---
 $Pending_table = '  
 <table class="sortable table table-striped alignleft"> <!-- scrollbody -->
     <thead>
@@ -226,11 +226,6 @@ $Pending_table = '
         </tr>
     </thead>
     <tbody>
-';
-//---
-print '</div>
-<div class="text-center clearfix leaderboard" >
-<h2 class="text-center">Translations in process</h2>
 ';
 //---
 krsort($mamo_Pending);
@@ -284,16 +279,28 @@ $Pending_table .= '
     </tbody>
 </table>
 ';
-print $Pending_table;
 //---
-print "</div>
+print "
+<br>
+<div class='card'>
+<div class='card-body' style='padding:5px 0px 5px 5px;'>
+<h2 class='text-center'>Translations in process</h2>
+$Pending_table
+</div>
+</div>"
+;
+//---
+print "
+</div>
 <div>";
 //---
 if ($_REQUEST['test'] != '' ) echo "<br>load " . str_replace ( __dir__ , '' , __file__ ) . " true.";
 //---
 echo "<script>
 $(document).ready( function () {
-    $('#myTable').DataTable();
+    $('#myTable').DataTable({
+	'lengthMenu': [[25, 50, 100, 150, -1], [25, 50, 100, 150, 'All']]
+	});
 } );
 </script>";
 //---

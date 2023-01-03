@@ -5,7 +5,7 @@ require('tables.php');
 include_once('functions.php');
 require('tables_calendar.php');
 //---
-//===
+//---
 echo '
     <style>
 
@@ -23,18 +23,18 @@ echo '
       }
     </style>
 ';
-//===
+//---
 echo years_start('calendar.php');
 echo months_start();
-//===
+//---
 $Month_Page_views = 0;
 $Views_for_month_by_users = array();
 $Views_by_lang_for_month = array();
-//===
+//---
 $get_month = $_REQUEST['month'];
 $last_month = date("Y-m");
 $month_to_work = isset($get_month) ? $get_month : $last_month;   #2021-12
-//===
+//---
 function make_calendar_arrays($month_to_work) {
     //---
     global $Month_Page_views, $Views_for_month_by_users, $Views_by_lang_for_month;
@@ -69,24 +69,24 @@ function make_calendar_arrays($month_to_work) {
     //---
     if ($_REQUEST['test'] != '' ) echo $sqlqua;
     //---
-    //===
+    //---
     foreach ($sql_cu as $id => $row) {
         $target = $row['target'];
         $views = isset($row[$month_col]) ? $row[$month_col] : 0;
         //---
         $Month_Page_views += $views;
-        //===
+        //---
         $user = $row['user'];
         if (isset($Views_for_month_by_users[$user]) == '') { $Views_for_month_by_users[$user] = 0; };
         //---
         $Views_for_month_by_users[$user] = $Views_for_month_by_users[$user] + $views;
-        //===
+        //---
         $lang = $row['lang'];
         if (isset($Views_by_lang_for_month[$lang]) == '') { $Views_by_lang_for_month[$lang] = 0; };
         //---
         $Views_by_lang_for_month[$lang] = $Views_by_lang_for_month[$lang] + $views;
     };
-    //===
+    //---
     /*CREATE TABLE views_by_month_22 (
         id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         lang VARCHAR(30) NOT NULL,
@@ -105,16 +105,16 @@ function make_calendar_arrays($month_to_work) {
         v_2022_12 INT(6) NULL
         )
     */
-    //===
+    //---
 };
-//===
+//---
 make_calendar_arrays($month_to_work);
-//===
+//---
 echo '<section>
 <div class="container-fluid">';
-//===
+//---
 $month_main = '';
-//===
+//---
 $tab_m1 = Make_Numbers_table(
     count($Count_users_cal[$month_to_work]), 
     number_format($Count_articles_cal[$month_to_work]), 
@@ -123,15 +123,15 @@ $tab_m1 = Make_Numbers_table(
     $Month_Page_views
 );
 $month_main .= make_col_sm_4('Numbers',$tab_m1, $numb = '3');
-//===
+//---
 $tab_m2 = Make_users_table_cal($Views_for_month_by_users,$Count_users_cal[$month_to_work],$Users_words_cal[$month_to_work]);
 
 $month_main .= make_col_sm_4('Top users by number of translation', $tab_m2, $numb = '5');
-//===
+//---
 $tab_m3 = Make_lang_table_cal($Count_langs_cal[$month_to_work],$Views_by_lang_for_month);
 
 $month_main .= make_col_sm_4('Top languages by number of Articles',$tab_m3);
-//===
+//---
 echo "
   <div class='card'>
     <div class='card-header aligncenter'>
@@ -146,7 +146,7 @@ echo "
     </div>
   </div>
 ";
-//===
+//---
 echo "
 </div>
 </section>";

@@ -3,7 +3,7 @@
 require('header.php');
 require('langcode.php');
 //---
-//===
+//---
 //---
 if ($_GET['test'] != '') {
 	// echo(__file__);
@@ -12,20 +12,20 @@ if ($_GET['test'] != '') {
 	error_reporting(E_ALL);
 };
 //---
-//===
+//---
 //---
 $missingfile = file_get_contents("Tables/missing.json");
 //print $wordsjson;
 $MIS = json_decode( $missingfile, true) ; //{'all' : len(listenew), 'date' : Day_History, 'langs' : {} }
-//===
+//---
 //$lenth = file_get_contents("len.csv"); 
 $lenth = $MIS['all']; 
 $lenth2 = number_format($lenth); 
-//===
+//---
 //$date = '15-05-2021';
 $date = $MIS['date']; 
-//===
-//===
+//---
+//---
 $Table = array(); 
 $langs = $MIS['langs']; 
 //---
@@ -38,7 +38,7 @@ foreach ( $langs as $code => $tabe ) {
 //---
 arsort( $Table );
 //---
-//===
+//---
 $text = '
 <table id="myTable" class="table display">
     <thead>
@@ -85,14 +85,14 @@ print "
         <h5>Number of pages in Category:RTT : $lenth</h5>
         </div>
 ";
-//===
+//---
 print "<div class='card'>
   <div class='card-body' style='padding:5px 0px 5px 5px;'>
   $text
   </div>
   </div>"
   ;
-//===
+//---
 //---
 //---
 //---
@@ -101,11 +101,15 @@ print "
 //---
 if ($_REQUEST['test'] != '' ) echo "<br>load " . str_replace ( __dir__ , '' , __file__ ) . " true.";
 //---
-echo "<script>
+?>
+<script>
 $(document).ready( function () {
-    $('#myTable').DataTable();
-} );
-</script>";
+    $('#myTable').DataTable({
+	"lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
+	});
+});
+</script>
+<?php
 //---
 require('foter.php');
 //---

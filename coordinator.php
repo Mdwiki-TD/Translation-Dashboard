@@ -10,13 +10,15 @@ $ty = $_REQUEST['ty'];
 if (!isset($_REQUEST['nonav'])) {
 	echo '
 	<div class="row content">
-		<div class="col-md-2">
+		<div class="col-md-2" style="padding-right:-10px;">
 			<h5>coordinator tools</h5>
 			<ul class="nav flex-column nav-pills">
 				<li id="Home" class="nav-item"><a class="nav-link" href="coordinator.php">Home</a></li>
 				<li id="Campaigns" class="nav-item"><a class="nav-link" href="coordinator.php?ty=Campaigns">Campaigns</a></li>
+				<li id="process" class="nav-item"><a class="nav-link" href="coordinator.php?ty=Pending">Translations in process</a></li>
 				<li id="Emails" class="nav-item"><a class="nav-link" href="coordinator.php?ty=Emails">Emails</a></li>
 				<li id="others" class="nav-item"><a class="nav-link" href="coordinator.php?ty=others">Others</a></li>
+				<li id="fixwikirefs" class="nav-item"><a target="_blank" class="nav-link" href="../fixwikirefs.php">Fixwikirefs</a></li>
 			</ul>
 		</div>
 		<div class="col-md-10">

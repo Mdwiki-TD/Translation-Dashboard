@@ -5,9 +5,7 @@ delete table
 DROP table views_by_month ;
 //---
 // remove columns
-ALTER TABLE views_by_month_21
-DROP title
-;
+ALTER TABLE views_by_month_21 DROP title;
 
 //---
 
@@ -70,7 +68,7 @@ CREATE TABLE pages (
     pupdate VARCHAR(120) NULL,
     target VARCHAR(120) NULL
     )
-#-----------------------
+//---
 CREATE TABLE words (
     w_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     w_title VARCHAR(120) NOT NULL,
@@ -207,18 +205,18 @@ function sqlquary($quae) {
 };
 //---
 if ( $qua != '' and ($pass == $sqlpass or $_SERVER['SERVER_NAME'] == 'localhost') ) {
-    //===
+    //---
     if ($_SERVER['SERVER_NAME'] == 'mdwiki.toolforge.org') {
         $uu = sqlquary($qua);
     } else {
         $uu = sqlquary_localhost($qua);
     };
-    //===
+    //---
     $start = '<table class="sortable table table-striped alignleft"><tr>';
     $text = '';
-    //===
+    //---
     $number = 0;
-    //===
+    //---
     foreach ( $uu AS $id => $row ) {
         $number = $number + 1;
         $tr = '<tr>';
@@ -241,15 +239,15 @@ if ( $qua != '' and ($pass == $sqlpass or $_SERVER['SERVER_NAME'] == 'localhost'
         if ($tr != '<tr></tr>' ) { $text .= $tr; };
         //---
     };
-    //===
+    //---
     $start .= '</tr>';
-    //===
+    //---
     if ( $raw == '' ) {
         PRINT($start . $text . '</table>');
-        //===
+        //---
         // if ($test != '') { print_r($uu);};
         if ($test != '') { print(var_export($uu)) ;};
-        //===
+        //---
         if ($text == '') {
             if ($test != '') {
                 print_r($uu);
@@ -279,18 +277,18 @@ if ( $qua != '' and ($pass == $sqlpass or $_SERVER['SERVER_NAME'] == 'localhost'
             $sql_result[$n] = $ff;
         };
         print(json_encode($sql_result));
-		//----
+		//---
 		if ( $raw == '66' ) {
 			echo '<script>window.close();</script>';
 			
 		};
-		//----
+		//---
         
     };
-    //===
+    //---
 };
-//===
-//===
+//---
+//---
 
 /*
 $sql = <<<____SQL
@@ -306,7 +304,7 @@ ____SQL;
 $result = $this->db->getConnection()->exec($sql);
 
 */
-//===
+//---
 //---
 if ( $raw == '' ) {
     print "</div>";
@@ -314,5 +312,5 @@ if ( $raw == '' ) {
     require('foter.php');
     //---
 };
-//===
+//---
 ?>

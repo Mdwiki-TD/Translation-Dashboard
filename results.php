@@ -16,14 +16,12 @@ $code = isset($lang_to_code[$code]) ? $lang_to_code[$code] : $code;
 $code_lang_name = isset($code_to_lang[$code]) ? $code_to_lang[$code] : ''; 
 //---
 $Translate_type  = isset($_REQUEST['type']) ? $_REQUEST['type'] : '';
-$depth  = isset($_REQUEST['depth']) ? $_REQUEST['depth'] : 1;
-$depth  = $depth * 1 ;
+// $depth  = isset($_REQUEST['depth']) ? $_REQUEST['depth'] : 1;
+// $depth  = $depth * 1 ;
 //---
 $cat = isset($_REQUEST['cat']) ? $_REQUEST['cat'] : '';
 //---
 if ($cat == "undefined") { $cat = "RTT";};
-//---
-$cat_ch = htmlspecialchars($cat, ENT_QUOTES);
 //---
 function make_table( $items, $cod, $cat ) {
     global $username, $Words_table, $All_Words_table, $Assessments_table, $Assessments_fff ,$Translate_type;
@@ -31,15 +29,15 @@ function make_table( $items, $cod, $cat ) {
     
     //$frist = '<table class="table table-sm table-striped" id="main_table">';
     //$frist = "<caption>$res_line</caption>";
-    //=== 
+    //--- 
     $Refs_word = 'Lead refs';
-    //===
+    //---
     $Words_word = 'Words';
     if ($Translate_type == 'all') { 
         $Words_word = 'words';
         $Refs_word = 'References';
         };
-    //===
+    //---
     $frist = '
     <table class="table sortable table-striped" id="main_table">
     <thead>
@@ -188,7 +186,11 @@ if ( $doit && $doit2 ) {
     $items_missing = isset($items['missing']) ? $items['missing'] : array();
     $table = make_table( $items_missing, $code , $cat ) ;
     //---
-    $ix =  "Find $len_of_all pages in categories, $len_of_exists_pages exists, and $len_of_missing_pages missing in (<a href='https://$code.wikipedia.org'>https://$code.wikipedia.org</a>)." ;
+	$cat2 = "Category:" . str_replace ( 'Category:' , '' , $cat );
+    //---
+	$caturl = "<a href='https://mdwiki.org/wiki/$cat2'>category</a>";
+    //---
+    $ix =  "Find $len_of_all pages in $caturl, $len_of_exists_pages exists, and $len_of_missing_pages missing in (<a href='https://$code.wikipedia.org'>https://$code.wikipedia.org</a>)." ;
     //---
     $diff = isset($items['diff']) ? $items['diff'] : '';
     if ($diff != '' ) {
@@ -229,11 +231,11 @@ if ( $doit && $doit2 ) {
     //---
 } else {
     if (isset($doit) && $test != '' ) {
-        //===
+        //---
         print "_REQUEST code:" . isset($_REQUEST['code']) . "<br>";
         print "code:$code<br>";
         print "code_lang_name:$code_lang_name<br>";
-        //===
+        //---
     };
     echo '</div>';
 };

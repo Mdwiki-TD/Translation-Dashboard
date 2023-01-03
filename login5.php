@@ -96,20 +96,20 @@ $gConsumerKey = $ini['consumerKey'];
 $gConsumerSecret = $ini['consumerSecret'];
 
 // Load the user token (request or access) from the session
-//===
+//---
 $username = '';
 if (!isset($_GET['test1']) && $_SERVER['SERVER_NAME'] == 'localhost') { 
     $username = 'Mr. Ibrahem';
     // $username = '';
 };
-//===
+//---
 if(isset($_COOKIE['username'])) { $username = $_COOKIE['username']; };
-//===
+//---
 $gTokenKey = '';
 $gTokenSecret = '';
-//===
+//---
 session_start();
-//===
+//---
 if ( isset( $_SESSION['tokenKey'] ) ) {
     
     $gTokenKey = $_SESSION['tokenKey'];
@@ -121,9 +121,9 @@ if ( isset( $_SESSION['tokenKey'] ) ) {
     $gTokenSecret = $_COOKIE['tokenSecret'];
     
 };
-//===
+//---
 session_write_close();
-//===
+//---
 
 // Fetch the access token if this is the callback from requesting authorization
 // we get it after login
@@ -193,7 +193,7 @@ if ( $username != '' ) {
     print "<li><a href='$SCRIPT_NAME?action=login'>Login</a></li>";
 }
 */
-//===
+//---
 /**
  * Utility function to sign a request
  *

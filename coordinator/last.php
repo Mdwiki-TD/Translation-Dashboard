@@ -1,8 +1,8 @@
 <script src="sorttable.js"></script>
 <h4>Most recent translation:</h4>
 <?PHP
-//--
-//===
+//---
+//---
 function make_td($tabg, $nnnn) {
     // ------------------
     global $code_to_lang, $Words_table, $views_sql, $username;
@@ -68,7 +68,7 @@ ORDER BY pupdate DESC
 limit 20
 ;";
 $dd = quary2($quaa);
-//===
+//---
 $sato = '
 	<table class="table table-striped sortable alignleft" style="font-size:90%;">
         <tr>

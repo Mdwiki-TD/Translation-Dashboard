@@ -2,7 +2,7 @@
 //---
 require('header.php');
 require('leader_tables_new.php');
-//===
+//---
 echo '
   <style>
   .table {
@@ -18,11 +18,11 @@ echo '
       border-top: 1px solid #ddd
     }
   </style>';
-//===
+//---
 $key_cat  = 'all';
 $get_cat   = $_REQUEST['cat'];
 if ($get_cat != '') {    $key_cat = $get_cat;  };
-//===
+//---
 $my_cats = array();
 //---
 $cats = quary2("select cat from pages group by cat;");
@@ -31,7 +31,7 @@ foreach ( $cats AS $Key => $table ) $my_cats[] = $table['cat'];
 //---
 $my_cats_titles = array();
 //---
-$qq = quary2('select id, category, display from categories;');
+$qq = quary2('select id, category, display, depth from categories;');
 foreach ( $qq AS $k => $tab ) $my_cats_titles[$tab['category']] = $tab['display'];
 //---
 function cats_start() {
@@ -73,8 +73,8 @@ function cats_start() {
 };
 //---
 echo cats_start();
-//===
-//=== padding: 2px 0 2px 5px;
+//---
+//--- padding: 2px 0 2px 5px;
 function print_cat_table($y) {
   //---
   global $Views_by_users, $sql_users_tab, $Users_word_table, $sql_Languages_tab, $all_views_by_lang, $my_cats_titles;
@@ -91,12 +91,12 @@ function print_cat_table($y) {
   $tab3 = Make_lang_table($sql_Languages_tab[$y],$all_views_by_lang[$y]);
 
   $tables_main .= make_col_sm_4('Top languages by number of Articles',$tab3);
-  //===
+  //---
   $y2 = isset($my_cats_titles[$y]) ? $my_cats_titles[$y] : $y;
-  //===
+  //---
   $titlea = "$y2 Leaderboard";
   if ($y == 'all') {$titlea = 'Leaderboard';};
-  //===
+  //---
   return "
   <div class='card'>
   <div class='card-header aligncenter'>
@@ -111,39 +111,12 @@ function print_cat_table($y) {
   </div>
 </div>
   ";
-  //===
+  //---
 };
-//===
-function print_pinding_table(){
-  $tbe = Make_Pinding_table();
-  //===
-  $tab4 = make_col_sm_4('Number of translations',$tbe);
-  //===
-  return "
-  <div class='card'>
-    <div class='card-header aligncenter'>
-		<div class='card-title' style='margin-bottom: 0rem;' >
-			<h3>Translations in process</h3>
-      </div>
-    </div>
-    <div class='card-body'>
-      <div class='row'>
-        $tab4
-      </div>
-    </div>
-  </div>";
-};
-//===
+//---
 echo "\n<div class='container-fluid'>\n";
 echo print_cat_table($key_cat);
-//===
-if ($get_cat == '') {
-    echo print_pinding_table();
-};
-//===
-// echo "<h2 class='text-center'>$get_cat Leaderboard</h2>";
-// echo '<div class="text-center clearfix">';
-//===
+//---
 echo "</div>
 <!--</section>-->
 "; 

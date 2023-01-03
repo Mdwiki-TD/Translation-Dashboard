@@ -1,5 +1,5 @@
 <?PHP
-//===
+//---
 function make_col_sm_4($title, $table, $numb = '4') {
     return "
     <div class='col-md-$numb'>
@@ -14,7 +14,7 @@ function make_col_sm_4($title, $table, $numb = '4') {
     </div>
     ";
 };
-//=== 
+//--- 
 function make_col_sm_4_new($title, $table, $numb = '4') {
     return "
     <div class='col-md-$numb'>
@@ -29,12 +29,12 @@ function make_col_sm_4_new($title, $table, $numb = '4') {
     </div>
     ";
 };
-//=== 
+//--- 
 function test_print($s) {
     global $test;
     if ($test != '') { print $s; };
 };
-//===
+//---
 function make_drop($uxutable, $code, $id) {
     $ux =  "<select dir='ltr' id='$id' name='$id' class='form-control custom-select' style='width:70%;'>";
     //---
@@ -49,7 +49,7 @@ function make_drop($uxutable, $code, $id) {
     //---
 	return $ux;
 };
-//===
+//---
 function make_datalist_options($hyh) {
     //---
     $str = '';
@@ -62,14 +62,16 @@ function make_datalist_options($hyh) {
     return $str;
     //---
 };
-//===
+//---
 function Get_it( $array, $key ) {
     $uu = isset($array[$key]) ? $array[$key] : $array->{$key};
     return $uu;
 };
-//===
+//---
 function get_views($target, $lang) {
     $view = 0;
+    //---
+	if ($target == '') return 0;
     //---
     $url = 'https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/' . $lang . '.wikipedia/all-access/all-agents/' . rawurlencode($target) . '/daily/2019010100/2030010100';
     //---
@@ -85,14 +87,14 @@ function get_views($target, $lang) {
     //---
     return $view;
 };
-//===
+//---
 function make_view_by_number($target, $numb, $lang) {
     //---
     $numb2 = ($numb != '') ? $numb : "?";
     //---
     // if ($numb2 == '?' || $numb2 == 0 || $numb2 == '0') $numb2 = get_views($target, $lang);
     //---
-    $url = 'https://' . 'pageviews.toolforge.org/?project='. $lang .'.wikipedia.org&platform=all-access&agent=all-agents&redirects=0&range=all-time&pages=' . rawurlEncode($target);
+    $url = 'https://' . 'pageviews.wmcloud.org/?project='. $lang .'.wikipedia.org&platform=all-access&agent=all-agents&redirects=0&range=all-time&pages=' . rawurlEncode($target);
     //---
     $url2 = 'https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/' . $lang . '.wikipedia/all-access/all-agents/' . rawurlencode($target) . '/daily/2019010100/2030010100';
     //---
@@ -103,7 +105,7 @@ function make_view_by_number($target, $numb, $lang) {
     //---
     return $link ;
     };
-//===
+//---
 function make_mdwiki_title($tit) {
     $title = $tit;
     if ($title != '') {
@@ -112,7 +114,7 @@ function make_mdwiki_title($tit) {
     };
     return $title;
 };
-//=== 
+//--- 
 function make_cat_url ($ca) {
     $cat = $ca;
     if ($cat != '') {
@@ -121,7 +123,7 @@ function make_cat_url ($ca) {
     };
     return $cat;
 };
-//=== 
+//--- 
 function make_mdwiki_user_url($ud) {
     $user = $ud;
     if ($user != '') {
@@ -130,16 +132,20 @@ function make_mdwiki_user_url($ud) {
     };
     return $user;
 };
-//=== 
-function make_target_url ($ta , $lang) {
+//--- 
+function make_target_url($ta, $lang, $name='') {
     $target = $ta ;
+	//---
+	$nan = $target;
+	if ($name != '') $nan = $name;
+	//---
     if ($target != '') {
         $target2 = rawurlencode( str_replace ( ' ' , '_' , $target ) );
-        $target = '<a href="https://' . $lang . '.wikipedia.org/wiki/' . $target2 . '">' . $target . '</a>';
+        $target = '<a href="https://' . $lang . '.wikipedia.org/wiki/' . $target2 . '">' . $nan . '</a>';
     };
     return $target;
 };
-//=== 
+//--- 
 if ($_REQUEST['test'] != '' ) echo "<br>load " . str_replace ( __dir__ , '' , __file__ ) . " true.";
-//=== 
+//--- 
 ?>

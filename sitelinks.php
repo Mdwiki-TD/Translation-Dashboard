@@ -20,7 +20,7 @@ echo "
 <table class='table table-striped sortable alignleft' id='table-1'>
     <thead>
         <tr>";
-//===
+//---
 $file2 = "Tables/sitelinks.json";
 //---
 // open json file
@@ -35,22 +35,22 @@ $qids = $data2['qids'];
 $heads = array_slice($heads, 0, 50);
 // limit to 150
 $qids = array_slice($qids, 0, $title_limit);
-//===
+//---
 $notitle = true;
-//===
+//---
 if ($site != "" && $site != "all") {
     $notitle = false;
     $heads = array();
     $heads[] = $site;
     $qids = $data2['qids'];
 }
-//===
+//---
 print "
     <th>#</th>
     <th>qid</th>
     <th>mdtitle</th>
 ";
-//===
+//---
 foreach ($heads as $head) {
     print "
                 <th>$head</th>";
@@ -59,7 +59,7 @@ print "     </tr>
         </thead>
         <tbody>";
 //---
-//===
+//---
 /*tab = {
         "heads": ["arwiki"],
         "qids": {
@@ -67,7 +67,7 @@ print "     </tr>
         }
     }
     */
-//===
+//---
 // show 100 row only
 $i = 0;
 foreach ($qids as $qid => $tab) {

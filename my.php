@@ -9,8 +9,8 @@ require('langcode.php');
 $test = $_REQUEST['test'];
 // $mainuser = rawurldecode( str_replace ( '_' , ' ' , $username ) );
 //---
-//===
-//===
+//---
+//---
 $views_sql = array();
 //---
 // views (target, countall, count2021, count2022, count2023, lang)
@@ -31,8 +31,8 @@ foreach ( $views_query AS $Key => $table ) {
     $user_total_views = $user_total_views + $countall;
     //---
 };
-//===
-//===
+//---
+//---
 function make_td($tabg,$nnnn) {
     // ------------------
     global $code_to_lang, $Words_table, $views_sql;
@@ -88,7 +88,7 @@ function make_td($tabg,$nnnn) {
 //---
 $quaa = "select * from pages where user = '$username'";
 $sql_result = quary2($quaa);
-//===
+//---
 //---
 $dd_Pending = array();
 $dd = array();
@@ -115,7 +115,7 @@ echo "
 	<h2 class='text-center'>$man</h2>
 	<div class='text-center clearfix leaderboard'>
 ";
-//===
+//---
 $tab_start = '
     <div class="table-responsive">          
     <table class="table table-striped sortable alignleft">
@@ -123,7 +123,7 @@ $tab_start = '
 $tab_end = '
         </table>
     </div>';
-//===
+//---
 $table_leg = $tab_start . '
         <tr>
             <th onclick="sortTable(0)">#</th>
@@ -136,17 +136,17 @@ $table_leg = $tab_start . '
             <th onclick="sortTable(7)">Translated</th>
 ';
 //---
-//===
+//---
 $vas = 'Pageviews';
 if ( $user_total_views != 0) { $vas .= "<br>($user_total_views)"; };
 //---
 $sato = $table_leg . "
             <th onclick='sortTable(8)'>Completion date</th><th onclick='sortTable(9)'>$vas</th>
             <th onclick='sortTable(9)'>Fix reference</th>";
-//===
+//---
 if ($test != '') $sato .= '
             <th onclick="sortTable(10)">User</th>';
-//===
+//---
 $sato .= '
         </tr>';
 //---
@@ -167,11 +167,11 @@ print '
 <div class="text-center clearfix leaderboard" >
     <h2 class="text-center">Translations in process</h2>
 ';
-//===
+//---
 if ($username == "Mr. Ibrahem") {
     $Pending_a = '<th onclick="sortTable(9)">Remove</th>';
 };
-//===
+//---
 echo $tab_start . '
         <tr>
             <th onclick="sortTable(0)">#</th>

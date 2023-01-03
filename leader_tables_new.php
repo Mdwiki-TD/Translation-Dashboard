@@ -1,13 +1,13 @@
 <?PHP
-//===
+//---
 require('tables.php');
 include_once('functions.php');
 require('langcode.php');
-//===
+//---
 function strstartswith ( $haystack, $needle ) {
   return strpos( $haystack , $needle ) === 0;
 };
-//===
+//---
 // views (target, countall, count2021, count2022, count2023, lang)
 $qua_views2 = "select p.target, p.user, p.cat, 
 v.lang, v.countall, v.count2021, v.count2022, v.count2023, 
@@ -47,9 +47,9 @@ foreach ( $views_quarye AS $Key => $tablea ) {
     $counts['2022'] = $tablea['count2022'];
     $counts['2023'] = $tablea['count2023'];
     //---
-    //===
+    //---
     $coco = isset($counts[$the_year]) ? $counts[$the_year] : 0;
-    //===
+    //---
     //---
     // if (isset($sql_Languages_tab[$llang]) == '') $sql_Languages_tab[$llang] = array();
     //---
@@ -102,7 +102,7 @@ foreach ( $views_quarye AS $Key => $tablea ) {
     $global_views[$cat] += $allviews;
     //---
     };
-//===
+//---
 $sql_t = 'select user, lang, word, target, pupdate, year(pupdate) as pup_y, cat
 from pages
 #where target != "";
@@ -239,7 +239,7 @@ function ma_Numbers_table($uu) {
     //---
     return $Numbers_table;
 };
-//===
+//---
 function Make_users_table($Viewstable,$Users_tables,$Words_tables) {
     //---
     //---
@@ -291,7 +291,7 @@ function Make_users_table($Viewstable,$Users_tables,$Words_tables) {
     //---
     return $text;
 }
-//===
+//---
 function Make_lang_table($lang_array,$views_array) {
     //---
     global $code_to_lang;
@@ -334,7 +334,7 @@ function Make_lang_table($lang_array,$views_array) {
             if ( $_SERVER['SERVER_NAME'] == 'localhost' ) { 
                 $text .= '<td><a target="_blank" href="https://' . $langcode . '.wikipedia.org/wiki/Category:Translated_from_MDWiki">(cat)</a></td>';
             };
-            //===
+            //---
             //---
                 $text .= '
             </tr>';
@@ -348,53 +348,7 @@ function Make_lang_table($lang_array,$views_array) {
     //---
     return $text;
 }
-//===
-function Make_Pinding_table() {
-    //---
-    global $user_process_tab;
-    //---
-    $text = '
-    <table class="sortable table table-striped alignleft"> <!-- scrollbody -->
-    <tr>
-    <th onclick="sortTable(0)" class="spannowrap">User</th>
-    <th onclick="sortTable(1)">Number</th>';
-    
-    //---
-    if ($_REQUEST['test'] != '') {
-        $text .= '<th onclick="sortTable(1)">comp</th><th onclick="sortTable(1)">all</th>';
-    };
-    //---
-    $text .= '
-    </tr>
-    ';
-    //---
-    arsort($user_process_tab);
-    //---
-    foreach ( $user_process_tab AS $user => $pinde ) {
-        if ($user != 'test' && $user != '') {
-            //---
-            $use = rawurlEncode($user);
-            $use = str_replace ( '+' , '_' , $use );
-            //---
-            if ($pinde > 0 ) {
-                //---
-                $text .= '
-                <tr>
-                    <td><a href="users.php?user=' . $use . '">' . $user . '</a></td>
-                    <td>' . $pinde . '</td>';
-                $text .= '
-                </tr>
-                ';
-            };
-        };
-    };
-    //---
-    $text .= '
-    </table>';
-    //---
-    return $text;
-}
-//===
+//---
 if ($_REQUEST['test'] != '' ) echo "<br>load " . str_replace ( __dir__ , '' , __file__ ) . " true.";
-//===
+//---
 ?>

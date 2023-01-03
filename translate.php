@@ -40,11 +40,11 @@ $useree  = isset($_REQUEST['username']) ? $_REQUEST['username'] : $username;
 //---
 if ($title_o != '' && $coden != '' && $useree != '' ) {
     //---
-    $newaa 	 = $_REQUEST['newaa'];
-    $cat 	 = $_REQUEST['cat'];
-    $test 	 = $_REQUEST['test'];
-    $fixref  = $_REQUEST['fixref'];
-    $tr_type = $_REQUEST['type'];
+    $newaa 	 = get_request('newaa');
+    $cat 	 = get_request('cat');
+    $test 	 = get_request('test');
+    $fixref  = get_request('fixref');
+    $tr_type = get_request('type');
     //---
     $useree = rawurldecode($useree);
     $cat = rawurldecode($cat);
@@ -56,7 +56,7 @@ if ($title_o != '' && $coden != '' && $useree != '' ) {
     //---
     $user2  = rawurlencode(str_replace ( ' ' , '_' , $useree ));
     $cat2   = rawurlencode(str_replace ( ' ' , '_' , $cat ));
-    //===
+    //---
     $word = isset($Words_table[$title_o]) ? $Words_table[$title_o] : 0; 
     //---
     if ($tr_type == 'all') { 
@@ -87,7 +87,7 @@ INSERT INTO pages (title, word, translate_type, cat, lang, date, user, target, p
     //---
     quary($quae_new);
     //---
-    //===
+    //---
     // if ($newaa != '') {
         // $output = start_trans_php($title_o,$test,$fixref,$tr_type);
     // } else {

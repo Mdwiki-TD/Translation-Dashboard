@@ -16,7 +16,7 @@ $qids = json_decode( file_get_contents("Tables/mdwiki_to_qid.json"), true) ;
 $qids2 = json_decode( file_get_contents("Tables/other_qids.json"), true) ;
 //---
 $table = "
-<table class='table table-striped sortable alignleft' id='myTable'>
+<table  id='mumu'class='table display'>
 <thead>
     <tr>
         <th>#</th>
@@ -39,7 +39,7 @@ foreach( $qids2 as $ta => $q ) {
     };
 }; 
 //---
-$titles = get_cat_members_from_mdwiki( 'RTT' );
+$titles = get_mdwiki_cat_members( 'RTT', $depth=1 );
 //---
 $no_qid = 0;
 $no_word = 0;
@@ -125,11 +125,16 @@ echo "
 //---
 echo $table;
 //---
-echo "<script>
+?>
+<script>
 $(document).ready( function () {
-    $('#myTable').DataTable();
+    $('#mumu').DataTable({
+	'lengthMenu': [[100, 150, 200, -1], [100, 150, 200, 'All']]
+	});
 } );
-</script>";
+
+</script>
+<?PHP
 //---
 print '
 </div>

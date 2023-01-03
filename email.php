@@ -4,7 +4,7 @@
 //---
 $hoste = 'https://tools-static.wmflabs.org/cdnjs';
 if ( $_SERVER['SERVER_NAME'] == 'localhost' )  $hoste = 'https://cdnjs.cloudflare.com';
-#---
+//---
 // echo "<link href='$hoste/ajax/libs/froala-editor/4.0.16/css/froala_editor.pkgd.min.css' rel='stylesheet' type='text/css' /><script type='text/javascript' src='$hoste/ajax/libs/froala-editor/4.0.16/js/froala_editor.pkgd.min.js'></script>";
 //---
 echo "<script src='$hoste/ajax/libs/summernote/0.8.20/summernote-bs4.min.js'></script>

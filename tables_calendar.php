@@ -1,9 +1,9 @@
 <?PHP
-//===
+//---
 require('tables.php');
 include_once('functions.php');
 require('langcode.php');
-//===
+//---
 $sql_ttt = 'select user,lang,word,target,pupdate,CONCAT(left(pupdate,7)) as month
 from pages
 where target != "";
@@ -43,7 +43,7 @@ foreach ( $sql_cu AS $id => $table ) {
 		if (isset($Total_words_cal[$month]) == '') $Total_words_cal[$month] = 0;
 		$Total_words_cal[$month] = $Total_words_cal[$month] + $word ;
 		//---
-		//===
+		//---
 		//---
 		// add month to the array
 		if (isset($Count_users_cal[$month]) == '') $Count_users_cal[$month] = array();
@@ -62,7 +62,7 @@ foreach ( $sql_cu AS $id => $table ) {
 		$Users_words_cal[$month][$use] = $Users_words_cal[$month][$use] + $word;
 		//---
         //---
-		//===
+		//---
     };
 };
 //---
@@ -85,7 +85,7 @@ function Make_Numbers_table($Users_n,$artic_n,$words_n,$langs_n,$views) {
 	//---
 	return $Numbers_table;
 };
-//===
+//---
 function Make_users_table_cal($Viewstable,$Users_tables,$Words_tables) {
     //---
     //---
@@ -123,7 +123,7 @@ function Make_users_table_cal($Viewstable,$Users_tables,$Words_tables) {
     //---
     return $text;
 }
-//===
+//---
 function Make_lang_table_cal($langs_counts,$langs_views) {
     //---
     global $code_to_lang;
@@ -160,7 +160,7 @@ function Make_lang_table_cal($langs_counts,$langs_views) {
             if ( $_SERVER['SERVER_NAME'] == 'localhost' ) { 
                 $text .= '<td><a target="_blank" href="https://' . $langcode . '.wikipedia.org/wiki/Category:Translated_from_MDWiki">(cat)</a></td>';
             };
-            //===
+            //---
             //---
                 $text .= '
             </tr>';
@@ -174,7 +174,7 @@ function Make_lang_table_cal($langs_counts,$langs_views) {
     //---
     return $text;
 }
-//===
+//---
 if ($_REQUEST['test'] != '' ) echo "<br>load " . str_replace ( __dir__ , '' , __file__ ) . " true.";
-//===
+//---
 ?>

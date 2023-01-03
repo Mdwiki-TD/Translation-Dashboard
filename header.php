@@ -7,40 +7,17 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Wiki Project Med Translation Dashboard</title>
 <?php 
-	//---
-	if ($_GET['test'] != '') {
-		// echo(__file__);
-		ini_set('display_errors', 1);
-		ini_set('display_startup_errors', 1);
-		error_reporting(E_ALL);
-	};
-	//---
-	// include_once('sql.php');
-	include_once('login5.php');
-	//---
-	$hoste = 'https://tools-static.wmflabs.org/cdnjs';
-	if ( $_SERVER['SERVER_NAME'] == 'localhost' )  $hoste = 'https://cdnjs.cloudflare.com';
-	#---
-	if (isset($_GET['noboot']) == '') {
-		echo "
-		<link href='$hoste/ajax/libs/font-awesome/5.15.3/css/all.min.css' rel='stylesheet' type='text/css'>
-		<script src='$hoste/ajax/libs/jquery/3.6.1/jquery.min.js'></script>
-		
-		<script src='$hoste/ajax/libs/popper.js/1.16.1/umd/popper.min.js'></script>
-		<script src='$hoste/ajax/libs/twitter-bootstrap/4.6.2/js/bootstrap.min.js'></script>
-		<link href='$hoste/ajax/libs/twitter-bootstrap/4.6.2/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
-		
-		<script src='$hoste/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js'></script>
-		<link href='$hoste/ajax/libs/datatables/1.10.21/css/jquery.dataTables.min.css' rel='stylesheet' type='text/css'>
-		<link href='$hoste/ajax/libs/datatables/1.10.21/css/dataTables.bootstrap4.min.css' rel='stylesheet' type='text/css'>
-		";
-	};
-	//---
-	echo '<span id="myusername" style="display:none">' . $username . '</span>
-	';
-	//---
-	if ($_REQUEST['test'] != '' ) echo "<br>load " . str_replace ( __dir__ , '' , __file__ ) . " true.";
-	//---
+//---
+if ($_REQUEST['test'] != '') {
+	// echo(__file__);
+	ini_set('display_errors', 1);
+	ini_set('display_startup_errors', 1);
+	error_reporting(E_ALL);
+};
+//---
+// include_once('sql.php');
+include_once('login5.php');
+//---
 function get_coord_users($username) {
 	//---
 	/*$qua = 'select user from coordinator;';
@@ -64,16 +41,46 @@ function get_coord_users($username) {
 	return '';
 };
 //---
-	$coord = get_coord_users($username);
+function print_head() {
+	global $username;
+	$hoste = 'https://tools-static.wmflabs.org/cdnjs';
+	if ( $_SERVER['SERVER_NAME'] == 'localhost' )  $hoste = 'https://cdnjs.cloudflare.com';
 	//---
-?>
-	
+	if (isset($_GET['noboot']) == '') {
+		echo "
+		<link href='$hoste/ajax/libs/font-awesome/5.15.3/css/all.min.css' rel='stylesheet' type='text/css'>
+		<script src='$hoste/ajax/libs/jquery/3.6.1/jquery.min.js'></script>
+		
+		<script src='$hoste/ajax/libs/popper.js/1.16.1/umd/popper.min.js'></script>
+		<script src='$hoste/ajax/libs/twitter-bootstrap/4.6.2/js/bootstrap.min.js'></script>
+		<link href='$hoste/ajax/libs/twitter-bootstrap/4.6.2/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
+		
+		<script src='$hoste/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js'></script>
+		<link href='$hoste/ajax/libs/datatables/1.10.21/css/jquery.dataTables.min.css' rel='stylesheet' type='text/css'>
+		<link href='$hoste/ajax/libs/datatables/1.10.21/css/dataTables.bootstrap4.min.css' rel='stylesheet' type='text/css'>
+		";
+	};
+	//---
+	echo '<span id="myusername" style="display:none">' . $username . '</span>
+	';
+	//---
+	if ($_REQUEST['test'] != '' ) echo "<br>load " . str_replace ( __dir__ , '' , __file__ ) . " true.";
+	//---
+	echo '
 	<!-- <link href="css/sb-admin-2.min.css" rel="stylesheet"> -->
 	<link href="dashboard_new.css" rel="stylesheet">
 	<script src="to.js"></script>
 	<!-- <script src="sorttable.js"></script> -->
 	<!-- Custom fonts for this template-->
-	<!-- <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet"> -->
+	<!-- <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet"> -->';
+	//---
+};
+//---
+print_head();
+//---
+$coord = get_coord_users($username);
+//---
+?>
 </head>
 
 <body>

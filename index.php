@@ -16,8 +16,6 @@ $code = isset($lang_to_code[$code]) ? $lang_to_code[$code] : $code;
 $code_lang_name = isset($code_to_lang[$code]) ? $code_to_lang[$code] : ''; 
 //---
 $Translate_type  = isset($_REQUEST['type']) ? $_REQUEST['type'] : '';
-$depth  = isset($_REQUEST['depth']) ? $_REQUEST['depth'] : 1;
-$depth  = $depth * 1 ;
 //---
 $cat = isset($_REQUEST['cat']) ? $_REQUEST['cat'] : '';
 //---
@@ -25,9 +23,34 @@ if ($cat == "undefined") { $cat = "RTT";};
 //---
 $cat_ch = htmlspecialchars($cat, ENT_QUOTES);
 //---
+$catinput_depth = array();
+$catinput_list = array(
+	// "ready to translate" => 'RTT',
+	// "Covid team" => 'RTTCovid',
+	);
+//---
+$qq = quary2('select category, display, depth from categories;');
+//---
+$numb = 0;
+//---
+foreach ( $qq AS $Key => $table ) {
+	$numb += 1;
+	$category = $table['category'];
+	$display = $table['display'];
+	$catinput_list[$display] = $category;
+	//---
+	$catinput_depth[$category] = $table['depth'];
+	//---
+};
+//---
+$depth  = isset($_REQUEST['depth']) ? $_REQUEST['depth'] : 1;
+$depth  = $depth * 1 ;
+//---
+$depth  = isset($catinput_depth[$cat]) ? $catinput_depth[$cat] : 1;
+//---
 function print_form_start() {
     //---
-    global $lang_to_code, $doit;
+    global $lang_to_code, $doit, $catinput_list;
     global $cat_ch, $depth, $code_lang_name, $code, $username, $Translate_type;
     //---
     $lead_checked = "checked";
@@ -43,7 +66,7 @@ function print_form_start() {
     $coco = $code_lang_name;
     if ( $coco == '') { $coco = $code ; };
     //---
-    //======
+    //---
     $lang_list = '';
     //---
     foreach ( $lang_to_code AS $langeee => $codr ) {
@@ -60,7 +83,7 @@ function print_form_start() {
             </datalist>
         </input>
     ";
-    //======
+    //---
     $err = '';
     //---
     if ($code_lang_name == '' and $code != '') { 
@@ -80,22 +103,6 @@ function print_form_start() {
     // -------------
     if ( $username != '' ) $uiu = '<input type="submit" name="doit" class="btn btn-primary" value="Do it"/>';
     //---
-    $catinput_list = array(
-        // "ready to translate" => 'RTT',
-        // "Covid team" => 'RTTCovid',
-        );
-	//---
-	$qq = quary2('select category, display from categories;');
-	//---
-    $numb = 0;
-	//---
-	foreach ( $qq AS $Key => $table ) {
-		$numb += 1;
-		$category = $table['category'];
-		$display = $table['display'];
-		$catinput_list[$display] = $category;
-	};
-    #---
     $catinput = make_drop($catinput_list, $cate, 'cat');
     //---
     // $catinput = "<input class='span4' type='text' size=25 name='cat' id='cat' value='$cate' placeholder='Root category' /> <!-- Depth <input name='depth' type='number' size='1' min=0 max=10 value='$depth' /> (optional) -->";
