@@ -127,44 +127,59 @@ background: #fff;
 	}
 }
 .shadow {
-box-shadow: 0 .15rem 1.75rem 0 rgba(58,59,69,.15)!important;
+	box-shadow: 0 .15rem 1.75rem 0 rgba(58,59,69,.15)!important;
 }
 .scrollbody {
-display: block; /* makes it sizeable */
-height: 330px; /* height of scrollable area */
-overflow: auto; /* scroll rather than overflow */
-width: 100%;
+	display: block; /* makes it sizeable */
+	height: 330px; /* height of scrollable area */
+	overflow: auto; /* scroll rather than overflow */
+	width: 100%;
 }
 .scrollbody tbody td {width: 100%;  } /* fixed width for TDs */
 
 fieldset {
-border: 1px solid blue;
-width: 360px;
-border-radius: 5px;
+	border: 1px solid blue;
+	width: 360px;
+	border-radius: 5px;
 }
 
 
 .code_11 {
-/* font-size: 18px; */
-padding: 5px;
-height: 35px;
-width: 350px;
-border: 1px solid;
-/* outline: none; */
-border-radius: 5px;
-/* color: blue; */
-/* border-bottom: none; */
+	/* font-size: 18px; */
+	padding: 5px;
+	height: 35px;
+	width: 350px;
+	border: 1px solid;
+	/* outline: none; */
+	border-radius: 5px;
+	/* color: blue; */
+	/* border-bottom: none; */
 }
 .selectpickerr {
-/* position: absolute; */
-background-color: white;
-border: 1px solid blue;
-border-radius: 0 0 5px 5px;
-border-top: none;
-/* font-family: sans-serif; */
-width: 350px;
-padding: 5px;
-max-height: 30rem;
-overflow-y: auto
+	position:static;
+	background-color: white;
+	/* border-radius: 0 0 5px 5px; */
+	/* font-family: sans-serif; */
+	width: 320px;
+	padding: 5px;
+	/* max-width: 20rem; */
+	max-height: 20rem;
+	overflow-y: auto;
+	/* display:list-item */
+}
 
+.compact thead th,
+.compact thead td {
+  padding: 4px 17px;
+}
+.compact tfoot th,
+.compact tfoot td {
+  padding: 4px;
+}
+.compact tbody th,
+.compact tbody td {
+  padding: 4px;
+}
+a {
+    text-decoration: none;
 }

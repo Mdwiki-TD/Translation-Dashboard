@@ -16,6 +16,12 @@ function login(){
 $(document).ready(function() {
 	// console.log('usernamexx');
     to_get();
+	
+    $('.soro').DataTable({
+    paging: false,
+    scrollY: 400
+	});
+    $('.soro2').DataTable({});
 });
 </script>
 <!-- Footer -->

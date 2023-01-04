@@ -41,7 +41,7 @@ function Make_Pinding_table() {
     global $user_process_tab;
     //---
     $text = "
-    <table id='pendingtable' class='table display'>
+    <table class='table table-striped compact soro'>
 	<thead>
 		<tr>
 			<th>#</th>
@@ -92,11 +92,3 @@ $tbe = Make_Pinding_table();
 echo $tbe;
 //---
 ?>
-<script>
-$(document).ready( function () {
-    $('#pendingtable').DataTable({
-	'lengthMenu': [[50, 100, 150, -1], [50, 100, 150, 'All']]
-	});
-} );
-
-</script>

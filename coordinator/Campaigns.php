@@ -47,7 +47,7 @@ $numb = 0;
 //---
 foreach ( $qq AS $Key => $table ) {
 	$numb += 1;
-	$id = $table['id'];
+	$id 		= $table['id'];
 	$category 	= $table['category'];
 	$display 	= $table['display'];
 	$depth		= $table['depth'];

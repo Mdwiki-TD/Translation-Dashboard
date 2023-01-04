@@ -5,32 +5,25 @@ require('tables.php');
 require('getcats.php');
 include_once('functions.php');
 //---
-?>
-</div>
-<div align=left>
-</div>
-<div align=left>
-<?PHP
-//---
 $qids = json_decode( file_get_contents("Tables/mdwiki_to_qid.json"), true) ;
 $qids2 = json_decode( file_get_contents("Tables/other_qids.json"), true) ;
 //---
 $table = "
-<table  id='mumu'class='table display'>
-<thead>
-    <tr>
-        <th>#</th>
-        <th>title</th>
-        <th>qid</th>
-        <th>lead word</th>
-        <th>all word</th>
-        <th>ref</th>
-        <th>all ref</th>
-        <th>Importance</th>
-        <th>enwiki views</th>
-    </tr>
-</thead>
-<tbody>";
+	<table class='table display soro'>
+	<thead>
+		<tr>
+			<th>#</th>
+			<th>title</th>
+			<th>qid</th>
+			<th>lead word</th>
+			<th>all word</th>
+			<th>ref</th>
+			<th>all ref</th>
+			<th>Importance</th>
+			<th>enwiki views</th>
+		</tr>
+	</thead>
+	<tbody>";
 //---
 foreach( $qids2 as $ta => $q ) {
     //---
@@ -104,36 +97,42 @@ $with_allref = $i - $no_allref;
 $with_Importance = $i - $no_Importance;
 $with_pv = $i - $no_pv;
 //---
-echo "
-<table class='table table-striped'>
-<tr>
-	<th>type</th>
-	<th>with</th>
-	<th>without</th>
-</tr>
-
-<tr>
-		<tr><td>qid</td><td>$with_q</td><td>$no_qid</td></tr>
-		<tr><td>word</td><td>$with_word</td><td>$no_word</td></tr>
-		<tr><td>allword</td><td>$with_allword</td><td>$no_allword</td></tr>
-		<tr><td>ref</td><td>$with_ref</td><td>$no_ref</td></tr>
-		<tr><td>allref</td><td>$with_allref</td><td>$no_allref</td></tr>
-		<tr><td>Importance</td><td>$with_Importance</td><td>$no_Importance</td></tr>
-		<tr><td>enwiki views</td><td>$with_pv</td><td>$no_pv</td></tr>
-</tr>
-<table>";
+$tabo = "
+	<div class='col-md'>
+		<div class='card'>
+			<div class='card-body'>
+				<table class='table table-sm'>
+					<tr>
+						<th>type</th>
+						<th>with</th>
+						<th>without</th>
+					</tr>
+						%s
+				</table>
+			</div> 
+		</div>
+	</div>";
+//---
+echo "<div class='row'> ";
+//---
+echo sprintf($tabo, "
+	<tr><td>qid</td><td>$with_q</td><td>$no_qid</td></tr>						
+	<tr><td>enwiki views</td><td>$with_pv</td><td>$no_pv</td></tr>
+	<tr><td>Importance</td><td>$with_Importance</td><td>$no_Importance</td></tr>");
+//---
+echo sprintf($tabo, "	
+	<tr><td>word</td><td>$with_word</td><td>$no_word</td></tr>
+	<tr><td>allword</td><td>$with_allword</td><td>$no_allword</td></tr>");
+//---
+echo sprintf($tabo, "
+	<tr><td>ref</td><td>$with_ref</td><td>$no_ref</td></tr>
+	<tr><td>allref</td><td>$with_allref</td><td>$no_allref</td></tr>");
+//---
+echo "</div>";
 //---
 echo $table;
 //---
 ?>
-<script>
-$(document).ready( function () {
-    $('#mumu').DataTable({
-	'lengthMenu': [[100, 150, 200, -1], [100, 150, 200, 'All']]
-	});
-} );
-
-</script>
 <?PHP
 //---
 print '

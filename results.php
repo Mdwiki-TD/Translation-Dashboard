@@ -39,16 +39,16 @@ function make_table( $items, $cod, $cat ) {
         };
     //---
     $frist = '
-    <table class="table sortable table-striped" id="main_table">
+    <table class="table table-sm sortable table-striped" id="main_table">
     <thead>
         <tr>
-        <th onclick="sortTable(0)" class="num">#</th>
-        <th onclick="sortTable(1)" class="spannowrap" tt="h_title">Title</th>
+        <th class="num">#</th>
+        <th class="spannowrap" tt="h_title">Title</th>
         <th class="spannowrap" tt="h_len">Translate</th>
         <th class="spannowrap" tt="h_len">Pageviews</th>
-        <th onclick="sortTable(2)" class="spannowrap" tt="h_len">Importance</th>
-        <th onclick="sortTable(3)" class="spannowrap" tt="h_len">' . $Words_word . '</th>
-        <th onclick="sortTable(3)" class="spannowrap" tt="h_len">' . $Refs_word . '</th>
+        <th class="spannowrap" tt="h_len">Importance</th>
+        <th class="spannowrap" tt="h_len">' . $Words_word . '</th>
+        <th class="spannowrap" tt="h_len">' . $Refs_word . '</th>
         </tr>
     </thead>
     <tbody>
@@ -126,9 +126,9 @@ function make_table( $items, $cod, $cat ) {
             $translate_url = 'translate.php?' . http_build_query($params);
             //---
             if ( $username != '' ) {
-                $tab = "<a href='" . $translate_url . "' class='btn btn-primary'>Translate</a>";
+                $tab = "<a href='" . $translate_url . "' class='btn btn-primary btn-sm'>Translate</a>";
             } else {
-                $tab = "<a class='btn btn-danger' href='login5.php?action=login'><span class='glyphicon glyphicon-log-in'></span> Login</a>";
+                $tab = "<a class='btn btn-danger btn-sm' href='login5.php?action=login'><span class='glyphicon glyphicon-log-in'></span> Login</a>";
             };
             //---
             $list .= "
