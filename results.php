@@ -45,10 +45,16 @@ function make_table( $items, $cod, $cat ) {
         <th onclick="sortTable(0)" class="num">#</th>
         <th onclick="sortTable(1)" class="spannowrap" tt="h_title">Title</th>
         <th class="spannowrap" tt="h_len">Translate</th>
-        <th class="spannowrap" tt="h_len">Pageviews</th>
-        <th onclick="sortTable(2)" class="spannowrap" tt="h_len">Importance</th>
+        <th class="spannowrap tooltip" tt="h_len">Pageviews
+		<span class="tooltiptext">Tooltip text for page views</span>
+	</th>
+        <th onclick="sortTable(2)" class="spannowrap tooltip" tt="h_len">Importance
+		<span class="tooltiptext">Tooltip text for importance</span>
+	</th>
         <th onclick="sortTable(3)" class="spannowrap" tt="h_len">' . $Words_word . '</th>
-        <th onclick="sortTable(3)" class="spannowrap" tt="h_len">' . $Refs_word . '</th>
+        <th onclick="sortTable(3)" class="spannowrap tooltip" tt="h_len">' . $Refs_word . '
+		<span class="tooltiptext">Tooltip text for lead refs</span>
+	</th>
         </tr>
     </thead>
     <tbody>
