@@ -16,7 +16,7 @@ function login(){
 $(document).ready(function() {
 	// console.log('usernamexx');
     to_get();
-	
+    $('[data-toggle="tooltip"]').tooltip();
     $('.soro').DataTable({
     paging: false,
     scrollY: 400
