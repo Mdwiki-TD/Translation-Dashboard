@@ -71,8 +71,8 @@ function Make_Numbers_table($Users_n,$artic_n,$words_n,$langs_n,$views) {
 	$Numbers_table = '
 	<table class="sortable table table-striped alignleft"> <!-- scrollbody -->
 	<tr>
-	<th onclick="sortTable(0)" class="spannowrap">Type</th>
-	<th onclick="sortTable(1)">Number</th>
+	<th class="spannowrap">Type</th>
+	<th>Number</th>
 	</tr>
 	';
 	//---
@@ -92,10 +92,10 @@ function Make_users_table_cal($Viewstable,$Users_tables,$Words_tables) {
     $text = '
     <table class="sortable table table-striped alignleft" style="width:95%;">
     <tr>
-    <th onclick="sortTable(0)" class="spannowrap">User</th>
-    <th onclick="sortTable(1)">Number</th>
-    <th onclick="sortTable(1)">Words</th>
-    <th onclick="sortTable(1)">Pageviews</th>
+    <th class="spannowrap">User</th>
+    <th>Number</th>
+    <th>Words</th>
+    <th>Page views</th>
 	';
 	$text .= '
 	</tr>';
@@ -133,9 +133,9 @@ function Make_lang_table_cal($langs_counts,$langs_views) {
     $text = '
     <table class="sortable table table-striped alignleft"> <!-- scrollbody -->
     <tr>
-    <th onclick="sortTable(0)" class="spannowrap">Language</th>
-    <th onclick="sortTable(2)">Count</th>';
-	$text .= ' <th onclick="sortTable(2)">Pageviews</th>';
+    <th class="spannowrap">Language</th>
+    <th>Count</th>';
+	$text .= ' <th>Pageviews</th>';
     $text .= '</tr>';
     //---
     foreach ( $langs_counts as $langcode => $comp ) {

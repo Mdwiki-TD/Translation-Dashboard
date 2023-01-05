@@ -2,10 +2,6 @@
 //---
 require('header.php');
 //---
-print '</div>
-
-<div style="margin-right:25px;margin-left:25px;boxSizing:border-box;" align=left >';
-//---
 if ($_GET['test'] != '') {
     echo(__file__);
     ini_set('display_errors', 1);
@@ -32,6 +28,8 @@ if ($_GET['test'] != '') print_mem();
 //---
 $user_views_sql = array();
 $user_total_words = 0;
+$user_total_views = 0;
+$dd_Pending = array();
 //---
 function make_td_fo_user($tabg, $nnnn) {
     // ------------------
@@ -49,7 +47,8 @@ function make_td_fo_user($tabg, $nnnn) {
     // ------------------
     $views_number = isset($user_views_sql[$targe]) ? $user_views_sql[$targe] : '?';
     // ------------------
-    $lang2 = isset($code_to_lang[$llang]) ? $code_to_lang[$llang] : $llang;
+    // $lang2 = isset($code_to_lang[$llang]) ? $code_to_lang[$llang] : $llang;
+    $lang2 = $llang;
     //---
     $ccat = make_cat_url( $cat );
     //---
@@ -83,7 +82,7 @@ function make_td_fo_user($tabg, $nnnn) {
             <td>' . $word . '</td>
             <td>' . $tran_type . '</td>
             <td>' . $targe33 . '</td>
-            <td>' . $pupdate . '</td>
+            <td class="spannowrap">' . $pupdate . '</td>
             <td>' . $view . '</td>
         </tr>
         '; 
@@ -93,7 +92,8 @@ function make_td_fo_user($tabg, $nnnn) {
 //---
 function make_user_table($user_main, $test, $limit) {
     //---
-    global $code_to_lang, $Words_table, $user_views_sql, $user_total_words;
+    global $code_to_lang, $Words_table, $user_views_sql, $lang_code_to_en;
+    global $user_total_views, $user_total_words, $dd_Pending;
     //---
     $user_main = rawurldecode( str_replace ( '_' , ' ' , $user_main ) );
     //---
@@ -107,7 +107,6 @@ function make_user_table($user_main, $test, $limit) {
     //---
     if ($test != '' ) echo "<br>user_count : $user_count<br>";
     //---
-    $user_total_views = 0;
     $done = 0;
     $offset = 0;
     //---
@@ -144,30 +143,6 @@ function make_user_table($user_main, $test, $limit) {
         //---
     };
     //---
-    $sato = '  
-    <table id="myTable" class="table display"> <!-- scrollbody -->
-        <thead>
-            <tr>
-                <th onclick="sortTable(0)">#</th>
-                <th onclick="sortTable(1)">Language</th>
-                <th onclick="sortTable(2)">Title</th>
-                <!--<th onclick="sortTable(3)">Start date</th> -->
-                <th onclick="sortTable(4)">Category</th>
-                <th onclick="sortTable(5)">Words</th>
-                <th onclick="sortTable(6)">type</th>
-                <th onclick="sortTable(7)">Translated</th>
-                <th onclick="sortTable(8)">Completion date</th>
-                <th onclick="sortTable(9)">Pageviews</th>
-    ';
-    //---
-    if ($test != '') $sato .= '
-                <th onclick="sortTable(10)">User</th>';
-    //---
-    $sato .= '
-            </tr>
-        </thead>
-        <tbody>';
-    //---
     $quaa = "select * from pages where user = '$user_main'";
     //---
     if ($limit != '' && is_numeric($limit)) $quaa = $quaa . " limit $limit";
@@ -176,7 +151,6 @@ function make_user_table($user_main, $test, $limit) {
     //---
     $sql_result = quary2($quaa);
     //---
-    $dd_Pending = array();
     $dd = array();
     foreach ( $sql_result AS $tait => $tabg ) {
             //---
@@ -195,6 +169,24 @@ function make_user_table($user_main, $test, $limit) {
     krsort($dd);
     // print( count($dd) );
     //---
+    $sato = '  
+    <table class="table table-striped compact soro">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Lang.</th>
+                <th>Title</th>
+                <!--<th>Start date</th> -->
+                <th>Category</th>
+                <th>Words</th>
+                <th>type</th>
+                <th>Translated</th>
+                <th>Date</th>
+                <th>Pageviews</th>
+            </tr>
+        </thead>
+        <tbody>';
+    //---
     $noo = 0;
     foreach ( $dd AS $tat => $tabe ) {
         //---
@@ -205,51 +197,49 @@ function make_user_table($user_main, $test, $limit) {
     //---
     $sato .= '
         </tbody>
-        </table>';
+	</table>';
     //---
     $man = make_mdwiki_user_url($user_main);
     //---
-    $table2 = "<table class='table table-striped' style='width:70%;'>
+    $table2 = "<table class='table table-sm table-striped' style='width:70%;'>
     <tr><td>Words: </td><td>$user_total_words</td></tr>
     <tr><td>Pageviews: </td><td>$user_total_views</td></tr>
     </table>";
-    //--- 
-    echo "<table border=0 style='width:100%;'>
-    <tr>
-        <td style='width:33%;'>$table2</td>
-        <td style='width:33%;'><h2 class='text-center'>$man</h2></td>
-        <td style='width:33%;'></td>
-    </tr>
-    </table>
-    ";
     //---
+	echo "
+	<div class='row content'>
+		<div class='col-md-4'>$table2</div>
+		<div class='col-md-4'><h2 class='text-center'>$man</h2></div>
+		<div class='col-md-4'></div>
+	</div>";
+	//---
     // print '<div class=" clearfix leaderboard" >';
     //---
     // require("filter-table.php");
     //---
-    print "<div class='card'>
-  <div class='card-body' style='padding:5px 0px 5px 5px;'>
-  $sato
-  </div>
-  </div>"
-  ;
+	return  $sato;
     // print "</div>";
     //---
-    //---
-    $sato_Pending ='  <table class="sortable table table-striped alignleft"> <!-- scrollbody -->
+};
+//---
+function make_pend() {
+    global $dd_Pending, $Words_table;
+    $sato_Pending ='
+	<table class="table table-striped compact soro">
+		<thead>
             <tr>
-                <th onclick="sortTable(0)">#</th>
-                <th onclick="sortTable(1)">Language</th>
-                <th onclick="sortTable(2)">Title</th>
-                <th onclick="sortTable(3)">Category</th>
-                <th onclick="sortTable(4)">Words</th>
-                <th onclick="sortTable(5)">type</th>
-                <th onclick="sortTable(6)">Translated</th>
-                <th onclick="sortTable(7)">Start date</th>
+                <th>#</th>
+                <th>Lang.</th>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Words</th>
+                <th>type</th>
+                <th>Translated</th>
+                <th>Start date</th>
+			</tr>
+		</thead>
+		<tbody>
     ';
-    //---
-    $sato_Pending .= '
-        </tr>';
     //---
     $bnd = '';
     $bnd .= $sato_Pending;
@@ -260,7 +250,9 @@ function make_user_table($user_main, $test, $limit) {
         $dff      = $dff + 1;
         //---
         $lange    = $kk['lang'];
-        $lang2    = isset($code_to_lang[$lange]) ? $code_to_lang[$lange] : $lange;
+        // $lang2    = isset($code_to_lang[$lange]) ? $code_to_lang[$lange] : $lange;
+        // $lang2    = isset($lang_code_to_en[$lange]) ? $lang_code_to_en[$lange] : $lange;
+        // $lang2    = isset($lang2) ? $lang2 : $lange;
         //---
         // $tran_type = $kk['translate_type'];
         $tran_type = isset($kk['translate_type']) ? $kk['translate_type'] : '';
@@ -270,14 +262,13 @@ function make_user_table($user_main, $test, $limit) {
         //---
         $md_title = $kk['title'];
         $word     = $kk['word'];
-        $lang2    = isset($lang2) ? $lang2 : $lange;
         //---
         $worde = isset($word) ? $word : $Words_table[$md_title];
         $nana = make_mdwiki_title( $md_title );
         $bnd .= '
             <tr>
                 <td>' . $dff   . '</td>
-                <td><a target="" href="langs.php?langcode=' . $lange . '">' . $lang2 . '</a>' . '</td>
+                <td><a target="" href="langs.php?langcode=' . $lange . '">' . $lange . '</a>' . '</td>
                 <td>' . $nana  . '</td>
                 <td>' . make_cat_url( $kk['cat'] )  . '</td>
                 <td>' . $worde . '</td>
@@ -291,45 +282,44 @@ function make_user_table($user_main, $test, $limit) {
     };
     //---
     $bnd .= '
+		</tbody>
     </table>';
     //---
-    print "
-    <br>
-    <div class='card'>
-        <div class='card-body' style='padding:5px 0px 5px 5px;'>
-            <h2 class='text-center'>Translations in process</h2>
-            $bnd
-        </div>
-    </div>"
-    ;
-    //---
-    print "
-    </div>
-    <div>
-    ";
-    //---
-};
+    return $bnd;
+}
 //---
 $test = isset($_GET['test']) ? $_GET['test'] : '';
 $mainuser = isset($_GET['user']) ? $_GET['user'] : '';
 $limit = isset($_GET['limit']) ? $_GET['limit'] : null;
 //---
 if ($mainuser != '') {
-    make_user_table($mainuser, $test, $limit);
+    $sas = make_user_table($mainuser, $test, $limit);
+	//---
+    print "
+	<div class='card'>
+		<div class='card-body' style='padding:5px 0px 5px 5px;'>
+		$sas
+		</div>
+	</div>";
+	//---
+	$bnd = make_pend();
+	//---
+    print "
+    <br>
+	<div class='card'>
+		<div class='card-body' style='padding:5px 0px 5px 5px;'>
+        <h2 class='text-center'>Translations in process</h2>
+		$bnd
+		</div>
+	</div>";
+    //---
+
+	//---
 } else {
     print "<h2 class='text-center'>no user name..</h2>";
 };
 //---
-echo "<script>
-$(document).ready( function () {
-    $('#myTable').DataTable({
-	'lengthMenu': [[25, 50, 100, 150, -1], [25, 50, 100, 150, 'All']]
-	});
-} );
-</script>";
-//---
 require('foter.php');
-print "</div>";
 //---
 if ($_GET['test'] != '') print_mem();
 //---

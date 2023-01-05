@@ -41,23 +41,26 @@ function get_coord_users($username) {
 	return '';
 };
 //---
+$hoste = '';
+//---
 function print_head() {
-	global $username;
+	global $username, $hoste;
 	$hoste = 'https://tools-static.wmflabs.org/cdnjs';
 	if ( $_SERVER['SERVER_NAME'] == 'localhost' )  $hoste = 'https://cdnjs.cloudflare.com';
 	//---
 	if (isset($_GET['noboot']) == '') {
 		echo "
+		<link href='dashboard_new.css' rel='stylesheet'>
 		<link href='$hoste/ajax/libs/font-awesome/5.15.3/css/all.min.css' rel='stylesheet' type='text/css'>
 		<script src='$hoste/ajax/libs/jquery/3.6.1/jquery.min.js'></script>
 		
-		<script src='$hoste/ajax/libs/popper.js/1.16.1/umd/popper.min.js'></script>
-		<script src='$hoste/ajax/libs/twitter-bootstrap/4.6.2/js/bootstrap.min.js'></script>
-		<link href='$hoste/ajax/libs/twitter-bootstrap/4.6.2/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
+		<script src='$hoste/ajax/libs/popper.js/2.11.6/umd/popper.min.js'></script>
+		<script src='$hoste/ajax/libs/twitter-bootstrap/5.2.3/js/bootstrap.min.js'></script>
+		<link href='$hoste/ajax/libs/twitter-bootstrap/5.2.3/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
 		
-		<script src='$hoste/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js'></script>
-		<link href='$hoste/ajax/libs/datatables/1.10.21/css/jquery.dataTables.min.css' rel='stylesheet' type='text/css'>
-		<link href='$hoste/ajax/libs/datatables/1.10.21/css/dataTables.bootstrap4.min.css' rel='stylesheet' type='text/css'>
+		<script src='$hoste/ajax/libs/datatables.net/2.1.1/jquery.dataTables.min.js'></script>
+		<script src='$hoste/ajax/libs/datatables.net-bs5/1.13.0/dataTables.bootstrap5.min.js'></script>
+		<link href='$hoste/ajax/libs/datatables.net-bs5/1.13.0/dataTables.bootstrap5.css' rel='stylesheet' type='text/css'>
 		";
 	};
 	//---
@@ -68,9 +71,8 @@ function print_head() {
 	//---
 	echo '
 	<!-- <link href="css/sb-admin-2.min.css" rel="stylesheet"> -->
-	<link href="dashboard_new.css" rel="stylesheet">
 	<script src="to.js"></script>
-	<!-- <script src="sorttable.js"></script> -->
+	<script src="sorttable.js" ></script>
 	<!-- Custom fonts for this template-->
 	<!-- <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet"> -->';
 	//---
@@ -85,69 +87,71 @@ $coord = get_coord_users($username);
 
 <body>
 <header>
-<nav id="mainnav" class="navbar navbar-expand-md bg-light navbar-light shadow">
-    <a class="navbar-brand" href="index.php" style="color:blue;">Wiki Project Med Translation Dashboard</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-    <span class="navbar-toggler-icon"></span>
-        </button>
-  <div class="collapse navbar-collapse" id="collapsibleNavbar">
-    <ul class="navbar-nav">
-        <li class="nav-item">
-          <a href="leaderboard_bycat.php" class="nav-link">
-            <span class="navtitles">Leaderboard</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a id="myboard" style="display:none" href="my.php" class="nav-link">
-            <span class="navtitles">My Board</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="missing.php" class="nav-link">
-            <span class="navtitles">Missing</span>
-          </a>
-        </li>
-        <li id="coord" class="nav-item">
-          <?php echo $coord; ?>
-        </li>
-        <li class="nav-item">
-          <a href="https://github.com/MrIbrahem/Translation-Dashboard" target="_blank" class="nav-link">
-            <span class="navtitles">Github</span>
-          </a>
-        </li>
-      </ul>
-      <ul class="nav navbar-nav ml-auto">
-        <li class="nav-item">
-            <a id="username_li" class="nav-link" style="display:none">
-				<i class="fas fa-user fa-sm fa-fw mr-2"></i> <span class="navtitles" id="user_name"></span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a role="button" id="loginli" class="nav-link" onclick="login()">
-              <i class="fas fa-sign-in-alt fa-sm fa-fw mr-2"></i><span class="navtitles">Login</span>
-			</a>
-        </li>
-        <li class="nav-item">
-            <a id="logout_btn" class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal" style="display:none">
-              <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2"></i><span class="navtitles">Logout</span>
-            </a>
-        </li>
-      </ul>
-    </div>
-  </nav>
+<nav id="mainnav" class="navbar navbar-expand-md md-body-tertiary bg-light navbar-light shadow">
+	<div class="container-fluid">
+		<a class="navbar-brand" href="index.php" style="color:blue;">Wiki Project Med Translation Dashboard</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="collapsibleNavbar">
+			<ul class="navbar-nav me-auto">
+				<li class="nav-item">
+				  <a href="leaderboard_bycat.php" class="nav-link">
+					<span class="navtitles">Leaderboard</span>
+				  </a>
+				</li>
+				<li class="nav-item">
+				  <a id="myboard" style="display:none" href="my.php" class="nav-link">
+					<span class="navtitles">My Board</span>
+				  </a>
+				</li>
+				<li class="nav-item">
+				  <a href="missing.php" class="nav-link">
+					<span class="navtitles">Missing</span>
+				  </a>
+				</li>
+				<li id="coord" class="nav-item">
+				  <?php echo $coord; ?>
+				</li>
+				<li class="nav-item">
+				  <a href="https://github.com/MrIbrahem/Translation-Dashboard" target="_blank" class="nav-link">
+					<span class="navtitles">Github</span>
+				  </a>
+				</li>
+			  </ul>
+			  <div class="d-flex">
+				  <ul class="nav navbar-nav ml-auto">
+					<li class="nav-item">
+						<a id="username_li" class="nav-link" style="display:none">
+							<i class="fas fa-user fa-sm fa-fw mr-2"></i> <span class="navtitles" id="user_name"></span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a role="button" id="loginli" class="nav-link" onclick="login()">
+						  <i class="fas fa-sign-in-alt fa-sm fa-fw mr-2"></i><span class="navtitles">Login</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a id="logout_btn" class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal" style="display:none">
+						  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2"></i><span class="navtitles">Logout</span>
+						</a>
+					</li>
+				  </ul>
+			  </div>
+		</div>
+	</div>
+</nav>
   <!-- Logout Modal-->
   <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h6 class="modal-title" id="exampleModalLabel">Ready to Leave?</h6>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&#xD7;</span>
-          </button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">Select &quot;Logout&quot; below if you are ready to end your current session.</div>
         <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
           <a class="btn btn-primary" href="login5.php?action=logout">Logout</a>
         </div>
       </div>

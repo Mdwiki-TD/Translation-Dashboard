@@ -1,4 +1,3 @@
-<script src="sorttable.js"></script>
 <h4>Most recent translation:</h4>
 <?PHP
 //---
@@ -40,7 +39,7 @@ function make_td($tabg, $nnnn) {
     //---
 	$onclick = 'pupwindow("' . $mail_url . '")';
     //---
-    $mail = "<button class='btn btn-primary btn-md' onclick='$onclick'>Email</span>";
+    $mail = "<button class='btn btn-primary btn-sm' onclick='$onclick'>Email</span>";
     //---
     $laly = '
         <tr>
@@ -70,7 +69,8 @@ limit 20
 $dd = quary2($quaa);
 //---
 $sato = '
-	<table class="table table-striped sortable alignleft" style="font-size:90%;">
+	<table class="table table-md table-striped soro1" style="font-size:90%;">
+    <thead>
         <tr>
             <th>#</th>
             <th>User</th>
@@ -83,6 +83,8 @@ $sato = '
             <th>Date</th>
             <th>Views</th>
         </tr>
+    </thead>
+    <tbody>
 ';
 //---
 $noo = 0;
@@ -93,15 +95,15 @@ foreach ( $dd AS $tat => $tabe ) {
     //---
 };
 //---
-$sato .= '</table>';
+$sato .= '
+    </tbody>
+</table>
+';
 print $sato;
 //---
 ?>
 <script>
-    function pupwindow(url) {
-        window.open(url, 'popupWindow', 'width=750,height=550,scrollbars=yes');
-    };
-$(document).ready( function () {
-  $('[data-toggle="tooltip"]').tooltip();   
-});
+function pupwindow(url) {
+	window.open(url, 'popupWindow', 'width=750,height=550,scrollbars=yes');
+};
 </script>

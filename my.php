@@ -1,7 +1,6 @@
 <?PHP
 //---
 require('header.php');
-echo '<script src="sorttable.js"></script>';
 require('tables.php');
 include_once('functions.php');
 require('langcode.php');
@@ -22,6 +21,7 @@ and p.target = v.target
 $views_query = quary2($quaa_view);
 //---
 $user_total_views = 0;
+$user_total_words = 0;
 //---
 foreach ( $views_query AS $Key => $table ) {
     $countall = $table['countall'];
@@ -35,7 +35,7 @@ foreach ( $views_query AS $Key => $table ) {
 //---
 function make_td($tabg,$nnnn) {
     // ------------------
-    global $code_to_lang, $Words_table, $views_sql;
+    global $code_to_lang, $Words_table, $views_sql, $user_total_words;
     // ------------------
     $date     = $tabg['date'];
     //---
@@ -54,7 +54,12 @@ function make_td($tabg,$nnnn) {
     //---
     $ccat = make_cat_url( $cat );
     //---
-    $worde = isset($word) ? $word : $Words_table[$md_title];
+	$word2 = isset($Words_table[$md_title]) ? $Words_table[$md_title] : 0;
+	$word = isset($tabg['word']) ? number_format($tabg['word']) : 0;
+    //---
+    if ( $word < 1 ) $word = $word2;
+    //---
+    $user_total_words = $user_total_words + $word;
     //---
     $nana = make_mdwiki_title( $md_title );
     //---
@@ -75,7 +80,7 @@ function make_td($tabg,$nnnn) {
             <td>$nana</td>
             <!-- <td>$date</td> -->
             <td>$ccat</td>
-            <td>$worde</td>
+            <td>$word</td>
             <td>$tran_type</td>
             <td>$targe33</td>
             <td>$pupdate</td>
@@ -110,45 +115,37 @@ krsort($dd);
 //---
 $man = make_mdwiki_user_url($username);
 //---
+$table2 = "<table class='table table-sm table-striped' style='width:60%;'>
+<tr><td>Words: </td><td>$user_total_words</td></tr>
+<tr><td>Pageviews: </td><td>$user_total_views</td></tr>
+</table>";
+//--- 
 echo "
-	<div style='margin-right:25px;margin-left:25px;boxSizing:border-box;' align=left>
-	<h2 class='text-center'>$man</h2>
-	<div class='text-center clearfix leaderboard'>
-";
+<div class='row content'>
+	<div class='col-md-4'>$table2</div>
+	<div class='col-md-4'><h2 class='text-center'>$man</h2></div>
+	<div class='col-md-4'></div>
+</div>";
 //---
-$tab_start = '
-    <div class="table-responsive">          
-    <table class="table table-striped sortable alignleft">
-';
-$tab_end = '
-        </table>
-    </div>';
-//---
-$table_leg = $tab_start . '
+$sato = '
+<table class="table table-striped compact soro">
+	<thead>
         <tr>
-            <th onclick="sortTable(0)">#</th>
-            <th onclick="sortTable(1)">Language</th>
-            <th onclick="sortTable(2)">Title</th>
-            <!--<th onclick="sortTable(3)">Start date</th> -->
-            <th onclick="sortTable(4)">Category</th>
-            <th onclick="sortTable(5)">Words</th>
-            <th onclick="sortTable(6)">type</th>
-            <th onclick="sortTable(7)">Translated</th>
-';
-//---
-//---
-$vas = 'Pageviews';
-if ( $user_total_views != 0) { $vas .= "<br>($user_total_views)"; };
-//---
-$sato = $table_leg . "
-            <th onclick='sortTable(8)'>Completion date</th><th onclick='sortTable(9)'>$vas</th>
-            <th onclick='sortTable(9)'>Fix reference</th>";
-//---
-if ($test != '') $sato .= '
-            <th onclick="sortTable(10)">User</th>';
-//---
-$sato .= '
-        </tr>';
+            <th>#</th>
+            <th>Language</th>
+            <th>Title</th>
+            <!--<th>Start date</th> -->
+            <th>Category</th>
+            <th>Words</th>
+            <th>type</th>
+            <th>Translated</th>
+            <th>Date</th>
+			<th>Views</th>
+            <th>Fix ref</th>
+        </tr>
+	</thead>
+	<tbody>
+		';
 //---
 $noo = 0;
 foreach ( $dd AS $tat => $tabe ) {
@@ -158,33 +155,39 @@ foreach ( $dd AS $tat => $tabe ) {
     //---
 };
 //---
-$sato .= $tab_end;
-print $sato;
-print "
+$sato .= "
+		</tbody>
+	</table>";
+//---
+echo "
+<div class='card'>
+    <div class='card-body' style='padding:5px 0px 5px 5px;'>
+        $sato
+    </div>
 </div>";
 //---
-print '
-<div class="text-center clearfix leaderboard" >
-    <h2 class="text-center">Translations in process</h2>
-';
+$Pending_a = '';
 //---
-if ($username == "Mr. Ibrahem") {
-    $Pending_a = '<th onclick="sortTable(9)">Remove</th>';
-};
+if ($username == "Mr. Ibrahem") $Pending_a = '<th>Remove</th>';
 //---
-echo $tab_start . '
+$pn = "
+<table class='table table-striped compact soro'>
+    <thead>
         <tr>
-            <th onclick="sortTable(0)">#</th>
-            <th onclick="sortTable(1)">Language</th>
-            <th onclick="sortTable(2)">Title</th>
-            <th onclick="sortTable(3)">Category</th>
-            <th onclick="sortTable(4)">Words</th>
-            <th onclick="sortTable(5)">type</th>
-            <th onclick="sortTable(6)">Translated</th>
-            <th onclick="sortTable(7)">Start date</th>
-            <th onclick="sortTable(8)">Completion</th>
-            ' . $Pending_a . '
-        </tr>'; 
+            <th>#</th>
+            <th>Language</th>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Words</th>
+            <th>type</th>
+            <th>Translated</th>
+            <th>Start date</th>
+            <th>Completion</th>
+            $Pending_a
+        </tr>
+    </thead>
+    <tbody>
+        "; 
 //---
 $dff = 0;
 foreach ( $dd_Pending AS $title=> $kk ) {
@@ -206,7 +209,17 @@ foreach ( $dd_Pending AS $title=> $kk ) {
     //---
     $worde = isset($word) ? $word : $Words_table[$md_title];
     $nana = make_mdwiki_title( $md_title );
-    print '
+    //---
+    $md_title2 = rawurlencode(str_replace ( ' ' , '_' , $md_title ) );
+    $comp = "//$lange.wikipedia.org/wiki/Special:ContentTranslation?page=User%3AMr._Ibrahem%2F" . $md_title2 . "&from=en&to=" . $lange;
+    //---
+    $rrm = '';
+    //---
+    $qua = rawurlencode( "delete from pages where user = '$username' and title = '$md_title' and lang = '$lange';" );
+    //---
+    if ($username == "Mr. Ibrahem") $rrm = "<td><a href='sql.php?code=$qua&pass=yemen&raw=66' target='_blank'>Remove</a></td>"; 
+    //---
+    $pn .= '
         <tr>
             <td>' . $dff  .'</td>
             <td><a target="" href="langs.php?langcode=' . $lange . '">' . $lang2 . '</a>' . '</td>
@@ -215,27 +228,25 @@ foreach ( $dd_Pending AS $title=> $kk ) {
             <td>' . $worde . '</td>
             <td>' . $tran_type . '</td>
             <td>Pending</td>
-            <td>' . $kk['date'] .'</td>
-';
-    //---
-    $md_title2 = rawurlencode(str_replace ( ' ' , '_' , $md_title ) );
-    $urle = "//$lange.wikipedia.org/wiki/Special:ContentTranslation?page=User%3AMr._Ibrahem%2F" . $md_title2 . "&from=en&to=" . $lange;
-    print "<td><a href='$urle'>Completion</a></td>"; 
-    //---
-    $qua = rawurlencode( "delete from pages where user = '$username' and title = '$md_title' and lang = '$lange';" );
-    $urle = "sql.php?code=$qua&pass=yemen&raw=66";
-    //---
-    if ($username == "Mr. Ibrahem") {
-        print "<td><a href='$urle' target='_blank'>Remove</a></td>"; 
-    };
-    //---
-    print '</tr>';
+            <td>' . $kk['date'] .'</td>' . 
+            "<td><a href='$comp'>Completion</a></td>
+            $rrm
+        </tr>"; 
     //---
 };
 //---
-print $tab_end . '
-</div>
-';
+$pn .= '
+    </tbody>
+</table>';
+//---
+print "
+<br>
+<div class='card'>
+	<div class='card-body' style='padding:5px 0px 5px 5px;'>
+	<h2 class='text-center'>Translations in process</h2>
+	$pn
+	</div>
+</div>";
 //---
 require('foter.php');
 //---

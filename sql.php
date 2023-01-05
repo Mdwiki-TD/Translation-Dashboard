@@ -102,8 +102,6 @@ $test = $_REQUEST['test'];
 if ( $raw == '' ) {
     require('header.php');
     //---
-	echo '<script src="sorttable.js"></script>';
-    //---
     $quu = "SELECT SUBSTRING_INDEX(CURRENT_USER(), '@', 1); ";
     //---
     $quaa = $qua ? $qua : $quu ;
@@ -229,7 +227,7 @@ if ( $qua != '' and ($pass == $sqlpass or $_SERVER['SERVER_NAME'] == 'localhost'
             } else {
                 $tr .= "<td>$value</th>";
                 if ($number == 1) { 
-                    $start .= "<th onclick='sortTable(0)' class='text-nowrap'>$nas</th>";
+                    $start .= "<th class='text-nowrap'>$nas</th>";
                 };
             };
         };

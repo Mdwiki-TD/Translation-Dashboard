@@ -40,14 +40,14 @@ arsort( $Table );
 //---
 //---
 $text = '
-<table id="myTable" class="table display">
+<table class="table table-striped compact soro">
     <thead>
         <tr>
-        <th onclick="sortTable(0)" class="spannowrap">#</th>
-        <th onclick="sortTable(1)" class="spannowrap">Language code</th>
-        <th onclick="sortTable(2)" class="spannowrap">Language name</th>
-        <th onclick="sortTable(3)">Exists Articles</th>
-        <th onclick="sortTable(4)">Missing Articles</th>
+        <th class="spannowrap">#</th>
+        <th class="spannowrap">Language code</th>
+        <th class="spannowrap">Language name</th>
+        <th>Exists Articles</th>
+        <th>Missing Articles</th>
         </tr>
     </thead>
     <tbody>
@@ -102,13 +102,6 @@ print "
 if ($_REQUEST['test'] != '' ) echo "<br>load " . str_replace ( __dir__ , '' , __file__ ) . " true.";
 //---
 ?>
-<script>
-$(document).ready( function () {
-    $('#myTable').DataTable({
-	"lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
-	});
-});
-</script>
 <?php
 //---
 require('foter.php');

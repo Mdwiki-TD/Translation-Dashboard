@@ -29,12 +29,28 @@ $myboss =isset($myboss_emails[$username]) ? $myboss_emails[$username] : $myboss_
 //---
 $msg = "
 <!DOCTYPE html>
-<html lang='en'>
-<head>
-  <title>Translation Dashboard</title>
-	$style	
-</head>
-<body>
+<html lang='en' dir='ltr' style='
+        font-family: sans-serif;
+        line-height: 1.15;
+        -webkit-text-size-adjust: 100%;
+        -webkit-tap-highlight-color: transparent;'>
+
+  <head>
+    <title>Translation Dashboard</title>
+  </head>
+
+  <body dir='ltr' style='
+        margin: 0;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #212529;
+        text-align: left;
+        background-color: #fff;
+        padding-bottom: 10px;
+        padding-top: 10px;
+        padding-right: 30px;
+        padding-left: 30px'>
 $msg
 </body>
 </html>";

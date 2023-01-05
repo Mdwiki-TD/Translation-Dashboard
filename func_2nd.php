@@ -35,8 +35,8 @@ function test_print($s) {
     if ($test != '') { print $s; };
 };
 //---
-function make_drop($uxutable, $code, $id) {
-    $ux =  "<select dir='ltr' id='$id' name='$id' class='form-control custom-select' style='width:70%;'>";
+function make_drop($uxutable, $code) {
+    $ux =  "";
     //---
     foreach ( $uxutable AS $name => $cod ) {
         $cdcdc = $code == $cod ? "selected" : "";
@@ -44,8 +44,6 @@ function make_drop($uxutable, $code, $id) {
 		<option value='$cod' $cdcdc>$name</option>
 		";
     };
-    //---
-    $ux .= '</select>' ;
     //---
 	return $ux;
 };

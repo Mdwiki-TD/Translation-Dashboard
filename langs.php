@@ -8,11 +8,7 @@ if ($_REQUEST['test'] != '') {
     error_reporting(E_ALL);
 };
 //---
-//---
 require('header.php');
-//---
-print '</div>
-<div style="margin-right:25px;margin-left:25px;boxSizing:border-box;" align=left >';
 //---
 require('tables.php');
 include_once('functions.php');
@@ -139,7 +135,7 @@ function make_td_na($tabb,$number) {
     $view = make_view_by_number($target , $view_number , $lang);
     //---
     $laly .= '
-    <td>' . $pupdate . '</td>
+    <td class="spannowrap">' . $pupdate . '</td>
     <td>' . $view . '</td>
     </tr>';
     //---
@@ -147,86 +143,61 @@ function make_td_na($tabb,$number) {
     //---
 };
 //---
-//---
-$lalo = '
-<table id="myTable" class="table display">
-    <thead>
-        <tr>
-            <th onclick="sortTable(0)">#</th>
-            <th onclick="sortTable(1)">User</th>
-            <th onclick="sortTable(2)">Title</th>
-            <!--<th onclick="sortTable(3)">Start date</th> -->
-            <th onclick="sortTable(4)">Category</th>
-            <th onclick="sortTable(5)">Words</th>
-            <th onclick="sortTable(6)" class="spannowrap">type</th>
-            <th onclick="sortTable(7)">Translated</th>
-            <th onclick="sortTable(8)">Completion date</th>
-            <th onclick="sortTable(9)">Pageviews</th>
-        </tr>
-    </thead>
-    <tbody>
-';
-//---
-//---
-$n = 0;
-//---
 krsort($mamo);
+//---
+$lalo = '';
+$n = 0;
 //---
 foreach ( $mamo AS $uuu => $tabb ) {
     $n = $n + 1 ;
     $lalo .= make_td_na($tabb,$n);
 };
 //---
-$lalo .= '
-    </tbody>
-</table>
-';
-//---
-
-    //---
-    $table2 = "<table class='table table-striped' style='width:70%;'>
-    <tr><td>Words: </td><td>$lang_total_words</td></tr>
-    <tr><td>Pageviews: </td><td>$lang_total_views</td></tr>
-    </table>";
-    //--- 
-    echo "<table border=0 style='width:100%;'>
-    <tr>
-        <td style='width:33%;'>$table2</td>
-        <td style='width:33%;'><h2 class='text-center'>$printlang</h2></td>
-        <td style='width:33%;'></td>
-    </tr>
-    </table>
-    ";
-    //---
-//---
-// print '<div class="text-center clearfix leaderboard" >';
-// require("filter-table.php");
-//---
-    //---
-    print "<div class='card'>
-  <div class='card-body' style='padding:5px 0px 5px 5px;'>
-  $lalo
-  </div>
-  </div>"
-  ;
-//---
-//---
-$Pending_table = '  
-<table class="sortable table table-striped alignleft"> <!-- scrollbody -->
+$lalo = "
+<table class='table table-striped compact soro'>
     <thead>
         <tr>
-            <th onclick="sortTable(0)">#</th>
-            <th onclick="sortTable(1)">User</th>
-            <th onclick="sortTable(2)">Title</th>
-            <th onclick="sortTable(3)">Category</th>
-            <th onclick="sortTable(4)">Words</th>
-            <th onclick="sortTable(5)">type</th>
-            <th onclick="sortTable(6)">Start date</th>
-            <th onclick="sortTable(7)">Translated</th>
+            <th>#</th>
+            <th>User</th>
+            <th>Title</th>
+            <!--<th>Start date</th> -->
+            <th>Category</th>
+            <th>Words</th>
+            <th>type</th>
+            <th>Translated</th>
+            <th>Date</th>
+            <th>Views</th>
         </tr>
     </thead>
     <tbody>
-';
+		$lalo
+    </tbody>
+</table>
+";
+//---
+
+//---
+$table2 = "<table class='table table-sm table-striped' style='width:70%;'>
+<tr><td>Words: </td><td>$lang_total_words</td></tr>
+<tr><td>Pageviews: </td><td>$lang_total_views</td></tr>
+</table>";
+//---
+echo "
+<div class='row content'>
+	<div class='col-md-4'>$table2</div>
+	<div class='col-md-4'><h2 class='text-center'>$printlang</h2></div>
+	<div class='col-md-4'></div>
+</div>";
+//---
+print "
+<div class='card'>
+	<div class='card-body' style='padding:5px 0px 5px 5px;'>
+		$lalo
+	</div>
+</div>
+";
+//---
+$Pending_table = '';
 //---
 krsort($mamo_Pending);
 //---
@@ -275,36 +246,40 @@ foreach ( $mamo_Pending AS $uuu => $tabb ) {
     //---
 };
 //---
-$Pending_table .= '
+$Pending_table = "
+<table class='table table-striped compact soro'>
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>User</th>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Words</th>
+            <th>type</th>
+            <th>Start date</th>
+            <th>Translated</th>
+        </tr>
+    </thead>
+    <tbody>
+		$Pending_table
     </tbody>
 </table>
-';
+";
 //---
 print "
 <br>
 <div class='card'>
-<div class='card-body' style='padding:5px 0px 5px 5px;'>
-<h2 class='text-center'>Translations in process</h2>
-$Pending_table
-</div>
-</div>"
-;
-//---
-print "
-</div>
-<div>";
+	<div class='card-body' style='padding:5px 0px 5px 5px;'>
+	<h2 class='text-center'>Translations in process</h2>
+	$Pending_table
+	</div>
+</div>";
 //---
 if ($_REQUEST['test'] != '' ) echo "<br>load " . str_replace ( __dir__ , '' , __file__ ) . " true.";
 //---
-echo "<script>
-$(document).ready( function () {
-    $('#myTable').DataTable({
-	'lengthMenu': [[25, 50, 100, 150, -1], [25, 50, 100, 150, 'All']]
-	});
-} );
-</script>";
+?>
+<?PHP
 //---
 require('foter.php');
-print "</div>"
 //---
 ?>
