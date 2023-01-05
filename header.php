@@ -50,6 +50,7 @@ function print_head() {
 	//---
 	if (isset($_GET['noboot']) == '') {
 		echo "
+		<link href='dashboard_new.css' rel='stylesheet'>
 		<link href='$hoste/ajax/libs/font-awesome/5.15.3/css/all.min.css' rel='stylesheet' type='text/css'>
 		<script src='$hoste/ajax/libs/jquery/3.6.1/jquery.min.js'></script>
 		
@@ -70,7 +71,6 @@ function print_head() {
 	//---
 	echo '
 	<!-- <link href="css/sb-admin-2.min.css" rel="stylesheet"> -->
-	<link href="dashboard_new.css" rel="stylesheet">
 	<script src="to.js"></script>
 	<script src="sorttable.js" ></script>
 	<!-- Custom fonts for this template-->

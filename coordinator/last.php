@@ -1,4 +1,3 @@
-
 <h4>Most recent translation:</h4>
 <?PHP
 //---
@@ -107,8 +106,4 @@ print $sato;
 function pupwindow(url) {
 	window.open(url, 'popupWindow', 'width=750,height=550,scrollbars=yes');
 };
-$(document).ready( function () {
-  $('[data-toggle="tooltip"]').tooltip();
-});
-
 </script>

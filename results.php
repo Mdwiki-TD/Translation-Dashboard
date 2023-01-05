@@ -45,10 +45,11 @@ function make_table( $items, $cod, $cat ) {
         <th class="num">#</th>
         <th class="spannowrap" tt="h_title">Title</th>
         <th class="spannowrap" tt="h_len">Translate</th>
-        <th class="spannowrap" tt="h_len">Pageviews</th>
-        <th class="spannowrap" tt="h_len">Importance</th>
-        <th class="spannowrap" tt="h_len">' . $Words_word . '</th>
-        <th class="spannowrap" tt="h_len">' . $Refs_word . '</th>
+        <th class="spannowrap" tt="h_len"><span data-toggle="tooltip" title="Page views in last month in English Wikipedia">Pageviews</span>
+ </th>
+        <th class="spannowrap" tt="h_len"><span data-toggle="tooltip" title="Page important from medicine project in English Wikipedia">Importance</span></th>
+        <th class="spannowrap" tt="h_len"><span data-toggle="tooltip" title="number of word of the article in mdwiki.org">' . $Words_word . '</span></th>
+        <th class="spannowrap" tt="h_len"><span data-toggle="tooltip" title="number of reference of the article in mdwiki.org">' . $Refs_word . '</span></th>
         </tr>
     </thead>
     <tbody>
