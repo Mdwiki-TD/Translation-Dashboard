@@ -88,10 +88,10 @@ foreach ( $qq AS $Key => $table ) {
 	  </td>
 	  <td data-order='$email'>
 	  	<span style='display: none'>$email</span>
-	  	<input name='email[]$numb' id='email[]$numb' value='$email'/>
+	  	<input size='40' name='email[]$numb' id='email[]$numb' value='$email'/>
 	  </td>
 	  <td data-order='$wiki'>
-	  	<input name='wiki[]$numb' id='wiki[]$numb' value='$wiki'/>
+	  	<input size='10' name='wiki[]$numb' id='wiki[]$numb' value='$wiki'/>
 	  </td>
 	  <td><input type='checkbox' name='del[]$numb' value='$id'/> <label>delete</label></td>
 	</tr>";
@@ -120,10 +120,6 @@ $(document).ready( function () {
     paging: false,
     scrollY: 400
 	});
-	var data = table
-		.column( 2 )
-		.data()
-		.sort();
 } );
 
 </script>
