@@ -15,31 +15,9 @@ if ($_REQUEST['test'] != '') {
 	error_reporting(E_ALL);
 };
 //---
-// include_once('sql.php');
-include_once('login5.php');
+include_once('functions.php'); // $usrs
 //---
-function get_coord_users($username) {
-	//---
-	/*$qua = 'select user from coordinator;';
-	//---
-	if ( isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost' ) { 
-		$usrs = sqlquary_localhost($qua);
-	} else {
-		$usrs = quary($qua);
-	};*/
-	$co = '<a href="coordinator.php" class="nav-link"><span class="navtitles">Coordinator tools</span></a>';
-	//---
-	$usrs = Array("Mr. Ibrahem", "Doc James");
-	//---
-	foreach ( $usrs AS $k => $user ) {
-		// echo $user['user'];
-		if ($user == $username) {
-			return $co;
-		};
-	};
-	//---
-	return '';
-};
+include_once('login5.php');
 //---
 $hoste = '';
 //---
@@ -50,7 +28,7 @@ function print_head() {
 	//---
 	if (isset($_GET['noboot']) == '') {
 		echo "
-		<link href='dashboard_new.css' rel='stylesheet'>
+		<link href='dashboard_new.css' rel='stylesheet' type='text/css'>
 		<link href='$hoste/ajax/libs/font-awesome/5.15.3/css/all.min.css' rel='stylesheet' type='text/css'>
 		<script src='$hoste/ajax/libs/jquery/3.6.1/jquery.min.js'></script>
 		
@@ -61,6 +39,10 @@ function print_head() {
 		<script src='$hoste/ajax/libs/datatables.net/2.1.1/jquery.dataTables.min.js'></script>
 		<script src='$hoste/ajax/libs/datatables.net-bs5/1.13.0/dataTables.bootstrap5.min.js'></script>
 		<link href='$hoste/ajax/libs/datatables.net-bs5/1.13.0/dataTables.bootstrap5.css' rel='stylesheet' type='text/css'>
+		<style> 
+		a {
+			text-decoration: none;
+		}</style>
 		";
 	};
 	//---
@@ -79,7 +61,11 @@ function print_head() {
 //---
 print_head();
 //---
-$coord = get_coord_users($username);
+$coord = '';
+//---
+if (in_array($username, $usrs)) {
+	$coord = '<a href="coordinator.php" class="nav-link"><span class="navtitles">Coordinator tools</span></a>';
+};
 //---
 ?>
 </head>

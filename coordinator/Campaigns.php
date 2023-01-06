@@ -13,6 +13,15 @@
 
 <?php
 //---
+for($i = 0; $i < count($_POST['del']); $i++ ) {
+	$del	= $_POST['del'][$i];
+	//---
+	if ($del != '') {
+		$qua2 = "DELETE FROM categories WHERE id = '$del'";
+		quary2($qua2);
+	};
+};
+//---
 // if (isset($_POST['cat'])) {
 for($i = 0; $i < count($_POST['cat']); $i++ ){
 	$cat = $_POST['cat'][$i];
@@ -51,20 +60,16 @@ foreach ( $qq AS $Key => $table ) {
 	$category 	= $table['category'];
 	$display 	= $table['display'];
 	$depth		= $table['depth'];
-	$qu = "DELETE FROM categories WHERE id = '$id'";
-    //---
-    $qua = rawurlencode( $qu );
-    $urle = "sql.php?code=$qua&pass=$sqlpass&raw=66";
     //---
 	echo "
 	<tr>
 	  <td>
-	  	<input name='cat[]$numb' id='cat[]$numb' value='$category'/>
-	  	<input name='id[]$numb' id='id[]$numb' value='$id' hidden/>
+	  	<input name='cat[]$numb' value='$category'/>
+	  	<input name='id[]$numb' value='$id' hidden/>
 	  </td>
-	  <td><input name='dis[]$numb' id='dis[]$numb' value='$display'/></td>
-	  <td><input name='dep[]$numb' id='dep[]$numb' value='$depth'/></td>
-	  <td><a href='$urle' target='_blank' onclick='refr()'>delete</a></td>
+	  <td><input name='dis[]$numb' value='$display'/></td>
+	  <td><input name='dep[]$numb' value='$depth'/></td>
+	  <td><input type='checkbox' name='del[]$numb' value='$id'/> <label>delete</label></td>
 	</tr>";
 };
 //---
@@ -85,13 +90,5 @@ function add_row() {
 	$('#tab_logic').append(e);
 	i++;
 };
-function refr() {
-	setTimeout(function(){
-   window.location.reload(1);
-}, 2000);
-}
-
 </script>
-
-
-  </div>
+</div>

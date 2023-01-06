@@ -173,7 +173,7 @@ $mag = "
 //---
 // foreach ($tabs AS $k => $v) print "*$k: $v<br>";
 //---
-$send_page = 'mailer/index.php';
+$send_page = 'mailer.php';
 $send_page = 'send.php';
 //---
 print "

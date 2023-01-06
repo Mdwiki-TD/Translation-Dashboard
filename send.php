@@ -12,8 +12,8 @@ require('tables.php');
 include_once('functions.php');
 include_once('getcats.php');
 //---
-require('config.php');
-$my_ini = read_ini('my_config.ini');
+include_once('td_config.php');
+$my_ini = Read_ini_file('my_config.ini');
 //---
 $myboss_emails = array(
 	"Mr. Ibrahem" =>	$my_ini['Ibrahem_email'],

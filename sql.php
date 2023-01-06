@@ -77,16 +77,16 @@ CREATE TABLE words (
     )
 */
 //---
-//---
-require('config.php');
-$ini = read_ini('OAuthConfig.ini');
+include_once('td_config.php');
+$ini = Read_ini_file('OAuthConfig.ini');
+include_once('functions.php');
 //---
 $sqlpass = $ini['sqlpass'];
 //---
-$pass = $_REQUEST['pass'];
-$qua  = $_REQUEST['code'];
-$raw  = $_REQUEST['raw'];
-$test = $_REQUEST['test'];
+$pass = isset($_REQUEST['pass']) ? $_REQUEST['pass'] : '';
+$qua  = isset($_REQUEST['code']) ? $_REQUEST['code'] : '';
+$raw  = isset($_REQUEST['raw']) ? $_REQUEST['raw'] : '';
+$test = isset($_REQUEST['test']) ? $_REQUEST['test'] : '';
 //---
 if ( $raw == '' ) {
     require('header.php');
@@ -130,71 +130,10 @@ if ( $raw == '' ) {
     ";
 };
 //---
-function sqlquary_localhost($quae) {
-    //---
-    $host = '127.0.0.1:3306';
-    $dbname = "mdwiki";
-    //---
-    try {
-        // start
-        $db = new PDO(
-                "mysql:host=$host;dbname=$dbname", 
-                'root', 
-                'root11'
-                );
-        //---
-        $q = $db->prepare($quae);
-        $q->execute();
-        $result = $q->fetchAll();
-        //---
-        return $result;
-    } 
-    catch(PDOException $e) {
-        echo $quae . "<br>" . $e->getMessage();
-    }
-    //---
-    // end 
-    $db = null;
-    //---
-};
-//---
-function sqlquary($quae) {
-    //---
-    $ts_pw = posix_getpwuid(posix_getuid());
-    // replica.my.cnf
-    $ts_mycnf = parse_ini_file($ts_pw['dir'] . "/replica.my.cnf");
-    //---
-    $host = 'tools.db.svc.wikimedia.cloud';
-    $dbname = $ts_mycnf['user'] . "__mdwiki";
-    //---
-    try {
-        // start
-        $db = new PDO(
-                "mysql:host=$host;dbname=$dbname", 
-                $ts_mycnf['user'], 
-                $ts_mycnf['password']
-                );
-        //---
-        unset($ts_mycnf, $ts_pw);
-        $q = $db->prepare($quae);
-        $q->execute();
-        $result = $q->fetchAll();
-        //---
-        return $result;
-    } 
-    catch(PDOException $e) {
-        echo $quae . "<br>" . $e->getMessage();
-    }
-    //---
-    // end 
-    $db = null;
-    //---
-};
-//---
 if ( $qua != '' and ($pass == $sqlpass or $_SERVER['SERVER_NAME'] == 'localhost') ) {
     //---
     if ($_SERVER['SERVER_NAME'] == 'mdwiki.toolforge.org') {
-        $uu = sqlquary($qua);
+        $uu = quary($qua);
     } else {
         $uu = sqlquary_localhost($qua);
     };

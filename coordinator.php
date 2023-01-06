@@ -1,7 +1,7 @@
 <?PHP
 //---
 require('header.php');
-require('functions.php');
+include_once('functions.php'); // $usrs
 //---
 $gg = '';
 //---
@@ -13,7 +13,8 @@ if (!isset($_REQUEST['nonav'])) {
 		<div class="col-md-2" style="padding-right:-10px;">
 			<h5>coordinator tools</h5>
 			<ul class="nav flex-column nav-pills">
-				<li id="Home" class="nav-item"><a class="nav-link" href="coordinator.php">Home</a></li>
+				<li id="Home" class="nav-item"><a class="nav-link" href="coordinator.php">recent translation</a></li>
+				<li id="coordinators" class="nav-item"><a class="nav-link" href="coordinator.php?ty=coordinators">Coordinators</a></li>
 				<li id="Campaigns" class="nav-item"><a class="nav-link" href="coordinator.php?ty=Campaigns">Campaigns</a></li>
 				<li id="process" class="nav-item"><a class="nav-link" href="coordinator.php?ty=Pending">Translations in process</a></li>
 				<li id="Emails" class="nav-item"><a class="nav-link" href="coordinator.php?ty=Emails">Emails</a></li>
@@ -34,7 +35,6 @@ if ($_GET['test'] != '') {
 	error_reporting(E_ALL);
 };
 //---
-$usrs = Array("Mr. Ibrahem", "Doc James");
 if (!in_array($username, $usrs)) {
 	echo "<meta http-equiv='refresh' content='0; url=index.php'>";
 	exit;

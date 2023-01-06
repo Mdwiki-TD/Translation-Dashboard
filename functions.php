@@ -65,7 +65,6 @@ function quary_local_old($quae) {
     //---
 };
 //---
-//---
 function sqlquary_localhost($quae) {
     //---
     $host = 'localhost:3306';
@@ -82,7 +81,6 @@ function sqlquary_localhost($quae) {
         $q = $db->prepare($quae);
         $q->execute();
         //---
-        // $result = $q->fetchAll();
         $result = $q->fetchAll();
         //---
         return $result;
@@ -329,6 +327,16 @@ function months_start() {
     return $texte;
     //---
 };
+//---
+$usrs = array();
+//---
+$usrs1 = quary_a('select user from coordinator;');
+//---
+foreach ( $usrs1 AS $id => $row )	$usrs[] = $row['user'];
+//---
+// echo var_dump($usrs);
+//---
+// $usrs = Array("Mr. Ibrahem", "Doc James");
 //---
 if ($_REQUEST['test'] != '' ) echo "<br>load " . str_replace ( __dir__ , '' , __file__ ) . " true.";
 //--- 

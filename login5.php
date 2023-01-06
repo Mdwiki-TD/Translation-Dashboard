@@ -6,8 +6,8 @@ if ($_GET['test'] != '') {
     error_reporting(E_ALL);
 };
 //---
-require('config.php');
-$ini = read_ini('OAuthConfig.ini');
+include_once('td_config.php');
+$ini = Read_ini_file('OAuthConfig.ini');
 //---
 $mwOAuthUrl = 'https://mdwiki.org/w/index.php?title=Special:OAuth';
 $apiUrl = 'https://mdwiki.org/w/api.php';

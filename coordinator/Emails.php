@@ -1,6 +1,15 @@
 
 <?php
+//---
+for($i = 0; $i < count($_POST['del']); $i++ ) {
+	$del	= $_POST['del'][$i];
 	//---
+	if ($del != '') {
+		$qu = "DELETE FROM users WHERE user_id = '$del'";
+		quary2($qu);
+	};
+};
+//---
 	for($i = 0; $i < count($_POST['username']); $i++ ){
 		//---
 		$username 	= $_POST['username'][$i];
@@ -70,10 +79,6 @@ foreach ( $qq AS $Key => $table ) {
 	$email 	= $table['email'];
 	$wiki	= $table['wiki'];
     //---
-	$qu = "DELETE FROM users WHERE user_id = '$id'";
-    $qua = rawurlencode( $qu );
-    $urle = "sql.php?code=$qua&pass=$sqlpass&raw=66";
-    //---
 	echo "
 	<tr>
 	  <td data-order='$username'>
@@ -88,9 +93,7 @@ foreach ( $qq AS $Key => $table ) {
 	  <td data-order='$wiki'>
 	  	<input name='wiki[]$numb' id='wiki[]$numb' value='$wiki'/>
 	  </td>
-	  <td>
-	  	<a href='$urle' target='_blank' onclick='refr1()'>delete</a>
-	  </td>
+	  <td><input type='checkbox' name='del[]$numb' value='$id'/> <label>delete</label></td>
 	</tr>";
 };
 //---
@@ -111,14 +114,8 @@ function add_row() {
 	$('#tab_ma').append(e);
 	i++;
 };
-function refr1() {
-	setTimeout(function(){
-   window.location.reload(1);
-}, 1000);
-}
 
 $(document).ready( function () {
-    
 	var table = $('#em').DataTable({
     paging: false,
     scrollY: 400
