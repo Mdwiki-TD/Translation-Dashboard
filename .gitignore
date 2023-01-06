@@ -1,11 +1,5 @@
-
 *.csv
 cok.php
-Tables/*.json
-cash_exists/*.*
-cash/*.csv
-tests/*.*
-css/*.*
 form.php
 getcats.php
 ma.js
@@ -13,12 +7,12 @@ sidebar.php
 sqltest.php
 ui.html
 nav4.php
-coordinator/Copy of send.php
 cookie.txt
-coordinator/u.php
-coordinator/uz.php
-cash/RTT.json
-cash/RTT.json
-cash/RTT.json
-coordinator/email11.php
-send11.php
+Tables/*
+cash_exists/*
+cash/*
+tests/*
+css/*
+mailer/vendor/*
+coordinator/old/*
+old/*

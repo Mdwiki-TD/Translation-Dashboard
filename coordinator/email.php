@@ -173,8 +173,11 @@ $mag = "
 //---
 // foreach ($tabs AS $k => $v) print "*$k: $v<br>";
 //---
+$send_page = 'mailer/index.php';
+$send_page = 'send.php';
+//---
 print "
-<form class='' action='send.php' method='POST'>
+<form class='' action='$send_page' method='POST'>
 <input type='hidden' name='test' value='$test'/>
 <input type='hidden' name='lang' value='$lang'/>
 <input type='hidden' name='nonav' value='1'/>

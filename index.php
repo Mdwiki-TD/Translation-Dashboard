@@ -55,7 +55,7 @@ function print_form_start1() {
   //---
   $lead_checked = "checked";
   $all_checked = "";
-  // -------------
+  //---
   if ($Translate_type == 'all') {
       $lead_checked = "";
       $all_checked = "checked";
@@ -148,7 +148,7 @@ function print_form_start1() {
     ";
     //---
     return $d;
-    // -------------
+    //---
 };
 //---
 $img_src = '//upload.wikimedia.org/wikipedia/commons/thumb/5/58/Wiki_Project_Med_Foundation_logo.svg/400px-Wiki_Project_Med_Foundation_logo.svg.png';

@@ -108,10 +108,10 @@ INSERT INTO pages (title, word, translate_type, cat, lang, date, user, target, p
             print $url;
             //---
         } else {
-            // =======================
+            //---
             // header( "Location: " . $url );
             // exit;
-            // =======================
+            //---
             $zaza = "
     <script type='text/javascript'>
     window.open('$url', '_self');
@@ -119,7 +119,7 @@ INSERT INTO pages (title, word, translate_type, cat, lang, date, user, target, p
 <noscript>
     <meta http-equiv='refresh' content='0; url=$url'>
 </noscript>";
-            // =======================
+            //---
             print $zaza;
         };
     //---

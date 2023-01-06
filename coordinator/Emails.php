@@ -72,7 +72,7 @@ foreach ( $qq AS $Key => $table ) {
     //---
 	$qu = "DELETE FROM users WHERE user_id = '$id'";
     $qua = rawurlencode( $qu );
-    $urle = "sql.php?code=$qua&pass=yemen&raw=66";
+    $urle = "sql.php?code=$qua&pass=$sqlpass&raw=66";
     //---
 	echo "
 	<tr>

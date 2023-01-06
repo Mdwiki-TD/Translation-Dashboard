@@ -77,20 +77,9 @@ CREATE TABLE words (
     )
 */
 //---
-// Read the ini file
-$inifile_local = '../OAuthConfig.ini';
-$inifile_mdwiki = '/data/project/mdwiki/OAuthConfig.ini';
-// ******************
-$inifile = $inifile_mdwiki;
-// ******************
-$teste = file_get_contents($inifile_mdwiki);
-if ( $teste != '' ) { 
-    $inifile = $inifile_mdwiki;
-} else {
-    $inifile = $inifile_local;
-};
-// ******************
-$ini = parse_ini_file( $inifile );
+//---
+require('config.php');
+$ini = read_ini('OAuthConfig.ini');
 //---
 $sqlpass = $ini['sqlpass'];
 //---
@@ -262,7 +251,7 @@ if ( $qua != '' and ($pass == $sqlpass or $_SERVER['SERVER_NAME'] == 'localhost'
         foreach ( $uu AS $id => $row ) {
             $ff = array();
             $n = $n + 1 ;
-            // ------------------------
+            //---
             foreach ( $row AS $nas => $value ) {
                 if (preg_match( '/^\d+$/', $nas, $m ) ) {
                     $ii = '';
@@ -270,7 +259,7 @@ if ( $qua != '' and ($pass == $sqlpass or $_SERVER['SERVER_NAME'] == 'localhost'
                     $ff[$nas] = $value;
                 };
             };
-            // ------------------------
+            //---
             
             $sql_result[$n] = $ff;
         };

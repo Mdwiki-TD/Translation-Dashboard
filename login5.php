@@ -5,83 +5,26 @@ if ($_GET['test'] != '') {
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 };
-/**
-1: login with doAuthorizationRedirect();
- * Written in 2013 by Brad Jorsch
- *
- * To the extent possible under law, the author(s) have dedicated all copyright 
- * and related and neighboring rights to this software to the public domain 
- * worldwide. This software is distributed without any warranty. 
- *
- * See <http://creativecommons.org/publicdomain/zero/1.0/> for a copy of the 
- * CC0 Public Domain Dedication.
- */
-
-// ******************** CONFIGURATION ********************
-//$oauth_callback = 'https://mdwiki.toolforge.org/Translation_Dashboard/index.php';
-/**
- * Set this to point to a file (outside the webserver root!) containing the 
- * following keys:
- * - agent: The HTTP User-Agent to use
- * - consumerKey: The "consumer token" given to you when registering your app
- * - consumerSecret: The "secret token" given to you when registering your app
- */
- 
-/**
- * Set this to the Special:OAuth/authorize URL. 
- * To work around MobileFrontend redirection, use /wiki/ rather than /w/index.php.
- */
-$mwOAuthAuthorizeUrl = 'https://mdwiki.org/wiki/Special:OAuth/authorize';
-
-/**
- * Set this to the Special:OAuth URL. 
- * Note that /wiki/Special:OAuth fails when checking the signature, while
- * index.php?title=Special:OAuth works fine.
- */
+//---
+require('config.php');
+$ini = read_ini('OAuthConfig.ini');
+//---
 $mwOAuthUrl = 'https://mdwiki.org/w/index.php?title=Special:OAuth';
-
-/**
- * Set this to the API endpoint
- */
 $apiUrl = 'https://mdwiki.org/w/api.php';
-
 $twoYears = time() + 60 * 60 * 24 * 365 * 2;
-/**
- * This should normally be "500". But Tool Labs insists on overriding valid 500
- * responses with a useless error page.
- */
 $errorCode = 200;
 $SCRIPT_NAME = htmlspecialchars( $_SERVER['SCRIPT_NAME'] ) ; 
-// ****************** END CONFIGURATION ******************
-
-// Setup the session cookie
+//---
 session_name( 'OAuthHelloWorld' );
 $params = session_get_cookie_params();
 session_set_cookie_params(
     $params['lifetime'],
     dirname( $_SERVER['SCRIPT_NAME'] )
 );
-// ******************
-// Read the ini file
-$inifile_local = '../OAuthConfig.ini';
-$inifile_mdwiki = '/data/project/mdwiki/OAuthConfig.ini';
-// ******************
-$inifile = $inifile_mdwiki;
-// ******************
-// $teste = file_get_contents($inifile_mdwiki);
-// if ( $teste != '' ) { 
-if ( strpos( __file__ , '/mnt/' ) === 0 ) {
-    $inifile = $inifile_mdwiki;
-} else {
-    $inifile = $inifile_local;
-};
-// ******************
-$ini = parse_ini_file( $inifile );
-// ******************
+//---
 if ( $ini === false ) {
     header( "HTTP/1.1 $errorCode Internal Server Error" );
     echo "The ini file:($inifile) could not be read";
-    // exit(0);
 }
 if ( !isset( $ini['agent'] ) ||
     !isset( $ini['consumerKey'] ) ||
@@ -90,12 +33,12 @@ if ( !isset( $ini['agent'] ) ||
     header( "HTTP/1.1 $errorCode Internal Server Error" );
     echo 'Required configuration directives not found in ini file';
     exit(0);
-}
-$gUserAgent = $ini['agent'];
-$gConsumerKey = $ini['consumerKey'];
-$gConsumerSecret = $ini['consumerSecret'];
-
-// Load the user token (request or access) from the session
+};
+//---
+$gUserAgent         = $ini['agent'];
+$gConsumerKey       = $ini['consumerKey'];
+$gConsumerSecret    = $ini['consumerSecret'];
+$sqlpass		    = $ini['sqlpass'];
 //---
 $username = '';
 if (!isset($_GET['test1']) && $_SERVER['SERVER_NAME'] == 'localhost') { 
@@ -111,38 +54,26 @@ $gTokenSecret = '';
 session_start();
 //---
 if ( isset( $_SESSION['tokenKey'] ) ) {
-    
     $gTokenKey = $_SESSION['tokenKey'];
     $gTokenSecret = $_SESSION['tokenSecret'];
-    
 } elseif ( isset( $_COOKIE['tokenKey'] ) ) {
-    
     $gTokenKey    = $_COOKIE['tokenKey'];
     $gTokenSecret = $_COOKIE['tokenSecret'];
-    
 };
 //---
 session_write_close();
 //---
-
-// Fetch the access token if this is the callback from requesting authorization
-// we get it after login
 if ( isset( $_REQUEST['oauth_verifier'] ) && $_REQUEST['oauth_verifier'] ) {
     setcookie('oauth_verifier',$_REQUEST['oauth_verifier'],$twoYears,'/','mdwiki.toolforge.org',true,true);
     fetchAccessToken();
 };
-// };
-
-//function login() {
-//global $gTokenSecret,$username;
+//---
 if ($gTokenSecret != '' and $gTokenKey != '') {
     //after fetchAccessToken();
     //print 'doIdentify';
     doIdentify('');
     };
-
-//********************************
-// Take any requested action
+//---
 switch ( isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : '' ) {
     case 'login':
         doAuthorizationRedirect();
@@ -155,8 +86,8 @@ switch ( isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : '' ) {
     case 'logout':
         // session_unset();
         // unset cookies
-		setcookie('username', '', time()-$twoYears,'/','mdwiki.toolforge.org',true,true);
-		setcookie('OAuthHelloWorld', '', time()-$twoYears,'/','mdwiki.toolforge.org',true,true);
+        setcookie('username', '', time()-$twoYears,'/','mdwiki.toolforge.org',true,true);
+        setcookie('OAuthHelloWorld', '', time()-$twoYears,'/','mdwiki.toolforge.org',true,true);
         if (isset($_SERVER['HTTP_COOKIE'])) {
             $cookies = explode(';', $_SERVER['HTTP_COOKIE']);
             foreach($cookies as $cookie) {
@@ -181,31 +112,7 @@ switch ( isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : '' ) {
         break;
 
 }
-
-// ******************** CODE ********************
-
-/*
-print "<li><a href='$SCRIPT_NAME?action=identify'>identify</a></li>";
-if ( $username != '' ) {
-    print "hi $username";
-    print "<li><a href='$SCRIPT_NAME?action=logout'>Logout</a></li>";
-} else {
-    print "<li><a href='$SCRIPT_NAME?action=login'>Login</a></li>";
-}
-*/
 //---
-/**
- * Utility function to sign a request
- *
- * Note this doesn't properly handle the case where a parameter is set both in 
- * the query string in $url and in $params, or non-scalar values in $params.
- *
- * @param string $method Generally "GET" or "POST"
- * @param string $url URL string
- * @param array $params Extra parameters for the Authorization header or post 
- *  data (if application/x-www-form-urlencoded).
- * @return string Signature
- */
 function sign_request( $method, $url, $params = array() ) {
     global $gConsumerSecret, $gTokenSecret;
 
@@ -246,18 +153,14 @@ function sign_request( $method, $url, $params = array() ) {
     $key = rawurlencode( $gConsumerSecret ) . '&' . rawurlencode( $gTokenSecret );
     return base64_encode( hash_hmac( 'sha1', $toSign, $key, true ) );
 }
-
-/**
- * Request authorization
- * @return void
- */
+//---
 function doAuthorizationRedirect() {
     global $mwOAuthUrl, $mwOAuthAuthorizeUrl, $gUserAgent, $gConsumerKey, $errorCode;
 
     // First, we need to fetch a request token.
     // The request is signed with an empty token secret and no token key.
-    // ----------------------------------------------
-    // ----------------------------------------------
+    //---
+    //---
     $state = [];
     // login5.php?action=login&cat=RTT&depth=1&code=&type=lead
     
@@ -267,12 +170,12 @@ function doAuthorizationRedirect() {
         }
     };
     $state = implode('&', $state);
-    // ----------------------------------------------
+    //---
     // echo $state;
-    // ----------------------------------------------
+    //---
     $oauth_callback = 'https://mdwiki.toolforge.org/Translation_Dashboard/index.php' . '?' . $state ;
-    // ----------------------------------------------
-    // ----------------------------------------------
+    //---
+    //---
     // $gTokenSecret = '';
     $url = $mwOAuthUrl . '/initiate';
     $url .= strpos( $url, '?' ) ? '&' : '?';
@@ -339,11 +242,7 @@ function doAuthorizationRedirect() {
     //---
     echo 'Please see <a href="' . htmlspecialchars( $url ) . '">' . htmlspecialchars( $url ) . '</a>';
 }
-
-/**
- * Handle a callback to fetch the access token
- * @return void
- */
+//---
 function fetchAccessToken() {
     global $mwOAuthUrl, $gUserAgent, $gConsumerKey, $gTokenKey, $gTokenSecret, $errorCode;
     global $twoYears;
@@ -404,11 +303,7 @@ function fetchAccessToken() {
     
     session_write_close();
 }
-
-/**
- * Request a JWT and verify it
- * @return void
- */
+//---
 function doIdentify($gg) {
     global $mwOAuthUrl, $gUserAgent, $gConsumerKey, $gTokenKey, $gConsumerSecret, $errorCode;
     global $twoYears;
@@ -510,9 +405,7 @@ function doIdentify($gg) {
         }
     //---
 }
-
-// ******************** WEBPAGE ********************
-
+//---
 function doApiQuery( $post, &$ch = null ) {
     global $apiUrl, $gUserAgent, $gConsumerKey, $errorCode;
     //---
@@ -565,7 +458,7 @@ function doApiQuery( $post, &$ch = null ) {
     }
     return $ret;
 }
-
+//---
 if ($_REQUEST['test'] != '' ) echo "<br>load " . str_replace ( __dir__ , '' , __file__ ) . " true.";
 //}
 //login()

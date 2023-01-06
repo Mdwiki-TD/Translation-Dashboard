@@ -82,7 +82,7 @@ foreach ( $mains AS $yhu => $Taab ) {
 };
 //---
 function make_td_na($tabb,$number) {
-    // ------------------
+    //---
     global $table_of_views, $Words_table, $lang_total_words;
     //---
     //$tabb = {"title": "Flucloxacillin", "user": "Wakkie1379", "cat": "", "date": "2021-May-13", "lang": "ja", "word": 183}

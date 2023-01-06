@@ -34,9 +34,9 @@ foreach ( $views_query AS $Key => $table ) {
 //---
 //---
 function make_td($tabg,$nnnn) {
-    // ------------------
+    //---
     global $code_to_lang, $Words_table, $views_sql, $user_total_words;
-    // ------------------
+    //---
     $date     = $tabg['date'];
     //---
     //return $date . '<br>';
@@ -47,9 +47,9 @@ function make_td($tabg,$nnnn) {
     $word     = $tabg['word'];
     $targe    = $tabg['target'];
     $pupdate  = isset($tabg['pupdate']) ? $tabg['pupdate'] : '';
-    // ------------------
+    //---
     $views_number = isset($views_sql[$targe]) ? $views_sql[$targe] : '?';
-    // ------------------
+    //---
     $lang2 = isset($code_to_lang[$llang]) ? $code_to_lang[$llang] : $llang;
     //---
     $ccat = make_cat_url( $cat );
@@ -217,7 +217,7 @@ foreach ( $dd_Pending AS $title=> $kk ) {
     //---
     $qua = rawurlencode( "delete from pages where user = '$username' and title = '$md_title' and lang = '$lange';" );
     //---
-    if ($username == "Mr. Ibrahem") $rrm = "<td><a href='sql.php?code=$qua&pass=yemen&raw=66' target='_blank'>Remove</a></td>"; 
+    if ($username == "Mr. Ibrahem") $rrm = "<td><a href='sql.php?code=$qua&pass=$sqlpass&raw=66' target='_blank'>Remove</a></td>"; 
     //---
     $pn .= '
         <tr>

@@ -32,9 +32,9 @@ $user_total_views = 0;
 $dd_Pending = array();
 //---
 function make_td_fo_user($tabg, $nnnn) {
-    // ------------------
+    //---
     global $code_to_lang, $Words_table, $user_views_sql, $user_total_words;
-    // ------------------
+    //---
     $date     = $tabg['date'];
     //---
     //return $date . '<br>';
@@ -44,9 +44,9 @@ function make_td_fo_user($tabg, $nnnn) {
     $cat      = $tabg['cat'];
     $targe    = $tabg['target'];
     $pupdate  = isset($tabg['pupdate']) ? $tabg['pupdate'] : '';
-    // ------------------
+    //---
     $views_number = isset($user_views_sql[$targe]) ? $user_views_sql[$targe] : '?';
-    // ------------------
+    //---
     // $lang2 = isset($code_to_lang[$llang]) ? $code_to_lang[$llang] : $llang;
     $lang2 = $llang;
     //---

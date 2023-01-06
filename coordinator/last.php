@@ -3,9 +3,9 @@
 //---
 //---
 function make_td($tabg, $nnnn) {
-    // ------------------
+    //---
     global $code_to_lang, $Words_table, $views_sql, $username;
-    // ------------------
+    //---
     $id       = $tabg['id'];
     $date     = $tabg['date'];
     //---
@@ -18,9 +18,9 @@ function make_td($tabg, $nnnn) {
     $word     = $tabg['word'];
     $targe    = $tabg['target'];
     $pupdate  = isset($tabg['pupdate']) ? $tabg['pupdate'] : '';
-    // ------------------
+    //---
     $views_number = isset($views_sql[$targe]) ? $views_sql[$targe] : '?';
-    // ------------------
+    //---
     $lang2 = isset($code_to_lang[$llang]) ? $code_to_lang[$llang] : $llang;
     //---
     $ccat = make_cat_url( $cat );
