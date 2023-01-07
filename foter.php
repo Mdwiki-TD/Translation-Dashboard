@@ -2,12 +2,12 @@
 </main>
 
 <script>
-	
 function login(){
+	var test = $('#test').val();
 	var cat = $('#cat').val();
 	var code = $('#code').val();
 	var type = $('input[name=type]:checked').val();
-	var url = 'login5.php?action=login&code=' + code + '&cat=' + cat + '&type=' + type;
+	var url = 'login5.php?action=login&code=' + code + '&cat=' + cat + '&type=' + type + '&test=' + test;
 	// alert(url);
 	window.location.href = url;
 }

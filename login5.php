@@ -5,12 +5,9 @@ if ($_GET['test'] != '') {
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 };
-//---
-include_once('td_config.php');
-$ini = Read_ini_file('OAuthConfig.ini');
-//---
-$mwOAuthUrl = 'https://mdwiki.org/w/index.php?title=Special:OAuth';
+/---
 $mwOAuthAuthorizeUrl = 'https://mdwiki.org/wiki/Special:OAuth/authorize';
+$mwOAuthUrl = 'https://mdwiki.org/w/index.php?title=Special:OAuth';
 $apiUrl = 'https://mdwiki.org/w/api.php';
 $twoYears = time() + 60 * 60 * 24 * 365 * 2;
 $errorCode = 200;
@@ -23,9 +20,25 @@ session_set_cookie_params(
     dirname( $_SERVER['SCRIPT_NAME'] )
 );
 //---
+$inifile_local = '../OAuthConfig.ini';
+$inifile_mdwiki = '/data/project/mdwiki/OAuthConfig.ini';
+//---
+$inifile = $inifile_mdwiki;
+//---
+// $teste = file_get_contents($inifile_mdwiki);
+// if ( $teste != '' ) { 
+if ( strpos( __file__ , '/mnt/' ) === 0 ) {
+    $inifile = $inifile_mdwiki;
+} else {
+    $inifile = $inifile_local;
+};
+//---
+$ini = parse_ini_file( $inifile );
+//---
 if ( $ini === false ) {
     header( "HTTP/1.1 $errorCode Internal Server Error" );
     echo "The ini file:($inifile) could not be read";
+    // exit(0);
 }
 if ( !isset( $ini['agent'] ) ||
     !isset( $ini['consumerKey'] ) ||
@@ -34,12 +47,13 @@ if ( !isset( $ini['agent'] ) ||
     header( "HTTP/1.1 $errorCode Internal Server Error" );
     echo 'Required configuration directives not found in ini file';
     exit(0);
-};
-//---
-$gUserAgent         = $ini['agent'];
-$gConsumerKey       = $ini['consumerKey'];
-$gConsumerSecret    = $ini['consumerSecret'];
-$sqlpass		    = $ini['sqlpass'];
+}
+$gUserAgent = $ini['agent'];
+$gConsumerKey = $ini['consumerKey'];
+$gConsumerSecret = $ini['consumerSecret'];
+$sqlpass = $ini['sqlpass'];
+
+// Load the user token (request or access) from the session
 //---
 $username = '';
 if (!isset($_GET['test1']) && $_SERVER['SERVER_NAME'] == 'localhost') { 
@@ -55,26 +69,38 @@ $gTokenSecret = '';
 session_start();
 //---
 if ( isset( $_SESSION['tokenKey'] ) ) {
+    
     $gTokenKey = $_SESSION['tokenKey'];
     $gTokenSecret = $_SESSION['tokenSecret'];
+    
 } elseif ( isset( $_COOKIE['tokenKey'] ) ) {
+    
     $gTokenKey    = $_COOKIE['tokenKey'];
     $gTokenSecret = $_COOKIE['tokenSecret'];
+    
 };
 //---
 session_write_close();
 //---
+
+// Fetch the access token if this is the callback from requesting authorization
+// we get it after login
 if ( isset( $_REQUEST['oauth_verifier'] ) && $_REQUEST['oauth_verifier'] ) {
-    setcookie('oauth_verifier',$_REQUEST['oauth_verifier'],$twoYears,'/','mdwiki.toolforge.org',true,true);
+    // setcookie('oauth_verifier',$_REQUEST['oauth_verifier'],$twoYears,'/','mdwiki.toolforge.org',true,true);
     fetchAccessToken();
 };
-//---
+// };
+
+//function login() {
+//global $gTokenSecret,$username;
 if ($gTokenSecret != '' and $gTokenKey != '') {
     //after fetchAccessToken();
     //print 'doIdentify';
     doIdentify('');
     };
+
 //---
+// Take any requested action
 switch ( isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : '' ) {
     case 'login':
         doAuthorizationRedirect();
@@ -86,6 +112,10 @@ switch ( isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : '' ) {
 
     case 'logout':
         // session_unset();
+        //---
+        session_start();
+        session_destroy();
+        //---
         // unset cookies
         setcookie('username', '', time()-$twoYears,'/','mdwiki.toolforge.org',true,true);
         setcookie('OAuthHelloWorld', '', time()-$twoYears,'/','mdwiki.toolforge.org',true,true);
@@ -113,7 +143,31 @@ switch ( isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : '' ) {
         break;
 
 }
+
+//--- CODE ********************
+
+/*
+print "<li><a href='$SCRIPT_NAME?action=identify'>identify</a></li>";
+if ( $username != '' ) {
+    print "hi $username";
+    print "<li><a href='$SCRIPT_NAME?action=logout'>Logout</a></li>";
+} else {
+    print "<li><a href='$SCRIPT_NAME?action=login'>Login</a></li>";
+}
+*/
 //---
+/**
+ * Utility function to sign a request
+ *
+ * Note this doesn't properly handle the case where a parameter is set both in 
+ * the query string in $url and in $params, or non-scalar values in $params.
+ *
+ * @param string $method Generally "GET" or "POST"
+ * @param string $url URL string
+ * @param array $params Extra parameters for the Authorization header or post 
+ *  data (if application/x-www-form-urlencoded).
+ * @return string Signature
+ */
 function sign_request( $method, $url, $params = array() ) {
     global $gConsumerSecret, $gTokenSecret;
 
@@ -154,7 +208,11 @@ function sign_request( $method, $url, $params = array() ) {
     $key = rawurlencode( $gConsumerSecret ) . '&' . rawurlencode( $gTokenSecret );
     return base64_encode( hash_hmac( 'sha1', $toSign, $key, true ) );
 }
-//---
+
+/**
+ * Request authorization
+ * @return void
+ */
 function doAuthorizationRedirect() {
     global $mwOAuthUrl, $mwOAuthAuthorizeUrl, $gUserAgent, $gConsumerKey, $errorCode;
 
@@ -243,7 +301,11 @@ function doAuthorizationRedirect() {
     //---
     echo 'Please see <a href="' . htmlspecialchars( $url ) . '">' . htmlspecialchars( $url ) . '</a>';
 }
-//---
+
+/**
+ * Handle a callback to fetch the access token
+ * @return void
+ */
 function fetchAccessToken() {
     global $mwOAuthUrl, $gUserAgent, $gConsumerKey, $gTokenKey, $gTokenSecret, $errorCode;
     global $twoYears;
@@ -297,14 +359,18 @@ function fetchAccessToken() {
     $gTokenSecret = $token->secret;
     
     $_SESSION['tokenKey'] = $token->key;
-    setcookie('tokenKey',$gTokenKey,$twoYears,'/','mdwiki.toolforge.org',true,true);
+    // setcookie('tokenKey',$gTokenKey,time()+$twoYears,'/','mdwiki.toolforge.org',true,true);
     
     $_SESSION['tokenSecret'] = $token->secret;
-    setcookie('tokenSecret',$gTokenSecret,$twoYears,'/','mdwiki.toolforge.org',true,true);
+    // setcookie('tokenSecret',$gTokenSecret,time()+$twoYears,'/','mdwiki.toolforge.org',true,true);
     
     session_write_close();
 }
-//---
+
+/**
+ * Request a JWT and verify it
+ * @return void
+ */
 function doIdentify($gg) {
     global $mwOAuthUrl, $gUserAgent, $gConsumerKey, $gTokenKey, $gConsumerSecret, $errorCode;
     global $twoYears;
@@ -399,14 +465,16 @@ function doIdentify($gg) {
     $username = $payload->{'username'};
     //---
     
-    setcookie('username',$username,$twoYears,'/','mdwiki.toolforge.org',true,true);
+    setcookie('username',$username,time()+$twoYears,'/','mdwiki.toolforge.org',true,true);
     //---
     if ( $gg != '' ) {
         echo 'JWT payload: <pre>' . htmlspecialchars( var_export( $payload, 1 ) ) . '</pre><br><hr>';
         }
     //---
 }
-//---
+
+//--- WEBPAGE ********************
+
 function doApiQuery( $post, &$ch = null ) {
     global $apiUrl, $gUserAgent, $gConsumerKey, $errorCode;
     //---
@@ -459,7 +527,7 @@ function doApiQuery( $post, &$ch = null ) {
     }
     return $ret;
 }
-//---
+
 if ($_REQUEST['test'] != '' ) echo "<br>load " . str_replace ( __dir__ , '' , __file__ ) . " true.";
 //}
 //login()

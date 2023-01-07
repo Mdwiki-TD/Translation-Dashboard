@@ -14,7 +14,7 @@ if ($_GET['test'] != '') {
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 };
-$ini = array();
+$inio = array();
 //---
 function Read_ini_file($file) {
     // global $ini;
@@ -33,9 +33,9 @@ function Read_ini_file($file) {
         $inifile = $inifile_local;
     };
     //---
-    $ini = parse_ini_file( $inifile );
+    $inio = parse_ini_file( $inifile );
     //---
-    return $ini;
+    return $inio;
 };
 //---
 ?>
