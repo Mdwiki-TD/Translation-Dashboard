@@ -129,7 +129,10 @@ function make_table( $items, $cod, $cat ) {
             if ( $username != '' ) {
                 $tab = "<a href='" . $translate_url . "' class='btn btn-primary btn-sm'>Translate</a>";
             } else {
-                $tab = "<a class='btn btn-danger btn-sm' href='login5.php?action=login'><span class='glyphicon glyphicon-log-in'></span> Login</a>";
+                // $tab = "<a class='btn btn-danger btn-sm' href='login5.php?action=login'><span class='glyphicon glyphicon-log-in'></span> Login</a>";
+                $tab = "<a role='button' class='btn btn-primary' onclick='login()'>
+							<i class='fas fa-sign-in-alt fa-sm fa-fw mr-1'></i><span class='navtitles'>Login</span>
+						  </a>";
             };
             //---
             $list .= "

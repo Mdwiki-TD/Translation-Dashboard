@@ -10,6 +10,7 @@ include_once('td_config.php');
 $ini = Read_ini_file('OAuthConfig.ini');
 //---
 $mwOAuthUrl = 'https://mdwiki.org/w/index.php?title=Special:OAuth';
+$mwOAuthAuthorizeUrl = 'https://mdwiki.org/wiki/Special:OAuth/authorize';
 $apiUrl = 'https://mdwiki.org/w/api.php';
 $twoYears = time() + 60 * 60 * 24 * 365 * 2;
 $errorCode = 200;
