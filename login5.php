@@ -5,7 +5,7 @@ if ($_GET['test'] != '') {
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 };
-/---
+//---
 $mwOAuthAuthorizeUrl = 'https://mdwiki.org/wiki/Special:OAuth/authorize';
 $mwOAuthUrl = 'https://mdwiki.org/w/index.php?title=Special:OAuth';
 $apiUrl = 'https://mdwiki.org/w/api.php';
