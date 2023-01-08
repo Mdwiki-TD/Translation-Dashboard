@@ -5,9 +5,6 @@ require('tables.php');
 require('getcats.php');
 include_once('functions.php');
 //---
-$qids = json_decode( file_get_contents("Tables/mdwiki_to_qid.json"), true) ;
-$qids2 = json_decode( file_get_contents("Tables/other_qids.json"), true) ;
-//---
 $table = "
 	<table class='table display soro'>
 	<thead>
@@ -25,13 +22,6 @@ $table = "
 	</thead>
 	<tbody>";
 //---
-foreach( $qids2 as $ta => $q ) {
-    //---
-    if ($ta != '' && $q != '' ) {
-        $qids[$ta] = $q;
-    };
-}; 
-//---
 $titles = get_mdwiki_cat_members( 'RTT', $depth=1 );
 //---
 $no_qid = 0;
@@ -46,10 +36,10 @@ $i = 0;
 foreach ($titles as $title) {
     $i = $i + 1;
     //---
-    $qid = isset($qids[$title]) ? $qids[$title] : "";
+    $qid = isset($qids_table[$title]) ? $qids_table[$title] : "";
     $qid = isset($qid) ? "<a href='https://wikidata.org/wiki/$qid'>$qid</a>" : '';
     //---
-    if (!isset($qids[$title])) $no_qid +=1;
+    if (!isset($qids_table[$title])) $no_qid +=1;
     //---
     $word = isset($Words_table[$title]) ? $Words_table[$title] : 0; 
     //---

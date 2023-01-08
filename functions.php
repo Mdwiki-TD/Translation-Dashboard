@@ -137,11 +137,11 @@ function quary($quae) {
 //---
 function quary_a($qua) {
     if ( isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost' ) { 
-        $usrs = sqlquary_localhost($qua);
+        $us = sqlquary_localhost($qua);
     } else {
-        $usrs = quary($qua);
+        $us = quary($qua);
     };
-    return $usrs;
+    return $us;
 };
 //---
 function quary2($quae) {
@@ -262,7 +262,7 @@ function months_start() {
         $month = $table['month'];
         // $last_month = $table['month'];
 		//---
-        $month_url = "<a href='$calendar?month=$month&year=$year'>$month</a>";
+        $month_url = "<a cass='spannowrap' href='$calendar?month=$month&year=$year'>$month</a>";
         $months_urls[$month] = $month_url;
 		//---
     };
@@ -283,48 +283,41 @@ function months_start() {
             //---
             $month_y = "$year-$month";
             //---
-            $line = isset($months_urls[$month_y]) ? $months_urls[$month_y] : $month_y;
+            $line = isset($months_urls[$month_y]) ? $months_urls[$month_y] : "<span cass='spannowrap'>$year-$month</span>";
             //---
-            $lines_by_year[$year] .= "<div class='col-md-1 menu_item2 colsm5' style='width: 25%;'>$line</div>
+            $lines_by_year[$year] .= "<div class='col-md-1 colsm5'>$line</div>
                 ";
             //---
-            $lines_by_year_ul[$year] .= "<li>$line</li>";
+            $lines_by_year_ul[$year] .= "<li class='nav-item menu_item'>$line</li>";
             //---
         };
     };
     //---
     $y_req = isset($_REQUEST['year']) ? $_REQUEST['year'] : date("Y");
     //---
-    $months_lines = '';
+    $months_lines = isset($lines_by_year[$y_req]) ? $lines_by_year[$y_req] : '';
     //---
-    foreach ($lines_by_year AS $ii => $y ) {
-        //---
-        if ($y_req == $ii) {
-            $months_lines .= $y;
-            break;
-        };
-    }
     $texte = "
     <div class='card' style='font-weight: bold;'>
 		<div class='card-body'>
-			
 				<div class='row'>
 					$months_lines
 				</div>
-			
 		</div>
     </div>
     ";
     //---
-    $months_lines_ul = implode('<br>', $lines_by_year_ul);
+    $mo = isset($lines_by_year_ul[$y_req]) ? $lines_by_year_ul[$y_req] : '';
     //---
     $texte_ul = "
-    <ul class='nav nav-pills'>
-        $months_lines_ul
-    </ul>
+	<div class='card' style='font-weight: bold;'>
+		<ul class='nav nav-tabs nav-justified'>
+			$mo
+		</ul>
+	</div>
     ";
     //---
-    return $texte;
+    return $texte_ul;
     //---
 };
 //---

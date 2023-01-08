@@ -213,10 +213,6 @@ function make_user_table($user_main, $test, $limit) {
 		<div class='col-md-4'></div>
 	</div>";
 	//---
-    // print '<div class=" clearfix leaderboard" >';
-    //---
-    // require("filter-table.php");
-    //---
 	return  $sato;
     // print "</div>";
     //---

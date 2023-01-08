@@ -26,7 +26,8 @@ if ($cat == "undefined") { $cat = "RTT";};
 function make_table( $items, $cod, $cat ) {
     global $username, $Words_table, $All_Words_table, $Assessments_table, $Assessments_fff ,$Translate_type;
     global $Lead_Refs_table, $All_Refs_table, $enwiki_pageviews_table;
-    
+    global $qids_table;
+    //---
     //$frist = '<table class="table table-sm table-striped" id="main_table">';
     //$frist = "<caption>$res_line</caption>";
     //--- 
@@ -38,6 +39,10 @@ function make_table( $items, $cod, $cat ) {
         $Refs_word = 'References';
         };
     //---
+	$qidth = '';
+	//---
+	if ($username == 'Mr. Ibrahem') $qidth = "<th>qid</th>";
+	//---
     $frist = '
     <table class="table table-sm sortable table-striped" id="main_table">
     <thead>
@@ -50,6 +55,7 @@ function make_table( $items, $cod, $cat ) {
         <th class="spannowrap" tt="h_len"><span data-toggle="tooltip" title="Page important from medicine project in English Wikipedia">Importance</span></th>
         <th class="spannowrap" tt="h_len"><span data-toggle="tooltip" title="number of word of the article in mdwiki.org">' . $Words_word . '</span></th>
         <th class="spannowrap" tt="h_len"><span data-toggle="tooltip" title="number of reference of the article in mdwiki.org">' . $Refs_word . '</span></th>
+		' . $qidth . '
         </tr>
     </thead>
     <tbody>
@@ -104,6 +110,13 @@ function make_table( $items, $cod, $cat ) {
             //---
             $pageviews = isset($enwiki_pageviews_table[$title]) ? $enwiki_pageviews_table[$title] : 0; 
             //---
+			$qid = isset($qids_table[$title]) ? $qids_table[$title] : "";
+			$qid = isset($qid) ? "<a href='https://wikidata.org/wiki/$qid'>$qid</a>" : '';
+			//---
+			$qidline = '';
+            //---
+			if ($username == 'Mr. Ibrahem') $qidline = "<td>$qid</td>";
+            //---
             $word = isset($Words_table[$title]) ? $Words_table[$title] : 0; 
             //---
             $refs = isset($Lead_Refs_table[$title]) ? $Lead_Refs_table[$title] : 0; 
@@ -144,6 +157,7 @@ function make_table( $items, $cod, $cat ) {
         <td class='num'>$asse</td>
         <td class='num'>$word</td>
         <td class='num'>$refs</td>
+		$qidline
         </tr>   
     " ;
             //---
@@ -163,13 +177,13 @@ function make_table( $items, $cod, $cat ) {
 //---
 $doit2 = false ;
 //---
-if ( $code_lang_name != '' ) { $doit2 = true ; };
+if ( $code_lang_name != '' ) $doit2 = true;
+//---
+echo "<div class='container'>";
 //---
 if ( $doit && $doit2 ) {
     //---
-    if ($test) {
-        print '$doit and $doit2:<br>';
-    };
+    if ($test) print '$doit and $doit2:<br>';
     //---
     $items = array() ;
     //---
@@ -183,9 +197,7 @@ if ( $doit && $doit2 ) {
     //---
     $res_line = " Results " ;//. ($start+1) . "&ndash;" . ($start+$limit) ;
     //---
-    if ($test != '') { 
-        $res_line .= 'test:';
-    };
+    if ($test != '') $res_line .= 'test:';
     //---
     $items_missing = isset($items['missing']) ? $items['missing'] : array();
     $table = make_table( $items_missing, $code , $cat ) ;
@@ -197,34 +209,33 @@ if ( $doit && $doit2 ) {
     $ix =  "Find $len_of_all pages in $caturl, $len_of_exists_pages exists, and $len_of_missing_pages missing in (<a href='https://$code.wikipedia.org'>https://$code.wikipedia.org</a>)." ;
     //---
     $diff = isset($items['diff']) ? $items['diff'] : '';
-    if ($diff != '' ) {
-        $ix .= " diff:($diff)";
-    };
+    //---
+    if ($diff != '' ) $ix .= " diff:($diff)";
     //---
     echo "
 	<br>
-  <div class='card'>
-    <h4>$res_line:</h4>
-    <div class='card-header'>
-      <h5>$ix</h5>
-      </div>
-      <div class='card-body'>
-      $table
-    </div>
-  </div>";
+	<div class='card'>
+		<h4>$res_line:</h4>
+		<div class='card-header'>
+			<h5>$ix</h5>
+		</div>
+		<div class='card-body'>
+			$table
+		</div>
+	</div>";
     //---
     $misso  = isset($items['misso']) ? $items['misso'] : array();
-    if ($misso != '') {
+    if (count($misso) > 0) {
         $table3 = make_table( $misso, $code , $cat ) ;
-        print "<div class='card'>
-    <div class='card-header'>
-         <h4>pages exists in mdwiki and missing in enwiki:</h4>
-    </div>
-    <div class='card-body' style='padding:5px 0px 5px 5px;'>
-  $table3
-  </div>
-  </div>
-  " ;
+        print "
+	<div class='card'>
+		<div class='card-header'>
+			<h4>pages exists in mdwiki and missing in enwiki:</h4>
+		</div>
+		<div class='card-body' style='padding:5px 0px 5px 5px;'>
+			$table3
+		</div>
+	</div>";
     };
     //---
     if ($test != '') {
@@ -233,7 +244,7 @@ if ( $doit && $doit2 ) {
         print $table2 ;
     };
     //---
-} else {
+	} else {
     if (isset($doit) && $test != '' ) {
         //---
         print "_REQUEST code:" . isset($_REQUEST['code']) . "<br>";
@@ -243,5 +254,7 @@ if ( $doit && $doit2 ) {
     };
     echo '</div>';
 };
+//---
+echo "</div>";
 //---
 ?>

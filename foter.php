@@ -16,8 +16,9 @@ $(document).ready(function() {
     to_get();
     $('[data-toggle="tooltip"]').tooltip();
     $('.soro').DataTable({
-    paging: false,
-    scrollY: 400
+    // paging: false,
+	lengthMenu: [[50, 100], [50, 100]],
+    // scrollY: 400
 	});
     $('.soro2').DataTable({});
 });

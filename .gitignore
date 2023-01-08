@@ -9,6 +9,7 @@ sqltest.php
 ui.html
 nav4.php
 cookie.txt
+Tables/*.*
 Tables/*
 cash_exists/*
 cash/*
@@ -19,3 +20,6 @@ coordinator/old/*
 old/*
 login35.php
 s.php
+coordinator/updatecat.php
+Tables/assessments.json
+Tables/assessments.json

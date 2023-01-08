@@ -81,6 +81,13 @@ include_once('td_config.php');
 $ini = Read_ini_file('OAuthConfig.ini');
 include_once('functions.php');
 //---
+$username2 = isset($_COOKIE['username']) ? $_COOKIE['username'] : $username;
+//---
+if (!in_array($username2, $usrs)) {
+	echo "<meta http-equiv='refresh' content='0; url=index.php'>";
+	exit;
+};
+//---
 $sqlpass = $ini['sqlpass'];
 //---
 $pass = isset($_REQUEST['pass']) ? $_REQUEST['pass'] : '';
@@ -91,7 +98,7 @@ $test = isset($_REQUEST['test']) ? $_REQUEST['test'] : '';
 if ( $raw == '' ) {
     require('header.php');
     //---
-    $quu = "SELECT SUBSTRING_INDEX(CURRENT_USER(), '@', 1); ";
+    $quu = "SELECT A.id from pages A, pages B where A.target = '' and A.lang = B.lang and A.title = B.title and B.target != '';";
     //---
     $quaa = $qua ? $qua : $quu ;
     //---    

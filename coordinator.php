@@ -1,6 +1,8 @@
 <?PHP
 //---
 require('header.php');
+echo '</div>
+<div id="maindiv" class="container-fluid">';
 include_once('functions.php'); // $usrs
 //---
 $gg = '';
@@ -8,23 +10,69 @@ $gg = '';
 $ty = $_REQUEST['ty'];
 //---
 if (!isset($_REQUEST['nonav'])) {
+	//---
+	$li = "<li id='%s' class='nav-item'><a class='nav-link' href='%s'>%s</a></li>";
+	//---
+	$items1 = array(
+		array('id' => 'last',		'href' => 'coordinator.php?ty=last', 	'title' => 'Recent translation'),
+		array('id' => 'Pending',	'href' => 'coordinator.php?ty=Pending',	'title' => 'Translations in process'),
+	);
+	//---
+	$lis1 = '';
+	foreach ($items1 as $a => $item) {
+		$lis1 .= sprintf($li, $item['id'], $item['href'], $item['title']);
+	};
+	//---
+	$items2 = array(
+		array('id' => 'Emails', 	'href' => 'coordinator.php?ty=Emails', 		'title' => 'Emails'),
+	);
+	//---
+	$lis2 = '';
+	foreach ($items2 as $a => $item) {
+		$lis2 .= sprintf($li, $item['id'], $item['href'], $item['title']);
+	};
+	//---
+	$items3 = array(
+		array('id' => 'coordinators', 'href' => 'coordinator.php?ty=coordinators', 'title' => 'Coordinators'),
+		array('id' => 'Campaigns', 	'href' => 'coordinator.php?ty=Campaigns', 	'title' => 'Campaigns'),
+		// array('id' => 'updatecat', 	'href' => 'coordinator.php?ty=updatecat', 	'title' => 'update cat'),
+		array('id' => 'others', 	'href' => 'coordinator.php?ty=others', 		'title' => 'Others'),
+	);
+	//---
+	$lis3 = '';
+	foreach ($items3 as $a => $item) {
+		$lis3 .= sprintf($li, $item['id'], $item['href'], $item['title']);
+	};
+	//---
 	echo '
-	<div class="row content">
-		<div class="col-md-2" style="padding-right:-10px;">
-			<h5>coordinator tools</h5>
+    <div class="row content">
+        <div class="col-md-2">
+			<span class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+				<a class="nav-link" href="coordinator.php">
+					<span id="Home" class="fs-5 fw-semibold">Coordinator tools</span>
+				</a>
+			</span>
+			<span class="fs-6 fw-semibold">Translations:</span>
 			<ul class="nav flex-column nav-pills">
-				<li id="Home" class="nav-item"><a class="nav-link" href="coordinator.php">recent translation</a></li>
-				<li id="coordinators" class="nav-item"><a class="nav-link" href="coordinator.php?ty=coordinators">Coordinators</a></li>
-				<li id="Campaigns" class="nav-item"><a class="nav-link" href="coordinator.php?ty=Campaigns">Campaigns</a></li>
-				<li id="process" class="nav-item"><a class="nav-link" href="coordinator.php?ty=Pending">Translations in process</a></li>
-				<li id="Emails" class="nav-item"><a class="nav-link" href="coordinator.php?ty=Emails">Emails</a></li>
-				<li id="others" class="nav-item"><a class="nav-link" href="coordinator.php?ty=others">Others</a></li>
+				' . $lis1 . '
+			</ul>
+			<span class="fs-6 fw-semibold">Users:</span>
+			<ul class="nav flex-column nav-pills">
+				' . $lis2 . '
+			</ul>
+			<span class="fs-6 fw-semibold">Others:</span>
+			<ul class="nav flex-column nav-pills">
+				' . $lis3 . '
+			</ul>
+			<span class="fs-6 fw-semibold">Tools:</span>
+			<ul class="nav flex-column nav-pills">
 				<li id="fixwikirefs" class="nav-item"><a target="_blank" class="nav-link" href="../fixwikirefs.php">Fixwikirefs</a></li>
 			</ul>
-		</div>
-		<div class="col-md-10">
-		<div class="card">
-			<div class="card-body">
+        </div>
+        <div class="col-md-10">
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-body">
 	';
 };
 //---
@@ -42,7 +90,7 @@ if (!in_array($username, $usrs)) {
 //---
 if (!isset($ty)) {
 	require('coordinator/index.php');
-	$ty = 'Home';
+	$ty = 'last';
 } else {
 	$file = "coordinator/$ty.php";
 	if (file_get_contents($file)) {
@@ -59,12 +107,13 @@ if (isset($ty)) {
 echo $gg;
 //---
 print "
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
-<div>";
+</div>";
 //---
 require('foter.php');
 //---

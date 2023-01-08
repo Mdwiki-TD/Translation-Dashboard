@@ -172,5 +172,6 @@ if (in_array($username, $usrs)) {
 // require('sidebar.php');	
 ?>
 <main id="body">
+	<!-- <div id="maindiv" class="container-fluid"> -->
 	<div id="maindiv" class="container-fluid">
 	<br>

@@ -100,6 +100,8 @@ INSERT INTO pages (title, word, translate_type, cat, lang, date, user, target, p
         $url = "//$coden.wikipedia.org/wiki/Special:ContentTranslation?page=User%3AMr.+Ibrahem%2F$title_o2";
         $url .= "&from=en&to=$coden&targettitle=$title_o2#draft";
         //---
+        if ($coden == 'en') $url = "//en.wikipedia.org/w/index.php?title=User:Mr._Ibrahem/$title_o2&action=edit";
+        //---
         if ($test != "") {
             //---
             print $nana;

@@ -54,6 +54,16 @@ $medwiki_to_enwiki = json_decode( $md_en_text, true) ;
 $assef = file_get_contents("Tables/assessments.json");
 $Assessments_table = json_decode( $assef, true) ;
 //---
+$qids_table = json_decode( file_get_contents("Tables/mdwiki_to_qid.json"), true) ;
+$qids_2 = json_decode( file_get_contents("Tables/other_qids.json"), true) ;
+//---
+foreach( $qids_2 as $ta => $q ) {
+    //---
+    if ($ta != '' && $q != '' ) {
+        $qids_table[$ta] = $q;
+    };
+}; 
+//---
 if ($_REQUEST['test'] != '' ) echo "<br>load " . str_replace ( __dir__ , '' , __file__ ) . " true.";
 //---
 ?>

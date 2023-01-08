@@ -55,9 +55,13 @@ $sqlpass = $ini['sqlpass'];
 
 // Load the user token (request or access) from the session
 //---
+$server_name = 'mdwiki.toolforge.org';
+$server_name = $_SERVER['SERVER_NAME'];
+//---
 $username = '';
 if (!isset($_GET['test1']) && $_SERVER['SERVER_NAME'] == 'localhost') { 
     $username = 'Mr. Ibrahem';
+	setcookie('username',$username,time()+$twoYears,'/',$server_name,true,true);
     // $username = '';
 };
 //---
@@ -86,7 +90,7 @@ session_write_close();
 // Fetch the access token if this is the callback from requesting authorization
 // we get it after login
 if ( isset( $_REQUEST['oauth_verifier'] ) && $_REQUEST['oauth_verifier'] ) {
-    // setcookie('oauth_verifier',$_REQUEST['oauth_verifier'],$twoYears,'/','mdwiki.toolforge.org',true,true);
+    // setcookie('oauth_verifier',$_REQUEST['oauth_verifier'],$twoYears,'/',$server_name,true,true);
     fetchAccessToken();
 };
 // };
@@ -117,15 +121,15 @@ switch ( isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : '' ) {
         session_destroy();
         //---
         // unset cookies
-        setcookie('username', '', time()-$twoYears,'/','mdwiki.toolforge.org',true,true);
-        setcookie('OAuthHelloWorld', '', time()-$twoYears,'/','mdwiki.toolforge.org',true,true);
+        setcookie('username', '', time()-$twoYears,'/',$server_name,true,true);
+        setcookie('OAuthHelloWorld', '', time()-$twoYears,'/',$server_name,true,true);
         if (isset($_SERVER['HTTP_COOKIE'])) {
             $cookies = explode(';', $_SERVER['HTTP_COOKIE']);
             foreach($cookies as $cookie) {
                 $parts = explode('=', $cookie);
                 $name = trim($parts[0]);
                 // setcookie($name, '', time()-$twoYears);
-                setcookie($name, '', time()-$twoYears,'/','mdwiki.toolforge.org',true,true);
+                setcookie($name, '', time()-$twoYears,'/',$server_name,true,true);
             };
         };
         // session_start();
@@ -233,7 +237,6 @@ function doAuthorizationRedirect() {
     // echo $state;
     //---
     $oauth_callback = 'https://mdwiki.toolforge.org/Translation_Dashboard/index.php' . '?' . $state ;
-    //---
     //---
     // $gTokenSecret = '';
     $url = $mwOAuthUrl . '/initiate';
@@ -359,10 +362,10 @@ function fetchAccessToken() {
     $gTokenSecret = $token->secret;
     
     $_SESSION['tokenKey'] = $token->key;
-    // setcookie('tokenKey',$gTokenKey,time()+$twoYears,'/','mdwiki.toolforge.org',true,true);
+    // setcookie('tokenKey',$gTokenKey,time()+$twoYears,'/',$server_name,true,true);
     
     $_SESSION['tokenSecret'] = $token->secret;
-    // setcookie('tokenSecret',$gTokenSecret,time()+$twoYears,'/','mdwiki.toolforge.org',true,true);
+    // setcookie('tokenSecret',$gTokenSecret,time()+$twoYears,'/',$server_name,true,true);
     
     session_write_close();
 }
@@ -465,7 +468,7 @@ function doIdentify($gg) {
     $username = $payload->{'username'};
     //---
     
-    setcookie('username',$username,time()+$twoYears,'/','mdwiki.toolforge.org',true,true);
+    setcookie('username',$username,time()+$twoYears,'/',$server_name,true,true);
     //---
     if ( $gg != '' ) {
         echo 'JWT payload: <pre>' . htmlspecialchars( var_export( $payload, 1 ) ) . '</pre><br><hr>';

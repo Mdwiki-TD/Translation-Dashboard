@@ -8,6 +8,7 @@
 		<th>category</th>
 		<th>display</th>
 		<th>depth</th>
+		<th>delete</th>
 	  </tr>
 	<tbody id="tab_logic">
 

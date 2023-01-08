@@ -1,4 +1,3 @@
-
 <?php
 //---
 for($i = 0; $i < count($_POST['del']); $i++ ) {
@@ -10,43 +9,56 @@ for($i = 0; $i < count($_POST['del']); $i++ ) {
 	};
 };
 //---
-	for($i = 0; $i < count($_POST['username']); $i++ ){
+for($i = 0; $i < count($_POST['username']); $i++ ){
+	//---
+	$username 	= $_POST['username'][$i];
+	$email 	= $_POST['email'][$i];
+	$ido 	= $_POST['id'][$i];
+	$wiki 	= $_POST['wiki'][$i];
+	//---
+	if ($username != '') {
 		//---
-		$username 	= $_POST['username'][$i];
-		$email 	= $_POST['email'][$i];
-		$ido 	= $_POST['id'][$i];
-		$wiki 	= $_POST['wiki'][$i];
-		//---
-		if ($username != '') {
-			//---
-			$qua = "INSERT INTO users (username, email, wiki) SELECT '$username', '$email', '$wiki'
-			WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = '$username')";
-			//---	
-			if (isset($ido)) {
-				$qua = "UPDATE `users` SET 
-				`username` = '$username', 
-				`email` = '$email', 
-				`wiki` = '$wiki' 
-				WHERE `users`.`user_id` = $ido;
-				";
-			};
-			//---
-			quary2($qua);
-			//---
+		$qua = "INSERT INTO users (username, email, wiki) SELECT '$username', '$email', '$wiki'
+		WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = '$username')";
+		//---	
+		if (isset($ido)) {
+			$qua = "UPDATE `users` SET 
+			`username` = '$username', 
+			`email` = '$email', 
+			`wiki` = '$wiki' 
+			WHERE `users`.`user_id` = $ido;
+			";
 		};
+		//---
+		quary2($qua);
+		//---
 	};
+};
+//---
+$new_q = "INSERT INTO users (username, email, wiki) SELECT DISTINCT user, '', '' from pages
+WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = user)";
+//---
+// quary2($new_q);
+//---
+$nn = 0;
+foreach(quary2('SELECT count(DISTINCT user) as c from pages;') as $k => $tab) $nn = $tab['c'];
+//---
+echo "<h4>Emails ($nn user):</h4>";
+//---
 ?>
 
-<h4>Emails:</h4>
+
 <form action="coordinator.php?ty=Emails" method="POST">
 	<input name='ty' value="Emails" hidden/>
 	  <div class="form-group">
 		  <table id='em' class='table table-striped compact'>
 			<thead>
 			  <tr>
+				<th>#</th>
 				<th>Username</th>
 				<th>Email</th>
 				<th>Wiki</th>
+				<th>Live</th>
 				<th>Delete</th>
 			  </tr>
 			</thead>
@@ -64,11 +76,21 @@ CREATE TABLE users (
 // ALTER TABLE `users` ADD `depth` INT(2) NULL DEFAULT NULL AFTER `display`;
 // ALTER TABLE users DROP depth;
 //---
-$qq = quary2('
+$qu2 = "select user_id, username, email, wiki, 
+(select count(target) from pages WHERE target != '' and user = username) as live
+from users, pages
+where user = username
+group by username  
+ORDER BY live DESC;
+";
+//---
+$qu1 = '
 	select user_id, username, email, wiki 
 	from users
 	#ORDER BY email DESC
-;');
+;';
+//---
+$qq = quary2($qu2);
 //---
 $numb = 0;
 //---
@@ -78,9 +100,11 @@ foreach ( $qq AS $Key => $table ) {
 	$username 	= $table['username'];
 	$email 	= $table['email'];
 	$wiki	= $table['wiki'];
+	$live	= $table['live'];
     //---
 	echo "
 	<tr>
+	  <td data-order='$numb'>$numb</td>
 	  <td data-order='$username'>
 	  	<span>$username</span>
 	  	<input name='username[]$numb' id='username[]$numb' value='$username' hidden/>
@@ -88,10 +112,13 @@ foreach ( $qq AS $Key => $table ) {
 	  </td>
 	  <td data-order='$email'>
 	  	<span style='display: none'>$email</span>
-	  	<input size='40' name='email[]$numb' id='email[]$numb' value='$email'/>
+	  	<input size='25' name='email[]$numb' id='email[]$numb' value='$email'/>
 	  </td>
 	  <td data-order='$wiki'>
 	  	<input size='10' name='wiki[]$numb' id='wiki[]$numb' value='$wiki'/>
+	  </td>
+	  <td data-order='$live'>
+	  	<span>$live</span>
 	  </td>
 	  <td><input type='checkbox' name='del[]$numb' value='$id'/> <label>delete</label></td>
 	</tr>";
@@ -117,8 +144,9 @@ function add_row() {
 
 $(document).ready( function () {
 	var table = $('#em').DataTable({
-    paging: false,
-    scrollY: 400
+    // paging: false,
+	lengthMenu: [[50, 100], [50, 100]],
+    // scrollY: 800
 	});
 } );
 

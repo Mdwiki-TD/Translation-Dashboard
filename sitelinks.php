@@ -30,11 +30,11 @@ $data2 = json_decode($json2, true);
 $heads = $data2["heads"];
 # remove commons from heads
 $heads = array_diff($heads, array("commons"));
-$qids = $data2['qids'];
+$qids_o = $data2['qids'];
 // limit to 20
 $heads = array_slice($heads, 0, 50);
 // limit to 150
-$qids = array_slice($qids, 0, $title_limit);
+$qids_o = array_slice($qids_o, 0, $title_limit);
 //---
 $notitle = true;
 //---
@@ -42,7 +42,7 @@ if ($site != "" && $site != "all") {
     $notitle = false;
     $heads = array();
     $heads[] = $site;
-    $qids = $data2['qids'];
+    $qids_o = $data2['qids'];
 }
 //---
 print "
@@ -70,7 +70,7 @@ print "     </tr>
 //---
 // show 100 row only
 $i = 0;
-foreach ($qids as $qid => $tab) {
+foreach ($qids_o as $qid => $tab) {
     $i = $i + 1;
     print "
             <tr>";
