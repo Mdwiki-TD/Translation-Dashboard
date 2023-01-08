@@ -71,13 +71,11 @@ if (in_array($username, $usrs)) {
 </head>
 
 <body>
-<header>
-<nav id="mainnav" class="navbar navbar-expand-md md-body-tertiary bg-light navbar-light shadow">
-	<div class="container-fluid">
-		<a class="navbar-brand" href="index.php" style="color:blue;">Wiki Project Med Translation Dashboard</a>
-		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
-			<span class="navbar-toggler-icon"></span>
-		</button>
+<header id="mainnav" class="navbar-expand-md md-body-tertiary navbar navbar-light bg-light flex-md-nowrap shadow">
+	<a class="navbar-brand me-0 px-3" href="index.php" style="color:blue;">Wiki Project Med Translation Dashboard</a>
+	<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+		<span class="navbar-toggler-icon"></span>
+	</button>
 		<div class="collapse navbar-collapse" id="collapsibleNavbar">
 			<ul class="navbar-nav me-auto">
 				<li class="nav-item">
@@ -103,9 +101,9 @@ if (in_array($username, $usrs)) {
 					<span class="navtitles">Github</span>
 				  </a>
 				</li>
-			  </ul>
-			  <div class="d-flex">
-				  <ul class="nav navbar-nav ml-auto">
+			</ul>
+			<div class="d-flex px-3">
+				<ul class="nav navbar-nav ml-auto">
 					<li class="nav-item">
 						<a id="username_li" class="nav-link" style="display:none">
 							<i class="fas fa-user fa-sm fa-fw mr-2"></i> <span class="navtitles" id="user_name"></span>
@@ -113,21 +111,20 @@ if (in_array($username, $usrs)) {
 					</li>
 					<li class="nav-item">
 						<a role="button" id="loginli" class="nav-link" onclick="login()">
-						  <i class="fas fa-sign-in-alt fa-sm fa-fw mr-2"></i><span class="navtitles">Login</span>
+							<i class="fas fa-sign-in-alt fa-sm fa-fw mr-2"></i><span class="navtitles">Login</span>
 						</a>
 					</li>
 					<li class="nav-item">
 						<a id="logout_btn" class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal" style="display:none">
-						  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2"></i><span class="navtitles">Logout</span>
+							<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2"></i><span class="navtitles">Logout</span>
 						</a>
 					</li>
-				  </ul>
-			  </div>
+				</ul>
+			</div>
 		</div>
-	</div>
-</nav>
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+</header>
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -141,8 +138,7 @@ if (in_array($username, $usrs)) {
         </div>
       </div>
     </div>
-  </div>
-</header>
+</div>
 <script>	
 	// $(document).ready(function() {
 	var lo = $('#myusername').text();
