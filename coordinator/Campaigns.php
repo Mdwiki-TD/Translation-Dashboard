@@ -5,6 +5,7 @@
 	  <div class="form-group">
   <table class='table'>
 	  <tr>
+		<th>#</th>
 		<th>category</th>
 		<th>display</th>
 		<th>depth</th>
@@ -64,12 +65,13 @@ foreach ( $qq AS $Key => $table ) {
     //---
 	echo "
 	<tr>
+	  <td>$numb</td>
 	  <td>
 	  	<input name='cat[]$numb' value='$category'/>
 	  	<input name='id[]$numb' value='$id' hidden/>
 	  </td>
 	  <td><input name='dis[]$numb' value='$display'/></td>
-	  <td><input name='dep[]$numb' value='$depth'/></td>
+	  <td><input class='w-25' type='number' name='dep[]$numb' value='$depth'/></td>
 	  <td><input type='checkbox' name='del[]$numb' value='$id'/> <label>delete</label></td>
 	</tr>";
 };
@@ -86,7 +88,13 @@ foreach ( $qq AS $Key => $table ) {
 var i = 1;
 function add_row() {
 	var ii = $('#tab_logic >tr').length + 1;
-	var e = "<tr><td><input name='cat[]" + ii + "'/></td><td><input name='dis[]" + ii + "'/></td><td><input name='dep[]" + ii + "' value='0'/></td><td></td></tr>";
+	var e = "<tr>";
+	e = e + "<td>" + ii + "</td>";
+	e = e + "<td><input name='cat[]" + ii + "' placeholder='catname'/></td>";
+	e = e + "<td><input name='dis[]" + ii + "' placeholder='display'/></td>";
+	e = e + "<td><input name='dep[]" + ii + "' value='0'/></td>";
+	e = e + "<td></td>";
+	e = e + "</tr>";
 
 	$('#tab_logic').append(e);
 	i++;

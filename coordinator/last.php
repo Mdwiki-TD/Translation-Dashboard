@@ -1,6 +1,5 @@
-<h4>Most recent translation:</h4>
+<h4>Most recent translations:</h4>
 <?PHP
-//---
 //---
 function make_td($tabg, $nnnn) {
     //---
@@ -31,7 +30,7 @@ function make_td($tabg, $nnnn) {
     //---
     $targe33 = make_target_url( $targe, $llang );
     //---
-    $view = make_view_by_number($targe, $views_number, $llang);
+    $view = make_view_by_number($targe, $views_number, $llang, $pupdate);
     //---
     $mail_params = array( 'user' => $user, 'lang' => $llang, 'target' => $targe, 'date' => $pupdate, 'title' => $md_title, 'nonav' => '1');
     //---
@@ -47,11 +46,11 @@ function make_td($tabg, $nnnn) {
             <td><a target="" href="users.php?user=' . $user . '">' . $user . '</a></td>
             <td>' . $mail . '</td>
             <td><a target="" href="langs.php?langcode=' . $llang . '">' . $lang2 . '</a>' . '</td>
-            <td>' . $nana  . '</td>
+            <td style="max-width:150px;">' . $nana  . '</td>
             <!-- <td>' . $date  . '</td> -->
             <td>' . $ccat  . '</td>
             <!-- <td>' . $worde . '</td> -->
-            <td>' . $targe33 . '</td>
+            <td style="max-width:150px;">' . $targe33 . '</td>
             <td>' . $pupdate . '</td>
             <td>' . $view . '</td>
             '; 
@@ -64,12 +63,12 @@ function make_td($tabg, $nnnn) {
 //---
 $quaa = "select * from pages where target != ''
 ORDER BY pupdate DESC
-limit 20
+limit 100
 ;";
 $dd = quary2($quaa);
 //---
 $sato = '
-	<table class="table table-md table-striped soro1" style="font-size:90%;">
+	<table class="table table-md table-striped soro" style="font-size:90%;">
     <thead>
         <tr>
             <th>#</th>

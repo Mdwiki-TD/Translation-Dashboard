@@ -67,14 +67,14 @@ if ($title_o != '' && $coden != '' && $useree != '' ) {
     $date = $objDateTime->format('Y-m-d');
     //---
     $quae = "
-INSERT INTO pages (title, word, translate_type, cat, lang, date, user, target, pupdate)
+INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target)
 VALUES ('$title_o', '$word', '$tr_type', '$cat', '$coden', '$date', '$useree', '', '')
 ";
     //---
 	if (isset($test)) echo "<br>$quae<br>";
     //---
     $quae_new = "
-INSERT INTO pages (title, word, translate_type, cat, lang, date, user, target, pupdate)
+INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target)
     SELECT '$title_o', '$word', '$tr_type', '$cat', '$coden', '$date', '$useree', '', ''
     WHERE NOT EXISTS
         (SELECT 1

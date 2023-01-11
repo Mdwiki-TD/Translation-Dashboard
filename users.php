@@ -33,7 +33,7 @@ $dd_Pending = array();
 //---
 function make_td_fo_user($tabg, $nnnn) {
     //---
-    global $code_to_lang, $Words_table, $user_views_sql, $user_total_words;
+    global $code_to_lang, $Words_table, $user_views_sql, $user_total_words, $user_total_views;
     //---
     $date     = $tabg['date'];
     //---
@@ -45,7 +45,9 @@ function make_td_fo_user($tabg, $nnnn) {
     $targe    = $tabg['target'];
     $pupdate  = isset($tabg['pupdate']) ? $tabg['pupdate'] : '';
     //---
-    $views_number = isset($user_views_sql[$targe]) ? $user_views_sql[$targe] : '?';
+    // $views_number = isset($user_views_sql[$targe]) ? $user_views_sql[$targe] : 0;
+    $views_number = 0;
+    $user_total_views += $views_number;
     //---
     // $lang2 = isset($code_to_lang[$llang]) ? $code_to_lang[$llang] : $llang;
     $lang2 = $llang;
@@ -63,7 +65,7 @@ function make_td_fo_user($tabg, $nnnn) {
     //---
     $targe33 = make_target_url( $targe , $llang );
     //---
-    $view = make_view_by_number($targe , $views_number, $llang) ;
+    $view = make_view_by_number($targe, $views_number, $llang, $pupdate) ;
     //---
     $tran_type = isset($tabg['translate_type']) ? $tabg['translate_type'] : '';
     if ($tran_type == 'all') { 
@@ -131,7 +133,7 @@ function make_user_table($user_main, $test, $limit) {
             $targ = $table['target'];
             $user_views_sql[$targ] = $countall;
             //---
-            $user_total_views = $user_total_views + $countall;
+            // $user_total_views = $user_total_views + $countall;
             //---
             $done += 1;
             //---
@@ -203,7 +205,7 @@ function make_user_table($user_main, $test, $limit) {
     //---
     $table2 = "<table class='table table-sm table-striped' style='width:70%;'>
     <tr><td>Words: </td><td>$user_total_words</td></tr>
-    <tr><td>Pageviews: </td><td>$user_total_views</td></tr>
+    <tr><td>Pageviews: </td><td><span id='hrefjsontoadd'>$user_total_views</span></td></tr>
     </table>";
     //---
 	echo "

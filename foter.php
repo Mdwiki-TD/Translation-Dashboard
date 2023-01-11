@@ -15,12 +15,12 @@ $(document).ready(function() {
 	// console.log('usernamexx');
     to_get();
     $('[data-toggle="tooltip"]').tooltip();
-    $('.soro').DataTable({
+    var table = $('.soro').DataTable({
     // paging: false,
-	lengthMenu: [[50, 100], [50, 100]],
-    // scrollY: 400
+	lengthMenu: [[25, 50, 100, 200], [25, 50, 100, 200]],
+    // scrollY: 400,
+	// order: [[2	, 'desc']],
 	});
-    $('.soro2').DataTable({});
 });
 </script>
 <!-- Footer -->

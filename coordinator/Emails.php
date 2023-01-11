@@ -15,17 +15,20 @@ for($i = 0; $i < count($_POST['username']); $i++ ){
 	$email 	= $_POST['email'][$i];
 	$ido 	= $_POST['id'][$i];
 	$wiki 	= $_POST['wiki'][$i];
+	$project 	= $_POST['project'][$i];
+	// $project 	= '';
 	//---
 	if ($username != '') {
 		//---
-		$qua = "INSERT INTO users (username, email, wiki) SELECT '$username', '$email', '$wiki'
+		$qua = "INSERT INTO users (username, email, wiki, user_group) SELECT '$username', '$email', '$wiki', '$project'
 		WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = '$username')";
 		//---	
 		if (isset($ido)) {
-			$qua = "UPDATE `users` SET 
-			`username` = '$username', 
-			`email` = '$email', 
-			`wiki` = '$wiki' 
+			$qua = "UPDATE `users` SET
+			`username` = '$username',
+			`email` = '$email',
+			`user_group` = '$project',
+			`wiki` = '$wiki'
 			WHERE `users`.`user_id` = $ido;
 			";
 		};
@@ -35,7 +38,7 @@ for($i = 0; $i < count($_POST['username']); $i++ ){
 	};
 };
 //---
-$new_q = "INSERT INTO users (username, email, wiki) SELECT DISTINCT user, '', '' from pages
+$new_q = "INSERT INTO users (username, email, wiki, user_group) SELECT DISTINCT user, '', '', '' from pages
 WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = user)";
 //---
 // quary2($new_q);
@@ -46,8 +49,6 @@ foreach(quary2('SELECT count(DISTINCT user) as c from pages;') as $k => $tab) $n
 echo "<h4>Emails ($nn user):</h4>";
 //---
 ?>
-
-
 <form action="coordinator.php?ty=Emails" method="POST">
 	<input name='ty' value="Emails" hidden/>
 	  <div class="form-group">
@@ -57,6 +58,7 @@ echo "<h4>Emails ($nn user):</h4>";
 				<th>#</th>
 				<th>Username</th>
 				<th>Email</th>
+				<th>Project</th>
 				<th>Wiki</th>
 				<th>Live</th>
 				<th>Delete</th>
@@ -74,9 +76,32 @@ CREATE TABLE users (
 );
 */
 // ALTER TABLE `users` ADD `depth` INT(2) NULL DEFAULT NULL AFTER `display`;
+// ALTER TABLE `users` ADD `user_group` VARCHAR(120) NOT NULL AFTER `wiki`;
 // ALTER TABLE users DROP depth;
 //---
-$qu2 = "select user_id, username, email, wiki, 
+$projects = array();
+//---
+$projects[] = '';
+//---
+foreach ( quary2('select g_id, g_title from projects;') AS $Key => $table ) $projects[] = $table['g_title'];
+//---
+function make_project_to_user($project, $numb){
+	global $projects;
+	//---
+    $str = "<select name='project[]$numb' id='project[]$numb' class='form-select'>";
+    //---
+    foreach ( $projects AS $n => $g ) {
+		$cdcdc = $project == $g ? "selected" : "";
+        $str .= "
+            <option value='$g' $cdcdc>$g</option>";
+    };
+    //---
+	$str .= "</select>";
+    //---
+	return $str;
+};
+//---
+$qu2 = "select user_id, username, email, wiki, user_group, 
 (select count(target) from pages WHERE target != '' and user = username) as live
 from users, pages
 where user = username
@@ -84,23 +109,22 @@ group by username
 ORDER BY live DESC;
 ";
 //---
-$qu1 = '
-	select user_id, username, email, wiki 
-	from users
-	#ORDER BY email DESC
-;';
-//---
+$numb = 0;
 $qq = quary2($qu2);
 //---
-$numb = 0;
+$users_done = array();
 //---
 foreach ( $qq AS $Key => $table ) {
 	$numb += 1;
 	$id 	= $table['user_id'];
 	$username 	= $table['username'];
+	$users_done[] = $username;
 	$email 	= $table['email'];
 	$wiki	= $table['wiki'];
 	$live	= $table['live'];
+    //---
+	$project	= $table['user_group'];
+	$project_line = make_project_to_user($project, $numb);
     //---
 	echo "
 	<tr>
@@ -114,8 +138,11 @@ foreach ( $qq AS $Key => $table ) {
 	  	<span style='display: none'>$email</span>
 	  	<input size='25' name='email[]$numb' id='email[]$numb' value='$email'/>
 	  </td>
+	  <td data-order='$project'>
+		  $project_line
+	  </td>
 	  <td data-order='$wiki'>
-	  	<input size='10' name='wiki[]$numb' id='wiki[]$numb' value='$wiki'/>
+	  	<input size='4' name='wiki[]$numb' id='wiki[]$numb' value='$wiki'/>
 	  </td>
 	  <td data-order='$live'>
 	  	<span>$live</span>
@@ -123,6 +150,52 @@ foreach ( $qq AS $Key => $table ) {
 	  <td><input type='checkbox' name='del[]$numb' value='$id'/> <label>delete</label></td>
 	</tr>";
 };
+//---
+$qu1 = '
+	select user_id, username, email, wiki, user_group
+	from users
+	#ORDER BY email DESC
+;';
+//---
+foreach ( quary2($qu1) AS $Key => $table ) {
+	$id 	= $table['user_id'];
+	$username 	= $table['username'];
+	$email 	= $table['email'];
+	$wiki	= $table['wiki'];
+	$live	= 0;
+	$project	= $table['user_group'];
+    //---
+	if (!in_array($username, $users_done)) {
+		//---
+		$project_line = make_project_to_user($project, $numb);
+		$numb += 1;
+		//---
+		echo "
+		<tr>
+		<td data-order='$numb'>$numb</td>
+		<td data-order='$username'>
+			<span>$username</span>
+			<input name='username[]$numb' id='username[]$numb' value='$username' hidden/>
+			<input name='id[]$numb' id='id[]$numb' value='$id' hidden/>
+		</td>
+		<td data-order='$email'>
+			<span style='display: none'>$email</span>
+			<input size='25' name='email[]$numb' id='email[]$numb' value='$email'/>
+		</td>
+		<td data-order='$project'>
+			$project_line
+		</td>
+		<td data-order='$wiki'>
+			<input size='4' name='wiki[]$numb' id='wiki[]$numb' value='$wiki'/>
+		</td>
+		<td data-order='$live'>
+			<span>$live</span>
+		</td>
+		<td><input type='checkbox' name='del[]$numb' value='$id'/> <label>delete</label></td>
+		</tr>";
+	};
+};
+//---
 //---
 ?>
 
@@ -136,16 +209,24 @@ foreach ( $qq AS $Key => $table ) {
 var i = 1;
 function add_row() {
 	var ii = $('#tab_ma >tr').length + 1;
-	var e = "<tr><td><input name='username[]" + ii + "'/></td><td><input name='email[]" + ii + "'/></td><td><input name='wiki[]" + ii + "'/></td><td></td></tr>";
+	var e = "<tr>";
+	e = e + "<td>" + ii + "</td>";
+	e = e + "<td><input name='username[]" + ii + "'/></td>";
+	e = e + "<td><input size='25' name='email[]" + ii + "'/></td>";
+	e = e + "<td><select name='project[]" + ii + "' id='project[]" + ii + "' class='form-select'><option value=''></option></select></td>";
+	e = e + "<td><input size='4' name='wiki[]" + ii + "'/></td>";
+	e = e + "<td>0</td>";
+	e = e + "<td></td>";
+	e = e + "</tr>";
 
 	$('#tab_ma').append(e);
 	i++;
 };
 
 $(document).ready( function () {
-	var table = $('#em').DataTable({
+	var t = $('#em').DataTable({
     // paging: false,
-	lengthMenu: [[50, 100], [50, 100]],
+	lengthMenu: [[25, 50, 100], [25, 50, 100]],
     // scrollY: 800
 	});
 } );

@@ -132,7 +132,7 @@ function make_td_na($tabb,$number) {
         ';
     //---
     $view_number = isset($table_of_views[$target]) ? $table_of_views[$target] : '?';
-    $view = make_view_by_number($target , $view_number , $lang);
+    $view = make_view_by_number($target , $view_number , $lang, $pupdate);
     //---
     $laly .= '
     <td class="spannowrap">' . $pupdate . '</td>
@@ -179,7 +179,8 @@ $lalo = "
 //---
 $table2 = "<table class='table table-sm table-striped' style='width:70%;'>
 <tr><td>Words: </td><td>$lang_total_words</td></tr>
-<tr><td>Pageviews: </td><td>$lang_total_views</td></tr>
+<tr><td>Pageviews: </td><td><span id='hrefjsontoadd'>$lang_total_views</span></td></tr>
+
 </table>";
 //---
 echo "

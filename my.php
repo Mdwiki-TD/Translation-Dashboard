@@ -32,7 +32,6 @@ foreach ( $views_query AS $Key => $table ) {
     //---
 };
 //---
-//---
 function make_td($tabg,$nnnn) {
     //---
     global $code_to_lang, $Words_table, $views_sql, $user_total_words;
@@ -55,17 +54,19 @@ function make_td($tabg,$nnnn) {
     $ccat = make_cat_url( $cat );
     //---
 	$word2 = isset($Words_table[$md_title]) ? $Words_table[$md_title] : 0;
-	$word = isset($tabg['word']) ? number_format($tabg['word']) : 0;
+	$word = isset($tabg['word']) ? $tabg['word'] : 0;
     //---
     if ( $word < 1 ) $word = $word2;
     //---
     $user_total_words = $user_total_words + $word;
     //---
+	$word = number_format($word);
+    //---
     $nana = make_mdwiki_title( $md_title );
     //---
     $targe33 = make_target_url( $targe , $llang );
     //---
-    $view = make_view_by_number($targe , $views_number, $llang) ;
+    $view = make_view_by_number($targe , $views_number, $llang, $pupdate) ;
     //---
     $tran_type = isset($tabg['translate_type']) ? $tabg['translate_type'] : '';
     if ($tran_type == 'all') { 
@@ -115,18 +116,6 @@ krsort($dd);
 //---
 $man = make_mdwiki_user_url($username);
 //---
-$table2 = "<table class='table table-sm table-striped' style='width:60%;'>
-<tr><td>Words: </td><td>$user_total_words</td></tr>
-<tr><td>Pageviews: </td><td>$user_total_views</td></tr>
-</table>";
-//--- 
-echo "
-<div class='row content'>
-	<div class='col-md-4'>$table2</div>
-	<div class='col-md-4'><h2 class='text-center'>$man</h2></div>
-	<div class='col-md-4'></div>
-</div>";
-//---
 $sato = '
 <table class="table table-striped compact soro">
 	<thead>
@@ -158,6 +147,18 @@ foreach ( $dd AS $tat => $tabe ) {
 $sato .= "
 		</tbody>
 	</table>";
+//---
+$table2 = "<table class='table table-sm table-striped' style='width:60%;'>
+<tr><td>Words: </td><td>$user_total_words</td></tr>
+<tr><td>Pageviews: </td><td><span id='hrefjsontoadd'>$user_total_views</span></td></tr>
+</table>";
+//--- 
+echo "
+<div class='row content'>
+	<div class='col-md-4'>$table2</div>
+	<div class='col-md-4'><h2 class='text-center'>$man</h2></div>
+	<div class='col-md-4'></div>
+</div>";
 //---
 echo "
 <div class='card'>

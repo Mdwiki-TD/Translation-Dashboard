@@ -23,9 +23,9 @@ $date   = $_REQUEST['date'];
 $user   = $_REQUEST['user'];
 $lang   = $_REQUEST['lang'];
 $target = $_REQUEST['target'];
-$views  = get_views($target, $lang);
+$views  = get_views($target, $lang, $date);
 //---
-$items = get_cat_members( 'RTT', '1', $lang, false, $use_cash=true );
+$items = get_cat_members( 'RTT', '1', $lang, false, $use_cash=false );
 $items_missing = isset($items['missing']) ? $items['missing'] : array();
 //---
 $dd = array();
@@ -52,7 +52,7 @@ $here_params = array(
     'code' => $lang, 
     'cat' => 'RTT', 
     'type' => 'lead', 
-    'title' => rawurlencode($sugust)
+    'title' => $sugust
     );
 //---
 $here_url = "https://mdwiki.toolforge.org/Translation_Dashboard/translate.php?" . http_build_query( $here_params );
@@ -73,8 +73,21 @@ $sugust2 = make_mdwiki_title($sugust);
 //---
 $url_views_2 = 'https://' . 'pageviews.wmcloud.org/?project='. $lang .'.wikipedia.org&platform=all-access&agent=all-agents&redirects=0&range=all-time&pages=' . rawurlEncode($target);
 //---
+$start = $date != '' ? $date : '2019-01-01';
+$end = date("Y-m-d", strtotime("yesterday"));
+//---
+$url_views_3  = 'https://' . 'pageviews.wmcloud.org/?' . http_build_query( array(
+	'project' => "$lang.wikipedia.org",
+	'platform' => 'all-access',
+	'agent' => 'all-agents',
+	'start' => $start,
+	'end' => $end,
+	'redirects' => '0',
+	'pages' => $target,
+));
+//---
 // $views2 = "<font color='#0000ff'>$views people</font>";
-$views2 = "<a target='_blank' href='$url_views_2'><font color='#0000ff'>$views people</font></a>";
+$views2 = "<a target='_blank' href='$url_views_3'><font color='#0000ff'>$views people</font></a>";
 //---
 $lang2 = isset($lang_code_to_en[$lang]) ? $lang_code_to_en[$lang] : $lang;
 $lang2 = make_target_url($target, $lang, $name=$lang2);

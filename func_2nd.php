@@ -66,12 +66,14 @@ function Get_it( $array, $key ) {
     return $uu;
 };
 //---
-function get_views($target, $lang) {
+function get_views($target, $lang, $pupdate) {
     $view = 0;
     //---
 	if ($target == '') return 0;
     //---
-    $url = 'https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/' . $lang . '.wikipedia/all-access/all-agents/' . rawurlencode($target) . '/daily/2019010100/2030010100';
+	$start2 = $pupdate != '' ? str_replace('-', '', $pupdate) : '20190101';
+    //---
+    $url = 'https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/' . $lang . '.wikipedia/all-access/all-agents/' . rawurlencode($target) . '/daily/' . $start2 . '/2030010100';
     //---
     $output = file_get_contents( $url );
     //---
@@ -86,22 +88,33 @@ function get_views($target, $lang) {
     return $view;
 };
 //---
-function make_view_by_number($target, $numb, $lang) {
+function make_view_by_number($target, $numb, $lang, $pupdate) {
     //---
     $numb2 = ($numb != '') ? $numb : "?";
     //---
-    // if ($numb2 == '?' || $numb2 == 0 || $numb2 == '0') $numb2 = get_views($target, $lang);
+	$start = $pupdate != '' ? $pupdate : '2019-01-01';
+	$end = date("Y-m-d", strtotime("yesterday"));
     //---
-    $url = 'https://' . 'pageviews.wmcloud.org/?project='. $lang .'.wikipedia.org&platform=all-access&agent=all-agents&redirects=0&range=all-time&pages=' . rawurlEncode($target);
+    $url  = 'https://' . 'pageviews.wmcloud.org/?';
+	$url .= http_build_query( array(
+		'project' => "$lang.wikipedia.org",
+		'platform' => 'all-access',
+		'agent' => 'all-agents',
+		'start' => $start,
+		'end' => $end,
+		'redirects' => '0',
+		'pages' => $target,
+	));
     //---
-    $url2 = 'https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/' . $lang . '.wikipedia/all-access/all-agents/' . rawurlencode($target) . '/daily/2019010100/2030010100';
+	$start2 = $pupdate != '' ? str_replace('-', '', $pupdate) : '20190101';
+    $url2 = 'https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/' . $lang . '.wikipedia/all-access/all-agents/' . rawurlencode($target) . '/daily/' . $start2 . '/2030010100';
     //---
     $link = "<a target='_blank' href='$url'>$numb2</a>";
     if ($numb2 == '?' || $numb2 == 0 || $numb2 == '0') {
         $link = "<a target='_blank' name='toget' hrefjson='$url2' href='$url'>$numb2</a>";
     };
     //---
-    return $link ;
+    return $link;
     };
 //---
 function make_mdwiki_title($tit) {

@@ -11,11 +11,12 @@ $ty = $_REQUEST['ty'];
 //---
 if (!isset($_REQUEST['nonav'])) {
 	//---
-	$li = "<li id='%s' class='nav-item'><a class='nav-link' href='%s'>%s</a></li>";
+	$li = "<li id='%s' class='nav-item'><a class='linknave' href='%s'>%s</a></li>";
 	//---
 	$items1 = array(
-		array('id' => 'last',		'href' => 'coordinator.php?ty=last', 	'title' => 'Recent translation'),
-		array('id' => 'Pending',	'href' => 'coordinator.php?ty=Pending',	'title' => 'Translations in process'),
+		array('id' => 'last',		'href' => 'coordinator.php?ty=last', 	'title' => 'Recent'),
+		array('id' => 'Pending',	'href' => 'coordinator.php?ty=Pending',	'title' => 'In process'),
+		array('id' => 'add',	'href' => 'coordinator.php?ty=add',	'title' => 'Add'),
 	);
 	//---
 	$lis1 = '';
@@ -25,6 +26,7 @@ if (!isset($_REQUEST['nonav'])) {
 	//---
 	$items2 = array(
 		array('id' => 'Emails', 	'href' => 'coordinator.php?ty=Emails', 		'title' => 'Emails'),
+		array('id' => 'projects', 	'href' => 'coordinator.php?ty=projects', 		'title' => 'Projects'),
 	);
 	//---
 	$lis2 = '';
@@ -53,19 +55,19 @@ if (!isset($_REQUEST['nonav'])) {
 				</a>
 			</span>
 			<span class="fs-6 fw-semibold">Translations:</span>
-			<ul class="nav flex-column nav-pills">
+			<ul class="flex-column">
 				' . $lis1 . '
 			</ul>
 			<span class="fs-6 fw-semibold">Users:</span>
-			<ul class="nav flex-column nav-pills">
+			<ul class="flex-column">
 				' . $lis2 . '
 			</ul>
 			<span class="fs-6 fw-semibold">Others:</span>
-			<ul class="nav flex-column nav-pills">
+			<ul class="flex-column">
 				' . $lis3 . '
 			</ul>
 			<span class="fs-6 fw-semibold">Tools:</span>
-			<ul class="nav flex-column nav-pills">
+			<ul class="flex-column">
 				<li id="fixwikirefs" class="nav-item"><a target="_blank" class="nav-link" href="../fixwikirefs.php">Fixwikirefs</a></li>
 			</ul>
         </div>

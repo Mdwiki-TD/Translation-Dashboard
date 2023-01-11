@@ -377,7 +377,7 @@ function fetchAccessToken() {
 function doIdentify($gg) {
     global $mwOAuthUrl, $gUserAgent, $gConsumerKey, $gTokenKey, $gConsumerSecret, $errorCode;
     global $twoYears;
-    global $username;
+    global $username, $server_name;
 
     $url = $mwOAuthUrl . '/identify';
     $headerArr = array(
@@ -478,13 +478,12 @@ function doIdentify($gg) {
 
 //--- WEBPAGE ********************
 
-function doApiQuery( $post, &$ch = null ) {
+function doApiQuery( $post, $ch = null ) {
     global $apiUrl, $gUserAgent, $gConsumerKey, $errorCode;
     //---
     //temps:
     global $gTokenKey;
     //---
-
     $headerArr = array(
         // OAuth information
         'oauth_consumer_key' => $gConsumerKey,
@@ -516,18 +515,23 @@ function doApiQuery( $post, &$ch = null ) {
     curl_setopt( $ch, CURLOPT_USERAGENT, $gUserAgent );
     curl_setopt( $ch, CURLOPT_HEADER, 0 );
     curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
+    //---
     $data = curl_exec( $ch );
+    //---
     if ( !$data ) {
         header( "HTTP/1.1 $errorCode Internal Server Error" );
         echo 'Curl error: ' . htmlspecialchars( curl_error( $ch ) );
         exit(0);
-    }
+    };
+    //---
     $ret = json_decode( $data, true );
+    //---
     if ( $ret === null ) {
         header( "HTTP/1.1 $errorCode Internal Server Error" );
         echo 'Unparsable API response: <pre>' . htmlspecialchars( $data ) . '</pre>';
         exit(0);
-    }
+    };
+    //---
     return $ret;
 }
 

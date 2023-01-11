@@ -26,6 +26,11 @@ function to_get() {
 				//---
 				item.text(view);
 				//---
+				var p = $('#hrefjsontoadd').text();
+				// add the view to hrefjsontoadd value
+				var nu = parseFloat(p) + view;
+				$('#hrefjsontoadd').text(nu);
+				//---
             },
             error: function(data) {
             }

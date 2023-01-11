@@ -9,7 +9,7 @@
 				<th>User</th>
 				<th>Delete</th>
 			</tr>
-			<tbody id="user_tab">
+			<tbody id="coo_tab">
 
 <?php
 //---
@@ -69,9 +69,13 @@ foreach ( $qq AS $Key => $table ) {
 <script type="text/javascript">
 var i = 1;
 function add_row() {
-	var ii = $('#user_tab >tr').length + 1;
-	var e = "<tr><td><input name='user[]" + ii + "'/></td><td></td></tr>";
-	$('#user_tab').append(e);
+	var ii = $('#coo_tab >tr').length + 1;
+	var e = "<tr>";
+	e = e + "<td>" + ii + "</td>";
+	e = e + "<td><input name='user[]" + ii + "'/></td>";
+	e = e + "<td></td>";
+	e = e + "</tr>";
+	$('#coo_tab').append(e);
 	i++;
 };
 </script>

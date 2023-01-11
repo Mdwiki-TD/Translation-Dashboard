@@ -101,7 +101,7 @@ function print_form_start1() {
     $catinput = "
     <select dir='ltr' id='cat' name='cat' class='form-select'>
         $catinput
-    <select>";
+    </select>";
     //---
     $ttype = "
     <div class='form-check form-check-inline'>
