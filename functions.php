@@ -16,12 +16,12 @@ function strstartswithn ( $haystack, $needle ) {
     return strpos( $haystack , $needle ) === 0;
 };
 //---
-function doApiQuery_localhost( $params ) {
+function get_url_with_params( $params ) {
 	//---
     $endPoint = "https://"."mdwiki.org/w/api.php";
     $url = $endPoint . "?" . http_build_query( $params );
 	//---
-    test_print("<br>doApiQuery_localhost:$url<br>");
+    test_print("<br>get_url_with_params:$url<br>");
 	//---
 	$output = file_get_contents($url);
 	//---
@@ -218,13 +218,7 @@ function years_start($page) {
     //---
 	$activeold = "";
 	//---
-	if ( $y_req == '' ) {
-        if ($page == 'calendar.php' ) {
-            $y_req = date("Y");
-        } else {
-            $activeold = "active";
-        };
-    };
+	if ( $y_req == '' ) $activeold = "active";
 	//---
     $texte = "
 	<div class='tab-content'>
@@ -331,7 +325,7 @@ foreach ( $usrs1 AS $id => $row )	$usrs[] = $row['user'];
 //---
 // $usrs = Array("Mr. Ibrahem", "Doc James");
 //---
-if ($_REQUEST['test'] != '' ) echo "<br>load " . str_replace ( __dir__ , '' , __file__ ) . " true.";
+
 //--- 
 
 ?>

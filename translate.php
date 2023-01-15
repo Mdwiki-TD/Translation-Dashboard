@@ -133,7 +133,7 @@ INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, 
 };
 //---
 echo '</div>';
-if ($_REQUEST['test'] != '' ) echo "<br>load " . str_replace ( __dir__ , '' , __file__ ) . " true.";
+
 //---
 require('foter.php');
     //---

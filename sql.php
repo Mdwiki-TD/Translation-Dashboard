@@ -130,9 +130,9 @@ if ( $raw == '' ) {
     <textarea cols='100' rows='10' name='code'>$quaa</textarea>
     <input type='text' name='pass' value= '$pass'>
     <br>
-    <input type='checkbox' id='test' name='test' value='m'> <label for=test> test</label><br>
+    <input type='checkbox' id='test' name='test' value='m'> <label for=test> test</label>
     <input type='checkbox' id='raw' name='raw' value='m'> <label for=test> raw</label><br>
-    <input class='btn btn-lg' type='submit' name='start' value='Start' />
+    <input class='btn btn-primary' type='submit' name='start' value='Start' />
     </form>
     ";
 };
@@ -145,21 +145,18 @@ if ( $qua != '' and ($pass == $sqlpass or $_SERVER['SERVER_NAME'] == 'localhost'
         $uu = sqlquary_localhost($qua);
     };
     //---
-    $start = '<table class="sortable table table-striped alignleft"><tr>';
+    $start = '<table class="sortable table table-striped alignleft"><tr><th>#</th>';
     $text = '';
     //---
     $number = 0;
     //---
     foreach ( $uu AS $id => $row ) {
         $number = $number + 1;
-        $tr = '<tr>';
-        //---
+        $tr = '';
         //---
         foreach ( $row AS $nas => $value ) {
             // if ($nas != '') {
-            if (preg_match( '/^\d+$/', $nas, $m ) ) {
-                $ii = '';
-            } else {
+            if (!preg_match( '/^\d+$/', $nas, $m ) ) {
                 $tr .= "<td>$value</th>";
                 if ($number == 1) { 
                     $start .= "<th class='text-nowrap'>$nas</th>";
@@ -167,16 +164,17 @@ if ( $qua != '' and ($pass == $sqlpass or $_SERVER['SERVER_NAME'] == 'localhost'
             };
         };
         //---
-        $tr .= '</tr>';
-        //---
-        if ($tr != '<tr></tr>' ) { $text .= $tr; };
+        if ($tr != '' ) { $text .= "<tr><td>$number</td>$tr</tr>"; };
         //---
     };
     //---
     $start .= '</tr>';
     //---
     if ( $raw == '' ) {
-        PRINT($start . $text . '</table>');
+        //---
+        echo "<h4>sql results:$number.</h4>";
+        //---
+        echo $start . $text . '</table>';
         //---
         // if ($test != '') { print_r($uu);};
         if ($test != '') { print(var_export($uu)) ;};

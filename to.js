@@ -19,12 +19,17 @@ function to_get() {
 				var view = 0;
                 var items = data.items;
 				// get view count from items array
-				items.forEach(function(item) {
-					view += item['views'];
+				items.forEach(function(aa) {
+					view += aa['views'];
 					// console.log(view);
                 });
 				//---
 				item.text(view);
+				// var pa = item.parent();
+				// pa.attr('data-sort', view);
+				//---
+				var txt2 = $("<span></span>").text(view).hide();     // Create with jQuery
+				item.before(txt2);
 				//---
 				var p = $('#hrefjsontoadd').text();
 				// add the view to hrefjsontoadd value
@@ -36,4 +41,5 @@ function to_get() {
             }
         });
 	});
+	//---
 };

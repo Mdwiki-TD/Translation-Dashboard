@@ -2,7 +2,7 @@
 //---
 //---
 if ($_REQUEST['test'] != '') {
-    // echo(__file__);
+
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
@@ -276,7 +276,7 @@ print "
 	</div>
 </div>";
 //---
-if ($_REQUEST['test'] != '' ) echo "<br>load " . str_replace ( __dir__ , '' , __file__ ) . " true.";
+
 //---
 ?>
 <?PHP

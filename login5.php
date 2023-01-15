@@ -1,6 +1,5 @@
 <?php
 if ($_GET['test'] != '') {
-    // echo(__file__);
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
@@ -147,7 +146,21 @@ switch ( isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : '' ) {
         break;
 
 }
-
+//---
+function to_index(){
+    //---
+    $vav = array('oauth_verifier', 'oauth_token');
+    //---
+    $par = array();
+    foreach ($_GET as $key => $val) {
+        if ( isset($val) && $val != '' && !in_array($key, $vav) ) $par[$key] = $val;
+    };
+    //---
+    $url = "index.php?" . http_build_query( $par );
+    header("Location: $url");
+    //---
+};
+//---
 //--- CODE ********************
 
 /*
@@ -217,6 +230,7 @@ function sign_request( $method, $url, $params = array() ) {
  * Request authorization
  * @return void
  */
+
 function doAuthorizationRedirect() {
     global $mwOAuthUrl, $mwOAuthAuthorizeUrl, $gUserAgent, $gConsumerKey, $errorCode;
 
@@ -224,62 +238,75 @@ function doAuthorizationRedirect() {
     // The request is signed with an empty token secret and no token key.
     //---
     //---
-    $state = [];
+    $state = array();
     // login5.php?action=login&cat=RTT&depth=1&code=&type=lead
     
-    foreach (['cat', 'depth', 'code', 'type'] as $key) {
-        if ($_REQUEST[$key]) {
-            $state[] = $key . '=' . $_REQUEST[$key];
-        }
+    foreach (['cat', 'code', 'type'] as $key) {
+        $da = isset($_REQUEST[$key]) ? $_REQUEST[$key] : '';
+        if ($da != '') $state[$key] = $da;
     };
-    $state = implode('&', $state);
+    // $state = implode('&', $state);
+    $state = http_build_query($state);
     //---
     // echo $state;
     //---
-    $oauth_callback = 'https://mdwiki.toolforge.org/Translation_Dashboard/index.php' . '?' . $state ;
+    $oauth_call = 'https://mdwiki.toolforge.org/Translation_Dashboard/index.php' . '?' . $state ;
     //---
     // $gTokenSecret = '';
-    $url = $mwOAuthUrl . '/initiate';
-    $url .= strpos( $url, '?' ) ? '&' : '?';
-    $url .= http_build_query( array(
+    $url_ar = array(
         'format' => 'json',
-        
         // OAuth information
-        'oauth_callback' => $oauth_callback, // Must be "oob" or something prefixed by the configured callback URL
+        'oauth_callback' => $oauth_call, // Must be "oob" or something prefixed by the configured callback URL
         'oauth_consumer_key' => $gConsumerKey,
         'oauth_version' => '1.0',
         'oauth_nonce' => md5( microtime() . mt_rand() ),
         'oauth_timestamp' => time(),
-
         // We're using secret key signatures here.
         'oauth_signature_method' => 'HMAC-SHA1',
-    ) );
+    );
+    //---
+    $url = $mwOAuthUrl . '/initiate' . '&' . http_build_query($url_ar);
+    //---
+    if (isset($_REQUEST['test'])) echo "<br>$url<br>";
+    //---
     $signature = sign_request( 'GET', $url );
+    //---
     $url .= "&oauth_signature=" . urlencode( $signature );
+    //---
+    if (isset($_REQUEST['test'])) echo "<br>signature: $signature<br>";
+    //---
     $ch = curl_init();
     curl_setopt( $ch, CURLOPT_URL, $url );
     //curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
     curl_setopt( $ch, CURLOPT_USERAGENT, $gUserAgent );
     curl_setopt( $ch, CURLOPT_HEADER, 0 );
     curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
+    //---
     $data = curl_exec( $ch );
+    //---
     if ( !$data ) {
-        // header( "HTTP/1.1 $errorCode Internal Server Error" );
+        header( "HTTP/1.1 $errorCode Internal Server Error" );
         echo '- Curl error: ' . htmlspecialchars( curl_error( $ch ) );
         // throw new Exception ( '- Curl error: ' . htmlspecialchars( curl_error( $ch ) ) ) ;
-        // exit(0);
+        exit(0);
     }
     curl_close( $ch );
+    //---
     $token = json_decode( $data );
+    //---
     if ( is_object( $token ) && isset( $token->error ) ) {
-        // header( "HTTP/1.1 $errorCode Internal Server Error" );
         echo 'Error when retrieving token: ' . htmlspecialchars( $token->error ) . '<br>' . htmlspecialchars( $token->message );
-        // exit(0);
+        if (isset($_REQUEST['test'])) {
+            header( "HTTP/1.1 $errorCode Internal Server Error" );
+            exit(0);
+        };
     }
     if ( !is_object( $token ) || !isset( $token->key ) || !isset( $token->secret ) ) {
-        // header( "HTTP/1.1 $errorCode Internal Server Error" );
         echo 'Invalid response from token request';
-        // exit(0);
+        if (isset($_REQUEST['test'])) {
+            header( "HTTP/1.1 $errorCode Internal Server Error" );
+            exit(0);
+        };
     }
     //---
     //echo var_dump($token);
@@ -535,7 +562,7 @@ function doApiQuery( $post, $ch = null ) {
     return $ret;
 }
 
-if ($_REQUEST['test'] != '' ) echo "<br>load " . str_replace ( __dir__ , '' , __file__ ) . " true.";
+
 //}
 //login()
 ?>

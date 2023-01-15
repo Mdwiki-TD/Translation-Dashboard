@@ -113,7 +113,7 @@ function print_form_start1() {
       <label class='form-check-label' for='customRadio2'>The whole article</label>
     </div>";
     //---
-	$col12 		= 'col-lg-10';
+	$col12 		= 'col-lg-10 col-md-10';
 	$gridclass 	= 'input-group col-7 mb-3';
     //---
 	$d2 = "
@@ -245,8 +245,6 @@ require('results.php');
 
 </script>
 <?php
-//---
-if ($_REQUEST['test'] != '' ) echo "load " . __file__ . " true.";
 //---
 require('foter.php');
 //---

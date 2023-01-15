@@ -79,7 +79,7 @@ if (!isset($_REQUEST['nonav'])) {
 };
 //---
 if ($_GET['test'] != '') {
-	// echo(__file__);
+
 	ini_set('display_errors', 1);
 	ini_set('display_startup_errors', 1);
 	error_reporting(E_ALL);

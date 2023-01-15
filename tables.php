@@ -1,7 +1,6 @@
 <?PHP
 //---
 if ($_GET['test'] != '') {
-	// echo(__file__);
 	ini_set('display_errors', 1);
 	ini_set('display_startup_errors', 1);
 	error_reporting(E_ALL);
@@ -22,8 +21,6 @@ $Assessments_fff[''] = 5;
 //---
 //---
 $dirr = '/mnt/nfs/labstore-secondary-tools-project/mdwiki/public_html/Translation_Dashboard';
-//---
-// echo(__DIR__);
 //---
 if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost') { 
 	$dirr = '/mdwiki/public_html/Translation_Dashboard';
@@ -64,6 +61,6 @@ foreach( $qids_2 as $ta => $q ) {
     };
 }; 
 //---
-if ($_REQUEST['test'] != '' ) echo "<br>load " . str_replace ( __dir__ , '' , __file__ ) . " true.";
+
 //---
 ?>

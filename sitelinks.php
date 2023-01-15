@@ -104,7 +104,7 @@ print '
 <div>
 ';
 //---
-if ($_REQUEST['test'] != '' ) echo "<br>load " . str_replace ( __dir__ , '' , __file__ ) . " true.";
+
 //---
 require('foter.php');
 //---

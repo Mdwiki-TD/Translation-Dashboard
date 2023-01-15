@@ -75,8 +75,6 @@ foreach ($titles as $title) {
     ";
 }
 //---
-if ($_REQUEST['test'] != '' ) echo "load " . __file__ . " true.";
-//---
 $table .= "</table>";
 //---
 $with_q = $i - $no_qid;

@@ -7,29 +7,17 @@ function make_col_sm_4($title, $table, $numb = '4') {
           <div class='card-header aligncenter' style='font-weight:bold;'>
               $title
           </div>
-          <div class='card-body' style='padding:5px 0px 5px 5px; max-height:800px; overflow: auto;'>
+          <div class='card-body1 card2'>
             $table
           </div>
+          <!-- <div class='card-footer'></div> -->
+          
       </div>
+      <br>
     </div>
     ";
 };
-//--- 
-function make_col_sm_4_new($title, $table, $numb = '4') {
-    return "
-    <div class='col-md-$numb'>
-      <div class='card'>
-          <div class='card-header aligncenter' style='font-weight:bold;'>
-              $title
-          </div>
-          <!-- <div class='card-body' style='padding:5px 0px 5px 5px; max-height:330px; overflow: auto;'> -->
-            $table
-          <!-- </div> -->
-      </div>
-    </div>
-    ";
-};
-//--- 
+//---
 function test_print($s) {
     global $test;
     if ($test != '') { print $s; };
@@ -157,6 +145,6 @@ function make_target_url($ta, $lang, $name='') {
     return $target;
 };
 //--- 
-if ($_REQUEST['test'] != '' ) echo "<br>load " . str_replace ( __dir__ , '' , __file__ ) . " true.";
+
 //--- 
 ?>

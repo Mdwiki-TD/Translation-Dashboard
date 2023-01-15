@@ -3,7 +3,6 @@
 require('header.php');
 //---
 if ($_GET['test'] != '') {
-    echo(__file__);
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
@@ -85,7 +84,7 @@ function make_td_fo_user($tabg, $nnnn) {
             <td>' . $tran_type . '</td>
             <td>' . $targe33 . '</td>
             <td class="spannowrap">' . $pupdate . '</td>
-            <td>' . $view . '</td>
+            <td data-sort="0">' . $view . '</td>
         </tr>
         '; 
     //---

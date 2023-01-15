@@ -9,7 +9,7 @@
 <?php 
 //---
 if ($_REQUEST['test'] != '') {
-	// echo(__file__);
+
 	ini_set('display_errors', 1);
 	ini_set('display_startup_errors', 1);
 	error_reporting(E_ALL);
@@ -51,7 +51,7 @@ function print_head() {
 	echo '<span id="myusername" style="display:none">' . $username . '</span>
 	';
 	//---
-	if ($_REQUEST['test'] != '' ) echo "<br>load " . str_replace ( __dir__ , '' , __file__ ) . " true.";
+	
 	//---
 	echo '
 	<!-- <link href="css/sb-admin-2.min.css" rel="stylesheet"> -->
@@ -83,7 +83,7 @@ if (in_array($username, $usrs)) {
 			<div class="collapse navbar-collapse" id="collapsibleNavbar">
 				<ul class="navbar-nav me-auto">
 					<li class="nav-item">
-					<a href="leaderboard_bycat.php" class="nav-link">
+					<a href="leaderboard.php" class="nav-link">
 						<span class="navtitles">Leaderboard</span>
 					</a>
 					</li>
@@ -170,9 +170,6 @@ if (in_array($username, $usrs)) {
 	};
 	// });
 	</script>
-<?PHP
-// require('sidebar.php');	
-?>
 <main id="body">
 	<!-- <div id="maindiv" class="container-fluid"> -->
 	<div id="maindiv" class="container-fluid">
