@@ -41,6 +41,9 @@ function print_head() {
 		<script src='$hoste/ajax/libs/datatables.net-bs5/1.13.1/dataTables.bootstrap5.min.js'></script>
 		<link href='$hoste/ajax/libs/datatables.net-bs5/1.13.1/dataTables.bootstrap5.css' rel='stylesheet' type='text/css'>
 
+		<script src='sorttable.js'></script>
+		<script src='to.js'></script>
+
 		<style> 
 		a {
 			text-decoration: none;
@@ -48,16 +51,8 @@ function print_head() {
 		";
 	};
 	//---
-	echo '<span id="myusername" style="display:none">' . $username . '</span>
-	';
-	//---
-	
-	//---
-	echo '
-	<!-- <link href="css/sb-admin-2.min.css" rel="stylesheet"> -->
-	<script src="to.js"></script>
-	<script src="sorttable.js" ></script>
-	';
+	echo "<span id='myusername' style='display:none'>$username</span>
+	";
 	//---
 };
 //---

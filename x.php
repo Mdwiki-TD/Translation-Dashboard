@@ -5,8 +5,12 @@ require('tables.php');
 require('getcats.php');
 include_once('functions.php');
 //---
+$cat = isset($_REQUEST['cat']) ? $_REQUEST['cat'] : 'RTT';
+$cat22 = make_cat_url($cat);
+//---
 $table = "
-	<table class='table display soro'>
+    <h4>category: $cat22</h4>
+	<table class='table table-striped compact soro'>
 	<thead>
 		<tr>
 			<th>#</th>
@@ -22,7 +26,7 @@ $table = "
 	</thead>
 	<tbody>";
 //---
-$titles = get_mdwiki_cat_members( 'RTT', $depth=1 );
+$titles = get_mdwiki_cat_members( $cat, $use_cash=true, $depth=1 );
 //---
 $no_qid = 0;
 $no_word = 0;

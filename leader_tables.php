@@ -102,11 +102,14 @@ function create_Numbers_table() {
     global $sql_users_tab,$Articles_numbers,$Words_total,$sql_Languages_tab,$global_views;
     //---
     $Numbers_table = '
-    <table class="sortable table table-striped alignleft"> <!-- scrollbody -->
-    <tr>
-    <th class="spannowrap">Type</th>
-    <th>Number</th>
-    </tr>
+    <table class="sortable table table-striped"> <!-- scrollbody -->
+    <thead>
+        <tr>
+            <th class="spannowrap">Type</th>
+            <th>Number</th>
+        </tr>
+    </thead>
+    <tbody>
     ';
     //---
     $Numbers_table .= '<tr><td><b>Users</b></td><td>' .     count($sql_users_tab)           . '</td></tr>
@@ -119,7 +122,9 @@ function create_Numbers_table() {
     ';
     $Numbers_table .= '<tr><td><b>Pageviews</b></td><td>' . number_format($global_views)    . '</td></tr>
     ';
-    $Numbers_table .= '</table>';
+    $Numbers_table .= '
+    </tbody>
+    </table>';
     //---
     return $Numbers_table;
 };
@@ -129,7 +134,7 @@ function Make_users_table() {
     global $sql_users_tab, $Users_word_table, $Views_by_users;
     //---
     $text = '
-        <table class="sortable table table-striped alignleft"> <!-- scrollbody -->
+    <table class="sortable table table-striped">
         <thead>
             <tr>
                 <th class="spannowrap">#</th>
@@ -157,19 +162,19 @@ function Make_users_table() {
             $use = str_replace ( '+' , '_' , $use );
             //---
             $text .= "
-        <tr>
-            <td>$numb</td>
-            <td><a href='users.php?user=$use'>$user</a></td>
-            <td>$usercount</td>
-            <td>$words</td>
-            <td>$views</td>
-        </tr>
+            <tr>
+                <td>$numb</td>
+                <td><a href='users.php?user=$use'>$user</a></td>
+                <td>$usercount</td>
+                <td>$words</td>
+                <td>$views</td>
+            </tr>
             ";
     };
     //---
     $text .= '
-    </tbody>
-    <tfoot></tfoot>
+        </tbody>
+        <tfoot></tfoot>
     </table>';
     //---
     return $text;
@@ -181,20 +186,23 @@ function Make_lang_table() {
     //---
     arsort($sql_Languages_tab);
     //---
-    $text = '
-    <table class="sortable table table-striped alignleft">  <!-- scrollbody -->
-    <tr>
-    <th>#</th>
-    <th class="spannowrap">Language</th>
-    <th>Count</th>
-    <th>Pageviews</th>
-    ';
+    $addcat = $_SERVER['SERVER_NAME'] == 'localhost';
     //---
-    if ( $_SERVER['SERVER_NAME'] == 'localhost' ) $text .= '<th>cat</th>';
+    $cac = ($addcat == true ) ? '<th>cat</th>' : '';
     //---
-    $text .=
-    '</tr>
-    ';
+    $text = "
+    <table class='sortable table table-striped'>
+    <thead>
+        <tr>
+            <th>#</th>
+            <th class='spannowrap'>Language</th>
+            <th>Count</th>
+            <th>Pageviews</th>
+            $cac
+        </tr>
+    </thead>
+    <tbody>
+    ";
     //---
     $numb=0;
     //---
@@ -212,8 +220,7 @@ function Make_lang_table() {
             $view = isset($all_views_by_lang[$langcode]) ? $all_views_by_lang[$langcode] : 0;
             $view = number_format($view);
             //---
-            $cac = '';
-            if ( $_SERVER['SERVER_NAME'] == 'localhost' ) $cac = '<td><a target="_blank" href="https://' . $langcode . '.wikipedia.org/wiki/Category:Translated_from_MDWiki">(cat)</a></td>';
+            $cac = ($addcat == true ) ? '<td><a target="_blank" href="https://' . $langcode . '.wikipedia.org/wiki/Category:Translated_from_MDWiki">cat</a></td>' : '';
             //---
             if ($comp != 0) {
                 $text .= "
@@ -230,6 +237,7 @@ function Make_lang_table() {
     };
     //---
     $text .= '
+    </tbody>
     </table>';
     //---
     return $text;

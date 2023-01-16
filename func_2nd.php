@@ -11,7 +11,6 @@ function make_col_sm_4($title, $table, $numb = '4') {
             $table
           </div>
           <!-- <div class='card-footer'></div> -->
-          
       </div>
       <br>
     </div>

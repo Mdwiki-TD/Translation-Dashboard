@@ -125,7 +125,7 @@ function make_user_table($user_main, $test, $limit) {
         //---
         $views_query = quary2($quaa_view);
         //---
-        if (sizeof($views_query) == 0) { $done = $user_count;};
+        if (count($views_query) == 0) { $done = $user_count;};
         //---
         foreach ( $views_query AS $Key => $table ) {
             $countall = $table['countall'];

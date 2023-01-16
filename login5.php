@@ -69,6 +69,7 @@ if(isset($_COOKIE['username'])) { $username = $_COOKIE['username']; };
 $gTokenKey = '';
 $gTokenSecret = '';
 //---
+// if (session_status() == 0) session_start();
 session_start();
 //---
 if ( isset( $_SESSION['tokenKey'] ) ) {

@@ -4,7 +4,7 @@ require('header.php');
 require('leader_tables.php');
 //---
 echo '
-    <style>
+<style>
     .table>tbody>tr>td,
     .table>tbody>tr>th,
     .table>thead>tr>td,
@@ -14,7 +14,7 @@ echo '
         vertical-align: top;
         border-top: 1px solid #ddd
     }
-    </style>';
+</style>';
 //---
 $year      = isset($_REQUEST['year']) ? $_REQUEST['year']   : 'all';
 $camp      = isset($_REQUEST['camp']) ? $_REQUEST['camp'] : 'all';
@@ -99,7 +99,7 @@ function print_cat_table() {
     $div2 = make_col_sm_4('Top users by number of translation', $tab2, $numb = '5');
     //---
     $tab3 = Make_lang_table();
-    $div3 = make_col_sm_4('Top languages by number of Articles',$tab3);
+    $div3 = make_col_sm_4('Top languages by number of Articles',$tab3, $numb = '4');
     //---
     $dad1 = "
     <div class='card'>

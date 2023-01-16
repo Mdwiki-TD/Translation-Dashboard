@@ -145,7 +145,12 @@ if ( $qua != '' and ($pass == $sqlpass or $_SERVER['SERVER_NAME'] == 'localhost'
         $uu = sqlquary_localhost($qua);
     };
     //---
-    $start = '<table class="sortable table table-striped alignleft"><tr><th>#</th>';
+    $start = '<table class="table table-striped soro2">
+    <thead>
+        <tr>
+            <th>#</th>
+    
+    ';
     $text = '';
     //---
     $number = 0;
@@ -168,7 +173,8 @@ if ( $qua != '' and ($pass == $sqlpass or $_SERVER['SERVER_NAME'] == 'localhost'
         //---
     };
     //---
-    $start .= '</tr>';
+    $start .= '</tr>
+    </thead>';
     //---
     if ( $raw == '' ) {
         //---

@@ -189,28 +189,25 @@ if ( $doit && $doit2 ) {
     //---
     $items = get_cat_members( $cat, $depth, $code, $test ) ; # mdwiki pages in the cat
     //---
-    $len_of_all = isset($items['len_of_all']) ? $items['len_of_all'] : 0 ;
-    
-    $len_of_exists_pages = isset($items['len_of_exists']) ? $items['len_of_exists'] : 0 ;
-    
-    $len_of_missing_pages = isset($items['len_of_missing']) ? $items['len_of_missing'] : 0 ;
+    $len_of_exists_pages = $items['len_of_exists'];
+    $items_missing       = $items['missing'];
+    //---
+    $missing = array();
+    foreach ( $items_missing as $key => $cca ) if (!in_array($cca,$missing)) $missing[] = $cca;
+    //---
+    $len_of_missing_pages = count($missing);
+    $len_of_all           = $len_of_exists_pages + $len_of_missing_pages;
+    //---
+	$cat2 = "Category:" . str_replace ( 'Category:' , '' , $cat );
+	$caturl = "<a href='https://mdwiki.org/wiki/$cat2'>category</a>";
+    //---
+    $ix =  "Find $len_of_all pages in $caturl, $len_of_exists_pages exists, and $len_of_missing_pages missing in (<a href='https://$code.wikipedia.org'>https://$code.wikipedia.org</a>)." ;
     //---
     $res_line = " Results " ;//. ($start+1) . "&ndash;" . ($start+$limit) ;
     //---
     if ($test != '') $res_line .= 'test:';
     //---
-    $items_missing = isset($items['missing']) ? $items['missing'] : array();
-    $table = make_table( $items_missing, $code , $cat ) ;
-    //---
-	$cat2 = "Category:" . str_replace ( 'Category:' , '' , $cat );
-    //---
-	$caturl = "<a href='https://mdwiki.org/wiki/$cat2'>category</a>";
-    //---
-    $ix =  "Find $len_of_all pages in $caturl, $len_of_exists_pages exists, and $len_of_missing_pages missing in (<a href='https://$code.wikipedia.org'>https://$code.wikipedia.org</a>)." ;
-    //---
-    $diff = isset($items['diff']) ? $items['diff'] : '';
-    //---
-    if ($diff != '' ) $ix .= " diff:($diff)";
+    $table = make_table( $missing, $code, $cat ) ;
     //---
     echo "
 	<br>
@@ -224,27 +221,6 @@ if ( $doit && $doit2 ) {
 		</div>
 	</div>";
     //---
-    $misso  = isset($items['misso']) ? $items['misso'] : array();
-    if (count($misso) > 0) {
-        $table3 = make_table( $misso, $code , $cat ) ;
-        print "
-	<div class='card'>
-		<div class='card-header'>
-			<h4>pages exists in mdwiki and missing in enwiki:</h4>
-		</div>
-		<div class='card-body' style='padding:5px 0px 5px 5px;'>
-			$table3
-		</div>
-	</div>";
-    };
-    //---
-    if ($test != '') {
-        $enwiki_missing = isset($items['enwiki_missing']) ? $items['enwiki_missing'] : array();
-        $table2 = make_table( $enwiki_missing , $code , $cat ) ;
-        print $table2 ;
-    };
-    //---
-	} else {
     if (isset($doit) && $test != '' ) {
         //---
         print "_REQUEST code:" . isset($_REQUEST['code']) . "<br>";

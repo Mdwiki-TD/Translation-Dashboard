@@ -19,11 +19,11 @@ echo "
 <div class='card-header'>
 	<h4>Add translations:</h4>
 </div>
-<div class='card-body'>
+<div class='cardbody'>
 <form action="coordinator.php?ty=add" method="POST">
 	<input name='ty' value="add" hidden/>
 	  <div class="form-group">
-		<table class='table'>
+		<table class='table' style='font-size:95%;'>
 			<tr>
 				<th>#</th>
 				<th>mdwiki title</th>
@@ -115,7 +115,7 @@ $typies = "
 //---
 // 
 //---
-foreach ( range(1, 7) as $numb ) {
+foreach ( range(1, 5) as $numb ) {
     //---
 	$cats_line = "<select class='form-select' name='cat[]$numb' id='cat[]$numb'>$cats</select>";
 	$type_line = sprintf($typies, $numb, $numb);

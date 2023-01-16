@@ -7,7 +7,7 @@ $title_limit = $_REQUEST["title_limit"] ? number_format($_REQUEST["title_limit"]
 //---
 echo "
 </div>
-<div style='boxSizing:border-box;' align=left>
+<div style='boxSizing:border-box;'>
     <form action='sitelinks.php' method='get'>
         <label>Site:</label>
         <input type='text' name='site' value='$site' />
@@ -16,8 +16,8 @@ echo "
         <input type='submit' value='Submit' />
     </form>
 </div>
-<div style='boxSizing:border-box;' align=left>
-<table class='table table-striped sortable alignleft' id='table-1'>
+<div style='boxSizing:border-box;'>
+<table class='table table-striped compact soro2' id='table-1'>
     <thead>
         <tr>";
 //---

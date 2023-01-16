@@ -8,7 +8,7 @@ $coden = strtolower($_REQUEST['code']);
 $title_o = $_REQUEST['title'];
 //---
 $nana = "
-<div class='col-md-10 col-md-offset-1' align=left >
+<div class='col-md-10 col-md-offset-1'>
     <div class='ppre'>
     <form action='translate.php' method='GET'>
         <label>title: </label><input class='span2' type='text' value='$title_o' name='title'></input><br>
