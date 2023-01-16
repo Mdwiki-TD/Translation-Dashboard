@@ -1,5 +1,8 @@
 
-<h4>Translations in process</h4>
+<div class='card-header'>
+	<h4>Translations in process</h4>
+</div>
+<div class='card-body'>
 <?PHP
 //---
 /*

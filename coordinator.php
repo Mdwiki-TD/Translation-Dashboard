@@ -37,8 +37,7 @@ if (!isset($_REQUEST['nonav'])) {
 	$items3 = array(
 		array('id' => 'coordinators', 'href' => 'coordinator.php?ty=coordinators', 'title' => 'Coordinators'),
 		array('id' => 'Campaigns', 	'href' => 'coordinator.php?ty=Campaigns', 	'title' => 'Campaigns'),
-		// array('id' => 'updatecat', 	'href' => 'coordinator.php?ty=updatecat', 	'title' => 'update cat'),
-		array('id' => 'others', 	'href' => 'coordinator.php?ty=others', 		'title' => 'Others'),
+		// array('id' => 'others', 	'href' => 'coordinator.php?ty=others', 		'title' => 'Others'),
 	);
 	//---
 	$lis3 = '';
@@ -68,13 +67,13 @@ if (!isset($_REQUEST['nonav'])) {
 			</ul>
 			<span class="fs-6 fw-semibold">Tools:</span>
 			<ul class="flex-column">
-				<li id="fixwikirefs" class="nav-item"><a target="_blank" class="nav-link" href="../fixwikirefs.php">Fixwikirefs</a></li>
+				<li id="fixwikirefs" class="nav-item"><a target="_blank" class="linknave" href="../fixwikirefs.php">Fixwikirefs</a></li>
 			</ul>
         </div>
         <div class="col-md-10">
             <div class="container-fluid">
                 <div class="card">
-                    <div class="card-body">
+                    
 	';
 };
 //---

@@ -1,5 +1,8 @@
 
-<h4>Translation campaigns:</h4>
+<div class='card-header'>
+	<h4>Translation campaigns:</h4>
+</div>
+<div class='card-body'>
 <form action="coordinator.php?ty=Campaigns" method="POST">
 	<input name='ty' value="Campaigns" hidden/>
 	  <div class="form-group">

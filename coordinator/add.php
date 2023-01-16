@@ -16,7 +16,10 @@ echo "
 ";
 //---
 ?>
-<h4>Add translations:</h4>
+<div class='card-header'>
+	<h4>Add translations:</h4>
+</div>
+<div class='card-body'>
 <form action="coordinator.php?ty=add" method="POST">
 	<input name='ty' value="add" hidden/>
 	  <div class="form-group">

@@ -46,7 +46,11 @@ WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = user)";
 $nn = 0;
 foreach(quary2('SELECT count(DISTINCT user) as c from pages;') as $k => $tab) $nn = $tab['c'];
 //---
-echo "<h4>Emails ($nn user):</h4>";
+echo "
+<div class='card-header'>
+<h4>Emails ($nn user):</h4>
+</div>
+<div class='card-body'>";
 //---
 ?>
 <form action="coordinator.php?ty=Emails" method="POST">
@@ -109,72 +113,38 @@ group by username
 ORDER BY live DESC;
 ";
 //---
-$numb = 0;
-$qq = quary2($qu2);
+$qu1 = '
+select user_id, username, email, wiki, user_group
+from users
+#ORDER BY email DESC
+;';
 //---
 $users_done = array();
 //---
-foreach ( $qq AS $Key => $table ) {
+foreach ( quary2($qu2) AS $Key => $gg ) if (!isset($users_done[$gg['username']])) $users_done[$gg['username']] = $gg;
+//---
+// foreach ( quary2($qu1) AS $d => $tat ) if (!in_array($tat['username'], $users_done)) $users_done[$tat['username']] = $tat;
+foreach ( quary2($qu1) AS $d => $tat ) if (!isset($users_done[$tat['username']])) $users_done[$tat['username']] = $tat;
+//---
+$numb = 0;
+//---
+foreach ( $users_done as $k => $table) {
+	//---
 	$numb += 1;
-	$id 	= $table['user_id'];
+	//---
+	$live		= isset($table['live']) ? $table['live'] : 0;
+	$id			= $table['user_id'];
 	$username 	= $table['username'];
-	$users_done[] = $username;
-	$email 	= $table['email'];
-	$wiki	= $table['wiki'];
-	$live	= $table['live'];
-    //---
+	$email 		= $table['email'];
+	$wiki		= $table['wiki'];
 	$project	= $table['user_group'];
 	$project_line = make_project_to_user($project, $numb);
     //---
 	echo "
 	<tr>
-	  <td data-order='$numb'>$numb</td>
-	  <td data-order='$username'>
-	  	<span>$username</span>
-	  	<input name='username[]$numb' id='username[]$numb' value='$username' hidden/>
-	  	<input name='id[]$numb' id='id[]$numb' value='$id' hidden/>
-	  </td>
-	  <td data-order='$email'>
-	  	<span style='display: none'>$email</span>
-	  	<input size='25' name='email[]$numb' id='email[]$numb' value='$email'/>
-	  </td>
-	  <td data-order='$project'>
-		  $project_line
-	  </td>
-	  <td data-order='$wiki'>
-	  	<input size='4' name='wiki[]$numb' id='wiki[]$numb' value='$wiki'/>
-	  </td>
-	  <td data-order='$live'>
-	  	<span>$live</span>
-	  </td>
-	  <td><input type='checkbox' name='del[]$numb' value='$id'/> <label>delete</label></td>
-	</tr>";
-};
-//---
-$qu1 = '
-	select user_id, username, email, wiki, user_group
-	from users
-	#ORDER BY email DESC
-;';
-//---
-foreach ( quary2($qu1) AS $Key => $table ) {
-	$id 	= $table['user_id'];
-	$username 	= $table['username'];
-	$email 	= $table['email'];
-	$wiki	= $table['wiki'];
-	$live	= 0;
-	$project	= $table['user_group'];
-    //---
-	if (!in_array($username, $users_done)) {
-		//---
-		$project_line = make_project_to_user($project, $numb);
-		$numb += 1;
-		//---
-		echo "
-		<tr>
 		<td data-order='$numb'>$numb</td>
 		<td data-order='$username'>
-			<span>$username</span>
+			<span><a href='users.php?user=$username'>$username</a></span>
 			<input name='username[]$numb' id='username[]$numb' value='$username' hidden/>
 			<input name='id[]$numb' id='id[]$numb' value='$id' hidden/>
 		</td>
@@ -192,8 +162,7 @@ foreach ( quary2($qu1) AS $Key => $table ) {
 			<span>$live</span>
 		</td>
 		<td><input type='checkbox' name='del[]$numb' value='$id'/> <label>delete</label></td>
-		</tr>";
-	};
+	</tr>";
 };
 //---
 //---

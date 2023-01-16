@@ -1,5 +1,8 @@
 
-<h4>Coordinators:</h4>
+<div class='card-header'>
+	<h4>Coordinators:</h4>
+</div>
+<div class='card-body'>
 <form action="coordinator.php?ty=coordinators" method="POST">
 	<input name='ty' value="coordinators" hidden/>
 	  <div class="form-group">
@@ -49,7 +52,7 @@ foreach ( $qq AS $Key => $table ) {
 	  	<input name='id[]$numb' value='$ide' hidden/>
 	  </td>
 	  <td>
-	  	<span><b>$usere</b></span>
+		<span><a href='users.php?user=$usere'>$usere</a></span>
 	  	<input name='user[]$numb' value='$usere' hidden/>
 		</td>
 	  <td>

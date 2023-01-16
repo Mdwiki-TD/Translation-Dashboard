@@ -1,4 +1,7 @@
-<h4>Most recent translations:</h4>
+<div class='card-header'>
+    <h4>Most recent translations:</h4>
+</div>
+<div class='card-body'>
 <?PHP
 //---
 function make_td($tabg, $nnnn) {

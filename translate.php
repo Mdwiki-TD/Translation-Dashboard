@@ -36,7 +36,7 @@ function start_trans_py($title,$test,$fixref,$tra_type) {
     return $output;
 };
 //---
-$useree  = isset($_REQUEST['username']) ? $_REQUEST['username'] : $username;
+$useree  = $username != '' ? $username : $_REQUEST['username'];
 //---
 if ($title_o != '' && $coden != '' && $useree != '' ) {
     //---

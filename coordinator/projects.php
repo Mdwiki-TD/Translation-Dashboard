@@ -1,5 +1,8 @@
 
-<h4>Projects:</h4>
+<div class='card-header'>
+	<h4>Projects:</h4>
+</div>
+<div class='card-body'>
 <form action="coordinator.php?ty=projects" method="POST">
 	<input name='ty' value="projects" hidden/>
 	  <div class="form-group">
