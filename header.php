@@ -83,7 +83,7 @@ if (in_array($username, $usrs)) {
 					</a>
 					</li>
 					<li class="nav-item">
-					<a id="myboard" style="display:none" href="my.php" class="nav-link">
+					<a id="myboard" style="display:none" href="leaderboard.php?user=<?php echo $username ?>" class="nav-link">
 						<span class="navtitles">My Board</span>
 					</a>
 					</li>

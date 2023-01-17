@@ -58,13 +58,17 @@ $server_name = 'mdwiki.toolforge.org';
 $server_name = $_SERVER['SERVER_NAME'];
 //---
 $username = '';
-if (!isset($_GET['test1']) && $_SERVER['SERVER_NAME'] == 'localhost') { 
-    $username = 'Mr. Ibrahem';
-	setcookie('username',$username,time()+$twoYears,'/',$server_name,true,true);
-    // $username = '';
+if ($_SERVER['SERVER_NAME'] == 'localhost') { 
+    $fa = isset($_GET['test1']) ? $_GET['test1'] : '';
+    if ($fa == '') { 
+        $username = 'Mr. Ibrahem';
+        setcookie('username',$username,time()+$twoYears,'/',$server_name,true,true);
+        // $username = '';
+    } else {
+        if(isset($_COOKIE['username'])) $username = $_COOKIE['username'];
+    };
 };
 //---
-if(isset($_COOKIE['username'])) { $username = $_COOKIE['username']; };
 //---
 $gTokenKey = '';
 $gTokenSecret = '';

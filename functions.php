@@ -12,6 +12,36 @@ function get_request( $key ) {
     return $uu;
 };
 //---
+function make_drop_d($tab, $cat, $id) {
+    //---
+    $lines = "";
+    //---
+    foreach ( $tab AS $dd ) {
+        //---
+        $se = '';
+        //---
+        if ( $cat == $dd ) $se = 'selected';
+        //---
+        $lines .= "
+	    <option value='$dd' $se>$dd</option>
+		";
+        //---
+    };
+    //---
+	$sel = "";
+	//---
+	if ( $cat == 'all' ) $sel = "celected";
+	//---
+    $texte = "
+        <select dir='ltr' id='$id' name='$id' class='form-select'>
+            <option value='all' $sel>all</option>
+			$lines
+        </select>";
+    //---
+    return $texte;
+    //---
+};
+//---
 function strstartswithn ( $haystack, $needle ) {
     return strpos( $haystack , $needle ) === 0;
 };

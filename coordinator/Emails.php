@@ -144,7 +144,7 @@ foreach ( $users_done as $k => $table) {
 	<tr>
 		<td data-order='$numb'>$numb</td>
 		<td data-order='$username'>
-			<span><a href='users.php?user=$username'>$username</a></span>
+			<span><a href='leaderboard.php?user=$username'>$username</a></span>
 			<input name='username[]$numb' id='username[]$numb' value='$username' hidden/>
 			<input name='id[]$numb' id='id[]$numb' value='$id' hidden/>
 		</td>

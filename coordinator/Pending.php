@@ -54,7 +54,7 @@ foreach ( quary2($sql_t) AS $k => $t ) {
         $text .= "
         <tr>
             <td>$n</td>
-            <td><a href='users.php?user=$use'>$user</a></td>
+            <td><a href='leaderboard.php?user=$use'>$user</a></td>
             <td>$count</td>
         </tr>
         ";

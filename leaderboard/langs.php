@@ -1,18 +1,11 @@
 <?PHP
 //---
-//---
 if ($_REQUEST['test'] != '') {
 
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 };
-//---
-require('header.php');
-//---
-require('tables.php');
-include_once('functions.php');
-require('langcode.php');
 //---
 $test = isset($_GET['test']) ? $_GET['test'] : '';
 $mainlang = $_REQUEST['langcode'];
@@ -26,7 +19,6 @@ $printlang = $langname;
 if ( $_SERVER['SERVER_NAME'] == 'localhost' || $test != '' ) { 
     $printlang .= ' <a target="_blank" href="http://' . $mainlang . '.wikipedia.org/wiki/Category:Translated_from_MDWiki">(cat)</a>';
 };
-//---
 //---
 // views (target, countall, count2021, count2022, count2023, lang)
 $qua_views = "select 
@@ -96,11 +88,11 @@ function make_td_na($tabb,$number) {
     $target  = $tabb['target'];
     //---
 	$word2 = isset($Words_table[$mdtitle]) ? $Words_table[$mdtitle] : 0;
-	$word = isset($tabb['word']) ? number_format($tabb['word']) : 0;
+	$word = isset($tabb['word']) ? $tabb['word'] : 0;
     //---
     if ( $word < 1 ) $word = $word2;
     //---
-    $lang_total_words = $lang_total_words + $word;
+    $lang_total_words += $word;
     //---
     $nana = make_mdwiki_title( $mdtitle );
     $ccat = make_cat_url($cat);
@@ -122,11 +114,11 @@ function make_td_na($tabb,$number) {
     $laly = '
     <tr class="filterDiv show2 ' . $year . '">
         <td>' . $number . '</td>
-        <td><a target="" href="users.php?user=' . $use . '"><span style="white-space: nowrap;">' . $user . '</span></a>' . '</td>
+        <td><a target="" href="leaderboard.php?user=' . $use . '"><span style="white-space: nowrap;">' . $user . '</span></a>' . '</td>
         <td>' . $nana . '</td>
         <!-- <td>' . $date  . '</td> -->
         <td>' . $ccat . '</td>
-        <td>' . $word . '</td>
+        <td>' . number_format($word) . '</td>
         <td>' . $tran_type . '</td>
         <td>' . $target_link . '</td>
         ';
@@ -234,7 +226,7 @@ foreach ( $mamo_Pending AS $uuu => $tabb ) {
     $nady = '
     <tr>
         <td>' . $n_Pending . '</td>
-        <td><a target="" href="users.php?user=' . $use . '"><span style="white-space: nowrap;">' . $user . '</span></a>' . '</td>
+        <td><a target="" href="leaderboard.php?user=' . $use . '"><span style="white-space: nowrap;">' . $user . '</span></a>' . '</td>
         <td>' . $nana . '</td>
         <td>' . $ccat . '</td>
         <td>' . $word . '</td>
@@ -275,12 +267,5 @@ print "
 	$Pending_table
 	</div>
 </div>";
-//---
-
-//---
-?>
-<?PHP
-//---
-require('foter.php');
 //---
 ?>

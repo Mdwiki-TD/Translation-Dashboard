@@ -1,30 +1,5 @@
 <?PHP
 //---
-require('header.php');
-//---
-if ($_GET['test'] != '') {
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
-};
-
-require('tables.php');
-include_once('functions.php');
-require('langcode.php');
-//---
-function print_mem() {
-    /* Currently used memory */
-    $mem_usage = memory_get_usage();
-    
-    /* Peak memory usage */
-    $mem_peak = memory_get_peak_usage();
-
-    echo '<br>The script is now using: <strong>' . round($mem_usage / 1024) . 'KB</strong> of memory.';
-    echo 'Peak usage: <strong>' . round($mem_peak / 1024) . 'KB</strong> of memory.<br>';
-};
-//---
-if ($_GET['test'] != '') print_mem();
-//---
 $user_views_sql = array();
 $user_total_words = 0;
 $user_total_views = 0;
@@ -54,7 +29,7 @@ function make_td_fo_user($tabg, $nnnn) {
     $ccat = make_cat_url( $cat );
     //---
 	$word2 = isset($Words_table[$md_title]) ? $Words_table[$md_title] : 0;
-	$word = isset($tabg['word']) ? number_format($tabg['word']) : 0;
+	$word = isset($tabg['word']) ? $tabg['word'] : 0;
     //---
     if ( $word < 1 ) $word = $word2;
     //---
@@ -76,11 +51,11 @@ function make_td_fo_user($tabg, $nnnn) {
     $laly = '
         <tr class="filterDiv show2 ' . $year . '">
             <td>' . $nnnn   . '</td>
-            <td><a target="" href="langs.php?langcode=' . $llang . '">' . $lang2 . '</a>' . '</td>
+            <td><a target="" href="leaderboard.php?langcode=' . $llang . '">' . $lang2 . '</a>' . '</td>
             <td>' . $nana  . '</td>
             <!-- <td>' . $date  . '</td> -->
             <td>' . $ccat  . '</td>
-            <td>' . $word . '</td>
+            <td>' . number_format($word) . '</td>
             <td>' . $tran_type . '</td>
             <td>' . $targe33 . '</td>
             <td class="spannowrap">' . $pupdate . '</td>
@@ -265,7 +240,7 @@ function make_pend() {
         $bnd .= '
             <tr>
                 <td>' . $dff   . '</td>
-                <td><a target="" href="langs.php?langcode=' . $lange . '">' . $lange . '</a>' . '</td>
+                <td><a target="" href="leaderboard.php?langcode=' . $lange . '">' . $lange . '</a>' . '</td>
                 <td>' . $nana  . '</td>
                 <td>' . make_cat_url( $kk['cat'] )  . '</td>
                 <td>' . $worde . '</td>
@@ -315,9 +290,5 @@ if ($mainuser != '') {
 } else {
     print "<h2 class='text-center'>no user name..</h2>";
 };
-//---
-require('foter.php');
-//---
-if ($_GET['test'] != '') print_mem();
 //---
 ?>

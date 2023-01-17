@@ -46,9 +46,9 @@ function make_td($tabg, $nnnn) {
     $laly = '
         <tr>
             <td>' . $nnnn   . '</td>
-            <td><a target="" href="users.php?user=' . $user . '">' . $user . '</a></td>
+            <td><a target="" href="leaderboard.php?user=' . $user . '">' . $user . '</a></td>
             <td>' . $mail . '</td>
-            <td><a target="" href="langs.php?langcode=' . $llang . '">' . $lang2 . '</a>' . '</td>
+            <td><a target="" href="leaderboard.php?langcode=' . $llang . '">' . $lang2 . '</a>' . '</td>
             <td style="max-width:150px;">' . $nana  . '</td>
             <!-- <td>' . $date  . '</td> -->
             <td>' . $ccat  . '</td>

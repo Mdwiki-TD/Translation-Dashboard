@@ -1,15 +1,46 @@
 <?PHP
 //---
-require('header.php');
 require('tables.php'); 
 require('getcats.php');
 include_once('functions.php');
 //---
 $cat = isset($_REQUEST['cat']) ? $_REQUEST['cat'] : 'RTT';
-$cat22 = make_cat_url($cat);
+$cats_titles = array();
+//---
+foreach ( quary2('select category from categories;') AS $k => $tab ) $cats_titles[] = $tab['category'];
+//---
+$d33 = "
+<div class='col-md-3 col-sm-3'>
+    <div class='form-group'>
+        <div class='input-group'>
+            <div class='input-group-prepend'>
+                <span class='input-group-text'>%s</span>
+            </div>
+                %s
+        </div>
+    </div>
+</div>
+";
+//---
+$y1 = make_drop_d($cats_titles, $cat, 'cat');
+$uuu = sprintf($d33, 'Category:', $y1);
+//---
+$fa = "
+<div class='card-header'>
+    <form method='get' action='coordinator.php'>
+        <input name='ty' value='stat' hidden/>
+        <div class='row'>
+            <div class='col-md-2'>
+                <h4>Status:</h4>
+            </div>
+            $uuu    
+            <div class='aligncenter col-md-2'><input class='btn btn-primary' type='submit' name='start' value='Filter' /></div>
+        </div>
+    </form>
+</div>
+<div class='cardbody'>";
 //---
 $table = "
-    <h4>category: $cat22</h4>
 	<table class='table table-striped compact soro'>
 	<thead>
 		<tr>
@@ -105,6 +136,7 @@ $tabo = "
 		</div>
 	</div>";
 //---
+echo $fa;
 echo "<div class='row'> ";
 //---
 echo sprintf($tabo, "
@@ -129,9 +161,7 @@ echo $table;
 //---
 print '
 </div>
-<div>
+</div>
 ';
-//---
-require('foter.php');
 //---
 ?>

@@ -1,8 +1,8 @@
 <?PHP
 //---
-require('tables.php');
+include_once('tables.php');
 include_once('functions.php');
-require('langcode.php');
+include_once('langcode.php');
 //---
 $cat_titles = array();
 $cat_to_camp = array();
@@ -164,7 +164,7 @@ function Make_users_table() {
             $text .= "
             <tr>
                 <td>$numb</td>
-                <td><a href='users.php?user=$use'>$user</a></td>
+                <td><a href='leaderboard.php?user=$use'>$user</a></td>
                 <td>$usercount</td>
                 <td>$words</td>
                 <td>$views</td>
@@ -226,7 +226,7 @@ function Make_lang_table() {
                 $text .= "
             <tr>
                 <td>$numb</td>
-                <td><a href='langs.php?langcode=$langcode'>$langname</a></td>
+                <td><a href='leaderboard.php?langcode=$langcode'>$langname</a></td>
                 <td>$comp</td>
                 <td>$view</td>
                 $cac

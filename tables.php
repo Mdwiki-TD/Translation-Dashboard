@@ -5,11 +5,6 @@ if ($_GET['test'] != '') {
 	ini_set('display_startup_errors', 1);
 	error_reporting(E_ALL);
 };
-/*
-
-*/
-//---
-// require('langcode.php');
 //---
 $Assessments_fff = array();
 $Assessments_fff['Top'] = 1;

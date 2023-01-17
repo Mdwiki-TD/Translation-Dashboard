@@ -52,7 +52,7 @@ foreach ( $qq AS $Key => $table ) {
 	  	<input name='id[]$numb' value='$ide' hidden/>
 	  </td>
 	  <td>
-		<span><a href='users.php?user=$usere'>$usere</a></span>
+		<span><a href='leaderboard.php?user=$usere'>$usere</a></span>
 	  	<input name='user[]$numb' value='$usere' hidden/>
 		</td>
 	  <td>

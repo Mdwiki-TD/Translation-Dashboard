@@ -37,6 +37,7 @@ if (!isset($_REQUEST['nonav'])) {
 	$items3 = array(
 		array('id' => 'coordinators', 'href' => 'coordinator.php?ty=coordinators', 'title' => 'Coordinators'),
 		array('id' => 'Campaigns', 	'href' => 'coordinator.php?ty=Campaigns', 	'title' => 'Campaigns'),
+		array('id' => 'stat', 	'href' => 'coordinator.php?ty=stat', 	'title' => 'Status'),
 		// array('id' => 'others', 	'href' => 'coordinator.php?ty=others', 		'title' => 'Others'),
 	);
 	//---
