@@ -7,6 +7,19 @@ include_once('func_2nd.php');
 //---
 $test = $_REQUEST['test'];
 //---
+function get_configs() {
+    $_local = "../conf.json";
+    $_mdwiki = "/data/project/mdwiki/conf.json";
+    //---
+    $file = $_local;
+    //---
+    if ( strpos( __file__ , '/mnt/' ) === 0 ) $file = $_mdwiki;
+    //---
+    $pv_file = file_get_contents($file);
+    $uu = json_decode( $pv_file, true) ;
+    return $uu;
+};
+//---
 function get_request( $key ) {
     $uu = isset($_REQUEST[$key]) ? $_REQUEST[$key] : null;
     return $uu;
@@ -42,8 +55,12 @@ function make_drop_d($tab, $cat, $id) {
     //---
 };
 //---
-function strstartswithn ( $haystack, $needle ) {
-    return strpos( $haystack , $needle ) === 0;
+function strstartswithn ($text, $word) {
+    return strpos($text, $word) === 0;
+};
+//---
+function strendswith($text, $end) {
+    return substr($text, -strlen($end)) === $end;
 };
 //---
 function get_url_with_params( $params ) {

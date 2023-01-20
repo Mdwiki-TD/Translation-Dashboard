@@ -1,75 +1,19 @@
 <?PHP
 //---
-$user_views_sql = array();
-$user_total_words = 0;
-$user_total_views = 0;
-$dd_Pending = array();
+require('lead_help.php');
 //---
-function make_td_fo_user($tabg, $nnnn) {
-    //---
-    global $code_to_lang, $Words_table, $user_views_sql, $user_total_words, $user_total_views;
-    //---
-    $date     = $tabg['date'];
-    //---
-    //return $date . '<br>';
-    //---
-    $llang    = $tabg['lang'];
-    $md_title = $tabg['title'];
-    $cat      = $tabg['cat'];
-    $targe    = $tabg['target'];
-    $pupdate  = isset($tabg['pupdate']) ? $tabg['pupdate'] : '';
-    //---
-    // $views_number = isset($user_views_sql[$targe]) ? $user_views_sql[$targe] : 0;
-    $views_number = 0;
-    $user_total_views += $views_number;
-    //---
-    // $lang2 = isset($code_to_lang[$llang]) ? $code_to_lang[$llang] : $llang;
-    $lang2 = $llang;
-    //---
-    $ccat = make_cat_url( $cat );
-    //---
-	$word2 = isset($Words_table[$md_title]) ? $Words_table[$md_title] : 0;
-	$word = isset($tabg['word']) ? $tabg['word'] : 0;
-    //---
-    if ( $word < 1 ) $word = $word2;
-    //---
-    $user_total_words = $user_total_words + $word;
-    //---
-    $nana = make_mdwiki_title( $md_title );
-    //---
-    $targe33 = make_target_url( $targe , $llang );
-    //---
-    $view = make_view_by_number($targe, $views_number, $llang, $pupdate) ;
-    //---
-    $tran_type = isset($tabg['translate_type']) ? $tabg['translate_type'] : '';
-    if ($tran_type == 'all') { 
-        $tran_type = 'Whole article';
-    };
-    //---
-    $year = substr($pupdate,0,4);
-    //---
-    $laly = '
-        <tr class="filterDiv show2 ' . $year . '">
-            <td>' . $nnnn   . '</td>
-            <td><a target="" href="leaderboard.php?langcode=' . $llang . '">' . $lang2 . '</a>' . '</td>
-            <td>' . $nana  . '</td>
-            <!-- <td>' . $date  . '</td> -->
-            <td>' . $ccat  . '</td>
-            <td>' . number_format($word) . '</td>
-            <td>' . $tran_type . '</td>
-            <td>' . $targe33 . '</td>
-            <td class="spannowrap">' . $pupdate . '</td>
-            <td data-sort="0">' . $view . '</td>
-        </tr>
-        '; 
-    //---
-    return $laly;
-};
+$test = isset($_REQUEST['test']) ? $_REQUEST['test'] : '';
+$mainuser = isset($_REQUEST['user']) ? $_REQUEST['user'] : '';
+$limit = isset($_REQUEST['limit']) ? $_REQUEST['limit'] : null;
+//---
+$dd = array();
+$dd_Pending = array();
+$table_of_views = array();
 //---
 function make_user_table($user_main, $test, $limit) {
     //---
-    global $code_to_lang, $Words_table, $user_views_sql, $lang_code_to_en;
-    global $user_total_views, $user_total_words, $dd_Pending;
+    global $table_of_views;
+    global $dd, $dd_Pending;
     //---
     $user_main = rawurldecode( str_replace ( '_' , ' ' , $user_main ) );
     //---
@@ -105,9 +49,7 @@ function make_user_table($user_main, $test, $limit) {
         foreach ( $views_query AS $Key => $table ) {
             $countall = $table['countall'];
             $targ = $table['target'];
-            $user_views_sql[$targ] = $countall;
-            //---
-            // $user_total_views = $user_total_views + $countall;
+            $table_of_views[$targ] = $countall;
             //---
             $done += 1;
             //---
@@ -127,168 +69,56 @@ function make_user_table($user_main, $test, $limit) {
     //---
     $sql_result = quary2($quaa);
     //---
-    $dd = array();
-    foreach ( $sql_result AS $tait => $tabg ) {
+    foreach ( $sql_result AS $tait => $tabb ) {
             //---
-            // $kry = str_replace('-','',$tabg['pupdate']) . ':' . $tabg['target'] ;
-            $kry = str_replace('-','',$tabg['pupdate']) . ':' . $tabg['lang'] . ':' . $tabg['title'] ;
-            //print $kry . '<br>';
+            $kry = str_replace('-','',$tabb['pupdate']) . ':' . $tabb['lang'] . ':' . $tabb['title'] ;
             //---
-            if ( $tabg['target'] != '' ) {
-                $dd[$kry] = $tabg;
+            if ( $tabb['target'] != '' ) {
+                $dd[$kry] = $tabb;
             } else {
-                $dd_Pending[$kry] = $tabg;
+                $dd_Pending[$kry] = $tabb;
             };
             //---
         };
     //---
-    krsort($dd);
-    // print( count($dd) );
-    //---
-    $sato = '  
-    <table class="table table-striped compact soro">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Lang.</th>
-                <th>Title</th>
-                <!--<th>Start date</th> -->
-                <th>Category</th>
-                <th>Words</th>
-                <th>type</th>
-                <th>Translated</th>
-                <th>Date</th>
-                <th>Pageviews</th>
-            </tr>
-        </thead>
-        <tbody>';
-    //---
-    $noo = 0;
-    foreach ( $dd AS $tat => $tabe ) {
-        //---
-        $noo = $noo + 1;
-        $sato .= make_td_fo_user($tabe,$noo);
-        //---
-    };
-    //---
-    $sato .= '
-        </tbody>
-	</table>';
-    //---
-    $man = make_mdwiki_user_url($user_main);
-    //---
-    $table2 = "<table class='table table-sm table-striped' style='width:70%;'>
-    <tr><td>Words: </td><td>$user_total_words</td></tr>
-    <tr><td>Pageviews: </td><td><span id='hrefjsontoadd'>$user_total_views</span></td></tr>
-    </table>";
-    //---
-	echo "
-	<div class='row content'>
-		<div class='col-md-4'>$table2</div>
-		<div class='col-md-4'><h2 class='text-center'>$man</h2></div>
-		<div class='col-md-4'></div>
-	</div>";
-	//---
-	return  $sato;
-    // print "</div>";
-    //---
 };
 //---
-function make_pend() {
-    global $dd_Pending, $Words_table;
-    $sato_Pending ='
-	<table class="table table-striped compact soro">
-		<thead>
-            <tr>
-                <th>#</th>
-                <th>Lang.</th>
-                <th>Title</th>
-                <th>Category</th>
-                <th>Words</th>
-                <th>type</th>
-                <th>Translated</th>
-                <th>Start date</th>
-			</tr>
-		</thead>
-		<tbody>
-    ';
-    //---
-    $bnd = '';
-    $bnd .= $sato_Pending;
-    //---
-    $dff = 0;
-    foreach ( $dd_Pending AS $title=> $kk ) {
-        //---
-        $dff      = $dff + 1;
-        //---
-        $lange    = $kk['lang'];
-        // $lang2    = isset($code_to_lang[$lange]) ? $code_to_lang[$lange] : $lange;
-        // $lang2    = isset($lang_code_to_en[$lange]) ? $lang_code_to_en[$lange] : $lange;
-        // $lang2    = isset($lang2) ? $lang2 : $lange;
-        //---
-        // $tran_type = $kk['translate_type'];
-        $tran_type = isset($kk['translate_type']) ? $kk['translate_type'] : '';
-        if ($tran_type == 'all') { 
-            $tran_type = 'Whole article';
-        };
-        //---
-        $md_title = $kk['title'];
-        $word     = $kk['word'];
-        //---
-        $worde = isset($word) ? $word : $Words_table[$md_title];
-        $nana = make_mdwiki_title( $md_title );
-        $bnd .= '
-            <tr>
-                <td>' . $dff   . '</td>
-                <td><a target="" href="leaderboard.php?langcode=' . $lange . '">' . $lange . '</a>' . '</td>
-                <td>' . $nana  . '</td>
-                <td>' . make_cat_url( $kk['cat'] )  . '</td>
-                <td>' . $worde . '</td>
-                <td>' . $tran_type . '</td>
-                <td>Pending</td>
-                <td>' . $kk['date']  . '</td>
-    ';
-        //---
-        $bnd .= '</tr>';
-        //---
-    };
-    //---
-    $bnd .= '
-		</tbody>
-    </table>';
-    //---
-    return $bnd;
-}
+make_user_table($mainuser, $test, $limit);
 //---
-$test = isset($_GET['test']) ? $_GET['test'] : '';
-$mainuser = isset($_GET['user']) ? $_GET['user'] : '';
-$limit = isset($_GET['limit']) ? $_GET['limit'] : null;
+krsort($dd);
 //---
-if ($mainuser != '') {
-    $sas = make_user_table($mainuser, $test, $limit);
-	//---
-    print "
-	<div class='card'>
-		<div class='card-body' style='padding:5px 0px 5px 5px;'>
-		$sas
-		</div>
-	</div>";
-	//---
-	$bnd = make_pend();
-	//---
-    print "
-    <br>
-	<div class='card'>
-		<div class='card-body' style='padding:5px 0px 5px 5px;'>
+$tat = make_table_lead($dd, $tab_type='translations', $views_table = $table_of_views, $page_type='users', $user=$mainuser, $lang='');
+//---
+$table1 = $tat['table1'];
+$table2 = $tat['table2'];
+//---
+$man = make_mdwiki_user_url($mainuser);
+//---
+echo "
+    <div class='row content'>
+        <div class='col-md-4'>$table1</div>
+        <div class='col-md-4'><h2 class='text-center'>$man</h2></div>
+        <div class='col-md-4'></div>
+    </div>
+    <div class='card'>
+        <div class='card-body' style='padding:5px 0px 5px 5px;'>
+        $table2
+        </div>
+    </div>";
+//---
+krsort($dd_Pending);
+//---
+$table_pnd = make_table_lead($dd_Pending, $tab_type='pending', $views_table = $table_of_views, $page_type='users', $user=$mainuser, $lang='');
+//---
+$tab_pnd = $table_pnd['table2'];
+//---
+print "
+<br>
+<div class='card'>
+	<div class='card-body' style='padding:5px 0px 5px 5px;'>
         <h2 class='text-center'>Translations in process</h2>
-		$bnd
-		</div>
-	</div>";
-    //---
-
-	//---
-} else {
-    print "<h2 class='text-center'>no user name..</h2>";
-};
+        $tab_pnd
+	</div>
+</div>";
 //---
 ?>

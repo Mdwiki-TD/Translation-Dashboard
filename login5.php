@@ -64,9 +64,9 @@ if ($_SERVER['SERVER_NAME'] == 'localhost') {
         $username = 'Mr. Ibrahem';
         setcookie('username',$username,time()+$twoYears,'/',$server_name,true,true);
         // $username = '';
-    } else {
-        if(isset($_COOKIE['username'])) $username = $_COOKIE['username'];
     };
+} else {
+    if(isset($_COOKIE['username'])) $username = $_COOKIE['username'];
 };
 //---
 //---

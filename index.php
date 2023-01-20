@@ -2,11 +2,13 @@
 //---
 require('header.php');
 //---
-// require('tables.php'); 
+// require('tables.php');
 require('langcode.php');
 include_once('functions.php');
 //---
-$doit = isset($_REQUEST['doit']);
+$conf = get_configs();
+//---
+$allow_whole_translate = isset($conf['allow_type_of_translate']) ? $conf['allow_type_of_translate'] : true;
 //---
 $code = isset($_REQUEST['code']) ? $_REQUEST['code'] : '';
 //---
@@ -16,6 +18,7 @@ $code = isset($lang_to_code[$code]) ? $lang_to_code[$code] : $code;
 $code_lang_name = isset($code_to_lang[$code]) ? $code_to_lang[$code] : ''; 
 //---
 $Translate_type  = isset($_REQUEST['type']) ? $_REQUEST['type'] : '';
+if ($allow_whole_translate == false) $Translate_type = 'lead';
 //---
 $cat = isset($_REQUEST['cat']) ? $_REQUEST['cat'] : '';
 //---
@@ -34,13 +37,13 @@ $qq = quary2('select category, display, depth from categories;');
 $numb = 0;
 //---
 foreach ( $qq AS $Key => $table ) {
-  $numb += 1;
-  $category = $table['category'];
-  $display = $table['display'];
-  $catinput_list[$display] = $category;
-  //---
-  $catinput_depth[$category] = $table['depth'];
-  //---
+    $numb += 1;
+    $category = $table['category'];
+    $display = $table['display'];
+    $catinput_list[$display] = $category;
+    //---
+    $catinput_depth[$category] = $table['depth'];
+    //---
 };
 //---
 $depth  = isset($_REQUEST['depth']) ? $_REQUEST['depth'] : 1;
@@ -49,50 +52,51 @@ $depth  = $depth * 1 ;
 $depth  = isset($catinput_depth[$cat]) ? $catinput_depth[$cat] : 1;
 //---
 function print_form_start1() {
-  //---
-  global $lang_to_code, $catinput_list;
-  global $cat_ch, $code_lang_name, $code, $username, $Translate_type;
-  //---
-  $lead_checked = "checked";
-  $all_checked = "";
-  //---
-  if ($Translate_type == 'all') {
-      $lead_checked = "";
-      $all_checked = "checked";
-  };
-  //---
-  $cate = $cat_ch != '' ? $cat_ch : 'RTT' ;
-  //---
-  $coco = $code_lang_name;
-  if ( $coco == '') { $coco = $code ; };
-  //---
-  $lang_list = '';
-  //---
-  foreach ( $lang_to_code AS $langeee => $codr ) {
-      $lang_list .= "
-          <option data-tokens='$codr' value='$codr'>$langeee</option>";
-  };
-  //---
-  $langse = "
+    //---
+    global $allow_whole_translate ;
+    global $lang_to_code, $catinput_list;
+    global $cat_ch, $code_lang_name, $code, $username, $Translate_type;
+    //---
+    $lead_checked = "checked";
+    $all_checked = "";
+    //---
+    if ($Translate_type == 'all') {
+        $lead_checked = "";
+        $all_checked = "checked";
+    };
+    //---
+    $cate = $cat_ch != '' ? $cat_ch : 'RTT' ;
+    //---
+    $coco = $code_lang_name;
+    if ( $coco == '') { $coco = $code ; };
+    //---
+    $lang_list = '';
+    //---
+    foreach ( $lang_to_code AS $langeee => $codr ) {
+        $lang_list .= "
+            <option data-tokens='$codr' value='$codr'>$langeee</option>";
+    };
+    //---
+    $langse = "
       <input list='sLanguages' type='text' placeholder='two letter code' name='code' id='code' value='$coco' autocomplete='off' role='combobox' class='form-select' required>
           <datalist id='Languages' class='selectpickerr' role='listbox'>
               $lang_list
           </datalist>
       </input>
-  ";
-  //---
-  $err = '';
-  //---
-  if ($code_lang_name == '' and $code != '') { 
-      $err = "<span style='font-size:13pt;color:red'>code ($code) not valid wiki.</span>";
-  } else {
-      if ($code != '') { $_SESSION['code'] = $code; };
-  };
-  //---
-  $uiu = '
-  <a role="button" class="btn btn-primary" onclick="login()">
+    ";
+    //---
+    $err = '';
+    //---
+    if ($code_lang_name == '' and $code != '') { 
+        $err = "<span style='font-size:13pt;color:red'>code ($code) not valid wiki.</span>";
+    } else {
+        if ($code != '') { $_SESSION['code'] = $code; };
+    };
+    //---
+    $uiu = '
+    <a role="button" class="btn btn-primary" onclick="login()">
     <i class="fas fa-sign-in-alt fa-sm fa-fw mr-1"></i><span class="navtitles">Login</span>
-  </a>';
+    </a>';
     //---
     if ( $username != '' ) $uiu = '<input type="submit" name="doit" class="btn btn-primary" value="Do it"/>';
     //---
@@ -132,13 +136,18 @@ function print_form_start1() {
 	//---
 	$in_lng  = sprintf($d2, 'Target language', "<div>$langse $err</div>");
 	//---
-	$in_typ = sprintf($d2, 'Type', "<div class='form-control'>$ttype</div>");
+	$in_typ = '';
+    if ($allow_whole_translate == true) { 
+        $in_typ = sprintf($d2, 'Type', "<div class='form-control'>$ttype</div>");
+    } else {
+        $in_typ = "";
+    };
     //---
     $d = "
     <div class='row'>
         $in_cat
         $in_lng
-		    $in_typ
+        $in_typ
         <div class='$col12'>
             <h4 class='aligncenter'>
             $uiu
