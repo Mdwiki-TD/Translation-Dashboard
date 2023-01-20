@@ -47,17 +47,17 @@ $d33 = "
     </div>
 </div>";
 //---
-$y1 = make_drop_d($cat_titles, $camp, 'camp');
+$y1 = make_drop_d($cat_titles, $camp, 'camp', 'all');
 $d1 = sprintf($d33, 'Campaign', $y1);
 //---
 $projects = array();
 //---
 foreach ( quary2('select g_title from projects;') AS $Key => $table ) $projects[] = $table['g_title'];
-$y2 = make_drop_d($projects, $project, 'project');
+$y2 = make_drop_d($projects, $project, 'project', 'all');
 $d2 = sprintf($d33, 'Translators', $y2);
 //---
 $my_years = get_my_years();
-$y3 = make_drop_d($my_years, $year, 'year');
+$y3 = make_drop_d($my_years, $year, 'year', 'all');
 $d3 = sprintf($d33, 'Year', $y3);
 //---
 $uux = print_cat_table();

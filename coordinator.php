@@ -92,7 +92,7 @@ if (!in_array($username, $usrs)) {
 //---
 if (!isset($ty)) {
 	require('coordinator/index.php');
-	$ty = 'last';
+	// $ty = 'last';
 } else {
 	$file = "coordinator/$ty.php";
 	if (file_get_contents($file)) {

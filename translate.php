@@ -7,23 +7,38 @@ include_once('functions.php');
 $coden = strtolower($_REQUEST['code']);
 $title_o = $_REQUEST['title'];
 //---
+$tit_line = make_input_group( 'title', 'title', $title_o, 'required');
+$cod_line = make_input_group( 'code', 'code', $coden, 'required');
+//---
 $nana = "
-<div class='col-md-10 col-md-offset-1'>
-    <div class='ppre'>
-    <form action='translate.php' method='GET'>
-        <label>title: </label><input class='span2' type='text' value='$title_o' name='title'></input><br>
-        <label>code : </label><input class='span2' type='text' value='$coden' name='code'><br>
-        <input class='btn btn-lg' type='submit' name='start' value='Start' />
-    </form>
+
+<div class='card' style='font-weight: bold;'>
+    <div class='card-body'>
+        <div class='row'>
+            <div class='col-md-10 col-md-offset-1'>
+                <form action='translate.php' method='GET'>
+                    $tit_line
+                    $cod_line
+                    <input class='btn btn-primary' type='submit' name='start' value='Start' />
+                </form>
+            </div>
+        </div>
     </div>
+</div>
     ";
+//---
+if (isset($_GET['form'])) echo $nana;
 //---
 function start_trans_py($title,$test,$fixref,$tra_type) {
     //---
     $title2 = $title;
     $title2 = rawurlencode(str_replace ( ' ' , '_' , $title2 ) );
     //---
-    $dd = "python3 /mnt/nfs/labstore-secondary-tools-project/mdwiki/TDpy/translate.py -title:$title2" ;
+    $dir = '/mdwiki';
+    //---
+    if ( strpos( __file__ , '/mnt/' ) === 0 ) $dir = "/mnt/nfs/labstore-secondary-tools-project/mdwiki";
+    //---
+    $dd = "python3 $dir/TDpy/translate.py -title:$title2" ;
     if ($fixref != '' ) $dd = $dd . ' fixref';
     //---  
     if ($tra_type == 'all' ) $dd = $dd . ' wholearticle';
@@ -85,16 +100,12 @@ INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, 
         )
 ";
     //---
-    quary($quae_new);
+    quary_a($quae_new);
     //---
-    //---
-    // if ($newaa != '') {
-        // $output = start_trans_php($title_o,$test,$fixref,$tr_type);
-    // } else {
 	$output = start_trans_py($title_o,$test,$fixref,$tr_type);
     // };
     //---
-    if (trim($output) == 'true') {
+    if (trim($output) == 'true' || isset($_REQUEST['go'])) {
         $title_o2 = rawurlEncode($title_o);
         //---
         $url = "//$coden.wikipedia.org/wiki/Special:ContentTranslation?page=User%3AMr.+Ibrahem%2F$title_o2";
@@ -102,7 +113,7 @@ INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, 
         //---
         if ($coden == 'en') $url = "//en.wikipedia.org/w/index.php?title=User:Mr._Ibrahem/$title_o2&action=edit";
         //---
-        if ($test != "") {
+        if ($test != "" && (!isset($_REQUEST['go']))) {
             //---
             print $nana;
             print '<br>trim($output) == true<br>';

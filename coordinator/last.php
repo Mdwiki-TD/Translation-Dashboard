@@ -41,7 +41,7 @@ function make_td($tabg, $nnnn) {
     //---
 	$onclick = 'pupwindow("' . $mail_url . '")';
     //---
-    $mail = "<button class='btn btn-primary btn-sm' onclick='$onclick'>Email</span>";
+    $mail = "<a class='btn btn-primary btn-sm' onclick='$onclick'>Email</a>";
     //---
     $laly = '
         <tr>
@@ -71,7 +71,7 @@ limit 100
 $dd = quary2($quaa);
 //---
 $sato = '
-	<table class="table table-md table-striped soro" style="font-size:90%;">
+	<table class="table table-sm table-striped soro" style="font-size:90%;">
     <thead>
         <tr>
             <th>#</th>

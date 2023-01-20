@@ -17,6 +17,22 @@ function make_col_sm_4($title, $table, $numb = '4') {
     ";
 };
 //---
+function make_col_sm_body($title, $subtitle, $table, $numb = '4') {
+    return "
+    <div class='col-md-$numb'>
+        <div class='card'>
+            <div class='card-header aligncenter'>
+                <span  style='font-weight:bold;'>$title</span> $subtitle
+            </div>
+            <div class='card-body card2'>
+                $table
+            </div>
+        </div>
+        <br>
+    </div>
+    ";
+};
+//---
 function test_print($s) {
     global $test;
     if ($test != '') { print $s; };

@@ -7,25 +7,58 @@ include_once('func_2nd.php');
 //---
 $test = $_REQUEST['test'];
 //---
+$conf_file = '';
+//---
 function get_configs() {
+    //---
+    global $conf_file;
+    //---
     $_local = "../conf.json";
     $_mdwiki = "/data/project/mdwiki/conf.json";
     //---
-    $file = $_local;
+    $conf_file = $_local;
     //---
-    if ( strpos( __file__ , '/mnt/' ) === 0 ) $file = $_mdwiki;
+    if ( strpos( __file__ , '/mnt/' ) === 0 ) $conf_file = $_mdwiki;
     //---
-    $pv_file = file_get_contents($file);
+    $pv_file = file_get_contents($conf_file);
     $uu = json_decode( $pv_file, true) ;
     return $uu;
 };
+//---
+function set_configs($key, $value) {
+    //---
+    global $conf_file;
+    //---
+    $value = ($value == '0') ? false : true;
+    //---
+    $pv_file = file_get_contents($conf_file);
+    $uu = json_decode( $pv_file, true) ;
+    //---
+    $uu[$key] = $value;
+    //---
+    // save the file
+    file_put_contents($conf_file, json_encode($uu));
+}
 //---
 function get_request( $key ) {
     $uu = isset($_REQUEST[$key]) ? $_REQUEST[$key] : null;
     return $uu;
 };
 //---
-function make_drop_d($tab, $cat, $id) {
+function make_input_group( $label, $id, $value, $required) {
+    $str = "
+    <div class='col-md-3'>
+        <div class='input-group mb-3'>
+            <div class='input-group-prepend'>
+                <span class='input-group-text'>$label</span>
+            </div>
+            <input class='form-control' type='text' name='$id' value='$value' $required/>
+        </div>
+    </div>";
+    return $str;
+};
+//---
+function make_drop_d($tab, $cat, $id, $add) {
     //---
     $lines = "";
     //---
@@ -41,13 +74,17 @@ function make_drop_d($tab, $cat, $id) {
         //---
     };
     //---
-	$sel = "";
+	$sel_line = "";
 	//---
-	if ( $cat == 'all' ) $sel = "celected";
+    if ($add != '' ) {
+	    $sel = "";
+	    if ( $cat == $add ) $sel = "celected";
+        $sel_line = "<option value='$add' $sel>$add</option>";
+    }
 	//---
     $texte = "
         <select dir='ltr' id='$id' name='$id' class='form-select'>
-            <option value='all' $sel>all</option>
+            $sel_line
 			$lines
         </select>";
     //---
