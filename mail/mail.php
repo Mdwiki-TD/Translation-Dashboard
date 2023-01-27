@@ -39,11 +39,8 @@ if ($msg != '' && $email != '' ) {
     if ($fofo == 'mdwiki_Username') {
         $mail->Host = 'smtp.gmail.com';
         //---
-        // $mail->Username = $my_ini['mdwiki_Username'];
-        // $mail->Password = $my_ini['mdwiki_Password'];
-        //---
-        $mail->Username = "mdwiki.org@gmail.com";
-        $mail->Password = "wikimedibrahem";
+        $mail->Username = $my_ini['mdwiki_Username'];
+        $mail->Password = $my_ini['mdwiki_Password'];
         //---
         $mail->SMTPSecure = 'tls';
         $mail->Port = 587;
@@ -102,7 +99,7 @@ if ($msg != '' && $email != '' ) {
     //---
     $mail->setFrom($myboss);
     $mail->addAddress($email);
-    $mail->addReplyTo($myboss);
+    $mail->addReply1To($myboss);
     //---
     $mail->Body    = $msg1;
     // $mail->AltBody = 'You prefer plain text, no problem.';
