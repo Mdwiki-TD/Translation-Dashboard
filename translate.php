@@ -11,25 +11,24 @@ $tit_line = make_input_group( 'title', 'title', $title_o, 'required');
 $cod_line = make_input_group( 'code', 'code', $coden, 'required');
 //---
 $nana = "
-
-<div class='card' style='font-weight: bold;'>
-    <div class='card-body'>
-        <div class='row'>
-            <div class='col-md-10 col-md-offset-1'>
-                <form action='translate.php' method='GET'>
-                    $tit_line
-                    $cod_line
-                    <input class='btn btn-primary' type='submit' name='start' value='Start' />
-                </form>
+    <div class='card' style='font-weight: bold;'>
+        <div class='card-body'>
+            <div class='row'>
+                <div class='col-md-10 col-md-offset-1'>
+                    <form action='translate.php' method='GET'>
+                        $tit_line
+                        $cod_line
+                        <input class='btn btn-primary' type='submit' name='start' value='Start' />
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
     ";
 //---
 if (isset($_GET['form'])) echo $nana;
 //---
-function start_trans_py($title,$test,$fixref,$tra_type) {
+function start_trans_py($title, $test, $fixref, $tra_type) {
     //---
     $title2 = $title;
     $title2 = rawurlencode(str_replace ( ' ' , '_' , $title2 ) );
@@ -55,14 +54,13 @@ $useree  = $username != '' ? $username : $_REQUEST['username'];
 //---
 if ($title_o != '' && $coden != '' && $useree != '' ) {
     //---
-    $newaa 	 = get_request('newaa');
-    $cat 	 = get_request('cat');
-    $test 	 = get_request('test');
-    $fixref  = get_request('fixref');
-    $tr_type = get_request('type');
+    $test    = get_request('test', '');
+    $cat     = get_request('cat', '');
+    $fixref  = get_request('fixref', '');
+    $tr_type = get_request('type', 'lead');
     //---
-    $useree = rawurldecode($useree);
-    $cat = rawurldecode($cat);
+    $useree  = rawurldecode($useree);
+    $cat     = rawurldecode($cat);
     $title_o = rawurldecode($title_o);
     //---
     $title_o2 = $title_o;
@@ -70,7 +68,7 @@ if ($title_o != '' && $coden != '' && $useree != '' ) {
     $title_o2 = rawurlencode(str_replace ( ' ' , '_' , $title_o2 ) );
     //---
     $user2  = rawurlencode(str_replace ( ' ' , '_' , $useree ));
-    $cat2   = rawurlencode(str_replace ( ' ' , '_' , $cat ));
+    $cat2   = ($cat != '') ? rawurlencode(str_replace ( ' ' , '_' , $cat )) : '';
     //---
     $word = isset($Words_table[$title_o]) ? $Words_table[$title_o] : 0; 
     //---
@@ -86,7 +84,7 @@ INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, 
 VALUES ('$title_o', '$word', '$tr_type', '$cat', '$coden', '$date', '$useree', '', '')
 ";
     //---
-	if (isset($test)) echo "<br>$quae<br>";
+    if ($test != '') echo "<br>$quae<br>";
     //---
     $quae_new = "
 INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target)
@@ -102,7 +100,7 @@ INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, 
     //---
     quary_a($quae_new);
     //---
-	$output = start_trans_py($title_o,$test,$fixref,$tr_type);
+    $output = start_trans_py($title_o,$test,$fixref,$tr_type);
     // };
     //---
     if (trim($output) == 'true' || isset($_REQUEST['go'])) {

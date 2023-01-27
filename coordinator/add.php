@@ -38,7 +38,7 @@ echo "
 <?php
 //---
 function get_request_1( $key, $i ) {
-    $uu = isset($_POST[$key][$i]) ? $_REQUEST[$key][$i] : '';
+    $uu = isset($_REQUEST[$key][$i]) ? $_REQUEST[$key][$i] : '';
     return $uu;
 };
 //---

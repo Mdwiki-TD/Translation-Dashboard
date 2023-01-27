@@ -10,7 +10,7 @@
   </head>
   <body>
 <?php
-if ($_GET['test'] != '') {
+if (isset($_REQUEST['test'])) {
 
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
@@ -38,15 +38,15 @@ $oMail = new PHPMailer();
 $oMail->isSMTP();
 $oMail->SMTPDebug = false;
 $oMail->SMTPAuth = true;
+$oMail->Username = $my_ini['Username'];
+$oMail->Password = $my_ini['Password'];
+//---
 $oMail->SMTPSecure = 'tls';
 $oMail->Host = 'smtp.office365.com';
 $oMail->Port = 587;
-$oMail->Username = $my_ini['Username'];
-$oMail->Password = $my_ini['Password'];
+//---
 // Encryption method: STARTTLS
 //Recipients
-
-
 $msg_title = 'Wiki Project Med Translation Dashboard';
 //---
 // Content
@@ -59,7 +59,6 @@ $msg    = isset($_REQUEST['msg'])   ? $_REQUEST['msg']      : '';
 $email  = isset($_REQUEST['email']) ? $_REQUEST['email']    : '';
 $lang   = isset($_REQUEST['lang'])  ? $_REQUEST['lang']     : '';
 $username   = isset($_REQUEST['username'])  ? $_REQUEST['username']     : '';
-//---
 //---
 $myboss = isset($myboss_emails[$username]) ? $myboss_emails[$username] : $myboss_emails["Mr. Ibrahem"];
 //---

@@ -5,7 +5,7 @@
 //--- 
 include_once('func_2nd.php');
 //---
-$test = $_REQUEST['test'];
+// $test = $_REQUEST['test'];
 //---
 $conf_file = '';
 //---
@@ -40,8 +40,8 @@ function set_configs($key, $value) {
     file_put_contents($conf_file, json_encode($uu));
 }
 //---
-function get_request( $key ) {
-    $uu = isset($_REQUEST[$key]) ? $_REQUEST[$key] : null;
+function get_request( $key, $value ) {
+    $uu = isset($_REQUEST[$key]) ? $_REQUEST[$key] : $value;
     return $uu;
 };
 //---
