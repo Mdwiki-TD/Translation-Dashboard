@@ -1,6 +1,16 @@
 </div>
+<script> 
+    $('#mainnav').hide();
+    $('#maindiv').hide();
+</script>
 <div id='yeye' class="container-fluid">
 <?PHP
+//---
+if (isset($_REQUEST['test'])) {
+	ini_set('display_errors', 1);
+	ini_set('display_startup_errors', 1);
+	error_reporting(E_ALL);
+};
 //---
 $hoste = 'https://tools-static.wmflabs.org/cdnjs';
 if ( $_SERVER['SERVER_NAME'] == 'localhost' )  $hoste = 'https://cdnjs.cloudflare.com';
@@ -14,6 +24,7 @@ echo "<script src='$hoste/ajax/libs/summernote/0.8.20/summernote-lite.min.js'></
 require('tables.php');
 include_once('functions.php');
 include_once('getcats.php');
+include_once('td_config.php');
 //---
 $tabs = array();
 //---
@@ -63,14 +74,14 @@ $here_url = "https://mdwiki.toolforge.org/Translation_Dashboard/translate.php?" 
 //---
 $HERE = "<a target='_blank' href='$here_url'><b>HERE</b></a>";
 //---
-$email = '';
+$Emails_array = array();
 //---
-foreach ( quary2("select username, email from users where username = '$user';") AS $Key => $ta ) {
-    if ($ta['username'] == $user) {
-        $email = $ta['email'];
-        break;
-    };
+foreach ( quary2("select username, email from users;") AS $Key => $ta ) {
+    $Emails_array[$ta['username']] = $ta['email'];
 };
+//---
+$email_to = isset($Emails_array[$user]) ? $Emails_array[$user] : '';
+$cc_to    = isset($Emails_array[$username]) ? $Emails_array[$username] : '';
 //---
 $title2  = make_mdwiki_title($title);
 $sugust2 = make_mdwiki_title($sugust);
@@ -187,42 +198,45 @@ $mag = "
     </div>
 ";
 //---
-// foreach ($tabs AS $k => $v) print "*$k: $v<br>";
-//---
-$send_page = 'send.php';
-//---
-if (isset($_GET['mailer'])) $send_page = 'mailer.php';
-//---
 print "
 <div class1='container-fluid'>
-	<form class='' action='$send_page' method='POST'>
+	<form action='mail.php' method='POST'>
 		<input type='hidden' name='test' value='$test'/>
 		<input type='hidden' name='lang' value='$lang'/>
 		<input type='hidden' name='nonav' value='1'/>
-		<div class='row mt-3 mb-2'>
-			<div class='col-sm-7 col-md-5'>
-				<div class='input-group mb-3'>
+		<div class='row mt-3'>
+			<div class='col-sm-12 col-md-5'>
+				<div class='input-group mb-2'>
 					<div class='input-group-prepend'>
 						<span class='input-group-text'>
-							<label class='mr-sm-2' for='email'>Email:</label>
+							<label class='mr-sm-2' for='email_to'>To:</label>
 						</span>
 					</div>
-					<input class='form-control' type='text' id='email' name='email' value='$email' required/>
+					<input class='form-control' type='text' id='email_to' name='email_to' value='$email_to' required/>
 				</div>
 			</div>
-			<div class='col-sm-3 col-md-3'>
-				<div class='form-group form-check'>
-					<label class='form-check-label'>
-						<input class='form-check-input' type='checkbox' name='ccme'> Send me copy</input>
-					</label>
-				</div>
-			</div>
-			<div class='col-sm-2 col-md-3'>
-				<div class='aligncenter mt-2'>
-					<button type='submit' name='send' value='send' class='btn btn-primary'>Send</button>
+			<div class='col-sm-12 col-md-7'>
+				<div class='input-group mb-2'>
+					<div class='input-group-prepend'>
+						<span class='input-group-text'>
+                            <input class='form-check-input' type='checkbox' name='ccme' id='ccme'>Send me copy</input>
+						</span>
+					</div>
+					<input class='form-control' type='text' id='cc_to1' value='' disabled/>
+					<input class='form-control' type='text' style='display: none' id='cc_to' name='cc_to' value='$cc_to'/>
 				</div>
 			</div>
 		</div>
+        <div class='col-sm-12 col-md-6'>
+            <div class='input-group mb-2'>
+                <div class='input-group-prepend'>
+                    <span class='input-group-text'>
+                        <label class='mr-sm-2' for='msg_title'>Subject:</label>
+                    </span>
+                </div>
+                <input class='form-control' type='text' id='msg_title' name='msg_title' value='Wiki Project Med Translation Dashboard'/>
+            </div>
+        </div>
 		<div>
 			<textarea id='msg' name='msg'>
 			$mag
@@ -236,9 +250,21 @@ print "
 ";
 //---
 ?>
-<script> 
-    $('#mainnav').hide();
-    $('#maindiv').hide();
+<script>
+$(document).ready(function(){
+    $("#ccme").change(function(){
+        if(this.checked) {
+            $("#cc_to").show();
+            $("#cc_to1").hide();
+            // $("#cc_to").prop("disabled", false);
+        } else {
+            $("#cc_to").hide();
+            $("#cc_to1").show();
+            // $("#cc_to").prop("disabled", true);
+        }
+    });
+});
+
     $('#msg').summernote({
         placeholder: 'Hello Bootstrap 4',
         tabsize: 6,

@@ -106,6 +106,6 @@ print $sato;
 ?>
 <script>
 function pupwindow(url) {
-	window.open(url, 'popupWindow', 'width=750,height=550,scrollbars=yes');
+	window.open(url, 'popupWindow', 'width=850,height=550,scrollbars=yes');
 };
 </script>

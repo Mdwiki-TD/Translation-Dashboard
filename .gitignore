@@ -9,18 +9,17 @@ sqltest.php
 ui.html
 nav4.php
 cookie.txt
-Tables/*.*
-Tables/*
+Tables/**
 cash_exists/*
-cash/*
-tests/*
-css/*
-vendor/*
-coordinator/old/*
+cash/**
+tests/**
+css/**
+vendor/**
+coordinator/old/**
 old/*
 login35.php
 s.php
 coordinator/updatecat.php
-Tables/assessments.json
-Tables/assessments.json
 Copy of leader_tables.php
+mail_old/**
+Tables/assessments.json
