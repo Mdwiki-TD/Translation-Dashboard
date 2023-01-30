@@ -56,6 +56,14 @@ CREATE TABLE views_by_month (
     v_2021_05 INT(6) NULL
     )
 //---
+CREATE TABLE qids (
+    id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(120) NOT NULL,
+    qid VARCHAR(120) NULL
+    )
+//---
+INSERT INTO qids (title, qid) SELECT DISTINCT p.title, '' from pages p WHERE NOT EXISTS (SELECT 1 FROM qids q WHERE q.title= p.title)
+//---
 CREATE TABLE pages (
     id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(120) NOT NULL,
@@ -124,7 +132,9 @@ if ( $raw == '' ) {
     <li><a href='" . $sql_php . "code=select * from words;'>select * from words;</a></li>
     <li><a href='" . $sql_php . "code=describe pages;'>describe pages;</a></li>
     <li><a href='" . $sql_php . "code=select * from pages;'>select * from pages;</a></li>
-    <li><a href='" . $sql_php . "code=SELECT%20A.lang%20as%20lang%2CA.title%20as%20title%2C%20%0AA.user%20AS%20u1%2C%20A.target%20as%20T1%2C%20A.date%20as%20d1%2C%0AB.user%20AS%20u2%2C%20B.target%20as%20T2%2C%20B.date%20as%20d2%0A%0AFROM%20pages%20A%2C%20pages%20B%0AWHERE%20A.user%20%3C%3E%20B.user%0AAND%20A.title%20%3D%20B.title%0AAND%20A.lang%20%3D%20B.lang%0AORDER%20BY%20A.title%3B'>Find duplicte pages.</a></li>
+    <li><a href='" . $sql_php . "code=select * from qids;'>select * from qids;</a></li>
+    <li><a href='" . $sql_php . "code=SELECT%20A.lang%20as%20lang%2CA.title%20as%20title%2C%20%0AA.user%20AS%20u1%2C%20A.target%20as%20T1%2C%20A.date%20as%20d1%2C%0AB.user%20AS%20u2%2C%20B.target%20as%20T2%2C%20B.date%20as%20d2%0A%0AFROM%20pages%20A%2C%20pages%20B%0AWHERE%20A.user%20%3C%3E%20B.user%0AAND%20A.title%20%3D%20B.title%0AAND%20A.lang%20%3D%20B.lang%0AORDER%20BY%20A.title%3B'>Duplicte pages.</a></li>
+    <li><a href='" . $sql_php . "code=SELECT+%0D%0AA.id+as+id1%2C+A.title+as+t1%2C+A.qid+as+q1%2C+%0D%0AB.id+as+id2%2C+B.title+as+t2%2C+B.qid+as+q2%0D%0AFROM+qids+A%2C+qids+B%0D%0AWHERE+A.title+%3D+B.title%0D%0Aand+A.id+%21%3D+B.id%0D%0A%3B'>Duplicte qids.</a></li>
     </ul>
     <form action='sql.php' method='POST'>
     <textarea cols='100' rows='10' name='code'>$quaa</textarea>
