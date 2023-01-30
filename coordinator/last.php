@@ -37,7 +37,7 @@ function make_td($tabg, $nnnn) {
     //---
     $mail_params = array( 'user' => $user, 'lang' => $llang, 'target' => $targe, 'date' => $pupdate, 'title' => $md_title, 'nonav' => '1');
     //---
-    $mail_url = "coordinator.php?ty=email&" . http_build_query( $mail_params );
+    $mail_url = "coordinator.php?ty=msg&" . http_build_query( $mail_params );
     //---
 	$onclick = 'pupwindow("' . $mail_url . '")';
     //---
