@@ -105,38 +105,50 @@ function make_project_to_user($project, $numb){
 	return $str;
 };
 //---
-$qu2 = "select user_id, username, email, wiki, user_group, 
-(select count(target) from pages WHERE target != '' and user = username) as live
-from users, pages
-where user = username
-group by username  
-ORDER BY live DESC;
-";
+$q_live = "select DISTINCT 
+p1.user, (select count(target) from pages p2 where p2.user = p1.user and p2.target != '') as live
+from pages p1
+group by p1.user;";
 //---
-$qu1 = '
-select user_id, username, email, wiki, user_group
-from users
-#ORDER BY email DESC
-;';
+$live_pages = array();
+foreach ( quary2($q_live) AS $Key => $gg ) {
+	$live_pages[$gg['user']] = $gg['live'];
+};
 //---
 $users_done = array();
 //---
-foreach ( quary2($qu2) AS $Key => $gg ) if (!isset($users_done[$gg['username']])) $users_done[$gg['username']] = $gg;
+foreach ( quary2("select user_id, username, email, wiki, user_group from users;") AS $Key => $gg ) $users_done[$gg['username']] = $gg;
 //---
-// foreach ( quary2($qu1) AS $d => $tat ) if (!in_array($tat['username'], $users_done)) $users_done[$tat['username']] = $tat;
-foreach ( quary2($qu1) AS $d => $tat ) if (!isset($users_done[$tat['username']])) $users_done[$tat['username']] = $tat;
+$qu1 = "select DISTINCT user from pages 
+WHERE NOT EXISTS (SELECT 1 FROM users WHERE user = username)
+# and target != ''
+;";
+//---
+foreach ( quary2($qu1) AS $d => $tat ) if (!isset($users_done[$tat['user']])) $users_done[$tat['user']] = $tat;
 //---
 $numb = 0;
 //---
-foreach ( $users_done as $k => $table) {
+$sorted_array = array();
+foreach ( $users_done AS $u => $tab ) {
+	// make $live as number 
+	$live = isset($live_pages[$u]) ? number_format($live_pages[$u]) : 0;
+	$sorted_array[$u] = $live;
+};
+arsort($sorted_array);
+//---
+foreach ( $sorted_array as $username => $d) {
 	//---
 	$numb += 1;
 	//---
-	$live		= isset($table['live']) ? $table['live'] : 0;
+	$table = $users_done[$username];
+	//---
+	// $username 	= isset($table['username']) ? $table['username'] : $table['user'];
+	$live		= isset($live_pages[$username]) ? $live_pages[$username] : 0;
+	//---
 	$id			= $table['user_id'];
-	$username 	= $table['username'];
 	$email 		= $table['email'];
 	$wiki		= $table['wiki'];
+	$wiki2		= $wiki . "wiki";
 	$project	= $table['user_group'];
 	$project_line = make_project_to_user($project, $numb);
     //---
@@ -148,14 +160,13 @@ foreach ( $users_done as $k => $table) {
 			<input name='username[]$numb' id='username[]$numb' value='$username' hidden/>
 			<input name='id[]$numb' id='id[]$numb' value='$id' hidden/>
 		</td>
-		<td data-order='$email'>
-			<span style='display: none'>$email</span>
+		<td data-order='$email' data-search='$email'>
 			<input size='25' name='email[]$numb' id='email[]$numb' value='$email'/>
 		</td>
-		<td data-order='$project'>
+		<td data-order='$project' data-search='$project'>
 			$project_line
 		</td>
-		<td data-order='$wiki'>
+		<td data-order='$wiki' data-search='$wiki2'>
 			<input size='4' name='wiki[]$numb' id='wiki[]$numb' value='$wiki'/>
 		</td>
 		<td data-order='$live'>
@@ -194,6 +205,7 @@ function add_row() {
 
 $(document).ready( function () {
 	var t = $('#em').DataTable({
+	// order: [[5	, 'desc']],
     // paging: false,
 	lengthMenu: [[25, 50, 100], [25, 50, 100]],
     // scrollY: 800

@@ -24,16 +24,30 @@ if ($camp == 'all' && isset($_REQUEST['cat'])) $camp = isset($cat_to_camp[$_REQU
 //---
 $camp_cat  = isset($camp_to_cat[$camp]) ? $camp_to_cat[$camp] : '';
 //---
-$qua_all = "select 
+$qua_all_part1_group = "select
 p.target, p.cat, p.lang, p.word, year(p.pupdate) as pup_y, p.user, u.user_group
 from pages p, users u
-where p.user = u.username
-and p.target != ''
 ";
 //---
-if ($camp != 'all' && $camp_cat != '') $qua_all .= "and p.cat = '$camp_cat' \n";
-if ($project != 'all')      $qua_all .= "and u.user_group = '$project' \n";
-if ($year != 'all')         $qua_all .= "and year(p.pupdate) = '$year' \n";
+$qua_all_part1 = "select
+p.target, p.cat, p.lang, p.word, year(p.pupdate) as pup_y, p.user, 
+(select u.user_group from users u WHERE p.user = u.username) as user_group
+from pages p
+";
+//---
+$qua_all_part2 = "
+where p.target != ''
+";
+//---
+if ($camp != 'all' && $camp_cat != '') $qua_all_part2 .= "and p.cat = '$camp_cat' \n";
+if ($year != 'all')         $qua_all_part2 .= "and year(p.pupdate) = '$year' \n";
+if ($project != 'all') {
+    $qua_all_part1 = $qua_all_part1_group;
+    $qua_all_part2 .= "and p.user = u.username \n";
+    $qua_all_part2 .= "and u.user_group = '$project' \n";
+}; 
+//---
+$qua_all = $qua_all_part1 . $qua_all_part2;
 //---
 if (isset($_REQUEST['test'])) echo $qua_all;
 //---

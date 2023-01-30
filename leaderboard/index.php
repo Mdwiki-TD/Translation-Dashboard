@@ -27,6 +27,8 @@ function print_cat_table() {
     return $dad;
 };
 //---
+require('leader_tables.php');
+//---
 $year      = isset($_REQUEST['year']) ? $_REQUEST['year']   : 'all';
 $camp      = isset($_REQUEST['camp']) ? $_REQUEST['camp'] : 'all';
 $project   = isset($_REQUEST['project']) ? $_REQUEST['project'] : 'all';

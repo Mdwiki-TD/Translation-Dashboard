@@ -11,7 +11,6 @@ require('langcode.php');
 require('tables.php');
 include_once('functions.php');
 //---
-//---
 $cat_titles = array();
 $cat_to_camp = array();
 $camp_to_cat = array();
@@ -33,7 +32,6 @@ if ($users != '') {
 } elseif ($langs != '') {
     require('leaderboard/langs.php');
 } else {
-    require('leader_tables.php');
 	require('leaderboard/index.php');
 };
 //---

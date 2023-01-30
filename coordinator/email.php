@@ -219,7 +219,7 @@ print "
 				<div class='input-group mb-2'>
 					<div class='input-group-prepend'>
 						<span class='input-group-text'>
-                            <input class='form-check-input' type='checkbox' name='ccme' id='ccme'>Send me copy</input>
+                <input class='form-check-input' type='checkbox' name='ccme' id='ccme'>Send me copy</input>
 						</span>
 					</div>
 					<input class='form-control' type='text' id='cc_to1' value='' disabled/>
