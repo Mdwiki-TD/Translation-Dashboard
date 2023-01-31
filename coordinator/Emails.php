@@ -14,6 +14,7 @@ for($i = 0; $i < count($_POST['username']); $i++ ){
 	$username 	= $_POST['username'][$i];
 	$email 	= $_POST['email'][$i];
 	$ido 	= $_POST['id'][$i];
+	$ido 	= (isset($ido)) ? $ido : '';
 	$wiki 	= $_POST['wiki'][$i];
 	$project 	= $_POST['project'][$i];
 	// $project 	= '';
@@ -23,7 +24,7 @@ for($i = 0; $i < count($_POST['username']); $i++ ){
 		$qua = "INSERT INTO users (username, email, wiki, user_group) SELECT '$username', '$email', '$wiki', '$project'
 		WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = '$username')";
 		//---	
-		if (isset($ido)) {
+		if ($ido != '') {
 			$qua = "UPDATE `users` SET
 			`username` = '$username',
 			`email` = '$email',
