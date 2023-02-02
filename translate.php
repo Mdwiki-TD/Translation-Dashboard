@@ -37,7 +37,7 @@ function start_trans_py($title, $test, $fixref, $tra_type) {
     //---
     if ( strpos( __file__ , '/mnt/' ) === 0 ) $dir = "/mnt/nfs/labstore-secondary-tools-project/mdwiki";
     //---
-    $dd = "python3 $dir/TDpy/translate.py -title:$title2" ;
+    $dd = "python3 $dir/TDpynew/translate.py -title:$title2" ;
     if ($fixref != '' ) $dd = $dd . ' fixref';
     //---  
     if ($tra_type == 'all' ) $dd = $dd . ' wholearticle';
