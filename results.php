@@ -4,6 +4,7 @@ require('tables.php');
 require('langcode.php');
 require('getcats.php');
 include_once('functions.php');
+include_once('sql_tables.php');
 //---
 $doit = isset($_REQUEST['doit']);
 $test = isset($_REQUEST['test']) ? $_REQUEST['test'] : '';
@@ -26,7 +27,9 @@ if ($cat == "undefined") { $cat = "RTT";};
 function make_table( $items, $cod, $cat ) {
     global $username, $Words_table, $All_Words_table, $Assessments_table, $Assessments_fff ,$Translate_type;
     global $Lead_Refs_table, $All_Refs_table, $enwiki_pageviews_table;
-    global $qids_table;
+    //---
+    // global $qids_table;
+    global $sql_qids;
     //---
     //$frist = '<table class="table table-sm table-striped" id="main_table">';
     //$frist = "<caption>$res_line</caption>";
@@ -41,7 +44,8 @@ function make_table( $items, $cod, $cat ) {
     //---
 	$qidth = '';
 	//---
-	if ($username == 'Mr. Ibrahem') $qidth = "<th>qid</th>";
+	// if ($username == 'Mr. Ibrahem') 
+    $qidth = "<th class='spannowrap' tt='h_len'><span data-toggle='tooltip' title='Wikidata identifier'>qid</span></th>";
 	//---
     $frist = '
     <table class="table table-sm sortable table-striped" id="main_table">
@@ -110,12 +114,13 @@ function make_table( $items, $cod, $cat ) {
             //---
             $pageviews = isset($enwiki_pageviews_table[$title]) ? $enwiki_pageviews_table[$title] : 0; 
             //---
-			$qid = isset($qids_table[$title]) ? $qids_table[$title] : "";
-			$qid = isset($qid) ? "<a href='https://wikidata.org/wiki/$qid'>$qid</a>" : '';
+			$qid = isset($sql_qids[$title]) ? $sql_qids[$title] : "";
+			$qid = ($qid != '') ? "<a href='https://wikidata.org/wiki/$qid'>$qid</a>" : '';
 			//---
 			$qidline = '';
             //---
-			if ($username == 'Mr. Ibrahem') $qidline = "<td>$qid</td>";
+			// if ($username == 'Mr. Ibrahem') 
+            $qidline = "<td>$qid</td>";
             //---
             $word = isset($Words_table[$title]) ? $Words_table[$title] : 0; 
             //---

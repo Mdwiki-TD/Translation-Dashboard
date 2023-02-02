@@ -71,10 +71,11 @@ $i = 0;
 foreach ($titles as $title) {
     $i = $i + 1;
     //---
-    $qid = isset($qids_table[$title]) ? $qids_table[$title] : "";
-    $qid = isset($qid) ? "<a href='https://wikidata.org/wiki/$qid'>$qid</a>" : '';
+    $qid = isset($sql_qids[$title]) ? $sql_qids[$title] : "";
     //---
-    if (!isset($qids_table[$title])) $no_qid +=1;
+    if ($qid == '') $no_qid +=1;
+    //---
+    $qidurl = ($qid != '') ? "<a href='https://wikidata.org/wiki/$qid'>$qid</a>" : '';
     //---
     $word = isset($Words_table[$title]) ? $Words_table[$title] : 0; 
     //---
@@ -99,7 +100,7 @@ foreach ($titles as $title) {
     <tr>
         <td>$i</td>
         <td><a href='https://mdwiki.org/wiki/$title'>$title</a></td>
-        <td>$qid</td>
+        <td>$qidurl</td>
         <td>$word</td>
         <td>$allword</td>
         <td>$refs</td>

@@ -3,15 +3,9 @@
 require('header.php');
 echo '</div>
 <div id="maindiv" class="container-fluid">';
-include_once('functions.php'); // $usrs
 //---
-$cat_to_camp = array();
-//---
-foreach ( quary2('select id, category, display, depth from categories;') AS $k => $tab ) {
-    if ($tab['category'] != '' && $tab['display'] != '') {
-        $cat_to_camp[$tab['category']] = $tab['display'];
-    };
-};
+include_once('functions.php');
+include_once('sql_tables.php'); // $sql_qids $cat_titles $cat_to_camp $camp_to_cat
 //---
 $gg = '';
 //---
