@@ -13,36 +13,36 @@ if (!isset($_REQUEST['nonav'])) {
 	//---
 	$li = "<li id='%s' class='nav-item'><a class='linknave' href='%s'>%s</a></li>";
 	//---
-	$items1 = array(
+	$Translations_tab = array(
 		array('id' => 'last',		'href' => 'coordinator.php?ty=last', 	'title' => 'Recent'),
 		array('id' => 'Pending',	'href' => 'coordinator.php?ty=Pending',	'title' => 'In process'),
 		array('id' => 'add',	'href' => 'coordinator.php?ty=add',	'title' => 'Add'),
 	);
 	//---
 	$lis1 = '';
-	foreach ($items1 as $a => $item) {
+	foreach ($Translations_tab as $a => $item) {
 		$lis1 .= sprintf($li, $item['id'], $item['href'], $item['title']);
 	};
 	//---
-	$items2 = array(
+	$users_tab = array(
 		array('id' => 'Emails', 	'href' => 'coordinator.php?ty=Emails', 		'title' => 'Emails'),
 		array('id' => 'projects', 	'href' => 'coordinator.php?ty=projects', 		'title' => 'Projects'),
 	);
 	//---
 	$lis2 = '';
-	foreach ($items2 as $a => $item) {
+	foreach ($users_tab as $a => $item) {
 		$lis2 .= sprintf($li, $item['id'], $item['href'], $item['title']);
 	};
 	//---
-	$items3 = array(
+	$Others_tab = array(
 		array('id' => 'coordinators', 'href' => 'coordinator.php?ty=coordinators', 'title' => 'Coordinators'),
 		array('id' => 'Campaigns', 	'href' => 'coordinator.php?ty=Campaigns', 	'title' => 'Campaigns'),
 		array('id' => 'stat', 	'href' => 'coordinator.php?ty=stat', 	'title' => 'Status'),
-		// array('id' => 'others', 	'href' => 'coordinator.php?ty=others', 		'title' => 'Others'),
+		array('id' => 'settings', 	'href' => 'coordinator.php?ty=settings', 		'title' => 'Settings'),
 	);
 	//---
 	$lis3 = '';
-	foreach ($items3 as $a => $item) {
+	foreach ($Others_tab as $a => $item) {
 		$lis3 .= sprintf($li, $item['id'], $item['href'], $item['title']);
 	};
 	//---
@@ -90,8 +90,8 @@ if (!in_array($username, $usrs)) {
 };
 //---
 if (!isset($ty)) {
-	require('coordinator/index.php');
-	// $ty = 'last';
+	require('coordinator/last.php');
+	$ty = 'last';
 } else {
 	$file = "coordinator/$ty.php";
 	if (file_get_contents($file)) {
