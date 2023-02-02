@@ -5,6 +5,14 @@ echo '</div>
 <div id="maindiv" class="container-fluid">';
 include_once('functions.php'); // $usrs
 //---
+$cat_to_camp = array();
+//---
+foreach ( quary2('select id, category, display, depth from categories;') AS $k => $tab ) {
+    if ($tab['category'] != '' && $tab['display'] != '') {
+        $cat_to_camp[$tab['category']] = $tab['display'];
+    };
+};
+//---
 $gg = '';
 //---
 $ty = $_REQUEST['ty'];
@@ -15,7 +23,8 @@ if (!isset($_REQUEST['nonav'])) {
 	//---
 	$Translations_tab = array(
 		array('id' => 'last',		'href' => 'coordinator.php?ty=last', 	'title' => 'Recent'),
-		array('id' => 'Pending',	'href' => 'coordinator.php?ty=Pending',	'title' => 'In process'),
+		array('id' => 'process',	'href' => 'coordinator.php?ty=process',	'title' => 'In process'),
+		array('id' => 'Pending',	'href' => 'coordinator.php?ty=Pending',	'title' => 'In process (total)'),
 		array('id' => 'add',	'href' => 'coordinator.php?ty=add',	'title' => 'Add'),
 	);
 	//---

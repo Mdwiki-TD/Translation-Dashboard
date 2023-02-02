@@ -125,25 +125,69 @@ if ( $raw == '' ) {
 	$sql_php = "sql.php?pass=$pass&";
     //---
     echo "
-    <ul>
-    <li><a href='" . $sql_php . "code=show tables;'>show tables</a></li>
-    <li><a href='" . $sql_php . "code=describe views_by_month;'>describe views_by_month;</a></li>
-    <li><a href='" . $sql_php . "code=describe words;'>describe words;</a></li>
-    <li><a href='" . $sql_php . "code=select * from words;'>select * from words;</a></li>
-    <li><a href='" . $sql_php . "code=describe pages;'>describe pages;</a></li>
-    <li><a href='" . $sql_php . "code=select * from pages;'>select * from pages;</a></li>
-    <li><a href='" . $sql_php . "code=select * from qids;'>select * from qids;</a></li>
-    <li><a href='" . $sql_php . "code=SELECT%20*%20from%20pages%20p1%20%0Awhere%20p1.target%20%3D%20%27%27%20and%20EXISTS%20%20(SELECT%201%20FROM%20pages%20p2%20WHERE%20p1.title%20%3D%20p2.title%20and%20p2.target%20!%3D%20%27%27%0Aand%20p1.lang%20%3D%20p2.lang%0A)'>Duplicte pages to remove.</a></li>
-    <li><a href='" . $sql_php . "code=SELECT%20A.lang%20as%20lang%2CA.title%20as%20title%2C%20%0AA.id%20AS%20id1%2C%20A.user%20AS%20u1%2C%20A.target%20as%20T1%2C%20A.date%20as%20d1%2C%0AB.id%20AS%20id2%2C%20B.user%20AS%20u2%2C%20B.target%20as%20T2%2C%20B.date%20as%20d2%0A%0AFROM%20pages%20A%2C%20pages%20B%0AWHERE%20A.id%20%3C%3E%20B.id%0AAND%20A.title%20%3D%20B.title%0AAND%20A.lang%20%3D%20B.lang%0Aand%20A.target%20!%3D%20%27%27%0AORDER%20BY%20A.title%3B'>Duplicte pages2.</a></li>
-    <li><a href='" . $sql_php . "code=SELECT+%0D%0AA.id+as+id1%2C+A.title+as+t1%2C+A.qid+as+q1%2C+%0D%0AB.id+as+id2%2C+B.title+as+t2%2C+B.qid+as+q2%0D%0AFROM+qids+A%2C+qids+B%0D%0AWHERE+A.title+%3D+B.title%0D%0Aand+A.id+%21%3D+B.id%0D%0A%3B'>Duplicte qids.</a></li>
-    </ul>
+    <div class='row'>
+        <div class='col-md'>
+            <ul>
+                <li><a href='" . $sql_php . "code=show tables;'>show tables</a></li>
+                <li><a href='" . $sql_php . "code=describe views_by_month;'>describe views_by_month;</a></li>
+                <li><a href='" . $sql_php . "code=describe words;'>describe words;</a></li>
+                </ul>
+            </div>
+            <div class='col-md'>
+                <ul>
+                <li><a href='" . $sql_php . "code=describe pages;'>describe pages;</a></li>
+                <li><a href='" . $sql_php . "code=select * from words;'>select * from words;</a></li>
+                <li><a href='" . $sql_php . "code=select * from pages;'>select * from pages;</a></li>
+                </ul>
+            </div>
+            <div class='col-md'>
+                <ul>
+                <li><a href='" . $sql_php . "code=select * from qids;'>select * from qids;</a></li>
+                <li><a href='" . $sql_php . "code=SELECT%20*%20from%20pages%20p1%20%0Awhere%20p1.target%20%3D%20%27%27%20and%20EXISTS%20%20(SELECT%201%20FROM%20pages%20p2%20WHERE%20p1.title%20%3D%20p2.title%20and%20p2.target%20!%3D%20%27%27%0Aand%20p1.lang%20%3D%20p2.lang%0A)'>Duplicte pages to remove.</a></li>
+                </ul>
+            </div>
+            <div class='col-md'>
+                <ul>
+                <li><a href='" . $sql_php . "code=SELECT%20A.lang%20as%20lang%2CA.title%20as%20title%2C%20%0AA.id%20AS%20id1%2C%20A.user%20AS%20u1%2C%20A.target%20as%20T1%2C%20A.date%20as%20d1%2C%0AB.id%20AS%20id2%2C%20B.user%20AS%20u2%2C%20B.target%20as%20T2%2C%20B.date%20as%20d2%0A%0AFROM%20pages%20A%2C%20pages%20B%0AWHERE%20A.id%20%3C%3E%20B.id%0AAND%20A.title%20%3D%20B.title%0AAND%20A.lang%20%3D%20B.lang%0Aand%20A.target%20!%3D%20%27%27%0AORDER%20BY%20A.title%3B'>Duplicte pages2.</a></li>
+                <li><a href='" . $sql_php . "code=SELECT+%0D%0AA.id+as+id1%2C+A.title+as+t1%2C+A.qid+as+q1%2C+%0D%0AB.id+as+id2%2C+B.title+as+t2%2C+B.qid+as+q2%0D%0AFROM+qids+A%2C+qids+B%0D%0AWHERE+A.title+%3D+B.title%0D%0Aand+A.id+%21%3D+B.id%0D%0A%3B'>Duplicte qids.</a></li>
+                <li><a href='" . $sql_php . "code=SELECT%20%0AA.id%20as%20id1%2C%20A.title%20as%20t1%2C%20A.qid%20as%20q1%2C%20%0AB.id%20as%20id2%2C%20B.title%20as%20t2%2C%20B.qid%20as%20q2%0AFROM%20qids%20A%2C%20qids%20B%0AWHERE%20A.qid%20%3D%20B.qid%0Aand%20A.title%20!%3D%20B.title%0Aand%20A.id%20!%3D%20B.id%0Aand%20B.qid%20!%3D%20%27%27%0A%3B'>Duplicte qids2.</a></li>
+            </ul>
+        </div>
+    </div>
     <form action='sql.php' method='POST'>
-    <textarea cols='100' rows='10' name='code'>$quaa</textarea>
-    <input type='text' name='pass' value= '$pass'>
-    <br>
-    <input type='checkbox' id='test' name='test' value='m'> <label for=test> test</label>
-    <input type='checkbox' id='raw' name='raw' value='m'> <label for=test> raw</label><br>
-    <input class='btn btn-primary' type='submit' name='start' value='Start' />
+        <div class='row'>
+            <div class='col-md'>
+                <textarea cols='120' rows='7' name='code'>$quaa</textarea>
+            </div>
+            <div class='col-md'>
+                <div class='input-group mb-2'>
+                    <div class='input-group-prepend'>
+                        <span class='input-group-text'>
+                            <label class='mr-sm-2' for='pass'>code:</label>
+                        </span>
+                    </div>
+                    <input class='form-control' type='text' id='pass' name='pass' value='$pass'/>
+                </div>
+                <div class='input-group mb-3'>
+                    <div class='custom-control custom-checkbox custom-control-inline'>
+                        <input type='checkbox' class='custom-control-input' id='test' name='test' value='1'>
+                        <label class='custom-control-label' for='test'>test</label>
+                    </div>
+                </div>
+                <div class='input-group mb-3'>
+                    <div class='custom-control custom-checkbox custom-control-inline'>
+                        <input type='checkbox' class='custom-control-input' id='raw' name='raw' value='m'>
+                        <label class='custom-control-label' for='raw'>raw</label>
+                    </div>
+                </div>
+                <div class='form-group'>
+                    <div class='aligncenter'>
+                        <input class='btn btn-primary' type='submit' name='start' value='Start' />
+                    </div>
+                </div>
+        
+            </div>
+        </div>
     </form>
     ";
 };

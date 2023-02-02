@@ -6,7 +6,7 @@
 <form action="coordinator.php?ty=projects" method="POST">
 	<input name='ty' value="projects" hidden/>
 	  <div class="form-group">
-		<table class='table' style="width:50%;">
+		<table class='table compact' style="width:50%;">
 			<tr>
 				<th>id</th>
 				<th>Project</th>

@@ -1,5 +1,5 @@
 <div class='card-header'>
-    <h4>Most recent translations:</h4>
+    <h4>Translations in process:</h4>
 </div>
 <div class='card-body'>
 <?PHP
@@ -18,45 +18,33 @@ function make_td($tabg, $nnnn) {
     $md_title = $tabg['title'];
     $cat      = $tabg['cat'];
     $word     = $tabg['word'];
-    $targe    = $tabg['target'];
-    $pupdate  = isset($tabg['pupdate']) ? $tabg['pupdate'] : '';
-    //---
-    $views_number = isset($views_sql[$targe]) ? $views_sql[$targe] : '?';
+    $pupdate  = isset($tabg['date']) ? $tabg['date'] : '';
     //---
     $lang2 = isset($code_to_lang[$llang]) ? $code_to_lang[$llang] : $llang;
     //---
     // $ccat = make_cat_url( $cat );
     $ccat = isset($cat_to_camp[$cat]) ? $cat_to_camp[$cat] : $cat;
     //---
-    $worde = isset($word) ? $word : $Words_table[$md_title];
+    // $worde = isset($word) ? $word : $Words_table[$md_title];
     //---
     $nana = make_mdwiki_title( $md_title );
     //---
-    $targe33 = make_target_url( $targe, $llang );
+    // $mail_params = array( 'user' => $user, 'lang' => $llang, 'date' => $date, 'title' => $md_title, 'nonav' => '1');
     //---
-    $view = make_view_by_number($targe, $views_number, $llang, $pupdate);
+    // $mail_url = "coordinator.php?ty=msg&" . http_build_query( $mail_params );
     //---
-    $mail_params = array( 'user' => $user, 'lang' => $llang, 'target' => $targe, 'date' => $pupdate, 'title' => $md_title, 'nonav' => '1');
+	// $onclick = 'pupwindow("' . $mail_url . '")';
     //---
-    $mail_url = "coordinator.php?ty=msg&" . http_build_query( $mail_params );
-    //---
-	$onclick = 'pupwindow("' . $mail_url . '")';
-    //---
-    $mail = "<a class='btn btn-primary btn-sm' onclick='$onclick'>Email</a>";
+    // $mail = "<a class='btn btn-primary btn-sm' onclick='$onclick'>Email</a>";
     //---
     $laly = '
         <tr>
             <td>' . $nnnn   . '</td>
             <td><a target="" href="leaderboard.php?user=' . $user . '">' . $user . '</a></td>
-            <td>' . $mail . '</td>
             <td><a target="" href="leaderboard.php?langcode=' . $llang . '">' . $lang2 . '</a>' . '</td>
             <td style="max-width:150px;">' . $nana  . '</td>
-            <!-- <td>' . $date  . '</td> -->
             <td>' . $ccat  . '</td>
-            <!-- <td>' . $worde . '</td> -->
-            <td style="max-width:150px;">' . $targe33 . '</td>
-            <td>' . $pupdate . '</td>
-            <td>' . $view . '</td>
+            <td>' . $date . '</td>
             '; 
     //---
     $laly .= '
@@ -65,10 +53,10 @@ function make_td($tabg, $nnnn) {
     return $laly;
 };
 //---
-$quaa = "select * from pages where target != ''
-ORDER BY pupdate DESC
-limit 100
-;";
+$quaa = "select * from pages where target = ''
+ORDER BY date DESC
+limit 100;
+";
 $dd = quary2($quaa);
 //---
 $sato = '
@@ -77,14 +65,10 @@ $sato = '
         <tr>
             <th>#</th>
             <th>User</th>
-            <th></th>
             <th><span data-toggle="tooltip" title="Language">Lang.</span></th>
             <th>Title</th>
             <th>Campaign</th>
-            <!-- <th>Words</th> -->
-            <th>Translated</th>
             <th>Date</th>
-            <th>Views</th>
         </tr>
     </thead>
     <tbody>

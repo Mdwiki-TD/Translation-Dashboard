@@ -5,16 +5,16 @@
 <div class='card-body'>
 <form action="coordinator.php?ty=Campaigns" method="POST">
 	<input name='ty' value="Campaigns" hidden/>
-	  <div class="form-group">
-  <table class='table'>
-	  <tr>
-		<th>#</th>
-		<th>category</th>
-		<th>display</th>
-		<th>depth</th>
-		<th>delete</th>
-	  </tr>
-	<tbody id="tab_logic">
+		<div class="form-group">
+			<table class='table compact'>
+				<tr>
+					<th>#</th>
+					<th>Category</th>
+					<th>Campaign</th>
+					<th>Depth</th>
+					<th>Delete</th>
+				</tr>
+				<tbody id="tab_logic">
 
 <?php
 //---

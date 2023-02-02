@@ -44,8 +44,8 @@ $tat = "
             <div class='aligncenter'>
                 <button type='submit' class='btn btn-success'>send</button>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
 ";
 $div3 = make_col_sm_body('Translate type:', '(Default: "lead")',$tat, $numb = '4');
 echo $div3;
