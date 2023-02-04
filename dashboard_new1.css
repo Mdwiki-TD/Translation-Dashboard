@@ -1,3 +1,28 @@
+.navbar {
+	/* padding: 0px !important; */
+}
+#collapsibleNavbar>ul>li {
+	/* padding-top: 0.5rem !important; */
+	/* padding-bottom: 0.5rem !important; */
+}
+
+#mainnav .navbar-nav > li {
+	text-transform: capitalize;
+}
+.navbar-nav li.active {
+    /* border-radius: 4px; */
+	/* display: block; */
+	background-color: #c2c5c8;
+	/* font-weight: bold; */
+}
+
+.navbar-nav li.active>a {
+	color: #000;
+}
+
+.flex-column>li.active {
+    background-color: #dee2e6;
+}
 
 .card22 {
 	padding:5px 5px 5px 5px;
@@ -29,8 +54,7 @@
     color: #000;
 	font-weight: bolder;
 }
-
-
+  
 body,
 h1,
 h2,
@@ -45,10 +69,6 @@ h6,
 .h5,
 .h6 {
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif!important;
-}
-
-.navbar-nav a.active {
-  background-color: #eee
 }
 
 thead {

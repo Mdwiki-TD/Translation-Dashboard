@@ -68,44 +68,44 @@ if (in_array($username, $usrs)) {
 
 <body>
 <header>
-	<nav id="mainnav" class="navbar navbar-expand-md md-body-tertiary bg-light navbar-light shadow">
-	   <div class="container-fluid">
-		<a class="navbar-brand" href="index.php" style="color:blue;">Wiki Project Med Translation Dashboard</a>
-		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
-			<span class="navbar-toggler-icon"></span>
-		</button>
+	<nav id="mainnav" class="navbar navbar-expand-md bg-light shadow">
+	   	<div class="container-fluid" id="navbardiv">
+			<a class="navbar-brand mb-0 h1" href="index.php" style="color:blue;">Wiki Project Med Translation Dashboard</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+				<span class="navbar-toggler-icon"></span>
+			</button>
 			<div class="collapse navbar-collapse" id="collapsibleNavbar">
 				<ul class="navbar-nav me-auto">
-					<li class="nav-item">
-					<a href="leaderboard.php" class="nav-link">
-						<span class="navtitles">Leaderboard</span>
-					</a>
+					<li class="nav-item" id="leaderboard">
+						<a href="leaderboard.php" class="nav-link">
+							<span class="navtitles">Leaderboard</span>
+						</a>
+					</li>
+					<li class="nav-item" style="display:none" id="myboard">
+						<a href="leaderboard.php?user=<?php echo $username ?>" class="nav-link">
+							<span class="navtitles">My Board</span>
+						</a>
+					</li>
+					<li class="nav-item" id="missing">
+						<a href="missing.php" class="nav-link">
+							<span class="navtitles">Missing</span>
+						</a>
+					</li>
+					<li class="nav-item" id="coord">
+						<?php echo $coord; ?>
 					</li>
 					<li class="nav-item">
-					<a id="myboard" style="display:none" href="leaderboard.php?user=<?php echo $username ?>" class="nav-link">
-						<span class="navtitles">My Board</span>
-					</a>
-					</li>
-					<li class="nav-item">
-					<a href="missing.php" class="nav-link">
-						<span class="navtitles">Missing</span>
-					</a>
-					</li>
-					<li id="coord" class="nav-item">
-					<?php echo $coord; ?>
-					</li>
-					<li class="nav-item">
-					<a href="https://github.com/MrIbrahem/Translation-Dashboard" target="_blank" class="nav-link">
-						<span class="navtitles">Github</span>
-					</a>
+						<a href="https://github.com/MrIbrahem/Translation-Dashboard" target="_blank" class="nav-link">
+							<span class="navtitles">Github</span>
+						</a>
 					</li>
 				</ul>
-			  <div class="d-flex">
+				<div class="d-flex">
 					<ul class="nav navbar-nav ml-auto">
-						<li class="nav-item">
-							<a id="username_li" class="nav-link" style="display:none">
+						<li class="nav-item" id="">
+							<span id="username_li" class="nav-link" style="display:none">
 								<i class="fas fa-user fa-sm fa-fw mr-2"></i> <span class="navtitles" id="user_name"></span>
-							</a>
+							</span>
 						</li>
 						<li class="nav-item">
 							<a role="button" id="loginli" class="nav-link" onclick="login()">
@@ -118,26 +118,26 @@ if (in_array($username, $usrs)) {
 							</a>
 						</li>
 					</ul>
-			  </div>
 				</div>
 			</div>
+		</div>
 	</nav>
-<!-- Logout Modal-->
-<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h6 class="modal-title" id="exampleModalLabel">Ready to Leave?</h6>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body">Select &quot;Logout&quot; below if you are ready to end your current session.</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login5.php?action=logout">Logout</a>
-        </div>
-      </div>
-    </div>
-</div>
+	<!-- Logout Modal-->
+	<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h6 class="modal-title" id="exampleModalLabel">Ready to Leave?</h6>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+				<div class="modal-body">Select &quot;Logout&quot; below if you are ready to end your current session.</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+					<a class="btn btn-primary" href="login5.php?action=logout">Logout</a>
+				</div>
+			</div>
+		</div>
+	</div>
 </header>
 <script>	
 	// $(document).ready(function() {

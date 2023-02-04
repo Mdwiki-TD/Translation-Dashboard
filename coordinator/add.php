@@ -37,11 +37,6 @@ echo "
 			<tbody id="g_tab">
 <?php
 //---
-function get_request_1( $key, $i ) {
-    $uu = isset($_REQUEST[$key][$i]) ? $_REQUEST[$key][$i] : '';
-    return $uu;
-};
-//---
 function qu_str($string) {
 	$str2 = "'$string'";
 	//---

@@ -1,6 +1,7 @@
 <?PHP
 //---
 require('header.php');
+echo '<script>$("#missing").addClass("active");</script>';
 require('langcode.php');
 //---
 //---

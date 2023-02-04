@@ -2,6 +2,7 @@
 //---
 require('header.php');
 echo '</div>
+<script>$("#coord").addClass("active");</script>
 <div id="maindiv" class="container-fluid">';
 //---
 include_once('functions.php');
@@ -13,13 +14,13 @@ $ty = $_REQUEST['ty'];
 //---
 if (!isset($_REQUEST['nonav'])) {
 	//---
-	$li = "<li id='%s' class='nav-item'><a class='linknave' href='%s'>%s</a></li>";
+	$li = "<li id='%s' class='nav-item'><a class='linknave' href='coordinator.php?ty=%s'>%s</a></li>";
 	//---
 	$Translations_tab = array(
-		array('id' => 'last',		'href' => 'coordinator.php?ty=last', 	'title' => 'Recent'),
-		array('id' => 'process',	'href' => 'coordinator.php?ty=process',	'title' => 'In process'),
-		array('id' => 'Pending',	'href' => 'coordinator.php?ty=Pending',	'title' => 'In process (total)'),
-		array('id' => 'add',	'href' => 'coordinator.php?ty=add',	'title' => 'Add'),
+		array('id' => 'last',		'href' => 'last', 	'title' => 'Recent'),
+		array('id' => 'process',	'href' => 'process',	'title' => 'In process'),
+		array('id' => 'Pending',	'href' => 'Pending',	'title' => 'In process (total)'),
+		array('id' => 'add',	'href' => 'add',	'title' => 'Add'),
 	);
 	//---
 	$lis1 = '';
@@ -28,8 +29,8 @@ if (!isset($_REQUEST['nonav'])) {
 	};
 	//---
 	$users_tab = array(
-		array('id' => 'Emails', 	'href' => 'coordinator.php?ty=Emails', 		'title' => 'Emails'),
-		array('id' => 'projects', 	'href' => 'coordinator.php?ty=projects', 		'title' => 'Projects'),
+		array('id' => 'Emails', 	'href' => 'Emails', 		'title' => 'Emails'),
+		array('id' => 'projects', 	'href' => 'projects', 		'title' => 'Projects'),
 	);
 	//---
 	$lis2 = '';
@@ -38,10 +39,10 @@ if (!isset($_REQUEST['nonav'])) {
 	};
 	//---
 	$Others_tab = array(
-		array('id' => 'coordinators', 'href' => 'coordinator.php?ty=coordinators', 'title' => 'Coordinators'),
-		array('id' => 'Campaigns', 	'href' => 'coordinator.php?ty=Campaigns', 	'title' => 'Campaigns'),
-		array('id' => 'stat', 	'href' => 'coordinator.php?ty=stat', 	'title' => 'Status'),
-		array('id' => 'settings', 	'href' => 'coordinator.php?ty=settings', 		'title' => 'Settings'),
+		array('id' => 'coordinators', 'href' => 'coordinators', 'title' => 'Coordinators'),
+		array('id' => 'Campaigns', 	'href' => 'Campaigns', 	'title' => 'Campaigns'),
+		array('id' => 'stat', 	'href' => 'stat', 	'title' => 'Status'),
+		array('id' => 'settings', 	'href' => 'settings', 		'title' => 'Settings'),
 	);
 	//---
 	$lis3 = '';
@@ -49,36 +50,51 @@ if (!isset($_REQUEST['nonav'])) {
 		$lis3 .= sprintf($li, $item['id'], $item['href'], $item['title']);
 	};
 	//---
-	echo '
-    <div class="row content">
-        <div class="col-md-2">
-			<span class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
-				<a class="nav-link" href="coordinator.php">
-					<span id="Home" class="fs-5 fw-semibold">Coordinator tools</span>
-				</a>
-			</span>
-			<span class="fs-6 fw-semibold">Translations:</span>
-			<ul class="flex-column">
-				' . $lis1 . '
-			</ul>
-			<span class="fs-6 fw-semibold">Users:</span>
-			<ul class="flex-column">
-				' . $lis2 . '
-			</ul>
-			<span class="fs-6 fw-semibold">Others:</span>
-			<ul class="flex-column">
-				' . $lis3 . '
-			</ul>
-			<span class="fs-6 fw-semibold">Tools:</span>
-			<ul class="flex-column">
-				<li id="fixwikirefs" class="nav-item"><a target="_blank" class="linknave" href="../fixwikirefs.php">Fixwikirefs</a></li>
-			</ul>
-        </div>
-        <div class="col-md-10">
-            <div class="container-fluid">
-                <div class="card">
-                    
-	';
+	$Tools_tab = array(
+		array('id' => 'wikirefs_options', 'href' => 'wikirefs_options', 'title' => 'Fixwikirefs (options)'),
+	);
+	//---
+	$lis4 = '';
+	foreach ($Tools_tab as $a => $item) {
+		$lis4 .= sprintf($li, $item['id'], $item['href'], $item['title']);
+	};
+	//---
+	$home1 = "
+<span class='d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom'>
+	<a class='nav-link' href='coordinator.php'>
+		<span id='Home' class='fs-5 fw-semibold'>Coordinator tools</span>
+	</a>
+</span>";
+	//---
+	$sidebar = "
+	<div class='col-md-2'>
+		$home
+		<span class='fs-6 fw-semibold'>Translations:</span>
+		<ul class='flex-column'>
+			$lis1
+		</ul>
+		<span class='fs-6 fw-semibold'>Users:</span>
+		<ul class='flex-column'>
+			$lis2
+		</ul>
+		<span class='fs-6 fw-semibold'>Others:</span>
+		<ul class='flex-column'>
+			$lis3
+		</ul>
+		<span class='fs-6 fw-semibold'>Tools:</span>
+		<ul class='flex-column'>
+			<li id='fixwikirefs' class='nav-item'><a target='_blank' class='linknave' href='../fixwikirefs.php'>Fixwikirefs</a></li>
+			$lis4
+		</ul>
+	</div>";
+	//---
+	echo "
+    <div class='row content'>
+		$sidebar
+        <div class='col-md-10'>
+            <div class='container-fluid'>
+                <div class='card'>
+	";
 };
 //---
 if (isset($_GET['test'])) {
@@ -90,6 +106,11 @@ if (isset($_GET['test'])) {
 if (!in_array($username, $usrs)) {
 	echo "<meta http-equiv='refresh' content='0; url=index.php'>";
 	exit;
+};
+//---
+function get_request_1( $key, $i ) {
+    $uu = isset($_REQUEST[$key][$i]) ? $_REQUEST[$key][$i] : '';
+    return $uu;
 };
 //---
 if (!isset($ty)) {

@@ -7,39 +7,6 @@ include_once('func_2nd.php');
 //---
 // $test = $_REQUEST['test'];
 //---
-$conf_file = '';
-//---
-function get_configs() {
-    //---
-    global $conf_file;
-    //---
-    $_local = "../conf.json";
-    $_mdwiki = "/data/project/mdwiki/conf.json";
-    //---
-    $conf_file = $_local;
-    //---
-    if ( strpos( __file__ , '/mnt/' ) === 0 ) $conf_file = $_mdwiki;
-    //---
-    $pv_file = file_get_contents($conf_file);
-    $uu = json_decode( $pv_file, true) ;
-    return $uu;
-};
-//---
-function set_configs($key, $value) {
-    //---
-    global $conf_file;
-    //---
-    $value = ($value == '0') ? false : true;
-    //---
-    $pv_file = file_get_contents($conf_file);
-    $uu = json_decode( $pv_file, true) ;
-    //---
-    $uu[$key] = $value;
-    //---
-    // save the file
-    file_put_contents($conf_file, json_encode($uu));
-}
-//---
 function get_request( $key, $value ) {
     $uu = isset($_REQUEST[$key]) ? $_REQUEST[$key] : $value;
     return $uu;

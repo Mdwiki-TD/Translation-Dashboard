@@ -7,6 +7,7 @@ if (isset($_REQUEST['test'])) {
 };
 //---
 require('header.php');
+echo '<script>$("#leaderboard").addClass("active");</script>';
 require('langcode.php');
 require('tables.php');
 include_once('functions.php');

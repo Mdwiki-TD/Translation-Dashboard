@@ -6,6 +6,14 @@ $test = isset($_REQUEST['test']) ? $_REQUEST['test'] : '';
 $mainuser = isset($_REQUEST['user']) ? $_REQUEST['user'] : '';
 $limit = isset($_REQUEST['limit']) ? $_REQUEST['limit'] : null;
 //---
+if ($mainuser == $username) {
+    echo '<script>
+    $(".navbar-nav").find("li.active").removeClass("active");
+    $("#myboard").addClass("active");
+    </script>
+    ';
+};
+//---
 $dd = array();
 $dd_Pending = array();
 $table_of_views = array();

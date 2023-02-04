@@ -1,5 +1,11 @@
 <?php
 //---
+if (isset($_REQUEST['test'])) {
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+};
+//---
 /*
 include_once('td_config.php');
 $ini = Read_ini_file('OAuthConfig.ini');
@@ -8,33 +14,52 @@ $ini = Read_ini_file('my_config.ini');
 //---
 */
 //---
-if (isset($_REQUEST['test'])) {
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
-};
+$_dir = "I:/mdwiki/";
+//---
+if ( strpos( __file__ , '/mnt/' ) === 0 ) $_dir = "/data/project/mdwiki/";
+//---
 $inio = array();
 //---
 function Read_ini_file($file) {
-    // global $ini;
+    global $_dir;
     //---
-    // Read the ini file
-    $inifile_local = "../$file";
-    $inifile_mdwiki = "/data/project/mdwiki/$file";
-    //---
-    $inifile = $inifile_mdwiki;
-    //---
-    // $teste = file_get_contents($inifile_mdwiki);
-    // if ( $teste != '' ) { 
-    if ( strpos( __file__ , '/mnt/' ) === 0 ) {
-        $inifile = $inifile_mdwiki;
-    } else {
-        $inifile = $inifile_local;
-    };
-    //---
-    $inio = parse_ini_file( $inifile );
+    $inio = parse_ini_file( $_dir . $file );
     //---
     return $inio;
+};
+//---
+function get_configs($fileo) {
+    //---
+    global $_dir;
+    //---
+    $file = $_dir . $fileo;
+    //---
+    if(!is_file($file))  file_put_contents($file, '{}');
+    //---
+    $pv_file = file_get_contents($file);
+    //---
+    $uu = json_decode( $pv_file, true) ;
+    return $uu;
+};
+//---
+function set_configs($file, $key, $value) {
+    //---
+    global $_dir;
+    //---
+    $pv_file = file_get_contents($_dir . $file);
+    $uu = json_decode( $pv_file, true) ;
+    //---
+    $uu[$key] = $value;
+    //---
+    // save the file
+    file_put_contents($_dir . $file, json_encode($uu));
+};
+//---
+function set_configs_all_file($file, $contact) {
+    //---
+    global $_dir;
+    //---
+    file_put_contents($_dir . $file, json_encode($contact, JSON_PRETTY_PRINT));
 };
 //---
 ?>

@@ -6,7 +6,8 @@ require('header.php');
 require('langcode.php');
 include_once('functions.php');
 //---
-$conf = get_configs();
+include_once('td_config.php');
+$conf = get_configs('conf.json');
 //---
 $allow_whole_translate = isset($conf['allow_type_of_translate']) ? $conf['allow_type_of_translate'] : true;
 //---

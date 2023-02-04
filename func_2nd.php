@@ -21,8 +21,8 @@ function make_col_sm_body($title, $subtitle, $table, $numb = '4') {
     return "
     <div class='col-md-$numb'>
         <div class='card'>
-            <div class='card-header aligncenter'>
-                <span  style='font-weight:bold;'>$title</span> $subtitle
+            <div class='card-header aligncenter1'>
+                <span style='font-weight:bold;'>$title</span> $subtitle
             </div>
             <div class='card-body card2'>
                 $table
