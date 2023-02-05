@@ -124,10 +124,24 @@ function make_td($lang, $tabg, $numb) {
                 <span>$lang</span>
                 <input name='lang[]$numb' value='$lang' hidden/>
             </td>
-            <td><input type='checkbox' name='move_dots[]$numb' value='$lang' $move_dots/></td>
-            <td><input type='checkbox' name='expend[]$numb' value='$lang' $expend2/></td>
-            <td><input type='checkbox' name='add_en_lang[]$numb' value='$lang' $add_en_lang/></td>
-            <td><input type='checkbox' name='del[]$numb' value='$lang'></td>
+            <td>
+                <div class='form-check form-switch'>
+                    <input class='form-check-input' type='checkbox' name='move_dots[]$numb' value='$lang' $move_dots/>
+                </div>
+            </td>
+            <td>
+                <div class='form-check form-switch'>
+                    <input class='form-check-input' type='checkbox' name='expend[]$numb' value='$lang' $expend2/>
+                </div>
+            </td>
+            <td>
+                <div class='form-check form-switch'>
+                    <input class='form-check-input' type='checkbox' name='add_en_lang[]$numb' value='$lang' $add_en_lang/>
+                </div>
+            </td>
+            <td>
+                <input type='checkbox' name='del[]$numb' value='$lang'>
+            </td>
         </tr>";
     //---
     return $laly;
