@@ -19,7 +19,7 @@ $qua_views = "select
     #p.title, p.user, p.date, p.word, p.lang, p.cat, p.pupdate, 
     p.target, v.countall
 
-    from pages p,views v
+    from pages p, views v
     where p.lang = '$mainlang'
     and p.lang = v.lang
     and p.target = v.target

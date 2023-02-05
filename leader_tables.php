@@ -57,7 +57,7 @@ $Views_by_users = array();
 $Views_by_target = array();
 //---
 $qua_vi = "select target, countall, count2021, count2022, count2023
-from views 
+from views
 ;
 ";
 //---
