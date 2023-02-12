@@ -93,7 +93,7 @@ function make_table_lead($dd, $tab_type='a', $views_table = array(), $page_type=
                     <th>Title</th>
                     <th>Campaign</th>
                     <th>Words</th>
-                    <th>type</th>
+                    <th>Type</th>
                     <th>Translated</th>
                     <th>$th_Date</th>
                     $tab_views

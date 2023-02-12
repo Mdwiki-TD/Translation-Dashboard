@@ -4,6 +4,26 @@
 <div class='card-body'>
 <?PHP
 //---
+$sato = '
+	<table class="table table-sm table-striped soro" style="font-size:90%;">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>User</th>
+            <th></th>
+            <th><span data-toggle="tooltip" title="Language">Lang.</span></th>
+            <th>Title</th>
+            <th><span data-toggle="tooltip" title="Campaign">Camp.</span></th>
+            <!-- <th>Words</th> -->
+            <th>Translated</th>
+            <th>Date</th>
+            <th>Views</th>
+            <th>fixref</th>
+        </tr>
+    </thead>
+    <tbody>
+';
+//---
 function make_td($tabg, $nnnn) {
     //---
     global $code_to_lang, $Words_table, $views_sql, $username, $cat_to_camp;
@@ -33,6 +53,7 @@ function make_td($tabg, $nnnn) {
     $nana = make_mdwiki_title( $md_title );
     //---
     $targe33 = make_target_url( $targe, $llang );
+	$targe2  = urlencode($targe);
     //---
     $view = make_view_by_number($targe, $views_number, $llang, $pupdate);
     //---
@@ -44,23 +65,21 @@ function make_td($tabg, $nnnn) {
     //---
     $mail = "<a class='btn btn-primary btn-sm' onclick='$onclick'>Email</a>";
     //---
-    $laly = '
-        <tr>
-            <td>' . $nnnn   . '</td>
-            <td><a target="" href="leaderboard.php?user=' . $user . '">' . $user . '</a></td>
-            <td>' . $mail . '</td>
-            <td><a target="" href="leaderboard.php?langcode=' . $llang . '">' . $lang2 . '</a>' . '</td>
-            <td style="max-width:150px;">' . $nana  . '</td>
-            <!-- <td>' . $date  . '</td> -->
-            <td>' . $ccat  . '</td>
-            <!-- <td>' . $worde . '</td> -->
-            <td style="max-width:150px;">' . $targe33 . '</td>
-            <td>' . $pupdate . '</td>
-            <td>' . $view . '</td>
-            '; 
-    //---
-    $laly .= '
-        </tr>';
+    $laly = "
+    <tr>
+        <td>$nnnn</td>
+        <td><a target='' href='leaderboard.php?user=$user'>$user</a></td>
+        <td>$mail</td>
+        <td><a target='' href='leaderboard.php?langcode=$llang'>$lang2</a></td>
+        <td style='max-width:150px;'>$nana</td>
+        <!-- <td>$date</td> -->
+        <td>$ccat</td>
+        <!-- <td>$worde</td> -->
+        <td style='max-width:150px;'>$targe33</td>
+        <td>$pupdate</td>
+        <td>$view</td>
+        <td><a target='_blank' href='../fixwikirefs.php?title=$targe2&lang=$llang'>fix</a></td>
+    </tr>";
     //---
     return $laly;
 };
@@ -70,25 +89,6 @@ ORDER BY pupdate DESC
 limit 100
 ;";
 $dd = quary2($quaa);
-//---
-$sato = '
-	<table class="table table-sm table-striped soro" style="font-size:90%;">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>User</th>
-            <th></th>
-            <th><span data-toggle="tooltip" title="Language">Lang.</span></th>
-            <th>Title</th>
-            <th>Campaign</th>
-            <!-- <th>Words</th> -->
-            <th>Translated</th>
-            <th>Date</th>
-            <th>Views</th>
-        </tr>
-    </thead>
-    <tbody>
-';
 //---
 $noo = 0;
 foreach ( $dd AS $tat => $tabe ) {

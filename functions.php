@@ -5,6 +5,14 @@
 //--- 
 include_once('func_2nd.php');
 //---
+function add_quotes($str) {
+	// if str have ' then use "
+	// else use '
+	$value = "'$str'";
+	if (preg_match("/[']+/", $str)) $value = '"$str"';
+	return $value;
+};
+//---
 // $test = $_REQUEST['test'];
 //---
 function get_request( $key, $value ) {
@@ -13,13 +21,14 @@ function get_request( $key, $value ) {
 };
 //---
 function make_input_group( $label, $id, $value, $required) {
+    $val2 = add_quotes($value);
     $str = "
     <div class='col-md-3'>
         <div class='input-group mb-3'>
             <div class='input-group-prepend'>
                 <span class='input-group-text'>$label</span>
             </div>
-            <input class='form-control' type='text' name='$id' value='$value' $required/>
+            <input class='form-control' type='text' name='$id' value=$val2 $required/>
         </div>
     </div>";
     return $str;

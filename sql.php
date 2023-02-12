@@ -103,6 +103,7 @@ if ( $raw == '' ) {
                 <li><a href='" . $sql_php . "code=select * from words;'>select * from words;</a></li>
                 <li><a href='" . $sql_php . "code=select * from pages;'>select * from pages;</a></li>
                 <li><a href='" . $sql_php . "code=select * from qids;'>select * from qids;</a></li>
+                <li><a href='" . $sql_php . "code=SELECT%20%0AA.id%20as%20id1%2C%20A.target%20as%20t1%2C%0AB.id%20as%20id2%2C%20B.target%20as%20t2%0AFROM%20views%20A%2C%20views%20B%0AWHERE%20A.target%20%3D%20B.target%0Aand%20A.lang%20%3D%20B.lang%0Aand%20A.id%20!%3D%20B.id%0A%3B'>Duplicte views.</a></li>
                 </ul>
             </div>
             <div class='col-md'>

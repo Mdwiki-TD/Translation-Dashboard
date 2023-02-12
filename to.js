@@ -25,11 +25,11 @@ function to_get() {
                 });
 				//---
 				item.text(view);
-				// var pa = item.parent();
-				// pa.attr('data-sort', view);
+				var pa = item.parent();
+				pa.attr('data-sort', view);
 				//---
-				var txt2 = $("<span></span>").text(view).hide();     // Create with jQuery
-				item.before(txt2);
+				// var txt2 = $("<span></span>").text(view).hide();     // Create with jQuery
+				// item.before(txt2);
 				//---
 				var p = $('#hrefjsontoadd').text();
 				// add the view to hrefjsontoadd value
@@ -42,4 +42,5 @@ function to_get() {
         });
 	});
 	//---
+	return true;
 };

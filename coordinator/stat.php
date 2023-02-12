@@ -127,9 +127,9 @@ $tabo = "
 			<div class='card-body'>
 				<table class='table table-sm'>
 					<tr>
-						<th>type</th>
-						<th>with</th>
-						<th>without</th>
+						<th>Type</th>
+						<th>With</th>
+						<th>Without</th>
 					</tr>
 						%s
 				</table>
