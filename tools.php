@@ -14,13 +14,12 @@ $ty = $_REQUEST['ty'];
 //---
 if (!isset($_REQUEST['nonav'])) {
 	//---
-	$li = "<li id='%s' class='nav-item'><a class='linknave' href='coordinator.php?ty=%s'>%s</a></li>";
+	$li = "<li id='%s' class='nav-item'><a class='linknave' href='tools.php?ty=%s'>%s</a></li>";
 	//---
 	$Translations_tab = array(
 		array('id' => 'last',		'href' => 'last', 	'title' => 'Recent'),
 		array('id' => 'process',	'href' => 'process',	'title' => 'In process'),
 		array('id' => 'Pending',	'href' => 'Pending',	'title' => 'In process (total)'),
-		array('id' => 'add',	'href' => 'add',	'title' => 'Add'),
 	);
 	//---
 	$lis1 = '';
@@ -28,40 +27,9 @@ if (!isset($_REQUEST['nonav'])) {
 		$lis1 .= sprintf($li, $item['id'], $item['href'], $item['title']);
 	};
 	//---
-	$users_tab = array(
-		array('id' => 'Emails', 	'href' => 'Emails', 		'title' => 'Emails'),
-		array('id' => 'projects', 	'href' => 'projects', 		'title' => 'Projects'),
-	);
-	//---
-	$lis2 = '';
-	foreach ($users_tab as $a => $item) {
-		$lis2 .= sprintf($li, $item['id'], $item['href'], $item['title']);
-	};
-	//---
-	$Others_tab = array(
-		array('id' => 'coordinators', 'href' => 'coordinators', 'title' => 'Coordinators'),
-		array('id' => 'Campaigns', 	'href' => 'Campaigns', 	'title' => 'Campaigns'),
-		array('id' => 'stat', 	'href' => 'stat', 	'title' => 'Status'),
-		array('id' => 'settings', 	'href' => 'settings', 		'title' => 'Settings'),
-	);
-	//---
-	$lis3 = '';
-	foreach ($Others_tab as $a => $item) {
-		$lis3 .= sprintf($li, $item['id'], $item['href'], $item['title']);
-	};
-	//---
-	$Tools_tab = array(
-		array('id' => 'wikirefs_options', 'href' => 'wikirefs_options', 'title' => 'Fixwikirefs (options)'),
-	);
-	//---
-	$lis4 = '';
-	foreach ($Tools_tab as $a => $item) {
-		$lis4 .= sprintf($li, $item['id'], $item['href'], $item['title']);
-	};
-	//---
 	$home1 = "
 <span class='d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom'>
-	<a class='nav-link' href='coordinator.php'>
+	<a class='nav-link' href='tools.php'>
 		<span id='Home' class='fs-5 fw-semibold'>Coordinator tools</span>
 	</a>
 </span>";
@@ -72,19 +40,6 @@ if (!isset($_REQUEST['nonav'])) {
 		<span class='fs-6 fw-semibold'>Translations:</span>
 		<ul class='flex-column'>
 			$lis1
-		</ul>
-		<span class='fs-6 fw-semibold'>Users:</span>
-		<ul class='flex-column'>
-			$lis2
-		</ul>
-		<span class='fs-6 fw-semibold'>Others:</span>
-		<ul class='flex-column'>
-			$lis3
-		</ul>
-		<span class='fs-6 fw-semibold'>Tools:</span>
-		<ul class='flex-column'>
-			<li id='fixwikirefs' class='nav-item'><a target='_blank' class='linknave' href='../fixwikirefs.php'>Fixwikirefs</a></li>
-			$lis4
 		</ul>
 	</div>";
 	//---
@@ -103,7 +58,7 @@ if (isset($_GET['test'])) {
 	error_reporting(E_ALL);
 };
 //---
-if ($user_in_coord == false) {
+if (!in_array($username, $usrs)) {
 	echo "<meta http-equiv='refresh' content='0; url=index.php'>";
 	exit;
 };

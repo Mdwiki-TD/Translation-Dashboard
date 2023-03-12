@@ -15,6 +15,11 @@
 			<tbody id="g_tab">
 <?php
 //---
+if ($user_in_coord == false) {
+	echo "<meta http-equiv='refresh' content='0; url=index.php'>";
+	exit;
+};
+//---
 /*RENAME TABLE groups TO projects;
 CREATE TABLE groups (
     g_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,

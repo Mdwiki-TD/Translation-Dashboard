@@ -57,10 +57,12 @@ function print_head() {
 //---
 print_head();
 //---
-$coord = '';
+$user_in_coord = false;
+$coord = 'tools.php';
 //---
 if (in_array($username, $usrs)) {
-	$coord = '<a href="coordinator.php" class="nav-link"><span class="navtitles">Coordinator tools</span></a>';
+	$coord = 'coordinator.php';
+	$user_in_coord = true;
 };
 //---
 ?>
@@ -92,7 +94,7 @@ if (in_array($username, $usrs)) {
 						</a>
 					</li>
 					<li class="nav-item" id="coord">
-						<?php echo $coord; ?>
+					<a href="<?php echo $coord; ?>" class="nav-link"><span class="navtitles">Coordinator tools</span></a>
 					</li>
 					<li class="nav-item">
 						<a href="https://github.com/MrIbrahem/Translation-Dashboard" target="_blank" class="nav-link">

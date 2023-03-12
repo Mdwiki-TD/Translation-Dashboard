@@ -6,6 +6,11 @@
 </style>
 <?php
 //---
+if ($user_in_coord == false) {
+	echo "<meta http-equiv='refresh' content='0; url=index.php'>";
+	exit;
+};
+//---
 require('tables.php');
 //---
 $hoste = 'https://tools-static.wmflabs.org/cdnjs';
