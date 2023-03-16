@@ -1,13 +1,16 @@
+<?php
+//---
+if ($user_in_coord == false) {
+	echo "<meta http-equiv='refresh' content='0; url=index.php'>";
+	exit;
+};
+//---
+?>
 <div class='card-header'>
     <h4>Fix wikirefs options:</h4>
 </div>
 <div class='card-body'>
 <?PHP
-//---
-if ($user_in_coord == false) {
-    echo "<meta http-equiv='refresh' content='0; url=index.php'>";
-	exit;
-};
 //---
 include_once('td_config.php');
 //---

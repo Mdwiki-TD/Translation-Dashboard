@@ -1,15 +1,17 @@
-
+<?php
+//---
+if ($user_in_coord == false) {
+	echo "<meta http-equiv='refresh' content='0; url=index.php'>";
+	exit;
+};
+//---
+?>
 <div class='card-header'>
 	<h4>Settings:</h4>
 </div>
 <div class='card-body'>  
     <div class='row'>
 <?PHP
-//---
-if ($user_in_coord == false) {
-	echo "<meta http-equiv='refresh' content='0; url=index.php'>";
-	exit;
-};
 //---
 include_once('functions.php');
 include_once('td_config.php');

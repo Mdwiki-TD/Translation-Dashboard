@@ -1,6 +1,12 @@
 <?PHP
 //---
 require('header.php');
+//---
+if ($user_in_coord == false) {
+	echo "<meta http-equiv='refresh' content='0; url=index.php'>";
+	exit;
+};
+//---
 echo '</div>
 <script>$("#coord").addClass("active");</script>
 <div id="maindiv" class="container-fluid">';
@@ -101,11 +107,6 @@ if (isset($_GET['test'])) {
 	ini_set('display_errors', 1);
 	ini_set('display_startup_errors', 1);
 	error_reporting(E_ALL);
-};
-//---
-if ($user_in_coord == false) {
-	echo "<meta http-equiv='refresh' content='0; url=index.php'>";
-	exit;
 };
 //---
 function get_request_1( $key, $i ) {

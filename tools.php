@@ -58,11 +58,6 @@ if (isset($_GET['test'])) {
 	error_reporting(E_ALL);
 };
 //---
-if (!in_array($username, $usrs)) {
-	echo "<meta http-equiv='refresh' content='0; url=index.php'>";
-	exit;
-};
-//---
 function get_request_1( $key, $i ) {
     $uu = isset($_REQUEST[$key][$i]) ? $_REQUEST[$key][$i] : '';
     return $uu;
