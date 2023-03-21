@@ -15,7 +15,7 @@ $Assessments_fff['Unknown'] = 5;
 $Assessments_fff[''] = 5;
 //---
 //---
-$dirr = '/mnt/nfs/labstore-secondary-tools-project/mdwiki/public_html/Translation_Dashboard';
+$dirr = '/data/project/mdwiki/public_html/Translation_Dashboard';
 //---
 if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost') { 
 	$dirr = '/mdwiki/public_html/Translation_Dashboard';
