@@ -167,7 +167,7 @@ echo sprintf($script, $ka);
 <!-- 
 <script>
 $( function() {
-	var ur = 'cash/RTT.json';
+	var ur = 'cats_cash/RTT.json';
     $( ".mdtitles" ).autocomplete({
 	source: function (request, response){
 		$.ajax({url: ur ,dataType: "json",data:{term: request.term,},success: function (data) {response(data.list);}});

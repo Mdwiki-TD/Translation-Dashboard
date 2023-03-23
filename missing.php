@@ -4,8 +4,6 @@ require('header.php');
 echo '<script>$("#missing").addClass("active");</script>';
 require('langcode.php');
 //---
-//---
-//---
 if (isset($_REQUEST['test'])) {
 
 	ini_set('display_errors', 1);
@@ -24,7 +22,6 @@ $lenth2 = number_format($lenth);
 //$date = '15-05-2021';
 $date = $MIS['date']; 
 //---
-//---
 $Table = array(); 
 $langs = $MIS['langs']; 
 //---
@@ -36,7 +33,6 @@ foreach ( $langs as $code => $tabe ) {
 };
 //---
 arsort( $Table );
-//---
 //---
 $text = '
 <table class="table table-striped compact soro">
@@ -54,14 +50,26 @@ $text = '
 //---
 $num = 0;
 //---
-foreach ( $Table as $langcode => $missing ) {
+foreach ( $Table as $langcode2 => $missing ) {
+    //---
+    $langcode = $langcode2;
+    //---
+    // skip langcode in $skip_codes
+    if (in_array($langcode, $skip_codes)) continue;
+    //---
+    $langcode = isset($change_codes[$langcode]) ? $change_codes[$langcode] : $langcode;
+    //---
     $num = $num + 1;
-    $langname = isset($code_to_lang[$langcode]) ? $code_to_lang[$langcode] : $langcode;
+    $langname = isset($code_to_wikiname[$langcode]) ? $code_to_wikiname[$langcode] : "11 $langcode";
     $langname = str_replace ( "($langcode) " , '' , $langname ) ;
     //---
-    $exists = bcsub($lenth , $missing);
+
+    //---
+    $exists_1 = bcsub($lenth, $missing);
     // $exists = $langs->{$langcode}->{'exists'}; 
-    $exists = isset($langs[$langcode]['exists']) ? $langs[$langcode]['exists'] : ''; 
+    $exists = isset($langs[$langcode]['exists']) ? $langs[$langcode]['exists'] : '';
+    #---
+    if ($exists == '' ) $exists = isset($langs[$langcode2]['exists']) ? $langs[$langcode2]['exists'] : $exists_1;
     //---
     $text .= '
         <tr>
