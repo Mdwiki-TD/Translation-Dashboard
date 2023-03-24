@@ -4,7 +4,8 @@ $skip_codes = ["commons", "species", "ary", "arz", "meta"];
 //---
 $change_codes = [
     "bat_smg"	=>	"bat-smg",
-    "be_x_old"	=>	"be-x-old",
+    "be-x-old"	=>	"be-tarask",
+    "be_x_old"	=>	"be-tarask",
     "cbk_zam"	=>	"cbk-zam",
     "fiu_vro"	=>	"fiu-vro",
     "map_bms"	=>	"map-bms",
