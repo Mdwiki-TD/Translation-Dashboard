@@ -62,14 +62,17 @@ function add_to_db($title, $type, $cat, $lang, $user, $target, $pupdate) {
     $word = isset($Words_table[$title]) ? $Words_table[$title] : 0; 
     if ($type == 'all') $word = isset($All_Words_table[$title]) ? $All_Words_table[$title] : 0;
     //---
+	// date now format like 2023-01-01
+	$add_date = date('Y-m-d');
+	//---
 	$qua_23 = "
 	UPDATE pages 
 		SET target = $target2, pupdate = '$pupdate', word = '$word'
 	WHERE user = '$user' AND title = $title2 AND lang = '$lang' and target = ''
 	;
 
-	INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target)
-		SELECT '$title', '$word', '$type', '$cat', '$lang', '', '$user', '$pupdate', $target2
+	INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target, add_date)
+		SELECT '$title', '$word', '$type', '$cat', '$lang', '', '$user', '$pupdate', $target2, '$add_date'
 	WHERE NOT EXISTS (SELECT 1 FROM pages WHERE title = $title2 AND lang = '$lang' AND user = '$user' );
 
 	";

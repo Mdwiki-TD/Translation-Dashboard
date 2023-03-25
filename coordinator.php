@@ -66,11 +66,11 @@ if (!isset($_REQUEST['nonav'])) {
 	};
 	//---
 	$home1 = "
-<span class='d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom'>
-	<a class='nav-link' href='coordinator.php'>
-		<span id='Home' class='fs-5 fw-semibold'>Coordinator tools</span>
-	</a>
-</span>";
+	<span class='d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom'>
+		<a class='nav-link' href='coordinator.php'>
+			<span id='Home' class='fs-5 fw-semibold'>Coordinator tools</span>
+		</a>
+	</span>";
 	//---
 	$sidebar = "
 	<div class='col-md-2'>
@@ -97,7 +97,7 @@ if (!isset($_REQUEST['nonav'])) {
 	echo "
     <div class='row content'>
 		$sidebar
-        <div class='col-md-10'>
+        <div class='px-0 col-md-10'>
             <div class='container-fluid'>
                 <div class='card'>
 	";

@@ -5,7 +5,7 @@
 <?PHP
 //---
 $sato = '
-	<table class="table table-sm table-striped soro" style="font-size:90%;">
+	<table class="table table-sm table-striped" id="last_tabel" style="font-size:90%;">
     <thead>
         <tr>
             <th>#</th>
@@ -19,6 +19,7 @@ $sato = '
             <th>Date</th>
             <th>Views</th>
             <th>fixref</th>
+            <th>add_date</th>
         </tr>
     </thead>
     <tbody>
@@ -40,6 +41,7 @@ function make_td($tabg, $nnnn) {
     $word     = $tabg['word'];
     $targe    = $tabg['target'];
     $pupdate  = isset($tabg['pupdate']) ? $tabg['pupdate'] : '';
+    $add_date  = isset($tabg['add_date']) ? $tabg['add_date'] : '';
     //---
     $views_number = isset($views_sql[$targe]) ? $views_sql[$targe] : '?';
     //---
@@ -81,19 +83,26 @@ function make_td($tabg, $nnnn) {
         <td>$pupdate</td>
         <td>$view</td>
         <td><a target='_blank' href='../fixwikirefs.php?title=$targe2&lang=$llang'>fix</a></td>
+        <td>$add_date</td>
     </tr>";
     //---
     return $laly;
 };
 //---
-$quaa = "select * from pages where target != ''
-ORDER BY pupdate DESC
-limit 100
-;";
-$dd = quary2($quaa);
+$dd0 = quary2("select * from pages where target != '' ORDER BY pupdate DESC limit 100;");
+//---
+$dd1 = quary2("select * from pages where target != '' ORDER BY add_date DESC limit 100");
+//---
+// merage the two arrays without duplicates
+$dd2 = array_unique(array_merge($dd0, $dd1), SORT_REGULAR);
+//---
+// sort the table by add_date
+usort($dd2, function($a, $b) {
+    return strtotime($b['add_date']) - strtotime($a['add_date']);
+});
 //---
 $noo = 0;
-foreach ( $dd AS $tat => $tabe ) {
+foreach ( $dd2 AS $tat => $tabe ) {
     //---
     $noo = $noo + 1;
     $sato .= make_td($tabe, $noo);
@@ -111,4 +120,14 @@ print $sato;
 function pupwindow(url) {
 	window.open(url, 'popupWindow', 'width=850,height=550,scrollbars=yes');
 };
+
+$(document).ready( function () {
+	var t = $('#last_tabel').DataTable({
+	order: [[10	, 'desc']],
+    // paging: false,
+	lengthMenu: [[25, 50, 100], [25, 50, 100]],
+    // scrollY: 800
+	});
+} );
+
 </script>

@@ -6,7 +6,7 @@ DROP table views_by_month ;
 //---
 // add columns
 
-ALTER TABLE `views_by_month_22` ADD `target` VARCHAR(120) NULL DEFAULT NULL AFTER `lang`;
+ALTER TABLE `pages` ADD `add_date` VARCHAR(120) NULL DEFAULT NULL AFTER `target`;
 
 //---
 CREATE TABLE coordinator (

@@ -46,7 +46,7 @@ if (!isset($_REQUEST['nonav'])) {
 	echo "
     <div class='row content'>
 		$sidebar
-        <div class='col-md-10'>
+        <div class='px-0 col-md-10'>
             <div class='container-fluid'>
                 <div class='card'>
 	";

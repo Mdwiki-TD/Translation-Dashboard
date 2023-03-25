@@ -33,7 +33,7 @@ function start_trans_py($title, $test, $fixref, $tra_type) {
     $title2 = $title;
     $title2 = rawurlencode(str_replace ( ' ' , '_' , $title2 ) );
     //---
-    $dir = '/mdwiki';
+    $dir = 'I:/mdwiki';
     //---
     if ( strpos( __file__ , '/mnt/' ) === 0 ) $dir = "/mnt/nfs/labstore-secondary-tools-project/mdwiki";
     //---
@@ -80,15 +80,15 @@ if ($title_o != '' && $coden != '' && $useree != '' ) {
     $date = $objDateTime->format('Y-m-d');
     //---
     $quae = "
-INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target)
-VALUES ('$title_o', '$word', '$tr_type', '$cat', '$coden', '$date', '$useree', '', '')
+INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target, add_date)
+VALUES ('$title_o', '$word', '$tr_type', '$cat', '$coden', '$date', '$useree', '', '', '')
 ";
     //---
     if ($test != '') echo "<br>$quae<br>";
     //---
     $quae_new = "
-INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target)
-    SELECT '$title_o', '$word', '$tr_type', '$cat', '$coden', '$date', '$useree', '', ''
+INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target, add_date)
+    SELECT '$title_o', '$word', '$tr_type', '$cat', '$coden', '$date', '$useree', '', '', ''
     WHERE NOT EXISTS
         (SELECT 1
          FROM pages 
