@@ -16,7 +16,8 @@ function add_quotes($str) {
 // $test = $_REQUEST['test'];
 //---
 function get_request( $key, $value ) {
-    $uu = isset($_REQUEST[$key]) ? $_REQUEST[$key] : $value;
+    $uu = isset($_REQUEST[$key]) ? $_REQUEST[$key] : '';
+    $uu = ($uu != '') ? $uu : $value;
     return $uu;
 };
 //---
