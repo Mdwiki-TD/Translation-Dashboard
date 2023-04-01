@@ -95,18 +95,16 @@ $projects[] = '';
 //---
 foreach ( quary2('select g_id, g_title from projects;') AS $Key => $table ) $projects[] = $table['g_title'];
 //---
-function make_project_to_user($project, $numb){
+function make_project_to_user($project){
 	global $projects;
 	//---
-    $str = "<select name='project[]$numb' id='project[]$numb' class='form-select'>";
+    $str = "";
     //---
     foreach ( $projects AS $n => $g ) {
 		$cdcdc = $project == $g ? "selected" : "";
         $str .= "
             <option value='$g' $cdcdc>$g</option>";
     };
-    //---
-	$str .= "</select>";
     //---
 	return $str;
 };
@@ -156,8 +154,9 @@ foreach ( $sorted_array as $username => $d) {
 	$wiki		= $table['wiki'];
 	$wiki2		= $wiki . "wiki";
 	$project	= $table['user_group'];
-	$project_line = make_project_to_user($project, $numb);
     //---
+	$project_line = make_project_to_user($project);
+	//---
 	echo "
 	<tr>
 		<td data-order='$numb'>$numb</td>
@@ -170,7 +169,7 @@ foreach ( $sorted_array as $username => $d) {
 			<input size='25' name='email[]$numb' id='email[]$numb' value='$email'/>
 		</td>
 		<td data-order='$project' data-search='$project'>
-			$project_line
+			<select name='project[]$numb' id='project[]$numb' class='form-select options'>$project_line</select>
 		</td>
 		<td data-order='$wiki' data-search='$wiki2'>
 			<input size='4' name='wiki[]$numb' id='wiki[]$numb' value='$wiki'/>
@@ -191,15 +190,18 @@ foreach ( $sorted_array as $username => $d) {
 		<span role='button' id="add_row" class="btn btn-info" style="position: absolute; right: 130px;" onclick='add_row()'>New row</span>
 	  </div>
 </form>
+
 <script type="text/javascript">
 var i = 1;
 function add_row() {
 	var ii = $('#tab_ma >tr').length + 1;
+	
+	var options = $('.options').html();
 	var e = "<tr>";
 	e = e + "<td>" + ii + "</td>";
 	e = e + "<td><input name='username[]" + ii + "'/></td>";
 	e = e + "<td><input size='25' name='email[]" + ii + "'/></td>";
-	e = e + "<td><select name='project[]" + ii + "' id='project[]" + ii + "' class='form-select'><option value=''></option></select></td>";
+	e = e + "<td><select name='project[]" + ii + "' id='project[]" + ii + "' class='form-select'> " + options + "</select></td>";
 	e = e + "<td><input size='4' name='wiki[]" + ii + "'/></td>";
 	e = e + "<td>0</td>";
 	e = e + "<td></td>";
@@ -219,4 +221,5 @@ $(document).ready( function () {
 } );
 
 </script>
-  </div>
+
+</div>

@@ -20,6 +20,8 @@ echo "
 <link rel='stylesheet' href='$hoste/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css'/>
 ";
 //---
+$testin =  (isset($_REQUEST['test'])) ? "<input name='test' value='1' hidden/>" : "";
+//---
 ?>
 <div class='card-header'>
 	<h4>Add translations:</h4>
@@ -27,19 +29,20 @@ echo "
 <div class='cardbody'>
 <form action="coordinator.php?ty=add" method="POST">
 	<input name='ty' value="add" hidden/>
-	  <div class="form-group">
-		<table class='table' style='font-size:95%;'>
-			<tr>
-				<th>#</th>
-				<th>mdwiki title</th>
-				<th>Campaign</th>
-				<th>Type</th>
-				<th>User</th>
-				<th>Lang.</th>
-				<th>Target</th>
-				<th>Pupdate</th>
-			</tr>
-			<tbody id="g_tab">
+	<?PHP echo $testin ?>
+	  	<div class="form-group">
+			<table class='table' style='font-size:95%;'>
+				<tr>
+					<th>#</th>
+					<th>mdwiki title</th>
+					<th>Campaign</th>
+					<th>Type</th>
+					<th>User</th>
+					<th>Lang.</th>
+					<th>Target</th>
+					<th>Pupdate</th>
+				</tr>
+				<tbody id='g_tab'>
 <?php
 //---
 function qu_str($string) {
@@ -72,12 +75,12 @@ function add_to_db($title, $type, $cat, $lang, $user, $target, $pupdate) {
 	;
 
 	INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target, add_date)
-		SELECT '$title', '$word', '$type', '$cat', '$lang', '', '$user', '$pupdate', $target2, '$add_date'
+		SELECT '$title', '$word', '$type', '$cat', '$lang', now(), '$user', '$pupdate', $target2, '$add_date'
 	WHERE NOT EXISTS (SELECT 1 FROM pages WHERE title = $title2 AND lang = '$lang' AND user = '$user' );
 
 	";
     //---
-	if ($_REQUEST['test']) echo $qua_23;
+	if (isset($_REQUEST['test'])) echo $qua_23;
     //---
     quary2($qua_23);
     //---
@@ -112,35 +115,61 @@ foreach ($qqq AS $Key => $ta ) {
 //---
 $typies = "
 	<select name='type[]%s' id='type[]%s' class='form-select'>
-		<option value='lead'>Lead</option>
-		<option value='all'>All</option>
+		<option value='lead'>Lead</option><option value='all'>All</option>
 	</select>";
 //---
-// 
+$table = "";
 //---
-foreach ( range(1, 5) as $numb ) {
+foreach ( range(1, 1) as $numb ) {
     //---
-	$cats_line = "<select class='form-select' name='cat[]$numb' id='cat[]$numb'>$cats</select>";
+	$cats_line = "<select class='form-select catsoptions' name='cat[]$numb' id='cat[]$numb'>$cats</select>";
 	$type_line = sprintf($typies, $numb, $numb);
     //---
-	echo "
+	$table .= "
 	<tr>
 	  <td data-order='$numb'>$numb</td>
-	  <td>	<input size='15' class='mdtitles' name='mdtitle[]$numb' id='mdtitle[]$numb'/>	</td>
+	  <td>	<input size='15' class='mdtitles' name='mdtitle[]$numb' id='mdtitle[]$numb' required/>	</td>
 	  <td>	$cats_line	</td>
 	  <td>	$type_line	</td>
-	  <td>	<input size='10' class='useri' name='user[]$numb' id='user[]$numb'/>	</td>
-	  <td>	<input size='2' name='lang[]$numb' id='lang[]$numb'/>	</td>
-	  <td>	<input size='20' name='target[]$numb' id='target[]$numb'/>	</td>
-	  <td>	<input size='10' name='pupdate[]$numb' id='pupdate[]$numb'/>	</td>
+	  <td>	<input size='10' class='useri' name='user[]$numb' id='user[]$numb' required/>	</td>
+	  <td>	<input size='2' name='lang[]$numb' id='lang[]$numb' required/>	</td>
+	  <td>	<input size='20' name='target[]$numb' id='target[]$numb' required/>	</td>
+	  <td>	<input size='10' name='pupdate[]$numb' id='pupdate[]$numb' required/>	</td>
 	</tr>";
 };
 //---
-?>
+$table .= "
 </tbody>
-</table>
-  <button type="submit" class="btn btn-success">send</button>
+</table>";
+echo $table;
+?>
+
+  <button type="submit" class="btn btn-success mb-10">send</button>
 </form>
+<span role='button' id="add_row" class="btn btn-info" style="position: absolute; right: 130px;" onclick='add_row()'>New row</span>
+</div>
+
+<script type="text/javascript">
+var i = 1;
+function add_row() {
+	var options = $('.catsoptions').html();
+	var ii = $('#g_tab >tr').length + 1;
+	var e = "<tr>";
+	e = e + "<td>" + ii + "</td>";
+	e = e + "<td>	<input size='15' class='mdtitles' name='mdtitle[]" + ii + "' id='mdtitle[]" + ii + "' required/>	</td>";
+	e = e + "<td><select class='form-select catsoptions' name='cat[]" + ii + "' id='cat[]" + ii + "'>" + options + "</select></td>";
+	e = e + "<td><select name='type[]%s' id='type[]%s' class='form-select'>";
+	e = e + "<option value='lead'>Lead</option><option value='all'>All</option></select></td>";
+	e = e + "<td>	<input size='10' class='useri' name='user[]" + ii + "' id='user[]" + ii + "' required/>	</td>";
+	e = e + "<td>	<input size='2' name='lang[]" + ii + "' id='lang[]" + ii + "' required/>	</td>";
+	e = e + "<td>	<input size='20' name='target[]" + ii + "' id='target[]" + ii + "' required/>	</td>";
+	e = e + "<td>	<input size='10' name='pupdate[]" + ii + "' id='pupdate[]" + ii + "' required/>	</td>";
+	e = e + "<td></td>";
+	e = e + "</tr>";
+	$('#g_tab').append(e);
+	i++;
+};
+</script>
 <?PHP
 
 $script = '
@@ -179,5 +208,4 @@ $( function() {
 });
 </script> 
 -->
-</div>
 </div>

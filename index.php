@@ -18,8 +18,8 @@ if ($code == 'undefined') { $code = ""; };
 $code = isset($lang_to_code[$code]) ? $lang_to_code[$code] : $code;
 $code_lang_name = isset($code_to_lang[$code]) ? $code_to_lang[$code] : ''; 
 //---
-$Translate_type  = isset($_REQUEST['type']) ? $_REQUEST['type'] : '';
-if ($allow_whole_translate == false) $Translate_type = 'lead';
+$tra_type  = isset($_REQUEST['type']) ? $_REQUEST['type'] : '';
+if ($allow_whole_translate == false) $tra_type = 'lead';
 //---
 $cat = isset($_REQUEST['cat']) ? $_REQUEST['cat'] : '';
 //---
@@ -56,12 +56,12 @@ function print_form_start1() {
     //---
     global $allow_whole_translate ;
     global $lang_to_code, $catinput_list;
-    global $cat_ch, $code_lang_name, $code, $username, $Translate_type;
+    global $cat_ch, $code_lang_name, $code, $username, $tra_type;
     //---
     $lead_checked = "checked";
     $all_checked = "";
     //---
-    if ($Translate_type == 'all') {
+    if ($tra_type == 'all') {
         $lead_checked = "";
         $all_checked = "checked";
     };

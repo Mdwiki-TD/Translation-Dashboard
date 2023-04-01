@@ -16,7 +16,7 @@ if ($code == 'undefined') { $code = ""; };
 $code = isset($lang_to_code[$code]) ? $lang_to_code[$code] : $code;
 $code_lang_name = isset($code_to_lang[$code]) ? $code_to_lang[$code] : ''; 
 //---
-$Translate_type  = isset($_REQUEST['type']) ? $_REQUEST['type'] : '';
+$tra_type  = isset($_REQUEST['type']) ? $_REQUEST['type'] : '';
 // $depth  = isset($_REQUEST['depth']) ? $_REQUEST['depth'] : 1;
 // $depth  = $depth * 1 ;
 //---
@@ -25,7 +25,7 @@ $cat = isset($_REQUEST['cat']) ? $_REQUEST['cat'] : '';
 if ($cat == "undefined") { $cat = "RTT";};
 //---
 function make_table( $items, $cod, $cat ) {
-    global $username, $Words_table, $All_Words_table, $Assessments_table, $Assessments_fff ,$Translate_type;
+    global $username, $Words_table, $All_Words_table, $Assessments_table, $Assessments_fff ,$tra_type;
     global $Lead_Refs_table, $All_Refs_table, $enwiki_pageviews_table;
     //---
     // global $qids_table;
@@ -37,7 +37,7 @@ function make_table( $items, $cod, $cat ) {
     $Refs_word = 'Lead refs';
     //---
     $Words_word = 'Words';
-    if ($Translate_type == 'all') { 
+    if ($tra_type == 'all') { 
         $Words_word = 'words';
         $Refs_word = 'References';
         };
@@ -126,7 +126,7 @@ function make_table( $items, $cod, $cat ) {
             //---
             $refs = isset($Lead_Refs_table[$title]) ? $Lead_Refs_table[$title] : 0; 
             //---
-            if ($Translate_type == 'all') { 
+            if ($tra_type == 'all') { 
                 $word = isset($All_Words_table[$title]) ? $All_Words_table[$title] : 0;
                 $refs = isset($All_Refs_table[$title]) ? $All_Refs_table[$title] : 0;
                 };
@@ -140,7 +140,7 @@ function make_table( $items, $cod, $cat ) {
                 "code" => $cod,
                 "username" => $username,
                 "cat" => $cat2,
-                "type" => $Translate_type
+                "type" => $tra_type
                 );
             $translate_url = 'translate.php?' . http_build_query($params);
             //---

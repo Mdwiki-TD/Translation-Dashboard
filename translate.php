@@ -76,19 +76,16 @@ if ($title_o != '' && $coden != '' && $useree != '' ) {
         $word = isset($All_Words_table[$title_o]) ? $All_Words_table[$title_o] : 0;
     };
     //---
-    $objDateTime = new DateTime('NOW');
-    $date = $objDateTime->format('Y-m-d');
+    $date = date('Y-m-d');
     //---
     $quae = "
-INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target, add_date)
-VALUES ('$title_o', '$word', '$tr_type', '$cat', '$coden', '$date', '$useree', '', '', '')
-";
-    //---
-    if ($test != '') echo "<br>$quae<br>";
+		INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target, add_date)
+		VALUES ('$title_o', '$word', '$tr_type', '$cat', '$coden', now(), '$useree', '', '', now())
+		";
     //---
     $quae_new = "
-INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target, add_date)
-    SELECT '$title_o', '$word', '$tr_type', '$cat', '$coden', '$date', '$useree', '', '', ''
+	INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target, add_date)
+    SELECT '$title_o', '$word', '$tr_type', '$cat', '$coden', now(), '$useree', '', '', now()
     WHERE NOT EXISTS
         (SELECT 1
          FROM pages 
@@ -97,6 +94,8 @@ INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, 
                    AND user = '$useree'
         )
 ";
+    //---
+    if ($test != '') echo "<br>$quae_new<br>";
     //---
     quary_a($quae_new);
     //---
