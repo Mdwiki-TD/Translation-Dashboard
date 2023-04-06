@@ -24,3 +24,4 @@ Copy of leader_tables.php
 mail_old/**
 Tables/assessments.json
 trim.php
+actions/mdwiki_sql1.php
