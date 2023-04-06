@@ -32,7 +32,7 @@ if (isset($_POST['del'])) {
 		//---
 		if ($del != '') {
 			$qua2 = "DELETE FROM categories WHERE id = '$del'";
-			execute_query_2($qua2);
+			execute_query($qua2);
 		};
 	};
 };
@@ -57,7 +57,7 @@ if (isset($_POST['cat'])) {
 			WHERE id = '$ido'
 			";
 		};
-		execute_query_2($qua);
+		execute_query($qua);
 	};
 };
 //---
@@ -66,7 +66,7 @@ $uuux = '';
 // ALTER TABLE `categories` ADD `depth` INT(2) NULL DEFAULT NULL AFTER `display`;
 // ALTER TABLE categories DROP depth;
 //---
-$qq = execute_query_2('select id, category, display, depth from categories;');
+$qq = execute_query('select id, category, display, depth from categories;');
 //---
 $numb = 0;
 //---

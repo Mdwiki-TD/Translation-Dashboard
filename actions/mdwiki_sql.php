@@ -72,30 +72,4 @@ function execute_query($sql_query) {
     }
 };
 //---
-function execute_query_2($quae) {
-    return execute_query($quae);    
-}
-//---
-function query2($quae) {
-    //---
-    $sql_u = execute_query($quae);
-    //---
-    $sql_result = array();
-    //---
-    $n = 0;
-    //---
-    foreach ( $sql_u AS $id => $row ) {
-        $ff = array();
-        $n = $n + 1 ;
-        foreach ( $row AS $nas => $value ) {
-            $ff[$nas] = $value;
-        };
-        $sql_result[$n] = $ff;
-    };
-    //---
-    unset($sql_u);
-    //---
-    return $sql_result;
-}; 
-//---
 ?>

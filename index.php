@@ -27,7 +27,7 @@ $cat_ch = htmlspecialchars($cat, ENT_QUOTES);
 $catinput_depth = array();
 $catinput_list = array();
 //---
-$qq = execute_query_2('select category, display, depth from categories;');
+$qq = execute_query('select category, display, depth from categories;');
 //---
 $numb = 0;
 //---

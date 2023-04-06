@@ -61,7 +61,7 @@ from views
 ;
 ";
 //---
-foreach ( execute_query_2($qua_vi) AS $k => $tab ) {
+foreach ( execute_query($qua_vi) AS $k => $tab ) {
     $Views_by_target[$tab['target']] = array(
         'all'  => $tab['countall'],
         '2021' => $tab['count2021'],
@@ -70,7 +70,7 @@ foreach ( execute_query_2($qua_vi) AS $k => $tab ) {
     );
 };
 //---
-foreach ( execute_query_2($qua_all) AS $Key => $teb ) {
+foreach ( execute_query($qua_all) AS $Key => $teb ) {
     //---
     $cat    = $teb['cat'];
     $lang   = $teb['lang'];

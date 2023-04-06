@@ -25,7 +25,7 @@ $qua_views = "select
     and p.target = v.target
     ;
     ";
-$views_quary = execute_query_2($qua_views);
+$views_quary = execute_query($qua_views);
 //---
 $dd = array();
 $dd_Pending = array();
@@ -33,7 +33,7 @@ $table_of_views = array();
 //---
 foreach ( $views_quary AS $Key => $t ) $table_of_views[$t['target']] = $t['countall'];
 //---
-foreach ( execute_query_2("select * from pages where lang = '$mainlang'") AS $yhu => $Taab ) {
+foreach ( execute_query("select * from pages where lang = '$mainlang'") AS $yhu => $Taab ) {
 	//---
 	$dat1 = isset($Taab['pupdate']) ? $Taab['pupdate'] : '';
 	$dat2 = isset($Taab['date']) ? $Taab['date'] : '';

@@ -57,7 +57,7 @@ $quaa = "select * from pages where target = ''
 ORDER BY date DESC
 limit 100;
 ";
-$dd = execute_query_2($quaa);
+$dd = execute_query($quaa);
 //---
 $sato = '
 	<table class="table table-sm table-striped soro" style="font-size:90%;">

@@ -27,7 +27,7 @@ function make_user_table($user_main, $test, $limit) {
     //---
     $count_sql = "select count(title) as count from pages where user = '$user_main';";
     //---
-    $count_query = execute_query_2($count_sql);
+    $count_query = execute_query($count_sql);
     //---
     $user_count = $count_query[1]['count'];
     //---
@@ -50,7 +50,7 @@ function make_user_table($user_main, $test, $limit) {
         ;
         ";
         //---
-        $views_query = execute_query_2($quaa_view);
+        $views_query = execute_query($quaa_view);
         //---
         if (count($views_query) == 0) { $done = $user_count;};
         //---
@@ -75,7 +75,7 @@ function make_user_table($user_main, $test, $limit) {
     //---
     if ($test != '') echo $quaa;
     //---
-    $sql_result = execute_query_2($quaa);
+    $sql_result = execute_query($quaa);
     //---
     foreach ( $sql_result AS $tait => $tabb ) {
             //---

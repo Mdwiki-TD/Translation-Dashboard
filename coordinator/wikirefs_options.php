@@ -163,7 +163,7 @@ function make_td($lang, $tabg, $numb) {
     return $laly;
 };
 //---
-foreach ( execute_query_2("select DISTINCT lang from pages;") AS $tat => $tag ) {
+foreach ( execute_query("select DISTINCT lang from pages;") AS $tat => $tag ) {
     $lal = strtolower($tag['lang']);
     //---
     if (!isset($tabes[$lal])) {

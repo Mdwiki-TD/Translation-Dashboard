@@ -89,9 +89,9 @@ function make_td($tabg, $nnnn) {
     return $laly;
 };
 //---
-$dd0 = execute_query_2("select * from pages where target != '' ORDER BY pupdate DESC limit 100;");
+$dd0 = execute_query("select * from pages where target != '' ORDER BY pupdate DESC limit 100;");
 //---
-$dd1 = execute_query_2("select * from pages where target != '' ORDER BY add_date DESC limit 100");
+$dd1 = execute_query("select * from pages where target != '' ORDER BY add_date DESC limit 100");
 //---
 // merage the two arrays without duplicates
 $dd2 = array_unique(array_merge($dd0, $dd1), SORT_REGULAR);

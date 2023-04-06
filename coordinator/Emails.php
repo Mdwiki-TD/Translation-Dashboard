@@ -11,7 +11,7 @@ if (isset($_POST['del'])) {
 		//---
 		if ($del != '') {
 			$qu = "DELETE FROM users WHERE user_id = '$del'";
-			execute_query_2($qu);
+			execute_query($qu);
 		};
 	};
 };
@@ -42,7 +42,7 @@ if (isset($_POST['username'])) {
 				";
 			};
 			//---
-			execute_query_2($qua);
+			execute_query($qua);
 			//---
 		};
 	};
@@ -51,10 +51,10 @@ if (isset($_POST['username'])) {
 $new_q = "INSERT INTO users (username, email, wiki, user_group) SELECT DISTINCT user, '', '', '' from pages
 WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = user)";
 //---
-// execute_query_2($new_q);
+// execute_query($new_q);
 //---
 $nn = 0;
-foreach(execute_query_2('SELECT count(DISTINCT user) as c from pages;') as $k => $tab) $nn = $tab['c'];
+foreach(execute_query('SELECT count(DISTINCT user) as c from pages;') as $k => $tab) $nn = $tab['c'];
 //---
 echo "
 <div class='card-header'>
@@ -97,7 +97,7 @@ $projects = array();
 //---
 $projects[] = '';
 //---
-foreach ( execute_query_2('select g_id, g_title from projects;') AS $Key => $table ) $projects[] = $table['g_title'];
+foreach ( execute_query('select g_id, g_title from projects;') AS $Key => $table ) $projects[] = $table['g_title'];
 //---
 function make_project_to_user($project){
 	global $projects;
@@ -119,20 +119,20 @@ from pages p1
 group by p1.user;";
 //---
 $live_pages = array();
-foreach ( execute_query_2($q_live) AS $Key => $gg ) {
+foreach ( execute_query($q_live) AS $Key => $gg ) {
 	$live_pages[$gg['user']] = $gg['live'];
 };
 //---
 $users_done = array();
 //---
-foreach ( execute_query_2("select user_id, username, email, wiki, user_group from users;") AS $Key => $gg ) $users_done[$gg['username']] = $gg;
+foreach ( execute_query("select user_id, username, email, wiki, user_group from users;") AS $Key => $gg ) $users_done[$gg['username']] = $gg;
 //---
 $qu1 = "select DISTINCT user from pages 
 WHERE NOT EXISTS (SELECT 1 FROM users WHERE user = username)
 # and target != ''
 ;";
 //---
-foreach ( execute_query_2($qu1) AS $d => $tat ) if (!isset($users_done[$tat['user']])) $users_done[$tat['user']] = $tat;
+foreach ( execute_query($qu1) AS $d => $tat ) if (!isset($users_done[$tat['user']])) $users_done[$tat['user']] = $tat;
 //---
 $numb = 0;
 //---

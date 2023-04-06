@@ -82,7 +82,7 @@ function add_to_db($title, $type, $cat, $lang, $user, $target, $pupdate) {
     //---
 	if (isset($_REQUEST['test'])) echo $qua_23;
     //---
-    execute_query_2($qua_23);
+    execute_query($qua_23);
     //---
 };
 //---
@@ -107,7 +107,7 @@ if (isset($_POST['mdtitle'])) {
 //---
 $cats = "";
 //---
-$qqq = execute_query_2('select category, display from categories;');
+$qqq = execute_query('select category, display from categories;');
 //---
 foreach ($qqq AS $Key => $ta ) {
 	$ca = $ta['category'];
@@ -189,7 +189,7 @@ $( function() {
 //---
 $ka = '';
 //---
-foreach(execute_query_2('SELECT DISTINCT user from pages;') as $k => $tab) {
+foreach(execute_query('SELECT DISTINCT user from pages;') as $k => $tab) {
 	$u = $tab['user'];
 	$ka .= '"' . $u . '",
 	';

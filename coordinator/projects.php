@@ -35,7 +35,7 @@ if (isset($_POST['del'])) {
 		//---
 		if ($del != '') {
 			$qua2 = "DELETE FROM projects WHERE g_id = '$del'";
-			execute_query_2($qua2);
+			execute_query($qua2);
 		};
 	};
 };
@@ -48,12 +48,12 @@ if (isset($_POST['g_title'])) {
 		if ($g_title != '' && $g_id == '') {
 			$qua = "INSERT INTO projects (g_title) SELECT '$g_title' WHERE NOT EXISTS (SELECT 1 FROM projects WHERE g_title = '$g_title')";
 			//---
-			execute_query_2($qua);
+			execute_query($qua);
 		};
 	};
 };
 //---
-$qq = execute_query_2('select g_id, g_title from projects;');
+$qq = execute_query('select g_id, g_title from projects;');
 //---
 $numb = 0;
 //---

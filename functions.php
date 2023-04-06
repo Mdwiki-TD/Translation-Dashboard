@@ -38,7 +38,7 @@ function get_my_years() {
 	from pages where pupdate != ''
 	group by left(pupdate,4)
 	;";
-	$years = execute_query_2($years_q);
+	$years = execute_query($years_q);
 	//---
 	foreach ( $years AS $Key => $table ) {
 		$year = $table['year'];

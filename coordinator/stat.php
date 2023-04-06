@@ -7,7 +7,7 @@ include_once('functions.php');
 $cat = isset($_REQUEST['cat']) ? $_REQUEST['cat'] : 'RTT';
 $cats_titles = array();
 //---
-foreach ( execute_query_2('select category from categories;') AS $k => $tab ) $cats_titles[] = $tab['category'];
+foreach ( execute_query('select category from categories;') AS $k => $tab ) $cats_titles[] = $tab['category'];
 //---
 $d33 = "
 <div class='col-md-3 col-sm-3'>

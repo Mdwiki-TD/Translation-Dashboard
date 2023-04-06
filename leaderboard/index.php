@@ -58,7 +58,7 @@ $d1 = sprintf($d33, 'Campaign', $y1);
 //---
 $projects = array();
 //---
-foreach ( execute_query_2('select g_title from projects;') AS $Key => $table ) $projects[] = $table['g_title'];
+foreach ( execute_query('select g_title from projects;') AS $Key => $table ) $projects[] = $table['g_title'];
 $y2 = make_drop_d($projects, $project, 'project', 'all');
 $d2 = sprintf($d33, 'Translators', $y2);
 //---
