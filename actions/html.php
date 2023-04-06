@@ -51,7 +51,7 @@ function make_drop_d($tab, $cat, $id, $add) {
     HTML;
 };
 //---
-function make_col_sm_4($title, $table, $numb = '4') {
+function makeColSm4($title, $table, $numb = '4') {
     return <<<HTML
     <div class="col-md-$numb">
         <div class="card">

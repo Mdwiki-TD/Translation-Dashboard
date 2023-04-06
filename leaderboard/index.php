@@ -2,22 +2,47 @@
 //---
 require('leader_tables.php');
 //---
-function print_cat_table() {
+function print_cat_table(): string
+{
+    global $sql_users_tab, $Articles_numbers, $Words_total, $sql_Languages_tab, $global_views;
+
+    $numbersTable = createNumbersTable(count($sql_users_tab), number_format($Articles_numbers), number_format($Words_total), count($sql_Languages_tab), number_format($global_views));
+    $numbersCol = makeColSm4('Numbers', $numbersTable, $numb = '3');
+
+    $usersTable = makeUsersTable();
+    $usersCol = makeColSm4('Top users by number of translation', $usersTable, $numb = '5');
+
+    $languagesTable = makeLangTable();
+    $languagesCol = makeColSm4('Top languages by number of Articles', $languagesTable, $numb = '4');
+    return <<<HTML
+        <br>
+        <span align=center>
+            <h3>Leaderboard</h3>
+        </span>
+        <div class='row'>
+            $numbersCol
+            $usersCol
+            $languagesCol
+        </div>
+    HTML;
+}
+//---
+function print_cat_table_1() {
     //---
     global $sql_users_tab,$Articles_numbers,$Words_total,$sql_Languages_tab,$global_views;
     //---
     // $tab1 = create_Numbers_table();
-    $tab1 = create_Numbers_table(count($sql_users_tab), number_format($Articles_numbers), number_format($Words_total), count($sql_Languages_tab), number_format($global_views));
+    $tab1 = createNumbersTable(count($sql_users_tab), number_format($Articles_numbers), number_format($Words_total), count($sql_Languages_tab), number_format($global_views));
 	//---
-    $div1 = make_col_sm_4('Numbers',$tab1, $numb = '3');
+    $div1 = makeColSm4('Numbers',$tab1, $numb = '3');
     //---
-    $tab2 = Make_users_table();
-    $div2 = make_col_sm_4('Top users by number of translation', $tab2, $numb = '5');
+    $tab2 = makeUsersTable();
+    $div2 = makeColSm4('Top users by number of translation', $tab2, $numb = '5');
     //---
-    $tab3 = Make_lang_table();
-    $div3 = make_col_sm_4('Top languages by number of Articles',$tab3, $numb = '4');
+    $tab3 = makeLangTable();
+    $div3 = makeColSm4('Top languages by number of Articles',$tab3, $numb = '4');
     //---
-    $dad = "
+    return <<<HTML
     <br>
         <span align=center>
             <h3>Leaderboard</h3>
@@ -28,9 +53,7 @@ function print_cat_table() {
             $div3
         </div>
     </div>
-    ";
-    //---
-    return $dad;
+    HTML;
 };
 //---
 $year      = isset($_REQUEST['year']) ? $_REQUEST['year']   : 'all';

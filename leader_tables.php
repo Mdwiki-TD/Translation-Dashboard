@@ -101,7 +101,7 @@ foreach ( execute_query($qua_all) AS $Key => $teb ) {
     //---
     };
 //---
-function create_Numbers_table($c_user, $c_articles, $c_words, $c_langs, $c_views) {
+function createNumbersTable($c_user, $c_articles, $c_words, $c_langs, $c_views) {
     //---
     $Numbers_table = '
     <table class="sortable table table-striped"> <!-- scrollbody -->
@@ -131,7 +131,7 @@ function create_Numbers_table($c_user, $c_articles, $c_words, $c_langs, $c_views
     return $Numbers_table;
 };
 //---
-function Make_users_table() {
+function makeUsersTable() {
     //---
     global $sql_users_tab, $Users_word_table, $Views_by_users;
     //---
@@ -182,7 +182,7 @@ function Make_users_table() {
     return $text;
 }
 //---
-function Make_lang_table() {
+function makeLangTable() {
     //---
     global $lang_code_to_en, $code_to_lang, $sql_Languages_tab, $all_views_by_lang;
     //---
