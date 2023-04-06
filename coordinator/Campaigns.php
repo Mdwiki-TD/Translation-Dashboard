@@ -26,45 +26,47 @@ if ($user_in_coord == false) {
 
 <?php
 //---
-for($i = 0; $i < count($_POST['del']); $i++ ) {
-	$del	= $_POST['del'][$i];
-	//---
-	if ($del != '') {
-		$qua2 = "DELETE FROM categories WHERE id = '$del'";
-		quary2($qua2);
+if (isset($_POST['del'])) {
+	for($i = 0; $i < count($_POST['del']); $i++ ) {
+		$del	= $_POST['del'][$i];
+		//---
+		if ($del != '') {
+			$qua2 = "DELETE FROM categories WHERE id = '$del'";
+			execute_query_2($qua2);
+		};
 	};
 };
 //---
-// if (isset($_POST['cat'])) {
-for($i = 0; $i < count($_POST['cat']); $i++ ){
-	$cat = $_POST['cat'][$i];
-	$dis = $_POST['dis'][$i];
-	$ido = $_POST['id'][$i];
-	$ido = (isset($ido)) ? $ido : '';
-	$dep = $_POST['dep'][$i];
-	//---
-	$qua = "INSERT INTO categories (category, display, depth) SELECT '$cat', '$dis', '$dep'
-	WHERE NOT EXISTS (SELECT 1 FROM categories WHERE category = '$cat')";
-	//---	
-	if ($ido != '') {
-		$qua = "UPDATE categories 
-		SET 
-		display = '$dis',
-		category = '$cat',
-		depth = '$dep'
-		WHERE id = '$ido'
-		";
+if (isset($_POST['cat'])) {
+	for($i = 0; $i < count($_POST['cat']); $i++ ){
+		$cat = $_POST['cat'][$i];
+		$dis = $_POST['dis'][$i];
+		$ido = $_POST['id'][$i];
+		$ido = (isset($ido)) ? $ido : '';
+		$dep = $_POST['dep'][$i];
+		//---
+		$qua = "INSERT INTO categories (category, display, depth) SELECT '$cat', '$dis', '$dep'
+		WHERE NOT EXISTS (SELECT 1 FROM categories WHERE category = '$cat')";
+		//---	
+		if ($ido != '') {
+			$qua = "UPDATE categories 
+			SET 
+			display = '$dis',
+			category = '$cat',
+			depth = '$dep'
+			WHERE id = '$ido'
+			";
+		};
+		execute_query_2($qua);
 	};
-	quary2($qua);
 };
-// };
 //---
 $uuux = '';
 //---
 // ALTER TABLE `categories` ADD `depth` INT(2) NULL DEFAULT NULL AFTER `display`;
 // ALTER TABLE categories DROP depth;
 //---
-$qq = quary2('select id, category, display, depth from categories;');
+$qq = execute_query_2('select id, category, display, depth from categories;');
 //---
 $numb = 0;
 //---

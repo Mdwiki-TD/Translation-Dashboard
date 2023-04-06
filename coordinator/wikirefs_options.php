@@ -21,47 +21,53 @@ function get_POST( $key, $i ) {
     return $uu;
 };
 //---
-if (count($_POST['newlang']) != null) {
-    for($i = 0; $i < count($_POST['newlang']); $i++ ){
-        //---
-        $lang1  	 = get_POST('newlang', $i);
-        $move_dots1  = (get_POST('newmove_dots', $i) == '1') ? 1 :0;
-        $expend1     = (get_POST('newexpend', $i) == '1') ? 1 :0;
-        //---
-        $lang1 = strtolower($lang1);
-        //---
-        $tabes[$lang1] = array();
-        $tabes[$lang1]['move_dots'] = $move_dots1;
-        $tabes[$lang1]['expend'] = $expend1;
+if (isset($_POST['newlang'])) {
+    if (count($_POST['newlang']) != null) {
+        for($i = 0; $i < count($_POST['newlang']); $i++ ){
+            //---
+            $lang1  	 = get_POST('newlang', $i);
+            $move_dots1  = (get_POST('newmove_dots', $i) == '1') ? 1 :0;
+            $expend1     = (get_POST('newexpend', $i) == '1') ? 1 :0;
+            //---
+            $lang1 = strtolower($lang1);
+            //---
+            $tabes[$lang1] = array();
+            $tabes[$lang1]['move_dots'] = $move_dots1;
+            $tabes[$lang1]['expend'] = $expend1;
+            //---
+        };
         //---
     };
-    //---
 };
 //---
-if (count($_POST['lang']) != null) {
-    for($io = 0; $io < count($_POST['lang']); $io++ ){
-        //---
-        $lang = strtolower($_POST['lang'][$io]);
-        //---
-        $tabes[$lang] = array();
-        $tabes[$lang]['move_dots'] = 0;
-        $tabes[$lang]['expend'] = 0;
+if (isset($_POST['lang'])) {
+    if (count($_POST['lang']) != null) {
+        for($io = 0; $io < count($_POST['lang']); $io++ ){
+            //---
+            $lang = strtolower($_POST['lang'][$io]);
+            //---
+            $tabes[$lang] = array();
+            $tabes[$lang]['move_dots'] = 0;
+            $tabes[$lang]['expend'] = 0;
+            //---
+        };
         //---
     };
-    //---
 };
 //---
 function add_key_from_post($key) {
     global $tabes;
     //---
-    if (count($_POST[$key]) != null) {
-        for($io = 0; $io < count($_POST[$key]); $io++ ){
-            //---
-            $vav = strtolower($_POST[$key][$io]);
-            //---
-            if (!isset($tabes[$vav])) $tabes[$vav] = array();
-            $tabes[$vav][$key] = 1;
-            //---
+    if (isset($_POST[$key])) {
+        if (count($_POST[$key]) != null) {
+            for($io = 0; $io < count($_POST[$key]); $io++ ){
+                //---
+                $vav = strtolower($_POST[$key][$io]);
+                //---
+                if (!isset($tabes[$vav])) $tabes[$vav] = array();
+                $tabes[$vav][$key] = 1;
+                //---
+            };
         };
     };
 };
@@ -72,13 +78,15 @@ foreach ($keys_to_add as $key) {
     add_key_from_post($key);
 };
 //---
-for($i = 0; $i < count($_POST['del']); $i++ ) {
-	$key_to_del	= $_POST['del'][$i];
-	//---
-	if (isset($tabes[$key_to_del])) unset($tabes[$key_to_del]);
+if (isset($_POST['del'])) {
+    for($i = 0; $i < count($_POST['del']); $i++ ) {
+        $key_to_del	= $_POST['del'][$i];
+        //---
+        if (isset($tabes[$key_to_del])) unset($tabes[$key_to_del]);
+    };
 };
 //---
-if (count($_POST['lang']) != null || count($_POST['newlang']) != null) {
+if (isset($_POST['lang']) || isset($_POST['newlang'])) {
     //---
     $tabes2 = $tabes;
     //---
@@ -155,7 +163,7 @@ function make_td($lang, $tabg, $numb) {
     return $laly;
 };
 //---
-foreach ( quary2("select DISTINCT lang from pages;") AS $tat => $tag ) {
+foreach ( execute_query_2("select DISTINCT lang from pages;") AS $tat => $tag ) {
     $lal = strtolower($tag['lang']);
     //---
     if (!isset($tabes[$lal])) {

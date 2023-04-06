@@ -1,13 +1,14 @@
 <?php
 /*
 //---
+delete from pages where target = '' and date < ADDDATE(CURDATE(), INTERVAL -7 DAY)
+select * from pages where target = '' and date < ADDDATE(CURDATE(), INTERVAL -7 DAY)
+//---
 delete table
 DROP table views_by_month ;
 //---
 // add columns
-
 ALTER TABLE `pages` ADD `add_date` VARCHAR(120) NULL DEFAULT NULL AFTER `target`;
-
 //---
 CREATE TABLE coordinator (
     id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -89,6 +90,50 @@ if ( $raw == '' ) {
     //---
 	$sql_php = "sql.php?pass=$pass&";
     //---
+    $qu1 = urlencode("SELECT 
+        A.id as id1, A.target as t1,
+        B.id as id2, B.target as t2
+        FROM views A, views B
+        WHERE A.target = B.target
+        and A.lang = B.lang
+        and A.id != B.id
+        ;");
+    //---
+    $qu2 = urlencode("SELECT * from pages p1 
+        where p1.target = '' and EXISTS  (SELECT 1 FROM pages p2 WHERE p1.title = p2.title and p2.target != ''
+        and p1.lang = p2.lang
+        )");
+    //---
+    $qu3 = urlencode("SELECT A.lang as lang,A.title as title, 
+        A.id AS id1, A.user AS u1, A.target as T1, A.date as d1,
+        B.id AS id2, B.user AS u2, B.target as T2, B.date as d2
+        FROM pages A, pages B
+        WHERE A.id <> B.id
+        AND A.title = B.title
+        AND A.lang = B.lang
+        and A.target != ''
+        ORDER BY A.title;");
+    //---
+    $qu4 = urlencode("SELECT 
+        A.id as id1, A.title as t1, A.qid as q1, 
+        B.id as id2, B.title as t2, B.qid as q2
+        FROM qids A, qids B
+        WHERE A.title = B.title
+        and A.id != B.id
+        ;");
+    //---
+    $qu5 = urlencode("SELECT 
+        A.id as id1, A.title as t1, A.qid as q1, 
+        B.id as id2, B.title as t2, B.qid as q2
+        FROM qids A, qids B
+        WHERE A.qid = B.qid
+        and A.title != B.title
+        and A.id != B.id
+        and B.qid != ''
+        ;");
+    //---
+    $qu6 = urlencode("select * from pages where target = '' and date < ADDDATE(CURDATE(), INTERVAL -7 DAY)");
+    //---
     echo "
     <div class='row'>
         <div class='col-md'>
@@ -103,20 +148,20 @@ if ( $raw == '' ) {
                 <li><a href='" . $sql_php . "code=select * from words;'>select * from words;</a></li>
                 <li><a href='" . $sql_php . "code=select * from pages;'>select * from pages;</a></li>
                 <li><a href='" . $sql_php . "code=select * from qids;'>select * from qids;</a></li>
-                <li><a href='" . $sql_php . "code=SELECT%20%0AA.id%20as%20id1%2C%20A.target%20as%20t1%2C%0AB.id%20as%20id2%2C%20B.target%20as%20t2%0AFROM%20views%20A%2C%20views%20B%0AWHERE%20A.target%20%3D%20B.target%0Aand%20A.lang%20%3D%20B.lang%0Aand%20A.id%20!%3D%20B.id%0A%3B'>Duplicte views.</a></li>
+                <li><a href='" . $sql_php . "code=" . $qu1 . "'>Duplicte views.</a></li>
                 </ul>
             </div>
             <div class='col-md'>
                 <ul>
-                <li><a href='" . $sql_php . "code=SELECT%20*%20from%20pages%20p1%20%0Awhere%20p1.target%20%3D%20%27%27%20and%20EXISTS%20%20(SELECT%201%20FROM%20pages%20p2%20WHERE%20p1.title%20%3D%20p2.title%20and%20p2.target%20!%3D%20%27%27%0Aand%20p1.lang%20%3D%20p2.lang%0A)'>Duplicte pages to remove.</a></li>
-				<li><a href='" . $sql_php . "code=SELECT%20A.lang%20as%20lang%2CA.title%20as%20title%2C%20%0AA.id%20AS%20id1%2C%20A.user%20AS%20u1%2C%20A.target%20as%20T1%2C%20A.date%20as%20d1%2C%0AB.id%20AS%20id2%2C%20B.user%20AS%20u2%2C%20B.target%20as%20T2%2C%20B.date%20as%20d2%0A%0AFROM%20pages%20A%2C%20pages%20B%0AWHERE%20A.id%20%3C%3E%20B.id%0AAND%20A.title%20%3D%20B.title%0AAND%20A.lang%20%3D%20B.lang%0Aand%20A.target%20!%3D%20%27%27%0AORDER%20BY%20A.title%3B'>Duplicte pages2.</a></li>
-
+                <li><a href='" . $sql_php . "code=" . $qu2 . "'>Duplicte pages to remove.</a></li>
+				<li><a href='" . $sql_php . "code=" . $qu3 . "'>Duplicte pages2.</a></li>
                 </ul>
             </div>
             <div class='col-md'>
                 <ul>
-                <li><a href='" . $sql_php . "code=SELECT+%0D%0AA.id+as+id1%2C+A.title+as+t1%2C+A.qid+as+q1%2C+%0D%0AB.id+as+id2%2C+B.title+as+t2%2C+B.qid+as+q2%0D%0AFROM+qids+A%2C+qids+B%0D%0AWHERE+A.title+%3D+B.title%0D%0Aand+A.id+%21%3D+B.id%0D%0A%3B'>Duplicte qids.</a></li>
-                <li><a href='" . $sql_php . "code=SELECT%20%0AA.id%20as%20id1%2C%20A.title%20as%20t1%2C%20A.qid%20as%20q1%2C%20%0AB.id%20as%20id2%2C%20B.title%20as%20t2%2C%20B.qid%20as%20q2%0AFROM%20qids%20A%2C%20qids%20B%0AWHERE%20A.qid%20%3D%20B.qid%0Aand%20A.title%20!%3D%20B.title%0Aand%20A.id%20!%3D%20B.id%0Aand%20B.qid%20!%3D%20%27%27%0A%3B'>Duplicte qids2.</a></li>
+                <li><a href='" . $sql_php . "code=" . $qu4 . "'>Duplicte qids.</a></li>
+                <li><a href='" . $sql_php . "code=" . $qu5 . "'>Duplicte qids2.</a></li>
+                <li><a href='" . $sql_php . "code=" . $qu6 . "'>In process > 7.</a></li>
             </ul>
         </div>
     </div>
@@ -160,94 +205,11 @@ if ( $raw == '' ) {
 //---
 if ( $qua != '' and ($pass == $sqlpass or $_SERVER['SERVER_NAME'] == 'localhost') ) {
     //---
-    if ($_SERVER['SERVER_NAME'] == 'mdwiki.toolforge.org') {
-        $uu = quary($qua);
-    } else {
-        $uu = sqlquary_localhost($qua);
-    };
-    //---
-    $start = '<table class="table table-striped soro2">
-    <thead>
-        <tr>
-            <th>#</th>
-    
-    ';
-    $text = '';
-    //---
-    $number = 0;
-    //---
-    foreach ( $uu AS $id => $row ) {
-        $number = $number + 1;
-        $tr = '';
-        //---
-        foreach ( $row AS $nas => $value ) {
-            // if ($nas != '') {
-            if (!preg_match( '/^\d+$/', $nas, $m ) ) {
-                $tr .= "<td>$value</th>";
-                if ($number == 1) { 
-                    $start .= "<th class='text-nowrap'>$nas</th>";
-                };
-            };
-        };
-        //---
-        if ($tr != '' ) { $text .= "<tr><td>$number</td>$tr</tr>"; };
-        //---
-    };
-    //---
-    $start .= '</tr>
-    </thead>';
-    //---
-    if ( $raw == '' ) {
-        //---
-        echo "<h4>sql results:$number.</h4>";
-        //---
-        echo $start . $text . '</table>';
-        //---
-        // if ($test != '') { print_r($uu);};
-        if ($test != '') { print(var_export($uu)) ;};
-        //---
-        if ($text == '') {
-            if ($test != '') {
-                print_r($uu);
-            } else {
-                print(var_dump($uu));
-            };
-        };
-    } else {
-        //---
-        $sql_result = array();
-        //---
-        $n = 0;
-        //---
-        foreach ( $uu AS $id => $row ) {
-            $ff = array();
-            $n = $n + 1 ;
-            //---
-            foreach ( $row AS $nas => $value ) {
-                if (preg_match( '/^\d+$/', $nas, $m ) ) {
-                    $ii = '';
-                } else {
-                    $ff[$nas] = $value;
-                };
-            };
-            //---
-            
-            $sql_result[$n] = $ff;
-        };
-        print(json_encode($sql_result));
-		//---
-		if ( $raw == '66' ) {
-			echo '<script>window.close();</script>';
-			
-		};
-		//---
-        
-    };
+    require('sql_result.php');
+    make_sql_result( $qua, $raw, $test );
     //---
 };
 //---
-//---
-
 /*
 $sql = <<<____SQL
      CREATE TABLE IF NOT EXISTS `ticket_hist` (
@@ -262,7 +224,6 @@ ____SQL;
 $result = $this->db->getConnection()->exec($sql);
 
 */
-//---
 //---
 if ( $raw == '' ) {
     print "</div>";

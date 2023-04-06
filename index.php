@@ -1,11 +1,8 @@
 <?PHP
 //---
 require('header.php');
-//---
-// require('tables.php');
 require('langcode.php');
 include_once('functions.php');
-//---
 include_once('td_config.php');
 $conf = get_configs('conf.json');
 //---
@@ -13,7 +10,7 @@ $allow_whole_translate = isset($conf['allow_type_of_translate']) ? $conf['allow_
 //---
 $code = isset($_REQUEST['code']) ? $_REQUEST['code'] : '';
 //---
-if ($code == 'undefined') { $code = ""; };
+if ($code == 'undefined') $code = "";
 //---
 $code = isset($lang_to_code[$code]) ? $lang_to_code[$code] : $code;
 $code_lang_name = isset($code_to_lang[$code]) ? $code_to_lang[$code] : ''; 
@@ -23,17 +20,14 @@ if ($allow_whole_translate == false) $tra_type = 'lead';
 //---
 $cat = isset($_REQUEST['cat']) ? $_REQUEST['cat'] : '';
 //---
-if ($cat == "undefined") { $cat = "RTT";};
+if ($cat == "undefined") $cat = "RTT";
 //---
 $cat_ch = htmlspecialchars($cat, ENT_QUOTES);
 //---
 $catinput_depth = array();
-$catinput_list = array(
-  // "ready to translate" => 'RTT',
-  // "Covid team" => 'RTTCovid',
-  );
+$catinput_list = array();
 //---
-$qq = quary2('select category, display, depth from categories;');
+$qq = execute_query_2('select category, display, depth from categories;');
 //---
 $numb = 0;
 //---

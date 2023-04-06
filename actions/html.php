@@ -1,4 +1,60 @@
-<?PHP
+<?php
+//---
+function add_quotes($str) {
+	// if str have ' then use "
+	// else use '
+	$value = "'$str'";
+	if (preg_match("/[']+/", $str)) $value = '"$str"';
+	return $value;
+};
+//---
+function make_input_group( $label, $id, $value, $required) {
+    $val2 = add_quotes($value);
+    $str = "
+    <div class='col-md-3'>
+        <div class='input-group mb-3'>
+            <div class='input-group-prepend'>
+                <span class='input-group-text'>$label</span>
+            </div>
+            <input class='form-control' type='text' name='$id' value=$val2 $required/>
+        </div>
+    </div>";
+    return $str;
+};
+//---
+function make_drop_d($tab, $cat, $id, $add) {
+    //---
+    $lines = "";
+    //---
+    foreach ( $tab AS $dd ) {
+        //---
+        $se = '';
+        //---
+        if ( $cat == $dd ) $se = 'selected';
+        //---
+        $lines .= "
+	    <option value='$dd' $se>$dd</option>
+		";
+        //---
+    };
+    //---
+	$sel_line = "";
+	//---
+    if ($add != '' ) {
+	    $sel = "";
+	    if ( $cat == $add ) $sel = "celected";
+        $sel_line = "<option value='$add' $sel>$add</option>";
+    }
+	//---
+    $texte = "
+        <select dir='ltr' id='$id' name='$id' class='form-select'>
+            $sel_line
+			$lines
+        </select>";
+    //---
+    return $texte;
+    //---
+};
 //---
 function make_col_sm_4($title, $table, $numb = '4') {
     return "
@@ -33,11 +89,6 @@ function make_col_sm_body($title, $subtitle, $table, $numb = '4') {
     ";
 };
 //---
-function test_print($s) {
-    global $test;
-    if ($test != '') { print $s; };
-};
-//---
 function make_drop($uxutable, $code) {
     $ux =  "";
     //---
@@ -63,62 +114,6 @@ function make_datalist_options($hyh) {
     return $str;
     //---
 };
-//---
-function Get_it( $array, $key ) {
-    $uu = isset($array[$key]) ? $array[$key] : $array->{$key};
-    return $uu;
-};
-//---
-function get_views($target, $lang, $pupdate) {
-    $view = 0;
-    //---
-	if ($target == '') return 0;
-    //---
-	$start2 = $pupdate != '' ? str_replace('-', '', $pupdate) : '20190101';
-    //---
-    $url = 'https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/' . $lang . '.wikipedia/all-access/all-agents/' . rawurlencode($target) . '/daily/' . $start2 . '/2030010100';
-    //---
-    $output = file_get_contents( $url );
-    //---
-    $result = json_decode( $output, true );
-    //---
-    foreach ($result['items'] AS $da){
-        $view += $da['views'];
-    };
-    //---
-    // print($url.'<br>' );
-    //---
-    return $view;
-};
-//---
-function make_view_by_number($target, $numb, $lang, $pupdate) {
-    //---
-    $numb2 = ($numb != '') ? $numb : "?";
-    //---
-	$start = $pupdate != '' ? $pupdate : '2019-01-01';
-	$end = date("Y-m-d", strtotime("yesterday"));
-    //---
-    $url  = 'https://' . 'pageviews.wmcloud.org/?';
-	$url .= http_build_query( array(
-		'project' => "$lang.wikipedia.org",
-		'platform' => 'all-access',
-		'agent' => 'all-agents',
-		'start' => $start,
-		'end' => $end,
-		'redirects' => '0',
-		'pages' => $target,
-	));
-    //---
-	$start2 = $pupdate != '' ? str_replace('-', '', $pupdate) : '20190101';
-    $url2 = 'https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/' . $lang . '.wikipedia/all-access/all-agents/' . rawurlencode($target) . '/daily/' . $start2 . '/2030010100';
-    //---
-    $link = "<a target='_blank' href='$url'>$numb2</a>";
-    if ($numb2 == '?' || $numb2 == 0 || $numb2 == '0') {
-        $link = "<a target='_blank' name='toget' hrefjson='$url2' href='$url'>$numb2</a>";
-    };
-    //---
-    return $link;
-    };
 //---
 function make_mdwiki_title($tit) {
     $title = $tit;
@@ -146,7 +141,7 @@ function make_mdwiki_user_url($ud) {
     };
     return $user;
 };
-//--- 
+//---
 function make_target_url($ta, $lang, $name='') {
     $target = $ta ;
 	//---
@@ -159,7 +154,5 @@ function make_target_url($ta, $lang, $name='') {
     };
     return $target;
 };
-//--- 
-
 //--- 
 ?>

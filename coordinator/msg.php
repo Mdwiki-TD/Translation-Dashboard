@@ -84,7 +84,7 @@ $HERE = "<a target='_blank' href='$here_url'><b>HERE</b></a>";
 //---
 $Emails_array = array();
 //---
-foreach ( quary2("select username, email from users;") AS $Key => $ta ) {
+foreach ( execute_query_2("select username, email from users;") AS $Key => $ta ) {
     $Emails_array[$ta['username']] = $ta['email'];
 };
 //---

@@ -1,8 +1,14 @@
 <?PHP
 //---
+require('leader_tables.php');
+//---
 function print_cat_table() {
     //---
-    $tab1 = create_Numbers_table();
+    global $sql_users_tab,$Articles_numbers,$Words_total,$sql_Languages_tab,$global_views;
+    //---
+    // $tab1 = create_Numbers_table();
+    $tab1 = create_Numbers_table(count($sql_users_tab), number_format($Articles_numbers), number_format($Words_total), count($sql_Languages_tab), number_format($global_views));
+	//---
     $div1 = make_col_sm_4('Numbers',$tab1, $numb = '3');
     //---
     $tab2 = Make_users_table();
@@ -26,8 +32,6 @@ function print_cat_table() {
     //---
     return $dad;
 };
-//---
-require('leader_tables.php');
 //---
 $year      = isset($_REQUEST['year']) ? $_REQUEST['year']   : 'all';
 $camp      = isset($_REQUEST['camp']) ? $_REQUEST['camp'] : 'all';
@@ -54,12 +58,12 @@ $d1 = sprintf($d33, 'Campaign', $y1);
 //---
 $projects = array();
 //---
-foreach ( quary2('select g_title from projects;') AS $Key => $table ) $projects[] = $table['g_title'];
+foreach ( execute_query_2('select g_title from projects;') AS $Key => $table ) $projects[] = $table['g_title'];
 $y2 = make_drop_d($projects, $project, 'project', 'all');
 $d2 = sprintf($d33, 'Translators', $y2);
 //---
-$my_years = get_my_years();
-$y3 = make_drop_d($my_years, $year, 'year', 'all');
+$m_years = get_my_years();
+$y3 = make_drop_d($m_years, $year, 'year', 'all');
 $d3 = sprintf($d33, 'Year', $y3);
 //---
 $uux = print_cat_table();

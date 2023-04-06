@@ -61,7 +61,7 @@ from views
 ;
 ";
 //---
-foreach ( quary2($qua_vi) AS $k => $tab ) {
+foreach ( execute_query_2($qua_vi) AS $k => $tab ) {
     $Views_by_target[$tab['target']] = array(
         'all'  => $tab['countall'],
         '2021' => $tab['count2021'],
@@ -70,7 +70,7 @@ foreach ( quary2($qua_vi) AS $k => $tab ) {
     );
 };
 //---
-foreach ( quary2($qua_all) AS $Key => $teb ) {
+foreach ( execute_query_2($qua_all) AS $Key => $teb ) {
     //---
     $cat    = $teb['cat'];
     $lang   = $teb['lang'];
@@ -101,9 +101,7 @@ foreach ( quary2($qua_all) AS $Key => $teb ) {
     //---
     };
 //---
-function create_Numbers_table() {
-    //---
-    global $sql_users_tab,$Articles_numbers,$Words_total,$sql_Languages_tab,$global_views;
+function create_Numbers_table($c_user, $c_articles, $c_words, $c_langs, $c_views) {
     //---
     $Numbers_table = '
     <table class="sortable table table-striped"> <!-- scrollbody -->
@@ -116,15 +114,15 @@ function create_Numbers_table() {
     <tbody>
     ';
     //---
-    $Numbers_table .= '<tr><td><b>Users</b></td><td>' .     count($sql_users_tab)           . '</td></tr>
+    $Numbers_table .= '<tr><td><b>Users</b></td><td>' .     $c_user        . '</td></tr>
     ';
-    $Numbers_table .= '<tr><td><b>Articles</b></td><td>' .  number_format($Articles_numbers) . '</td></tr>
+    $Numbers_table .= '<tr><td><b>Articles</b></td><td>' .  $c_articles . '</td></tr>
     ';
-    $Numbers_table .= '<tr><td><b>Words</b></td><td>' .     number_format($Words_total)     . '</td></tr>
+    $Numbers_table .= '<tr><td><b>Words</b></td><td>' .     $c_words     . '</td></tr>
     ';
-    $Numbers_table .= '<tr><td><b>Languages</b></td><td>' . count($sql_Languages_tab)       . '</td></tr>
+    $Numbers_table .= '<tr><td><b>Languages</b></td><td>' . $c_langs       . '</td></tr>
     ';
-    $Numbers_table .= '<tr><td><b>Pageviews</b></td><td>' . number_format($global_views)    . '</td></tr>
+    $Numbers_table .= '<tr><td><b>Pageviews</b></td><td>' . $c_views    . '</td></tr>
     ';
     $Numbers_table .= '
     </tbody>

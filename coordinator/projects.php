@@ -29,27 +29,31 @@ CREATE TABLE groups (
     )
 */
 //---
-for($i = 0; $i < count($_POST['del']); $i++ ) {
-	$del	= $_POST['del'][$i];
-	//---
-	if ($del != '') {
-		$qua2 = "DELETE FROM projects WHERE g_id = '$del'";
-		quary2($qua2);
-	};
-};
-//---
-for($i = 0; $i < count($_POST['g_title']); $i++ ) {
-	$g_id  		= $_POST['g_id'][$i];
-	$g_title	= $_POST['g_title'][$i];
-	//---
-	if ($g_title != '' && $g_id == '') {
-		$qua = "INSERT INTO projects (g_title) SELECT '$g_title' WHERE NOT EXISTS (SELECT 1 FROM projects WHERE g_title = '$g_title')";
+if (isset($_POST['del'])) {
+	for($i = 0; $i < count($_POST['del']); $i++ ) {
+		$del	= $_POST['del'][$i];
 		//---
-		quary2($qua);
+		if ($del != '') {
+			$qua2 = "DELETE FROM projects WHERE g_id = '$del'";
+			execute_query_2($qua2);
+		};
 	};
 };
 //---
-$qq = quary2('select g_id, g_title from projects;');
+if (isset($_POST['g_title'])) {
+	for($i = 0; $i < count($_POST['g_title']); $i++ ) {
+		$g_id  		= $_POST['g_id'][$i];
+		$g_title	= $_POST['g_title'][$i];
+		//---
+		if ($g_title != '' && $g_id == '') {
+			$qua = "INSERT INTO projects (g_title) SELECT '$g_title' WHERE NOT EXISTS (SELECT 1 FROM projects WHERE g_title = '$g_title')";
+			//---
+			execute_query_2($qua);
+		};
+	};
+};
+//---
+$qq = execute_query_2('select g_id, g_title from projects;');
 //---
 $numb = 0;
 //---

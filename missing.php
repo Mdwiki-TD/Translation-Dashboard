@@ -66,7 +66,6 @@ foreach ( $Table as $langcode2 => $missing ) {
 
     //---
     $exists_1 = bcsub($lenth, $missing);
-    // $exists = $langs->{$langcode}->{'exists'}; 
     $exists = isset($langs[$langcode]['exists']) ? $langs[$langcode]['exists'] : '';
     #---
     if ($exists == '' ) $exists = isset($langs[$langcode2]['exists']) ? $langs[$langcode2]['exists'] : $exists_1;

@@ -14,7 +14,7 @@ $ini = Read_ini_file('my_config.ini');
 //---
 */
 //---
-$_dir = "I:/mdwiki/";
+$_dir = "I:/mdwiki/public_html/";
 //---
 if ( strpos( __file__ , '/mnt/' ) === 0 ) $_dir = "/data/project/mdwiki/";
 //---

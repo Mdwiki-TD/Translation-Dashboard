@@ -40,7 +40,7 @@ $text = "
 //---
 $n = 0;
 //---
-foreach ( quary2($sql_t) AS $k => $t ) {
+foreach ( execute_query_2($sql_t) AS $k => $t ) {
     $user  = $t['user'];
     $count = $t['count'];
     $user_process_tab[$user] = $count;

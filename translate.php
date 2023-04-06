@@ -64,7 +64,6 @@ if ($title_o != '' && $coden != '' && $useree != '' ) {
     $title_o = rawurldecode($title_o);
     //---
     $title_o2 = $title_o;
-    //$title_o2 = ucfirst(trim($title_o2));
     $title_o2 = rawurlencode(str_replace ( ' ' , '_' , $title_o2 ) );
     //---
     $user2  = rawurlencode(str_replace ( ' ' , '_' , $useree ));
@@ -97,10 +96,9 @@ if ($title_o != '' && $coden != '' && $useree != '' ) {
     //---
     if ($test != '') echo "<br>$quae_new<br>";
     //---
-    quary_a($quae_new);
+    $uxx = execute_query($quae_new);
     //---
     $output = start_trans_py($title_o,$test,$fixref,$tr_type);
-    // };
     //---
     if (trim($output) == 'true' || isset($_REQUEST['go'])) {
         $title_o2 = rawurlEncode($title_o);

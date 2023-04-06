@@ -82,30 +82,32 @@ function add_to_db($title, $type, $cat, $lang, $user, $target, $pupdate) {
     //---
 	if (isset($_REQUEST['test'])) echo $qua_23;
     //---
-    quary2($qua_23);
+    execute_query_2($qua_23);
     //---
 };
 //---
-for($i = 0; $i < count($_POST['mdtitle']); $i++ ) {
-	//---
-	$mdtitle	= get_request_1('mdtitle', $i);
-	$cat		= get_request_1('cat', $i);
-	$type		= get_request_1('type', $i);
-	$user		= get_request_1('user', $i);
-	$lang		= get_request_1('lang', $i);
-	$target		= get_request_1('target', $i);
-	$pupdate	= get_request_1('pupdate', $i);
-	//---
-	if ($mdtitle != '' && $lang != '' && $user != '' && $target != '') {
+if (isset($_POST['mdtitle'])) {
+	for($i = 0; $i < count($_POST['mdtitle']); $i++ ) {
 		//---
-		add_to_db($mdtitle, $type, $cat, $lang, $user, $target, $pupdate);
+		$mdtitle	= get_request_1('mdtitle', $i);
+		$cat		= get_request_1('cat', $i);
+		$type		= get_request_1('type', $i);
+		$user		= get_request_1('user', $i);
+		$lang		= get_request_1('lang', $i);
+		$target		= get_request_1('target', $i);
+		$pupdate	= get_request_1('pupdate', $i);
 		//---
+		if ($mdtitle != '' && $lang != '' && $user != '' && $target != '') {
+			//---
+			add_to_db($mdtitle, $type, $cat, $lang, $user, $target, $pupdate);
+			//---
+		};
 	};
 };
 //---
 $cats = "";
 //---
-$qqq = quary2('select category, display from categories;');
+$qqq = execute_query_2('select category, display from categories;');
 //---
 foreach ($qqq AS $Key => $ta ) {
 	$ca = $ta['category'];
@@ -187,7 +189,7 @@ $( function() {
 //---
 $ka = '';
 //---
-foreach(quary2('SELECT DISTINCT user from pages;') as $k => $tab) {
+foreach(execute_query_2('SELECT DISTINCT user from pages;') as $k => $tab) {
 	$u = $tab['user'];
 	$ka .= '"' . $u . '",
 	';

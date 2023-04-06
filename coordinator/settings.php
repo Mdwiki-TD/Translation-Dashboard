@@ -86,7 +86,7 @@ $div3 = make_col_sm_body('Translate type:', '(Default: "lead")',$tat, $numb = '4
 echo $div3;
 /*
 $nn = 0;
-foreach(quary2('SELECT count(DISTINCT user) as c from pages;') as $k => $tab) $nn = $tab['c'];
+foreach(execute_query_2('SELECT count(DISTINCT user) as c from pages;') as $k => $tab) $nn = $tab['c'];
 //---
 echo "<h4>Users: ($nn user):</h4>";
 //---

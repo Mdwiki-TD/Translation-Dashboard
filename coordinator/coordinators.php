@@ -24,27 +24,31 @@ if ($user_in_coord == false) {
 
 <?php
 //---
-for($i = 0; $i < count($_POST['del']); $i++ ) {
-	$del	= $_POST['del'][$i];
-	//---
-	if ($del != '') {
-		$qua2 = "DELETE FROM coordinator WHERE id = '$del'";
-		quary2($qua2);
-	};
-};
-//---
-for($i = 0; $i < count($_POST['user']); $i++ ) {
-	$ido  	= isset($_POST['id'][$i]) ? $_POST['id'][$i] : '';
-	$user  	= isset($_POST['user'][$i]) ? $_POST['user'][$i] : '';
-	//---
-	if ($user != '' && $ido == '') {
-		$qua = "INSERT INTO coordinator (user) SELECT '$user' WHERE NOT EXISTS (SELECT 1 FROM coordinator WHERE user = '$user')";
+if (isset($_POST['del'])) {
+	for($i = 0; $i < count($_POST['del']); $i++ ) {
+		$del	= $_POST['del'][$i];
 		//---
-		quary2($qua);
+		if ($del != '') {
+			$qua2 = "DELETE FROM coordinator WHERE id = '$del'";
+			execute_query_2($qua2);
+		};
 	};
 };
 //---
-$qq = quary2('select id, user from coordinator;');
+if (isset($_POST['user'])) {
+	for($i = 0; $i < count($_POST['user']); $i++ ) {
+		$ido  	= isset($_POST['id'][$i]) ? $_POST['id'][$i] : '';
+		$user  	= isset($_POST['user'][$i]) ? $_POST['user'][$i] : '';
+		//---
+		if ($user != '' && $ido == '') {
+			$qua = "INSERT INTO coordinator (user) SELECT '$user' WHERE NOT EXISTS (SELECT 1 FROM coordinator WHERE user = '$user')";
+			//---
+			execute_query_2($qua);
+		};
+	};
+};
+//---
+$qq = execute_query_2('select id, user from coordinator;');
 //---
 $numb = 0;
 //---
