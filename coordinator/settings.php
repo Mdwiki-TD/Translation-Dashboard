@@ -26,7 +26,7 @@ if (isset($display_type)) {
 //---
 $conf = get_configs('conf.json');
 //---
-$allow_whole_translate = isset($conf['allow_type_of_translate']) ? $conf['allow_type_of_translate'] : true;
+$allow_whole_translate = $conf['allow_type_of_translate'] ?? true;
 //---
 $checked_yes = '';
 $checked_no = '';

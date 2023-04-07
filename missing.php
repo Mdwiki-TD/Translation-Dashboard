@@ -57,18 +57,18 @@ foreach ( $Table as $langcode2 => $missing ) {
     // skip langcode in $skip_codes
     if (in_array($langcode, $skip_codes)) continue;
     //---
-    $langcode = isset($change_codes[$langcode]) ? $change_codes[$langcode] : $langcode;
+    $langcode = $change_codes[$langcode] ?? $langcode;
     //---
     $num = $num + 1;
-    $langname = isset($code_to_wikiname[$langcode]) ? $code_to_wikiname[$langcode] : "11 $langcode";
+    $langname = $code_to_wikiname[$langcode] ?? "11 $langcode";
     $langname = str_replace ( "($langcode) " , '' , $langname ) ;
     //---
 
     //---
     $exists_1 = bcsub($lenth, $missing);
-    $exists = isset($langs[$langcode]['exists']) ? $langs[$langcode]['exists'] : '';
+    $exists = $langs[$langcode]['exists'] ?? '';
     #---
-    if ($exists == '' ) $exists = isset($langs[$langcode2]['exists']) ? $langs[$langcode2]['exists'] : $exists_1;
+    if ($exists == '' ) $exists = $langs[$langcode2]['exists'] ?? $exists_1;
     //---
     $text .= '
         <tr>

@@ -82,7 +82,7 @@ foreach ($qids_o as $qid => $tab) {
     print "<td><a href='https://mdwiki.org/wiki/$mdtitle'>$mdtitle</a></td>";
     //---
     foreach ($heads as $head) {
-        $value = isset($tab['sitelinks'][$head]) ? $tab['sitelinks'][$head] : '';
+        $value = $tab['sitelinks'][$head] ?? '';
         $link = "";
         if ($value != "") {
             $link = "<a href='https://$head.wikipedia.org/wiki/$value'>$value</a>";

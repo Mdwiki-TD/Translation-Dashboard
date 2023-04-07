@@ -6,7 +6,7 @@ $test = $_REQUEST['test'] ?? '';
 $mainlang = $_REQUEST['langcode'];
 $mainlang = rawurldecode( str_replace ( '_' , ' ' , $mainlang ) );
 //---
-$langname = isset($code_to_lang[$mainlang]) ? $code_to_lang[$mainlang] : $mainlang;
+$langname = $code_to_lang[$mainlang] ?? $mainlang;
 //---
 $man = $langname;
 //---
@@ -35,8 +35,8 @@ foreach ( $views_quary AS $Key => $t ) $table_of_views[$t['target']] = $t['count
 //---
 foreach ( execute_query("select * from pages where lang = '$mainlang'") AS $yhu => $Taab ) {
 	//---
-	$dat1 = isset($Taab['pupdate']) ? $Taab['pupdate'] : '';
-	$dat2 = isset($Taab['date']) ? $Taab['date'] : '';
+	$dat1 = $Taab['pupdate'] ?? '';
+	$dat2 = $Taab['date'] ?? '';
 	$dat = ($dat1 != '') ? $dat1 : $dat2;
     //---
 	$urt = '';

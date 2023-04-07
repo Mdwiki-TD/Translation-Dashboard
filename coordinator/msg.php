@@ -49,13 +49,13 @@ $sugust = '';
 //---
 if ($title != '') {
     $items = get_cat_members( 'RTT', '1', $lang, false, $use_cash=true );
-    $items_missing = isset($items['missing']) ? $items['missing'] : array();
+    $items_missing = $items['missing'] ?? array();
     //---
     $dd = array();
     //---
     foreach ( $items_missing AS $t ) {
         $t = str_replace ( '_' , ' ' , $t );
-        $kry = isset($enwiki_pageviews_table[$t]) ? $enwiki_pageviews_table[$t] : 0; 
+        $kry = $enwiki_pageviews_table[$t] ?? 0; 
         $dd[$t] = $kry;
     };
     //---
@@ -88,8 +88,8 @@ foreach ( execute_query("select username, email from users;") AS $Key => $ta ) {
     $Emails_array[$ta['username']] = $ta['email'];
 };
 //---
-$email_to = isset($Emails_array[$user]) ? $Emails_array[$user] : '';
-$cc_to    = isset($Emails_array[$username]) ? $Emails_array[$username] : '';
+$email_to = $Emails_array[$user] ?? '';
+$cc_to    = $Emails_array[$username] ?? '';
 //---
 $title2  = make_mdwiki_title($title);
 $sugust2 = make_mdwiki_title($sugust);
@@ -112,7 +112,7 @@ $url_views_3  = 'https://' . 'pageviews.wmcloud.org/?' . http_build_query( array
 // $views2 = "<font color='#0000ff'>$views people</font>";
 $views2 = "<a target='_blank' href='$url_views_3'><font color='#0000ff'>$views people</font></a>";
 //---
-$lang2 = isset($lang_code_to_en[$lang]) ? $lang_code_to_en[$lang] : $lang;
+$lang2 = $lang_code_to_en[$lang] ?? $lang;
 $lang2 = make_target_url($target, $lang, $name=$lang2);
 //---
 // print tabs values

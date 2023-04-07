@@ -18,14 +18,14 @@ function make_td($tabg, $nnnn) {
     $md_title = $tabg['title'];
     $cat      = $tabg['cat'];
     $word     = $tabg['word'];
-    $pupdate  = isset($tabg['date']) ? $tabg['date'] : '';
+    $pupdate  = $tabg['date'] ?? '';
     //---
-    $lang2 = isset($code_to_lang[$llang]) ? $code_to_lang[$llang] : $llang;
+    $lang2 = $code_to_lang[$llang] ?? $llang;
     //---
     // $ccat = make_cat_url( $cat );
-    $ccat = isset($cat_to_camp[$cat]) ? $cat_to_camp[$cat] : $cat;
+    $ccat = $cat_to_camp[$cat] ?? $cat;
     //---
-    // $worde = isset($word) ? $word : $Words_table[$md_title];
+    // $worde = $word ?? $Words_table[$md_title];
     //---
     $nana = make_mdwiki_title( $md_title );
     //---

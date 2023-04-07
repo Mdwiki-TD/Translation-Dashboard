@@ -196,10 +196,10 @@ function sign_request( $method, $url, $params = array() ) {
     $parts = parse_url( $url );
 
     // We need to normalize the endpoint URL
-    $scheme = isset( $parts['scheme'] ) ? $parts['scheme'] : 'http';
-    $host = isset( $parts['host'] ) ? $parts['host'] : '';
-    $port = isset( $parts['port'] ) ? $parts['port'] : ( $scheme == 'https' ? '443' : '80' );
-    $path = isset( $parts['path'] ) ? $parts['path'] : '';
+    $scheme =  $parts['scheme']  ?? 'http';
+    $host =  $parts['host']  ?? '';
+    $port =  $parts['port']  ?? ( $scheme == 'https' ? '443' : '80' );
+    $path =  $parts['path']  ?? '';
     if ( ( $scheme == 'https' && $port != '443' ) ||
         ( $scheme == 'http' && $port != '80' ) 
     ) {
@@ -209,7 +209,7 @@ function sign_request( $method, $url, $params = array() ) {
 
     // Also the parameters
     $pairs = array();
-    parse_str( isset( $parts['query'] ) ? $parts['query'] : '', $query );
+    parse_str(  $parts['query']  ?? '', $query );
     $query += $params;
     unset( $query['oauth_signature'] );
     if ( $query ) {

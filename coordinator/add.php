@@ -62,8 +62,8 @@ function add_to_db($title, $type, $cat, $lang, $user, $target, $pupdate) {
     $title2		= qu_str($title);
     $target2	= qu_str($target);
     //---
-    $word = isset($Words_table[$title]) ? $Words_table[$title] : 0; 
-    if ($type == 'all') $word = isset($All_Words_table[$title]) ? $All_Words_table[$title] : 0;
+    $word = $Words_table[$title] ?? 0; 
+    if ($type == 'all') $word = $All_Words_table[$title] ?? 0;
     //---
 	// date now format like 2023-01-01
 	$add_date = date('Y-m-d');

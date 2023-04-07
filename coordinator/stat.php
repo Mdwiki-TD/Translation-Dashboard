@@ -71,28 +71,28 @@ $i = 0;
 foreach ($titles as $title) {
     $i = $i + 1;
     //---
-    $qid = isset($sql_qids[$title]) ? $sql_qids[$title] : "";
+    $qid = $sql_qids[$title] ?? "";
     //---
     if ($qid == '') $no_qid +=1;
     //---
     $qidurl = ($qid != '') ? "<a href='https://wikidata.org/wiki/$qid'>$qid</a>" : '';
     //---
-    $word = isset($Words_table[$title]) ? $Words_table[$title] : 0; 
+    $word = $Words_table[$title] ?? 0; 
     //---
-    $allword = isset($All_Words_table[$title]) ? $All_Words_table[$title] : 0;
+    $allword = $All_Words_table[$title] ?? 0;
     if ($word == 0) $no_word +=1;
     if ($allword == 0) $no_allword +=1;
     //---
-    $refs = isset($Lead_Refs_table[$title]) ? $Lead_Refs_table[$title] : 0;
+    $refs = $Lead_Refs_table[$title] ?? 0;
     //---
-    $all_refs = isset($All_Refs_table[$title]) ? $All_Refs_table[$title] : 0;
+    $all_refs = $All_Refs_table[$title] ?? 0;
     //---
     if ($refs == 0) $no_ref +=1;
     if ($all_refs == 0) $no_allref +=1;
-    $asse = isset($Assessments_table[$title]) ? $Assessments_table[$title] : '';
+    $asse = $Assessments_table[$title] ?? '';
     if (!isset($Assessments_table[$title])) $no_Importance +=1;
     //---
-	$pv = isset($enwiki_pageviews_table[$title]) ? $enwiki_pageviews_table[$title] : 0; 
+	$pv = $enwiki_pageviews_table[$title] ?? 0; 
     if (!isset($enwiki_pageviews_table[$title])) $no_pv +=1;
     //---
     //---

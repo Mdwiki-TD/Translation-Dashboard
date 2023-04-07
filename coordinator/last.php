@@ -40,17 +40,17 @@ function make_td($tabg, $nnnn) {
     $cat      = $tabg['cat'];
     $word     = $tabg['word'];
     $targe    = $tabg['target'];
-    $pupdate  = isset($tabg['pupdate']) ? $tabg['pupdate'] : '';
-    $add_date  = isset($tabg['add_date']) ? $tabg['add_date'] : '';
+    $pupdate  = $tabg['pupdate'] ?? '';
+    $add_date = $tabg['add_date'] ?? '';
     //---
-    $views_number = isset($views_sql[$targe]) ? $views_sql[$targe] : '?';
+    $views_number = $views_sql[$targe] ?? '?';
     //---
-    $lang2 = isset($code_to_lang[$llang]) ? $code_to_lang[$llang] : $llang;
+    $lang2 = $code_to_lang[$llang] ?? $llang;
     //---
     // $ccat = make_cat_url( $cat );
-    $ccat = isset($cat_to_camp[$cat]) ? $cat_to_camp[$cat] : $cat;
+    $ccat = $cat_to_camp[$cat] ?? $cat;
     //---
-    $worde = isset($word) ? $word : $Words_table[$md_title];
+    $worde = $word ?? $Words_table[$md_title];
     //---
     $nana = make_mdwiki_title( $md_title );
     //---

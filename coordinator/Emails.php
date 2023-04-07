@@ -150,8 +150,8 @@ foreach ( $sorted_array as $username => $d) {
 	//---
 	$table = $users_done[$username];
 	//---
-	// $username 	= isset($table['username']) ? $table['username'] : $table['user'];
-	$live		= isset($live_pages[$username]) ? $live_pages[$username] : 0;
+	// $username 	= $table['username'] ?? $table['user'];
+	$live		= $live_pages[$username] ?? 0;
 	//---
 	$id			= $table['user_id'];
 	$email 		= $table['email'];

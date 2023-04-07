@@ -13,8 +13,8 @@ $code = $_REQUEST['code'] ?? '';
 //---
 if ($code == 'undefined') $code = "";
 //---
-$code = isset($lang_to_code[$code]) ? $lang_to_code[$code] : $code;
-$code_lang_name = isset($code_to_lang[$code]) ? $code_to_lang[$code] : ''; 
+$code = $lang_to_code[$code] ?? $code;
+$code_lang_name = $code_to_lang[$code] ?? ''; 
 //---
 $tra_type  = $_REQUEST['type'] ?? '';
 //---
@@ -32,7 +32,7 @@ function sort_py_PageViews( $items ) {
     foreach ( $items AS $t ) {
         $t = str_replace ( '_' , ' ' , $t );
         //---
-        $kry = isset($enwiki_pageviews_table[$t]) ? $enwiki_pageviews_table[$t] : 0; 
+        $kry = $enwiki_pageviews_table[$t] ?? 0; 
         //---
         $dd[$t] = $kry;
         //---
@@ -51,12 +51,12 @@ function sort_py_importance( $items ) {
     foreach ( $items AS $t ) {
         $t = str_replace ( '_' , ' ' , $t );
         //---
-        $aa = isset($Assessments_table[$t]) ? $Assessments_table[$t] : null;
+        $aa = $Assessments_table[$t] ?? null;
         //---
-        $kry = isset($Assessments_fff['Unknown']) ? $Assessments_fff['Unknown'] : '';
+        $kry = $Assessments_fff['Unknown'] ?? '';
         //---
         if ( isset($aa) ) {
-            $kry = isset($Assessments_fff[$aa]) ? $Assessments_fff[$aa] : $Assessments_fff['Unknown'];
+            $kry = $Assessments_fff[$aa] ?? $Assessments_fff['Unknown'];
         };
         //---
         $dd[$t] = $kry;
@@ -134,21 +134,21 @@ function make_table( $items, $cod, $cat, $inprocess=false ) {
         $urle = "//mdwiki.org/wiki/$title2";
         $urle = str_replace( '+' , '_' , $urle );
         //---
-        $pageviews = isset($enwiki_pageviews_table[$title]) ? $enwiki_pageviews_table[$title] : 0; 
+        $pageviews = $enwiki_pageviews_table[$title] ?? 0; 
         //---
-        $qid = isset($sql_qids[$title]) ? $sql_qids[$title] : "";
+        $qid = $sql_qids[$title] ?? "";
         $qid = ($qid != '') ? "<a href='https://wikidata.org/wiki/$qid'>$qid</a>" : '';
         //---
-        $word = isset($Words_table[$title]) ? $Words_table[$title] : 0; 
+        $word = $Words_table[$title] ?? 0; 
         //---
-        $refs = isset($Lead_Refs_table[$title]) ? $Lead_Refs_table[$title] : 0; 
+        $refs = $Lead_Refs_table[$title] ?? 0; 
         //---
         if ($tra_type == 'all') { 
-            $word = isset($All_Words_table[$title]) ? $All_Words_table[$title] : 0;
-            $refs = isset($All_Refs_table[$title]) ? $All_Refs_table[$title] : 0;
+            $word = $All_Words_table[$title] ?? 0;
+            $refs = $All_Refs_table[$title] ?? 0;
             };
         //---
-        $asse = isset($Assessments_table[$title]) ? $Assessments_table[$title] : '';
+        $asse = $Assessments_table[$title] ?? '';
         //---
         if ( $asse == '' ) $asse = 'Unknown';
         //---

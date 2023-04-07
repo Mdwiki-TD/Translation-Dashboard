@@ -16,12 +16,12 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
     $nana = make_mdwiki_title( $mdtitle );
     //---
     $ccat = make_cat_url($cat);
-    $campaign = isset($cat_to_camp[$cat]) ? $cat_to_camp[$cat] : '';
+    $campaign = $cat_to_camp[$cat] ?? '';
     if ( $campaign != '') {
         $ccat = "<a href='leaderboard.php?camp=$campaign'>$campaign</a>";
     };
     //---
-    $tran_type = isset($tabb['translate_type']) ? $tabb['translate_type'] : '';
+    $tran_type = $tabb['translate_type'] ?? '';
     if ($tran_type == 'all') { 
         $tran_type = 'Whole article';
     };
@@ -107,12 +107,12 @@ function make_table_lead($dd, $tab_type='a', $views_table = array(), $page_type=
         $noo += 1;
         //---
         $target  = $tabe['target'];
-        $view_number = isset($views_table[$target]) ? $views_table[$target] : 0;
+        $view_number = $views_table[$target] ?? 0;
         $total_views += $view_number;
         //---
         $mdtitle = $tabe['title'];
-        $word2 = isset($Words_table[$mdtitle]) ? $Words_table[$mdtitle] : 0;
-        $word = isset($tabe['word']) ? $tabe['word'] : 0;
+        $word2 = $Words_table[$mdtitle] ?? 0;
+        $word = $tabe['word'] ?? 0;
         //---
         if ( $word < 1 ) $word = $word2;
         //---

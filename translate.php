@@ -69,10 +69,10 @@ if ($title_o != '' && $coden != '' && $useree != '' ) {
     $user2  = rawurlencode(str_replace ( ' ' , '_' , $useree ));
     $cat2   = ($cat != '') ? rawurlencode(str_replace ( ' ' , '_' , $cat )) : '';
     //---
-    $word = isset($Words_table[$title_o]) ? $Words_table[$title_o] : 0; 
+    $word = $Words_table[$title_o] ?? 0; 
     //---
     if ($tr_type == 'all') { 
-        $word = isset($All_Words_table[$title_o]) ? $All_Words_table[$title_o] : 0;
+        $word = $All_Words_table[$title_o] ?? 0;
     };
     //---
     $date = date('Y-m-d');
