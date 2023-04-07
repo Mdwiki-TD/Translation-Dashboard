@@ -62,10 +62,10 @@ HTML;
 $y1 = makeDropdown($cat_titles, $camp, 'camp', 'all');
 $campDropdown = sprintf($d33, 'Campaign', $y1);
 //---
-// $projects = array();
-// foreach ( execute_query('select g_title from projects;') AS $Key => $table ) $projects[] = $table['g_title'];
+$projects = array();
+foreach ( execute_query('select g_title from projects;') AS $Key => $table ) $projects[] = $table['g_title'];
 //---
-$projects = array_map(fn($p) => $p['g_title'], execute_query('select g_title from projects;'));
+// $projects = array_map(fn($p) => $p['g_title'], execute_query('select g_title from projects;'));
 //---
 $y2 = makeDropdown($projects, $project, 'project', 'all');
 $projectDropdown = sprintf($d33, 'Translators', $y2);
