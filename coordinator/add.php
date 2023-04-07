@@ -20,7 +20,7 @@ echo "
 <link rel='stylesheet' href='$hoste/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css'/>
 ";
 //---
-$testin =  (isset($_REQUEST['test'])) ? "<input name='test' value='1' hidden/>" : "";
+$testin = (($_REQUEST['test'] ?? '') != '') ? "<input name='test' value='1' hidden/>" : "";
 //---
 ?>
 <div class='card-header'>

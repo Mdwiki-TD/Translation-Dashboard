@@ -32,14 +32,34 @@ class Database {
         }
     }
     
-    public function execute_query($sql_query) {
+    public function execute_query_old($sql_query) {
         try {
             $q = $this->db->prepare($sql_query);
             $q->execute();
             $result = $q->fetchAll(PDO::FETCH_ASSOC);
             return $result;
         } catch(PDOException $e) {
-            echo $sql_query . "<br>" . $e->getMessage();
+            echo "sql error:" . $e->getMessage() . "<br>" . $sql_query;
+            return array();
+        }
+    }
+    public function execute_query($sql_query) {
+        try {
+            $q = $this->db->prepare($sql_query);
+            $q->execute();
+            
+            // Check if the query starts with "SELECT"
+            $query_type = strtoupper(substr(trim((string) $sql_query), 0, 6));
+            if ($query_type === 'SELECT') {
+                // Fetch the results if it's a SELECT query
+                $result = $q->fetchAll(PDO::FETCH_ASSOC);
+                return $result;
+            } else {
+                // Otherwise, return null
+                return array();
+            }
+        } catch(PDOException $e) {
+            echo "sql error:" . $e->getMessage() . "<br>" . $sql_query;
             return array();
         }
     }
