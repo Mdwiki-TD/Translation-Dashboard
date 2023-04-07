@@ -37,8 +37,8 @@ if (isset($_POST['del'])) {
 //---
 if (isset($_POST['user'])) {
 	for($i = 0; $i < count($_POST['user']); $i++ ) {
-		$ido  	= isset($_POST['id'][$i]) ? $_POST['id'][$i] : '';
-		$user  	= isset($_POST['user'][$i]) ? $_POST['user'][$i] : '';
+		$ido  	= $_POST['id'][$i] ?? '';
+		$user  	= $_POST['user'][$i] ?? '';
 		//---
 		if ($user != '' && $ido == '') {
 			$qua = "INSERT INTO coordinator (user) SELECT '$user' WHERE NOT EXISTS (SELECT 1 FROM coordinator WHERE user = '$user')";

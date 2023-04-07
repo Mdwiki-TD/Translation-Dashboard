@@ -36,12 +36,12 @@ include_once('td_config.php');
 //---
 $tabs = array();
 //---
-$title  = get_request('title', '');
-$test   = get_request('test', '');
-$date   = get_request('date', '');
-$user   = get_request('user', '');
-$lang   = get_request('lang', '');
-$target = get_request('target', '');
+$title  = $_REQUEST['title'] ?? '';
+$test   = $_REQUEST['test'] ?? '';
+$date   = $_REQUEST['date'] ?? '';
+$user   = $_REQUEST['user'] ?? '';
+$lang   = $_REQUEST['lang'] ?? '';
+$target = $_REQUEST['target'] ?? '';
 //---
 $views  = get_views($target, $lang, $date);
 //---

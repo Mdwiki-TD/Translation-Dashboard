@@ -2,9 +2,9 @@
 //---
 require('lead_help.php');
 //---
-$test = isset($_REQUEST['test']) ? $_REQUEST['test'] : '';
-$mainuser = isset($_REQUEST['user']) ? $_REQUEST['user'] : '';
-$limit = isset($_REQUEST['limit']) ? $_REQUEST['limit'] : null;
+$test = $_REQUEST['test'] ?? '';
+$mainuser = $_REQUEST['user'] ?? '';
+$limit = $_REQUEST['limit'] ?? null;
 //---
 if ($mainuser == $username) {
     echo '<script>

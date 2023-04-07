@@ -14,8 +14,8 @@ include_once('functions.php');
 //---
 include_once('sql_tables.php'); // $sql_qids $cat_titles $cat_to_camp $camp_to_cat
 //---
-$users  = isset($_REQUEST['user']) ? $_REQUEST['user'] : '';
-$langs  = isset($_REQUEST['langcode']) ? $_REQUEST['langcode'] : '';
+$users  = $_REQUEST['user'] ?? '';
+$langs  = $_REQUEST['langcode'] ?? '';
 //---
 if ($users != '') {
     require('leaderboard/users.php');

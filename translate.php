@@ -54,10 +54,10 @@ $useree  = $username != '' ? $username : $_REQUEST['username'];
 //---
 if ($title_o != '' && $coden != '' && $useree != '' ) {
     //---
-    $test    = get_request('test', '');
-    $cat     = get_request('cat', '');
-    $fixref  = get_request('fixref', '');
-    $tr_type = get_request('type', 'lead');
+    $test    = $_REQUEST['test'] ?? '';
+    $cat     = $_REQUEST['cat'] ?? '';
+    $fixref  = $_REQUEST['fixref'] ?? '';
+    $tr_type = $_REQUEST['type'] ?? 'lead';
     //---
     $useree  = rawurldecode($useree);
     $cat     = rawurldecode($cat);

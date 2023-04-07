@@ -59,7 +59,7 @@ $server_name = $_SERVER['SERVER_NAME'];
 //---
 $username = '';
 if ($_SERVER['SERVER_NAME'] == 'localhost') { 
-    $fa = isset($_GET['test1']) ? $_GET['test1'] : '';
+    $fa = $_GET['test1'] ?? '';
     if ($fa == '') { 
         $username = 'Mr. Ibrahem';
         setcookie('username',$username,time()+$twoYears,'/',$server_name,true,true);
@@ -247,7 +247,7 @@ function doAuthorizationRedirect() {
     // login5.php?action=login&cat=RTT&depth=1&code=&type=lead
     
     foreach (['cat', 'code', 'type'] as $key) {
-        $da = isset($_REQUEST[$key]) ? $_REQUEST[$key] : '';
+        $da = $_REQUEST[$key] ?? '';
         if ($da != '') $state[$key] = $da;
     };
     // $state = implode('&', $state);

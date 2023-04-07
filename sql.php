@@ -1,4 +1,10 @@
 <?php
+if (isset($_REQUEST['test'])) {
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+};
+//---
 /*
 //---
 delete from pages where target = '' and date < ADDDATE(CURDATE(), INTERVAL -7 DAY)
@@ -55,7 +61,7 @@ include_once('td_config.php');
 $ini = Read_ini_file('OAuthConfig.ini');
 include_once('functions.php');
 //---
-$username2 = isset($_COOKIE['username']) ? $_COOKIE['username'] : $username;
+$username2 = $_COOKIE['username'] ?? $username;
 //---
 if (!in_array($username2, $usrs)) {
 	echo "<meta http-equiv='refresh' content='0; url=index.php'>";
@@ -64,10 +70,10 @@ if (!in_array($username2, $usrs)) {
 //---
 $sqlpass = $ini['sqlpass'];
 //---
-$pass = isset($_REQUEST['pass']) ? $_REQUEST['pass'] : '';
-$qua  = isset($_REQUEST['code']) ? $_REQUEST['code'] : '';
-$raw  = isset($_REQUEST['raw']) ? $_REQUEST['raw'] : '';
-$test = isset($_REQUEST['test']) ? $_REQUEST['test'] : '';
+$pass = $_REQUEST['pass'] ?? '';
+$qua  = $_REQUEST['code'] ?? '';
+$raw  = $_REQUEST['raw'] ?? '';
+$test = $_REQUEST['test'] ?? '';
 //---
 if ( $raw == '' ) {
     require('header.php');

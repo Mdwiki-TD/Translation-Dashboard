@@ -89,13 +89,13 @@ function add_to_db($title, $type, $cat, $lang, $user, $target, $pupdate) {
 if (isset($_POST['mdtitle'])) {
 	for($i = 0; $i < count($_POST['mdtitle']); $i++ ) {
 		//---
-		$mdtitle	= get_request_1('mdtitle', $i);
-		$cat		= get_request_1('cat', $i);
-		$type		= get_request_1('type', $i);
-		$user		= get_request_1('user', $i);
-		$lang		= get_request_1('lang', $i);
-		$target		= get_request_1('target', $i);
-		$pupdate	= get_request_1('pupdate', $i);
+		$mdtitle	= $_REQUEST['mdtitle'][$i] ?? '';
+		$cat		= $_REQUEST['cat'][$i] ?? '';
+		$type		= $_REQUEST['type'][$i] ?? '';
+		$user		= $_REQUEST['user'][$i] ?? '';
+		$lang		= $_REQUEST['lang'][$i] ?? '';
+		$target		= $_REQUEST['target'][$i] ?? '';
+		$pupdate	= $_REQUEST['pupdate'][$i] ?? '';
 		//---
 		if ($mdtitle != '' && $lang != '' && $user != '' && $target != '') {
 			//---

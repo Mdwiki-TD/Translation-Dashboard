@@ -1,13 +1,13 @@
 <?php
 //---
-$msg        = isset($_REQUEST['msg'])   ? $_REQUEST['msg']      : '';
-$email_to   = isset($_REQUEST['email_to']) ? $_REQUEST['email_to']    : '';
-$email_from = isset($_REQUEST['email_from']) ? $_REQUEST['email_from']    : '';
-$username   = isset($_REQUEST['username'])  ? $_REQUEST['username']: '';
-$msg_title  = isset($_REQUEST['msg_title'])  ? $_REQUEST['msg_title']: 'Wiki Project Med Translation Dashboard';
+$msg        = $_REQUEST['msg'] ?? '';
+$email_to   = $_REQUEST['email_to'] ?? '';
+$email_from = $_REQUEST['email_from'] ?? '';
+$username   = $_REQUEST['username'] ?? '';
+$msg_title  = $_REQUEST['msg_title'] ?? 'Wiki Project Med Translation Dashboard';
 
 $ccme       = isset($_REQUEST['ccme']) ? 1 : 0;
-$cc_to      = isset($_REQUEST['cc_to'])   ? $_REQUEST['cc_to']      : '';
+$cc_to      = $_REQUEST['cc_to'] ?? '';
 //---
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;

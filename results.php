@@ -7,18 +7,18 @@ include_once('functions.php');
 include_once('sql_tables.php');
 //---
 $doit = isset($_REQUEST['doit']);
-$test = isset($_REQUEST['test']) ? $_REQUEST['test'] : '';
+$test = $_REQUEST['test'] ?? '';
 //---
-$code = isset($_REQUEST['code']) ? $_REQUEST['code'] : '';
+$code = $_REQUEST['code'] ?? '';
 //---
 if ($code == 'undefined') $code = "";
 //---
 $code = isset($lang_to_code[$code]) ? $lang_to_code[$code] : $code;
 $code_lang_name = isset($code_to_lang[$code]) ? $code_to_lang[$code] : ''; 
 //---
-$tra_type  = isset($_REQUEST['type']) ? $_REQUEST['type'] : '';
+$tra_type  = $_REQUEST['type'] ?? '';
 //---
-$cat = isset($_REQUEST['cat']) ? $_REQUEST['cat'] : '';
+$cat = $_REQUEST['cat'] ?? '';
 //---
 if ($cat == "undefined") $cat = "RTT";
 //---

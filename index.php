@@ -1,24 +1,29 @@
 <?PHP
 //---
+/*
+isset\((\$_\w+\[.*?\])\)\s*\?\s*\1\s*:\s*(.*?);
+$1 ?? $2;
+*/
+//---
 require('header.php');
 require('langcode.php');
 include_once('functions.php');
 include_once('td_config.php');
 $conf = get_configs('conf.json');
 //---
-$allow_whole_translate = isset($conf['allow_type_of_translate']) ? $conf['allow_type_of_translate'] : true;
+$allow_whole_translate = $conf['allow_type_of_translate'] ?? true;
 //---
-$code = isset($_REQUEST['code']) ? $_REQUEST['code'] : '';
+$code = $_REQUEST['code'] ?? '';
 //---
 if ($code == 'undefined') $code = "";
 //---
-$code = isset($lang_to_code[$code]) ? $lang_to_code[$code] : $code;
-$code_lang_name = isset($code_to_lang[$code]) ? $code_to_lang[$code] : ''; 
+$code = $lang_to_code[$code] ?? $code;
+$code_lang_name = $code_to_lang[$code] ?? ''; 
 //---
-$tra_type  = isset($_REQUEST['type']) ? $_REQUEST['type'] : '';
+$tra_type  = $_REQUEST['type'] ?? '';
 if ($allow_whole_translate == false) $tra_type = 'lead';
 //---
-$cat = isset($_REQUEST['cat']) ? $_REQUEST['cat'] : '';
+$cat = $_REQUEST['cat'] ?? '';
 //---
 if ($cat == "undefined") $cat = "RTT";
 //---
@@ -41,10 +46,10 @@ foreach ( $qq AS $Key => $table ) {
     //---
 };
 //---
-$depth  = isset($_REQUEST['depth']) ? $_REQUEST['depth'] : 1;
+$depth  = $_REQUEST['depth'] ?? 1;
 $depth  = $depth * 1 ;
 //---
-$depth  = isset($catinput_depth[$cat]) ? $catinput_depth[$cat] : 1;
+$depth  = $catinput_depth[$cat] ?? 1;
 //---
 function print_form_start1() {
     //---

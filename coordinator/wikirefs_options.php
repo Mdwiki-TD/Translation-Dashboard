@@ -16,18 +16,13 @@ include_once('td_config.php');
 //---
 $tabes = get_configs('fixwikirefs.json');
 //---
-function get_POST( $key, $i ) {
-    $uu = isset($_POST[$key][$i]) ? $_POST[$key][$i] : '';
-    return $uu;
-};
-//---
 if (isset($_POST['newlang'])) {
     if (count($_POST['newlang']) != null) {
         for($i = 0; $i < count($_POST['newlang']); $i++ ){
             //---
-            $lang1  	 = get_POST('newlang', $i);
-            $move_dots1  = (get_POST('newmove_dots', $i) == '1') ? 1 :0;
-            $expend1     = (get_POST('newexpend', $i) == '1') ? 1 :0;
+            $lang1  	 = $_POST['newlang'][$i] ?? '';
+            $move_dots1  = ($_POST['newmove_dots'][$i] ?? '') == '1' ? 1 : 0;
+            $expend1     = ($_POST['newexpend'][$i] ?? '') == '1' ? 1 :0;
             //---
             $lang1 = strtolower($lang1);
             //---

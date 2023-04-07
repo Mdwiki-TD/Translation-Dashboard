@@ -2,7 +2,7 @@
 //---
 require('lead_help.php');
 //---
-$test = isset($_REQUEST['test']) ? $_REQUEST['test'] : '';
+$test = $_REQUEST['test'] ?? '';
 $mainlang = $_REQUEST['langcode'];
 $mainlang = rawurldecode( str_replace ( '_' , ' ' , $mainlang ) );
 //---

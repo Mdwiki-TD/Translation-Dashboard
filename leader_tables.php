@@ -6,24 +6,26 @@ include_once('langcode.php');
 //---
 include_once('sql_tables.php'); // $sql_qids $cat_titles $cat_to_camp $camp_to_cat
 //---
-$year      = isset($_REQUEST['year']) ? $_REQUEST['year']   : 'all';
-$camp      = isset($_REQUEST['camp']) ? $_REQUEST['camp'] : 'all';
-$project   = isset($_REQUEST['project']) ? $_REQUEST['project'] : 'all';
+$year      = $_REQUEST['year'] ?? 'all';
+$camp      = $_REQUEST['camp'] ?? 'all';
+$project   = $_REQUEST['project'] ?? 'all';
 //---
-if ($camp == 'all' && isset($_REQUEST['cat'])) $camp = isset($cat_to_camp[$_REQUEST['cat']]) ? $cat_to_camp[$_REQUEST['cat']] : 'all';
+if ($camp == 'all' && isset($_REQUEST['cat'])) $camp = $cat_to_camp[$_REQUEST['cat']] ?? 'all';
 //---
-$camp_cat  = isset($camp_to_cat[$camp]) ? $camp_to_cat[$camp] : '';
+$camp_cat  = $camp_to_cat[$camp] ?? '';
 //---
-$qua_all_part1_group = "select
+$qua_all_part1_group = <<<SQL
+select
 p.target, p.cat, p.lang, p.word, year(p.pupdate) as pup_y, p.user, u.user_group
 from pages p, users u
-";
+SQL;
 //---
-$qua_all_part1 = "select
+$qua_all_part1 = <<<SQL
+select
 p.target, p.cat, p.lang, p.word, year(p.pupdate) as pup_y, p.user, 
 (select u.user_group from users u WHERE p.user = u.username) as user_group
 from pages p
-";
+SQL;
 //---
 $qua_all_part2 = "
 where p.target != ''
@@ -56,10 +58,10 @@ $all_views_by_lang = array();
 $Views_by_users = array();
 $Views_by_target = array();
 //---
-$qua_vi = "select target, countall, count2021, count2022, count2023
-from views
-;
-";
+$qua_vi = <<<SQL
+select target, countall, count2021, count2022, count2023
+from views;
+SQL;
 //---
 foreach ( execute_query($qua_vi) AS $k => $tab ) {
     $Views_by_target[$tab['target']] = array(
@@ -78,7 +80,7 @@ foreach ( execute_query($qua_all) AS $Key => $teb ) {
     $tat    = $teb['target'];
     $word   = $teb['word'];
     //---
-    $coco = isset($Views_by_target[$tat][$year]) ? $Views_by_target[$tat][$year] : 0;
+    $coco = $Views_by_target[$tat][$year] ?? 0;
     //---
     $Words_total += $word;
     $Articles_numbers += 1;
@@ -103,7 +105,7 @@ foreach ( execute_query($qua_all) AS $Key => $teb ) {
 //---
 function createNumbersTable($c_user, $c_articles, $c_words, $c_langs, $c_views) {
     //---
-    $Numbers_table = '
+    $Numbers_table = <<<HTML
     <table class="sortable table table-striped"> <!-- scrollbody -->
     <thead>
         <tr>
@@ -112,21 +114,14 @@ function createNumbersTable($c_user, $c_articles, $c_words, $c_langs, $c_views) 
         </tr>
     </thead>
     <tbody>
-    ';
-    //---
-    $Numbers_table .= '<tr><td><b>Users</b></td><td>' .     $c_user        . '</td></tr>
-    ';
-    $Numbers_table .= '<tr><td><b>Articles</b></td><td>' .  $c_articles . '</td></tr>
-    ';
-    $Numbers_table .= '<tr><td><b>Words</b></td><td>' .     $c_words     . '</td></tr>
-    ';
-    $Numbers_table .= '<tr><td><b>Languages</b></td><td>' . $c_langs       . '</td></tr>
-    ';
-    $Numbers_table .= '<tr><td><b>Pageviews</b></td><td>' . $c_views    . '</td></tr>
-    ';
-    $Numbers_table .= '
+        <tr><td><b>Users</b></td><td>$c_user</td></tr>
+        <tr><td><b>Articles</b></td><td>$c_articles</td></tr>
+        <tr><td><b>Words</b></td><td>$c_words</td></tr>
+        <tr><td><b>Languages</b></td><td>$c_langs</td></tr>
+        <tr><td><b>Pageviews</b></td><td>$c_views</td></tr>
     </tbody>
-    </table>';
+    </table>
+    HTML;
     //---
     return $Numbers_table;
 };
@@ -135,7 +130,7 @@ function makeUsersTable() {
     //---
     global $sql_users_tab, $Users_word_table, $Views_by_users;
     //---
-    $text = '
+    $text = <<<HTML
     <table class="sortable table table-striped">
         <thead>
             <tr>
@@ -147,7 +142,7 @@ function makeUsersTable() {
             </tr>
         </thead>
         <tbody>
-    ';
+    HTML;
     //---
     arsort($sql_users_tab);
     //---
@@ -163,7 +158,7 @@ function makeUsersTable() {
             $use = rawurlEncode($user);
             $use = str_replace ( '+' , '_' , $use );
             //---
-            $text .= "
+            $text .= <<<HTML
             <tr>
                 <td>$numb</td>
                 <td><a href='leaderboard.php?user=$use'>$user</a></td>
@@ -171,13 +166,14 @@ function makeUsersTable() {
                 <td>$words</td>
                 <td>$views</td>
             </tr>
-            ";
+            HTML;
     };
     //---
-    $text .= '
+    $text .= <<<HTML
         </tbody>
         <tfoot></tfoot>
-    </table>';
+    </table>
+    HTML;
     //---
     return $text;
 }
@@ -192,7 +188,7 @@ function makeLangTable() {
     //---
     $cac = ($addcat == true ) ? '<th>cat</th>' : '';
     //---
-    $text = "
+    $text = <<<HTML
     <table class='sortable table table-striped'>
     <thead>
         <tr>
@@ -204,7 +200,7 @@ function makeLangTable() {
         </tr>
     </thead>
     <tbody>
-    ";
+    HTML;
     //---
     $numb=0;
     //---
@@ -216,10 +212,9 @@ function makeLangTable() {
             //---
             $numb ++;
             //---
-            // $langname  = isset($code_to_lang[$langcode]) ? $code_to_lang[$langcode] : $langcode;
             $langname  = isset($lang_code_to_en[$langcode]) ? "($langcode) " . $lang_code_to_en[$langcode] : $langcode;
             //---
-            $view = isset($all_views_by_lang[$langcode]) ? $all_views_by_lang[$langcode] : 0;
+            $view = $all_views_by_lang[$langcode] ?? 0;
             $view = number_format($view);
             //---
             $cac = ($addcat == true ) ? '<td><a target="_blank" href="https://' . $langcode . '.wikipedia.org/wiki/Category:Translated_from_MDWiki">cat</a></td>' : '';

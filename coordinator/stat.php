@@ -4,7 +4,7 @@ require('tables.php');
 require('getcats.php');
 include_once('functions.php');
 //---
-$cat = isset($_REQUEST['cat']) ? $_REQUEST['cat'] : 'RTT';
+$cat = $_REQUEST['cat'] ?? 'RTT';
 $cats_titles = array();
 //---
 foreach ( execute_query('select category from categories;') AS $k => $tab ) $cats_titles[] = $tab['category'];
