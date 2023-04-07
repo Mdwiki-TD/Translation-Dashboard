@@ -19,7 +19,7 @@ function make_input_group( $label, $id, $value, $required='') {
     HTML;
 };
 //---
-function make_drop_d($tab, $cat, $id, $add) {
+function makeDropdown($tab, $cat, $id, $add) {
     //---
     $options = "";
     //---

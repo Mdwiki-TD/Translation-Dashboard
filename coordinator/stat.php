@@ -22,7 +22,7 @@ $d33 = "
 </div>
 ";
 //---
-$y1 = make_drop_d($cats_titles, $cat, 'cat', '');
+$y1 = makeDropdown($cats_titles, $cat, 'cat', '');
 $uuu = sprintf($d33, 'Category:', $y1);
 //---
 $fa = "

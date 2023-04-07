@@ -29,7 +29,7 @@ function test_print($s) {
     if ($test != '') print $s;
 };
 //---
-function get_my_years() {
+function getMyYears() {
     //---=
 	$my_years1 = array();
 	//---
