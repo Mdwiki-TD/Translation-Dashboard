@@ -19,8 +19,8 @@ session_set_cookie_params(
     dirname( $_SERVER['SCRIPT_NAME'] )
 );
 //---
-$inifile_local = '../OAuthConfig.ini';
-$inifile_mdwiki = '/data/project/mdwiki/OAuthConfig.ini';
+$inifile_local = '../../confs/OAuthConfig.ini';
+$inifile_mdwiki = '/data/project/mdwiki/confs/OAuthConfig.ini';
 //---
 $inifile = $inifile_mdwiki;
 //---
