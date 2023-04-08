@@ -48,8 +48,15 @@ $views  = get_views($target, $lang, $date);
 $sugust = '';
 //---
 if ($title != '') {
-    $items = get_cat_members( 'RTT', '1', $lang, false, $use_cash=true );
+    $items = get_cat_members( 'RTT', '1', $lang, $use_cash=true );
     $items_missing = $items['missing'] ?? array();
+    //---
+    $in_process = get_in_process($items_missing, $lang);
+    //---
+    // delete $in_process keys from $missing
+    if (!empty($in_process)) {
+        $items_missing = array_diff($items_missing, array_keys($in_process));
+    };
     //---
     $dd = array();
     //---

@@ -1,5 +1,11 @@
 <?PHP
 //---
+if (isset($_REQUEST['test'])) {
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+};
+//---
 require('tables.php'); 
 require('getcats.php');
 include_once('functions.php');
@@ -9,38 +15,39 @@ $cats_titles = array();
 //---
 foreach ( execute_query('select category from categories;') AS $k => $tab ) $cats_titles[] = $tab['category'];
 //---
-$d33 = "
+$d33 = <<<HTML
 <div class='col-md-3 col-sm-3'>
-    <div class='form-group'>
-        <div class='input-group'>
-            <div class='input-group-prepend'>
-                <span class='input-group-text'>%s</span>
-            </div>
-                %s
-        </div>
-    </div>
+	<div class='form-group'>
+		<div class='input-group'>
+			<div class='input-group-prepend'>
+				<span class='input-group-text'>%s</span>
+			</div>
+				%s
+		</div>
+	</div>
 </div>
-";
+HTML;
 //---
 $y1 = makeDropdown($cats_titles, $cat, 'cat', '');
 $uuu = sprintf($d33, 'Category:', $y1);
 //---
-$fa = "
+$fa = <<<HTML
 <div class='card-header'>
-    <form method='get' action='coordinator.php'>
-        <input name='ty' value='stat' hidden/>
-        <div class='row'>
-            <div class='col-md-2'>
-                <h4>Status:</h4>
-            </div>
-            $uuu    
-            <div class='aligncenter col-md-2'><input class='btn btn-primary' type='submit' name='start' value='Filter' /></div>
-        </div>
-    </form>
+	<form method='get' action='coordinator.php'>
+		<input name='ty' value='stat' hidden/>
+		<div class='row'>
+			<div class='col-md-2'>
+				<h4>Status:</h4>
+			</div>
+			$uuu	
+			<div class='aligncenter col-md-2'><input class='btn btn-primary' type='submit' name='start' value='Filter' /></div>
+		</div>
+	</form>
 </div>
-<div class='cardbody'>";
+<div class='cardbody'>
+HTML;
 //---
-$table = "
+$table = <<<HTML
 	<table class='table table-striped compact soro'>
 	<thead>
 		<tr>
@@ -55,9 +62,10 @@ $table = "
 			<th>enwiki views</th>
 		</tr>
 	</thead>
-	<tbody>";
+	<tbody>
+	HTML;
 //---
-$titles = get_mdwiki_cat_members( $cat, $use_cash=true, $depth=1 );
+$titles = get_mdwiki_cat_members($cat, $use_cash=true, $depth=1);
 //---
 $no_qid = 0;
 $no_word = 0;
@@ -69,46 +77,46 @@ $no_pv = 0;
 $i = 0;
 //---
 foreach ($titles as $title) {
-    $i = $i + 1;
-    //---
-    $qid = $sql_qids[$title] ?? "";
-    //---
-    if ($qid == '') $no_qid +=1;
-    //---
-    $qidurl = ($qid != '') ? "<a href='https://wikidata.org/wiki/$qid'>$qid</a>" : '';
-    //---
-    $word = $Words_table[$title] ?? 0; 
-    //---
-    $allword = $All_Words_table[$title] ?? 0;
-    if ($word == 0) $no_word +=1;
-    if ($allword == 0) $no_allword +=1;
-    //---
-    $refs = $Lead_Refs_table[$title] ?? 0;
-    //---
-    $all_refs = $All_Refs_table[$title] ?? 0;
-    //---
-    if ($refs == 0) $no_ref +=1;
-    if ($all_refs == 0) $no_allref +=1;
-    $asse = $Assessments_table[$title] ?? '';
-    if (!isset($Assessments_table[$title])) $no_Importance +=1;
-    //---
+	$i = $i + 1;
+	//---
+	$qid = $sql_qids[$title] ?? "";
+	//---
+	if ($qid == '') $no_qid +=1;
+	//---
+	$qidurl = ($qid != '') ? "<a href='https://wikidata.org/wiki/$qid'>$qid</a>" : '';
+	//---
+	$word = $Words_table[$title] ?? 0; 
+	//---
+	$allword = $All_Words_table[$title] ?? 0;
+	if ($word == 0) $no_word +=1;
+	if ($allword == 0) $no_allword +=1;
+	//---
+	$refs = $Lead_Refs_table[$title] ?? 0;
+	//---
+	$all_refs = $All_Refs_table[$title] ?? 0;
+	//---
+	if ($refs == 0) $no_ref +=1;
+	if ($all_refs == 0) $no_allref +=1;
+	$asse = $Assessments_table[$title] ?? '';
+	if (!isset($Assessments_table[$title])) $no_Importance +=1;
+	//---
 	$pv = $enwiki_pageviews_table[$title] ?? 0; 
-    if (!isset($enwiki_pageviews_table[$title])) $no_pv +=1;
-    //---
-    //---
-    $table .= "
-    <tr>
-        <td>$i</td>
-        <td><a href='https://mdwiki.org/wiki/$title'>$title</a></td>
-        <td>$qidurl</td>
-        <td>$word</td>
-        <td>$allword</td>
-        <td>$refs</td>
-        <td>$all_refs</td>
-        <td>$asse</td>
-        <td><a href='https://en.wikipedia.org/w/api.php?action=query&prop=pageviews&titles=$title&redirects=1&pvipdays=30'>$pv</a></td>
-    </tr>
-    ";
+	if (!isset($enwiki_pageviews_table[$title])) $no_pv +=1;
+	//---
+	//---
+	$table .= <<<HTML
+	<tr>
+		<td>$i</td>
+		<td><a href='https://mdwiki.org/wiki/$title'>$title</a></td>
+		<td>$qidurl</td>
+		<td>$word</td>
+		<td>$allword</td>
+		<td>$refs</td>
+		<td>$all_refs</td>
+		<td>$asse</td>
+		<td><a href='https://en.wikipedia.org/w/api.php?action=query&prop=pageviews&titles=$title&redirects=1&pvipdays=30'>$pv</a></td>
+	</tr>
+	HTML;
 }
 //---
 $table .= "</table>";
@@ -121,7 +129,7 @@ $with_allref = $i - $no_allref;
 $with_Importance = $i - $no_Importance;
 $with_pv = $i - $no_pv;
 //---
-$tabo = "
+$tabo = <<<HTML
 	<div class='col-md'>
 		<div class='card'>
 			<div class='card-body'>
@@ -135,7 +143,8 @@ $tabo = "
 				</table>
 			</div> 
 		</div>
-	</div>";
+	</div>
+	HTML;
 //---
 echo $fa;
 echo "<div class='row'> ";
@@ -145,7 +154,7 @@ echo sprintf($tabo, "
 	<tr><td>enwiki views</td><td>$with_pv</td><td>$no_pv</td></tr>
 	<tr><td>Importance</td><td>$with_Importance</td><td>$no_Importance</td></tr>");
 //---
-echo sprintf($tabo, "	
+echo sprintf($tabo, "
 	<tr><td>word</td><td>$with_word</td><td>$no_word</td></tr>
 	<tr><td>allword</td><td>$with_allword</td><td>$no_allword</td></tr>");
 //---
@@ -157,12 +166,8 @@ echo "</div>";
 //---
 echo $table;
 //---
-?>
-<?PHP
-//---
-print '
+echo '
 </div>
 </div>
 ';
-//---
 ?>

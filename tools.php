@@ -36,7 +36,7 @@ if (!isset($_REQUEST['nonav'])) {
 	//---
 	$sidebar = "
 	<div class='col-md-2'>
-		$home
+		$home1
 		<span class='fs-6 fw-semibold'>Translations:</span>
 		<ul class='flex-column'>
 			$lis1

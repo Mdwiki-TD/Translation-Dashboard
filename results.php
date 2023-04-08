@@ -97,23 +97,23 @@ function make_table( $items, $cod, $cat, $inprocess=false ) {
         $Translate_th = '';
     };
     //---
-    $frist = '
-        <table class="table table-sm sortable table-striped" id="main_table">
-            <thead>
-                <tr>
-                    <th class="num">#</th>
-                    <th class="spannowrap" tt="h_title">Title</th>
-                    ' . $Translate_th . '
-                    <th class="spannowrap" tt="h_len"><span data-toggle="tooltip" title="Page views in last month in English Wikipedia">Pageviews</span>
-                    </th>
-                    <th class="spannowrap" tt="h_len"><span data-toggle="tooltip" title="Page important from medicine project in English Wikipedia">Importance</span></th>
-                    <th class="spannowrap" tt="h_len"><span data-toggle="tooltip" title="number of word of the article in mdwiki.org">' . $Words_word . '</span></th>
-                    <th class="spannowrap" tt="h_len"><span data-toggle="tooltip" title="number of reference of the article in mdwiki.org">' . $Refs_word . '</span></th>
-                    <th class="spannowrap" tt="h_len"><span data-toggle="tooltip" title="Wikidata identifier">qid</span></th>
-                    ' . $inprocess_first . '
-                </tr>
-            </thead>
-            <tbody>' ;
+	$frist = <<<HTML
+    <table class="table table-sm sortable table-striped" id="main_table">
+        <thead>
+            <tr>
+                <th class="num">#</th>
+                <th class="spannowrap" tt="h_title">Title</th>
+                $Translate_th
+                <th class="spannowrap" tt="h_len"><span data-toggle="tooltip" title="Page views in last month in English Wikipedia">Pageviews</span></th>
+                <th class="spannowrap" tt="h_len"><span data-toggle="tooltip" title="Page important from medicine project in English Wikipedia">Importance</span></th>
+                <th class="spannowrap" tt="h_len"><span data-toggle="tooltip" title="number of word of the article in mdwiki.org">$Words_word</span></th>
+                <th class="spannowrap" tt="h_len"><span data-toggle="tooltip" title="number of reference of the article in mdwiki.org">$Refs_word</span></th>
+                <th class="spannowrap" tt="h_len"><span data-toggle="tooltip" title="Wikidata identifier">qid</span></th>
+                $inprocess_first
+            </tr>
+        </thead>
+        <tbody>
+    HTML;
     //---
     $dd = array();
     //---
@@ -179,7 +179,7 @@ function make_table( $items, $cod, $cat, $inprocess=false ) {
             $tab_td = '';
         };
         //---
-        $list .= "
+        $list .= <<<HTML
             <tr>
                 <td class='num'>$cnt</td>
                 <td class='link_container spannowrap'><a target='_blank' href='$urle'>$title</a></td>
@@ -190,7 +190,8 @@ function make_table( $items, $cod, $cat, $inprocess=false ) {
                 <td class='num'>$refs</td>
                 <td>$qid</td>
                 $inprocess_tds
-            </tr>" ;
+            </tr>
+            HTML;
         //---
         $cnt++ ;
         //---
@@ -205,26 +206,6 @@ function make_table( $items, $cod, $cat, $inprocess=false ) {
     //---
     }
 //---
-function get_in_process($missing, $code) {
-    $qua = "select * from pages where target = '' and lang = '$code';";
-    //---
-    $res = execute_query($qua);
-    //---
-    // echo "<br>";
-    // var_export(json_encode($res));
-    //--
-    $titles = array();
-    //---
-    foreach ( $res AS $t) {
-        if (in_array($t['title'], $missing)) $titles[$t['title']] = $t;
-    }
-    //---
-    // var_export(json_encode($titles));
-    //--
-    return $titles;
-    //---
-}
-//---
 $doit2 = false ;
 //---
 if ( $code_lang_name != '' ) $doit2 = true;
@@ -237,7 +218,7 @@ if ( $doit && $doit2 ) {
     //---
     $items = array() ;
     //---
-    $items = get_cat_members($cat, $depth, $code, $test) ; # mdwiki pages in the cat
+    $items = get_cat_members($cat, $depth, $code) ; # mdwiki pages in the cat
     //---
     $len_of_exists_pages = $items['len_of_exists'];
     $items_missing       = $items['missing'];

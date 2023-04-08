@@ -1,5 +1,16 @@
 <?PHP
 //---
+$print_t = false;
+//---
+if (isset($_REQUEST['test'])) {
+    $print_t = true;
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+};
+//---
+define('print_te', $print_t);
+//---
 include_once('actions/html.php');
 include_once('actions/wiki_api.php');
 include_once('actions/mdwiki_api.php');
@@ -14,8 +25,8 @@ function strendswith($text, $end) {
 };
 //---
 function test_print($s) {
-    global $test;
-    if ($test != '') print $s;
+	$test = $_REQUEST['TEST'] ?? '';
+    if ($test != '' || print_te) echo $s;
 };
 //---
 function getMyYears() {
