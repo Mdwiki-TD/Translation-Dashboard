@@ -94,7 +94,7 @@ if (isset($_POST['lang']) || isset($_POST['newlang'])) {
     set_configs_all_file('fixwikirefs.json', $tabes2);
 };
 //---
-$sato = '
+$sato = <<<HTML
 <form action="coordinator.php?ty=wikirefs_options" method="POST">
     <input name="ty" value="wikirefs_options" hidden/>
     <table id="em2" class="table table-sm table-striped" style="font-size:90%;">
@@ -109,7 +109,8 @@ $sato = '
             </tr>
         </thead>
         <tbody id="tab_ma">
-';
+
+HTML;
 //---
 /*
 $ul = '<lu>';
@@ -128,7 +129,7 @@ function make_td($lang, $tabg, $numb) {
     $move_dots      = ($tabg['move_dots'] == 1) ? 'checked' : '';
     $add_en_lang    = ($tabg['add_en_lang'] == 1) ? 'checked' : '';
     //---
-    $laly = "
+    $laly = <<<HTML
         <tr>
             <td>$numb</td>
             <td>
@@ -153,7 +154,8 @@ function make_td($lang, $tabg, $numb) {
             <td>
                 <input type='checkbox' name='del[]$numb' value='$lang'>
             </td>
-        </tr>";
+        </tr>
+        HTML;
     //---
     return $laly;
 };

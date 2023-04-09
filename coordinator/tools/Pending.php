@@ -26,7 +26,7 @@ $user_process_tab = array();
 //---
 $sql_t = 'select user, count(target) as count from pages where target = "" group by user order by count(target) desc;';
 //---
-$text = "
+$text = <<<HTML
 <table class='table table-striped compact soro'>
 <thead>
     <tr>
@@ -36,7 +36,8 @@ $text = "
     </tr>
 </thead>
 <tbody>
-";
+
+HTML;
 //---
 $n = 0;
 //---

@@ -37,15 +37,16 @@ function make_td($tabg, $nnnn) {
     //---
     // $mail = "<a class='btn btn-primary btn-sm' onclick='$onclick'>Email</a>";
     //---
-    $laly = '
+    $laly = <<<HTML
         <tr>
-            <td>' . $nnnn   . '</td>
-            <td><a target="" href="leaderboard.php?user=' . $user . '">' . $user . '</a></td>
-            <td><a target="" href="leaderboard.php?langcode=' . $llang . '">' . $lang2 . '</a>' . '</td>
-            <td style="max-width:150px;">' . $nana  . '</td>
-            <td>' . $ccat  . '</td>
-            <td>' . $date . '</td>
-            '; 
+            <td>$nnnn</td>
+            <td><a target='' href='leaderboard.php?user=$user'>$user</a></td>
+            <td><a target='' href='leaderboard.php?langcode=$llang'>$lang2</a></td>
+            <td style='max-width:150px;'>$nana</td>
+            <td>$ccat</td>
+            <td>$date</td>
+            
+        HTML; 
     //---
     $laly .= '
         </tr>';
@@ -59,7 +60,7 @@ limit 100;
 ";
 $dd = execute_query($quaa);
 //---
-$sato = '
+$sato = <<<HTML
 	<table class="table table-sm table-striped soro" style="font-size:90%;">
     <thead>
         <tr>
@@ -72,7 +73,7 @@ $sato = '
         </tr>
     </thead>
     <tbody>
-';
+HTML;
 //---
 $noo = 0;
 foreach ( $dd AS $tat => $tabe ) {

@@ -34,7 +34,7 @@ foreach ( $langs as $code => $tabe ) {
 //---
 arsort( $Table );
 //---
-$text = '
+$text = <<<HTML
 <table class="table table-striped compact soro">
     <thead>
         <tr>
@@ -46,7 +46,8 @@ $text = '
         </tr>
     </thead>
     <tbody>
-';
+
+HTML;
 //---
 $num = 0;
 //---

@@ -32,16 +32,15 @@ function create_side() {
 	$li = "<li id='%s' class='nav-item'><a class='linknave' href='$filename?ty=%s'>%s</a></li>";
 	$li_blank = "<li id='%s' class='nav-item'><a target='_blank' class='linknave' href='%s'>%s</a></li>";
 	//---
-	$home1 = "
-	<span class='d-flex align-items-center pb-1 mb-1 link-dark text-decoration-none border-bottom'>
-		<a class='nav-link' href='$filename'>
-			<span id='Home' class='fs-5 fw-semibold'>Coordinator Tools</span>
-		</a>
-	</span>";
+	$home1 = <<<HTML
+		<span class='d-flex align-items-center pb-1 mb-1 link-dark text-decoration-none border-bottom'>
+			<a class='nav-link' href='$filename'>
+				<span id='Home' class='fs-5 fw-semibold'>Coordinator Tools</span>
+			</a>
+		</span>
+	HTML;
 	//---
-	$sidebar = "
-	<div class='col-md-2'>
-		$home1";
+	$sidebar = "<div class='col-md-2'>$home1";
 	//---
 	$main = array();
 	//---

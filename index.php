@@ -80,13 +80,14 @@ function print_form_start1() {
             <option data-tokens='$codr' value='$codr'>$langeee</option>";
     };
     //---
-    $langse = "
+    $langse = <<<HTML
       <input list='sLanguages' type='text' placeholder='two letter code' name='code' id='code' value='$coco' autocomplete='off' role='combobox' class='form-select' required>
           <datalist id='Languages' class='selectpickerr' role='listbox'>
               $lang_list
           </datalist>
       </input>
-    ";
+    
+      HTML;
     //---
     $err = '';
     //---
@@ -96,21 +97,23 @@ function print_form_start1() {
         if ($code != '') { $_SESSION['code'] = $code; };
     };
     //---
-    $uiu = '
+    $uiu = <<<HTML
     <a role="button" class="btn btn-primary" onclick="login()">
     <i class="fas fa-sign-in-alt fa-sm fa-fw mr-1"></i><span class="navtitles">Login</span>
-    </a>';
+    </a>
+    HTML;
     //---
     if ( global_username != '' ) $uiu = '<input type="submit" name="doit" class="btn btn-primary" value="Do it"/>';
     //---
     $catinput = make_drop($catinput_list, $cate);
     //---
-    $catinput = "
+    $catinput = <<<HTML
     <select dir='ltr' id='cat' name='cat' class='form-select'>
         $catinput
-    </select>";
+    </select>
+    HTML;
     //---
-    $ttype = "
+    $ttype = <<<HTML
     <div class='form-check form-check-inline'>
       <input type='radio' class='form-check-input' id='customRadio' name='type' value='lead' $lead_checked>
       <label class='form-check-label' for='customRadio'>The lead only</label>
@@ -118,22 +121,24 @@ function print_form_start1() {
     <div class='form-check form-check-inline'>
       <input type='radio' class='form-check-input' id='customRadio2' name='type' value='all' $all_checked>
       <label class='form-check-label' for='customRadio2'>The whole article</label>
-    </div>";
+    </div>
+    HTML;
     //---
 	$col12 		= 'col-lg-10 col-md-10';
 	$gridclass 	= 'input-group col-7 mb-3';
     //---
-	$d2 = "
+	$d2 = <<<HTML
         <div class='$col12'>
             <div class='form-group'>
                 <div class='$gridclass'>
                     <div class='input-group-prepend'>
                         <span class='input-group-text'>%s</span>
                     </div>
-					      %s
+                        %s
                 </div>
             </div>
-        </div>";
+        </div>
+        HTML;
     //---
 	$in_cat = sprintf($d2, 'Translation campaign', $catinput);
 	//---
@@ -146,7 +151,7 @@ function print_form_start1() {
         $in_typ = "<input name='type' value='lead' hidden/>";
     };
     //---
-    $d = "
+    $d = <<<HTML
     <div class='row'>
         $in_cat
         $in_lng
@@ -157,7 +162,8 @@ function print_form_start1() {
             </h4>
         </div>
     </div>
-    ";
+    
+    HTML;
     //---
     return $d;
     //---
@@ -169,7 +175,7 @@ $form_start1  = print_form_start1();
 //---
 $intro = "This tool looks for Wikidata items that have a page on mdwiki.org but not in another wikipedia language <a href='?cat=RTT&depth=1&code=ceb&doit=Do+it'><b>(Example)</b></a>.";
 //---
-$nan = "
+$nan = <<<HTML
 <div class='container'>
   <div class='card'>
     <div class='card-header aligncenter' style='font-weight:bold;'></div>
@@ -191,7 +197,8 @@ $nan = "
     </div>
   </div>
 </div>
-";
+
+HTML;
 //---
 echo sprintf($nan, $form_start1);
 //---

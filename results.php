@@ -161,10 +161,11 @@ function make_table( $items, $cod, $cat, $inprocess=false ) {
         //---
         $translate_url = 'translate.php?' . http_build_query($params);
         //---
-        $tab = "
+        $tab = <<<HTML
             <a role='button' class='btn btn-primary' onclick='login()'>
                 <i class='fas fa-sign-in-alt fa-sm fa-fw mr-1'></i><span class='navtitles'>Login</span>
-            </a>";
+            </a>
+            HTML;
         //---
         if ( global_username != '' ) $tab = "<a href='$translate_url' class='btn btn-primary btn-sm'>Translate</a>";
         //---

@@ -4,7 +4,7 @@
 <div class='card-body'>
 <?PHP
 //---
-$sato = '
+$sato = <<<HTML
 	<table class="table table-sm table-striped" id="last_tabel" style="font-size:90%;">
     <thead>
         <tr>
@@ -23,7 +23,7 @@ $sato = '
         </tr>
     </thead>
     <tbody>
-';
+HTML;
 //---
 function make_td($tabg, $nnnn) {
     //---
@@ -71,7 +71,7 @@ function make_td($tabg, $nnnn) {
     //---
     if (user_in_coord == false) $mail = '';
     //---
-    $laly = "
+    $laly = <<<HTML
     <tr>
         <td>$nnnn</td>
         <td><a target='' href='leaderboard.php?user=$user'>$user</a></td>
@@ -86,7 +86,8 @@ function make_td($tabg, $nnnn) {
         <td>$view</td>
         <td><a target='_blank' href='../fixwikirefs.php?title=$targe2&lang=$llang'>fix</a></td>
         <td>$add_date</td>
-    </tr>";
+    </tr>
+    HTML;
     //---
     return $laly;
 };

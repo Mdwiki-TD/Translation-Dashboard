@@ -3,12 +3,12 @@
 function make_sql_result($qua, $raw) {
 	$uu = execute_query($qua);
     //---
-    $start = '<table class="table table-striped soro2">
-    <thead>
-        <tr>
-            <th>#</th>
-    
-    ';
+    $start = <<<HTML
+    <table class="table table-striped soro2">
+        <thead>
+            <tr>
+                <th>#</th>
+    HTML;
     $text = '';
     //---
     $number = 0;

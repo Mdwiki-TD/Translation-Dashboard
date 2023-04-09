@@ -52,7 +52,7 @@ if ($msg != '' && $email_to != '' ) {
     $mail->isHTML(true);                                  // Set e-mail format to HTML
     $mail->Subject = $msg_title;
     //---
-    $msg1 = "
+    $msg1 = <<<HTML
         <!DOCTYPE html>
         <html lang='en' dir='ltr' style='
                 font-family: sans-serif;
@@ -78,7 +78,8 @@ if ($msg != '' && $email_to != '' ) {
                 padding-left: 30px'>
             $msg
             </body>
-        </html>";
+        </html>
+        HTML;
     //---
     $mail->setFrom($tool_email, "WikiProjectMed");
     $mail->addAddress($email_to);

@@ -37,7 +37,7 @@ if ($allow_whole_translate == true) {
     $checked_no = 'checked';
 };
 //---
-$uux = "
+$uux = <<<HTML
 <form action='coordinator.php' method='POST'>
     <input name='ty' value='settings' hidden/>
     <div class='input-group mb-3'>
@@ -65,9 +65,10 @@ $uux = "
         </div>
     </div>
 </form>
-";
+
+HTML;
 //---
-$tat = "
+$tat = <<<HTML
     <form action='coordinator.php' method='POST'>
         <input name='ty' value='settings' hidden/>
         <div class='form-check form-check-inline'>
@@ -80,7 +81,8 @@ $tat = "
         </div>
         <button type='submit' class='btn btn-success'>send</button>
     </form>
-";
+
+    HTML;
 // echo $uux;
 $div3 = make_col_sm_body('Translate type:', '(Default: "lead")',$tat, $numb = '4');
 echo $div3;

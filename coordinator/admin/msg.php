@@ -123,14 +123,14 @@ $lang2 = $lang_code_to_en[$lang] ?? $lang;
 $lang2 = make_target_url($target, $lang, $name=$lang2);
 //---
 // print tabs values
-$msg = "
+$msg = <<<HTML
 <font color='#0000ff'>Thank you</font> for your prior translation of $title2 into $lang2.<br>
 Since this translation has gone live on <font color='#311873'>$date</font> it has been read by $views2.<br>
 Would you be interested in translating $sugust2? If so, simply click $HERE.<br>
 Once again thank you for improving access to knowledge.<br>
-";
+HTML;
 //---
-$mag = "
+$mag = <<<HTML
 
     <div dir='ltr' style='
         background-color: #f8f9fa !important;
@@ -211,7 +211,9 @@ $mag = "
             </table>
         </div>
     </div>
-";
+
+
+    HTML;
 //---
 print "
 <div class1='container-fluid'>
