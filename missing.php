@@ -71,7 +71,7 @@ foreach ( $Table as $langcode2 => $missing ) {
     #---
     if ($exists == '' ) $exists = $langs[$langcode2]['exists'] ?? $exists_1;
     //---
-    $text .= '
+    $text .= <<<HTML
         <tr>
             <td>' . $num . '</td>
             <td>' . $langcode . '</td>
@@ -79,12 +79,14 @@ foreach ( $Table as $langcode2 => $missing ) {
             <td>' . $exists . '</td>
             <td><a target="" href="index.php?cat=RTT&depth=1&doit=Do+it&code='. $langcode .'&type=all">' . number_format($missing) . '</a></td>
         </tr>
-    ';
+    
+        HTML;
 };
 //---
-$text .= '
+$text .= <<<HTML
     </tbody>
-    </table>';
+    </table>
+    HTML;
 //---
 print "
         <div align=center>

@@ -76,18 +76,18 @@ function print_form_start1() {
     $lang_list = '';
     //---
     foreach ( $lang_to_code AS $langeee => $codr ) {
-        $lang_list .= "
-            <option data-tokens='$codr' value='$codr'>$langeee</option>";
+        $lang_list .= <<<HTML
+            <option data-tokens='$codr' value='$codr'>$langeee</option>
+            HTML;
     };
     //---
     $langse = <<<HTML
-      <input list='sLanguages' type='text' placeholder='two letter code' name='code' id='code' value='$coco' autocomplete='off' role='combobox' class='form-select' required>
-          <datalist id='Languages' class='selectpickerr' role='listbox'>
-              $lang_list
-          </datalist>
-      </input>
-    
-      HTML;
+        <input list='sLanguages' type='text' placeholder='two letter code' name='code' id='code' value='$coco' autocomplete='off' role='combobox' class='form-select' required>
+            <datalist id='Languages' class='selectpickerr' role='listbox'>
+            $lang_list
+            </datalist>
+        </input>
+    HTML;
     //---
     $err = '';
     //---

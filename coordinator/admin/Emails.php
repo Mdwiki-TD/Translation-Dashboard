@@ -100,8 +100,9 @@ function make_project_to_user($project){
     //---
     foreach ( $projects_title_to_id AS $p_title => $p_id ) {
 		$cdcdc = $project == $p_title ? "selected" : "";
-        $str .= "
-            <option value='$p_title' $cdcdc>$p_title</option>";
+        $str .= <<<HTML
+			<option value='$p_title' $cdcdc>$p_title</option>
+		HTML;
     };
     //---
 	return $str;

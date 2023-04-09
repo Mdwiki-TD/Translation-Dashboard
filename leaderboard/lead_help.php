@@ -129,9 +129,10 @@ function make_table_lead($dd, $tab_type='a', $views_table = array(), $page_type=
         //---
     };
     //---
-    $sato .= '
+    $sato .= <<<HTML
         </tbody>
-    </table>';
+    </table>
+    HTML;
     //---
     $table1 = <<<HTML
             <table class='table table-sm table-striped' style='width:70%;'>

@@ -112,10 +112,10 @@ foreach ( $dd2 AS $tat => $tabe ) {
     //---
 };
 //---
-$sato .= '
-    </tbody>
-</table>
-';
+$sato .= <<<HTML
+        </tbody>
+    </table>
+HTML;
 print $sato;
 //---
 ?>

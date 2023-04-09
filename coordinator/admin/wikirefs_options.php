@@ -178,13 +178,14 @@ foreach ( $tabes AS $lang => $tab ) {
     //---
 };
 //---
-$sato .= '
-        </tbody>
-    </table>
-    <button type="submit" class="btn btn-success">Submit</button>
-    <span role="button" id="add_row" class="btn btn-info" style="position: absolute; right: 130px;" onclick="add_row()">New row</span>
-</form>
-';
+$sato .= <<<HTML
+			</tbody>
+		</table>
+		<button type="submit" class="btn btn-success">Submit</button>
+		<span role="button" id="add_row" class="btn btn-info" style="position: absolute; right: 130px;" onclick="add_row()">New row</span>
+	</form>
+
+HTML;
 print $sato;
 //---
 ?>

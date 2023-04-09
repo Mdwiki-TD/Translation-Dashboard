@@ -220,22 +220,24 @@ function makeLangTable() {
             $cac = ($addcat == true ) ? '<td><a target="_blank" href="https://' . $langcode . '.wikipedia.org/wiki/Category:Translated_from_MDWiki">cat</a></td>' : '';
             //---
             if ($comp != 0) {
-                $text .= "
-            <tr>
-                <td>$numb</td>
-                <td><a href='leaderboard.php?langcode=$langcode'>$langname</a></td>
-                <td>$comp</td>
-                <td>$view</td>
-                $cac
-            </tr>";
+                $text .= <<<HTML
+                    <tr>
+                        <td>$numb</td>
+                        <td><a href='leaderboard.php?langcode=$langcode'>$langname</a></td>
+                        <td>$comp</td>
+                        <td>$view</td>
+                        $cac
+                    </tr>
+                HTML;
             };
             //---
         };
     };
     //---
-    $text .= '
-    </tbody>
-    </table>';
+    $text .= <<<HTML
+        </tbody>
+        </table>
+    HTML;
     //---
     return $text;
 }

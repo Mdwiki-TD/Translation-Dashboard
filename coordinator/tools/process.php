@@ -48,8 +48,9 @@ function make_td($tabg, $nnnn) {
             
         HTML; 
     //---
-    $laly .= '
-        </tr>';
+    $laly .= <<<HTML
+        </tr>
+        HTML;
     //---
     return $laly;
 };
@@ -83,10 +84,11 @@ foreach ( $dd AS $tat => $tabe ) {
     //---
 };
 //---
-$sato .= '
-    </tbody>
-</table>
-';
+$sato .= <<<HTML
+		</tbody>
+	</table>
+
+HTML;
 print $sato;
 //---
 ?>

@@ -9,7 +9,7 @@ $1<<<HTML\n$3\nHTML;
 (\$[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*\s*=\s*)(['"])(\s*<[\s\S]*?>\s*)\2;
 
 --------
-(\$[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]|print|echo)(*\s*.*=\s*)(['"])(\s*)(<[\s\S]*?>\s*)\2;
+(\$[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*|print|echo)(\s*\.*=\s*)(['"])(\s*)(<[\s\S]*?>\s*)\3;
 
 $1$2<<<HTML$4$5$4HTML;
 -->

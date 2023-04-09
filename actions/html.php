@@ -29,9 +29,9 @@ function makeDropdown($tab, $cat, $id, $add) {
         //---
         if ( $cat == $dd ) $se = 'selected';
         //---
-        $options .= "
-	    <option value='$dd' $se>$dd</option>
-		";
+        $options .= <<<HTML
+            <option value='$dd' $se>$dd</option>
+        HTML;
         //---
     };
     //---
@@ -89,9 +89,10 @@ function make_drop($uxutable, $code) {
     //---
     foreach ($uxutable AS $name => $cod) {
         $cdcdc = $code == $cod ? "selected" : "";
-        $options .= "
+        $options .= <<<HTML
 		<option value='$cod' $cdcdc>$name</option>
-		";
+		
+		HTML;
     };
     //---
 	return $options;

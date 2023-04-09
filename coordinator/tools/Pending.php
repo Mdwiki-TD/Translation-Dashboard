@@ -52,19 +52,20 @@ foreach ( execute_query($sql_t) AS $k => $t ) {
         $use = rawurlEncode($user);
         $use = str_replace ( '+' , '_' , $use );
         //---
-        $text .= "
+        $text .= <<<HTML
         <tr>
             <td>$n</td>
             <td><a href='leaderboard.php?user=$use'>$user</a></td>
             <td>$count</td>
         </tr>
-        ";
+        HTML;
         };
 };
 //---
-$text .= '
-</tbody>
-</table>';
+$text .= <<<HTML
+	</tbody>
+	</table>
+HTML;
 //---
 echo $text;
 //---

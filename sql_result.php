@@ -31,8 +31,10 @@ function make_sql_result($qua, $raw) {
         //---
     };
     //---
-    $start .= '</tr>
-    </thead>';
+    $start .= <<<HTML
+        </tr>
+        </thead>
+    HTML;
     //---
     if ( $raw == '' ) {
         //---
