@@ -47,7 +47,7 @@ if (isset($_POST['cat'])) {
 		//---
 		$qua = "INSERT INTO categories (category, display, depth) SELECT '$cat', '$dis', '$dep'
 		WHERE NOT EXISTS (SELECT 1 FROM categories WHERE category = '$cat')";
-		//---	
+		//---
 		if ($ido != '') {
 			$qua = "UPDATE categories 
 			SET 

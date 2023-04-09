@@ -2,7 +2,7 @@
 //---
 require('header.php');
 echo '</div>
-<script>$("#coord").addClass("active");</script>
+<script>$("#tools").addClass("active");</script>
 <div id="maindiv" class="container-fluid">';
 //---
 include_once('functions.php');

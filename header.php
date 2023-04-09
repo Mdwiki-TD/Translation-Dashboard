@@ -58,10 +58,14 @@ function print_head() {
 print_head();
 //---
 $user_in_coord = false;
-$coord = 'tools.php';
+$coord_tools = '';
 //---
 if (in_array($username, $usrs)) {
-	$coord = 'coordinator.php';
+	$coord_tools = <<<HTML
+		<li class="nav-item" id="coord">
+			<a href="coordinator.php" class="nav-link"><span class="navtitles">Coordinator tools</span></a>
+		</li>
+	HTML;
 	$user_in_coord = true;
 };
 //---
@@ -93,9 +97,10 @@ if (in_array($username, $usrs)) {
 							<span class="navtitles">Missing</span>
 						</a>
 					</li>
-					<li class="nav-item" id="coord">
-					<a href="<?php echo $coord; ?>" class="nav-link"><span class="navtitles">Coordinator tools</span></a>
+					<li class="nav-item" id="tools">
+					<a href="tools.php" class="nav-link"><span class="navtitles">Tools</span></a>
 					</li>
+					<?php echo $coord_tools; ?>
 					<li class="nav-item">
 						<a href="https://github.com/MrIbrahem/Translation-Dashboard" target="_blank" class="nav-link">
 							<span class="navtitles">Github</span>
