@@ -1,6 +1,6 @@
 <?php
 //---
-if ($user_in_coord == false) {
+if (user_in_coord == false) {
 	echo "<meta http-equiv='refresh' content='0; url=index.php'>";
 	exit;
 };
@@ -15,19 +15,12 @@ if ($user_in_coord == false) {
 	  <div class="form-group">
 		<table class='table compact' style="width:50%;">
 			<tr>
-				<th>id</th>
+				<th>Id</th>
 				<th>Project</th>
 				<th>Delete</th>
 			</tr>
 			<tbody id="g_tab">
 <?php
-//---
-/*RENAME TABLE groups TO projects;
-CREATE TABLE groups (
-    g_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    g_title VARCHAR(120) NOT NULL
-    )
-*/
 //---
 if (isset($_POST['del'])) {
 	for($i = 0; $i < count($_POST['del']); $i++ ) {
@@ -42,39 +35,39 @@ if (isset($_POST['del'])) {
 //---
 if (isset($_POST['g_title'])) {
 	for($i = 0; $i < count($_POST['g_title']); $i++ ) {
+		//---
 		$g_id  		= $_POST['g_id'][$i];
 		$g_title	= $_POST['g_title'][$i];
 		//---
-		if ($g_title != '' && $g_id == '') {
-			$qua = "INSERT INTO projects (g_title) SELECT '$g_title' WHERE NOT EXISTS (SELECT 1 FROM projects WHERE g_title = '$g_title')";
-			//---
-			execute_query($qua);
-		};
+		if ($g_title == '') continue;
+		//---
+		insert_to_projects($g_title, $g_id);
+		//---
 	};
 };
 //---
-$qq = execute_query('select g_id, g_title from projects;');
-//---
 $numb = 0;
 //---
-foreach ( $qq AS $Key => $table ) {
+foreach ( execute_query('select g_id, g_title from projects;') AS $g_title => $tab ) {
 	$numb += 1;
-	$g_id		= $table['g_id'];
-	$g_title	= $table['g_title'];
     //---
-	echo "
+	$g_id = $tab['g_id'];
+	$g_title = $tab['g_title'];
+    //---
+	echo <<<HTML
 	<tr>
 		<td>
-		<span><b>$numb</b></span>
-	  	<input name='g_id[]$numb' value='$g_id' hidden/>
-	  </td>
-	  <td>
-	  	<input name='g_title[]$numb' value='$g_title'/>
+			<span><b>$numb</b></span>
+			<input name='g_id[]$numb' value='$g_id' hidden/>
 		</td>
-	  <td>
-	  	<input type='checkbox' name='del[]$numb' value='$g_id'/> <label> delete</label>
-	  </td>
-	</tr>";
+	  	<td>
+	  		<input name='g_title[]$numb' value='$g_title'/>
+		</td>
+	  	<td>
+	  		<input type='checkbox' name='del[]$numb' value='$g_id'/> <label> delete</label>
+	  	</td>
+	</tr>
+	HTML;
 };
 //---
 ?>
@@ -89,7 +82,7 @@ var i = 1;
 function add_row() {
 	var ii = $('#g_tab >tr').length + 1;
 	var e = "<tr>";
-	e = e + "<td>" + ii + "</td>";
+	e = e + "<td>" + ii + "<input name='g_id[]' value='0' hidden/></td>";
 	e = e + "<td><input name='g_title[]" + ii + "'/></td>";
 	e = e + "<td></td>";
 	e = e + "</tr>";

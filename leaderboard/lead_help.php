@@ -1,7 +1,6 @@
 <?PHP
 //---
-function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'users', $tab_ty='a') {
-    //---
+function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'users', $tab_ty='a', $_user_='') {
     global $cat_to_camp;
     //---
     $mdtitle = $tabb['title'];
@@ -37,11 +36,15 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
     };
     //---
     $udate = $pupdate;
+    $complate   = '';
     //---
     if ($tab_ty == 'pending') {
         $udate = $date;
         $target_link = 'Pending';
         $td_views = '';
+        //---
+        $tralink = make_translation_url($mdtitle, $lang);
+        $complate   = (global_username === $_user_) ? "<td><a target='_blank' href='$tralink'>complete</a></td>" : '';
     } else {
         $target  = $tabb['target'];
         //---
@@ -54,7 +57,7 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
     //---
     $year = substr($udate,0,4);
     //---
-    $laly = "
+    $laly = <<<HTML
         <tr class='filterDiv show2 $year'>
             <td>$number</td>
             <td>$urll</td>
@@ -65,8 +68,9 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
             <td>$target_link</td>
             <td class='spannowrap'>$udate</td>
             $td_views
+            $complate
         </tr>
-        ";
+        HTML;
     //---
     return $laly;
     //---
@@ -81,10 +85,11 @@ function make_table_lead($dd, $tab_type='a', $views_table = array(), $page_type=
     //---
     $user_or_lang = ($page_type == 'users') ? 'Lang.' : 'User';
     //---
-    $tab_views = ($tab_type == 'pending') ? '' : '<th>Views</th>';
-    $th_Date   = ($tab_type == 'pending') ? 'Start date' : 'Date';
+    $tab_views  = ($tab_type == 'pending') ? '' : '<th>Views</th>';
+    $th_Date    = ($tab_type == 'pending') ? 'Start date' : 'Date';
+    $complate   = ($tab_type == 'pending' && global_username === $user) ? '<th>complete!</th>' : '';
     //---
-    $sato = "
+    $sato = <<<HTML
         <table class='table table-striped compact soro'>
             <thead>
                 <tr>
@@ -97,9 +102,11 @@ function make_table_lead($dd, $tab_type='a', $views_table = array(), $page_type=
                     <th>Translated</th>
                     <th>$th_Date</th>
                     $tab_views
+                    $complate
                 </tr>
             </thead>
-            <tbody>";
+            <tbody>
+        HTML;
     //---
     $noo = 0;
     foreach ( $dd AS $tat => $tabe ) {
@@ -118,7 +125,7 @@ function make_table_lead($dd, $tab_type='a', $views_table = array(), $page_type=
         //---
         $total_words += $word;
         //---
-        $sato .= make_td_fo_user($tabe, $noo, $view_number, $word, $page_type = $page_type, $tab_ty=$tab_type);
+        $sato .= make_td_fo_user($tabe, $noo, $view_number, $word, $page_type = $page_type, $tab_ty=$tab_type, $_user_=$user);
         //---
     };
     //---
@@ -126,10 +133,12 @@ function make_table_lead($dd, $tab_type='a', $views_table = array(), $page_type=
         </tbody>
     </table>';
     //---
-    $table1 = "<table class='table table-sm table-striped' style='width:70%;'>
-    <tr><td>Words: </td><td>$total_words</td></tr>
-    <tr><td>Pageviews: </td><td><span id='hrefjsontoadd'>$total_views</span></td></tr>
-    </table>";
+    $table1 = <<<HTML
+            <table class='table table-sm table-striped' style='width:70%;'>
+            <tr><td>Words: </td><td>$total_words</td></tr>
+            <tr><td>Pageviews: </td><td><span id='hrefjsontoadd'>$total_views</span></td></tr>
+            </table>
+        HTML;
     //---
     $arra = array('table1' => $table1, 'table2' => $sato );
     //---

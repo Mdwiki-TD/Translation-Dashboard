@@ -14,14 +14,20 @@ if (isset($_REQUEST['test'])) {
 	error_reporting(E_ALL);
 };
 //---
+$testxx = isset($_REQUEST['test']) ? "1" : "";
+//---
+define('global_test', $testxx);
+//---
 include_once('functions.php'); // $usrs
 //---
 include_once('login5.php');
 //---
+define('global_username', $username);
+//---
 $hoste = '';
 //---
 function print_head() {
-	global $username, $hoste;
+	global $hoste;
 	$hoste = 'https://tools-static.wmflabs.org/cdnjs';
 	if ( $_SERVER['SERVER_NAME'] == 'localhost' )  $hoste = 'https://cdnjs.cloudflare.com';
 	//---
@@ -50,24 +56,21 @@ function print_head() {
 		";
 	};
 	//---
-	echo "<span id='myusername' style='display:none'>$username</span>
-	";
+	echo "<span id='myusername' style='display:none'>" . global_username . "</span>";
 	//---
 };
 //---
 print_head();
 //---
 $user_in_coord = false;
-$coord_tools = '';
+$coord_tools = '<a href="tools.php" class="nav-link"><span class="navtitles"></span>Tools</a>';
 //---
-if (in_array($username, $usrs)) {
-	$coord_tools = <<<HTML
-		<li class="nav-item" id="coord">
-			<a href="coordinator.php" class="nav-link"><span class="navtitles">Coordinator tools</span></a>
-		</li>
-	HTML;
+if (in_array(global_username, $usrs)) {
+	$coord_tools = '<a href="coordinator.php" class="nav-link"><span class="navtitles"></span>Coordinator Tools</a>';
 	$user_in_coord = true;
 };
+//---
+define('user_in_coord', $user_in_coord);
 //---
 ?>
 </head>
@@ -97,10 +100,9 @@ if (in_array($username, $usrs)) {
 							<span class="navtitles">Missing</span>
 						</a>
 					</li>
-					<li class="nav-item" id="tools">
-					<a href="tools.php" class="nav-link"><span class="navtitles">Tools</span></a>
+					<li class="nav-item" id="coord">
+						<?php echo $coord_tools; ?>
 					</li>
-					<?php echo $coord_tools; ?>
 					<li class="nav-item">
 						<a href="https://github.com/MrIbrahem/Translation-Dashboard" target="_blank" class="nav-link">
 							<span class="navtitles">Github</span>

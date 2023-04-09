@@ -7,7 +7,6 @@ include_once('functions.php');
 include_once('sql_tables.php');
 //---
 $doit = isset($_REQUEST['doit']);
-$test = $_REQUEST['test'] ?? '';
 //---
 $code = $_REQUEST['code'] ?? '';
 //---
@@ -69,7 +68,7 @@ function sort_py_importance( $items ) {
 };
 //---
 function make_table( $items, $cod, $cat, $inprocess=false ) {
-    global $username, $Words_table, $All_Words_table, $Assessments_table ,$tra_type;
+    global $Words_table, $All_Words_table, $Assessments_table ,$tra_type;
     global $Lead_Refs_table, $All_Refs_table, $enwiki_pageviews_table;
     //---
     global $sql_qids;
@@ -155,7 +154,7 @@ function make_table( $items, $cod, $cat, $inprocess=false ) {
         $params = array(
             "title" => $title2,
             "code" => $cod,
-            "username" => $username,
+            "username" => global_username,
             "cat" => $cat2,
             "type" => $tra_type
             );
@@ -167,7 +166,7 @@ function make_table( $items, $cod, $cat, $inprocess=false ) {
                 <i class='fas fa-sign-in-alt fa-sm fa-fw mr-1'></i><span class='navtitles'>Login</span>
             </a>";
         //---
-        if ( $username != '' ) $tab = "<a href='$translate_url' class='btn btn-primary btn-sm'>Translate</a>";
+        if ( global_username != '' ) $tab = "<a href='$translate_url' class='btn btn-primary btn-sm'>Translate</a>";
         //---
         $tab_td = "<td class='num'>$tab</td>";
         //---
@@ -214,7 +213,7 @@ echo "<div class='container'>";
 //---
 if ( $doit && $doit2 ) {
     //---
-    if ($test) echo '$doit and $doit2:<br>';
+    if (global_test) echo '$doit and $doit2:<br>';
     //---
     $items = array() ;
     //---
@@ -240,7 +239,7 @@ if ( $doit && $doit2 ) {
     //---
     $res_line = " Results " ;//. ($start+1) . "&ndash;" . ($start+$limit) ;
     //---
-    if ($test != '') $res_line .= 'test:';
+    if (global_test != '') $res_line .= 'test:';
     //---
     // delete $in_process keys from $missing
     if ($len_in_process > 0) {
@@ -277,7 +276,7 @@ if ( $doit && $doit2 ) {
         </div>";
     };
     //---
-    if (isset($doit) && $test != '' ) {
+    if (isset($doit) && global_test != '' ) {
         //---
         echo "_REQUEST code:" . isset($_REQUEST['code']) . "<br>";
         echo "code:$code<br>";

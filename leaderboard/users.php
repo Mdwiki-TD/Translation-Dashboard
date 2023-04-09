@@ -2,11 +2,10 @@
 //---
 require('lead_help.php');
 //---
-$test = $_REQUEST['test'] ?? '';
+$test     = $_REQUEST['test'] ?? '';
 $mainuser = $_REQUEST['user'] ?? '';
-$limit = $_REQUEST['limit'] ?? null;
 //---
-if ($mainuser == $username) {
+if ($mainuser == global_username) {
     echo '<script>
     $(".navbar-nav").find("li.active").removeClass("active");
     $("#myboard").addClass("active");
@@ -18,18 +17,30 @@ $dd = array();
 $dd_Pending = array();
 $table_of_views = array();
 //---
-function make_user_table($user_main, $test, $limit) {
-    //---
-    global $table_of_views;
-    global $dd, $dd_Pending;
-    //---
-    $user_main = rawurldecode( str_replace ( '_' , ' ' , $user_main ) );
+if (True) {
+    $user_main = $mainuser;
+    $user_main = rawurldecode( str_replace ('_', ' ', $user_main) );
     //---
     $count_sql = "select count(title) as count from pages where user = '$user_main';";
     //---
+    $quaa = "select * from pages where user = '$user_main'";
+    //---
+    if ($test != '') echo $quaa;
+    //---
+    $quaa_view_main = "select p.target, v.countall
+    from pages p, views v
+    where p.user = '$user_main'
+    and p.target = v.target
+    limit 200
+    ";
+    //---
+};
+//---
+if ($mainuser != '') {
+    //---
     $count_query = execute_query($count_sql);
     //---
-    $user_count = $count_query[1]['count'];
+    $user_count = $count_query[0]['count'];
     //---
     unset($count_query);
     //---
@@ -39,20 +50,15 @@ function make_user_table($user_main, $test, $limit) {
     $offset = 0;
     //---
     while ($done < $user_count) {
-        // echo "offset: $offset.";
-        // views (target, countall, count2021, count2022, count2023, lang)
-        $quaa_view = "select p.target,v.countall
-        from pages p,views v
-        where p.user = '$user_main'
-        and p.target = v.target
-        limit 200
+        //---
+        $quaa_view = $quaa_view_main;
+        $quaa_view .= "
         offset $offset
-        ;
         ";
         //---
         $views_query = execute_query($quaa_view);
         //---
-        if (count($views_query) == 0) { $done = $user_count;};
+        if (count($views_query) == 0) $done = $user_count;
         //---
         foreach ( $views_query AS $Key => $table ) {
             $countall = $table['countall'];
@@ -68,12 +74,6 @@ function make_user_table($user_main, $test, $limit) {
         $offset += 200;
         //---
     };
-    //---
-    $quaa = "select * from pages where user = '$user_main'";
-    //---
-    if ($limit != '' && is_numeric($limit)) $quaa = $quaa . " limit $limit";
-    //---
-    if ($test != '') echo $quaa;
     //---
     $sql_result = execute_query($quaa);
     //---
@@ -91,8 +91,6 @@ function make_user_table($user_main, $test, $limit) {
     //---
 };
 //---
-make_user_table($mainuser, $test, $limit);
-//---
 krsort($dd);
 //---
 $tat = make_table_lead($dd, $tab_type='translations', $views_table = $table_of_views, $page_type='users', $user=$mainuser, $lang='');
@@ -102,17 +100,18 @@ $table2 = $tat['table2'];
 //---
 $man = make_mdwiki_user_url($mainuser);
 //---
-echo "
-    <div class='row content'>
-        <div class='col-md-4'>$table1</div>
-        <div class='col-md-4'><h2 class='text-center'>$man</h2></div>
-        <div class='col-md-4'></div>
-    </div>
-    <div class='card'>
-        <div class='card-body' style='padding:5px 0px 5px 5px;'>
-        $table2
+echo <<<HTML
+        <div class='row content'>
+            <div class='col-md-4'>$table1</div>
+            <div class='col-md-4'><h2 class='text-center'>$man</h2></div>
+            <div class='col-md-4'></div>
         </div>
-    </div>";
+        <div class='card'>
+            <div class='card-body' style='padding:5px 0px 5px 5px;'>
+            $table2
+            </div>
+        </div>
+    HTML;
 //---
 krsort($dd_Pending);
 //---
@@ -120,13 +119,14 @@ $table_pnd = make_table_lead($dd_Pending, $tab_type='pending', $views_table = $t
 //---
 $tab_pnd = $table_pnd['table2'];
 //---
-print "
-<br>
-<div class='card'>
-	<div class='card-body' style='padding:5px 0px 5px 5px;'>
-        <h2 class='text-center'>Translations in process</h2>
-        $tab_pnd
-	</div>
-</div>";
+echo <<<HTML
+    <br>
+    <div class='card'>
+        <div class='card-body' style='padding:5px 0px 5px 5px;'>
+            <h2 class='text-center'>Translations in process</h2>
+            $tab_pnd
+        </div>
+    </div>
+HTML;
 //---
 ?>

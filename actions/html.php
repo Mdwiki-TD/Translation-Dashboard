@@ -121,6 +121,22 @@ function make_cat_url($category) {
     return $category;
 }
 //---
+function make_translation_url($title, $lang) {
+    $params = array(
+        'page' => "User:Mr. Ibrahem/$title",
+        'from' => "en",
+        'to' => $lang,
+        'targettitle' => $title
+    );
+    //---
+    $url = "//$lang.wikipedia.org/wiki/Special:ContentTranslation";
+    $url .= "?" . http_build_query($params) . "#draft";
+    //---
+    // $url = "//$lang.wikipedia.org/wiki/Special:ContentTranslation?page=User%3AMr.+Ibrahem%2F$title&from=en&to=$lang&targettitle=$title#draft";
+    //---
+    return $url;
+}
+//---
 function make_mdwiki_user_url($user) {
     if ($user != '') {
         $encoded_user = rawurlencode(str_replace(' ', '_', $user));

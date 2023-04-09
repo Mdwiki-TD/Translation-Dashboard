@@ -9,7 +9,7 @@ class Database {
     
     private $db;
     private $host;
-    private $username;
+    private $user;
     private $password;
     private $dbname;
     
@@ -17,20 +17,20 @@ class Database {
         if ($server_name === 'localhost') {
             $this->host = 'localhost:3306';
             $this->dbname = 'mdwiki';
-            $this->username = 'root';
+            $this->user = 'root';
             $this->password = 'root11';
         } else {
             $ts_pw = posix_getpwuid(posix_getuid());
             $ts_mycnf = parse_ini_file($ts_pw['dir'] . "/replica.my.cnf");
             $this->host = 'tools.db.svc.wikimedia.cloud';
             $this->dbname = $ts_mycnf['user'] . "__mdwiki";
-            $this->username = $ts_mycnf['user'];
+            $this->user = $ts_mycnf['user'];
             $this->password = $ts_mycnf['password'];
             unset($ts_mycnf, $ts_pw);
         }
         
         try {
-            $this->db = new PDO("mysql:host=$this->host;dbname=$this->dbname", $this->username, $this->password);
+            $this->db = new PDO("mysql:host=$this->host;dbname=$this->dbname", $this->user, $this->password);
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch(PDOException $e) {
             echo $e->getMessage();
@@ -93,4 +93,35 @@ function execute_query($sql_query) {
     return $results;
 };
 //---
+function insert_to_projects($g_title, $g_id) {
+    $query = "UPDATE projects SET g_title = '$g_title' WHERE g_id = '$g_id'";
+    //---
+    if ($g_id == 0 || $g_id == '0' || $g_id == '') {
+        $query = "INSERT INTO projects (g_title) SELECT '$g_title' WHERE NOT EXISTS (SELECT 1 FROM projects WHERE g_title = '$g_title')";
+    };
+    //---
+    $result = execute_query($query);
+    //---
+    return $result;
+}
+function get_all($tab="(categories|coordinator|copy_pages|pages|projects|qids|users|views|wddone|words)") {
+    //---
+    $query = "SELECT * FROM $tab";
+    $data = execute_query($query);
+    //---
+    return $data;
+}
+//---
+function display_tables() {
+    $sql_query = "SELECT TABLE_NAME, TABLE_TYPE FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() ORDER BY TABLE_NAME";
+    $result = execute_query($sql_query);
+    //---
+    $tables = [];
+    foreach ($result as $row) $tables[] = $row['TABLE_NAME'];
+    //---
+    test_print($tables);
+}
+//---
+$test = $_GET['test'] ?? '';
+if ($test != '') display_tables();
 ?>

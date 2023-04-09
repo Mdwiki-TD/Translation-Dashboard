@@ -1,6 +1,6 @@
 <?php
 //---
-function make_sql_result( $qua, $raw, $test ) {
+function make_sql_result($qua, $raw) {
 	$uu = execute_query($qua);
     //---
     $start = '<table class="table table-striped soro2">
@@ -40,10 +40,10 @@ function make_sql_result( $qua, $raw, $test ) {
         //---
         echo $start . $text . '</table>';
         //---
-        if ($test != '') var_export($uu);
+        if (global_test != '') var_export($uu);
         //---
         if ($text == '') {
-            if ($test != '') {
+            if (global_test != '') {
                 print_r($uu);
             } else {
                 echo var_dump($uu);

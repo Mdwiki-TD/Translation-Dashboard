@@ -27,7 +27,7 @@ $sato = '
 //---
 function make_td($tabg, $nnnn) {
     //---
-    global $code_to_lang, $Words_table, $views_sql, $cat_to_camp, $user_in_coord;
+    global $code_to_lang, $Words_table, $views_sql, $cat_to_camp;
     //---
     $id       = $tabg['id'];
     $date     = $tabg['date'];
@@ -65,9 +65,11 @@ function make_td($tabg, $nnnn) {
     //---
 	$onclick = 'pupwindow("' . $mail_url . '")';
     //---
-    $mail = "<a class='btn btn-primary btn-sm' onclick='$onclick'>Email</a>";
+    $mail = <<<HTML
+    <a class='btn btn-primary btn-sm' onclick='$onclick'>Email</a>
+    HTML;
     //---
-    if ($user_in_coord == false) $mail = '';
+    if (user_in_coord == false) $mail = '';
     //---
     $laly = "
     <tr>

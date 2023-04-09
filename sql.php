@@ -61,9 +61,7 @@ include_once('td_config.php');
 $ini = Read_ini_file('OAuthConfig.ini');
 include_once('functions.php');
 //---
-$username2 = $_COOKIE['username'] ?? $username;
-//---
-if (!in_array($username2, $usrs)) {
+if (!in_array(global_username, $usrs)) {
 	echo "<meta http-equiv='refresh' content='0; url=index.php'>";
 	exit;
 };
@@ -73,7 +71,6 @@ $sqlpass = $ini['sqlpass'];
 $pass = $_REQUEST['pass'] ?? '';
 $qua  = $_REQUEST['code'] ?? '';
 $raw  = $_REQUEST['raw'] ?? '';
-$test = $_REQUEST['test'] ?? '';
 //---
 if ( $raw == '' ) {
     require('header.php');
@@ -212,7 +209,7 @@ if ( $raw == '' ) {
 if ( $qua != '' and ($pass == $sqlpass or $_SERVER['SERVER_NAME'] == 'localhost') ) {
     //---
     require('sql_result.php');
-    make_sql_result( $qua, $raw, $test );
+    make_sql_result( $qua, $raw );
     //---
 };
 //---

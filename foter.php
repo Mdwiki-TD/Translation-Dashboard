@@ -4,10 +4,15 @@
 <script>
 function login(){
 	// var test = $('#test').val();
-	var cat = $('#cat').val();
-	var code = $('#code').val();
-	var type = $('input[name=type]:checked').val();
-	var url = 'login5.php?action=login&code=' + code + '&cat=' + cat + '&type=' + type;
+	var cat = $('#cat').val() || '';
+	var code = $('#code').val() || '';
+	var type = $('input[name=type]:checked').val() || '';
+
+	// var url = 'login5.php?action=login&code=' + code + '&cat=' + cat + '&type=' + type;
+	var url = 'login5.php?action=login';
+	if (cat != '') url += '&cat=' + cat;
+	if (code != '') url += '&code=' + code;
+	if (type != '') url += '&type=' + type;
 	// alert(url);
 	window.location.href = url;
 }

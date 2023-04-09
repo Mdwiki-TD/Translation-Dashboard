@@ -1,5 +1,5 @@
 <?PHP
-
+//---
 if (isset($_REQUEST['test'])) {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
@@ -7,7 +7,7 @@ if (isset($_REQUEST['test'])) {
 };
 //---
 require 'leader_tables.php';
-
+//---
 function print_cat_table(): string {
     global $sql_users_tab, $Articles_numbers, $Words_total, $sql_Languages_tab, $global_views;
 
@@ -62,10 +62,7 @@ HTML;
 $y1 = makeDropdown($cat_titles, $camp, 'camp', 'all');
 $campDropdown = sprintf($d33, 'Campaign', $y1);
 //---
-$projects = array();
-foreach ( execute_query('select g_title from projects;') AS $Key => $table ) $projects[] = $table['g_title'];
-//---
-// $projects = array_map(fn($p) => $p['g_title'], execute_query('select g_title from projects;'));
+$projects = array_keys($projects_title_to_id);
 //---
 $y2 = makeDropdown($projects, $project, 'project', 'all');
 $projectDropdown = sprintf($d33, 'Translators', $y2);

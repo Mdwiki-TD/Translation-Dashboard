@@ -10,7 +10,7 @@ $title_o = $_REQUEST['title'];
 $tit_line = make_input_group( 'title', 'title', $title_o, 'required');
 $cod_line = make_input_group( 'code', 'code', $coden, 'required');
 //---
-$nana = "
+$nana = <<<HTML
     <div class='card' style='font-weight: bold;'>
         <div class='card-body'>
             <div class='row'>
@@ -24,7 +24,7 @@ $nana = "
             </div>
         </div>
     </div>
-    ";
+    HTML;
 //---
 if (isset($_GET['form'])) echo $nana;
 //---
@@ -50,7 +50,7 @@ function start_trans_py($title, $test, $fixref, $tra_type) {
     return $output;
 };
 //---
-$useree  = $username != '' ? $username : $_REQUEST['username'];
+$useree  = (global_username != '') ? global_username : $_REQUEST['username'];
 //---
 if ($title_o != '' && $coden != '' && $useree != '' ) {
     //---
@@ -77,22 +77,22 @@ if ($title_o != '' && $coden != '' && $useree != '' ) {
     //---
     $date = date('Y-m-d');
     //---
-    $quae = "
+    $quae = <<<SQL
 		INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target, add_date)
 		VALUES ('$title_o', '$word', '$tr_type', '$cat', '$coden', now(), '$useree', '', '', now())
-		";
+		SQL;
     //---
-    $quae_new = "
-	INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target, add_date)
-    SELECT '$title_o', '$word', '$tr_type', '$cat', '$coden', now(), '$useree', '', '', now()
-    WHERE NOT EXISTS
-        (SELECT 1
-         FROM pages 
-                   WHERE title = '$title_o'
-                   AND lang = '$coden'
-                   AND user = '$useree'
-        )
-";
+    $quae_new = <<<SQL
+        INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target, add_date)
+        SELECT '$title_o', '$word', '$tr_type', '$cat', '$coden', now(), '$useree', '', '', now()
+        WHERE NOT EXISTS
+            (SELECT 1
+            FROM pages 
+                    WHERE title = '$title_o'
+                    AND lang = '$coden'
+                    AND user = '$useree'
+            )
+    SQL;
     //---
     if ($test != '') echo "<br>$quae_new<br>";
     //---
@@ -103,8 +103,7 @@ if ($title_o != '' && $coden != '' && $useree != '' ) {
     if (trim($output) == 'true' || isset($_REQUEST['go'])) {
         $title_o2 = rawurlEncode($title_o);
         //---
-        $url = "//$coden.wikipedia.org/wiki/Special:ContentTranslation?page=User%3AMr.+Ibrahem%2F$title_o2";
-        $url .= "&from=en&to=$coden&targettitle=$title_o2#draft";
+        $url = make_translation_url($title_o2, $coden);
         //---
         if ($coden == 'en') $url = "//en.wikipedia.org/w/index.php?title=User:Mr._Ibrahem/$title_o2&action=edit";
         //---
@@ -120,13 +119,14 @@ if ($title_o != '' && $coden != '' && $useree != '' ) {
             // header( "Location: " . $url );
             // exit;
             //---
-            $zaza = "
-    <script type='text/javascript'>
-    window.open('$url', '_self');
-</script>
-<noscript>
-    <meta http-equiv='refresh' content='0; url=$url'>
-</noscript>";
+            $zaza = <<<HTML
+        <script type='text/javascript'>
+        window.open('$url', '_self');
+        </script>
+        <noscript>
+            <meta http-equiv='refresh' content='0; url=$url'>
+        </noscript>
+        HTML;
             //---
             print $zaza;
         };

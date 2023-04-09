@@ -51,7 +51,6 @@ $gUserAgent = $ini['agent'];
 $gConsumerKey = $ini['consumerKey'];
 $gConsumerSecret = $ini['consumerSecret'];
 $sqlpass = $ini['sqlpass'];
-
 // Load the user token (request or access) from the session
 //---
 $server_name = 'mdwiki.toolforge.org';
@@ -60,15 +59,13 @@ $server_name = $_SERVER['SERVER_NAME'];
 $username = '';
 if ($_SERVER['SERVER_NAME'] == 'localhost') { 
     $fa = $_GET['test1'] ?? '';
-    if ($fa == '') { 
+    if ($fa == 'xx') { 
         $username = 'Mr. Ibrahem';
         setcookie('username',$username,time()+$twoYears,'/',$server_name,true,true);
-        // $username = '';
     };
-} else {
-    if(isset($_COOKIE['username'])) $username = $_COOKIE['username'];
 };
 //---
+if(isset($_COOKIE['username'])) $username = $_COOKIE['username'];
 //---
 $gTokenKey = '';
 $gTokenSecret = '';
@@ -93,30 +90,26 @@ session_write_close();
 
 // Fetch the access token if this is the callback from requesting authorization
 // we get it after login
-if ( isset( $_REQUEST['oauth_verifier'] ) && $_REQUEST['oauth_verifier'] ) {
+if ( isset($_REQUEST['oauth_verifier']) && isset($_REQUEST['oauth_verifier']) ) {
     // setcookie('oauth_verifier',$_REQUEST['oauth_verifier'],$twoYears,'/',$server_name,true,true);
     fetchAccessToken();
 };
-// };
-
-//function login() {
-//global $gTokenSecret,$username;
-if ($gTokenSecret != '' and $gTokenKey != '') {
-    //after fetchAccessToken();
-    //print 'doIdentify';
-    doIdentify('');
-    };
-
+//---
+if ($gTokenSecret != '' and $gTokenKey != '') doIdentify('');
 //---
 // Take any requested action
 switch ( isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : '' ) {
     case 'login':
+        if ($_SERVER['SERVER_NAME'] == 'localhost') { 
+            $fa = $_GET['test1'] ?? '';
+            if ($fa == '') { 
+                $username = 'Mr. Ibrahem';
+                setcookie('username',$username,time()+$twoYears,'/',$server_name,true,true);
+                header("Location: " . $_SERVER['HTTP_REFERER']);
+            };
+        };
         doAuthorizationRedirect();
         return;
-        
-    #case '':
-        #doAuthorizationRedirect();
-        #return;
 
     case 'logout':
         // session_unset();
@@ -142,7 +135,7 @@ switch ( isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : '' ) {
         unset($_SESSION["tokenKey"]);
         unset($_SESSION["tokenSecret"]);
         unset($username);
-        header("Location: index.php");
+        header("Location: " . $_SERVER['HTTP_REFERER']);
         exit;
         break;
 
@@ -152,44 +145,6 @@ switch ( isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : '' ) {
 
 }
 //---
-function to_index(){
-    //---
-    $vav = array('oauth_verifier', 'oauth_token');
-    //---
-    $par = array();
-    foreach ($_GET as $key => $val) {
-        if ( isset($val) && $val != '' && !in_array($key, $vav) ) $par[$key] = $val;
-    };
-    //---
-    $url = "index.php?" . http_build_query( $par );
-    header("Location: $url");
-    //---
-};
-//---
-//--- CODE ********************
-
-/*
-print "<li><a href='$SCRIPT_NAME?action=identify'>identify</a></li>";
-if ( $username != '' ) {
-    print "hi $username";
-    print "<li><a href='$SCRIPT_NAME?action=logout'>Logout</a></li>";
-} else {
-    print "<li><a href='$SCRIPT_NAME?action=login'>Login</a></li>";
-}
-*/
-//---
-/**
- * Utility function to sign a request
- *
- * Note this doesn't properly handle the case where a parameter is set both in 
- * the query string in $url and in $params, or non-scalar values in $params.
- *
- * @param string $method Generally "GET" or "POST"
- * @param string $url URL string
- * @param array $params Extra parameters for the Authorization header or post 
- *  data (if application/x-www-form-urlencoded).
- * @return string Signature
- */
 function sign_request( $method, $url, $params = array() ) {
     global $gConsumerSecret, $gTokenSecret;
 
@@ -241,7 +196,6 @@ function doAuthorizationRedirect() {
 
     // First, we need to fetch a request token.
     // The request is signed with an empty token secret and no token key.
-    //---
     //---
     $state = array();
     // login5.php?action=login&cat=RTT&depth=1&code=&type=lead

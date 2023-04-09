@@ -6,7 +6,7 @@
 </style>
 <?php
 //---
-if ($user_in_coord == false) {
+if (user_in_coord == false) {
 	echo "<meta http-equiv='refresh' content='0; url=index.php'>";
 	exit;
 };
@@ -15,12 +15,10 @@ require('tables.php');
 //---
 $hoste = 'https://tools-static.wmflabs.org/cdnjs';
 if ( $_SERVER['SERVER_NAME'] == 'localhost' )  $hoste = 'https://cdnjs.cloudflare.com';
-echo "
-<script src='$hoste/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js'></script>
-<link rel='stylesheet' href='$hoste/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css'/>
-";
-//---
-$testin = (($_REQUEST['test'] ?? '') != '') ? "<input name='test' value='1' hidden/>" : "";
+echo <<<HTML
+	<script src='$hoste/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js'></script>
+	<link rel='stylesheet' href='$hoste/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css'/>
+HTML;
 //---
 ?>
 <div class='card-header'>
@@ -29,7 +27,6 @@ $testin = (($_REQUEST['test'] ?? '') != '') ? "<input name='test' value='1' hidd
 <div class='cardbody'>
 <form action="coordinator.php?ty=add" method="POST">
 	<input name='ty' value="add" hidden/>
-	<?PHP echo $testin ?>
 	  	<div class="form-group">
 			<table class='table' style='font-size:95%;'>
 				<tr>
@@ -115,10 +112,11 @@ foreach ($qqq AS $Key => $ta ) {
 	if ($ca != '') $cats .= "<option value='$ca'>$ds</option>";
 };
 //---
-$typies = "
+$typies = <<<HTML
 	<select name='type[]%s' id='type[]%s' class='form-select'>
 		<option value='lead'>Lead</option><option value='all'>All</option>
-	</select>";
+	</select>
+	HTML;
 //---
 $table = "";
 //---
@@ -127,22 +125,28 @@ foreach ( range(1, 1) as $numb ) {
 	$cats_line = "<select class='form-select catsoptions' name='cat[]$numb' id='cat[]$numb'>$cats</select>";
 	$type_line = sprintf($typies, $numb, $numb);
     //---
-	$table .= "
+	$table .= <<<HTML
 	<tr>
 	  <td data-order='$numb'>$numb</td>
-	  <td>	<input size='15' class='mdtitles' name='mdtitle[]$numb' id='mdtitle[]$numb' required/>	</td>
-	  <td>	$cats_line	</td>
-	  <td>	$type_line	</td>
-	  <td>	<input size='10' class='useri' name='user[]$numb' id='user[]$numb' required/>	</td>
-	  <td>	<input size='2' name='lang[]$numb' id='lang[]$numb' required/>	</td>
-	  <td>	<input size='20' name='target[]$numb' id='target[]$numb' required/>	</td>
-	  <td>	<input size='10' name='pupdate[]$numb' id='pupdate[]$numb' required/>	</td>
-	</tr>";
+	  <td> <input size='15' class='mdtitles' name='mdtitle[]$numb' id='mdtitle[]$numb' required/> </td>
+	  <td> $cats_line </td>
+	  <td> $type_line </td>
+	  <td> <input size='10' class='useri' name='user[]$numb' id='user[]$numb' required/> </td>
+	  <td> <input size='2' name='lang[]$numb' id='lang[]$numb' required/> </td>
+	  <td> <input size='20' name='target[]$numb' id='target[]$numb' required/>	</td>
+	  <td> <input size='10' name='pupdate[]$numb' id='pupdate[]$numb' required/> </td>
+	</tr>
+	HTML;
 };
 //---
-$table .= "
-</tbody>
-</table>";
+$testin = (($_REQUEST['test'] ?? '') != '') ? "<input name='test' value='1' hidden/>" : "";
+//---
+$table .= <<<HTML
+	</tbody>
+	</table>
+	$testin
+HTML;
+//---
 echo $table;
 ?>
 
@@ -174,7 +178,7 @@ function add_row() {
 </script>
 <?PHP
 
-$script = '
+$script = <<<HTML
 <script>
 $( function() {
     var availableTags = [
@@ -185,7 +189,8 @@ $( function() {
     });
     
 });
-</script>';
+</script>
+HTML;
 //---
 $ka = '';
 //---

@@ -1,6 +1,6 @@
 <?php
 //---
-if ($user_in_coord == false) {
+if (user_in_coord == false) {
 	echo "<meta http-equiv='refresh' content='0; url=index.php'>";
 	exit;
 };
@@ -19,7 +19,7 @@ if (isset($_POST['del'])) {
 if (isset($_POST['username'])) {
 	for($i = 0; $i < count($_POST['username']); $i++ ){
 		//---
-		$username 	= $_POST['username'][$i];
+		$user_name 	= $_POST['username'][$i];
 		$email 	= $_POST['email'][$i];
 		$ido 	= $_POST['id'][$i];
 		$ido 	= (isset($ido)) ? $ido : '';
@@ -27,14 +27,14 @@ if (isset($_POST['username'])) {
 		$project 	= $_POST['project'][$i];
 		// $project 	= '';
 		//---
-		if ($username != '') {
+		if ($user_name != '') {
 			//---
-			$qua = "INSERT INTO users (username, email, wiki, user_group) SELECT '$username', '$email', '$wiki', '$project'
-			WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = '$username')";
+			$qua = "INSERT INTO users (username, email, wiki, user_group) SELECT '$user_name', '$email', '$wiki', '$project'
+			WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = '$user_name')";
 			//---	
 			if ($ido != '') {
 				$qua = "UPDATE `users` SET
-				`username` = '$username',
+				`username` = '$user_name',
 				`email` = '$email',
 				`user_group` = '$project',
 				`wiki` = '$wiki'
@@ -93,21 +93,15 @@ CREATE TABLE users (
 // ALTER TABLE `users` ADD `user_group` VARCHAR(120) NOT NULL AFTER `wiki`;
 // ALTER TABLE users DROP depth;
 //---
-$projects = array();
-//---
-$projects[] = '';
-//---
-foreach ( execute_query('select g_id, g_title from projects;') AS $Key => $table ) $projects[] = $table['g_title'];
-//---
 function make_project_to_user($project){
-	global $projects;
+	global $projects_title_to_id;
 	//---
     $str = "";
     //---
-    foreach ( $projects AS $n => $g ) {
-		$cdcdc = $project == $g ? "selected" : "";
+    foreach ( $projects_title_to_id AS $p_title => $p_id ) {
+		$cdcdc = $project == $p_title ? "selected" : "";
         $str .= "
-            <option value='$g' $cdcdc>$g</option>";
+            <option value='$p_title' $cdcdc>$p_title</option>";
     };
     //---
 	return $str;
@@ -144,14 +138,14 @@ foreach ( $users_done AS $u => $tab ) {
 };
 arsort($sorted_array);
 //---
-foreach ( $sorted_array as $username => $d) {
+foreach ( $sorted_array as $user_name => $d) {
 	//---
 	$numb += 1;
 	//---
-	$table = $users_done[$username];
+	$table = $users_done[$user_name];
 	//---
-	// $username 	= $table['username'] ?? $table['user'];
-	$live		= $live_pages[$username] ?? 0;
+	// $user_name 	= $table['username'] ?? $table['user'];
+	$live		= $live_payges[$user_name] ?? 0;
 	//---
 	$id			= $table['user_id'];
 	$email 		= $table['email'];
@@ -164,9 +158,9 @@ foreach ( $sorted_array as $username => $d) {
 	echo "
 	<tr>
 		<td data-order='$numb'>$numb</td>
-		<td data-order='$username'>
-			<span><a href='leaderboard.php?user=$username'>$username</a></span>
-			<input name='username[]$numb' id='username[]$numb' value='$username' hidden/>
+		<td data-order='$user_name'>
+			<span><a href='leaderboard.php?user=$user_name'>$user_name</a></span>
+			<input name='username[]$numb' id='username[]$numb' value='$user_name' hidden/>
 			<input name='id[]$numb' id='id[]$numb' value='$id' hidden/>
 		</td>
 		<td data-order='$email' data-search='$email'>

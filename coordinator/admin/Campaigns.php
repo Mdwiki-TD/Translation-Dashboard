@@ -1,7 +1,7 @@
 
 <?php
 //---
-if ($user_in_coord == false) {
+if (user_in_coord == false) {
 	echo "<meta http-equiv='refresh' content='0; url=index.php'>";
 	exit;
 };

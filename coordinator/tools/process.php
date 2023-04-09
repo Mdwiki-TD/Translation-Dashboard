@@ -6,7 +6,7 @@
 //---
 function make_td($tabg, $nnnn) {
     //---
-    global $code_to_lang, $Words_table, $views_sql, $username, $cat_to_camp;
+    global $code_to_lang, $Words_table, $views_sql, $user_name, $cat_to_camp;
     //---
     $id       = $tabg['id'];
     $date     = $tabg['date'];

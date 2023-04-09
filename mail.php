@@ -3,7 +3,7 @@
 $msg        = $_REQUEST['msg'] ?? '';
 $email_to   = $_REQUEST['email_to'] ?? '';
 $email_from = $_REQUEST['email_from'] ?? '';
-$username   = $_REQUEST['username'] ?? '';
+// $username   = $_REQUEST['username'] ?? '';
 $msg_title  = $_REQUEST['msg_title'] ?? 'Wiki Project Med Translation Dashboard';
 
 $ccme       = isset($_REQUEST['ccme']) ? 1 : 0;

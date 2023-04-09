@@ -22,5 +22,8 @@ foreach ( execute_query('select id, category, display, depth from categories;') 
     };
 };
 //---
+$projects_title_to_id = array();
+//---
+foreach ( execute_query('select g_id, g_title from projects;') AS $Key => $table ) $projects_title_to_id[$table['g_title']] = $table['g_id'];
 //---
 ?>

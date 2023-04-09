@@ -25,8 +25,13 @@ function strendswith($text, $end) {
 };
 //---
 function test_print($s) {
-	$test = $_REQUEST['TEST'] ?? '';
-    if ($test != '' || print_te) echo $s;
+    if (print_te) {
+		if (gettype($s) == 'string') {
+			echo $s;
+		} else {
+			print_r($s);
+		};
+	};
 };
 //---
 function getMyYears() {
