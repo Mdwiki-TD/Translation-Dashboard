@@ -1,26 +1,13 @@
 *.csv
+*/old/**
 .gitignore
-Copy of leader_tables.php
 Tables/**
-actions/mdwiki_sql1.php
 cash_exists/*
 cats_cash/**
-cok.php
 cookie.txt
-coordinator/old/**
-coordinator/updatecat.php
 css/**
-form.php
-getcats.php
-login35.php
 ma.js
-mail_old/**
-nav4.php
 old/*
-s.php
-sidebar.php
-sqltest.php
 tests/**
-trim.php
 ui.html
 vendor/**
