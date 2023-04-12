@@ -59,23 +59,15 @@ function make_td($tabg, $nnnn) {
     //---
     $view = make_view_by_number($targe, $views_number, $llang, $pupdate);
     //---
-    $mail_params = array( 'user' => $user, 'lang' => $llang, 'target' => $targe, 'date' => $pupdate, 'title' => $md_title, 'nonav' => '1');
-    //---
-    $mail_url = "coordinator.php?ty=msg&" . http_build_query( $mail_params );
-    //---
-	$onclick = 'pupwindow("' . $mail_url . '")';
-    //---
-    $mail = <<<HTML
-    <a class='btn btn-primary btn-sm' onclick='$onclick'>Email</a>
-    HTML;
-    //---
-    if (user_in_coord == false) $mail = '';
+    if (user_in_coord != false) {
+        $mail_icon = make_mail_icon($tabg);
+    };
     //---
     $laly = <<<HTML
     <tr>
         <td>$nnnn</td>
         <td><a target='' href='leaderboard.php?user=$user'>$user</a></td>
-        <td>$mail</td>
+        <td>$mail_icon</td>
         <td><a target='' href='leaderboard.php?langcode=$llang'>$lang2</a></td>
         <td style='max-width:150px;'>$nana</td>
         <!-- <td>$date</td> -->

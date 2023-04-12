@@ -180,17 +180,17 @@ if ( $raw == '' ) {
                             <label class='mr-sm-2' for='pass'>code:</label>
                         </span>
                     </div>
-                    <input class='form-control' type='text' id='pass' name='pass' value='$pass'/>
+                    <input class='form-control' type='text' name='pass' value='$pass'/>
                 </div>
                 <div class='input-group mb-3'>
                     <div class='custom-control custom-checkbox custom-control-inline'>
-                        <input type='checkbox' class='custom-control-input' id='test' name='test' value='1'>
+                        <input type='checkbox' class='custom-control-input' name='test' value='1'>
                         <label class='custom-control-label' for='test'>test</label>
                     </div>
                 </div>
                 <div class='input-group mb-3'>
                     <div class='custom-control custom-checkbox custom-control-inline'>
-                        <input type='checkbox' class='custom-control-input' id='raw' name='raw' value='m'>
+                        <input type='checkbox' class='custom-control-input' name='raw' value='m'>
                         <label class='custom-control-label' for='raw'>raw</label>
                     </div>
                 </div>

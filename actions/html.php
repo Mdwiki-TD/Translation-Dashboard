@@ -5,6 +5,40 @@ function add_quotes($str) {
     return $quote . $str . $quote;
 };
 //---
+function make_mail_icon($tab) {
+	//---
+    $mail_params = array(
+		'user'   => $tab['user'], 
+		'lang'   => $tab['lang'],
+		'target' => $tab['target'],
+		'date'   => $tab['pupdate'],
+		'title'  => $tab['title'],
+		'nonav'  => '1'
+	);
+    //---
+    $mail_url = "coordinator.php?ty=msg&" . http_build_query( $mail_params );
+    //---
+	$onclick = 'pupwindow("' . $mail_url . '")';
+    //---
+    return <<<HTML
+    	<a class='btn btn-primary btn-sm' onclick='$onclick'>Email</a>
+    HTML;
+}
+//---
+function make_project_to_user($projects, $project){
+	//---
+    $str = "";
+    //---
+    foreach ( $projects AS $p_title => $p_id ) {
+		$cdcdc = $project == $p_title ? "selected" : "";
+        $str .= <<<HTML
+			<option value='$p_title' $cdcdc>$p_title</option>
+		HTML;
+    };
+    //---
+	return $str;
+};
+//---
 function make_input_group( $label, $id, $value, $required='') {
     $val2 = add_quotes($value);
     return <<<HTML

@@ -229,18 +229,18 @@ print "
 							<label class='mr-sm-2' for='email_to'>To:</label>
 						</span>
 					</div>
-					<input class='form-control' type='text' id='email_to' name='email_to' value='$email_to' required/>
+					<input class='form-control' type='text' name='email_to' value='$email_to' required/>
 				</div>
 			</div>
 			<div class='col-sm-12 col-md-7'>
 				<div class='input-group mb-2'>
 					<div class='input-group-prepend'>
 						<span class='input-group-text'>
-                <input class='form-check-input' type='checkbox' name='ccme' id='ccme'>Send me copy</input>
+                <input class='form-check-input' type='checkbox' name='ccme'>Send me copy</input>
 						</span>
 					</div>
 					<input class='form-control' type='text' id='cc_to1' value='' disabled/>
-					<input class='form-control' type='text' style='display: none' id='cc_to' name='cc_to' value='$cc_to'/>
+					<input class='form-control' type='text' style='display: none' name='cc_to' value='$cc_to'/>
 				</div>
 			</div>
 		</div>
@@ -251,7 +251,7 @@ print "
                         <label class='mr-sm-2' for='msg_title'>Subject:</label>
                     </span>
                 </div>
-                <input class='form-control' type='text' id='msg_title' name='msg_title' value='Wiki Project Med Translation Dashboard'/>
+                <input class='form-control' type='text' name='msg_title' value='Wiki Project Med Translation Dashboard'/>
             </div>
         </div>
 		<div>

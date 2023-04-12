@@ -82,7 +82,7 @@ function print_form_start1() {
     };
     //---
     $langse = <<<HTML
-        <input list='sLanguages' type='text' placeholder='two letter code' name='code' id='code' value='$coco' autocomplete='off' role='combobox' class='form-select' required>
+        <input list='sLanguages' type='text' placeholder='two letter code' name='code' value='$coco' autocomplete='off' role='combobox' class='form-select' required>
             <datalist id='Languages' class='selectpickerr' role='listbox'>
             $lang_list
             </datalist>
@@ -108,7 +108,7 @@ function print_form_start1() {
     $catinput = make_drop($catinput_list, $cate);
     //---
     $catinput = <<<HTML
-    <select dir='ltr' id='cat' name='cat' class='form-select'>
+    <select dir='ltr' name='cat' class='form-select'>
         $catinput
     </select>
     HTML;
