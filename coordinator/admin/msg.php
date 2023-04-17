@@ -215,9 +215,12 @@ $mag = <<<HTML
 
     HTML;
 //---
+$post_php = "mail.php";
+if (isset($_REQUEST['gmail'])) $post_php = "gmail.php";
+//---
 print "
 <div class1='container-fluid'>
-	<form action='mail.php' method='POST'>
+	<form action='$post_php' method='POST'>
 		<input type='hidden' name='test' value='$test'/>
 		<input type='hidden' name='lang' value='$lang'/>
 		<input type='hidden' name='nonav' value='1'/>
