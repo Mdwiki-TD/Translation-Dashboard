@@ -64,22 +64,21 @@ foreach ( $Table as $langcode2 => $missing ) {
     $langname = $code_to_wikiname[$langcode] ?? "11 $langcode";
     $langname = str_replace ( "($langcode) " , '' , $langname ) ;
     //---
-
-    //---
     $exists_1 = bcsub($lenth, $missing);
     $exists = $langs[$langcode]['exists'] ?? '';
     #---
     if ($exists == '' ) $exists = $langs[$langcode2]['exists'] ?? $exists_1;
     //---
+    $numb = number_format($missing);
+    //---
     $text .= <<<HTML
         <tr>
-            <td>' . $num . '</td>
-            <td>' . $langcode . '</td>
-            <td><a target="" href="https://' . $langcode . '.wikipedia.org">' . $langname . '</a></td>
-            <td>' . $exists . '</td>
-            <td><a target="" href="index.php?cat=RTT&depth=1&doit=Do+it&code='. $langcode .'&type=all">' . number_format($missing) . '</a></td>
+            <td>$num</td>
+            <td>$langcode</td>
+            <td><a target="" href="https://$langcode.wikipedia.org">$langname</a></td>
+            <td>$exists</td>
+            <td><a target="" href="index.php?cat=RTT&depth=1&doit=Do+it&code=$langcode&type=all">$numb</a></td>
         </tr>
-    
         HTML;
 };
 //---
@@ -88,30 +87,18 @@ $text .= <<<HTML
     </table>
     HTML;
 //---
-print "
+echo <<<HTML
         <div align=center>
         <h4>Top languages by missing Articles ($date)</h4>
         <h5>Number of pages in Category:RTT : $lenth</h5>
+    </div>
+    <div class='card'>
+        <div class='card-body' style='padding:5px 0px 5px 5px;'>
+        $text
         </div>
-";
-//---
-print "<div class='card'>
-  <div class='card-body' style='padding:5px 0px 5px 5px;'>
-  $text
-  </div>
-  </div>"
-  ;
-//---
-//---
-//---
-//---
-print "
-        </div>";
-//---
-
-//---
-?>
-<?php
+    </div>
+</div>
+HTML;
 //---
 require('foter.php');
 //---
