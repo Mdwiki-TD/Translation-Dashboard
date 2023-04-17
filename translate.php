@@ -103,7 +103,7 @@ if ($title_o != '' && $coden != '' && $useree != '' ) {
     if (trim($output) == 'true' || isset($_REQUEST['go'])) {
         $title_o2 = rawurlEncode($title_o);
         //---
-        $url = make_translation_url($title_o2, $coden);
+        $url = make_translation_url($title_o, $coden);
         //---
         if ($coden == 'en') $url = "//en.wikipedia.org/w/index.php?title=User:Mr._Ibrahem/$title_o2&action=edit";
         //---
