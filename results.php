@@ -21,6 +21,9 @@ $cat = $_REQUEST['cat'] ?? '';
 //---
 if ($cat == "undefined") $cat = "RTT";
 //---
+$translation_button = $settings['translation_button_in_progress_table']['value'] ?? '0';
+if (global_username != 'James Heilman' && global_username != 'Mr. Ibrahem') $translation_button = '0';
+//---
 function sort_py_PageViews( $items ) {
     //---
     global $enwiki_pageviews_table;
@@ -69,7 +72,7 @@ function sort_py_importance( $items ) {
 //---
 function make_table( $items, $cod, $cat, $inprocess=false ) {
     global $Words_table, $All_Words_table, $Assessments_table ,$tra_type;
-    global $Lead_Refs_table, $All_Refs_table, $enwiki_pageviews_table;
+    global $Lead_Refs_table, $All_Refs_table, $enwiki_pageviews_table, $translation_button;
     //---
     global $sql_qids;
     //---
@@ -93,7 +96,10 @@ function make_table( $items, $cod, $cat, $inprocess=false ) {
         //---
         $items = array_keys($items);
         //---
-        $Translate_th = '';
+        if ($translation_button != '1') {
+            $Translate_th = '';
+        };
+        //---
     };
     //---
 	$frist = <<<HTML
@@ -176,7 +182,7 @@ function make_table( $items, $cod, $cat, $inprocess=false ) {
             $_user_ = $in_process[$v]['user'];
             $_date_ = $in_process[$v]['date'];
             $inprocess_tds = "<td>$_user_</td><td>$_date_</td>";
-            $tab_td = '';
+            if ($translation_button != '1') $tab_td = '';
         };
         //---
         $list .= <<<HTML
@@ -238,7 +244,7 @@ if ( $doit && $doit2 ) {
     //---
     $ix =  "Find $len_of_all pages in $caturl, $len_of_exists_pages exists, and $len_of_missing_pages missing in (<a href='https://$code.wikipedia.org'>https://$code.wikipedia.org</a>), $len_in_process In process." ;
     //---
-    $res_line = " Results " ;//. ($start+1) . "&ndash;" . ($start+$limit) ;
+    $res_line = " Results ";
     //---
     if (global_test != '') $res_line .= 'test:';
     //---
@@ -249,23 +255,24 @@ if ( $doit && $doit2 ) {
     //---
     $table = make_table($missing, $code, $cat) ;
     //---
-    echo "
-	<br>
-	<div class='card'>
-		<h4>$res_line:</h4>
-		<div class='card-header'>
-			<h5>$ix</h5>
-		</div>
-		<div class='card-body'>
-			$table
-		</div>
-	</div>";
+    echo <<<HTML
+    <br>
+    <div class='card'>
+        <h4>$res_line:</h4>
+        <div class='card-header'>
+            <h5>$ix</h5>
+        </div>
+        <div class='card-body'>
+            $table
+        </div>
+    </div>
+    HTML;
     //---
     if ($len_in_process > 0) {
         //---
         $table_2 = make_table($in_process, $code, $cat, $inprocess=true) ;
         //---
-        echo "
+        echo <<<HTML
         <br>
         <div class='card'>
             <div class='card-header'>
@@ -274,7 +281,8 @@ if ( $doit && $doit2 ) {
             <div class='card-body'>
                 $table_2
             </div>
-        </div>";
+        </div>
+        HTML;
     };
     //---
     if (isset($doit) && global_test != '' ) {

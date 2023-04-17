@@ -12,9 +12,11 @@ require('header.php');
 require('langcode.php');
 include_once('functions.php');
 include_once('td_config.php');
+include_once('sql_tables.php');
+//---
 $conf = get_configs('conf.json');
 //---
-$allow_whole_translate = $conf['allow_type_of_translate'] ?? true;
+$allow_whole_translate = $settings['allow_type_of_translate']['value'] ?? '1';
 //---
 $code = $_REQUEST['code'] ?? '';
 //---
@@ -24,7 +26,7 @@ $code = $lang_to_code[$code] ?? $code;
 $code_lang_name = $code_to_lang[$code] ?? ''; 
 //---
 $tra_type  = $_REQUEST['type'] ?? '';
-if ($allow_whole_translate == false) $tra_type = 'lead';
+if ($allow_whole_translate == '0') $tra_type = 'lead';
 //---
 $cat = $_REQUEST['cat'] ?? '';
 //---
@@ -82,7 +84,7 @@ function print_form_start1() {
     };
     //---
     $langse = <<<HTML
-        <input list='sLanguages' type='text' placeholder='two letter code' name='code' value='$coco' autocomplete='off' role='combobox' class='form-select' required>
+        <input list='sLanguages' type='text' placeholder='two letter code' id='code' name='code' value='$coco' autocomplete='off' role='combobox' class='form-select' required>
             <datalist id='Languages' class='selectpickerr' role='listbox'>
             $lang_list
             </datalist>
@@ -145,7 +147,7 @@ function print_form_start1() {
 	$in_lng  = sprintf($d2, 'Target language', "<div>$langse $err</div>");
 	//---
 	$in_typ = '';
-    if ($allow_whole_translate == true) { 
+    if ($allow_whole_translate == '1') { 
         $in_typ = sprintf($d2, 'Type', "<div class='form-control'>$ttype</div>");
     } else {
         $in_typ = "<input name='type' value='lead' hidden/>";

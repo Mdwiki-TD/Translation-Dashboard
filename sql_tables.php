@@ -26,4 +26,10 @@ $projects_title_to_id = array();
 //---
 foreach ( execute_query('select g_id, g_title from projects;') AS $Key => $table ) $projects_title_to_id[$table['g_title']] = $table['g_id'];
 //---
+$settings = array();
+//---
+foreach ( execute_query('select id, title, displayed, value, Type from settings;') AS $Key => $table ) {
+    $settings[$table['title']] = $table;
+}
+//---
 ?>

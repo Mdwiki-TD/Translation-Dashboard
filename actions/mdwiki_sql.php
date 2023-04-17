@@ -93,6 +93,20 @@ function execute_query($sql_query) {
     return $results;
 };
 //---
+function update_settings($id, $title, $displayed, $value, $type) {
+    $query = <<<SQL
+        UPDATE settings SET title = '$title', displayed = '$displayed', Type = '$type', value = '$value' WHERE id = '$id'
+    SQL;
+    //---
+    if ($id == 0 || $id == '0' || $id == '') {
+        $query = "INSERT INTO settings (id, title, displayed, Type, value) SELECT '$id', '$title', '$displayed', '$type', '$value' WHERE NOT EXISTS (SELECT 1 FROM settings WHERE title = '$title')";
+    };
+    //---
+    $result = execute_query($query);
+    //---
+    return $result;
+}
+//---
 function insert_to_projects($g_title, $g_id) {
     $query = "UPDATE projects SET g_title = '$g_title' WHERE g_id = '$g_id'";
     //---

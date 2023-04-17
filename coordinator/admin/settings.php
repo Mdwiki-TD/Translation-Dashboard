@@ -19,6 +19,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     require('settings/post.php');
 }
 //---
-require('settings/load.php');
+require('settings/load1.php');
 //---
 ?>
