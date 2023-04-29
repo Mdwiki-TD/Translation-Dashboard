@@ -73,18 +73,14 @@ function get_categorymembers( $cat ) {
     //---
     $ch = null;
     //---
-    $cat2 = $cat;
-    $ss = start_with($cat , 'Category:');
-    if ($ss) {
-        $cat2 = $cat;
-    } else {
-        $cat2 = "Category:$cat";
+    if (!start_with($cat , 'Category:')) {
+        $cat = "Category:$cat";
     };
     //---
     $params = array(
         "action" => "query",
         "list" => "categorymembers",
-        "cmtitle" => "$cat2",
+        "cmtitle" => "$cat",
         "cmlimit" => "max",
         "cmtype" => "page|subcat",
         "format" => "json"
@@ -161,8 +157,7 @@ function get_mdwiki_cat_members( $cat, $use_cash=false, $depth=0 ) {
 			};
 			//---
 			foreach( $all as $title ){
-				$ss = start_with($title , 'Category:');
-				if ($ss) {
+				if (start_with($title , 'Category:')) {
 					$cats2[] = $title;
 				} else {
 					$titles[] = $title;
