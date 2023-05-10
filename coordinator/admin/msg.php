@@ -23,11 +23,9 @@ if (isset($_REQUEST['test'])) {
 $hoste = 'https://tools-static.wmflabs.org/cdnjs';
 if ( $_SERVER['SERVER_NAME'] == 'localhost' )  $hoste = 'https://cdnjs.cloudflare.com';
 //---
-// echo "<link href='$hoste/ajax/libs/froala-editor/4.0.16/css/froala_editor.pkgd.min.css' rel='stylesheet' type='text/css' /><script type='text/javascript' src='$hoste/ajax/libs/froala-editor/4.0.16/js/froala_editor.pkgd.min.js'></script>";
-//---
 echo "<script src='$hoste/ajax/libs/summernote/0.8.20/summernote-lite.min.js'></script>
 <link rel='stylesheet' href='$hoste/ajax/libs/summernote/0.8.20/summernote-lite.min.css' type='text/css' media='screen' charset='utf-8'>";
-//--- aa
+//---
 // require('header.php');
 require('tables.php');
 include_once('functions.php');
@@ -216,7 +214,6 @@ $mag = <<<HTML
     HTML;
 //---
 $post_php = "mail.php";
-if (isset($_REQUEST['gmail'])) $post_php = "gmail.php";
 //---
 print "
 <div class1='container-fluid'>

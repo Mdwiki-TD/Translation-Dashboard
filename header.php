@@ -72,6 +72,41 @@ if (in_array(global_username, $usrs)) {
 //---
 define('user_in_coord', $user_in_coord);
 //---
+if (global_username == 'Mr. Ibrahem') {
+	$testsline = <<<HTML
+	<li class="nav-item" id="tests">
+		<a href="tests.php" class="nav-link"><span class="navtitles"></span>Tests</a>
+	</li>
+	HTML;
+};
+//---
+$ul = <<<HTML
+				<ul class="navbar-nav me-auto">
+					<li class="nav-item" id="leaderboard">
+						<a href="leaderboard.php" class="nav-link">
+							<span class="navtitles">Leaderboard</span>
+						</a>
+					</li>
+					<li class="nav-item" style="display:none" id="myboard">
+						<a href="leaderboard.php?user=$username" class="nav-link">
+							<span class="navtitles">My Board</span>
+						</a>
+					</li>
+					<li class="nav-item" id="missing">
+						<a href="missing.php" class="nav-link">
+							<span class="navtitles">Missing</span>
+						</a>
+					</li>
+					<li class="nav-item" id="coord">$coord_tools</li>
+					$testsline
+					<li class="nav-item">
+						<a href="https://github.com/MrIbrahem/Translation-Dashboard" target="_blank" class="nav-link">
+							<span class="navtitles">Github</span>
+						</a>
+					</li>
+				</ul>
+HTML;
+//---
 ?>
 </head>
 
@@ -84,31 +119,7 @@ define('user_in_coord', $user_in_coord);
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="collapsibleNavbar">
-				<ul class="navbar-nav me-auto">
-					<li class="nav-item" id="leaderboard">
-						<a href="leaderboard.php" class="nav-link">
-							<span class="navtitles">Leaderboard</span>
-						</a>
-					</li>
-					<li class="nav-item" style="display:none" id="myboard">
-						<a href="leaderboard.php?user=<?php echo $username ?>" class="nav-link">
-							<span class="navtitles">My Board</span>
-						</a>
-					</li>
-					<li class="nav-item" id="missing">
-						<a href="missing.php" class="nav-link">
-							<span class="navtitles">Missing</span>
-						</a>
-					</li>
-					<li class="nav-item" id="coord">
-						<?php echo $coord_tools; ?>
-					</li>
-					<li class="nav-item">
-						<a href="https://github.com/MrIbrahem/Translation-Dashboard" target="_blank" class="nav-link">
-							<span class="navtitles">Github</span>
-						</a>
-					</li>
-				</ul>
+				<?php echo $ul; ?>
 				<div class="d-flex">
 					<ul class="nav navbar-nav ml-auto">
 						<li class="nav-item" id="">

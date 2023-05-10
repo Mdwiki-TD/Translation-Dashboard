@@ -1,9 +1,9 @@
 <?php
 //---
+$Debug = isset($_REQUEST['Debug']) ? true : false;
 $msg        = $_REQUEST['msg'] ?? '';
 $email_to   = $_REQUEST['email_to'] ?? '';
 $email_from = $_REQUEST['email_from'] ?? '';
-// $username   = $_REQUEST['username'] ?? '';
 $msg_title  = $_REQUEST['msg_title'] ?? 'Wiki Project Med Translation Dashboard';
 
 $ccme       = isset($_REQUEST['ccme']) ? 1 : 0;
@@ -17,9 +17,12 @@ use PHPMailer\PHPMailer\Exception;
 require 'vendor/autoload.php';
 //---
 include_once('td_config.php');
-$my_ini = Read_ini_file('my_config.ini');
+$my_ini     = Read_ini_file('my_config.ini');
 $tool_email = $my_ini['mdwiki_Username'];
-$tool_pass = $my_ini['mdwiki_Password'];
+$tool_pass  = $my_ini['mdwiki_Password'];
+$tool_host  = $my_ini['mail_host'];
+$tool_port  = $my_ini['mail_port'];
+$tool_tls   = $my_ini['mail_tls'];
 //---
 if ($msg != '' && $email_to != '' ) {
     echo "
@@ -30,7 +33,7 @@ if ($msg != '' && $email_to != '' ) {
     //---
     $mail = new PHPMailer();
     $mail->isSMTP();
-    $mail->SMTPDebug = false;
+    $mail->SMTPDebug = $Debug;
     $mail->SMTPAuth = true;
     //---
     $mail->CharSet  ="utf-8";
@@ -38,9 +41,9 @@ if ($msg != '' && $email_to != '' ) {
     $mail->Username = $tool_email;
     $mail->Password = $tool_pass;
     //---
-    $mail->SMTPSecure = 'tls';
-    $mail->Host = 'smtp.office365.com';
-    $mail->Port = 587;
+    $mail->SMTPSecure = $tool_tls;
+    $mail->Host = $tool_host;
+    $mail->Port = $tool_port;
     //---
     // Encryption method: STARTTLS
     //Recipients
