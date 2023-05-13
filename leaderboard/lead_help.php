@@ -3,7 +3,7 @@
 function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'users', $tab_ty='a', $_user_='') {
     global $cat_to_camp;
     //---
-    $mdtitle = $tabb['title'];
+    $mdtitle = trim($tabb['title']);
     $user    = $tabb['user'];
     $date    = $tabb['date'];
     $lang    = $tabb['lang'];
@@ -46,7 +46,7 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
         $tralink = make_translation_url($mdtitle, $lang);
         $complate   = (global_username === $_user_) ? "<td><a target='_blank' href='$tralink'>complete</a></td>" : '';
     } else {
-        $target  = $tabb['target'];
+        $target  = trim($tabb['target']);
         //---
         $view = make_view_by_number($target, $view_number, $lang, $pupdate);
         //---

@@ -36,10 +36,10 @@ function make_td($tabg, $nnnn) {
     //---
     $user     = $tabg['user'];
     $llang    = $tabg['lang'];
-    $md_title = $tabg['title'];
+    $md_title = trim($tabg['title']);
     $cat      = $tabg['cat'];
     $word     = $tabg['word'];
-    $targe    = $tabg['target'];
+    $targe    = trim($tabg['target']);
     $pupdate  = $tabg['pupdate'] ?? '';
     $add_date = $tabg['add_date'] ?? '';
     //---

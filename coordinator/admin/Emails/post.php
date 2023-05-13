@@ -27,17 +27,25 @@ if (isset($_POST['username'])) {
 		//---
 		if ($user_name != '') {
 			//---
-			$qua = "INSERT INTO users (username, email, wiki, user_group) SELECT '$user_name', '$email', '$wiki', '$project'
-			WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = '$user_name')";
+			$user_name = trim($user_name);
+			$email     = trim($email);
+			$wiki      = trim($wiki);
+			$project   = trim($project);
+			//---
+			$qua = <<<SQL
+				INSERT INTO users (username, email, wiki, user_group) SELECT '$user_name', '$email', '$wiki', '$project'
+				WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = '$user_name')
+			SQL;
 			//---	
 			if ($ido != '' && $ido != 0 && $ido != "0") {
-				$qua = "UPDATE `users` SET
-				`username` = '$user_name',
-				`email` = '$email',
-				`user_group` = '$project',
-				`wiki` = '$wiki'
-				WHERE `users`.`user_id` = $ido;
-				";
+				$qua = <<<SQL
+					UPDATE `users` SET
+						`username` = '$user_name',
+						`email` = '$email',
+						`user_group` = '$project',
+						`wiki` = '$wiki'
+						WHERE `users`.`user_id` = $ido;
+				SQL;
 			};
 			//---
 			execute_query($qua);

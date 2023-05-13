@@ -72,7 +72,7 @@ if (in_array(global_username, $usrs)) {
 //---
 define('user_in_coord', $user_in_coord);
 //---
-if (global_username == 'Mr. Ibrahem') {
+if (user_in_coord == true) {
 	$testsline = <<<HTML
 	<li class="nav-item" id="tests">
 		<a href="tests.php" class="nav-link"><span class="navtitles"></span>Tests</a>

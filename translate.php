@@ -54,6 +54,10 @@ $useree  = (global_username != '') ? global_username : $_REQUEST['username'];
 //---
 if ($title_o != '' && $coden != '' && $useree != '' ) {
     //---
+    $title_o = trim($title_o);
+    $coden   = trim($coden);
+    $useree  = trim($useree);
+    //---
     $test    = $_REQUEST['test'] ?? '';
     $cat     = $_REQUEST['cat'] ?? '';
     $fixref  = $_REQUEST['fixref'] ?? '';

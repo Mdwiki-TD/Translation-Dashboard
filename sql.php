@@ -7,6 +7,12 @@ if (isset($_REQUEST['test'])) {
 //---
 /*
 //---
+
+UPDATE pages
+
+SET title = REPLACE(title, char(9), ''),
+target = REPLACE(target, char(9), '')
+//---
 delete from pages where target = '' and date < ADDDATE(CURDATE(), INTERVAL -7 DAY)
 select * from pages where target = '' and date < ADDDATE(CURDATE(), INTERVAL -7 DAY)
 //---

@@ -16,6 +16,8 @@ if (isset($_POST['user'])) {
 		$ido  	= $_POST['id'][$i] ?? '';
 		$user  	= $_POST['user'][$i] ?? '';
 		//---
+		$user = trim($user);
+		//---
 		if ($user != '' && $ido == '') {
 			$qua = "INSERT INTO coordinator (user) SELECT '$user' WHERE NOT EXISTS (SELECT 1 FROM coordinator WHERE user = '$user')";
 			//---

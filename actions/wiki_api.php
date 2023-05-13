@@ -1,5 +1,7 @@
 <?php
 function make_view_by_number($target, $numb, $lang, $pupdate) {
+    // remove spaces and tab characters
+    $target = trim($target);
     $numb2 = ($numb != '') ? $numb : "?";
     $start = $pupdate != '' ? $pupdate : '2019-01-01';
     $end = date("Y-m-d", strtotime("yesterday"));
