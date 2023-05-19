@@ -213,8 +213,9 @@ $mag = <<<HTML
 
     HTML;
 //---
-$post_php = "mail.php";
-if ($_REQUEST['t'] == '1') $post_php = "/gmail1/index.php";
+// $post_php = "mail.php";
+// if ($_REQUEST['t'] == '1') 
+$post_php = "/gmail1/index.php";
 //---
 print "
 <div class1='container-fluid'>
