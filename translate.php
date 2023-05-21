@@ -35,7 +35,8 @@ function start_trans_py($title, $test, $fixref, $tra_type) {
     //---
     $dir = 'I:/mdwiki';
     //---
-    if ( strpos( __file__ , '/mnt/' ) === 0 ) $dir = "/mnt/nfs/labstore-secondary-tools-project/mdwiki";
+    if ( strpos( __file__ , '/mnt/' ) === 0 )  $dir = "/mnt/nfs/labstore-secondary-tools-project/mdwiki";
+    if ( strpos( __file__ , '/data/' ) === 0 ) $dir = "/data/project/mdwiki";
     //---
     $dd = "python3 $dir/TDpynew/translate.py -title:$title2" ;
     if ($fixref != '' ) $dd = $dd . ' fixref';
