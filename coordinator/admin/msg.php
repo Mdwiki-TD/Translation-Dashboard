@@ -241,8 +241,7 @@ print "
                 <input class='form-check-input' type='checkbox' name='ccme'>Send me copy</input>
 						</span>
 					</div>
-					<input class='form-control' type='text' id='cc_to1' value='' disabled/>
-					<input class='form-control' type='text' style='display: none' name='cc_to' value='$cc_to'/>
+					<input class='form-control' type='text' name='cc_to' value='$cc_to'/>
 				</div>
 			</div>
 		</div>
@@ -270,20 +269,6 @@ print "
 //---
 ?>
 <script>
-$(document).ready(function(){
-    $("#ccme").change(function(){
-        if(this.checked) {
-            $("#cc_to").show();
-            $("#cc_to1").hide();
-            // $("#cc_to").prop("disabled", false);
-        } else {
-            $("#cc_to").hide();
-            $("#cc_to1").show();
-            // $("#cc_to").prop("disabled", true);
-        }
-    });
-});
-
     $('#msg').summernote({
         placeholder: 'Hello Bootstrap 4',
         tabsize: 6,
