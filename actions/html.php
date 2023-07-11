@@ -160,12 +160,15 @@ function make_translation_url($title, $lang) {
     $params = array(
         'page' => "User:Mr. Ibrahem/$title",
         'from' => "en",
+        'sx' => 'true',
         'to' => $lang,
         'targettitle' => $title
     );
     //---
     $url = "//$lang.wikipedia.org/wiki/Special:ContentTranslation";
-    $url .= "?" . http_build_query($params) . "#draft";
+    //---
+    // $url .= "?" . http_build_query($params) . "#/sx/sentence-selector";
+    $url .= "?" . http_build_query($params) . "#/sx?previousRoute=dashboard&eventSource=direct_preselect";
     //---
     // $url = "//$lang.wikipedia.org/wiki/Special:ContentTranslation?page=User%3AMr.+Ibrahem%2F$title&from=en&to=$lang&targettitle=$title#draft";
     //---
