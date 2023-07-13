@@ -84,7 +84,8 @@ function make_table( $items, $cod, $cat, $inprocess=false ) {
         $Refs_word = 'References';
         };
     //---
-    $Translate_th = '<th class="spannowrap" tt="h_len">Translate</th>';
+    // $Translate_th = "<div class='d-none d-sm-block'><th class='spannowrap' tt='h_len'>Translate</th></div>";
+    $Translate_th = "<th class='d-none d-sm-block spannowrap' tt='h_len'>Translate</th>";
     //---
     $in_process = array();
     $inprocess_first = '';
@@ -103,6 +104,7 @@ function make_table( $items, $cod, $cat, $inprocess=false ) {
     };
     //---
 	$frist = <<<HTML
+    <!-- <div class="table-responsive"> -->
     <table class="table table-sm sortable table-striped" id="main_table">
         <thead>
             <tr>
@@ -175,7 +177,8 @@ function make_table( $items, $cod, $cat, $inprocess=false ) {
         //---
         if ( global_username != '' ) $tab = "<a href='$translate_url' class='btn btn-primary btn-sm'>Translate</a>";
         //---
-        $tab_td = "<td class='num'>$tab</td>";
+        // $tab_td = "<div class='d-none d-sm-block'><td class='num'>$tab</td></div>";
+        $tab_td = "<td class='d-none d-sm-block num'>$tab</td>";
         //---
         $inprocess_tds = '';
         if ( $inprocess ) {
@@ -206,7 +209,11 @@ function make_table( $items, $cod, $cat, $inprocess=false ) {
     $script = '' ;
     if ($script =='3') $script = '';
     //---
-    $last = "</tbody></table>";
+    $last = <<<HTML
+        </tbody>
+    </table>
+    <!-- </div> -->
+    HTML;
     //---
     return $frist . $list . $last . $script ;
     //---
@@ -242,7 +249,7 @@ if ( $doit && $doit2 ) {
 	$cat2 = "Category:" . str_replace ( 'Category:' , '' , $cat );
 	$caturl = "<a href='https://mdwiki.org/wiki/$cat2'>category</a>";
     //---
-    $ix =  "Find $len_of_all pages in $caturl, $len_of_exists_pages exists, and $len_of_missing_pages missing in (<a href='https://$code.wikipedia.org'>https://$code.wikipedia.org</a>), $len_in_process In process." ;
+    $ix =  "Found $len_of_all pages in $caturl, $len_of_exists_pages exists, and $len_of_missing_pages missing in (<a href='https://$code.wikipedia.org'>$code</a>), $len_in_process In process." ;
     //---
     $res_line = " Results ";
     //---
@@ -258,11 +265,11 @@ if ( $doit && $doit2 ) {
     echo <<<HTML
     <br>
     <div class='card'>
-        <h4>$res_line:</h4>
         <div class='card-header'>
-            <h5>$ix</h5>
+            <h5>$res_line:</h5>
+            <!-- <h5>$ix</h5> -->
         </div>
-        <div class='card-body'>
+        <div class='card-body1 card2'>
             $table
         </div>
     </div>
@@ -278,7 +285,7 @@ if ( $doit && $doit2 ) {
             <div class='card-header'>
                 <h5>$len_in_process in process</h5>
             </div>
-            <div class='card-body'>
+            <div class='card-body1 card2'>
                 $table_2
             </div>
         </div>

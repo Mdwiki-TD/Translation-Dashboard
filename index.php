@@ -142,9 +142,9 @@ function print_form_start1() {
         </div>
         HTML;
     //---
-	$in_cat = sprintf($d2, 'Translation campaign', $catinput);
+	$in_cat = sprintf($d2, 'Campaign', $catinput);
 	//---
-	$in_lng  = sprintf($d2, 'Target language', "<div>$langse $err</div>");
+	$in_lng  = sprintf($d2, 'Language', "<div>$langse $err</div>");
 	//---
 	$in_typ = '';
     if ($allow_whole_translate == '1') { 
