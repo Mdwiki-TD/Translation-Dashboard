@@ -1,5 +1,6 @@
 <?PHP
 //---
+include_once('results_table.php');
 include_once('tables.php'); 
 include_once('langcode.php');
 include_once('getcats.php');
@@ -24,199 +25,18 @@ if ($cat == "undefined") $cat = "RTT";
 $translation_button = $settings['translation_button_in_progress_table']['value'] ?? '0';
 if (global_username != 'James Heilman' && global_username != 'Mr. Ibrahem') $translation_button = '0';
 //---
-function sort_py_PageViews( $items ) {
-    //---
-    global $enwiki_pageviews_table;
-    //---
-    $dd = array();
-    //---
-    // sort py PageViews
-    foreach ( $items AS $t ) {
-        $t = str_replace ( '_' , ' ' , $t );
-        //---
-        $kry = $enwiki_pageviews_table[$t] ?? 0; 
-        //---
-        $dd[$t] = $kry;
-        //---
-    };
-    //---
-    arsort($dd);
-    //---
-    return $dd;
-};
-//---
-function sort_py_importance( $items ) {
-    //---
-    global $Assessments_fff, $Assessments_table;
-    $dd = array();
-    //---
-    foreach ( $items AS $t ) {
-        $t = str_replace ( '_' , ' ' , $t );
-        //---
-        $aa = $Assessments_table[$t] ?? null;
-        //---
-        $kry = $Assessments_fff['Unknown'] ?? '';
-        //---
-        if ( isset($aa) ) {
-            $kry = $Assessments_fff[$aa] ?? $Assessments_fff['Unknown'];
-        };
-        //---
-        $dd[$t] = $kry;
-        //---
-    };
-    //---
-    arsort($dd);
-    //---
-    return $dd;
-};
-//---
 function make_table( $items, $cod, $cat, $inprocess=false ) {
-    global $Words_table, $All_Words_table, $Assessments_table ,$tra_type;
+    global $Words_table, $All_Words_table, $Assessments_table, $tra_type, $Assessments_fff;
     global $Lead_Refs_table, $All_Refs_table, $enwiki_pageviews_table, $translation_button;
-    //---
+
     global $sql_qids;
+    
+    $words_tab = ($tra_type == 'all') ? $All_Words_table : $Words_table;
+    $ref_tab   = ($tra_type == 'all') ? $All_Refs_table  : $Lead_Refs_table;
     //---
-    $Refs_word = 'Lead refs';
-    $Words_word = 'Words';
+    $result = make_results_table($items, $cod, $cat, $words_tab, $ref_tab, $Assessments_table, $Assessments_fff, $tra_type, $enwiki_pageviews_table, $translation_button, $sql_qids, $inprocess=$inprocess );
     //---
-    if ($tra_type == 'all') { 
-        $Words_word = 'words';
-        $Refs_word = 'References';
-        };
-    //---
-    // $Translate_th = "<div class='d-none d-sm-block'><th class='spannowrap' tt='h_len'>Translate</th></div>";
-    $Translate_th = "<th class='d-none d-sm-block spannowrap' tt='h_len'>Translate</th>";
-    //---
-    $in_process = array();
-    $inprocess_first = '';
-    //---
-    if ( $inprocess ) {
-        $inprocess_first = '<th>user</th><th>date</th>';
-        //---
-        $in_process = $items;
-        //---
-        $items = array_keys($items);
-        //---
-        if ($translation_button != '1') {
-            $Translate_th = '';
-        };
-        //---
-    };
-    //---
-	$frist = <<<HTML
-    <!-- <div class="table-responsive"> -->
-    <table class="table table-sm sortable table-striped" id="main_table">
-        <thead>
-            <tr>
-                <th class="num">#</th>
-                <th class="spannowrap" tt="h_title">Title</th>
-                $Translate_th
-                <th class="spannowrap" tt="h_len"><span data-toggle="tooltip" title="Page views in last month in English Wikipedia">Pageviews</span></th>
-                <th class="spannowrap" tt="h_len"><span data-toggle="tooltip" title="Page important from medicine project in English Wikipedia">Importance</span></th>
-                <th class="spannowrap" tt="h_len"><span data-toggle="tooltip" title="number of word of the article in mdwiki.org">$Words_word</span></th>
-                <th class="spannowrap" tt="h_len"><span data-toggle="tooltip" title="number of reference of the article in mdwiki.org">$Refs_word</span></th>
-                <th class="spannowrap" tt="h_len"><span data-toggle="tooltip" title="Wikidata identifier">qid</span></th>
-                $inprocess_first
-            </tr>
-        </thead>
-        <tbody>
-    HTML;
-    //---
-    $dd = array();
-    //---
-    // $dd = sort_py_importance($items);
-    $dd = sort_py_PageViews($items);
-    //---
-    $list = "" ;
-    $cnt = 1 ;
-    //---
-    foreach ( $dd AS $v => $gt) {
-        if ( $v == '' ) continue;
-        $title = str_replace ( '_' , ' ' , $v );
-        //---
-        $title2 = rawurlEncode($title);
-        //---
-        $cat2 = rawurlEncode($cat);
-        //---
-        $urle = "//mdwiki.org/wiki/$title2";
-        $urle = str_replace( '+' , '_' , $urle );
-        //---
-        $pageviews = $enwiki_pageviews_table[$title] ?? 0; 
-        //---
-        $qid = $sql_qids[$title] ?? "";
-        $qid = ($qid != '') ? "<a href='https://wikidata.org/wiki/$qid'>$qid</a>" : '';
-        //---
-        $word = $Words_table[$title] ?? 0; 
-        //---
-        $refs = $Lead_Refs_table[$title] ?? 0; 
-        //---
-        if ($tra_type == 'all') { 
-            $word = $All_Words_table[$title] ?? 0;
-            $refs = $All_Refs_table[$title] ?? 0;
-            };
-        //---
-        $asse = $Assessments_table[$title] ?? '';
-        //---
-        if ( $asse == '' ) $asse = 'Unknown';
-        //---
-        $params = array(
-            "title" => $title2,
-            "code" => $cod,
-            "username" => global_username,
-            "cat" => $cat2,
-            "type" => $tra_type
-            );
-        //---
-        $translate_url = 'translate.php?' . http_build_query($params);
-        //---
-        $tab = <<<HTML
-            <a role='button' class='btn btn-primary' onclick='login()'>
-                <i class='fas fa-sign-in-alt fa-sm fa-fw mr-1'></i><span class='navtitles'>Login</span>
-            </a>
-            HTML;
-        //---
-        if ( global_username != '' ) $tab = "<a href='$translate_url' class='btn btn-primary btn-sm'>Translate</a>";
-        //---
-        // $tab_td = "<div class='d-none d-sm-block'><td class='num'>$tab</td></div>";
-        $tab_td = "<td class='d-none d-sm-block num'>$tab</td>";
-        //---
-        $inprocess_tds = '';
-        if ( $inprocess ) {
-            $_user_ = $in_process[$v]['user'];
-            $_date_ = $in_process[$v]['date'];
-            $inprocess_tds = "<td>$_user_</td><td>$_date_</td>";
-            if ($translation_button != '1') $tab_td = '';
-        };
-        //---
-        $list .= <<<HTML
-            <tr>
-                <td class='num'>$cnt</td>
-                <td class='link_container spannowrap'><a target='_blank' href='$urle'>$title</a></td>
-                $tab_td
-                <td class='num'>$pageviews</td>
-                <td class='num'>$asse</td>
-                <td class='num'>$word</td>
-                <td class='num'>$refs</td>
-                <td>$qid</td>
-                $inprocess_tds
-            </tr>
-            HTML;
-        //---
-        $cnt++ ;
-        //---
-    };
-    //---
-    $script = '' ;
-    if ($script =='3') $script = '';
-    //---
-    $last = <<<HTML
-        </tbody>
-    </table>
-    <!-- </div> -->
-    HTML;
-    //---
-    return $frist . $list . $last . $script ;
-    //---
+    return $result;
     }
 //---
 $doit2 = false ;
@@ -229,9 +49,9 @@ if ( $doit && $doit2 ) {
     //---
     if (global_test) echo '$doit and $doit2:<br>';
     //---
-    $items = array() ;
-    //---
     $items = get_cat_members($cat, $depth, $code) ; # mdwiki pages in the cat
+    //---
+    if ($items == null ) $items = array() ;
     //---
     $len_of_exists_pages = $items['len_of_exists'];
     $items_missing       = $items['missing'];
@@ -266,7 +86,7 @@ if ( $doit && $doit2 ) {
     <br>
     <div class='card'>
         <div class='card-header'>
-            <h5>$res_line:</h5>
+            <span class='h5'>$res_line:</span> <span class='only_on_mobile'>(Click the article name to translate)</span>
             <!-- <h5>$ix</h5> -->
         </div>
         <div class='card-body1 card2'>
@@ -283,7 +103,7 @@ if ( $doit && $doit2 ) {
         <br>
         <div class='card'>
             <div class='card-header'>
-                <h5>$len_in_process in process</h5>
+                <h5>In process ($len_in_process):</h5>
             </div>
             <div class='card-body1 card2'>
                 $table_2

@@ -84,7 +84,7 @@ function print_form_start1() {
     };
     //---
     $langse = <<<HTML
-        <input list='sLanguages' type='text' placeholder='two letter code' id='code' name='code' value='$coco' autocomplete='off' role='combobox' class='form-select' required>
+        <input list='sLanguages' type='text' placeholder='two letter code' id='code' name='code' value='$coco' autocomplete='off' role='combobox' class='form-select form-select-sm' required>
             <datalist id='Languages' class='selectpickerr' role='listbox'>
             $lang_list
             </datalist>
@@ -110,45 +110,54 @@ function print_form_start1() {
     $catinput = make_drop($catinput_list, $cate);
     //---
     $catinput = <<<HTML
-    <select dir='ltr' name='cat' class='form-select'>
-        $catinput
-    </select>
+        <select dir='ltr' name='cat' class='form-select form-select-sm' data-bs-theme="auto">
+            $catinput
+        </select>
     HTML;
     //---
     $ttype = <<<HTML
-    <div class='form-check form-check-inline'>
-      <input type='radio' class='form-check-input' id='customRadio' name='type' value='lead' $lead_checked>
-      <label class='form-check-label' for='customRadio'>The lead only</label>
-    </div>
-    <div class='form-check form-check-inline'>
-      <input type='radio' class='form-check-input' id='customRadio2' name='type' value='all' $all_checked>
-      <label class='form-check-label' for='customRadio2'>The whole article</label>
-    </div>
+        <div class='form-check form-check-inline'>
+            <input type='radio' class='form-check-input' id='customRadio' name='type' value='lead' $lead_checked>
+            <label class='form-check-label' for='customRadio'>The lead only</label>
+        </div>
+        <div class='form-check form-check-inline'>
+            <input type='radio' class='form-check-input' id='customRadio2' name='type' value='all' $all_checked>
+            <label class='form-check-label' for='customRadio2'>The whole article</label>
+        </div>
     HTML;
     //---
 	$col12 		= 'col-lg-10 col-md-10';
 	$gridclass 	= 'input-group col-7 mb-3';
     //---
-	$d2 = <<<HTML
+    $d2 = <<<HTML
         <div class='$col12'>
             <div class='form-group'>
                 <div class='$gridclass'>
                     <div class='input-group-prepend'>
-                        <span class='input-group-text'>%s</span>
+                        <span class='input-group-text' for="%s">%s</span>
                     </div>
                         %s
                 </div>
             </div>
         </div>
-        HTML;
+    HTML;
     //---
-	$in_cat = sprintf($d2, 'Campaign', $catinput);
+	$d22 = <<<HTML
+        <div class='$col12'>
+            <div class="mb-3">
+                <label for="%s" class="form-label"><b>%s</b></label>
+                %s
+            </div>
+        </div>
+    HTML;
+    //---
+	$in_cat = sprintf($d22, 'cat', 'Campaign', $catinput);
 	//---
-	$in_lng  = sprintf($d2, 'Language', "<div>$langse $err</div>");
+	$in_lng = sprintf($d22, 'code', 'Language', "<div>$langse $err</div>");
 	//---
 	$in_typ = '';
     if ($allow_whole_translate == '1') { 
-        $in_typ = sprintf($d2, 'Type', "<div class='form-control'>$ttype</div>");
+        $in_typ = sprintf($d22, 'type', 'Type', "<div class='form-control'>$ttype</div>");
     } else {
         $in_typ = "<input name='type' value='lead' hidden/>";
     };
@@ -159,8 +168,8 @@ function print_form_start1() {
         $in_lng
         $in_typ
         <div class='$col12'>
-            <h4 class='aligncenter'>
-            $uiu
+            <h4 class='aligncenter mb-0'>
+                $uiu
             </h4>
         </div>
     </div>
@@ -175,34 +184,29 @@ $img_src = '//upload.wikimedia.org/wikipedia/commons/thumb/5/58/Wiki_Project_Med
 //---
 $form_start1  = print_form_start1();
 //---
-$intro = "This tool looks for Wikidata items that have a page on mdwiki.org but not in another wikipedia language <a href='?cat=RTT&depth=1&code=ceb&doit=Do+it'><b>(Example)</b></a>.";
+$intro = <<<HTML
+    This tool looks for Wikidata items that have a page on mdwiki.org but not in another wikipedia language <a href='?cat=RTT&depth=1&code=ceb&doit=Do+it'>(Example)</a>. <a href='//mdwiki.org/wiki/WikiProjectMed:Translation_task_force'><b>How to use.</b></a>
+HTML;
 //---
-$nan = <<<HTML
+echo <<<HTML
 <div class='container'>
   <div class='card'>
-    <div class='card-header aligncenter' style='font-weight:bold;'></div>
-    <div class='card-body'>
+    <div class='card-header'>
+        $intro
+    </div>
+    <div class='card-body mb-0'>
       <div class='mainindex'>
 		<div style='float:right'>
-          <img class='medlogo' src='$img_src' decoding='async' alt='Wiki Project Med Foundation logo'>
+            <img class='medlogo' src='$img_src' decoding='async' alt='Wiki Project Med Foundation logo'>
         </div>
-        <h6>
-          $intro
-        </h6>
-        <p><a href='//mdwiki.org/wiki/WikiProjectMed:Translation_task_force'><b>How to use.</b></a></p>
-
         <form method='GET' action='index.php' class='form-inline'>
-          %s
+            $form_start1
         </form>
-
       </div>
     </div>
   </div>
 </div>
-
 HTML;
-//---
-echo sprintf($nan, $form_start1);
 //---
 require('results.php');
 //---

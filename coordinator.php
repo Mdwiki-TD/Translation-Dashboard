@@ -33,7 +33,7 @@ function create_side() {
 	$li_blank = "<li id='%s' class='nav-item'><a target='_blank' class='linknave' href='%s'>%s</a></li>";
 	//---
 	$home1 = <<<HTML
-		<span class='d-flex align-items-center pb-1 mb-1 link-dark text-decoration-none border-bottom'>
+		<span class='d-flex align-items-center pb-1 mb-1 text-decoration-none border-bottom'>
 			<a class='nav-link' href='$filename'>
 				<span id='Home' class='fs-5 fw-semibold'>Coordinator Tools</span>
 			</a>

@@ -78,7 +78,7 @@ function makeDropdown($tab, $cat, $id, $add) {
     }
 	//---
     return <<<HTML
-        <select dir="ltr" id="$id" name="$id" class="form-select">
+        <select dir="ltr" id="$id" name="$id" class="form-select" data-bs-theme="auto">
             $sel_line
             $options
         </select>

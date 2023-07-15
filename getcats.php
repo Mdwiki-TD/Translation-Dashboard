@@ -148,7 +148,7 @@ function get_mdwiki_cat_members( $cat, $use_cash=false, $depth=0 ) {
 		$cats2 = array();
 		//---
 		foreach( $cats as $cat1 ){
-			if ($use_cash) {
+            if ($use_cash || $_SERVER['SERVER_NAME'] == 'localhost' ) {
 				$all = get_cat_from_cach( $cat1 );
                 if (empty($all)) $all = get_categorymembers($cat1);
 			} else {
