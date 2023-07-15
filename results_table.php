@@ -168,7 +168,7 @@ function make_results_table($items, $cod, $cat, $words_tab, $ref_tab, $Imps_tab,
                 <th class='num hide_on_mobile_cell' scope="row" data-content="#">$cnt</th>
                 <td class='link_container spannowrap'data-content="$cnt">
                     <a target='_blank' href='$mdwiki_url' class="hide_on_mobile">$title</a>
-                    <a target='_blank' href='$translate_url' class="only_on_mobile">$title</a>
+                    <a target='_blank' href='$translate_url' class="only_on_mobile"><b>$title</b></a>
                     <a class="only_on_mobile" style="float:right" data-bs-toggle="collapse" href="#$div_id" role="button" aria-expanded="false" aria-controls="$div_id">+</a>
                 </td>
                 <th class=''>
