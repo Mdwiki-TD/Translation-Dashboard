@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<HTML lang=en dir=ltr data-bs-theme="auto" xmlns="http://www.w3.org/1999/xhtml">
+<HTML lang=en dir=ltr data-bs-theme="light" xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
 	<meta name="robots" content="noindex">
@@ -38,12 +38,12 @@ function print_head() {
 		<link href='css/dashboard_new1.css' rel='stylesheet' type='text/css'>
 		<link href='$hoste/ajax/libs/font-awesome/5.15.3/css/all.min.css' rel='stylesheet' type='text/css'>
 		<script src='$hoste/ajax/libs/jquery/3.6.3/jquery.min.js'></script>
-		
+
+
 		<!-- <script src='$hoste/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js'></script> -->
 		<script src='$hoste/ajax/libs/popper.js/2.11.6/umd/popper.min.js'></script>
 		<script src='$hoste/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.min.js'></script>
 		<link href='$hoste/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
-		
 		<script src='$hoste/ajax/libs/datatables.net/2.1.1/jquery.dataTables.min.js'></script>
 		<script src='$hoste/ajax/libs/datatables.net-bs5/1.13.1/dataTables.bootstrap5.min.js'></script>
 		<link href='$hoste/ajax/libs/datatables.net-bs5/1.13.1/dataTables.bootstrap5.css' rel='stylesheet' type='text/css'>
@@ -59,17 +59,18 @@ function print_head() {
 		HTML;
 	};
 	//---
-	echo "<span id='myusername' style='display:none'>" . global_username . "</span>";
+	echo "
+	<span id='myusername' style='display:none'>" . global_username . "</span>";
 	//---
 };
 //---
 print_head();
 //---
 $user_in_coord = false;
-$coord_tools = '<a href="tools.php" class="nav-link"><span class="navtitles"></span>Tools</a>';
+$coord_tools = '<a href="tools.php" class="nav-link py-2 px-0 px-lg-2"><span class="navtitles"></span>Tools</a>';
 //---
 if (in_array(global_username, $usrs)) {
-	$coord_tools = '<a href="coordinator.php" class="nav-link"><span class="navtitles"></span>Coordinator Tools</a>';
+	$coord_tools = '<a href="coordinator.php" class="nav-link py-2 px-0 px-lg-2"><span class="navtitles"></span>Coordinator Tools</a>';
 	$user_in_coord = true;
 };
 //---
@@ -77,72 +78,43 @@ define('user_in_coord', $user_in_coord);
 //---
 if (user_in_coord == true) {
 	$testsline = <<<HTML
-	<li class="nav-item" id="tests">
-		<a href="tests.php" class="nav-link"><span class="navtitles"></span>Tests</a>
+	<li class="nav-item col-4 col-lg-auto" id="tests">
+		<a class="nav-link py-2 px-0 px-lg-2" href="tests.php"><span class="navtitles"></span>Tests</a>
 	</li>
 	HTML;
 };
 //---
-$ul = <<<HTML
-				<ul class="navbar-nav me-auto">
-					<li class="nav-item" id="leaderboard">
-						<a href="leaderboard.php" class="nav-link">
-							<span class="navtitles">Leaderboard</span>
-						</a>
-					</li>
-					<li class="nav-item" style="display:none" id="myboard">
-						<a href="leaderboard.php?user=$username" class="nav-link">
-							<span class="navtitles">My Board</span>
-						</a>
-					</li>
-					<li class="nav-item" id="missing">
-						<a href="missing.php" class="nav-link">
-							<span class="navtitles">Missing</span>
-						</a>
-					</li>
-					<li class="nav-item" id="coord">$coord_tools</li>
-					$testsline
-					<li class="nav-item">
-						<a href="https://github.com/MrIbrahem/Translation-Dashboard" target="_blank" class="nav-link">
-							<span class="navtitles">Github</span>
-						</a>
-					</li>
-				</ul>
-HTML;
-//---
 $them_li = <<<HTML
-			<li class="nav-item dropdown">
-				<button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme (light)">
-				<svg class="bi my-1 theme-icon-active"><use href="#sun-fill"></use></svg>
-				<span class="d-lg-none ms-2" id="bd-theme-text">Toggle theme</span>
-				</button>
-				<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
-				<li>
-					<button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="light" aria-pressed="true">
-					<svg class="bi me-2 opacity-50 theme-icon"><use href="#sun-fill"></use></svg>
-					Light
-					<svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
-					</button>
-				</li>
-				<li>
-					<button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
-					<svg class="bi me-2 opacity-50 theme-icon"><use href="#moon-stars-fill"></use></svg>
-					Dark
-					<svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
-					</button>
-				</li>
-				<li>
-					<button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
-					<svg class="bi me-2 opacity-50 theme-icon"><use href="#circle-half"></use></svg>
-					Auto
-					<svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
-					</button>
-				</li>
-				</ul>
-			</li>
+		<button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme (light)">
+		<svg class="bi my-1 theme-icon-active"><use href="#sun-fill"></use></svg>
+		<span class="d-lg-none ms-2" id="bd-theme-text"></span>
+		</button>
+		<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
+		<li>
+			<button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="light" aria-pressed="true">
+			<svg class="bi me-2 opacity-50 theme-icon"><use href="#sun-fill"></use></svg>
+			Light
+			<svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+			</button>
+		</li>
+		<li>
+			<button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
+			<svg class="bi me-2 opacity-50 theme-icon"><use href="#moon-stars-fill"></use></svg>
+			Dark
+			<svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+			</button>
+		</li>
+		<li>
+			<button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
+			<svg class="bi me-2 opacity-50 theme-icon"><use href="#circle-half"></use></svg>
+			Auto
+			<svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+			</button>
+		</li>
+		</ul>
 HTML;
 //---
-?>
+echo <<<HTML
 </head>
 
 <body>
@@ -166,38 +138,58 @@ HTML;
       </symbol>
     </svg>
 
-<header>
-	<nav id="mainnav" class="navbar navbar-expand-lg shadow bg-light">
+<header class="mb-3 border-bottom">
+	<nav id="mainnav" class="navbar navbar-expand-lg shadow">
 	   	<div class="container-fluid" id="navbardiv">
-			<a class="navbar-brand mb-0 h1" href="index.php" style="color:blue;">
+			<a class="navbar-brand mb-0 h1" href="index.php" style="color:#0d6efd;">
 				<span class='d-none d-sm-inline'>WikiProjectMed Translation Dashboard</span>
 				<span class='d-inline d-sm-none'>WikiProjectMed TD</span>
 			</a>
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar"
+				aria-controls="collapsibleNavbar" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="collapsibleNavbar">
-					<?php echo $ul; ?>
-				<div class="d-flex">
-					<ul class="navbar-nav flex-row flex-wrap ms-md-auto">
-						<?php echo $them_li; ?>
-						<li class="nav-item" id="">
-							<span id="username_li" class="nav-link" style="display:none">
-								<i class="fas fa-user fa-sm fa-fw mr-2"></i> <span class="navtitles" id="user_name"></span>
-							</span>
-						</li>
-						<li class="nav-item">
-							<a role="button" id="loginli" class="nav-link" onclick="login()">
-								<i class="fas fa-sign-in-alt fa-sm fa-fw mr-2"></i><span class="navtitles">Login</span>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a id="logout_btn" class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal" style="display:none">
-								<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2"></i><span class="navtitles"></span>
-							</a>
-						</li>
-					</ul>
-				</div>
+				<ul class="navbar-nav flex-row flex-wrap bd-navbar-nav">
+					<li class="nav-item col-4 col-lg-auto" id="leaderboard">
+						<a class="nav-link py-2 px-0 px-lg-2" href="leaderboard.php">
+							<span class="navtitles">Leaderboard</span>
+						</a>
+					</li>
+					<li class="nav-item col-4 col-lg-auto" id="missing">
+						<a class="nav-link py-2 px-0 px-lg-2" href="missing.php">
+							<span class="navtitles">Missing</span>
+						</a>
+					</li>
+					<li class="nav-item col-4 col-lg-auto" id="coord">$coord_tools</li>
+					$testsline
+					<li class="nav-item col-4 col-lg-auto">
+						<a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/MrIbrahem/Translation-Dashboard" target="_blank">
+							<span class="navtitles">Github</span>
+						</a>
+					</li>
+				</ul>
+				<hr class="d-lg-none text-black-50">
+				<ul class="navbar-nav flex-row flex-wrap bd-navbar-nav ms-lg-auto">
+					<li class="nav-item col-4 col-lg-auto dropdown">
+						$them_li
+					</li>
+					<li class="nav-item col-4 col-lg-auto" id="">
+						<a id="username_li" href="leaderboard.php?user=$username" class="nav-link py-2 px-0 px-lg-2" style="display:none">
+							<i class="fas fa-user fa-sm fa-fw mr-2"></i> <span class="navtitles" id="user_name"></span>
+						</a>
+					</li>
+					<li class="nav-item col-4 col-lg-auto" id="loginli">
+						<a role="button" class="nav-link py-2 px-0 px-lg-2" onclick="login()">
+							<i class="fas fa-sign-in-alt fa-sm fa-fw mr-2"></i> <span class="navtitles">Login</span>
+						</a>
+					</li>
+					<li class="nav-item col-4 col-lg-auto">
+						<a id="logout_btn" class="nav-link py-2 px-0 px-lg-2" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal" style="display:none">
+							<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2"></i> <span class="d-lg-none navtitles">Logout</span>
+						</a>
+					</li>
+				</ul>
 			</div>
 		</div>
 	</nav>
@@ -218,6 +210,8 @@ HTML;
 		</div>
 	</div>
 </header>
+HTML;
+?>
 <script>	
 	// $(document).ready(function() {
 	var lo = $('#myusername').text();

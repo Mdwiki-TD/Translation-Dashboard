@@ -25,6 +25,8 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
         $tran_type = 'Whole article';
     };
     //---
+    $usr_or_lang = ($page_type == 'users') ? "Lang" : "User";
+    //---
     if ($page_type == 'users') {
         $urll = "<a href='leaderboard.php?langcode=$lang'><span style='white-space: nowrap;'>$lang</span></a>";
     } else {
@@ -44,7 +46,7 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
         $td_views = '';
         //---
         $tralink = make_translation_url($mdtitle, $lang);
-        $complate   = (global_username === $_user_) ? "<td><a target='_blank' href='$tralink'>complete</a></td>" : '';
+        $complate   = (global_username === $_user_) ? "<td data-content='complete'><a target='_blank' href='$tralink'>complete</a></td>" : '';
     } else {
         $target  = trim($tabb['target']);
         //---
@@ -52,21 +54,21 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
         //---
         $target_link = make_target_url($target, $lang);
         //---
-        $td_views = "<td data-sort='$view_number'>$view</td>";
+        $td_views = "<td data-content='Views' data-sort='$view_number'>$view</td>";
     };
     //---
     $year = substr($udate,0,4);
     //---
     $laly = <<<HTML
         <tr class='filterDiv show2 $year'>
-            <td>$number</td>
-            <td>$urll</td>
-            <td>$nana</td>
-            <td>$ccat</td>
-            <td>$word</td>
-            <td>$tran_type</td>
-            <td>$target_link</td>
-            <td class='spannowrap'>$udate</td>
+            <th data-content="#">$number</th>
+            <td data-content="$usr_or_lang">$urll</td>
+            <td data-content="Title">$nana</td>
+            <td data-content="Campaign">$ccat</td>
+            <td data-content="Words">$word</td>
+            <td data-content="#Type">$tran_type</td>
+            <td data-content="Translated">$target_link</td>
+            <td data-content="Date" class='spannowrap'>$udate</td>
             $td_views
             $complate
         </tr>
@@ -90,7 +92,7 @@ function make_table_lead($dd, $tab_type='a', $views_table = array(), $page_type=
     $complate   = ($tab_type == 'pending' && global_username === $user) ? '<th>complete!</th>' : '';
     //---
     $sato = <<<HTML
-        <table class='table table-striped compact soro'>
+        <table class='table table-striped compact soro table-mobile-responsive table-mobile-sided'>
             <thead>
                 <tr>
                     <th>#</th>

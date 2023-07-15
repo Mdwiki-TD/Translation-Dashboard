@@ -29,8 +29,8 @@ function create_side() {
 	//---
 	global $filename;
 	//---
-	$li = "<li id='%s' class='nav-item'><a class='linknave' href='$filename?ty=%s'>%s</a></li>";
-	$li_blank = "<li id='%s' class='nav-item'><a target='_blank' class='linknave' href='%s'>%s</a></li>";
+	$li = "<li class='nav-item col-3 col-lg-auto' id='%s'><a class='linknave' href='$filename?ty=%s'>%s</a></li>";
+	$li_blank = "<li class='nav-item col-3 col-lg-auto' id='%s'><a target='_blank' class='linknave' href='%s'>%s</a></li>";
 	//---
 	$home1 = <<<HTML
 		<span class='d-flex align-items-center pb-1 mb-1 text-decoration-none border-bottom'>
@@ -40,7 +40,11 @@ function create_side() {
 		</span>
 	HTML;
 	//---
-	$sidebar = "<div class='col-md-2'>$home1";
+	$sidebar = <<<HTML
+	<div class='col-md-2'>
+	<nav class="navbar-nav">
+		$home1
+	HTML;
 	//---
 	$main = array();
 	//---
@@ -86,16 +90,20 @@ function create_side() {
 		if ($lis != '') {
 			$sidebar .= <<<HTML
 			<span class='fs-6 fw-semibold'>$key:</span>
-			<ul class='flex-column'>
+			
+			<ul class='navbar-nav flex-row flex-wrap d-lg-table d-md-table'>
 				$lis
 			</ul>
+			
 			HTML;
 		}
 		//---
 	}
 	//---
 	$sidebar .= "
-	</div>";
+	</nav>
+	</div>
+	";
 	//---
 	return $sidebar;
 };
