@@ -103,8 +103,8 @@ function make_results_table($items, $cod, $cat, $words_tab, $ref_tab, $Imps_tab,
         }
         //---
         $inprocess_tds = '';
-        $_user_ = $in_process[$v]['user'];
-        $_date_ = $in_process[$v]['date'];
+        $_user_ = $in_process[$v]['user'] ?? '';
+        $_date_ = $in_process[$v]['date'] ?? '';
         //---
         if ( $inprocess ) {
             $inprocess_tds = <<<HTML

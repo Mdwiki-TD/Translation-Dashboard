@@ -39,15 +39,11 @@ function make_table( $items, $cod, $cat, $inprocess=false ) {
     return $result;
     }
 //---
-$doit2 = false ;
-//---
-if ( $code_lang_name != '' ) $doit2 = true;
+if ( $code_lang_name == '' ) $doit = false;
 //---
 echo "<div class='container'>";
 //---
-if ( $doit && $doit2 ) {
-    //---
-    if (global_test) echo '$doit and $doit2:<br>';
+if ($doit) {
     //---
     $items = get_cat_members($cat, $depth, $code) ; # mdwiki pages in the cat
     //---

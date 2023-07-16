@@ -78,19 +78,37 @@ function print_form_start1() {
     $lang_list = '';
     //---
     foreach ( $lang_to_code AS $langeee => $codr ) {
+		$selected = ($codr == $code) ? 'selected' : '';
         $lang_list .= <<<HTML
-            <option data-tokens='$codr' value='$codr'>$langeee</option>
+            <option data-tokens='$codr' value='$codr' $selected>$langeee</option>
             HTML;
     };
     //---
+    $langse_old = <<<HTML
+		<input list='sLanguages' type='text' placeholder='two letter code' id='code' name='code' value='$coco' autocomplete='off' role='combobox' class='form-select' required>
+			<datalist id='Languages' class='selectpickerr' role='listbox' data-bs-theme="auto">
+			$lang_list
+			</datalist>
+		</input>
+	HTML;
+	//---
     $langse = <<<HTML
-        <input list='sLanguages' type='text' placeholder='two letter code' id='code' name='code' value='$coco' autocomplete='off' role='combobox' class='form-select form-select-sm' required>
-            <datalist id='Languages' class='selectpickerr' role='listbox' data-bs-theme="auto">
+        <select 
+            class="selectpicker"
+            id='code'
+            name='code'
+            placeholder='two letter code'
+            data-live-search="true"
+            data-container="body"
+            data-live-search-style="begins"
+            data-bs-theme="auto"
+            data-style='btn active'
+            data-width="100%"
+            required>
             $lang_list
-            </datalist>
-        </input>
+        </select>
     HTML;
-    //---
+	//---
     $err = '';
     //---
     if ($code_lang_name == '' and $code != '') { 
@@ -110,7 +128,7 @@ function print_form_start1() {
     $catinput = make_drop($catinput_list, $cate);
     //---
     $catinput = <<<HTML
-        <select dir='ltr' name='cat' class='form-select form-select-sm' data-bs-theme="auto">
+        <select dir='ltr' name='cat' class='form-select' data-bs-theme="auto">
             $catinput
         </select>
     HTML;
@@ -126,7 +144,7 @@ function print_form_start1() {
         </div>
     HTML;
     //---
-	$col12 		= 'col-lg-10 col-md-10';
+	$col12 		= 'col-10';
 	$gridclass 	= 'input-group col-7 mb-3';
     //---
     $d2 = <<<HTML
@@ -206,70 +224,10 @@ echo <<<HTML
     </div>
   </div>
 </div>
+<!-- <script src='/Translation_Dashboard/js/codes.js'></script> -->
 HTML;
 //---
 require('results.php');
-//---
-?>
-<script>
-  code.onfocus = function () {
-    Languages.style.display = 'block';
-    code.style.borderRadius = '5px 5px 0 0';  
-  };
-
-  for (let option of Languages.options) {
-    option.onclick = function () {
-      code.value = option.value;
-      Languages.style.display = 'none';
-      code.style.borderRadius = '5px';
-    }
-  };
-
-  code.oninput = function() {
-    currentFocus = -1;
-    var text = code.value.toUpperCase();
-    for (let option of Languages.options) {
-      if(option.value.toUpperCase().indexOf(text) > -1){
-        option.style.display = 'block';
-    } else {
-      option.style.display = 'none';
-      }
-    };
-  }
-  var currentFocus = -1;
-  code.onkeydown = function(e) {
-    if(e.keyCode == 40){
-      currentFocus++
-    addActive(Languages.options);
-    }
-    else if(e.keyCode == 38){
-      currentFocus--
-    addActive(Languages.options);
-    }
-    else if(e.keyCode == 13){
-      e.preventDefault();
-        if (currentFocus > -1) {
-          /*and simulate a click on the 'active' item:*/
-          if (Languages.options) Languages.options[currentFocus].click();
-        }
-    }
-  }
-
-  function addActive(x) {
-    if (!x) return false;
-    removeActive(x);
-    if (currentFocus >= x.length) currentFocus = 0;
-    if (currentFocus < 0) currentFocus = (x.length - 1);
-    x[currentFocus].classList.add('active');
-  }
-  function removeActive(x) {
-    for (var i = 0; i < x.length; i++) {
-      x[i].classList.remove('active');
-    }
-  }
-
-</script>
-<?php
 //---
 require('foter.php');
 //---

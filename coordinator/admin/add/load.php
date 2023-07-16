@@ -27,57 +27,61 @@ require('tables.php');
 					<th>Pupdate</th>
 				</tr>
 				<tbody id='g_tab'>
-					<?php
-					//---
-					$cats = "";
-					//---
-					$qqq = execute_query('select category, display from categories;');
-					//---
-					foreach ($qqq as $Key => $ta) {
-						$ca = $ta['category'];
-						$ds = $ta['display'];
-						if ($ca != '') $cats .= "<option value='$ca'>$ds</option>";
-					};
-					//---
-					$typies = <<<HTML
+<?php
+//---
+$cats = "";
+//---
+$qqq = execute_query('select category, display from categories;');
+//---
+foreach ($qqq as $Key => $ta) {
+	$ca = $ta['category'];
+	$ds = $ta['display'];
+	if ($ca != '') $cats .= "<option value='$ca'>$ds</option>";
+};
+//---
+$typies = <<<HTML
 	<select name='type[]%s' id='type[]%s' class='form-select'>
 		<option value='lead'>Lead</option><option value='all'>All</option>
 	</select>
 	HTML;
-					//---
-					$table = "";
-					//---
-					foreach (range(1, 1) as $numb) {
-						//---
-						$cats_line = "<select class='form-select catsoptions' name='cat[]$numb'>$cats</select>";
-						$type_line = sprintf($typies, $numb, $numb);
-						//---
-						$table .= <<<HTML
+//---
+$table = "";
+//---
+foreach (range(1, 1) as $numb) {
+	//---
+	$cats_line = <<<HTML
+		<select class='form-select catsoptions' name='cat[]$numb' data-bs-theme='auto'>
+			$cats
+		</select>
+	HTML;
+	//---
+	$type_line = sprintf($typies, $numb, $numb);
+	//---
+	$table .= <<<HTML
 	<tr>
-	  <td data-order='$numb'>$numb</td>
-	  <td> <input size='15' class='mdtitles' name='mdtitle[]$numb' required/> </td>
-	  <td> $cats_line </td>
-	  <td> $type_line </td>
-	  <td> <input size='10' class='useri' name='user[]$numb' required/> </td>
-	  <td> <input size='2' name='lang[]$numb' required/> </td>
-	  <td> <input size='20' name='target[]$numb' required/>	</td>
-	  <td> <input size='10' name='pupdate[]$numb' required/> </td>
+		<td data-order='$numb'>$numb</td>
+		<td> <input size='15' class='mdtitles' name='mdtitle[]$numb' required/> </td>
+		<td> $cats_line </td>
+		<td> $type_line </td>
+		<td> <input size='10' class='useri' name='user[]$numb' required/> </td>
+		<td> <input size='2' name='lang[]$numb' required/> </td>
+		<td> <input size='20' name='target[]$numb' required/>	</td>
+		<td> <input size='10' name='pupdate[]$numb' required/> </td>
 	</tr>
 	HTML;
-					};
-					//---
-					$testin = (($_REQUEST['test'] ?? '') != '') ? "<input name='test' value='1' hidden/>" : "";
-					//---
-					$table .= <<<HTML
-	</tbody>
+};
+//---
+$testin = (($_REQUEST['test'] ?? '') != '') ? "<input name='test' value='1' hidden/>" : "";
+//---
+$table .= <<<HTML
+</tbody>
 	</table>
 	$testin
 HTML;
-					//---
-					echo $table;
-					?>
-
-					<button type="submit" class="btn btn-success mb-10">send</button>
+//---
+echo $table;
+?>
+	<button type="submit" class="btn btn-success mb-10">send</button>
 	</form>
 	<span role='button' id="add_row" class="btn btn-info" style="position: absolute; right: 130px;" onclick='add_row()'>New row</span>
 </div>
