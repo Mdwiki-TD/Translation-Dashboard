@@ -86,7 +86,7 @@ if ( $doit && $doit2 ) {
     <br>
     <div class='card'>
         <div class='card-header'>
-            <span class='h5'>$res_line:</span> <span class='only_on_mobile'>(Click the article name to translate)</span>
+            <span class='h5'>$res_line:</span> <span class='only_on_mobile'><b>Click the article name to translate</b></span>
             <!-- <h5>$ix</h5> -->
         </div>
         <div class='card-body1 card2'>
