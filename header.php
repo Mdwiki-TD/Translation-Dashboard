@@ -34,7 +34,7 @@ function print_head() {
 	if (isset($_GET['noboot']) == '') {
 		echo <<<HTML
 		<link rel="stylesheet" href="css/styles.css" type='text/css'>
-		<link href='css/Responsive-Table.css' rel='stylesheet' type='text/css'>
+		<link href='css/Responsive_Table.css' rel='stylesheet' type='text/css'>
 		<link href='css/dashboard_new1.css' rel='stylesheet' type='text/css'>
 		<link href='$hoste/ajax/libs/font-awesome/5.15.3/css/all.min.css' rel='stylesheet' type='text/css'>
 		<script src='$hoste/ajax/libs/jquery/3.6.3/jquery.min.js'></script>
