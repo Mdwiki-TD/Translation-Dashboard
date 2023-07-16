@@ -65,4 +65,3 @@ if (isset($_POST['mdtitle'])) {
 	};
 };
 //---
-?>

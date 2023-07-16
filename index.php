@@ -85,7 +85,7 @@ function print_form_start1() {
     //---
     $langse = <<<HTML
         <input list='sLanguages' type='text' placeholder='two letter code' id='code' name='code' value='$coco' autocomplete='off' role='combobox' class='form-select form-select-sm' required>
-            <datalist id='Languages' class='selectpickerr' role='listbox'>
+            <datalist id='Languages' class='selectpickerr' role='listbox' data-bs-theme="auto">
             $lang_list
             </datalist>
         </input>
