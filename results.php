@@ -90,7 +90,7 @@ if ( $doit && $doit2 ) {
             <!-- <h5>$ix</h5> -->
         </div>
         <div class='card-body1 card2'>
-            $table
+            $table 
         </div>
     </div>
     HTML;
