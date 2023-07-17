@@ -7,6 +7,8 @@ include_once('functions.php');
 $coden = strtolower($_REQUEST['code']);
 $title_o = $_REQUEST['title'];
 
+$useree  = (global_username != '') ? global_username : $_REQUEST['username'];
+
 $tit_line = make_input_group( 'title', 'title', $title_o, 'required');
 $cod_line = make_input_group( 'code', 'code', $coden, 'required');
 
@@ -56,7 +58,6 @@ function start_trans_py($title, $test, $fixref, $tra_type) {
     return $output;
 }
 
-$useree  = (global_username != '') ? global_username : $_REQUEST['username'];
 function insertPage($title_o, $word, $tr_type, $cat, $coden, $useree, $test) {
 
     $quae_new = <<<SQL
@@ -65,9 +66,9 @@ function insertPage($title_o, $word, $tr_type, $cat, $coden, $useree, $test) {
         WHERE NOT EXISTS
             (SELECT 1
             FROM pages 
-            WHERE title = '$title_o'
-            AND lang = '$coden'
-            AND user = '$useree'
+                    WHERE title = '$title_o'
+                    AND lang = '$coden'
+                    AND user = '$useree'
             )
     SQL;
 
@@ -91,9 +92,6 @@ if ($title_o != '' && $coden != '' && $useree != '' ) {
     $cat     = rawurldecode($cat);
     $title_o = rawurldecode($title_o);
     
-    $title_o2 = $title_o;
-    $title_o2 = rawurlencode(str_replace ( ' ' , '_' , $title_o2 ) );
-    
     $user2  = rawurlencode(str_replace ( ' ' , '_' , $useree ));
     $cat2   = ($cat != '') ? rawurlencode(str_replace ( ' ' , '_' , $cat )) : '';
     
@@ -103,46 +101,42 @@ if ($title_o != '' && $coden != '' && $useree != '' ) {
         $word = $All_Words_table[$title_o] ?? 0;
     };
 
-    
     insertPage($title_o, $word, $tr_type, $cat, $coden, $useree, $test);
 
     $output = start_trans_py($title_o,$test,$fixref,$tr_type);
     
     if (trim($output) == 'true' || isset($_REQUEST['go'])) {
-        $title_o2 = rawurlEncode($title_o);
-        
         $url = make_translation_url($title_o, $coden);
         
+        $title_o2 = rawurlencode(str_replace ( ' ' , '_' , $title_o ) );
+    
         if ($coden == 'en') $url = "//en.wikipedia.org/w/index.php?title=User:Mr._Ibrahem/$title_o2&action=edit";
         
         if ($test != "" && (!isset($_REQUEST['go']))) {
-            
-            print $nana;
-            print '<br>trim($output) == true<br>';
-            print 'start_trans_py<br>';
-            print $url;
+            echo <<<HTML
+                $nana
+                <br>trim($output) == true<br>
+                start_trans_py<br>
+                $url
+            HTML;
             
         } else {
-            
-            // header( "Location: " . $url );
-            // exit;
-            
-            $zaza = <<<HTML
-        <script type='text/javascript'>
-        window.open('$url', '_self');
-        </script>
-        <noscript>
-            <meta http-equiv='refresh' content='0; url=$url'>
-        </noscript>
-        HTML;
-            
-            print $zaza;
+            echo <<<HTML
+                <script type='text/javascript'>
+                window.open('$url', '_self');
+                </script>
+                <noscript>
+                    <meta http-equiv='refresh' content='0; url=$url'>
+                </noscript>
+            HTML;
         };
     
     } else {
-        print $nana;
-        print 'error..<br>';
-        print $output;
+        echo <<<HTML
+            $nana
+            error..<br>
+            $output
+        HTML;
     }
 };
 
