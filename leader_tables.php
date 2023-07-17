@@ -15,14 +15,12 @@ $camp_cat = $camp_to_cat[$camp] ?? '';
 
 function makeSqlQuery() {
     global $year, $camp, $project, $camp_cat;
-    $queryPart1Group = "
-        SELECT
+    $queryPart1Group = "SELECT
         p.target, p.cat, p.lang, p.word, YEAR(p.pupdate) AS pup_y, p.user, u.user_group
         FROM pages p, users u
     ";
 
-    $queryPart1 = "
-        SELECT
+    $queryPart1 = "SELECT
         p.target, p.cat, p.lang, p.word, YEAR(p.pupdate) AS pup_y, p.user,
         (SELECT u.user_group FROM users u WHERE p.user = u.username) AS user_group
         FROM pages p
