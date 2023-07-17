@@ -62,4 +62,3 @@ function set_configs_all_file($file, $contact) {
     file_put_contents($_dir . $file, json_encode($contact, JSON_PRETTY_PRINT));
 };
 //---
-?>
