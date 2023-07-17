@@ -13,48 +13,48 @@ if ($camp == 'all' && isset($_REQUEST['cat'])) {
 }
 $camp_cat = $camp_to_cat[$camp] ?? '';
 
-function make_sql_query() {
+function makeSqlQuery() {
     global $year, $camp, $project, $camp_cat;
-    $qua_all_part1_group = "
+    $queryPart1Group = "
         SELECT
         p.target, p.cat, p.lang, p.word, YEAR(p.pupdate) AS pup_y, p.user, u.user_group
         FROM pages p, users u
     ";
 
-    $qua_all_part1 = "
+    $queryPart1 = "
         SELECT
-        p.target, p.cat, p.lang, p.word, YEAR(p.pupdate) AS pup_y, p.user, 
+        p.target, p.cat, p.lang, p.word, YEAR(p.pupdate) AS pup_y, p.user,
         (SELECT u.user_group FROM users u WHERE p.user = u.username) AS user_group
         FROM pages p
     ";
 
-    $qua_all_part2 = "
+    $queryPart2 = "
         WHERE p.target != ''
     ";
 
     if ($camp != 'all' && $camp_cat != '') {
-        $qua_all_part2 .= "AND p.cat = '$camp_cat' \n";
+        $queryPart2 .= "AND p.cat = '$camp_cat' \n";
     }
 
     if ($year != 'all') {
-        $qua_all_part2 .= "AND YEAR(p.pupdate) = '$year' \n";
+        $queryPart2 .= "AND YEAR(p.pupdate) = '$year' \n";
     }
 
     if ($project != 'all') {
-        $qua_all_part1 = $qua_all_part1_group;
-        $qua_all_part2 .= "AND p.user = u.username \n";
-        $qua_all_part2 .= "AND u.user_group = '$project' \n";
+        $queryPart1 = $queryPart1Group;
+        $queryPart2 .= "AND p.user = u.username \n";
+        $queryPart2 .= "AND u.user_group = '$project' \n";
     }
 
-    $qua_all = $qua_all_part1 . $qua_all_part2;
+    $query = $queryPart1 . $queryPart2;
 
     if (isset($_REQUEST['test'])) {
-        echo $qua_all;
+        echo $query;
     }
-    return $qua_all;
+    return $query;
 }
 //---
-$qua_all = make_sql_query();
+$qua_all = makeSqlQuery();
 
 $Words_total = 0;
 $Articles_numbers = 0;
