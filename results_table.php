@@ -1,32 +1,30 @@
 <?PHP
 //---
 function sort_py_PageViews($items, $en_views_tab) {
-    $dd = array();
-    foreach ( $items AS $t ) {
-        $t = str_replace ( '_' , ' ' , $t );
-        $kry = $en_views_tab[$t] ?? 0; 
+    $dd = [];
+    foreach ($items as $t) {
+        $t = str_replace('_', ' ', $t);
+        $kry = $en_views_tab[$t] ?? 0;
         $dd[$t] = $kry;
-    };
+    }
     arsort($dd);
     return $dd;
-};
-//---
+}
+
 function sort_py_importance($items, $Assessments_table, $Assessments_fff) {
-    //---
     $empty = $Assessments_fff['Unknown'] ?? '';
-    //---
-    $dd = array();
-    foreach ( $items AS $t ) {
-        $t = str_replace ( '_' , ' ' , $t );
+    $dd = [];
+    foreach ($items as $t) {
+        $t = str_replace('_', ' ', $t);
         $aa = $Assessments_table[$t] ?? null;
         if (isset($aa)) {
             $kry = $Assessments_fff[$aa] ?? $empty;
-        };
+        }
         $dd[$t] = $kry;
-    };
+    }
     arsort($dd);
     return $dd;
-};
+}
 //---
 function make_results_table($items, $cod, $cat, $words_tab, $ref_tab, $Imps_tab, $Assessments_fff, $tra_type, $en_views_tab, $tra_btn, $sql_qids, $inprocess=false ) {
 
@@ -117,42 +115,32 @@ function make_results_table($items, $cod, $cat, $words_tab, $ref_tab, $Imps_tab,
             };
         };
         //---
-        $nq_ths = <<<HTML
-            <div class="d-table-row">
-                <span class="d-table-cell px-2" style="color:#54667a;">Views</span>
-                <span class="d-table-cell px-2" style='font-weight: normal;'>$pageviews</span>
-            </div>
-            <div class="d-table-row">
-
-                <span class="d-table-cell px-2" style="color:#54667a;">Importance</span>
-                <span class="d-table-cell px-2" style='font-weight: normal;'>$asse</span>
-            </div>
-            <div class="d-table-row">
-                <span class="d-table-cell px-2" style="color:#54667a;">Words</span>
-                <span class="d-table-cell px-2" style='font-weight: normal;'>$word</span>
-            </div>
-            <div class="d-table-row">
-                <span class="d-table-cell px-2" style="color:#54667a;">Refs.</span>
-                <span class="d-table-cell px-2" style='font-weight: normal;'>$refs</span>
-            </div>
-            <div class="d-table-row">
-                <span class="d-table-cell px-2" style="color:#54667a;">Qid</span>
-                <span class="d-table-cell px-2" style='font-weight: normal;'>$qid</span>
-            </div>
-        HTML;
-        //---
+        // Define an array to store the values
+        $data = array(
+            array("Views", $pageviews),
+            array("Importance", $asse),
+            array("Words", $word),
+            array("Refs.", $refs),
+            array("Qid", $qid)
+        );
         if ( $inprocess ) {
-            $nq_ths .= <<<HTML
-            <div class="d-table-row">
-                <span class="d-table-cell px-2" style="color:#54667a;">User</span>
-                <span class="d-table-cell px-2" style='font-weight: normal;'>$_user_</span>
-            </div>
-            <div class="d-table-row">
-                <span class="d-table-cell px-2" style="color:#54667a;">Date</span>
-                <span class="d-table-cell px-2" style='font-weight: normal;'>$_date_</span>
-            </div>
-            HTML;
+            // add User : $_user_ and Date : $_date_
+            $data[] = array("User", $_user_);
+            $data[] = array("Date", $_date_);
         };
+
+        // Initialize an empty string to store the generated HTML
+        $nq_ths = '';
+
+        // Loop through the array and generate the HTML
+        foreach ($data as $item) {
+            $nq_ths .= <<<HTML
+                <div class="d-table-row">
+                    <span class="d-table-cell px-2" style="color:#54667a;">{$item[0]}</span>
+                    <span class="d-table-cell px-2" style='font-weight: normal;'>{$item[1]}</span>
+                </div>
+            HTML;
+        }
         //---
         $nq = <<<HTML
             <div class="d-table table-striped">
@@ -198,3 +186,4 @@ function make_results_table($items, $cod, $cat, $words_tab, $ref_tab, $Imps_tab,
     }
 
 ?>
+
