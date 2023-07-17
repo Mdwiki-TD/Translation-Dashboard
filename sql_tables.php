@@ -32,4 +32,24 @@ foreach ( execute_query('select id, title, displayed, value, Type from settings;
     $settings[$table['title']] = $table;
 }
 //---
+
+function make_views_by_target() {
+    $vta = array();
+
+    $qua_vi = "
+    SELECT target, countall, count2021, count2022, count2023
+    FROM views;
+    ";
+
+    foreach (execute_query($qua_vi) as $k => $tab) {
+        $vta[$tab['target']] = array(
+            'all'  => $tab['countall'],
+            '2021' => $tab['count2021'],
+            '2022' => $tab['count2022'],
+            '2023' => $tab['count2023']
+        );
+    }
+    return $vta;
+}
+//---
 ?>

@@ -11,45 +11,50 @@ $project = $_REQUEST['project'] ?? 'all';
 if ($camp == 'all' && isset($_REQUEST['cat'])) {
     $camp = $cat_to_camp[$_REQUEST['cat']] ?? 'all';
 }
-
 $camp_cat = $camp_to_cat[$camp] ?? '';
 
-$qua_all_part1_group = "
-    SELECT
-    p.target, p.cat, p.lang, p.word, YEAR(p.pupdate) AS pup_y, p.user, u.user_group
-    FROM pages p, users u
-";
+function make_sql_query() {
+    global $year, $camp, $project, $camp_cat;
+    $qua_all_part1_group = "
+        SELECT
+        p.target, p.cat, p.lang, p.word, YEAR(p.pupdate) AS pup_y, p.user, u.user_group
+        FROM pages p, users u
+    ";
 
-$qua_all_part1 = "
-    SELECT
-    p.target, p.cat, p.lang, p.word, YEAR(p.pupdate) AS pup_y, p.user, 
-    (SELECT u.user_group FROM users u WHERE p.user = u.username) AS user_group
-    FROM pages p
-";
+    $qua_all_part1 = "
+        SELECT
+        p.target, p.cat, p.lang, p.word, YEAR(p.pupdate) AS pup_y, p.user, 
+        (SELECT u.user_group FROM users u WHERE p.user = u.username) AS user_group
+        FROM pages p
+    ";
 
-$qua_all_part2 = "
-    WHERE p.target != ''
-";
+    $qua_all_part2 = "
+        WHERE p.target != ''
+    ";
 
-if ($camp != 'all' && $camp_cat != '') {
-    $qua_all_part2 .= "AND p.cat = '$camp_cat' \n";
+    if ($camp != 'all' && $camp_cat != '') {
+        $qua_all_part2 .= "AND p.cat = '$camp_cat' \n";
+    }
+
+    if ($year != 'all') {
+        $qua_all_part2 .= "AND YEAR(p.pupdate) = '$year' \n";
+    }
+
+    if ($project != 'all') {
+        $qua_all_part1 = $qua_all_part1_group;
+        $qua_all_part2 .= "AND p.user = u.username \n";
+        $qua_all_part2 .= "AND u.user_group = '$project' \n";
+    }
+
+    $qua_all = $qua_all_part1 . $qua_all_part2;
+
+    if (isset($_REQUEST['test'])) {
+        echo $qua_all;
+    }
+    return $qua_all;
 }
-
-if ($year != 'all') {
-    $qua_all_part2 .= "AND YEAR(p.pupdate) = '$year' \n";
-}
-
-if ($project != 'all') {
-    $qua_all_part1 = $qua_all_part1_group;
-    $qua_all_part2 .= "AND p.user = u.username \n";
-    $qua_all_part2 .= "AND u.user_group = '$project' \n";
-}
-
-$qua_all = $qua_all_part1 . $qua_all_part2;
-
-if (isset($_REQUEST['test'])) {
-    echo $qua_all;
-}
+//---
+$qua_all = make_sql_query();
 
 $Words_total = 0;
 $Articles_numbers = 0;
@@ -59,21 +64,8 @@ $Users_word_table = array();
 $sql_Languages_tab = array();
 $all_views_by_lang = array();
 $Views_by_users = array();
-$Views_by_target = array();
 
-$qua_vi = "
-SELECT target, countall, count2021, count2022, count2023
-FROM views;
-";
-
-foreach (execute_query($qua_vi) as $k => $tab) {
-    $Views_by_target[$tab['target']] = array(
-        'all'  => $tab['countall'],
-        '2021' => $tab['count2021'],
-        '2022' => $tab['count2022'],
-        '2023' => $tab['count2023']
-    );
-}
+$Views_by_target = make_views_by_target();
 
 foreach (execute_query($qua_all) as $Key => $teb) {
     $cat = $teb['cat'];
