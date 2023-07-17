@@ -29,29 +29,52 @@ $nana = <<<HTML
 if (isset($_GET['form'])) echo $nana;
 
 function start_trans_py($title, $test, $fixref, $tra_type) {
-    
-    $title2 = $title;
-    $title2 = rawurlencode(str_replace ( ' ' , '_' , $title2 ) );
-    
+    $title2 = rawurlencode(str_replace(' ', '_', $title));
     $dir = 'I:/mdwiki';
     
-    if ( strpos( __file__ , '/mnt/' ) === 0 )  $dir = "/mnt/nfs/labstore-secondary-tools-project/mdwiki";
-    if ( strpos( __file__ , '/data/' ) === 0 ) $dir = "/data/project/mdwiki";
+    if (strpos(__file__, '/mnt/') === 0) {
+        $dir = '/mnt/nfs/labstore-secondary-tools-project/mdwiki';
+    }
+    if (strpos(__file__, '/data/') === 0) {
+        $dir = '/data/project/mdwiki';
+    }
     
-    $dd = "python3 $dir/TDpynew/translate.py -title:$title2" ;
-    if ($fixref != '' ) $dd = $dd . ' fixref';
-      
-    if ($tra_type == 'all' ) $dd = $dd . ' wholearticle';
-      
-    if ($test != "") { print $dd . '<br>'; } ; 
-      
-    $command = escapeshellcmd( $dd );
+    $dd = "python3 $dir/TDpynew/translate.py -title:$title2";
+    if ($fixref !== '') {
+        $dd .= ' fixref';
+    }
+    
+    if ($tra_type === 'all') {
+        $dd .= ' wholearticle';
+    }
+    
+    if ($test !== '') echo "$dd<br>";
+    
+    $command = escapeshellcmd($dd);
     $output = shell_exec($command);
-      
+    
     return $output;
-};
+}
 
 $useree  = (global_username != '') ? global_username : $_REQUEST['username'];
+function insertPage($title_o, $word, $tr_type, $cat, $coden, $useree, $test) {
+
+    $quae_new = <<<SQL
+        INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target, add_date)
+        SELECT '$title_o', '$word', '$tr_type', '$cat', '$coden', now(), '$useree', '', '', now()
+        WHERE NOT EXISTS
+            (SELECT 1
+            FROM pages 
+            WHERE title = '$title_o'
+            AND lang = '$coden'
+            AND user = '$useree'
+            )
+    SQL;
+
+    if ($test != '') echo "<br>$quae_new<br>";
+
+    execute_query($quae_new);
+}
 
 if ($title_o != '' && $coden != '' && $useree != '' ) {
     
@@ -79,30 +102,10 @@ if ($title_o != '' && $coden != '' && $useree != '' ) {
     if ($tr_type == 'all') { 
         $word = $All_Words_table[$title_o] ?? 0;
     };
+
     
-    $date = date('Y-m-d');
-    
-    $quae = <<<SQL
-		INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target, add_date)
-		VALUES ('$title_o', '$word', '$tr_type', '$cat', '$coden', now(), '$useree', '', '', now())
-		SQL;
-    
-    $quae_new = <<<SQL
-        INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target, add_date)
-        SELECT '$title_o', '$word', '$tr_type', '$cat', '$coden', now(), '$useree', '', '', now()
-        WHERE NOT EXISTS
-            (SELECT 1
-            FROM pages 
-                    WHERE title = '$title_o'
-                    AND lang = '$coden'
-                    AND user = '$useree'
-            )
-    SQL;
-    
-    if ($test != '') echo "<br>$quae_new<br>";
-    
-    $uxx = execute_query($quae_new);
-    
+    insertPage($title_o, $word, $tr_type, $cat, $coden, $useree, $test);
+
     $output = start_trans_py($title_o,$test,$fixref,$tr_type);
     
     if (trim($output) == 'true' || isset($_REQUEST['go'])) {
