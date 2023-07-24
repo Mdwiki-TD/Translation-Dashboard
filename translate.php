@@ -3,7 +3,14 @@
 require('header.php');
 require('tables.php');
 include_once('functions.php');
-
+$dir = 'I:/mdwiki';
+    
+if (strpos(__file__, '/mnt/') === 0) {
+    $dir = '/mnt/nfs/labstore-secondary-tools-project/mdwiki';
+}
+if (strpos(__file__, '/data/') === 0) {
+    $dir = '/data/project/mdwiki';
+}
 $coden = strtolower($_REQUEST['code']);
 $title_o = $_REQUEST['title'];
 
@@ -31,16 +38,12 @@ $nana = <<<HTML
 if (isset($_GET['form'])) echo $nana;
 
 function start_trans_py($title, $test, $fixref, $tra_type) {
-    $title2 = rawurlencode(str_replace(' ', '_', $title));
-    $dir = 'I:/mdwiki';
-    
-    if (strpos(__file__, '/mnt/') === 0) {
-        $dir = '/mnt/nfs/labstore-secondary-tools-project/mdwiki';
-    }
-    if (strpos(__file__, '/data/') === 0) {
-        $dir = '/data/project/mdwiki';
-    }
-    
+    global $dir;
+    $title2 = str_replace(' ', '_', $title);
+    //---
+    $title2 = rawurlencode($title2);
+    // $title2 = addslashes($title2);
+    //---
     $dd = "python3 $dir/TDpynew/translate.py -title:$title2";
     if ($fixref !== '') {
         $dd .= ' fixref';
@@ -60,6 +63,10 @@ function start_trans_py($title, $test, $fixref, $tra_type) {
 
 function insertPage($title_o, $word, $tr_type, $cat, $coden, $useree, $test) {
 
+    $useree  = escape_string($useree);
+    $cat     = escape_string($cat);
+    $title_o = escape_string($title_o);
+    
     $quae_new = <<<SQL
         INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target, add_date)
         SELECT '$title_o', '$word', '$tr_type', '$cat', '$coden', now(), '$useree', '', '', now()
@@ -91,9 +98,6 @@ if ($title_o != '' && $coden != '' && $useree != '' ) {
     $useree  = rawurldecode($useree);
     $cat     = rawurldecode($cat);
     $title_o = rawurldecode($title_o);
-    
-    $user2  = rawurlencode(str_replace ( ' ' , '_' , $useree ));
-    $cat2   = ($cat != '') ? rawurlencode(str_replace ( ' ' , '_' , $cat )) : '';
     
     $word = $Words_table[$title_o] ?? 0; 
     
@@ -131,11 +135,16 @@ if ($title_o != '' && $coden != '' && $useree != '' ) {
             HTML;
         };
     
+    } elseif (trim($output) == 'notext') {
+        $li = make_mdwiki_title($title_o);
+        echo <<<HTML
+            $nana
+            page: $li has no text..<br>
+        HTML;
     } else {
         echo <<<HTML
             $nana
-            error..<br>
-            $output
+            error..<br>($output)
         HTML;
     }
 };

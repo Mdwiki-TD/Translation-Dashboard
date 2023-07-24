@@ -14,7 +14,24 @@ include_once 'actions/html.php';
 include_once 'actions/wiki_api.php';
 include_once 'actions/mdwiki_api.php';
 include_once 'actions/mdwiki_sql.php';
+function escape_string($unescaped_string) {
+    // Alternative mysql_real_escape_string without mysql connection
+    $replacementMap = [
+        "\0" => "\\0",
+        "\n" => "",
+        "\r" => "",
+        "\t" => "",
+        chr(26) => "\\Z",
+        chr(8) => "\\b",
+        '"' => '\"',
+        "'" => "\'",
+        '_' => "\_",
+        "%" => "\%",
+        '\\' => '\\\\'
+    ];
 
+    return \strtr($unescaped_string, $replacementMap);
+}
 function strstartswithn($text, $word) {
     return strpos($text, $word) === 0;
 }
