@@ -18,7 +18,8 @@ function print_cat_table(): string {
         count($sql_Languages_tab), 
         number_format($global_views)
     );
-    $numbersCol = makeColSm4('Numbers', $numbersTable, $numb = '3');
+    $gg = print_graph();
+    $numbersCol = makeColSm4('Numbers', $numbersTable . "<br>" . $gg, $numb = '3');
     $usersTable = makeUsersTable();
     $usersCol = makeColSm4('Top users by number of translation', $usersTable, $numb = '5');
 
@@ -46,6 +47,7 @@ $colg3 = 'col-md-3 col-sm-3';
 $colg2 = 'col-md-2 col-sm-3';
 // $col_lg_1 = 'col-md-1 col';
 //---
+
 $d33 = <<<HTML
 <div class="$colg3">
     <div class="form-group">

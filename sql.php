@@ -67,11 +67,6 @@ include_once('td_config.php');
 $ini = Read_ini_file('OAuthConfig.ini');
 include_once('functions.php');
 //---
-if (!in_array(global_username, $usrs)) {
-	echo "<meta http-equiv='refresh' content='0; url=index.php'>";
-	exit;
-};
-//---
 $sqlpass = $ini['sqlpass'];
 //---
 $pass = $_REQUEST['pass'] ?? '';
@@ -81,6 +76,11 @@ $raw  = $_REQUEST['raw'] ?? '';
 if ( $raw == '' ) {
     require('header.php');
     //---
+	if (!in_array(global_username, $usrs)) {
+		echo "<meta http-equiv='refresh' content='0; url=index.php'>";
+		exit;
+	};
+	//---
     $quu = "SELECT A.id from pages A, pages B where A.target = '' and A.lang = B.lang and A.title = B.title and B.target != '';";
     //---
     $quaa = $qua ? $qua : $quu ;

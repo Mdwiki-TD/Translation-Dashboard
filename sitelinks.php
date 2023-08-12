@@ -16,7 +16,7 @@ echo <<<HTML
     </form>
 </div>
 <div style='box-sizing:border-box;'>
-<table class='table table-striped compact soro2' id='table-1'>
+<table class='table table-striped compact sortable' id='table-1'>
     <thead>
         <tr>
             <th>#</th>

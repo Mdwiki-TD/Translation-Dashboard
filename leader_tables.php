@@ -101,7 +101,7 @@ foreach (execute_query($qua_all) as $Key => $teb) {
 }
 function createNumbersTable($c_user, $c_articles, $c_words, $c_langs, $c_views) {
     $Numbers_table = <<<HTML
-    <table class="sortable table table-striped"> <!-- scrollbody -->
+    <table class='table table-striped sortable'>
     <thead>
         <tr>
             <th class="spannowrap">Type</th>
@@ -125,7 +125,7 @@ function makeUsersTable() {
     global $sql_users_tab, $Users_word_table, $Views_by_users;
     
     $text = <<<HTML
-    <table class="sortable table table-striped">
+    <table class='table table-striped sortable'>
         <thead>
             <tr>
                 <th class="spannowrap">#</th>
@@ -182,7 +182,7 @@ function makeLangTable() {
     $cac = ($addcat == true ) ? '<th>cat</th>' : '';
     
     $text = <<<HTML
-    <table class='sortable table table-striped'>
+    <table class='table table-striped sortable'>
     <thead>
         <tr>
             <th>#</th>

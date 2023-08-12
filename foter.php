@@ -21,6 +21,12 @@
 		window.location.href = url;
 	}
 
+	$('.sortable').DataTable({
+		paging: false,
+		info: false,
+		searching: false
+	});
+	
 	$(document).ready(function() {
 		// Call to_get() function
 		to_get();
@@ -28,12 +34,6 @@
 		$('[data-toggle="tooltip"]').tooltip();
 
 		setTimeout(function() {
-			$('.soro2').DataTable({
-				paging: false,
-				info: false,
-				searching: false
-			});
-
 			$('.soro').DataTable({
 				lengthMenu: [
 					[25, 50, 100, 200],

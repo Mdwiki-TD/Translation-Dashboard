@@ -4,7 +4,7 @@ function make_sql_result($qua, $raw) {
 	$uu = execute_query($qua);
     //---
     $start = <<<HTML
-    <table class="table table-striped soro2">
+    <table class="table table-striped sortable">
         <thead>
             <tr>
                 <th>#</th>

@@ -12,7 +12,7 @@
 	<title>Wiki Project Med Translation Dashboard</title>
 <?php
 //---
-if ($_REQUEST['test'] != '' || $_SERVER['SERVER_NAME'] == 'localhost') {
+if (isset($_REQUEST['test'])) {
 	ini_set('display_errors', 1);
 	ini_set('display_startup_errors', 1);
 	error_reporting(E_ALL);
@@ -55,8 +55,9 @@ function print_head() {
 		<script src="$hoste/ajax/libs/bootstrap-select/1.14.0-beta3/js/bootstrap-select.min.js"></script>
 
 		<script type="module" src="/Translation_Dashboard/js/color-modes.js"></script>
-		<script src='/Translation_Dashboard/js/sorttable.js'></script>
+		<!-- <script src='/Translation_Dashboard/js/sorttable.js'></script> -->
 		<script src='/Translation_Dashboard/js/to.js'></script>
+		<script src='/Translation_Dashboard/plugins/chart.js/Chart.min.js'></script>
 
 		<style> 
 		a {
@@ -84,6 +85,8 @@ if (in_array(global_username, $usrs)) {
 };
 //---
 define('user_in_coord', $user_in_coord);
+//---
+$testsline = '';
 //---
 if (user_in_coord == true) {
 	$testsline = <<<HTML
