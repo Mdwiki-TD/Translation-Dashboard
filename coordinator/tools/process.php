@@ -20,6 +20,8 @@ function make_td($tabg, $nnnn) {
     $word     = $tabg['word'];
     $pupdate  = $tabg['date'] ?? '';
     //---
+    $talk_url = "//$llang.wikipedia.org/w/index.php?title=User_talk:$user&action=edit&section=new";
+    //---
     $lang2 = $code_to_lang[$llang] ?? $llang;
     //---
     // $ccat = make_cat_url( $cat );
@@ -30,17 +32,14 @@ function make_td($tabg, $nnnn) {
     $nana = make_mdwiki_title( $md_title );
     //---
     // $mail_params = array( 'user' => $user, 'lang' => $llang, 'date' => $date, 'title' => $md_title, 'nonav' => '1');
-    //---
     // $mail_url = "coordinator.php?ty=msg&" . http_build_query( $mail_params );
-    //---
 	// $onclick = 'pupwindow("' . $mail_url . '")';
-    //---
     // $mail = "<a class='btn btn-primary btn-sm' onclick='$onclick'>Email</a>";
     //---
     $laly = <<<HTML
         <tr>
             <td>$nnnn</td>
-            <td><a target='' href='leaderboard.php?user=$user'>$user</a></td>
+            <td><a target='' href='leaderboard.php?user=$user'>$user</a> (<a target="_blank" href="$talk_url">talk</a>)</td>
             <td><a target='' href='leaderboard.php?langcode=$llang'>$lang2</a></td>
             <td style='max-width:150px;'>$nana</td>
             <td>$ccat</td>
