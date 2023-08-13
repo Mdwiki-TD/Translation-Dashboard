@@ -28,7 +28,7 @@ $tat = <<<HTML
 
     HTML;
 //---
-$div3 = make_col_sm_body('Translate type:', '(Default: "lead")',$tat, $numb = '4');
+$div3 = make_col_sm_body('Translate type:', '(Default: "lead")',$tat, 4);
 echo $div3;
 //---
 ?>

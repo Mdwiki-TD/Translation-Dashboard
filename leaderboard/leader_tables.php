@@ -66,37 +66,31 @@ $Views_by_users = array();
 $Views_by_target = make_views_by_target();
 
 foreach (execute_query($qua_all) as $Key => $teb) {
-    $cat = $teb['cat'];
-    $lang = $teb['lang'];
-    $user = $teb['user'];
-    $tat = $teb['target'];
-    $word = $teb['word'];
+    $cat    = $teb['cat'];
+    $lang   = $teb['lang'];
+    $user   = $teb['user'];
+    $target = $teb['target'];
+    $word   = $teb['word'];
     
-    $coco = $Views_by_target[$tat][$year] ?? 0;
+    $coco = $Views_by_target[$target][$year] ?? 0;
     
     $Words_total += $word;
     $Articles_numbers += 1;
     $global_views += $coco;
     
     if (!isset($all_views_by_lang[$lang])) $all_views_by_lang[$lang] = 0;
-    
     $all_views_by_lang[$lang] += $coco;
     
     if (!isset($sql_Languages_tab[$lang])) $sql_Languages_tab[$lang] = 0;
-    
     $sql_Languages_tab[$lang] += 1;
     
     if (!isset($Users_word_table[$user])) $Users_word_table[$user] = 0;
-
-    
     $Users_word_table[$user] += $word;
     
     if (!isset($Views_by_users[$user])) $Views_by_users[$user] = 0;
-    
     $Views_by_users[$user] += $coco;
     
     if (!isset($sql_users_tab[$user])) $sql_users_tab[$user] = 0;
-    
     $sql_users_tab[$user] += 1;
 }
 function createNumbersTable($c_user, $c_articles, $c_words, $c_langs, $c_views) {
@@ -120,7 +114,7 @@ function createNumbersTable($c_user, $c_articles, $c_words, $c_langs, $c_views) 
     
     return $Numbers_table;
 };
-function makeUsersTable() {
+function makeUsersTable($min=2) {
     
     global $sql_users_tab, $Users_word_table, $Views_by_users;
     
@@ -143,9 +137,9 @@ function makeUsersTable() {
     $numb = 0;
     
     foreach ( $sql_users_tab as $user => $usercount ) {
-            
+            if ($usercount < $min && $numb > 15) continue;
             $numb += 1;
-            
+            $usercount = number_format($usercount);
             $views = isset($Views_by_users[$user]) ? number_format($Views_by_users[$user]) : 0;
             $words = isset($Users_word_table[$user]) ? number_format($Users_word_table[$user]) : 0;
             
@@ -165,7 +159,9 @@ function makeUsersTable() {
     
     $text .= <<<HTML
         </tbody>
-        <tfoot></tfoot>
+        <tfoot>
+
+        </tfoot>
     </table>
     HTML;
     
@@ -173,7 +169,7 @@ function makeUsersTable() {
 }
 function makeLangTable() {
     
-    global $lang_code_to_en, $code_to_lang, $sql_Languages_tab, $all_views_by_lang;
+    global $lang_code_to_en, $sql_Languages_tab, $all_views_by_lang;
     
     arsort($sql_Languages_tab);
     
@@ -201,30 +197,27 @@ function makeLangTable() {
         
         # Get the Articles numbers
         
-        if ( $comp > 0 ) {
-            
-            $numb ++;
-            
-            $langname  = isset($lang_code_to_en[$langcode]) ? "($langcode) " . $lang_code_to_en[$langcode] : $langcode;
-            
-            $view = $all_views_by_lang[$langcode] ?? 0;
-            $view = number_format($view);
-            
-            $cac = ($addcat == true ) ? '<td><a target="_blank" href="https://' . $langcode . '.wikipedia.org/wiki/Category:Translated_from_MDWiki">cat</a></td>' : '';
-            
-            if ($comp != 0) {
-                $text .= <<<HTML
-                    <tr>
-                        <td>$numb</td>
-                        <td><a href='leaderboard.php?langcode=$langcode'>$langname</a></td>
-                        <td>$comp</td>
-                        <td>$view</td>
-                        $cac
-                    </tr>
-                HTML;
-            };
-            
-        };
+        if ( $comp < 1 ) continue;
+        $comp = number_format($comp);
+        $numb ++;
+        
+        $langname  = isset($lang_code_to_en[$langcode]) ? "($langcode) " . $lang_code_to_en[$langcode] : $langcode;
+        
+        $view = number_format($all_views_by_lang[$langcode]) ?? 0;
+        $cach = <<<HTML
+            <td><a target="_blank" href="https://$langcode.wikipedia.org/wiki/Category:Translated_from_MDWiki">cat</a></td>
+        HTML;
+        if ($addcat != true) $cach = '';
+    
+        $text .= <<<HTML
+            <tr>
+                <td>$numb</td>
+                <td><a href='leaderboard.php?langcode=$langcode'>$langname</a></td>
+                <td>$comp</td>
+                <td>$view</td>
+                $cach
+            </tr>
+        HTML;
     };
     
     $text .= <<<HTML

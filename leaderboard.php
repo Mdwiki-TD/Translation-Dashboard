@@ -12,23 +12,18 @@ require 'langcode.php';
 require 'tables.php';
 include_once 'functions.php';
 
+require 'leaderboard/graph.php';
 include_once 'sql_tables.php'; // $sql_qids $cat_titles $cat_to_camp $camp_to_cat
 
 $users = $_REQUEST['user'] ?? '';
 $langs = $_REQUEST['langcode'] ?? '';
 $graph = $_REQUEST['graph'] ?? '';
-require 'leaderboard/graph.php';
 if ($users !== '') {
     require 'leaderboard/users.php';
 } elseif ($langs !== '') {
     require 'leaderboard/langs.php';
 } elseif ($graph !== '') {
-    $g = print_graph();
-    echo <<<HTML
-        <div class="container">
-            $g
-        </div>
-    HTML;
+    print_graph_tab();
 } else {
     require 'leaderboard/index.php';
 }

@@ -6,7 +6,7 @@ if (isset($_REQUEST['test'])) {
     error_reporting(E_ALL);
 };
 //---
-require 'leader_tables.php';
+require 'Leaderboard/leader_tables.php';
 //---
 function print_cat_table(): string {
     global $sql_users_tab, $Articles_numbers, $Words_total, $sql_Languages_tab, $global_views;
@@ -19,12 +19,14 @@ function print_cat_table(): string {
         number_format($global_views)
     );
     $gg = print_graph();
-    $numbersCol = makeColSm4('Numbers', $numbersTable . "<br>" . $gg, $numb = '3');
+    // $numbersCol = makeColSm4('Numbers', $numbersTable . "<br>" . $gg, 3);
+    $numbersCol = makeColSm4('Numbers', $numbersTable, 3, $gg);
+
     $usersTable = makeUsersTable();
-    $usersCol = makeColSm4('Top users by number of translation', $usersTable, $numb = '5');
+    $usersCol = makeColSm4('Top users by number of translation', $usersTable, 5);
 
     $languagesTable = makeLangTable();
-    $languagesCol = makeColSm4('Top languages by number of Articles', $languagesTable, $numb = '4');
+    $languagesCol = makeColSm4('Top languages by number of Articles', $languagesTable, 4);
        
     return <<<HTML
         <br>

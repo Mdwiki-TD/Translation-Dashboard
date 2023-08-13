@@ -72,9 +72,10 @@ function makeDropdown($tab, $cat, $id, $add) {
 	$sel_line = "";
 	//---
     if ($add != '' ) {
+        $add2 = ($add == 'all') ? 'All' : $add;
 	    $sel = "";
 	    if ( $cat == $add ) $sel = "celected";
-        $sel_line = "<option value='$add' $sel>$add</option>";
+        $sel_line = "<option value='$add' $sel>$add2</option>";
     }
 	//---
     return <<<HTML
@@ -85,7 +86,7 @@ function makeDropdown($tab, $cat, $id, $add) {
     HTML;
 };
 //---
-function makeColSm4($title, $table, $numb = '4') {
+function makeColSm4($title, $table, $numb=4, $table2='') {
     return <<<HTML
     <div class="col-md-$numb">
         <div class="card">
@@ -98,23 +99,24 @@ function makeColSm4($title, $table, $numb = '4') {
             <!-- <div class="card-footer"></div> -->
         </div>
         <br>
+    $table2
     </div>
     HTML;
 };
 //---
-function make_col_sm_body($title, $subtitle, $table, $numb = '4') {
+function make_col_sm_body($title, $subtitle, $table, $numb=4) {
     return <<<HTML
-        <div class="col-md-$numb">
-            <div class="card">
-                <div class="card-header aligncenter1">
-                    <span style="font-weight:bold;">$title</span> $subtitle
-                </div>
-                <div class="card-body card2">
-                    $table
-                </div>
+    <div class="col-md-$numb">
+        <div class="card">
+            <div class="card-header aligncenter1">
+                <span style="font-weight:bold;">$title</span> $subtitle
             </div>
-            <br>
+            <div class="card-body card2">
+                $table
+            </div>
         </div>
+        <br>
+    </div>
     HTML;
 };
 //---
