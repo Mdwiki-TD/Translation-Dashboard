@@ -137,7 +137,7 @@ function makeUsersTable($min=2) {
     $numb = 0;
     
     foreach ( $sql_users_tab as $user => $usercount ) {
-            if ($usercount < $min && $numb > 15) continue;
+            // if ($usercount < $min && $numb > 15) continue;
             $numb += 1;
             $usercount = number_format($usercount);
             $views = isset($Views_by_users[$user]) ? number_format($Views_by_users[$user]) : 0;

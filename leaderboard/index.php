@@ -6,7 +6,7 @@ if (isset($_REQUEST['test'])) {
     error_reporting(E_ALL);
 };
 //---
-require 'Leaderboard/leader_tables.php';
+require 'leaderboard/leader_tables.php';
 //---
 function print_cat_table(): string {
     global $sql_users_tab, $Articles_numbers, $Words_total, $sql_Languages_tab, $global_views;
