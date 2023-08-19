@@ -17,12 +17,14 @@ function make_settings_tab($tabe) {
     global $nn;
     //---
     $tab = <<<HTML
-            <table class='table' style='font-size:95%;width:100%;'>
-                <tr>
-                    <th>#</th>
-                    <th>Option</th>
-                    <th>Value</th>
-                </tr>
+            <table class='table table-striped compact table-mobile-responsive table-mobile-sided' style='font-size:95%;width:100%;'>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Option</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
                 <tbody>
     HTML;
     //---
@@ -52,13 +54,15 @@ function make_settings_tab($tabe) {
         $tr = <<<HTML
             <tr>
                 <input name='se[]' value='$nn' hidden/>
-                <td data-order='$nn'>$nn<input name='id_$nn' value='$id' hidden/></td>
-                <td>
+                <td data-order='$nn' data-content='#'>
+                    $nn<input name='id_$nn' value='$id' hidden/>
+                </td>
+                <td data-content='Option'>
                     $displayed
                     <input class='form-control' name='title_$nn' value='$title' hidden/>
                     <input class='form-control' name='displayed_$nn' value='$displayed' hidden/>
                 </td>
-                <td>
+                <td data-content='Value'>
                     $value_line
                     <input class='form-control' name='type_$nn' value='$type' hidden/>
                 </td>

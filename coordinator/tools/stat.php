@@ -48,21 +48,21 @@ $fa = <<<HTML
 HTML;
 //---
 $table = <<<HTML
-	<table class='table table-striped compact soro'>
-	<thead>
-		<tr>
-			<th>#</th>
-			<th>title</th>
-			<th>qid</th>
-			<th>lead word</th>
-			<th>all word</th>
-			<th>ref</th>
-			<th>all ref</th>
-			<th>Importance</th>
-			<th>enwiki views</th>
-		</tr>
-	</thead>
-	<tbody>
+	<table class='table table-striped compact soro table-mobile-responsive table-mobile-sided'>
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>title</th>
+				<th>qid</th>
+				<th>lead word</th>
+				<th>all word</th>
+				<th>ref</th>
+				<th>all ref</th>
+				<th>Importance</th>
+				<th>enwiki views</th>
+			</tr>
+		</thead>
+		<tbody>
 	HTML;
 //---
 $titles = get_mdwiki_cat_members($cat, $use_cash=true, $depth=1);
@@ -106,15 +106,24 @@ foreach ($titles as $title) {
 	//---
 	$table .= <<<HTML
 	<tr>
-		<td>$i</td>
-		<td><a href='https://mdwiki.org/wiki/$title'>$title</a></td>
-		<td>$qidurl</td>
-		<td>$word</td>
-		<td>$allword</td>
-		<td>$refs</td>
-		<td>$all_refs</td>
-		<td>$asse</td>
-		<td><a href='https://en.wikipedia.org/w/api.php?action=query&prop=pageviews&titles=$title&redirects=1&pvipdays=30'>$pv</a></td>
+		<td data-content='#'>
+			$i</td>
+		<td data-content='Title'>
+			<a href='https://mdwiki.org/wiki/$title'>$title</a></td>
+		<td data-content='Qid'>
+			$qidurl</td>
+		<td data-content='Lead Word'>
+			$word</td>
+		<td data-content='All Word'>
+			$allword</td>
+		<td data-content='Ref'>
+			$refs</td>
+		<td data-content='All Ref'>
+			$all_refs</td>
+		<td data-content='Importance'>
+			$asse</td>
+		<td data-content='enwiki views'>
+			<a href='https://en.wikipedia.org/w/api.php?action=query&prop=pageviews&titles=$title&redirects=1&pvipdays=30'>$pv</a></td>
 	</tr>
 	HTML;
 }

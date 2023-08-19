@@ -10,7 +10,7 @@
 $sato = <<<HTML
 <form action="coordinator.php?ty=wikirefs_options" method="POST">
     <input name="ty" value="wikirefs_options" hidden/>
-    <table id="em2" class="table table-sm table-striped" style="font-size:90%;">
+    <table id="em2" class="table table-sm table-striped table-mobile-responsive table-mobile-sided" style="font-size:90%;">
         <thead>
             <tr>
                 <th>#</th>
@@ -43,27 +43,29 @@ function make_td($lang, $tabg, $numb) {
     //---
     $laly = <<<HTML
         <tr>
-            <td>$numb</td>
-            <td>
-                <span>$lang</span>
+            <td data-content='#'>
+                $numb
+            </td>
+            <td data-content='#'>
+                <span>Lang.</span>
                 <input name='lang[]$numb' value='$lang' hidden/>
             </td>
-            <td>
+            <td data-content='Move dots'>
                 <div class='form-check form-switch'>
                     <input class='form-check-input' type='checkbox' name='move_dots[]$numb' value='$lang' $move_dots/>
                 </div>
             </td>
-            <td>
+            <td data-content='Expend infobox'>
                 <div class='form-check form-switch'>
                     <input class='form-check-input' type='checkbox' name='expend[]$numb' value='$lang' $expend2/>
                 </div>
             </td>
-            <td>
+            <td data-content='Add |language=en'>
                 <div class='form-check form-switch'>
                     <input class='form-check-input' type='checkbox' name='add_en_lang[]$numb' value='$lang' $add_en_lang/>
                 </div>
             </td>
-            <td>
+            <td data-content='Delete'>
                 <input type='checkbox' name='del[]$numb' value='$lang'>
             </td>
         </tr>
@@ -118,7 +120,7 @@ function add_row() {
 
 $(document).ready( function () {
 	$('#em2').DataTable({
-	    lengthMenu: [[50, 100], [50, 100]],
+	    lengthMenu: [[50, 100, 150], [50, 100, 150]],
         // paging: false,
         // searching: false
 	});

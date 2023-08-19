@@ -18,38 +18,32 @@ $conf = get_configs('conf.json');
 //---
 $allow_whole_translate = $settings['allow_type_of_translate']['value'] ?? '1';
 //---
-$code = $_REQUEST['code'] ?? '';
-//---
-if ($code == 'undefined') $code = "";
-//---
-$code = $lang_to_code[$code] ?? $code;
-$code_lang_name = $code_to_lang[$code] ?? ''; 
-//---
-$tra_type  = $_REQUEST['type'] ?? '';
-if ($allow_whole_translate == '0') $tra_type = 'lead';
-//---
-$cat = $_REQUEST['cat'] ?? '';
-//---
-if ($cat == "undefined") $cat = "RTT";
-//---
-$cat_ch = htmlspecialchars($cat, ENT_QUOTES);
-//---
 $catinput_depth = array();
 $catinput_list = array();
 //---
-$qq = execute_query('select category, display, depth from categories;');
+$main_cat = ''; # RTT
 //---
-$numb = 0;
-//---
-foreach ( $qq AS $Key => $table ) {
-    $numb += 1;
+foreach (execute_query('select category, display, depth, def from categories;') AS $Key => $table ) {
     $category = $table['category'];
-    $display = $table['display'];
+    $display  = $table['display'];
     $catinput_list[$display] = $category;
+    //---
+    $default  = $table['def'];
+    if ($default == 1 || $default == '1') $main_cat = $category;
     //---
     $catinput_depth[$category] = $table['depth'];
     //---
 };
+//---
+$req  = load_request();
+$code = $req['code'];
+$cat  = ($req['cat'] != '') ? $req['cat'] : $main_cat;
+$code_lang_name = $req['code_lang_name'];
+//---
+$tra_type  = $_REQUEST['type'] ?? '';
+if ($allow_whole_translate == '0') $tra_type = 'lead';
+//---
+$cat_ch = htmlspecialchars($cat, ENT_QUOTES);
 //---
 $depth  = $_REQUEST['depth'] ?? 1;
 $depth  = $depth * 1 ;
@@ -69,8 +63,6 @@ function print_form_start1() {
         $lead_checked = "";
         $all_checked = "checked";
     };
-    //---
-    $cate = $cat_ch != '' ? $cat_ch : 'RTT' ;
     //---
     $coco = $code_lang_name;
     if ( $coco == '') { $coco = $code ; };
@@ -125,7 +117,7 @@ function print_form_start1() {
     //---
     if ( global_username != '' ) $uiu = '<input type="submit" name="doit" class="btn btn-primary" value="Do it"/>';
     //---
-    $catinput = make_drop($catinput_list, $cate);
+    $catinput = make_drop($catinput_list, $cat_ch);
     //---
     $catinput = <<<HTML
         <select dir='ltr' name='cat' class='form-select' data-bs-theme="auto">

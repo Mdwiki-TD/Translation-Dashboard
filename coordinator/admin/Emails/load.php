@@ -35,18 +35,18 @@ echo <<<HTML
 	<form action="coordinator.php?ty=Emails" method="POST">
 		<input name='ty' value="Emails" hidden/>
 		<div class="form-group">
-			<table id='em' class='table table-striped compact'>
+			<table id='em' class='table table-striped compact table-mobile-responsive table-mobile-sided'>
 				<thead>
-				<tr>
-					<th>#</th>
-					<th>Username</th>
-					<th>Email</th>
-					<th></th>
-					<th>Project</th>
-					<th>Wiki</th>
-					<th>Live</th>
-					<th>Delete</th>
-				</tr>
+					<tr>
+						<th>#</th>
+						<th>Username</th>
+						<th>Email</th>
+						<th></th>
+						<th>Project</th>
+						<th>Wiki</th>
+						<th>Live</th>
+						<th>Delete</th>
+					</tr>
 				</thead>
 				<tbody id="tab_ma">
 	HTML;
@@ -119,28 +119,32 @@ foreach ( $sorted_array as $user_name => $d) {
 	//---
 	echo <<<HTML
 	<tr>
-		<td data-order='$numb'>$numb</td>
-		<td data-order='$user_name'>
+		<td data-order='$numb' data-content='#'>
+			$numb
+		</td>
+		<td data-order='$user_name' data-content='User name'>
 			<span><a href='leaderboard.php?user=$user_name'>$user_name</a></span>
 			<input name='username[]$numb' value='$user_name' hidden/>
 			<input name='id[]$numb' value='$id' hidden/>
 		</td>
-		<td data-order='$email' data-search='$email'>
+		<td data-order='$email' data-search='$email' data-content='Email'>
 			<input size='25' name='email[]$numb' value='$email'/>
 		</td>
-		<td>
+		<td data-content=''>
 			$mail_icon
 		</td>
-		<td data-order='$project' data-search='$project'>
+		<td data-order='$project' data-search='$project' data-content='Project'>
 			<select name='project[]$numb' class='form-select options'>$project_line</select>
 		</td>
-		<td data-order='$wiki' data-search='$wiki2'>
+		<td data-order='$wiki' data-search='$wiki2' data-content='Wiki'>
 			<input size='4' name='wiki[]$numb' value='$wiki'/>
 		</td>
-		<td data-order='$live'>
+		<td data-order='$live' data-content='Live'>
 			<span>$live</span>
 		</td>
-		<td><input type='checkbox' name='del[]$numb' value='$id'/> <label>delete</label></td>
+		<td data-content='Delete'>
+			<input type='checkbox' name='del[]$numb' value='$id'/> <label>delete</label>
+		</td>
 	</tr>
 	HTML;
 };
@@ -183,7 +187,7 @@ foreach ( $sorted_array as $user_name => $d) {
 		var t = $('#em').DataTable({
 		// order: [[5	, 'desc']],
 		// paging: false,
-		lengthMenu: [[25, 50, 100], [25, 50, 100]],
+		lengthMenu: [[50, 100, 150], [50, 100, 150]],
 		// scrollY: 800
 		});
 	} );

@@ -38,16 +38,24 @@ function make_td($tabg, $nnnn) {
     //---
     $laly = <<<HTML
         <tr>
-            <td>$nnnn</td>
-            <td><a target='' href='leaderboard.php?user=$user'>$user</a> (<a target="_blank" href="$talk_url">talk</a>)</td>
-            <td><a target='' href='leaderboard.php?langcode=$llang'>$lang2</a></td>
-            <td style='max-width:150px;'>$nana</td>
-            <td>$ccat</td>
-            <td>$date</td>
-            
-        HTML; 
-    //---
-    $laly .= <<<HTML
+            <td data-content="#">
+                $nnnn
+            </td>
+            <td data-content="User">
+                <a target='' href='leaderboard.php?user=$user'>$user</a> (<a target="_blank" href="$talk_url">talk</a>)
+            </td>
+            <td data-content="Lang.">
+                <a target='' href='leaderboard.php?langcode=$llang'>$lang2</a>
+            </td>
+            <td style='max-width:150px;' data-content="Title">
+                $nana
+            </td>
+            <td data-content="Campaign">
+                $ccat
+            </td>
+            <td data-content="Date">
+                $date
+            </td>
         </tr>
         HTML;
     //---
@@ -61,18 +69,18 @@ limit 100;
 $dd = execute_query($quaa);
 //---
 $sato = <<<HTML
-	<table class="table table-sm table-striped soro" style="font-size:90%;">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>User</th>
-            <th><span data-toggle="tooltip" title="Language">Lang.</span></th>
-            <th>Title</th>
-            <th>Campaign</th>
-            <th>Date</th>
-        </tr>
-    </thead>
-    <tbody>
+	<table class="table table-sm table-striped soro table-mobile-responsive table-mobile-sided" style="font-size:90%;">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>User</th>
+                <th><span data-toggle="tooltip" title="Language">Lang.</span></th>
+                <th>Title</th>
+                <th>Campaign</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
 HTML;
 //---
 $noo = 0;

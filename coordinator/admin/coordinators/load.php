@@ -5,12 +5,14 @@
 <form action="coordinator.php?ty=coordinators" method="POST">
 	<input name='ty' value="coordinators" hidden/>
 	  <div class="form-group">
-		<table class='table compact' style="width:50%;">
-			<tr>
-				<th>id</th>
-				<th>User</th>
-				<th>Delete</th>
-			</tr>
+		<table class='table table-striped compact table-mobile-responsive table-mobile-sided' style="width:50%;">
+			<thead>
+				<tr>
+					<th>id</th>
+					<th>User</th>
+					<th>Delete</th>
+				</tr>
+			</thead>
 			<tbody id="coo_tab">
 <?php
 //---
@@ -23,20 +25,21 @@ foreach ( $qq AS $Key => $table ) {
 	$ide	= $table['id'];
 	$usere	= $table['user'];
     //---
-	echo "
-	<tr>
-		<td>
-		<span><b>$ide</b></span>
-	  	<input name='id[]$numb' value='$ide' hidden/>
-	  </td>
-	  <td>
-		<span><a href='leaderboard.php?user=$usere'>$usere</a></span>
-	  	<input name='user[]$numb' value='$usere' hidden/>
-		</td>
-	  <td>
-	  	<input type='checkbox' name='del[]$numb' value='$ide'/> <label> delete</label>
-	  </td>
-	</tr>";
+	echo <<<HTML
+		<tr>
+			<td data-content="id">
+				<span><b>$ide</b></span>
+				<input name='id[]$numb' value='$ide' hidden/>
+			</td>
+			<td data-content="user">
+				<span><a href='leaderboard.php?user=$usere'>$usere</a></span>
+				<input name='user[]$numb' value='$usere' hidden/>
+			</td>
+			<td data-content="delete">
+				<input type='checkbox' name='del[]$numb' value='$ide'/> <label> delete</label>
+			</td>
+		</tr>
+	HTML;
 };
 //---
 ?>

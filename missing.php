@@ -35,7 +35,7 @@ foreach ( $langs as $code => $tabe ) {
 arsort( $Table );
 //---
 $text = <<<HTML
-<table class="table table-striped compact soro">
+<table class="table table-striped compact soro table-mobile-responsive table-mobile-sided">
     <thead>
         <tr>
         <th class="spannowrap">#</th>
@@ -73,11 +73,21 @@ foreach ( $Table as $langcode2 => $missing ) {
     //---
     $text .= <<<HTML
         <tr>
-            <td>$num</td>
-            <td>$langcode</td>
-            <td><a target="" href="https://$langcode.wikipedia.org">$langname</a></td>
-            <td>$exists</td>
-            <td><a target="" href="index.php?cat=RTT&depth=1&doit=Do+it&code=$langcode&type=all">$numb</a></td>
+            <th data-content="#">
+                $num
+            </th>
+            <td data-content="Language code">
+                $langcode
+            </td>
+            <td data-content="Language name">
+                <a target="" href="https://$langcode.wikipedia.org">$langname</a>
+            </td>
+            <td data-content="Exists Articles">
+                $exists
+            </td>
+            <td data-content="Missing Articles">
+                <a target="" href="index.php?cat=RTT&depth=1&doit=Do+it&code=$langcode&type=all">$numb</a>
+            </td>
         </tr>
         HTML;
 };

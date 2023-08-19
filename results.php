@@ -9,18 +9,13 @@ include_once('sql_tables.php');
 //---
 $doit = isset($_REQUEST['doit']);
 //---
-$code = $_REQUEST['code'] ?? '';
-//---
-if ($code == 'undefined') $code = "";
-//---
-$code = $lang_to_code[$code] ?? $code;
-$code_lang_name = $code_to_lang[$code] ?? ''; 
-//---
 $tra_type  = $_REQUEST['type'] ?? '';
 //---
-$cat = $_REQUEST['cat'] ?? '';
+$req  = load_request();
+$code = $req['code'];
+$cat  = $req['cat'];
+$code_lang_name = $req['code_lang_name'];
 //---
-if ($cat == "undefined") $cat = "RTT";
 //---
 $translation_button = $settings['translation_button_in_progress_table']['value'] ?? '0';
 if (global_username != 'James Heilman' && global_username != 'Mr. Ibrahem') $translation_button = '0';
@@ -52,6 +47,9 @@ if ($doit) {
     $len_of_exists_pages = $items['len_of_exists'];
     $items_missing       = $items['missing'];
     //---
+    test_print("len_of_exists_pages: $len_of_exists_pages<br>");
+    test_print("items_missing:" . count($items_missing) . "<br>");
+    //---
     $missing = array();
     foreach ( $items_missing as $key => $cca ) if (!in_array($cca, $missing)) $missing[] = $cca;
     //---
@@ -76,6 +74,13 @@ if ($doit) {
         $missing = array_diff($missing, array_keys($in_process));
     };
     //---
+    if (isset($doit) && global_test != '' ) {
+        //---
+        echo "_REQUEST code:" . isset($_REQUEST['code']) . "<br>";
+        echo "code:$code<br>";
+        echo "code_lang_name:$code_lang_name<br>";
+        //---
+    };
     $table = make_table($missing, $code, $cat) ;
     //---
     echo <<<HTML
@@ -108,13 +113,6 @@ if ($doit) {
         HTML;
     };
     //---
-    if (isset($doit) && global_test != '' ) {
-        //---
-        echo "_REQUEST code:" . isset($_REQUEST['code']) . "<br>";
-        echo "code:$code<br>";
-        echo "code_lang_name:$code_lang_name<br>";
-        //---
-    };
     echo '</div>';
 };
 //---

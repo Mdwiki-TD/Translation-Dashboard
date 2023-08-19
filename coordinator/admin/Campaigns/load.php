@@ -5,14 +5,17 @@
 <form action="coordinator.php?ty=Campaigns" method="POST">
 	<input name='ty' value="Campaigns" hidden/>
 		<div class="form-group">
-			<table class='table compact'>
-				<tr>
-					<th>#</th>
-					<th>Category</th>
-					<th>Campaign</th>
-					<th>Depth</th>
-					<th>Delete</th>
-				</tr>
+			<table class='table table-striped compact table-mobile-responsive table-mobile-sided' style='width: 90%;'>
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Category</th>
+						<th>Campaign</th>
+						<th>Depth</th>
+						<th>Default Cat</th>
+						<th>Delete</th>
+					</tr>
+				</thead>
 				<tbody id="tab_logic">
 
 <?php
@@ -22,7 +25,7 @@ $uuux = '';
 // ALTER TABLE `categories` ADD `depth` INT(2) NULL DEFAULT NULL AFTER `display`;
 // ALTER TABLE categories DROP depth;
 //---
-$qq = execute_query('select id, category, display, depth from categories;');
+$qq = execute_query('select id, category, display, depth, def from categories;');
 //---
 $numb = 0;
 //---
@@ -33,17 +36,29 @@ foreach ( $qq AS $Key => $table ) {
 	$display 	= $table['display'];
 	$depth		= $table['depth'];
     //---
-	echo "
+	$checked    = ($table['def'] == 1) ? 'checked' : '';
+    //---
+	echo <<<HTML
 	<tr>
-	  <td>$numb</td>
-	  <td>
-	  	<input name='cat[]$numb' value='$category'/>
-	  	<input name='id[]$numb' value='$id' hidden/>
-	  </td>
-	  <td><input name='dis[]$numb' value='$display'/></td>
-	  <td><input class='w-25' type='number' name='dep[]$numb' value='$depth'/></td>
-	  <td><input type='checkbox' name='del[]$numb' value='$id'/> <label>delete</label></td>
-	</tr>";
+		<th data-content="#">$numb</th>
+		<td data-content="Category">
+			<input size='25' name='cats[]$numb' value='$category'/>
+			<input name='id[]$numb' value='$id' hidden/>
+		</td>
+		<td data-content="Campaign">
+			<input size='25' name='dis[]$numb' value='$display'/>
+		</td>
+		<td data-content="Depth">
+			<input class='w-auto' type='number' name='dep[]$numb' value='$depth' min='0' max='10'/>
+		</td>
+		<td data-content="Default Cat">
+			<input type='radio' class='form-check-input' id='default_cat' name='default_cat' value='$category' $checked>
+		</td>
+		<td data-content="Delete">
+			<input type='checkbox' name='del[]$numb' value='$id'/> <label>delete</label>
+		</td>
+	</tr>
+	HTML;
 };
 //---
 ?>
@@ -60,9 +75,10 @@ function add_row() {
 	var ii = $('#tab_logic >tr').length + 1;
 	var e = "<tr>";
 	e = e + "<td>" + ii + "</td>";
-	e = e + "<td><input name='cat[]" + ii + "' placeholder='catname'/></td>";
+	e = e + "<td><input name='cats[]" + ii + "' placeholder='catname'/></td>";
 	e = e + "<td><input name='dis[]" + ii + "' placeholder='display'/></td>";
 	e = e + "<td><input name='dep[]" + ii + "' value='0'/></td>";
+	e = e + "<td></td>";
 	e = e + "<td></td>";
 	e = e + "</tr>";
 

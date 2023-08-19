@@ -15,17 +15,19 @@ require('tables.php');
 	<form action="coordinator.php?ty=add" method="POST">
 		<input name='ty' value="add" hidden />
 		<div class="form-group">
-			<table class='table' style='font-size:95%;'>
-				<tr>
-					<th>#</th>
-					<th>mdwiki title</th>
-					<th>Campaign</th>
-					<th>Type</th>
-					<th>User</th>
-					<th>Lang.</th>
-					<th>Target</th>
-					<th>Pupdate</th>
-				</tr>
+			<table class='table table-striped compact table-mobile-responsive table-mobile-sided' style='font-size:95%;'>
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>mdwiki title</th>
+						<th>Campaign</th>
+						<th>Type</th>
+						<th>User</th>
+						<th>Lang.</th>
+						<th>Target</th>
+						<th>Pupdate</th>
+					</tr>
+				</thead>
 				<tbody id='g_tab'>
 <?php
 //---
@@ -59,14 +61,30 @@ foreach (range(1, 1) as $numb) {
 	//---
 	$table .= <<<HTML
 	<tr>
-		<td data-order='$numb'>$numb</td>
-		<td> <input size='15' class='mdtitles' name='mdtitle[]$numb' required/> </td>
-		<td> $cats_line </td>
-		<td> $type_line </td>
-		<td> <input size='10' class='useri' name='user[]$numb' required/> </td>
-		<td> <input size='2' name='lang[]$numb' required/> </td>
-		<td> <input size='20' name='target[]$numb' required/>	</td>
-		<td> <input size='10' name='pupdate[]$numb' required/> </td>
+		<td data-order='$numb' data-content='#'>
+			$numb
+		</td>
+		<td data-content='mdwiki title'>
+			<input size='15' class='mdtitles' name='mdtitle[]$numb' required/>
+		</td>
+		<td data-content='Campaign'>
+			$cats_line
+		</td>
+		<td data-content='Type'>
+			$type_line
+		</td>
+		<td data-content='User'>
+			<input size='10' class='useri' name='user[]$numb' required/>
+		</td>
+		<td data-content='Lang.'>
+			<input size='2' name='lang[]$numb' required/>
+		</td>
+		<td data-content='Target'>
+			<input size='20' name='target[]$numb' required/>
+		</td>
+		<td data-content='Pupdate'>
+			<input size='10' name='pupdate[]$numb' required/>
+		</td>
 	</tr>
 	HTML;
 };

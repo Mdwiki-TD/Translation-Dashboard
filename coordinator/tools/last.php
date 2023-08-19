@@ -5,24 +5,24 @@
 <?PHP
 //---
 $sato = <<<HTML
-	<table class="table table-sm table-striped" id="last_tabel" style="font-size:90%;">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>User</th>
-            <th></th>
-            <th><span data-toggle="tooltip" title="Language">Lang.</span></th>
-            <th>Title</th>
-            <th><span data-toggle="tooltip" title="Campaign">Camp.</span></th>
-            <!-- <th>Words</th> -->
-            <th>Translated</th>
-            <th>Date</th>
-            <th>Views</th>
-            <th>fixref</th>
-            <th>add_date</th>
-        </tr>
-    </thead>
-    <tbody>
+	<table class="table table-sm table-striped table-mobile-responsive table-mobile-sided" id="last_tabel" style="font-size:90%;">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>User</th>
+                <th></th>
+                <th><span data-toggle="tooltip" title="Language">Lang.</span></th>
+                <th>Title</th>
+                <th><span data-toggle="tooltip" title="Campaign">Camp.</span></th>
+                <!-- <th>Words</th> -->
+                <th>Translated</th>
+                <th>Date</th>
+                <th>Views</th>
+                <th>fixref</th>
+                <th>add_date</th>
+            </tr>
+        </thead>
+        <tbody>
 HTML;
 //---
 function make_td($tabg, $nnnn) {
@@ -64,21 +64,43 @@ function make_td($tabg, $nnnn) {
     };
     //---
     $laly = <<<HTML
-    <tr>
-        <td>$nnnn</td>
-        <td><a target='' href='leaderboard.php?user=$user'>$user</a></td>
-        <td>$mail_icon</td>
-        <td><a target='' href='leaderboard.php?langcode=$llang'>$lang2</a></td>
-        <td style='max-width:150px;'>$nana</td>
-        <!-- <td>$date</td> -->
-        <td>$ccat</td>
-        <!-- <td>$worde</td> -->
-        <td style='max-width:150px;'>$targe33</td>
-        <td>$pupdate</td>
-        <td>$view</td>
-        <td><a target='_blank' href='../fixwikirefs.php?title=$targe2&lang=$llang'>fix</a></td>
-        <td>$add_date</td>
-    </tr>
+        <tr>
+            <td data-content='#'>
+                $nnnn
+            </td>
+            <td data-content='User'>
+                <a target='' href='leaderboard.php?user=$user'>$user</a>
+            </td>
+            <td data-content=''>
+                $mail_icon
+            </td>
+            <td data-content='Lang.'>
+                <a target='' href='leaderboard.php?langcode=$llang'>$lang2</a>
+            </td>
+            <td style='max-width:150px;' data-content='Title'>
+                $nana
+            </td>
+            <!-- <td>$date</td> -->
+            <td data-content='Campaign'>
+                $ccat
+            </td>
+            <!-- <td>$worde</td> -->
+            <td style='max-width:150px;' data-content='Translated'>
+                $targe33
+            </td>
+            <td data-content='Date'>
+                $pupdate
+            </td>
+            <td data-content='Views'>
+                $view
+            </td>
+            <td data-content='fixref'>
+                <a target='_blank' href='../fixwikirefs.php?title=$targe2&lang=$llang'>fix</a>
+            </td>
+            <td data-content='add_date'>
+                $add_date
+            </td>
+        </tr>
     HTML;
     //---
     return $laly;
@@ -120,7 +142,7 @@ $(document).ready( function () {
 	var t = $('#last_tabel').DataTable({
 	order: [[10	, 'desc']],
     // paging: false,
-	lengthMenu: [[25, 50, 100], [25, 50, 100]],
+	lengthMenu: [[50, 100, 150], [50, 100, 150]],
     // scrollY: 800
 	});
 } );

@@ -8,12 +8,14 @@
 <form action="coordinator.php?ty=projects" method="POST">
 	<input name='ty' value="projects" hidden/>
 	  <div class="form-group">
-		<table class='table compact' style="width:50%;">
-			<tr>
-				<th>Id</th>
-				<th>Project</th>
-				<th>Delete</th>
-			</tr>
+		<table class='table table-striped compact table-mobile-responsive table-mobile-sided' style="width:50%;">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Project</th>
+					<th>Delete</th>
+				</tr>
+			</thead>
 			<tbody id="g_tab">
 <?php
 //---
@@ -27,14 +29,14 @@ foreach ( execute_query('select g_id, g_title from projects;') AS $g_title => $t
     //---
 	echo <<<HTML
 	<tr>
-		<td>
+		<td data-content='id'>
 			<span><b>$numb</b></span>
 			<input name='g_id[]$numb' value='$g_id' hidden/>
 		</td>
-	  	<td>
+	  	<td data-content='Project'>
 	  		<input name='g_title[]$numb' value='$g_title'/>
 		</td>
-	  	<td>
+	  	<td data-content='Delete'>
 	  		<input type='checkbox' name='del[]$numb' value='$g_id'/> <label> delete</label>
 	  	</td>
 	</tr>

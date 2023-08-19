@@ -221,6 +221,8 @@ function get_cat_members( $cat, $depth, $code, $use_cash=false ) {
 		$exists = array();
     };
     //---
+    test_print("<br>$json_file: exists size:" . count($exists) );
+    //---
     if ($exists == null) $exists = array();
     //---
     // $missing = array_diff($members,$exists);

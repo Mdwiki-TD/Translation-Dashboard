@@ -27,15 +27,15 @@ $user_process_tab = array();
 $sql_t = 'select user, count(target) as count from pages where target = "" group by user order by count(target) desc;';
 //---
 $text = <<<HTML
-<table class='table table-striped compact soro'>
-<thead>
-    <tr>
-        <th>#</th>
-        <th class='spannowrap'>User</th>
-        <th>Articles</th>
-    </tr>
-</thead>
-<tbody>
+<table class='table table-striped compact soro table-mobile-responsive table-mobile-sided'>
+    <thead>
+        <tr>
+            <th>#</th>
+            <th class='spannowrap'>User</th>
+            <th>Articles</th>
+        </tr>
+    </thead>
+    <tbody>
 
 HTML;
 //---
@@ -54,9 +54,15 @@ foreach ( execute_query($sql_t) AS $k => $t ) {
         //---
         $text .= <<<HTML
         <tr>
-            <td>$n</td>
-            <td><a href='leaderboard.php?user=$use'>$user</a></td>
-            <td>$count</td>
+            <td data-content='#'>
+                $n
+            </td>
+            <td data-content='User'>
+                <a href='leaderboard.php?user=$use'>$user</a>
+            </td>
+            <td data-content='Articles'>
+                $count
+            </td>
         </tr>
         HTML;
         };

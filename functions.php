@@ -14,6 +14,36 @@ include_once 'actions/html.php';
 include_once 'actions/wiki_api.php';
 include_once 'actions/mdwiki_api.php';
 include_once 'actions/mdwiki_sql.php';
+
+
+function load_request() {
+    global $lang_to_code, $code_to_lang, $camp_to_cat;
+    //---
+    $code = $_REQUEST['code'] ?? '';
+    //---
+    if ($code == 'undefined') $code = "";
+    //---
+    $code = $lang_to_code[$code] ?? $code;
+    $code_lang_name = $code_to_lang[$code] ?? ''; 
+    //---
+    $cat  = $_REQUEST['cat'] ?? '';
+    if ($cat == 'undefined') $cat = "";
+    //---
+    $camp = $_REQUEST['camp'] ?? '';
+    //---
+    if ($cat == "" && $camp != "") {
+        $cat = $camp_to_cat[$camp] ?? $cat;
+    }
+    //---
+    // if ($cat == "") $cat = "RTT";
+    //---
+    return [
+        'code' => $code,
+        'cat' => $cat,
+        'code_lang_name' => $code_lang_name
+    ];
+}
+//---
 function escape_string($unescaped_string) {
     // Alternative mysql_real_escape_string without mysql connection
     $replacementMap = [
