@@ -47,7 +47,7 @@ function make_td($lang, $tabg, $numb) {
                 $numb
             </td>
             <td data-content='#'>
-                <span>Lang.</span>
+                <span>$lang</span>
                 <input name='lang[]$numb' value='$lang' hidden/>
             </td>
             <td data-content='Move dots'>
