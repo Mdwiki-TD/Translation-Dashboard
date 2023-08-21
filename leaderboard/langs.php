@@ -1,6 +1,7 @@
 <?PHP
 //---
 require('lead_help.php');
+require 'camps.php';
 //---
 $test = $_REQUEST['test'] ?? '';
 $mainlang = $_REQUEST['langcode'];

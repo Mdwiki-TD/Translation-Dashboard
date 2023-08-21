@@ -3,6 +3,7 @@ include_once('tables.php');
 include_once('functions.php');
 include_once('langcode.php');
 include_once('sql_tables.php'); // $sql_qids $cat_titles $cat_to_camp $camp_to_cat
+require 'leaderboard/camps.php';
 
 $year = $_REQUEST['year'] ?? 'all';
 $camp = $_REQUEST['camp'] ?? 'all';
@@ -15,12 +16,12 @@ $camp_cat = $camp_to_cat[$camp] ?? '';
 
 function makeSqlQuery() {
     global $year, $camp, $project, $camp_cat;
-    $queryPart1Group = "SELECT
+    $queryPart1Group = "SELECT p.title,
         p.target, p.cat, p.lang, p.word, YEAR(p.pupdate) AS pup_y, p.user, u.user_group
         FROM pages p, users u
     ";
 
-    $queryPart1 = "SELECT
+    $queryPart1 = "SELECT p.title, 
         p.target, p.cat, p.lang, p.word, YEAR(p.pupdate) AS pup_y, p.user,
         (SELECT u.user_group FROM users u WHERE p.user = u.username) AS user_group
         FROM pages p
@@ -29,10 +30,8 @@ function makeSqlQuery() {
     $queryPart2 = "
         WHERE p.target != ''
     ";
-
-    if ($camp != 'all' && $camp_cat != '') {
-        $queryPart2 .= "AND p.cat = '$camp_cat' \n";
-    }
+    // 2023-08-22
+    // if ($camp != 'all' && $camp_cat != '') $queryPart2 .= "AND p.cat = '$camp_cat' \n";
 
     if ($year != 'all') {
         $queryPart2 .= "AND YEAR(p.pupdate) = '$year' \n";
@@ -65,7 +64,16 @@ $Views_by_users = array();
 
 $Views_by_target = make_views_by_target();
 
+// $articles_to_camps, $camps_to_articles
+
 foreach (execute_query($qua_all) as $Key => $teb) {
+    $title  = $teb['title'];
+    //---
+    // 2023-08-22
+    if ($camp != 'all' && $camp_cat != '') {
+        if (!in_array($title, $camps_to_articles[$camp])) continue;
+    }
+    //---
     $cat    = $teb['cat'];
     $lang   = $teb['lang'];
     $user   = $teb['user'];

@@ -44,6 +44,7 @@ if (!isset($_GET['noboot'])) {
     <script src='$hoste/ajax/libs/popper.js/2.11.8/umd/popper.min.js'></script>
     <script src='$hoste/ajax/libs/bootstrap/5.3.0/js/bootstrap.min.js'></script>
     <script src='$hoste/ajax/libs/datatables.net/2.1.1/jquery.dataTables.min.js'></script>
+    <script src='$hoste/ajax/libs/datatables.net-fixedheader/3.4.0/dataTables.fixedHeader.min.js'></script>
     <script src='$hoste/ajax/libs/datatables.net-bs5/1.13.5/dataTables.bootstrap5.min.js'></script>
     <script src='$hoste/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js'></script>
     <script src="$hoste/ajax/libs/bootstrap-select/1.14.0-beta3/js/bootstrap-select.min.js"></script>

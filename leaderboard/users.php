@@ -1,15 +1,16 @@
 <?PHP
 //---
 require('lead_help.php');
+require 'camps.php';
 //---
 $test     = $_REQUEST['test'] ?? '';
 $mainuser = $_REQUEST['user'] ?? '';
 //---
 if ($mainuser == global_username) {
     echo '<script>
-    $(".navbar-nav").find("li.active").removeClass("active");
-    $("#myboard").addClass("active");
-    </script>
+        $(".navbar-nav").find("li.active").removeClass("active");
+        $("#myboard").addClass("active");
+        </script>
     ';
 };
 //---
@@ -21,18 +22,23 @@ if (True) {
     $user_main = $mainuser;
     $user_main = rawurldecode( str_replace ('_', ' ', $user_main) );
     //---
-    $count_sql = "select count(title) as count from pages where user = '$user_main';";
+    $count_sql = <<<SQL
+        select count(title) as count from pages where user = '$user_main';
+    SQL;
     //---
-    $quaa = "select * from pages where user = '$user_main'";
+    $pages_qua = <<<SQL
+        select * from pages where user = '$user_main'
+    SQL;
     //---
-    if ($test != '') echo $quaa;
+    if ($test != '') echo $pages_qua;
     //---
-    $quaa_view_main = "select p.target, v.countall
-    from pages p, views v
-    where p.user = '$user_main'
-    and p.target = v.target
-    limit 200
-    ";
+    $views_qua = <<<SQL
+        select p.target, v.countall
+        from pages p, views v
+        where p.user = '$user_main'
+        and p.target = v.target
+        limit 200
+    SQL;
     //---
 };
 //---
@@ -51,7 +57,7 @@ if ($mainuser != '') {
     //---
     while ($done < $user_count) {
         //---
-        $quaa_view = $quaa_view_main;
+        $quaa_view = $views_qua;
         $quaa_view .= "
         offset $offset
         ";
@@ -75,7 +81,7 @@ if ($mainuser != '') {
         //---
     };
     //---
-    $sql_result = execute_query($quaa);
+    $sql_result = execute_query($pages_qua);
     //---
     foreach ( $sql_result AS $tait => $tabb ) {
             //---

@@ -1,7 +1,7 @@
 <?PHP
 //---
 function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'users', $tab_ty='a', $_user_='') {
-    global $cat_to_camp;
+    global $cat_to_camp, $articles_to_camps, $camps_to_articles;
     //---
     $mdtitle = trim($tabb['title']);
     $user    = $tabb['user'];
@@ -15,9 +15,27 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
     $nana = make_mdwiki_title( $mdtitle );
     //---
     $ccat = make_cat_url($cat);
+    //---
+    $new_camps = $articles_to_camps[$mdtitle] ?? [];
+    //---
     $campaign = $cat_to_camp[$cat] ?? '';
-    if ( $campaign != '') {
-        $ccat = "<a href='leaderboard.php?camp=$campaign'>$campaign</a>";
+    $campaign_data = $campaign;
+    //---
+    // 2023-08-22
+    if (count($new_camps) > 0) {
+        $campaign_data = "";
+        $ccat = "";
+        foreach ($new_camps as $camp) {
+            $ccat .= "<a href='leaderboard.php?camp=$camp' style='white-space: nowrap;'>$camp</a><br>";
+            $campaign_data .= "$camp, ";
+        }
+        // remove last <br>
+        $ccat = substr($ccat, 0, -4);
+    } else {
+        // echo "No campaigns for $mdtitle<br>";
+        if ( $campaign != '') {
+            $ccat = "<a href='leaderboard.php?camp=$campaign'>$campaign</a>";
+        };
     };
     //---
     $tran_type = $tabb['translate_type'] ?? '';
@@ -27,13 +45,17 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
     //---
     $usr_or_lang = ($page_type == 'users') ? "Lang" : "User";
     //---
+    $urll_data = '';
+    //---
     if ($page_type == 'users') {
         $urll = "<a href='leaderboard.php?langcode=$lang'><span style='white-space: nowrap;'>$lang</span></a>";
+        $urll_data = $lang;
     } else {
         $use = rawurlEncode($user);
         $use = str_replace ( '+' , '_' , $use );
         //---
         $urll = "<a href='leaderboard.php?user=$use'><span style='white-space: nowrap;'>$user</span></a>";
+        $urll_data = $user;
         //---
     };
     //---
@@ -54,21 +76,38 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
         //---
         $target_link = make_target_url($target, $lang);
         //---
-        $td_views = "<td data-content='Views' data-sort='$view_number'>$view</td>";
+        $td_views = "<td data-content='Views' data-sort='$view_number' data-filter='$view_number'>$view</td>";
     };
     //---
     $year = substr($udate,0,4);
     //---
     $laly = <<<HTML
-        <tr class='filterDiv show2 $year'>
-            <th data-content="#">$number</th>
-            <td data-content="$usr_or_lang">$urll</td>
-            <td data-content="Title">$nana</td>
-            <td data-content="Campaign">$ccat</td>
-            <td data-content="Words">$word</td>
-            <td data-content="#Type">$tran_type</td>
-            <td data-content="Translated">$target_link</td>
-            <td data-content="Date" class='spannowrap'>$udate</td>
+        <!-- <tr class='filterDiv show2 $year'> -->
+        <tr>
+            <th data-content="#">
+                $number
+            </th>
+            <td data-content="$usr_or_lang" data-filter="$urll_data">
+                $urll
+            </td>
+            <td data-content="Title" data-filter="$mdtitle">
+                $nana
+            </td>
+            <td data-content="Campaign" data-filter="$campaign_data">
+                $ccat
+            </td>
+            <td data-content="Words" data-filter="$word">
+                $word
+            </td>
+            <!-- <td data-content="Type" data-filter="$tran_type">
+                $tran_type
+            </td> -->
+            <td data-content="Translated" data-filter="$target">
+                $target_link
+            </td>
+            <td data-content="Date" class='spannowrap' data-filter="$year">
+                $udate
+            </td>
             $td_views
             $complate
         </tr>
@@ -91,8 +130,12 @@ function make_table_lead($dd, $tab_type='a', $views_table = array(), $page_type=
     $th_Date    = ($tab_type == 'pending') ? 'Start date' : 'Date';
     $complate   = ($tab_type == 'pending' && global_username === $user) ? '<th>complete!</th>' : '';
     //---
+    $leadtable = ($tab_type == 'pending') ? 'leadtable2' : 'leadtable';
+    //---
+
+    //---
     $sato = <<<HTML
-        <table class='table table-striped compact soro table-mobile-responsive table-mobile-sided'>
+        <table class='table table-striped compact soro table-mobile-responsive table-mobile-sided' id='$leadtable'>
             <thead>
                 <tr>
                     <th>#</th>
@@ -100,7 +143,7 @@ function make_table_lead($dd, $tab_type='a', $views_table = array(), $page_type=
                     <th>Title</th>
                     <th>Campaign</th>
                     <th>Words</th>
-                    <th>Type</th>
+                    <!-- <th>Type</th> -->
                     <th>Translated</th>
                     <th>$th_Date</th>
                     $tab_views
@@ -133,6 +176,8 @@ function make_table_lead($dd, $tab_type='a', $views_table = array(), $page_type=
     //---
     $sato .= <<<HTML
         </tbody>
+        <tfoot>
+        </tfoot>
     </table>
     HTML;
     //---
@@ -149,4 +194,3 @@ function make_table_lead($dd, $tab_type='a', $views_table = array(), $page_type=
     //---
 };
 //---
-?>
