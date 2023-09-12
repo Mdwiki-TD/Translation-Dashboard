@@ -11,7 +11,8 @@ function graph_html($keys, $values, $id='chart1', $no_card=false) {
     $graph =  <<<HTML
         <div class="card">
             <div class="card-header aligncenter" style="font-weight:bold;">
-                <a href="/Translation_Dashboard/leaderboard.php?graph=1">Translation by month</a>
+                <!-- <a href="/Translation_Dashboard/leaderboard.php?graph=1">Translation by month</a> -->
+                Translation by month
             </div>
             <div class="card-body1 card5px">
                 $canvas
