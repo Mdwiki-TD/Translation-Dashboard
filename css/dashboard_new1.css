@@ -1,0 +1,158 @@
+.navbar {
+	/* padding: 0px !important; */
+}
+#collapsibleNavbar>ul>li {
+	/* padding-top: 0.5rem !important; */
+	/* padding-bottom: 0.5rem !important; */
+}
+
+#mainnav .navbar-nav > li {
+	text-transform: capitalize;
+}
+.navbar-nav li.active {
+    /* border-radius: 4px; */
+	/* display: block; */
+	background-color: #c2c5c8;
+	/* font-weight: bold; */
+}
+
+.navbar-nav li.active>a {
+	color: #000;
+}
+
+.flex-column>li.active {
+    background-color: #dee2e6;
+}
+
+.card5px {
+	padding:5px 5px 5px 5px;
+	/* max-height:800px; */
+	/* overflow: auto; */
+}
+.flex-column {
+    border-radius: 4px;
+	display: block;
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+}
+
+.flex-column>li {
+    border-radius: 4px;
+	display: block;
+	padding: 0.2rem 1rem;
+}
+
+.flex-column>li.active {
+    /* background-color: #337ab7; */
+    background-color: #dee2e6;
+}
+
+.flex-column>li.active>.linknave {
+    color: #000;
+	font-weight: bolder;
+}
+  
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif!important;
+}
+
+thead {
+	position: sticky;
+	top: 0;
+	background-color: #fff;
+}
+
+.alignleft{text-align:left; vertical-align: middle}
+.alignright{text-align:right; vertical-align: middle}
+.aligncenter{text-align:center; vertical-align: middle}
+
+.menu_item {
+	padding: 0px 0px;
+	margin: 2px 20px;
+	line-height: 20px;
+	font-weight: bold;
+	border-radius: 2px;
+}
+.mainindex{
+	margin-right:20px;
+	margin-left:20px;
+}
+.medlogo {
+	width: 180px;
+	height: auto;
+}
+.spannowrap {
+	white-space: nowrap;
+}
+@media (max-width:768px) {
+	.spannowrap { 
+		white-space: normal;
+	}
+	.mainindex{
+		margin-right:5px;
+		margin-left:5px;
+	}
+	.medlogo {
+		width: 100px;
+		height: auto;
+		float: right;
+	}
+}
+
+.selectpickerr {
+	position:static;
+	/* background-color: white; */
+	/* border-radius: 0 0 5px 5px; */
+	/* font-family: sans-serif; */
+	width: 320px;
+	padding: 5px;
+	border: 1px solid #ccc;
+	/* max-width: 20rem; */
+	max-height: 20rem;
+	overflow-y: auto;
+	/* display:list-item */
+	cursor: pointer;
+}
+
+.selectpickerr:focus {
+	outline: thin dotted #333 !important;
+	outline: 5px auto -webkit-focus-ring-color !important;
+	outline-offset: -2px
+}
+.selectpickerr option {
+	font-size: 14px;
+}
+
+.compact {
+	font-size:95%;
+}
+.compact thead th,
+.compact thead td {
+  padding: 4px 17px;
+}
+.compact tfoot th,
+.compact tfoot td {
+  padding: 4px;
+}
+.compact tbody th,
+.compact tbody td {
+  padding: 4px;
+}
+a {
+    text-decoration: none;
+}

@@ -9,7 +9,7 @@ if (isset($_REQUEST['test'])) {
 require 'leaderboard/leader_tables.php';
 //---
 function print_cat_table(): string {
-    global $sql_users_tab, $Articles_numbers, $Words_total, $sql_Languages_tab, $global_views;
+    global $sql_users_tab, $Articles_numbers, $Words_total, $sql_Languages_tab, $global_views, $tab_for_graph;
 
     $numbersTable = createNumbersTable(
         count($sql_users_tab), 
@@ -18,8 +18,11 @@ function print_cat_table(): string {
         count($sql_Languages_tab), 
         number_format($global_views)
     );
-    $gg = print_graph();
-    // $numbersCol = makeColSm4('Numbers', $numbersTable . "<br>" . $gg, 3);
+    //---
+    // $gg = print_graph_from_sql();
+    $gg = print_graph_for_table($tab_for_graph, $id='chart09', $no_card=false);
+    //---
+    
     $numbersCol = makeColSm4('Numbers', $numbersTable, 3, $gg);
 
     $usersTable = makeUsersTable();
@@ -29,11 +32,7 @@ function print_cat_table(): string {
     $languagesCol = makeColSm4('Top languages by number of Articles', $languagesTable, 4);
        
     return <<<HTML
-        <br>
-        <span align="center">
-            <h3>Leaderboard</h3>
-        </span>
-        <div class="row">
+        <div class="row g-3">
             $numbersCol
             $usersCol
             $languagesCol
@@ -45,21 +44,10 @@ $year       = $_REQUEST['year'] ?? 'all';
 $camp       = $_REQUEST['camp'] ?? 'all';
 $project    = $_REQUEST['project'] ?? 'all';
 //---
-$colg3 = 'col-md-3 col-sm-3';
-$colg2 = 'col-md-2 col-sm-3';
-// $col_lg_1 = 'col-md-1 col';
-//---
-
 $d33 = <<<HTML
-<div class="$colg3">
-    <div class="form-group">
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <span class="input-group-text">%s</span>
-            </div>
-            %s
-        </div>
-    </div>
+<div class="input-group">
+    <span class="input-group-text">%s</span>
+    %s
 </div>
 HTML;
 //---
@@ -77,8 +65,6 @@ $yearDropdown = sprintf($d33, 'Year', $y3);
 //---
 $uux = print_cat_table();
 //---
-$submitBtn = "<div class='aligncenter $colg2'><input class='btn btn-primary' type='submit' name='start' value='Filter' /></div>";
-//---
 echo <<<HTML
 <style>
     .table>tbody>tr>td,
@@ -91,16 +77,35 @@ echo <<<HTML
         border-top: 1px solid #ddd;
     }
 </style>
+HTML;
+//---
+$colg3 = 'col-md-3 col-sm-3';
+$colg2 = 'col-md-2 col-sm-3';
+$colg1 = 'col-md-1 col-sm-3';
+//---
+echo <<<HTML
 <form method="get" action="leaderboard.php">
-    <div class="row">
-        <div class="col-md-1 col-sm-0"></div>
-        $campDropdown
-        $projectDropdown
-        $yearDropdown
-        $submitBtn
+    <div class="row g-3">
+        <div class="col-md-3">
+            <span align="center">
+                <h3>Leaderboard</h3>
+            </span>
+        </div>
+        <div class="$colg2">
+            $campDropdown
+        </div>
+        <div class="$colg2">
+            $projectDropdown
+        </div>
+        <div class="$colg2">
+            $yearDropdown
+        </div>
+        <div class="aligncenter $colg1">
+            <input class='btn btn-primary' type='submit' name='start' value='Filter' />
+        </div>
     </div>
 </form>
-
+<hr/>
 <div class="container-fluid">
     $uux
 </div>

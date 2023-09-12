@@ -97,7 +97,7 @@ if ( $raw == '' ) {
     </style>
     ';
     //---
-	$sql_php = "sql.php?pass=$pass&";
+	$sql_php = "sql.php?pass=$pass";
     //---
     $qu1 = urlencode("SELECT 
         A.id as id1, A.target as t1,
@@ -143,73 +143,71 @@ if ( $raw == '' ) {
     //---
     $qu6 = urlencode("select * from pages where target = '' and date < ADDDATE(CURDATE(), INTERVAL -7 DAY)");
     //---
-    echo "
-    <div class='row'>
-        <div class='col-md'>
-            <ul>
-                <li><a href='" . $sql_php . "code=show tables;'>show tables</a></li>
-                <li><a href='" . $sql_php . "code=describe words;'>describe words;</a></li>
-                <li><a href='" . $sql_php . "code=describe pages;'>describe pages;</a></li>
-                </ul>
-            </div>
-            <div class='col-md'>
-                <ul>
-                <li><a href='" . $sql_php . "code=select * from words;'>select * from words;</a></li>
-                <li><a href='" . $sql_php . "code=select * from pages;'>select * from pages;</a></li>
-                <li><a href='" . $sql_php . "code=select * from qids;'>select * from qids;</a></li>
-                <li><a href='" . $sql_php . "code=" . $qu1 . "'>Duplicte views.</a></li>
-                </ul>
-            </div>
-            <div class='col-md'>
-                <ul>
-                <li><a href='" . $sql_php . "code=" . $qu2 . "'>Duplicte pages to remove.</a></li>
-				<li><a href='" . $sql_php . "code=" . $qu3 . "'>Duplicte pages2.</a></li>
-                </ul>
-            </div>
-            <div class='col-md'>
-                <ul>
-                <li><a href='" . $sql_php . "code=" . $qu4 . "'>Duplicte qids.</a></li>
-                <li><a href='" . $sql_php . "code=" . $qu5 . "'>Duplicte qids2.</a></li>
-                <li><a href='" . $sql_php . "code=" . $qu6 . "'>In process > 7.</a></li>
-            </ul>
-        </div>
-    </div>
-    <form action='sql.php' method='POST'>
+    echo <<<HTML
         <div class='row'>
             <div class='col-md'>
-                <textarea cols='120' rows='7' name='code'>$quaa</textarea>
+                <ul>
+                    <li><a href='$sql_php&code=show tables;'>show tables</a></li>
+                    <li><a href='$sql_php&code=describe words;'>describe words;</a></li>
+                    <li><a href='$sql_php&code=describe pages;'>describe pages;</a></li>
+                    </ul>
+                </div>
+                <div class='col-md'>
+                    <ul>
+                    <li><a href='$sql_php&code=select * from words;'>select * from words;</a></li>
+                    <li><a href='$sql_php&code=select * from pages;'>select * from pages;</a></li>
+                    <li><a href='$sql_php&code=select * from qids;'>select * from qids;</a></li>
+                    <li><a href='$sql_php&code=$qu1'>Duplicte views.</a></li>
+                    </ul>
+                </div>
+                <div class='col-md'>
+                    <ul>
+                    <li><a href='$sql_php&code=$qu2'>Duplicte pages to remove.</a></li>
+                    <li><a href='$sql_php&code=$qu3'>Duplicte pages2.</a></li>
+                    </ul>
+                </div>
+                <div class='col-md'>
+                    <ul>
+                    <li><a href='$sql_php&code=$qu4'>Duplicte qids.</a></li>
+                    <li><a href='$sql_php&code=$qu5'>Duplicte qids2.</a></li>
+                    <li><a href='$sql_php&code=$qu6'>In process > 7.</a></li>
+                </ul>
             </div>
-            <div class='col-md'>
-                <div class='input-group mb-2'>
-                    <div class='input-group-prepend'>
+        </div>
+        <form action='sql.php' method='POST'>
+            <div class='row'>
+                <div class='col-md'>
+                    <textarea cols='120' rows='7' name='code'>$quaa</textarea>
+                </div>
+                <div class='col-md'>
+                    <div class='input-group mb-2'>
                         <span class='input-group-text'>
                             <label class='mr-sm-2' for='pass'>code:</label>
                         </span>
+                        <input class='form-control' type='text' name='pass' value='$pass'/>
                     </div>
-                    <input class='form-control' type='text' name='pass' value='$pass'/>
-                </div>
-                <div class='input-group mb-3'>
-                    <div class='custom-control custom-checkbox custom-control-inline'>
-                        <input type='checkbox' class='custom-control-input' name='test' value='1'>
-                        <label class='custom-control-label' for='test'>test</label>
+                    <div class='input-group mb-3'>
+                        <div class='custom-control custom-checkbox custom-control-inline'>
+                            <input type='checkbox' class='custom-control-input' name='test' value='1'>
+                            <label class='custom-control-label' for='test'>test</label>
+                        </div>
                     </div>
-                </div>
-                <div class='input-group mb-3'>
-                    <div class='custom-control custom-checkbox custom-control-inline'>
-                        <input type='checkbox' class='custom-control-input' name='raw' value='m'>
-                        <label class='custom-control-label' for='raw'>raw</label>
+                    <div class='input-group mb-3'>
+                        <div class='custom-control custom-checkbox custom-control-inline'>
+                            <input type='checkbox' class='custom-control-input' name='raw' value='m'>
+                            <label class='custom-control-label' for='raw'>raw</label>
+                        </div>
                     </div>
-                </div>
-                <div class='form-group'>
-                    <div class='aligncenter'>
-                        <input class='btn btn-primary' type='submit' name='start' value='Start' />
+                    <div class='input-group'>
+                        <div class='aligncenter'>
+                            <input class='btn btn-primary' type='submit' name='start' value='Start' />
+                        </div>
                     </div>
+            
                 </div>
-        
             </div>
-        </div>
-    </form>
-    ";
+        </form>
+    HTML;
 };
 //---
 if ( $qua != '' and ($pass == $sqlpass or $_SERVER['SERVER_NAME'] == 'localhost') ) {

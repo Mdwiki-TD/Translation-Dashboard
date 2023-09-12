@@ -44,9 +44,7 @@ function make_input_group( $label, $id, $value, $required='') {
     return <<<HTML
     <div class='col-md-3'>
         <div class='input-group mb-3'>
-            <div class='input-group-prepend'>
-                <span class='input-group-text'>$label</span>
-            </div>
+            <span class='input-group-text'>$label</span>
             <input class='form-control' type='text' name='$id' value=$val2 $required/>
         </div>
     </div>
@@ -86,10 +84,24 @@ function makeDropdown($tab, $cat, $id, $add) {
     HTML;
 };
 //---
+function makeCard($title, $table) {
+    return <<<HTML
+    <div class="card">
+        <div class="card-header aligncenter" style="font-weight:bold;">
+            $title
+        </div>
+        <div class="card-body1 card2">
+            $table
+        </div>
+        <!-- <div class="card-footer"></div> -->
+    </div>
+    HTML;
+};
+//---
 function makeColSm4($title, $table, $numb=4, $table2='') {
     return <<<HTML
     <div class="col-md-$numb">
-        <div class="card">
+        <div class="card mb-3">
             <div class="card-header aligncenter" style="font-weight:bold;">
                 $title
             </div>
@@ -98,8 +110,7 @@ function makeColSm4($title, $table, $numb=4, $table2='') {
             </div>
             <!-- <div class="card-footer"></div> -->
         </div>
-        <br>
-    $table2
+        $table2
     </div>
     HTML;
 };

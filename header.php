@@ -204,4 +204,5 @@ HTML;
 <main id="body">
 	<!-- <div id="maindiv" class="container-fluid"> -->
 	<div id="maindiv" class="container-fluid">
-	<br>
+	<!-- <br> -->
+	<!-- <hr/> -->

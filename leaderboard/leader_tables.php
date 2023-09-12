@@ -17,12 +17,13 @@ $camp_cat = $camp_to_cat[$camp] ?? '';
 function makeSqlQuery() {
     global $year, $camp, $project, $camp_cat;
     $queryPart1Group = "SELECT p.title,
-        p.target, p.cat, p.lang, p.word, YEAR(p.pupdate) AS pup_y, p.user, u.user_group
+        p.target, p.cat, p.lang, p.word, YEAR(p.pupdate) AS pup_y, p.user, u.user_group, LEFT(p.pupdate, 7) as m
         FROM pages p, users u
     ";
 
     $queryPart1 = "SELECT p.title, 
-        p.target, p.cat, p.lang, p.word, YEAR(p.pupdate) AS pup_y, p.user,
+        p.target, p.cat, p.lang, p.word, YEAR(p.pupdate) AS pup_y, LEFT(p.pupdate, 7) as m, 
+        p.user,
         (SELECT u.user_group FROM users u WHERE p.user = u.username) AS user_group
         FROM pages p
     ";
@@ -63,7 +64,7 @@ $all_views_by_lang = array();
 $Views_by_users = array();
 
 $Views_by_target = make_views_by_target();
-
+$tab_for_graph = [];
 // $articles_to_camps, $camps_to_articles
 
 foreach (execute_query($qua_all) as $Key => $teb) {
@@ -73,6 +74,11 @@ foreach (execute_query($qua_all) as $Key => $teb) {
     if ($camp != 'all' && $camp_cat != '') {
         if (!in_array($title, $camps_to_articles[$camp])) continue;
     }
+    //---
+    $month  = $teb['m']; // 2021-05	
+    //---
+    if (!isset($tab_for_graph[$month])) $tab_for_graph[$month] = 0;
+    $tab_for_graph[$month] += 1;
     //---
     $cat    = $teb['cat'];
     $lang   = $teb['lang'];
@@ -103,20 +109,20 @@ foreach (execute_query($qua_all) as $Key => $teb) {
 }
 function createNumbersTable($c_user, $c_articles, $c_words, $c_langs, $c_views) {
     $Numbers_table = <<<HTML
-    <table class='table table-striped sortable'>
-    <thead>
-        <tr>
-            <th class="spannowrap">Type</th>
-            <th>Number</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr><td><b>Users</b></td><td>$c_user</td></tr>
-        <tr><td><b>Articles</b></td><td>$c_articles</td></tr>
-        <tr><td><b>Words</b></td><td>$c_words</td></tr>
-        <tr><td><b>Languages</b></td><td>$c_langs</td></tr>
-        <tr><td><b>Pageviews</b></td><td>$c_views</td></tr>
-    </tbody>
+    <table class='table compact table-striped'>
+        <thead>
+            <tr>
+                <th class="spannowrap">Type</th>
+                <th>Number</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td><b>Users</b></td><td>$c_user</td></tr>
+            <tr><td><b>Articles</b></td><td>$c_articles</td></tr>
+            <tr><td><b>Words</b></td><td>$c_words</td></tr>
+            <tr><td><b>Languages</b></td><td>$c_langs</td></tr>
+            <tr><td><b>Pageviews</b></td><td>$c_views</td></tr>
+        </tbody>
     </table>
     HTML;
     
@@ -127,7 +133,7 @@ function makeUsersTable($min=2) {
     global $sql_users_tab, $Users_word_table, $Views_by_users;
     
     $text = <<<HTML
-    <table class='table table-striped sortable'>
+    <table class='table compact table-striped sortable' style='margin-top: 0px !important;margin-bottom: 0px !important'>
         <thead>
             <tr>
                 <th class="spannowrap">#</th>
@@ -181,12 +187,12 @@ function makeLangTable() {
     
     arsort($sql_Languages_tab);
     
-    $addcat = $_SERVER['SERVER_NAME'] == 'localhost';
+    $addcat = $_SERVER['SERVER_NAME'] == 'localhost' && (isset($_REQUEST['nocat']));
     
     $cac = ($addcat == true ) ? '<th>cat</th>' : '';
     
     $text = <<<HTML
-    <table class='table table-striped sortable'>
+    <table class='table compact table-striped sortable' style='margin-top: 0px !important;margin-bottom: 0px !important'>
     <thead>
         <tr>
             <th>#</th>

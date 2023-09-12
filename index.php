@@ -141,13 +141,9 @@ function print_form_start1() {
     //---
     $d2 = <<<HTML
         <div class='$col12'>
-            <div class='form-group'>
-                <div class='$gridclass'>
-                    <div class='input-group-prepend'>
-                        <span class='input-group-text' for="%s">%s</span>
-                    </div>
-                        %s
-                </div>
+            <div class='$gridclass'>
+                <span class='input-group-text' for="%s">%s</span>
+                %s
             </div>
         </div>
     HTML;

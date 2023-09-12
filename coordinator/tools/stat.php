@@ -17,13 +17,9 @@ foreach ( execute_query('select category from categories;') AS $k => $tab ) $cat
 //---
 $d33 = <<<HTML
 <div class='col-md-3 col-sm-3'>
-	<div class='form-group'>
-		<div class='input-group'>
-			<div class='input-group-prepend'>
-				<span class='input-group-text'>%s</span>
-			</div>
-				%s
-		</div>
+	<div class="input-group">
+		<span class="input-group-text">%s</span>
+		%s
 	</div>
 </div>
 HTML;
@@ -138,40 +134,52 @@ $with_allref = $i - $no_allref;
 $with_Importance = $i - $no_Importance;
 $with_pv = $i - $no_pv;
 //---
-$tabo = <<<HTML
-	<div class='col-md'>
-		<div class='card'>
-			<div class='card-body'>
-				<table class='table table-sm'>
-					<tr>
-						<th>Type</th>
-						<th>With</th>
-						<th>Without</th>
-					</tr>
-						%s
-				</table>
-			</div> 
-		</div>
-	</div>
-	HTML;
-//---
 echo $fa;
-echo "<div class='row'> ";
 //---
-echo sprintf($tabo, "
-	<tr><td>qid</td><td>$with_q</td><td>$no_qid</td></tr>						
-	<tr><td>enwiki views</td><td>$with_pv</td><td>$no_pv</td></tr>
-	<tr><td>Importance</td><td>$with_Importance</td><td>$no_Importance</td></tr>");
+$lilo = [
+	'qid' => ['with' => $with_q, 'without' => $no_qid],
+	'enwiki views' => ['with' => $with_pv, 'without' => $no_pv],
+	'Importance' => ['with' => $with_Importance, 'without' => $no_Importance],
+	'word' => ['with' => $with_word, 'without' => $no_word],
+	'allword' => ['with' => $with_allword, 'without' => $no_allword],
+	'ref' => ['with' => $with_ref, 'without' => $no_ref],
+	'allref' => ['with' => $with_allref, 'without' => $no_allref],
+];
 //---
-echo sprintf($tabo, "
-	<tr><td>word</td><td>$with_word</td><td>$no_word</td></tr>
-	<tr><td>allword</td><td>$with_allword</td><td>$no_allword</td></tr>");
+$ths = '';
+$with = '';
+$without = '';
 //---
-echo sprintf($tabo, "
-	<tr><td>ref</td><td>$with_ref</td><td>$no_ref</td></tr>
-	<tr><td>allref</td><td>$with_allref</td><td>$no_allref</td></tr>");
+foreach ($lilo as $k => $v) {
+	$ths .= "<th>$k</th>";
+	$with .= "<td>{$v['with']}</td>";
+	$without .= "<td>{$v['without']}</td>";
+}
 //---
-echo "</div>";
+echo <<<HTML
+	<div class=''>
+		<table class='table table-striped compact'>
+			<thead>
+				<tr>
+					<th>Key</th>
+					$ths
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th>With</th>
+					$with
+				</tr>
+				<tr>
+					<th>Without</th>
+					$without
+				</tr>
+			</tbody>
+		</table>
+	</div>
+HTML;
+//---
+
 //---
 echo $table;
 //---

@@ -43,7 +43,7 @@ function make_results_table($items, $cod, $cat, $words_tab, $ref_tab, $Imps_tab,
     //---
 	$frist = <<<HTML
     <!-- <div class="table-responsive"> -->
-    <table class="table table-sm sortable table-striped table-mobile-responsive table-mobile-sided" id="main_table">
+    <table class="table compact sortable table-striped table-mobile-responsive table-mobile-sided" id="main_table">
         <thead>
             <tr>
                 <th class="num">#</th>
