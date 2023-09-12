@@ -115,7 +115,7 @@ echo <<<HTML
 							<span class="navtitles">Leaderboard</span>
 						</a>
 					</li>
-					<li class="nav-item col-4 col-lg-auto" id="missing">
+					<li class="nav-item col-4 col-lg-auto" id="Prior">
 						<a class="nav-link py-2 px-0 px-lg-2" target="_blank"  href="/prior/index.php">
 							<span class="navtitles">Prior</span>
 						</a>
