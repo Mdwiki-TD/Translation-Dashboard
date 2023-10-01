@@ -128,6 +128,9 @@ function sql_add_user($user_name, $email, $wiki, $project, $ido) {
 }
 
 function update_settings($id, $title, $displayed, $value, $type) {
+    // Create a new database object
+    $db = new Database($_SERVER['SERVER_NAME']);
+
     $query = <<<SQL
         UPDATE settings SET title = '$title', displayed = '$displayed', Type = '$type', value = '$value' WHERE id = '$id'
     SQL;
@@ -135,9 +138,16 @@ function update_settings($id, $title, $displayed, $value, $type) {
     if ($id == 0 || $id == '0' || $id == '') {
         $query = "INSERT INTO settings (id, title, displayed, Type, value) SELECT '$id', '$title', '$displayed', '$type', '$value' WHERE NOT EXISTS (SELECT 1 FROM settings WHERE title = '$title')";
     };
-    //---
-    $result = execute_query($query);
-    //---
+
+    // Execute a SQL query
+    $results = $db->execute_query($query);
+
+    // Print the results
+    // foreach ($results as $row) echo $row['column1'] . " " . $row['column2'] . "<br>";
+
+    // Destroy the database object
+    $db = null;
+
     return $result;
 }
 //---
