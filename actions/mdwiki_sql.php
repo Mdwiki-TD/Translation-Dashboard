@@ -49,10 +49,14 @@ class Database {
             return array();
         }
     }
-    public function execute_query($sql_query) {
+    public function execute_query($sql_query, $params = null) {
         try {
             $q = $this->db->prepare($sql_query);
-            $q->execute();
+            if ($params) {
+                $q->execute($params);
+            } else {
+                $q->execute();
+            }
             
             // Check if the query starts with "SELECT"
             $query_type = strtoupper(substr(trim((string) $sql_query), 0, 6));
@@ -75,13 +79,17 @@ class Database {
     }
 }
 //---
-function execute_query($sql_query) {
+function execute_query($sql_query, $params = null) {
         
     // Create a new database object
     $db = new Database($_SERVER['SERVER_NAME']);
 
     // Execute a SQL query
-    $results = $db->execute_query($sql_query);
+    if ($params) {
+        $results = $db->execute_query($sql_query, $params);
+    } else {
+        $results = $db->execute_query($sql_query);
+    }
 
     // Print the results
     // foreach ($results as $row) echo $row['column1'] . " " . $row['column2'] . "<br>";
@@ -95,14 +103,12 @@ function execute_query($sql_query) {
 
 function sql_add_user($user_name, $email, $wiki, $project, $ido) {
     // Create a new database object
-    $db = new Database($_SERVER['SERVER_NAME']);
-
     // Use a prepared statement for INSERT
     $qua = <<<SQL
         INSERT INTO users (username, email, wiki, user_group, reg_date) SELECT ?, ?, ?, ?, now() 
         WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = ?)
     SQL;
-    $params = array($user_name, $email, $wiki, $project, $user_name);
+    $params = [$user_name, $email, $wiki, $project, $user_name];
 
     // Check if $ido is set and not empty
     if ($ido != '' && $ido != 0 && $ido != "0") {
@@ -115,40 +121,46 @@ function sql_add_user($user_name, $email, $wiki, $project, $ido) {
                 wiki = ? 
             WHERE users.user_id = ?
         SQL;
-        $params = array($user_name, $email, $project, $wiki, $ido);
+        $params = [$user_name, $email, $project, $wiki, $ido];
     }
 
     // Prepare and execute the SQL query with parameter binding
-    $results = $db->execute_prepared_query($qua, $params);
-    
-    // Destroy the database object
-    $db = null;
+    $results = execute_query($qua, $params=$params);
     
     return $results;
 }
 
 function update_settings($id, $title, $displayed, $value, $type) {
+    // Create a new database object
+
     $query = <<<SQL
-        UPDATE settings SET title = '$title', displayed = '$displayed', Type = '$type', value = '$value' WHERE id = '$id'
+        UPDATE settings SET title = ?, displayed = ?, Type = ?, value = ? WHERE id = ?
     SQL;
-    //---
+    $params = [$title, $displayed, $type, $value, $id];
+
+    // Define the SQL query using a prepared statement
     if ($id == 0 || $id == '0' || $id == '') {
-        $query = "INSERT INTO settings (id, title, displayed, Type, value) SELECT '$id', '$title', '$displayed', '$type', '$value' WHERE NOT EXISTS (SELECT 1 FROM settings WHERE title = '$title')";
-    };
-    //---
-    $result = execute_query($query);
-    //---
-    return $result;
+        $query = "INSERT INTO settings (id, title, displayed, Type, value) SELECT ?, ?, ?, ?, ? WHERE NOT EXISTS (SELECT 1 FROM settings WHERE title = ?)";
+        $params = [$id, $title, $displayed, $type, $value, $title];
+    }
+
+    // Prepare and execute the SQL query with parameter binding
+    $results = execute_query($query, $params);
+
+    return $results;
 }
+
 //---
 function insert_to_projects($g_title, $g_id) {
-    $query = "UPDATE projects SET g_title = '$g_title' WHERE g_id = '$g_id'";
+    $query = "UPDATE projects SET g_title = ? WHERE g_id = ?";
+    $params = [$g_title, $g_id];
     //---
     if ($g_id == 0 || $g_id == '0' || $g_id == '') {
-        $query = "INSERT INTO projects (g_title) SELECT '$g_title' WHERE NOT EXISTS (SELECT 1 FROM projects WHERE g_title = '$g_title')";
+        $query = "INSERT INTO projects (g_title) SELECT ? WHERE NOT EXISTS (SELECT 1 FROM projects WHERE g_title = ?)";
+        $params = [$g_title, $g_title];
     };
     //---
-    $result = execute_query($query);
+    $result = execute_query($query, $params);
     //---
     return $result;
 }
