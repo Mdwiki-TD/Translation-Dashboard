@@ -8,9 +8,10 @@ if (isset($_REQUEST['test'])) {
 $mwOAuthAuthorizeUrl = 'https://mdwiki.org/wiki/Special:OAuth/authorize';
 $mwOAuthUrl = 'https://mdwiki.org/w/index.php?title=Special:OAuth';
 $apiUrl = 'https://mdwiki.org/w/api.php';
+//---
 $twoYears = time() + 60 * 60 * 24 * 365 * 2;
 $errorCode = 200;
-$SCRIPT_NAME = htmlspecialchars( $_SERVER['SCRIPT_NAME'] ) ; 
+$SCRIPT_NAME = htmlspecialchars( $_SERVER['SCRIPT_NAME'] ) ;
 //---
 session_name( 'OAuthHelloWorld' );
 $params = session_get_cookie_params();
@@ -200,7 +201,7 @@ function doAuthorizationRedirect() {
     $state = array();
     // login5.php?action=login&cat=RTT&depth=1&code=&type=lead
     
-    foreach (['cat', 'code', 'type'] as $key) {
+    foreach (['cat', 'code', 'type', 'test'] as $key) {
         $da = $_REQUEST[$key] ?? '';
         if ($da != '') $state[$key] = $da;
     };
@@ -453,8 +454,12 @@ function doIdentify($gg) {
     //$dd = var_export( $payload, 1 );
     $username = $payload->{'username'};
     //---
-    
     setcookie('username',$username,time()+$twoYears,'/',$server_name,true,true);
+    //---
+    if ($username == 'Mr. Ibrahem') {
+        # dump $payload
+        echo var_export($payload, 1);
+    }
     //---
     if ( $gg != '' ) {
         echo 'JWT payload: <pre>' . htmlspecialchars( var_export( $payload, 1 ) ) . '</pre><br><hr>';
