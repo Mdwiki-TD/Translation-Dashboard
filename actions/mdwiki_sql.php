@@ -152,13 +152,15 @@ function update_settings($id, $title, $displayed, $value, $type) {
 
 //---
 function insert_to_projects($g_title, $g_id) {
-    $query = "UPDATE projects SET g_title = '$g_title' WHERE g_id = '$g_id'";
+    $query = "UPDATE projects SET g_title = ? WHERE g_id = ?";
+    $params = [$g_title, $g_id];
     //---
     if ($g_id == 0 || $g_id == '0' || $g_id == '') {
-        $query = "INSERT INTO projects (g_title) SELECT '$g_title' WHERE NOT EXISTS (SELECT 1 FROM projects WHERE g_title = '$g_title')";
+        $query = "INSERT INTO projects (g_title) SELECT ? WHERE NOT EXISTS (SELECT 1 FROM projects WHERE g_title = ?)";
+        $params = [$g_title, $g_title];
     };
     //---
-    $result = execute_query($query);
+    $result = execute_query($query, $params);
     //---
     return $result;
 }
