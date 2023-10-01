@@ -93,6 +93,36 @@ function execute_query($sql_query) {
     return $results;
 };
 //---
+function sql_add_user($user_name, $email, $wiki, $project) {
+    //---
+    // Create a new database object
+    $db = new Database($_SERVER['SERVER_NAME']);
+    //--- 
+    $qua = <<<SQL
+        INSERT INTO users (username, email, wiki, user_group, reg_date) SELECT '$user_name', '$email', '$wiki', '$project', now()
+        WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = '$user_name')
+    SQL;
+    //---
+    if ($ido != '' && $ido != 0 && $ido != "0") {
+        $qua = <<<SQL
+            UPDATE users SET
+                username    = '$user_name',
+                email       = '$email',
+                user_group  = '$project',
+                wiki        = '$wiki'
+            WHERE users.user_id = $ido;
+        SQL;
+    };
+    //---
+    // Execute a SQL query
+    $results = $db->execute_query($qua);
+    //---
+    // Destroy the database object
+    $db = null;
+    //---
+    return $results;
+}
+//---
 function update_settings($id, $title, $displayed, $value, $type) {
     $query = <<<SQL
         UPDATE settings SET title = '$title', displayed = '$displayed', Type = '$type', value = '$value' WHERE id = '$id'
