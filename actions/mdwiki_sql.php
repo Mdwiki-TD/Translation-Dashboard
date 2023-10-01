@@ -133,7 +133,7 @@ function display_tables() {
     $tables = [];
     foreach ($result as $row) $tables[] = $row['TABLE_NAME'];
     //---
-    test_print($tables);
+    // test_print($tables);
 }
 //---
 $test = $_GET['test'] ?? '';

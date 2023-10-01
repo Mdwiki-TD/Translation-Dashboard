@@ -27,7 +27,7 @@ function make_mail_icon($tab) {
 //---
 function make_project_to_user($projects, $project){
 	//---
-    $str = "<option value=''></option>";
+    $str = "<option value='Uncategorized'>Uncategorized</option>";
     // $str = "";
     //---
     foreach ( $projects AS $p_title => $p_id ) {

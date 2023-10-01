@@ -33,7 +33,7 @@ if (isset($_POST['username'])) {
 			$project   = trim($project);
 			//---
 			$qua = <<<SQL
-				INSERT INTO users (username, email, wiki, user_group) SELECT '$user_name', '$email', '$wiki', '$project'
+				INSERT INTO users (username, email, wiki, user_group, reg_date) SELECT '$user_name', '$email', '$wiki', '$project', now()
 				WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = '$user_name')
 			SQL;
 			//---	
