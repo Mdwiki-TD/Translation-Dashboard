@@ -9,8 +9,8 @@ if (isset($_POST['del'])) {
 		$del	= $_POST['del'][$i];
 		//---
 		if ($del != '') {
-			$qu = "DELETE FROM users WHERE user_id = '$del'";
-			execute_query($qu);
+			$qu = "DELETE FROM users WHERE user_id = ?";
+			execute_query($qu, $params=[$del]);
 		};
 	};
 };

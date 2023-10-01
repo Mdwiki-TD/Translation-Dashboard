@@ -5,8 +5,8 @@ if (isset($_POST['del'])) {
 		$del	= $_POST['del'][$i];
 		//---
 		if ($del != '') {
-			$qua2 = "DELETE FROM projects WHERE g_id = '$del'";
-			execute_query($qua2);
+			$qua2 = "DELETE FROM projects WHERE g_id = ?";
+			execute_query($qua2, $params=[$del]);
 		};
 	};
 };

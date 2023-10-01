@@ -5,8 +5,8 @@ if (isset($_POST['del'])) {
 		$del	= $_POST['del'][$i];
 		//---
 		if ($del != '') {
-			$qua2 = "DELETE FROM coordinator WHERE id = '$del'";
-			execute_query($qua2);
+			$qua2 = "DELETE FROM coordinator WHERE id = ?";
+			execute_query($qua2, $params=[$del]);
 		};
 	};
 };
@@ -19,9 +19,9 @@ if (isset($_POST['user'])) {
 		$user = trim($user);
 		//---
 		if ($user != '' && $ido == '') {
-			$qua = "INSERT INTO coordinator (user) SELECT '$user' WHERE NOT EXISTS (SELECT 1 FROM coordinator WHERE user = '$user')";
+			$qua = "INSERT INTO coordinator (user) SELECT ? WHERE NOT EXISTS (SELECT 1 FROM coordinator WHERE user = ?)";
 			//---
-			execute_query($qua);
+			execute_query($qua, $params=[$user, $user]);
 		};
 	};
 };

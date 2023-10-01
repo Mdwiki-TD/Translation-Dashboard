@@ -24,25 +24,27 @@ if (isset($_POST['cats'])) {
 		// $def = $_POST['def'][$i];
 		$def = ($default_cat == $cats) ? 1 : 0;
 		//---
-		$qua = "INSERT INTO categories (category, display, depth, def) SELECT '$cats', '$dis', '$dep', '$def'
-		WHERE NOT EXISTS (SELECT 1 FROM categories WHERE category = '$cats')";
+		$qua = "INSERT INTO categories (category, display, depth, def) SELECT ?, ?, ?, ?
+		WHERE NOT EXISTS (SELECT 1 FROM categories WHERE category = ?)";
+		$params = [$cats, $dis, $dep, $def, $cats];
 		//---
 		if ($ido != '') {
 			$qua = "UPDATE categories 
 			SET 
-			display = '$dis',
-			category = '$cats',
-			depth = '$dep',
-			def = $def
-			WHERE id = '$ido'
+			display = ?,
+			category = ?,
+			depth = ?,
+			def = ?
+			WHERE id = ?
 			";
+			$params = [$dis, $cats, $dep, $def, $ido];
 		};
 		//---
 		if (isset($_REQUEST['test'])) {
 			echo "<br>$qua<br>";
 		};
 		//---
-		execute_query($qua);
+		execute_query($qua, $params=$params);
 	};
 	if ($_REQUEST['test'] == 'dd') {
 		exit;

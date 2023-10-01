@@ -69,19 +69,19 @@ function insertPage($title_o, $word, $tr_type, $cat, $coden, $useree, $test) {
     
     $quae_new = <<<SQL
         INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target, add_date)
-        SELECT '$title_o', '$word', '$tr_type', '$cat', '$coden', now(), '$useree', '', '', now()
+        SELECT ?, ?, ?, ?, ?, now(), ?, '', '', now()
         WHERE NOT EXISTS
             (SELECT 1
             FROM pages 
-                    WHERE title = '$title_o'
-                    AND lang = '$coden'
-                    AND user = '$useree'
+                    WHERE title = ?
+                    AND lang = ?
+                    AND user = ?
             )
     SQL;
-
+    $params = [$title_o, $word, $tr_type, $cat, $coden, $useree, $title_o, $coden, $useree];
     if ($test != '') echo "<br>$quae_new<br>";
 
-    execute_query($quae_new);
+    execute_query($quae_new, $params=$params);
 }
 
 if ($title_o != '' && $coden != '' && $useree != '' ) {
