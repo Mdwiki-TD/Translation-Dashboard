@@ -93,29 +93,33 @@ function execute_query($sql_query) {
     return $results;
 };
 
-function sql_add_user($user_name, $email, $wiki, $project) {
-    
+function sql_add_user($user_name, $email, $wiki, $project, $ido) {
     // Create a new database object
     $db = new Database($_SERVER['SERVER_NAME']);
-     
+
+    // Use a prepared statement for INSERT
     $qua = <<<SQL
-        INSERT INTO users (username, email, wiki, user_group, reg_date) SELECT '$user_name', '$email', '$wiki', '$project', now()
-        WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = '$user_name')
+        INSERT INTO users (username, email, wiki, user_group, reg_date) SELECT ?, ?, ?, ?, now() 
+        WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = ?)
     SQL;
-    
+    $params = array($user_name, $email, $wiki, $project, $user_name);
+
+    // Check if $ido is set and not empty
     if ($ido != '' && $ido != 0 && $ido != "0") {
+        // Use a prepared statement for UPDATE
         $qua = <<<SQL
-            UPDATE users SET
-                username    = '$user_name',
-                email       = '$email',
-                user_group  = '$project',
-                wiki        = '$wiki'
-            WHERE users.user_id = $ido;
+            UPDATE users SET 
+                username = ?, 
+                email = ?, 
+                user_group = ?, 
+                wiki = ? 
+            WHERE users.user_id = ?
         SQL;
-    };
-    
-    // Execute a SQL query
-    $results = $db->execute_query($qua);
+        $params = array($user_name, $email, $project, $wiki, $ido);
+    }
+
+    // Prepare and execute the SQL query with parameter binding
+    $results = $db->execute_prepared_query($qua, $params);
     
     // Destroy the database object
     $db = null;

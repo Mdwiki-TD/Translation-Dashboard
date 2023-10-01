@@ -33,7 +33,7 @@ if (isset($_POST['username'])) {
 			$wiki      = trim($wiki);
 			$project   = trim($project);
 			//---
-			sql_add_user($user_name, $email, $wiki, $project);
+			sql_add_user($user_name, $email, $wiki, $project, $ido);
 			//---
 		};
 	};
