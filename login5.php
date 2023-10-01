@@ -143,13 +143,8 @@ switch ( isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : '' ) {
 
 }
 //---
-//---
 function log_new_user($username) {
-    $sql = <<<SQL
-        INSERT INTO users (username, email, wiki, user_group, reg_date) SELECT '$username', '', '', '', now()
-        WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = '$username')
-    SQL;
-    $result = execute_query( $sql );
+    sql_add_user($username, '', '', '', '');
 }
 //---
 function sign_request( $method, $url, $params = array() ) {
