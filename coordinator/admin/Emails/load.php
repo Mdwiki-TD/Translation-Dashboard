@@ -169,10 +169,13 @@ foreach ( $sorted_array as $user_name => $d) {
 		var ii = $('#tab_ma >tr').length + 1;
 		
 		var options = $('.options').html();
+		// find if any element has attr selected and unselect it
+		options = options.replace(/selected/g, '');
 		var e = "<tr>";
 		e = e + "<td>" + ii + "</td>";
 		e = e + "<td><input name='username[]" + ii + "'/></td>";
 		e = e + "<td><input size='25' name='email[]" + ii + "'/></td>";
+		e = e + "<td></td>";
 		e = e + "<td><select name='project[]" + ii + "' class='form-select'> " + options + "</select></td>";
 		e = e + "<td><input size='4' name='wiki[]" + ii + "'/></td>";
 		e = e + "<td>0</td>";

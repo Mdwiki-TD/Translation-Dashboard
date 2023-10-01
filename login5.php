@@ -5,12 +5,15 @@ if (isset($_REQUEST['test'])) {
     error_reporting(E_ALL);
 };
 //---
+include_once 'actions/mdwiki_sql.php';
+//---
 $mwOAuthAuthorizeUrl = 'https://mdwiki.org/wiki/Special:OAuth/authorize';
 $mwOAuthUrl = 'https://mdwiki.org/w/index.php?title=Special:OAuth';
 $apiUrl = 'https://mdwiki.org/w/api.php';
+//---
 $twoYears = time() + 60 * 60 * 24 * 365 * 2;
 $errorCode = 200;
-$SCRIPT_NAME = htmlspecialchars( $_SERVER['SCRIPT_NAME'] ) ; 
+$SCRIPT_NAME = htmlspecialchars( $_SERVER['SCRIPT_NAME'] ) ;
 //---
 session_name( 'OAuthHelloWorld' );
 $params = session_get_cookie_params();
@@ -74,29 +77,24 @@ $gTokenSecret = '';
 session_start();
 //---
 if ( isset( $_SESSION['tokenKey'] ) ) {
-    
     $gTokenKey = $_SESSION['tokenKey'];
     $gTokenSecret = $_SESSION['tokenSecret'];
-    
 } elseif ( isset( $_COOKIE['tokenKey'] ) ) {
-    
     $gTokenKey    = $_COOKIE['tokenKey'];
     $gTokenSecret = $_COOKIE['tokenSecret'];
-    
 };
 //---
 session_write_close();
 //---
-
 // Fetch the access token if this is the callback from requesting authorization
 // we get it after login
-if ( isset($_REQUEST['oauth_verifier']) && isset($_REQUEST['oauth_verifier']) ) {
-    // setcookie('oauth_verifier',$_REQUEST['oauth_verifier'],$twoYears,'/',$server_name,true,true);
+// if ( isset($_REQUEST['oauth_verifier']) && isset($_REQUEST['oauth_token']) ) {
+if ( isset($_REQUEST['oauth_verifier']) ) {
     fetchAccessToken();
+    //---
+    if ($gTokenSecret != '' and $gTokenKey != '') doIdentify('');
+    //---
 };
-//---
-if ($gTokenSecret != '' and $gTokenKey != '') doIdentify('');
-//---
 // Take any requested action
 switch ( isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : '' ) {
     case 'login':
@@ -104,6 +102,7 @@ switch ( isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : '' ) {
             $fa = $_GET['test1'] ?? '';
             if ($fa == '') { 
                 $username = 'Mr. Ibrahem';
+                log_new_user($username);
                 setcookie('username',$username,time()+$twoYears,'/',$server_name,true,true);
                 header("Location: " . $_SERVER['HTTP_REFERER']);
             };
@@ -125,7 +124,6 @@ switch ( isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : '' ) {
             foreach($cookies as $cookie) {
                 $parts = explode('=', $cookie);
                 $name = trim($parts[0]);
-                // setcookie($name, '', time()-$twoYears);
                 setcookie($name, '', time()-$twoYears,'/',$server_name,true,true);
             };
         };
@@ -143,6 +141,10 @@ switch ( isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : '' ) {
         $ma = doIdentify('n');
         break;
 
+}
+//---
+function log_new_user($username) {
+    sql_add_user($username, '', '', '', '');
 }
 //---
 function sign_request( $method, $url, $params = array() ) {
@@ -200,7 +202,7 @@ function doAuthorizationRedirect() {
     $state = array();
     // login5.php?action=login&cat=RTT&depth=1&code=&type=lead
     
-    foreach (['cat', 'code', 'type'] as $key) {
+    foreach (['cat', 'code', 'type', 'test'] as $key) {
         $da = $_REQUEST[$key] ?? '';
         if ($da != '') $state[$key] = $da;
     };
@@ -448,13 +450,18 @@ function doIdentify($gg) {
         exit(0);
     }
     //---
-    
     //return $payload
     //$dd = var_export( $payload, 1 );
     $username = $payload->{'username'};
     //---
-    
     setcookie('username',$username,time()+$twoYears,'/',$server_name,true,true);
+    //---
+    if ($username == 'Mr. Ibrahem') {
+        # dump $payload
+        echo var_export($payload, 1);
+    }
+    //---
+    log_new_user($username);
     //---
     if ( $gg != '' ) {
         echo 'JWT payload: <pre>' . htmlspecialchars( var_export( $payload, 1 ) ) . '</pre><br><hr>';

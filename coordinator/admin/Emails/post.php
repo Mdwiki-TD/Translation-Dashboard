@@ -1,9 +1,10 @@
 <?php
 //---
-$new_q = "INSERT INTO users (username, email, wiki, user_group) SELECT DISTINCT user, '', '', '' from pages
+$new_q = "INSERT INTO users (username, email, wiki, user_group, reg_date) SELECT DISTINCT user, '', '', '', now() from pages
 WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = user)";
 //---
 if (isset($_POST['del'])) {
+	var_export($_POST['del']);
 	for($i = 0; $i < count($_POST['del']); $i++ ) {
 		$del	= $_POST['del'][$i];
 		//---
@@ -32,23 +33,7 @@ if (isset($_POST['username'])) {
 			$wiki      = trim($wiki);
 			$project   = trim($project);
 			//---
-			$qua = <<<SQL
-				INSERT INTO users (username, email, wiki, user_group) SELECT '$user_name', '$email', '$wiki', '$project'
-				WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = '$user_name')
-			SQL;
-			//---	
-			if ($ido != '' && $ido != 0 && $ido != "0") {
-				$qua = <<<SQL
-					UPDATE `users` SET
-						`username` = '$user_name',
-						`email` = '$email',
-						`user_group` = '$project',
-						`wiki` = '$wiki'
-						WHERE `users`.`user_id` = $ido;
-				SQL;
-			};
-			//---
-			execute_query($qua);
+			sql_add_user($user_name, $email, $wiki, $project, $ido);
 			//---
 		};
 	};
