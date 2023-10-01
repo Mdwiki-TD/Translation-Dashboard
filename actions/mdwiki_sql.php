@@ -132,24 +132,28 @@ function update_settings($id, $title, $displayed, $value, $type) {
     $db = new Database($_SERVER['SERVER_NAME']);
 
     $query = <<<SQL
-        UPDATE settings SET title = '$title', displayed = '$displayed', Type = '$type', value = '$value' WHERE id = '$id'
+        UPDATE settings SET title = ?, displayed = ?, Type = ?, value = ? WHERE id = ?
     SQL;
-    //---
+    $params = [$title, $displayed, $type, $value, $id];
+
+    // Define the SQL query using a prepared statement
     if ($id == 0 || $id == '0' || $id == '') {
-        $query = "INSERT INTO settings (id, title, displayed, Type, value) SELECT '$id', '$title', '$displayed', '$type', '$value' WHERE NOT EXISTS (SELECT 1 FROM settings WHERE title = '$title')";
-    };
+        $query = "INSERT INTO settings (id, title, displayed, Type, value) SELECT ?, ?, ?, ?, ? WHERE NOT EXISTS (SELECT 1 FROM settings WHERE title = ?)";
+        $params = [$id, $title, $displayed, $type, $value, $title];
+    }
 
-    // Execute a SQL query
-    $results = $db->execute_query($query);
+    // Prepare and execute the SQL query with parameter binding
+    $results = $db->execute_prepared_query($query, $params);
 
-    // Print the results
+    // Print the results if necessary
     // foreach ($results as $row) echo $row['column1'] . " " . $row['column2'] . "<br>";
 
     // Destroy the database object
     $db = null;
 
-    return $result;
+    return $results;
 }
+
 //---
 function insert_to_projects($g_title, $g_id) {
     $query = "UPDATE projects SET g_title = '$g_title' WHERE g_id = '$g_id'";
