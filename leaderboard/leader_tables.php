@@ -63,7 +63,7 @@ $sql_Languages_tab = array();
 $all_views_by_lang = array();
 $Views_by_users = array();
 
-$Views_by_target = make_views_by_target();
+$Views_by_lang_target = make_views_by_lang_target();
 $tab_for_graph = [];
 // $articles_to_camps, $camps_to_articles
 
@@ -86,7 +86,7 @@ foreach (execute_query($qua_all) as $Key => $teb) {
     $target = $teb['target'];
     $word   = $teb['word'];
     
-    $coco = $Views_by_target[$target][$year] ?? 0;
+    $coco = $Views_by_lang_target[$lang][$target][$year] ?? 0;
     
     $Words_total += $word;
     $Articles_numbers += 1;
