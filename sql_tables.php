@@ -33,16 +33,23 @@ foreach ( execute_query('select id, title, displayed, value, Type from settings;
 }
 //---
 
-function make_views_by_target() {
+function make_views_by_lang_target() {
     $vta = array();
 
     $qua_vi = "
-    SELECT target, countall, count2021, count2022, count2023
+    SELECT target, lang, countall, count2021, count2022, count2023
     FROM views;
     ";
 
     foreach (execute_query($qua_vi) as $k => $tab) {
-        $vta[$tab['target']] = array(
+        // check if lang already in array array_key_exists
+        $langcode = $tab['lang'];
+        $target   = $tab['target'];
+		if (!array_key_exists($langcode, $vta)) {
+			$vta[$langcode] = [];
+		};
+        // add to array
+        $vta[$langcode][$target] = array(
             'all'  => $tab['countall'],
             '2021' => $tab['count2021'],
             '2022' => $tab['count2022'],

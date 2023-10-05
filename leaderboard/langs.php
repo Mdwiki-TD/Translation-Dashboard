@@ -16,7 +16,8 @@ if ( $_SERVER['SERVER_NAME'] == 'localhost' || $test != '' ) {
 };
 //---
 // views (target, countall, count2021, count2022, count2023, lang)
-$qua_views = "select 
+$qua_views = <<<SQL
+select 
     #p.title, p.user, p.date, p.word, p.lang, p.cat, p.pupdate, 
     p.target, v.countall
 
@@ -25,7 +26,7 @@ $qua_views = "select
     and p.lang = v.lang
     and p.target = v.target
     ;
-    ";
+SQL;
 $views_quary = execute_query($qua_views);
 //---
 $dd = array();

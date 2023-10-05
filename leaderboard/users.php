@@ -36,6 +36,7 @@ if (True) {
         select p.target, v.countall
         from pages p, views v
         where p.user = '$user_main'
+        and p.lang = v.lang
         and p.target = v.target
         limit 200
     SQL;
