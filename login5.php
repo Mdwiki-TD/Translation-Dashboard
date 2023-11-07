@@ -17,10 +17,12 @@ $SCRIPT_NAME = htmlspecialchars($_SERVER['SCRIPT_NAME']);
 //---
 session_name('OAuthHelloWorld');
 $params = session_get_cookie_params();
-session_set_cookie_params(
-    $params['lifetime'],
-    dirname($_SERVER['SCRIPT_NAME'])
-);
+session_set_cookie_params([
+    'lifetime' => $params['lifetime'],
+    'path' => dirname($_SERVER['SCRIPT_NAME']),
+    'secure' => true,
+    'httponly' => true
+]);
 //---
 // get the root path from __file__ , split before public_html
 // split the file path on the public_html directory
@@ -196,10 +198,11 @@ function doAuthorizationRedirect()
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     //---
     $data = curl_exec($ch);
-    //---
-    if (!$data) {
+    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    if (!$data || $httpcode != 200) {
         header("HTTP/1.1 $errorCode Internal Server Error");
         echo '- Curl error: ' . htmlspecialchars(curl_error($ch));
+        echo '- HTTP status: ' . $httpcode;
         // throw new Exception ( '- Curl error: ' . htmlspecialchars( curl_error( $ch ) ) ) ;
         exit(0);
     }
@@ -278,12 +281,17 @@ function fetchAccessToken()
     curl_setopt($ch, CURLOPT_USERAGENT, $gUserAgent);
     curl_setopt($ch, CURLOPT_HEADER, 0);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    //---
     $data = curl_exec($ch);
-    if (!$data) {
+    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    if (!$data || $httpcode != 200) {
         header("HTTP/1.1 $errorCode Internal Server Error");
-        echo '* Curl error: ' . htmlspecialchars(curl_error($ch));
+        echo '- Curl error: ' . htmlspecialchars(curl_error($ch));
+        echo '- HTTP status: ' . $httpcode;
+        // throw new Exception ( '- Curl error: ' . htmlspecialchars( curl_error( $ch ) ) ) ;
         exit(0);
     }
+    //---
     curl_close($ch);
     $token = json_decode($data);
     if (is_object($token) && isset($token->error)) {
@@ -349,12 +357,17 @@ function doIdentify($gg)
     curl_setopt($ch, CURLOPT_USERAGENT, $gUserAgent);
     curl_setopt($ch, CURLOPT_HEADER, 0);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    //---
     $data = curl_exec($ch);
-    if (!$data) {
+    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    if (!$data || $httpcode != 200) {
         header("HTTP/1.1 $errorCode Internal Server Error");
-        echo '# Curl error: ' . htmlspecialchars(curl_error($ch));
+        echo '- Curl error: ' . htmlspecialchars(curl_error($ch));
+        echo '- HTTP status: ' . $httpcode;
+        // throw new Exception ( '- Curl error: ' . htmlspecialchars( curl_error( $ch ) ) ) ;
         exit(0);
     }
+    //---
     $err = json_decode($data);
     //---
     if (is_object($err) && isset($err->error) && $err->error === 'mwoauthdatastore-access-token-not-found') {
@@ -472,12 +485,14 @@ function doApiQuery($post, $ch = null, $addtoken = false)
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     //---
     $data = curl_exec($ch);
-    //---
-    if (!$data) {
+    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    if (!$data || $httpcode != 200) {
         header("HTTP/1.1 $errorCode Internal Server Error");
-        echo 'Curl error: ' . htmlspecialchars(curl_error($ch));
+        echo '- Curl error: ' . htmlspecialchars(curl_error($ch));
+        echo '- HTTP status: ' . $httpcode;
+        // throw new Exception ( '- Curl error: ' . htmlspecialchars( curl_error( $ch ) ) ) ;
         exit(0);
-    };
+    }
     //---
     $ret = json_decode($data, true);
     //---
