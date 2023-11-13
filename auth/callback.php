@@ -10,6 +10,10 @@ use MediaWiki\OAuthClient\Token;
 
 if (!isset($_GET['oauth_verifier'])) {
 	echo "This page should only be access after redirection back from the wiki.";
+	echo <<<HTML
+		Go to this URL to authorize this tool:<br />
+		<a href='auth.php?a=login'>Login</a><br />
+	HTML;
 	exit(1);
 }
 
@@ -19,7 +23,7 @@ require_once __DIR__ . '/config.php';
 // Configure the OAuth client with the URL and consumer details.
 $conf = new ClientConfig($oauthUrl);
 $conf->setConsumer(new Consumer($consumerKey, $consumerSecret));
-$conf->setUserAgent('DemoApp MediaWikiOAuthClient/1.0');
+$conf->setUserAgent($gUserAgent);
 $client = new Client($conf);
 
 // Get the Request Token's details from the session and create a new Token object.

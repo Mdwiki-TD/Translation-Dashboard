@@ -12,9 +12,9 @@ $ini = Read_ini_file('OAuthConfig.ini');
 //---
 */
 //---
-// get the root path from __file__ , split before public_html
+// get the root path from __FILE__ , split before public_html
 // split the file path on the public_html directory
-$pathParts = explode('public_html', __file__);
+$pathParts = explode('public_html', __FILE__);
 // the root path is the first part of the split file path
 $_dir = $pathParts[0] . '/confs/';
 //---
