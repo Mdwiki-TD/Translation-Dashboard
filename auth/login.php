@@ -44,7 +44,7 @@ require_once $configFile;
 // Configure the OAuth client with the URL and consumer details.
 $conf = new ClientConfig($oauthUrl);
 $conf->setConsumer(new Consumer($consumerKey, $consumerSecret));
-$conf->setUserAgent('DemoApp MediaWikiOAuthClient/1.0');
+$conf->setUserAgent($gUserAgent);
 $client = new Client($conf);
 
 function make_callback_url() {

@@ -5,10 +5,10 @@ require('tables.php');
 include_once('functions.php');
 $dir = 'I:/mdwiki';
     
-if (strpos(__file__, '/mnt/') === 0) {
+if (strpos(__FILE__, '/mnt/') === 0) {
     $dir = '/mnt/nfs/labstore-secondary-tools-project/mdwiki';
 }
-if (strpos(__file__, '/data/') === 0) {
+if (strpos(__FILE__, '/data/') === 0) {
     $dir = '/data/project/mdwiki';
 }
 $coden = strtolower($_REQUEST['code']);

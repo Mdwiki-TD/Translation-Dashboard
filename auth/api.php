@@ -14,7 +14,7 @@ use MediaWiki\OAuthClient\Consumer;
 use MediaWiki\OAuthClient\Token;
 
 // Output the demo as plain text, for easier formatting.
-header( 'Content-type: text/plain' );
+// header( 'Content-type: text/plain' );
 
 // Get the wiki URL and OAuth consumer details from the config file.
 require_once __DIR__ . '/config.php';
@@ -22,7 +22,7 @@ require_once __DIR__ . '/config.php';
 // Configure the OAuth client with the URL and consumer details.
 $conf = new ClientConfig( $oauthUrl );
 $conf->setConsumer( new Consumer( $consumerKey, $consumerSecret ) );
-$conf->setUserAgent( 'DemoApp MediaWikiOAuthClient/1.0' );
+$conf->setUserAgent( $gUserAgent );
 $client = new Client( $conf );
 
 // Load the Access Token from the session.
@@ -32,17 +32,21 @@ $accessToken = new Token( $_SESSION['access_key'], $_SESSION['access_secret'] );
 // Example 1: get the authenticated user's identity.
 $ident = $client->identify( $accessToken );
 
-
-// Example 3: make an edit (getting the edit token first).
-$editToken = json_decode( $client->makeOAuthCall(
-	$accessToken,
-	"$apiUrl?action=query&meta=tokens&format=json"
-) )->query->tokens->csrftoken;
+function get_edit_token(){
+    global $client, $accessToken, $apiUrl;
+    // Example 3: make an edit (getting the edit token first).
+    $editToken = json_decode( $client->makeOAuthCall(
+        $accessToken,
+        "$apiUrl?action=query&meta=tokens&format=json"
+    ) )->query->tokens->csrftoken;
+    //---
+    return $editToken;
+}
 
 function doApiQuery($Params, $addtoken = null){
-    global $client, $accessToken, $apiUrl, $editToken;
+    global $client, $accessToken, $apiUrl;
     //---
-    if ($addtoken != null) $Params['token'] = $addtoken;    
+    if ($addtoken !== null) $Params['token'] = get_edit_token();    
     //---
     $Result = $client->makeOAuthCall(
         $accessToken,
@@ -52,4 +56,10 @@ function doApiQuery($Params, $addtoken = null){
     );
     //---
     return json_decode($Result, true);
+}
+
+$post = $_GET;
+if (isset($post['action'])) {
+    $result = doApiQuery($post);
+    echo json_encode($result, true);
 }

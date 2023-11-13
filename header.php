@@ -12,8 +12,10 @@ if (!defined('global_test')) {
 	define('global_test', $testxx);
 };
 //---
+$testhtml = htmlspecialchars($testxx, ENT_QUOTES, 'UTF-8');
+//---
 echo <<<HTML
-	<input type='hidden' id='test' value='$testxx'>
+	<input type='hidden' id='test' value='$testhtml'>
 HTML;
 //---
 include_once 'functions.php'; // $usrs
