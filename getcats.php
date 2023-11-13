@@ -9,7 +9,7 @@ if (isset($_REQUEST['test'])) {
 require 'tables.php';
 require 'langcode.php';
 include_once 'functions.php';
-include_once 'auth/api.php';
+// include_once 'auth/api.php';
 //---
 function start_with( $haystack, $needle ) {
     return strpos( $haystack , $needle ) === 0;
@@ -99,13 +99,16 @@ function get_categorymembers( $cat ) {
         //---
         test_print("<br>params:<br>$endPoint"."<br>");
         //---
+		$resa = get_url_with_params( $params );
+        //---
+		/*
 		if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost') { 
 			//---
 			$resa = get_url_with_params( $params );
 			//---
 		} else {
-			$resa = doApiQuery($params);
-		};
+			$resa = get_api_php($params);
+		};*/
 		//---
         if (!isset($resa["query"])) $resa = get_url_with_params( $params );
 		//---

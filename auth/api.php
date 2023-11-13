@@ -57,3 +57,9 @@ function doApiQuery($Params, $addtoken = null){
     //---
     return json_decode($Result, true);
 }
+
+$post = $_GET;
+if (isset($post['action'])) {
+    $result = doApiQuery($post);
+    echo json_encode($result, true);
+}

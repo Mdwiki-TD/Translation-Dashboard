@@ -5,6 +5,7 @@ if (isset($_REQUEST['test'])) {
 	error_reporting(E_ALL);
 };
 //---
+/*
 // Require the library and set up the classes we're going to use in this second part of the demo.
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -20,7 +21,7 @@ $conf = new ClientConfig( $oauthUrl );
 $conf->setConsumer( new Consumer( $consumerKey, $consumerSecret ) );
 $conf->setUserAgent( $gUserAgent );
 $client = new Client( $conf );
-
+*/
 // Get the Request Token's details from the session and create a new Token object.
 session_start();
 //---

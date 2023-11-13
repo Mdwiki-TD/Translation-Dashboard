@@ -33,7 +33,7 @@ echo "You are authenticated as " . htmlspecialchars($ident->username) . ".\n\n";
 $_SESSION['username'] = $ident->username;
 
 //---
-require_once __DIR__ . "/mdwiki_sql.php";
+require_once __DIR__ . "/../actions/mdwiki_sql.php";
 //---
 if ($ident->username != '') {
     sql_add_user($ident->username, '', '', '', '');
