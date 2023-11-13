@@ -7,25 +7,21 @@ if (isset($_REQUEST['test'])) {
 };
 //---
 /*
-include_once('td_config.php');
+include_once 'td_config.php';
 $ini = Read_ini_file('OAuthConfig.ini');
-//---
-$ini = Read_ini_file('my_config.ini');
 //---
 */
 //---
-$_dir = "I:/mdwiki/confs/";
-//---
-if ( strpos( __file__ , '/mnt/' ) === 0 ) $_dir = "/data/project/mdwiki/confs/";
-//---
-$inio = array();
+// get the root path from __file__ , split before public_html
+// split the file path on the public_html directory
+$pathParts = explode('public_html', __file__);
+// the root path is the first part of the split file path
+$_dir = $pathParts[0] . '/confs/';
 //---
 function Read_ini_file($file) {
     global $_dir;
     //---
-    $inio = parse_ini_file( $_dir . $file );
-    //---
-    return $inio;
+    return parse_ini_file( $_dir . $file );
 };
 //---
 function get_configs($fileo) {
