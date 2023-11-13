@@ -25,7 +25,7 @@ $accessToken = new Token( $_SESSION['access_key'], $_SESSION['access_secret'] );
 
 // Example 1: get the authenticated user's identity.
 $ident = $client->identify( $accessToken );
-echo "You are authenticated as $ident->username.\n\n";
+echo "You are authenticated as " . htmlspecialchars($ident->username, ENT_QUOTES, 'UTF-8') . ".\n\n";
 
 function get_edit_token(){
     global $client, $accessToken, $apiUrl;
