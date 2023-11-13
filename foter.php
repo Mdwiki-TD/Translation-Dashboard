@@ -6,8 +6,8 @@
 		var cat = $('#cat').val() || '';
 		var code = $('#code').val() || '';
 		var type = $('input[name=type]:checked').val() || '';
-
-		var url = 'login5.php?action=login';
+		var test = $('#test').val() || '';
+		var url = 'auth.php?a=login';
 		if (cat !== '') {
 			url += '&cat=' + cat;
 		}
@@ -16,6 +16,9 @@
 		}
 		if (type !== '') {
 			url += '&type=' + type;
+		}
+		if (test !== '') {
+			url += '&test=' + test;
 		}
 
 		window.location.href = url;

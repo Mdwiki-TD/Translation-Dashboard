@@ -6,13 +6,18 @@ if (isset($_REQUEST['test'])) {
 	error_reporting(E_ALL);
 };
 //---
-$testxx = isset($_REQUEST['test']) ? "1" : "";
+$testxx = isset($_GET['test']) ? $_GET['test'] : "";
 //---
-define('global_test', $testxx);
+if (!defined('global_test')) {
+	define('global_test', $testxx);
+};
 //---
-include_once('functions.php'); // $usrs
+echo <<<HTML
+	<input type='hidden' id='test' value='$testxx'>
+HTML;
 //---
-include_once('login5.php');
+include_once 'functions.php'; // $usrs
+include_once 'auth/index.php';
 //---
 define('global_username', $username);
 //---
@@ -168,7 +173,7 @@ echo <<<HTML
 				<div class="modal-body">Select &quot;Logout&quot; below if you are ready to end your current session.</div>
 				<div class="modal-footer">
 					<button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
-					<a class="btn btn-primary" href="login5.php?action=logout">Logout</a>
+					<a class="btn btn-primary" href="auth.php?a=logout">Logout</a>
 				</div>
 			</div>
 		</div>

@@ -1,18 +1,16 @@
 <?PHP
 //---
-/*
-isset\((\$_\w+\[.*?\])\)\s*\?\s*\1\s*:\s*(.*?);
-isset\((\$.*?\[.*?\])\)\s*\?\s*\1\s*:\s*(.*?);
-isset\((.*?)\)\s*\?\s*\1\s*:\s*(.*?);
-\(*isset\((.*?)\)\)*\s*\?\s*\1\s*:\s*(.*?);
-$1 ?? $2;
-*/
+if (isset($_REQUEST['test'])) {
+	ini_set('display_errors', 1);
+	ini_set('display_startup_errors', 1);
+	error_reporting(E_ALL);
+};
 //---
-require('header.php');
-require('langcode.php');
-include_once('functions.php');
-include_once('td_config.php');
-include_once('sql_tables.php');
+require 'header.php';
+require 'langcode.php';
+include_once 'functions.php';
+include_once 'td_config.php';
+include_once 'sql_tables.php';
 //---
 $conf = get_configs('conf.json');
 //---
@@ -54,7 +52,7 @@ function print_form_start1() {
     //---
     global $allow_whole_translate ;
     global $lang_to_code, $catinput_list;
-    global $cat_ch, $code_lang_name, $code, $username, $tra_type;
+    global $cat_ch, $code_lang_name, $code, $tra_type;
     //---
     $lead_checked = "checked";
     $all_checked = "";
@@ -120,7 +118,7 @@ function print_form_start1() {
     $catinput = make_drop($catinput_list, $cat_ch);
     //---
     $catinput = <<<HTML
-        <select dir='ltr' name='cat' class='form-select' data-bs-theme="auto">
+        <select dir='ltr' name='cat' id='cat' class='form-select' data-bs-theme="auto">
             $catinput
         </select>
     HTML;
@@ -215,8 +213,8 @@ echo <<<HTML
 <!-- <script src='/Translation_Dashboard/js/codes.js'></script> -->
 HTML;
 //---
-require('results.php');
+require 'results.php';
 //---
-require('foter.php');
+require 'foter.php';
 //---
 ?>

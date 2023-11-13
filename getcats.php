@@ -6,9 +6,10 @@ if (isset($_REQUEST['test'])) {
     error_reporting(E_ALL);
 };
 //---
-require('tables.php');
-require('langcode.php');
-include_once('functions.php');
+require 'tables.php';
+require 'langcode.php';
+include_once 'functions.php';
+include_once 'auth/api.php';
 //---
 function start_with( $haystack, $needle ) {
     return strpos( $haystack , $needle ) === 0;
@@ -103,7 +104,7 @@ function get_categorymembers( $cat ) {
 			$resa = get_url_with_params( $params );
 			//---
 		} else {
-			$resa = doApiQuery( $params, $ch );
+			$resa = doApiQuery($params);
 		};
 		//---
         if (!isset($resa["query"])) $resa = get_url_with_params( $params );
@@ -245,4 +246,3 @@ function get_cat_members( $cat, $depth, $code, $use_cash=false ) {
     //---
 };
 //---
-?>
