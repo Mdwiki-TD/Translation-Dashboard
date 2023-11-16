@@ -4,7 +4,7 @@ include_once 'langcode.php';
 //---
 $lang = $_GET['lang'] ?? 'all';
 //---
-if ($lang != 'all' && !in_array($lang, $code_to_lang)) {
+if ($lang !== 'all' && !isset($code_to_lang[$lang])) {
     $lang = 'all';
 };
 //---
