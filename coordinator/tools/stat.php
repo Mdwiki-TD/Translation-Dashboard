@@ -11,31 +11,38 @@ require('getcats.php');
 include_once('functions.php');
 //---
 $cat = $_REQUEST['cat'] ?? 'RTT';
-$cats_titles = array();
 //---
-foreach ( execute_query('select category from categories;') AS $k => $tab ) $cats_titles[] = $tab['category'];
+function filter_stat($cat) {
+	$cats_titles = array();
+	//---
+	foreach ( execute_query('select category from categories;') AS $k => $tab ) $cats_titles[] = $tab['category'];
+	//---
+	$d33 = <<<HTML
+		<div class="input-group">
+			<span class="input-group-text">%s</span>
+			%s
+		</div>
+	HTML;
+	//---
+	$y1 = makeDropdown($cats_titles, $cat, 'cat', '');
+	$uuu = sprintf($d33, 'Category:', $y1);
+	//---
+    return $uuu;
+}
 //---
-$d33 = <<<HTML
-<div class='col-md-3 col-sm-3'>
-	<div class="input-group">
-		<span class="input-group-text">%s</span>
-		%s
-	</div>
-</div>
-HTML;
-//---
-$y1 = makeDropdown($cats_titles, $cat, 'cat', '');
-$uuu = sprintf($d33, 'Category:', $y1);
+$uuu = filter_stat($cat);
 //---
 $fa = <<<HTML
 <div class='card-header'>
 	<form method='get' action='coordinator.php'>
 		<input name='ty' value='stat' hidden/>
 		<div class='row'>
-			<div class='col-md-2'>
+			<div class='col-md-3'>
 				<h4>Status:</h4>
 			</div>
-			$uuu	
+			<div class='col-md-3'>
+				$uuu
+			</div>
 			<div class='aligncenter col-md-2'><input class='btn btn-primary' type='submit' name='start' value='Filter' /></div>
 		</div>
 	</form>
