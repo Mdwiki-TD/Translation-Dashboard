@@ -1,25 +1,12 @@
 <?PHP
 //---
-include_once 'langcode.php';//$lang_code_to_en
+include_once 'langcode.php';
 //---
 $lang = $_GET['lang'] ?? 'all';
 //---
-function filter_recent_old($lang) {
-    global $lang_code_to_en;
-    $langs = array_keys($lang_code_to_en);
-    //---
-    $d33 = <<<HTML
-        <div class="input-group">
-            <span class="input-group-text">%s</span>
-            %s
-        </div>
-    HTML;
-    //---
-    $y1 = makeDropdown($langs, $lang, 'lang', 'all');
-    $uuu = sprintf($d33, 'Language:', $y1);
-    //---
-    return $uuu;
-}
+if ($lang != 'all' && !in_array($lang, $code_to_lang)) {
+    $lang = 'all';
+};
 //---
 function filter_recent($lang) {
     global $code_to_lang;
