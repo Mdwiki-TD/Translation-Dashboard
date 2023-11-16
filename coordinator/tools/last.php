@@ -1,10 +1,64 @@
-<div class='card-header'>
-    <h4>Most recent translations:</h4>
-</div>
-<div class='card-body'>
 <?PHP
 //---
-$sato = <<<HTML
+include_once 'langcode.php';
+//---
+$lang = $_GET['lang'] ?? 'all';
+//---
+if ($lang != 'all' && !in_array($lang, $code_to_lang)) {
+    $lang = 'all';
+};
+//---
+function filter_recent($lang) {
+    global $code_to_lang;
+    //---
+    $tabes = [];
+    //---
+    foreach ( execute_query("select DISTINCT lang from pages;") AS $tat => $tag ) {
+        $lag = strtolower($tag['lang']);
+        //---
+        $tabes[] = $lag;
+        //---
+    };
+    //---
+    ksort($tabes);
+    //---
+    $lang_list = '';
+    //---
+    foreach ( $tabes as $codr ) {
+        $langeee = $code_to_lang[$codr] ?? '';
+		$selected = ($codr == $lang) ? 'selected' : '';
+        $lang_list .= <<<HTML
+            <option data-tokens='$codr' value='$codr' $selected>$langeee</option>
+            HTML;
+    };
+    //---
+    $langse = <<<HTML
+        <select 
+            class="selectpicker"
+            id='lang'
+            name='lang'
+            placeholder='two letter code'
+            data-live-search="true"
+            data-container="body"
+            data-live-search-style="begins"
+            data-bs-theme="auto"
+            data-style='btn active'
+            data-width="90%"
+            >
+            $lang_list
+        </select>
+    HTML;
+    //---
+    $uuu = <<<HTML
+        <div class="input-group">
+            $langse
+        </div>
+    HTML;
+    //---
+    return $uuu;
+}
+//---
+$recent_table = <<<HTML
 	<table class="table table-sm table-striped table-mobile-responsive table-mobile-sided" id="last_tabel" style="font-size:90%;">
         <thead>
             <tr>
@@ -45,7 +99,8 @@ function make_td($tabg, $nnnn) {
     //---
     $views_number = $views_sql[$targe] ?? '?';
     //---
-    $lang2 = $code_to_lang[$llang] ?? $llang;
+    // $lang2 = $code_to_lang[$llang] ?? $llang;
+    $lang2 = $llang;
     //---
     // $ccat = make_cat_url( $cat );
     $ccat = $cat_to_camp[$cat] ?? $cat;
@@ -106,31 +161,63 @@ function make_td($tabg, $nnnn) {
     return $laly;
 };
 //---
-$dd0 = execute_query("select * from pages where target != '' ORDER BY pupdate DESC limit 100;");
+function get_recent_sql($lang) {
+    $lang_line = '';
+    //---
+    if ($lang != '' && $lang != 'all') $lang_line = "and lang = '$lang'";
+    //---
+    $dd0 = execute_query("select * from pages where target != '' $lang_line ORDER BY pupdate DESC limit 100;");
+    $dd1 = execute_query("select * from pages where target != '' $lang_line ORDER BY add_date DESC limit 100");
+    //---
+    // merage the two arrays without duplicates
+    $dd2 = array_unique(array_merge($dd0, $dd1), SORT_REGULAR);
+    //---
+    // sort the table by add_date
+    usort($dd2, function($a, $b) {
+        return strtotime($b['add_date']) - strtotime($a['add_date']);
+    });
+    //---
+    return $dd2;    
+}
 //---
-$dd1 = execute_query("select * from pages where target != '' ORDER BY add_date DESC limit 100");
-//---
-// merage the two arrays without duplicates
-$dd2 = array_unique(array_merge($dd0, $dd1), SORT_REGULAR);
-//---
-// sort the table by add_date
-usort($dd2, function($a, $b) {
-    return strtotime($b['add_date']) - strtotime($a['add_date']);
-});
+$qsl_results = get_recent_sql($lang);
 //---
 $noo = 0;
-foreach ( $dd2 AS $tat => $tabe ) {
+foreach ( $qsl_results AS $tat => $tabe ) {
     //---
     $noo = $noo + 1;
-    $sato .= make_td($tabe, $noo);
+    $recent_table .= make_td($tabe, $noo);
     //---
 };
 //---
-$sato .= <<<HTML
+$recent_table .= <<<HTML
         </tbody>
     </table>
 HTML;
-print $sato;
+//---
+$uuu = filter_recent($lang);
+//---
+echo <<<HTML
+<div class='card-header'>
+    <form method='get' action='coordinator.php'>
+        <input name='ty' value='last' hidden/>
+        <div class='row'>
+            <div class='col-md-4'>
+                <h4>Most recent translations:</h4>
+            </div>
+            <div class='col-md-4'>
+                $uuu
+            </div>
+            <div class='aligncenter col-md-2'>
+                <input class='btn btn-primary' type='submit' name='start' value='Filter' />
+            </div>
+        </div>
+    </form>
+</div>
+<div class='card-body'>
+HTML;
+//---
+echo $recent_table;
 //---
 ?>
 <script>
