@@ -12,9 +12,9 @@ if (isset($_REQUEST['test'])) {
 };
 //---
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    require('projects/post.php');
+    require 'projects/post.php';
 }
 //---
-require('projects/load.php');
+require 'projects/load.php';
 //---
 ?>

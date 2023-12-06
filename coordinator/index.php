@@ -1,4 +1,4 @@
 <?PHP
 //---
-require('last.php');
+require 'last.php';
 ?>

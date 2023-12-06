@@ -5,7 +5,7 @@
 </style>
 <?php
 //---
-require('tables.php');
+require 'tables.php';
 //---
 ?>
 <div class='card-header'>

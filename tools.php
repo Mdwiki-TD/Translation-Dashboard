@@ -1,5 +1,5 @@
 <?PHP
 //---
-require('coordinator.php');
+require 'coordinator.php';
 //---
 ?>

@@ -26,8 +26,8 @@ if ( $_SERVER['SERVER_NAME'] == 'localhost' )  $hoste = 'https://cdnjs.cloudflar
 echo "<script src='$hoste/ajax/libs/summernote/0.8.20/summernote-lite.min.js'></script>
 <link rel='stylesheet' href='$hoste/ajax/libs/summernote/0.8.20/summernote-lite.min.css' type='text/css' media='screen' charset='utf-8'>";
 //---
-// require('header.php');
-require('tables.php');
+// require 'header.php';
+require 'tables.php';
 include_once('functions.php');
 include_once('getcats.php');
 include_once('td_config.php');
@@ -76,7 +76,7 @@ if ($title != '') {
 };
 //---
 $here_params = array( 
-    'username' => rawurlencode($user), 
+    // 'username' => rawurlencode($user), 
     'code' => $lang, 
     'cat' => 'RTT', 
     'type' => 'lead', 

@@ -6,7 +6,7 @@ if (isset($_REQUEST['test'])) {
     error_reporting(E_ALL);
 };
 //---
-require('header.php');
+require 'header.php';
 //---
 /*
 if (user_in_coord == false) {
@@ -133,11 +133,11 @@ test_print($tools_floders);
 $file = "coordinator/$ty.php";
 // if 
 if (in_array($ty, $tools_floders)) {
-	require("coordinator/tools/$ty.php");
+	require "coordinator/tools/$ty.php";
 } elseif (in_array($ty, $corrd_floders) && user_in_coord) {
-	require("coordinator/admin/$ty.php");
+	require "coordinator/admin/$ty.php";
 } else {
-	require('coordinator/404.php');
+	require 'coordinator/404.php';
 };
 //---
 if (isset($ty)) {
@@ -155,6 +155,6 @@ print "
 </div>
 </div>";
 //---
-require('foter.php');
+require 'foter.php';
 //---
 ?>

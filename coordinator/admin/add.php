@@ -12,8 +12,8 @@ if (isset($_REQUEST['test'])) {
 };
 //---
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    require('add/post.php');
+    require 'add/post.php';
 }
 //---
-require('add/load.php');
+require 'add/load.php';
 //---

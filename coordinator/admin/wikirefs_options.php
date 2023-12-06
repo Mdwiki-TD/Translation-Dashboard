@@ -16,9 +16,9 @@ include_once('td_config.php');
 $tabes = get_configs('fixwikirefs.json');
 //---
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    require('wikirefs_options/post.php');
+    require 'wikirefs_options/post.php';
 }
 //---
-require('wikirefs_options/load.php');
+require 'wikirefs_options/load.php';
 //---
 ?>
