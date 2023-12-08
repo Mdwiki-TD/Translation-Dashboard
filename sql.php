@@ -74,7 +74,7 @@ $qua  = $_REQUEST['code'] ?? '';
 $raw  = $_REQUEST['raw'] ?? '';
 //---
 if ( $raw == '' ) {
-    require('header.php');
+    require 'header.php';
     //---
 	if (!in_array(global_username, $usrs)) {
 		echo "<meta http-equiv='refresh' content='0; url=index.php'>";
@@ -212,7 +212,7 @@ if ( $raw == '' ) {
 //---
 if ( $qua != '' and ($pass == $sqlpass or $_SERVER['SERVER_NAME'] == 'localhost') ) {
     //---
-    require('sql_result.php');
+    require 'sql_result.php';
     make_sql_result( $qua, $raw );
     //---
 };
@@ -235,7 +235,7 @@ $result = $this->db->getConnection()->exec($sql);
 if ( $raw == '' ) {
     print "</div>";
     //---
-    require('foter.php');
+    require 'foter.php';
     //---
 };
 //---

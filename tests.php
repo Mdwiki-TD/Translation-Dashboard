@@ -6,7 +6,7 @@ if (isset($_REQUEST['test'])) {
 	error_reporting(E_ALL);
 };
 //---
-require('header.php');
+require 'header.php';
 //---
 if (user_in_coord == false) {
 	echo "<meta http-equiv='refresh' content='0; url=index.php'>";
@@ -44,9 +44,9 @@ HTML;
 $te = $_REQUEST['te'] ?? 'email';
 //---
 if (in_array($te, $tests_floders)) {
-	require("tests/$te.php");
+	require "tests/$te.php";
 } else {
-	require('coordinator/404.php');
+	require 'coordinator/404.php';
 };
 //---
 if (isset($te)) {
@@ -63,6 +63,6 @@ echo <<<HTML
 </div>
 HTML;
 //---
-require('foter.php');
+require 'foter.php';
 //---
 ?>

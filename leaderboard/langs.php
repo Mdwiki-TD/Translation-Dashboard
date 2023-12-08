@@ -1,6 +1,6 @@
 <?PHP
 //---
-require('lead_help.php');
+require 'lead_help.php';
 require 'camps.php';
 //---
 $test = $_REQUEST['test'] ?? '';

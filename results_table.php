@@ -85,7 +85,7 @@ function make_results_table($items, $cod, $cat, $words_tab, $ref_tab, $Imps_tab,
         $params = array(
             "title" => $title2,
             "code" => $cod,
-            "username" => global_username,
+            // "username" => global_username,
             "cat" => $cat2,
             "type" => $tra_type
             );

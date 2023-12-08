@@ -16,9 +16,9 @@ include_once('td_config.php');
 $conf = get_configs('conf.json');
 //---
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    require('settings/post.php');
+    require 'settings/post.php';
 }
 //---
-require('settings/load1.php');
+require 'settings/load1.php';
 //---
 ?>

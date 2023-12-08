@@ -6,8 +6,8 @@ if (isset($_REQUEST['test'])) {
     error_reporting(E_ALL);
 };
 //---
-require('tables.php'); 
-require('getcats.php');
+require 'tables.php'; 
+require 'getcats.php';
 include_once('functions.php');
 //---
 $cat = $_REQUEST['cat'] ?? 'RTT';

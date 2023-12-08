@@ -1,20 +1,25 @@
 <?php
+$req  = $_REQUEST;
+$post = $_POST;
+$get  = $_GET;
 
-require('header.php');
-require('tables.php');
+
+require 'header.php';
+require 'tables.php';
 include_once('functions.php');
 $dir = 'I:/mdwiki';
-    
+
 if (strpos(__FILE__, '/mnt/') === 0) {
     $dir = '/mnt/nfs/labstore-secondary-tools-project/mdwiki';
 }
 if (strpos(__FILE__, '/data/') === 0) {
     $dir = '/data/project/mdwiki';
 }
-$coden = strtolower($_REQUEST['code']);
-$title_o = $_REQUEST['title'];
+$coden = strtolower($_GET['code']);
+$title_o = $_GET['title'];
 
-$useree  = (global_username != '') ? global_username : $_REQUEST['username'];
+// $useree  = (global_username != '') ? global_username : $_GET['username'];
+$useree  = (global_username != '') ? global_username : '';
 
 $tit_line = make_input_group( 'title', 'title', $title_o, 'required');
 $cod_line = make_input_group( 'code', 'code', $coden, 'required');
@@ -84,16 +89,31 @@ function insertPage($title_o, $word, $tr_type, $cat, $coden, $useree, $test) {
     execute_query($quae_new, $params=$params);
 }
 
+if ($useree == '' ) {
+    echo <<<HTML
+    <div class='card' style='font-weight: bold;'>
+        <div class='card-body'>
+            <div class='row'>
+                <div class='col-md-10'>
+                    <a role='button' class='btn btn-primary' onclick='login()'>
+                        <i class='fas fa-sign-in-alt fa-sm fa-fw mr-1'></i><span class='navtitles'>Login</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    HTML;
+}
+
 if ($title_o != '' && $coden != '' && $useree != '' ) {
-    
     $title_o = trim($title_o);
     $coden   = trim($coden);
     $useree  = trim($useree);
     
-    $test    = $_REQUEST['test'] ?? '';
-    $cat     = $_REQUEST['cat'] ?? '';
-    $fixref  = $_REQUEST['fixref'] ?? '';
-    $tr_type = $_REQUEST['type'] ?? 'lead';
+    $test    = $_GET['test'] ?? '';
+    $cat     = $_GET['cat'] ?? '';
+    $fixref  = $_GET['fixref'] ?? '';
+    $tr_type = $_GET['type'] ?? 'lead';
     
     $useree  = rawurldecode($useree);
     $cat     = rawurldecode($cat);
@@ -109,14 +129,14 @@ if ($title_o != '' && $coden != '' && $useree != '' ) {
 
     $output = start_trans_py($title_o,$test,$fixref,$tr_type);
     
-    if (trim($output) == 'true' || isset($_REQUEST['go'])) {
+    if (trim($output) == 'true' || isset($_GET['go'])) {
         $url = make_translation_url($title_o, $coden);
         
         $title_o2 = rawurlencode(str_replace ( ' ' , '_' , $title_o ) );
     
         if ($coden == 'en') $url = "//en.wikipedia.org/w/index.php?title=User:Mr._Ibrahem/$title_o2&action=edit";
         
-        if ($test != "" && (!isset($_REQUEST['go']))) {
+        if ($test != "" && (!isset($_GET['go']))) {
             echo <<<HTML
                 $nana
                 <br>trim($output) == true<br>
@@ -144,7 +164,7 @@ if ($title_o != '' && $coden != '' && $useree != '' ) {
     } else {
         echo <<<HTML
             $nana
-            error..<br>($output)
+            save to enwiki: error..<br>($output)
         HTML;
     }
 };
@@ -152,7 +172,7 @@ if ($title_o != '' && $coden != '' && $useree != '' ) {
 echo '</div>';
 
 
-require('foter.php');
+require 'foter.php';
     
 
 ?>

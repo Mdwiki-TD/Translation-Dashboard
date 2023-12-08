@@ -12,9 +12,9 @@ if (isset($_REQUEST['test'])) {
 };
 //---
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    require('coordinators/post.php');
+    require 'coordinators/post.php';
 }
 //---
-require('coordinators/load.php');
+require 'coordinators/load.php';
 //---
 ?>
