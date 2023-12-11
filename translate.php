@@ -2,19 +2,16 @@
 $req  = $_REQUEST;
 $post = $_POST;
 $get  = $_GET;
-
-
+// ---
 require 'header.php';
 require 'tables.php';
 include_once('functions.php');
-$dir = 'I:/mdwiki';
-
-if (strpos(__FILE__, '/mnt/') === 0) {
-    $dir = '/mnt/nfs/labstore-secondary-tools-project/mdwiki';
-}
-if (strpos(__FILE__, '/data/') === 0) {
-    $dir = '/data/project/mdwiki';
-}
+// ---
+$pathParts = explode('public_html', __FILE__);
+// the root path is the first part of the split file path
+$ROOT_PATH = $pathParts[0];
+// echo "ROOT_PATH:$ROOT_PATH<br>";
+// ---
 $coden = strtolower($_GET['code']);
 $title_o = $_GET['title'];
 
@@ -43,13 +40,15 @@ $nana = <<<HTML
 if (isset($_GET['form'])) echo $nana;
 
 function start_trans_py($title, $test, $fixref, $tra_type) {
-    global $dir;
+    global $ROOT_PATH;
     $title2 = str_replace(' ', '_', $title);
     //---
     $title2 = rawurlencode($title2);
     // $title2 = addslashes($title2);
     //---
-    $dd = "python3 $dir/TDpynew/translate.py -title:$title2";
+    // $dd = "/data/project/mdwiki/local/bin/python3 $ROOT_PATH/pybot/TDpynew/translate.py -title:$title2";
+    $dd = "python3 $ROOT_PATH/pybot/TDpynew/translate.py -title:$title2";
+    //---
     if ($fixref !== '') {
         $dd .= ' fixref';
     }

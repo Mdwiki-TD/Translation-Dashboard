@@ -15,12 +15,6 @@ $Assessments_fff = array(
 	'' => 5
 );
 //---
-$dirr = '/data/project/mdwiki/public_html/Translation_Dashboard';
-
-if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost') { 
-	$dirr = '/mdwiki/public_html/Translation_Dashboard';
-};
-//---
 $tables = array(
 	'enwiki_pageviews' => &$enwiki_pageviews_table,
 	'lang_code_to_en' => &$lang_code_to_en,
