@@ -1,10 +1,10 @@
 <?PHP
 //---
 include_once('results_table.php');
-include_once('tables.php'); 
 include_once('langcode.php');
 include_once('getcats.php');
 include_once('functions.php');
+include_once('tables.php');
 include_once('sql_tables.php');
 //---
 $doit = isset($_REQUEST['doit']);
@@ -16,20 +16,23 @@ $code = $req['code'];
 $cat  = $req['cat'];
 $code_lang_name = $req['code_lang_name'];
 //---
-//---
 $translation_button = $settings['translation_button_in_progress_table']['value'] ?? '0';
+//---
 if (global_username != 'James Heilman' && global_username != 'Mr. Ibrahem') $translation_button = '0';
 //---
 function make_table( $items, $cod, $cat, $inprocess=false ) {
-    global $Words_table, $All_Words_table, $Assessments_table, $tra_type, $Assessments_fff;
-    global $Lead_Refs_table, $All_Refs_table, $enwiki_pageviews_table, $translation_button;
-
-    global $sql_qids;
-    
-    $words_tab = ($tra_type == 'all') ? $All_Words_table : $Words_table;
-    $ref_tab   = ($tra_type == 'all') ? $All_Refs_table  : $Lead_Refs_table;
+    global $tra_type, $translation_button;
     //---
-    $result = make_results_table($items, $cod, $cat, $words_tab, $ref_tab, $Assessments_table, $Assessments_fff, $tra_type, $enwiki_pageviews_table, $translation_button, $sql_qids, $inprocess=$inprocess );
+    // global $Words_table, $All_Words_table, $Lead_Refs_table, $All_Refs_table;
+    // global $enwiki_pageviews_table, $full_translates, $Assessments_fff, $Assessments_table;
+    // global $sql_qids;
+    //---
+    // $words_tab = ($tra_type == 'all') ? $All_Words_table : $Words_table;
+    // $ref_tab   = ($tra_type == 'all') ? $All_Refs_table  : $Lead_Refs_table;
+    //---
+    // $result = make_results_table($items, $cod, $cat, $words_tab, $ref_tab, $Assessments_table, $tra_type, $enwiki_pageviews_table, $translation_button, $sql_qids, $full_translates, $inprocess=$inprocess );
+    //---
+    $result = make_results_table($items, $cod, $cat, $tra_type, $translation_button, $inprocess=$inprocess );
     //---
     return $result;
     }

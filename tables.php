@@ -25,9 +25,9 @@ $tables = array(
 	'medwiki_to_enwiki' => &$medwiki_to_enwiki,
 	'assessments' => &$Assessments_table
 );
-
+//---
 foreach ($tables as $key => &$value) {
-	$file = file_get_contents("Tables/{$key}.json");
+	$file = file_get_contents(__DIR__ . "/Tables/{$key}.json");
 	$value = json_decode($file, true);
 }
 //---

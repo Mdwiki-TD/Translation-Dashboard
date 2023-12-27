@@ -151,6 +151,22 @@ function update_settings($id, $title, $displayed, $value, $type) {
 }
 
 //---
+function insert_to_translate_type($tt_title, $tt_lead, $tt_full, $tt_id=0) {
+    $params = [$tt_lead, $tt_full, $tt_title];
+    //---
+    $query = "UPDATE translate_type SET tt_lead = ?, tt_full = ? WHERE tt_title = ?";
+    //---
+    if ($tt_id == 0 || $tt_id == '0' || $tt_id == '') {
+        $query = "INSERT INTO translate_type (tt_title, tt_lead, tt_full) SELECT ?, ?, ?";
+        $params = [$tt_title, $tt_lead, $tt_full];
+    };
+    //---
+    $result = execute_query($query, $params);
+    //---
+    return $result;
+}
+//---
+//---
 function insert_to_projects($g_title, $g_id) {
     $query = "UPDATE projects SET g_title = ? WHERE g_id = ?";
     $params = [$g_title, $g_id];
@@ -164,6 +180,7 @@ function insert_to_projects($g_title, $g_id) {
     //---
     return $result;
 }
+//---
 function get_all($tab="(categories|coordinator|copy_pages|pages|projects|qids|users|views|wddone|words)") {
     //---
     $query = "SELECT * FROM $tab";

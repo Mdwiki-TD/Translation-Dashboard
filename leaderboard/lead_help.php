@@ -39,9 +39,6 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
     };
     //---
     $tran_type = $tabb['translate_type'] ?? '';
-    if ($tran_type == 'all') { 
-        $tran_type = 'Whole article';
-    };
     //---
     $usr_or_lang = ($page_type == 'users') ? "Lang" : "User";
     //---
@@ -67,7 +64,7 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
         $target_link = 'Pending';
         $td_views = '';
         //---
-        $tralink = make_translation_url($mdtitle, $lang);
+        $tralink = make_translation_url($mdtitle, $lang, $tran_type);
         $complate   = (global_username === $_user_) ? "<td data-content='complete'><a target='_blank' href='$tralink'>complete</a></td>" : '';
     } else {
         $target  = trim($tabb['target']);
@@ -99,9 +96,6 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
             <td data-content="Words" data-filter="$word">
                 $word
             </td>
-            <!-- <td data-content="Type" data-filter="$tran_type">
-                $tran_type
-            </td> -->
             <td data-content="Translated" data-filter="$target">
                 $target_link
             </td>

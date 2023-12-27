@@ -53,6 +53,7 @@ function create_side() {
 		array('id' => 'process',	'admin' => 0,	'href' => 'process',	'title' => 'In process'),
 		array('id' => 'Pending',	'admin' => 0,	'href' => 'Pending',	'title' => 'In process (total)'),
 		array('id' => 'add',		'admin' => 1,	'href' => 'add',		'title' => 'Add'),
+		array('id' => 'translate_type',		'admin' => 1,	'href' => 'translate_type',		'title' => 'Translate Type'),
 	);
 	//---
 	$main['Users'] = array(

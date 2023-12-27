@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7e90f6dda10dd8eadc07c0568d818980",
+    "content-hash": "668991b5235bbd5d9cee40166f6a5296",
     "packages": [
         {
             "name": "mediawiki/oauthclient",
@@ -195,6 +195,48 @@
                 "source": "https://github.com/php-fig/log/tree/1.1.4"
             },
             "time": "2021-05-03T11:20:27+00:00"
+        },
+        {
+            "name": "wiki-connect/parsewiki",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wiki-connect/ParseWiki.git",
+                "reference": "bc7b44ea0b6c0667fed2ead811707379d83551ba"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wiki-connect/ParseWiki/zipball/bc7b44ea0b6c0667fed2ead811707379d83551ba",
+                "reference": "bc7b44ea0b6c0667fed2ead811707379d83551ba",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "WikiConnect\\ParseWiki\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "GergesShamon",
+                    "email": "gerges.shamoon.dev@gmail.com"
+                }
+            ],
+            "description": "A library that helps parse wikitext template data",
+            "keywords": [
+                "mediawiki",
+                "parser",
+                "wikitext"
+            ],
+            "support": {
+                "issues": "https://github.com/wiki-connect/ParseWiki/issues",
+                "source": "https://github.com/wiki-connect/ParseWiki/tree/1.0.3"
+            },
+            "time": "2023-12-18T22:48:47+00:00"
         }
     ],
     "packages-dev": [],

@@ -6,6 +6,8 @@ if (isset($_REQUEST['test'])) {
 	error_reporting(E_ALL);
 };
 //---
+define('root_dir', __DIR__);
+//---
 $testxx = isset($_GET['test']) ? $_GET['test'] : "";
 //---
 if (!defined('global_test')) {
