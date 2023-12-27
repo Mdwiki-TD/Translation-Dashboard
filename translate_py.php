@@ -6,7 +6,6 @@ $get  = $_GET;
 require 'header.php';
 require 'tables.php';
 include_once 'functions.php';
-include_once 'enwiki/td.php';
 // ---
 $pathParts = explode('public_html', __FILE__);
 // the root path is the first part of the split file path
@@ -127,8 +126,7 @@ if ($title_o != '' && $coden != '' && $useree != '' ) {
 
     insertPage($title_o, $word, $tr_type, $cat, $coden, $useree, $test);
 
-    // $output = start_trans_py($title_o, $test, $fixref, $tr_type);
-    $output = start_trans_php($title_o, $tr_type);
+    $output = start_trans_py($title_o, $test, $fixref, $tr_type);
     
     if (trim($output) == 'true' || isset($_GET['go'])) {
         $url = make_translation_url($title_o, $coden, $tr_type);

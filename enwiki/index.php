@@ -9,7 +9,7 @@ if (isset($_REQUEST['test'])) {
 include_once '../header.php';
 include_once root_dir . '/tables.php';
 include_once root_dir . '/functions.php';
-include_once root_dir . '/enwiki/td.php';
+include_once root_dir . '/enwiki/td1.php';
 // ---
 $coden = strtolower($_GET['code'] ?? '');
 $title_o = $_GET['title'] ?? 'Dravet syndrome';
@@ -60,7 +60,7 @@ if ($title_o != '' && $coden != '') {
     $wholearticle = $tr_type == 'all' ? true : false;
     //---
     if ($test == 00) {
-        start_trans_php($title_o, $tr_type);
+        startTranslatePhp($title_o, $tr_type);
     } else {
         $newtext = prase_text($title_o, $wholearticle, $text_fix=$text_fix, $refs_fix=$refs_fix);
         // ---
