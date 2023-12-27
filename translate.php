@@ -7,18 +7,20 @@ require 'header.php';
 require 'tables.php';
 include_once 'functions.php';
 include_once 'enwiki/td1.php';
-// ---
+
+// Define root path
 $pathParts = explode('public_html', __FILE__);
 // the root path is the first part of the split file path
 $ROOT_PATH = $pathParts[0];
-// echo "ROOT_PATH:$ROOT_PATH<br>";
-// ---
+
+// Get parameters from the URL
 $coden = strtolower($_GET['code']);
 $title_o = $_GET['title'];
 // $useree  = (global_username != '') ? global_username : $_GET['username'];
-$useree  = (global_username != '') ? global_username : '';
-$tit_line = make_input_group( 'title', 'title', $title_o, 'required');
-$cod_line = make_input_group( 'code', 'code', $coden, 'required');
+$useree = (global_username != '') ? global_username : '';
+$tit_line = make_input_group('title', 'title', $title_o, 'required');
+$cod_line = make_input_group('code', 'code', $coden, 'required');
+
 $nana = <<<HTML
     <div class='card' style='font-weight: bold;'>
         <div class='card-body'>
@@ -33,8 +35,14 @@ $nana = <<<HTML
             </div>
         </div>
     </div>
-    HTML;
-if (isset($_GET['form'])) echo $nana;
+HTML;
+
+// Display form if 'form' is set in the URL
+if (isset($_GET['form'])) {
+    echo $nana;
+}
+
+// Function to insert page into the database
 function insertPage($title_o, $word, $tr_type, $cat, $coden, $useree, $test) {
     $useree  = escape_string($useree);
     $cat     = escape_string($cat);
@@ -46,16 +54,21 @@ function insertPage($title_o, $word, $tr_type, $cat, $coden, $useree, $test) {
         WHERE NOT EXISTS
             (SELECT 1
             FROM pages 
-                    WHERE title = ?
-                    AND lang = ?
-                    AND user = ?
-            )
+            WHERE title = ?
+            AND lang = ?
+            AND user = ?
+        )
     SQL;
+
     $params = [$title_o, $word, $tr_type, $cat, $coden, $useree, $title_o, $coden, $useree];
-    if ($test != '') echo "<br>$quae_new<br>";
+    if ($test != '') {
+        echo "<br>$quae_new<br>";
+    }
     execute_query($quae_new, $params=$params);
 }
-if ($useree == '' ) {
+
+// Display login button if user is not logged in
+if ($useree == '') {
     echo <<<HTML
     <div class='card' style='font-weight: bold;'>
         <div class='card-body'>
@@ -70,7 +83,9 @@ if ($useree == '' ) {
     </div>
     HTML;
 }
-if ($title_o != '' && $coden != '' && $useree != '' ) {
+
+// Process form data if title, code, and user are set
+if ($title_o != '' && $coden != '' && $useree != '') {
     $title_o = trim($title_o);
     $coden   = trim($coden);
     $useree  = trim($useree);
@@ -88,14 +103,14 @@ if ($title_o != '' && $coden != '' && $useree != '' ) {
     
     if ($tr_type == 'all') { 
         $word = $All_Words_table[$title_o] ?? 0;
-    };
+    }
     insertPage($title_o, $word, $tr_type, $cat, $coden, $useree, $test);
     $output = startTranslatePhp($title_o, $tr_type);
     
     if (trim($output) == 'true' || isset($_GET['go'])) {
         $url = make_translation_url($title_o, $coden, $tr_type);
         
-        $title_o2 = rawurlencode(str_replace ( ' ' , '_' , $title_o ) );
+        $title_o2 = rawurlencode(str_replace(' ', '_', $title_o));
     
         if ($coden == 'en') {
             $page = $tr_type == 'all' ? "User:Mr. Ibrahem/$title_o2/full" : "User:Mr. Ibrahem/$title_o2";
@@ -120,7 +135,7 @@ if ($title_o != '' && $coden != '' && $useree != '' ) {
                     <meta http-equiv='refresh' content='0; url=$url'>
                 </noscript>
             HTML;
-        };
+        }
     
     } elseif (trim($output) == 'notext') {
         $li = make_mdwiki_title($title_o);
@@ -134,6 +149,7 @@ if ($title_o != '' && $coden != '' && $useree != '' ) {
             save to enwiki: error..<br>($output)
         HTML;
     }
-};
+}
+
 echo '</div>';
 require 'foter.php';
