@@ -15,13 +15,10 @@ $ROOT_PATH = $pathParts[0];
 // ---
 $coden = strtolower($_GET['code']);
 $title_o = $_GET['title'];
-
 // $useree  = (global_username != '') ? global_username : $_GET['username'];
 $useree  = (global_username != '') ? global_username : '';
-
 $tit_line = make_input_group( 'title', 'title', $title_o, 'required');
 $cod_line = make_input_group( 'code', 'code', $coden, 'required');
-
 $nana = <<<HTML
     <div class='card' style='font-weight: bold;'>
         <div class='card-body'>
@@ -37,11 +34,8 @@ $nana = <<<HTML
         </div>
     </div>
     HTML;
-
 if (isset($_GET['form'])) echo $nana;
-
 function insertPage($title_o, $word, $tr_type, $cat, $coden, $useree, $test) {
-
     $useree  = escape_string($useree);
     $cat     = escape_string($cat);
     $title_o = escape_string($title_o);
@@ -59,10 +53,8 @@ function insertPage($title_o, $word, $tr_type, $cat, $coden, $useree, $test) {
     SQL;
     $params = [$title_o, $word, $tr_type, $cat, $coden, $useree, $title_o, $coden, $useree];
     if ($test != '') echo "<br>$quae_new<br>";
-
     execute_query($quae_new, $params=$params);
 }
-
 if ($useree == '' ) {
     echo <<<HTML
     <div class='card' style='font-weight: bold;'>
@@ -78,7 +70,6 @@ if ($useree == '' ) {
     </div>
     HTML;
 }
-
 if ($title_o != '' && $coden != '' && $useree != '' ) {
     $title_o = trim($title_o);
     $coden   = trim($coden);
@@ -98,9 +89,7 @@ if ($title_o != '' && $coden != '' && $useree != '' ) {
     if ($tr_type == 'all') { 
         $word = $All_Words_table[$title_o] ?? 0;
     };
-
     insertPage($title_o, $word, $tr_type, $cat, $coden, $useree, $test);
-
     $output = startTranslatePhp($title_o, $tr_type);
     
     if (trim($output) == 'true' || isset($_GET['go'])) {
@@ -146,11 +135,5 @@ if ($title_o != '' && $coden != '' && $useree != '' ) {
         HTML;
     }
 };
-
 echo '</div>';
-
-
 require 'foter.php';
-    
-
-?>
