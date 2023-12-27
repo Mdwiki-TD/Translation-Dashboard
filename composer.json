@@ -1,6 +1,7 @@
 {
     "require": {
         "phpmailer/phpmailer": "^6.1",
-        "mediawiki/oauthclient": "^2.0"
+        "mediawiki/oauthclient": "^2.0",
+        "wiki-connect/parsewiki": "^1.0"
     }
 }

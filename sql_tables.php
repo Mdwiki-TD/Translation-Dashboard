@@ -6,6 +6,24 @@ include_once('sql_tables.php'); // $sql_qids $cat_titles $cat_to_camp $camp_to_c
 //---
 include_once('functions.php');
 //---
+$full_translates = [];
+$no_lead_translates = [];
+//---
+$translate_type_sql = <<<SQL
+    SELECT tt_title, tt_lead, tt_full
+	FROM translate_type
+SQL;
+//---
+foreach ( execute_query($translate_type_sql) AS $k => $tab ) {
+    // if tt_full == 1 then add tt_title to $full_translates
+    if ($tab['tt_full'] == 1) {
+        $full_translates[] = $tab['tt_title'];
+    }
+    if ($tab['tt_lead'] == 0) {
+        $no_lead_translates[] = $tab['tt_title'];
+    }
+}
+//---
 $sql_qids = array();
 //---
 foreach ( execute_query('select title, qid from qids;') AS $k => $tab ) $sql_qids[$tab['title']] = $tab['qid'];

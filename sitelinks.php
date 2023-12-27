@@ -11,7 +11,7 @@ echo <<<HTML
         <label>Site:</label>
         <input type='text' name='site' value='$site' />
         <label>Title Limit:</label>
-        <input type='text' name='title_limit' value='$title_limit' />
+        <input type='text' name='title_limit' value="$title_limit" />
         <input type='submit' value='Submit' />
     </form>
 </div>

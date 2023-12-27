@@ -59,7 +59,7 @@ function make_settings_tab($tabe) {
                 </td>
                 <td data-content='Option'>
                     $displayed
-                    <input class='form-control' name='title_$nn' value='$title' hidden/>
+                    <input class='form-control' name='title_$nn' value="$title" hidden/>
                     <input class='form-control' name='displayed_$nn' value='$displayed' hidden/>
                 </td>
                 <td data-content='Value'>

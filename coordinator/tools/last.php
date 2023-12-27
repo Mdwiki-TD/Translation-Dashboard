@@ -150,7 +150,7 @@ function make_td($tabg, $nnnn) {
                 $view
             </td>
             <td data-content='fixref'>
-                <a target='_blank' href='../fixwikirefs.php?title=$targe2&lang=$llang'>fix</a>
+                <a target='_blank' href="../fixwikirefs.php?title=$targe2&lang=$llang">fix</a>
             </td>
             <td data-content='add_date'>
                 $add_date

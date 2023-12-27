@@ -112,7 +112,7 @@ foreach ($titles as $title) {
 		<td data-content='#'>
 			$i</td>
 		<td data-content='Title'>
-			<a href='https://mdwiki.org/wiki/$title'>$title</a></td>
+			<a href="https://mdwiki.org/wiki/$title">$title</a></td>
 		<td data-content='Qid'>
 			$qidurl</td>
 		<td data-content='Lead Word'>

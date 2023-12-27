@@ -5,6 +5,19 @@ function add_quotes($str) {
     return $quote . $str . $quote;
 };
 //---
+function make_form_check_input($label, $name, $value_yes, $value_no, $checked) {
+    //---
+    $label_line = ($label != '') ? "<label class='form-check-label' for='$name'>$label</label>" : "";
+    //---
+    return <<<HTML
+        <div class='form-check form-switch'>
+            $label_line
+            <input class='form-check-input' type='checkbox' name='$name' value='$value_yes' $checked>
+        </div>
+    HTML;
+    
+}
+//---
 function make_mail_icon($tab) {
 	//---
     $mail_params = array(
@@ -170,9 +183,12 @@ function make_cat_url($category) {
     return $category;
 }
 //---
-function make_translation_url($title, $lang) {
+function make_translation_url($title, $lang, $tr_type) {
+    //---
+    $page = $tr_type == 'all' ? "User:Mr. Ibrahem/$title/full" : "User:Mr. Ibrahem/$title";
+    //---
     $params = array(
-        'page' => "User:Mr. Ibrahem/$title",
+        'page' => $page,
         'from' => "en",
         'sx' => 'true',
         'to' => $lang,

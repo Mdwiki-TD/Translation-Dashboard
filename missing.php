@@ -86,7 +86,7 @@ foreach ( $Table as $langcode2 => $missing ) {
                 $exists
             </td>
             <td data-content="Missing Articles">
-                <a target="" href="index.php?cat=RTT&depth=1&doit=Do+it&code=$langcode&type=all">$numb</a>
+                <a target="" href="index.php?cat=RTT&depth=1&doit=Do+it&code=$langcode&type=lead">$numb</a>
             </td>
         </tr>
         HTML;
