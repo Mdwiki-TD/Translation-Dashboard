@@ -1,8 +1,5 @@
 <?php
-$req  = $_REQUEST;
-$post = $_POST;
-$get  = $_GET;
-// ---
+// Consolidate includes
 require 'header.php';
 require 'tables.php';
 include_once 'functions.php';
