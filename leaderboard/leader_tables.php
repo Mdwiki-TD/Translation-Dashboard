@@ -4,6 +4,7 @@ include_once('functions.php');
 include_once('langcode.php');
 include_once('sql_tables.php'); // $sql_qids $cat_titles $cat_to_camp $camp_to_cat
 require 'leaderboard/camps.php';
+include_once 'actions/html.php';
 
 $year = $_REQUEST['year'] ?? 'all';
 $camp = $_REQUEST['camp'] ?? 'all';
@@ -57,6 +58,7 @@ $qua_all = makeSqlQuery();
 $Words_total = 0;
 $Articles_numbers = 0;
 $global_views = 0;
+$sql_users_tab_to_lang = array();
 $sql_users_tab = array();
 $Users_word_table = array();
 $sql_Languages_tab = array();
@@ -106,7 +108,15 @@ foreach (execute_query($qua_all) as $Key => $teb) {
     
     if (!isset($sql_users_tab[$user])) $sql_users_tab[$user] = 0;
     $sql_users_tab[$user] += 1;
+
+    if (!isset($sql_users_tab_to_lang[$user])) $sql_users_tab_to_lang[$user] = [];
+    if (!isset($sql_users_tab_to_lang[$user][$lang])) $sql_users_tab_to_lang[$user][$lang] = 0;
+    $sql_users_tab_to_lang[$user][$lang] += 1;
+
 }
+
+// sort $sql_users_tab_to_lang by numbers
+
 function createNumbersTable($c_user, $c_articles, $c_words, $c_langs, $c_views) {
     $Numbers_table = <<<HTML
     <table class='table compact table-striped'>
@@ -130,8 +140,8 @@ function createNumbersTable($c_user, $c_articles, $c_words, $c_langs, $c_views) 
 };
 function makeUsersTable($min=2) {
     
-    global $sql_users_tab, $Users_word_table, $Views_by_users;
-    
+    global $sql_users_tab, $Users_word_table, $Views_by_users, $sql_users_tab_to_lang;
+    $usrs = [];
     $text = <<<HTML
     <table class='table compact table-striped sortable' style='margin-top: 0px !important;margin-bottom: 0px !important'>
         <thead>
@@ -145,6 +155,7 @@ function makeUsersTable($min=2) {
         </thead>
         <tbody>
     HTML;
+    //---
     
     arsort($sql_users_tab);
     
@@ -154,6 +165,7 @@ function makeUsersTable($min=2) {
             // if ($usercount < $min && $numb > 15) continue;
             $numb += 1;
             $usercount = number_format($usercount);
+            $usrs[$user] = isset($sql_users_tab_to_lang[$user]) ? $sql_users_tab_to_lang[$user] : [];
             $views = isset($Views_by_users[$user]) ? number_format($Views_by_users[$user]) : 0;
             $words = isset($Users_word_table[$user]) ? number_format($Users_word_table[$user]) : 0;
             
@@ -178,7 +190,31 @@ function makeUsersTable($min=2) {
         </tfoot>
     </table>
     HTML;
-    
+    $lal = "<textarea cols='55' rows='10' id='users_targets' name='users_targets'>";
+    foreach ($usrs as $user => $langs) {
+        // sort $langs by numbers
+        arsort($langs);
+        // get first item in $langs
+        $lan = array_keys($langs)[0];
+        $lal .= "#{{#target:User:$user|$lan.wikipedia.org}}
+";
+    }
+    //---
+    $lal .= '</textarea>';
+    $lal .= <<<HTML
+        <script>
+            function copy_targets() {
+                let textarea = document.getElementById("users_targets");
+                textarea.select();
+                document.execCommand("copy");
+            }
+        </script>
+    HTML;
+    //---
+    $modal = make_modal_fade('', $lal, 'targets', '<a class="btn btn-primary" onclick="copy_targets()">Copy</a>');
+    //---
+    $text .= $modal;
+    //---
     return $text;
 }
 function makeLangTable() {
