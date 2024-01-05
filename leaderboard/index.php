@@ -26,8 +26,15 @@ function print_cat_table(): string {
     $numbersCol = makeColSm4('Numbers', $numbersTable, 3, $gg);
 
     $usersTable = makeUsersTable();
-    $usersCol = makeColSm4('Top users by number of translation', $usersTable, 5);
 
+    $modal_a = <<<HTML
+        <button type="button" class="btn btn-tool" href="#" data-bs-toggle="modal" data-bs-target="#targets">
+            <i class="fas fa-copy"></i>
+        </button>
+    HTML;
+    //---
+    $usersCol = makeColSm4('Top users by number of translation', $usersTable, 5, $table2='', $title2=$modal_a);
+    //---
     $languagesTable = makeLangTable();
     $languagesCol = makeColSm4('Top languages by number of Articles', $languagesTable, 4);
        

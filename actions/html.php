@@ -5,6 +5,29 @@ function add_quotes($str) {
     return $quote . $str . $quote;
 };
 //---
+function make_modal_fade($label, $text, $id, $button='') {
+    $exampleModalLabel = rand(1000, 9999);
+    return <<<HTML
+        
+        <!-- Logout Modal-->
+        <div class="modal fade" id="$id" tabindex="-1" role="dialog" aria-labelledby="$exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title" id="$exampleModalLabel">$label</h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">$text</div>
+                    <div class="modal-footer">
+                        $button
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    HTML;
+}
+
 function make_form_check_input($label, $name, $value_yes, $value_no, $checked) {
     //---
     $label_line = ($label != '') ? "<label class='form-check-label' for='$name'>$label</label>" : "";
@@ -112,12 +135,17 @@ function makeCard($title, $table) {
     HTML;
 };
 //---
-function makeColSm4($title, $table, $numb=4, $table2='') {
+function makeColSm4($title, $table, $numb=4, $table2='', $title2='') {
     return <<<HTML
     <div class="col-md-$numb">
         <div class="card mb-3">
-            <div class="card-header aligncenter" style="font-weight:bold;">
-                $title
+            <div class="card-header">
+                <span class="card-title" style="font-weight:bold;">
+                    $title
+                </span>
+                <div style='float: right'>
+                    $title2
+                </div>
             </div>
             <div class="card-body1 card2">
                 $table
