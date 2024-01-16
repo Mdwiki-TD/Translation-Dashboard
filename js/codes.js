@@ -1,7 +1,8 @@
 
-code.onfocus = function () {
+function handleFocusEvent() {
     Languages.style.display = 'block';
     code.style.borderRadius = '5px 5px 0 0';
+  handleLanguagesDisplay();
 };
 
 for (let option of Languages.options) {
