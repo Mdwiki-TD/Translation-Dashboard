@@ -63,9 +63,9 @@ CREATE TABLE words (
     )
 */
 //---
-include_once('td_config.php');
+include_once 'td_config.php';
 $ini = Read_ini_file('OAuthConfig.ini');
-include_once('functions.php');
+include_once 'functions.php';
 //---
 $sqlpass = $ini['sqlpass'];
 //---

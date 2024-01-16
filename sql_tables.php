@@ -1,10 +1,10 @@
 <?PHP
 //---
 /*
-include_once('sql_tables.php'); // $sql_qids $cat_titles $cat_to_camp $camp_to_cat
+include_once 'sql_tables.php'; // $sql_qids $cat_titles $cat_to_camp $camp_to_cat
 */
 //---
-include_once('functions.php');
+include_once 'functions.php';
 //---
 $full_translates = [];
 $no_lead_translates = [];

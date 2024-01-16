@@ -8,7 +8,7 @@ if (isset($_REQUEST['test'])) {
 //---
 require 'tables.php'; 
 require 'getcats.php';
-include_once('functions.php');
+include_once 'functions.php';
 //---
 $cat = $_REQUEST['cat'] ?? 'RTT';
 //---

@@ -28,9 +28,9 @@ echo "<script src='$hoste/ajax/libs/summernote/0.8.20/summernote-lite.min.js'></
 //---
 // require 'header.php';
 require 'tables.php';
-include_once('functions.php');
-include_once('getcats.php');
-include_once('td_config.php');
+include_once 'functions.php';
+include_once 'getcats.php';
+include_once 'td_config.php';
 //---
 $tabs = array();
 //---

@@ -18,8 +18,8 @@ echo '</div>
 <script>$("#coord").addClass("active");</script>
 <div id="maindiv" class="container-fluid">';
 //---
-include_once('functions.php');
-include_once('sql_tables.php'); // $sql_qids $cat_titles $cat_to_camp $camp_to_cat
+include_once 'functions.php';
+include_once 'sql_tables.php'; // $sql_qids $cat_titles $cat_to_camp $camp_to_cat
 //---
 $gg = '';
 //---

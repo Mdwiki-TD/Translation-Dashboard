@@ -5,7 +5,7 @@
     <div class='row'>
 <?PHP
 //---
-include_once('functions.php');
+include_once 'functions.php';
 //---
 $allow_whole_translate = $conf['allow_type_of_translate'] ?? true;
 //---

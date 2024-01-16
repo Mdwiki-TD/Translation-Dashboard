@@ -1,11 +1,11 @@
 <?PHP
 //---
-include_once('results_table.php');
-include_once('langcode.php');
-include_once('getcats.php');
-include_once('functions.php');
-include_once('tables.php');
-include_once('sql_tables.php');
+include_once 'results_table.php';
+include_once 'langcode.php';
+include_once 'getcats.php';
+include_once 'functions.php';
+include_once 'tables.php';
+include_once 'sql_tables.php';
 //---
 $doit = isset($_REQUEST['doit']);
 //---

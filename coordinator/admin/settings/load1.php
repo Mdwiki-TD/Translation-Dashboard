@@ -5,7 +5,7 @@
     <div class='row'>
 <?PHP
 //---
-include_once('functions.php');
+include_once 'functions.php';
 //---
 echo <<<HTML
     <form action='coordinator.php' method='POST'>
