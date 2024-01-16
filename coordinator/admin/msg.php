@@ -28,9 +28,9 @@ echo "<script src='$hoste/ajax/libs/summernote/0.8.20/summernote-lite.min.js'></
 //---
 // require 'header.php';
 require 'tables.php';
-include_once('functions.php');
-include_once('getcats.php');
-include_once('td_config.php');
+include_once 'functions.php';
+include_once 'getcats.php';
+include_once 'td_config.php';
 //---
 $tabs = array();
 //---
@@ -46,7 +46,8 @@ $views  = get_views($target, $lang, $date);
 $sugust = '';
 //---
 if ($title != '') {
-    $items = get_cat_members( 'RTT', '1', $lang, $use_cash=true );
+    $items = get_cat_exists_and_missing( 'RTT', '1', $lang, $use_cash=true );
+    //---
     $items_missing = $items['missing'] ?? array();
     //---
     $in_process = get_in_process($items_missing, $lang);

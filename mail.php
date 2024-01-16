@@ -16,7 +16,7 @@ use PHPMailer\PHPMailer\Exception;
 // Composer autoload
 require_once __DIR__ . '/vendor/autoload.php';
 //---
-include_once('td_config.php');
+include_once 'td_config.php';
 $my_ini     = Read_ini_file('my_config.ini');
 $tool_email = $my_ini['mdwiki_Username'];
 $tool_pass  = $my_ini['mdwiki_Password'];

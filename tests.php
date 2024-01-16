@@ -15,8 +15,8 @@ if (user_in_coord == false) {
 //---
 echo '<script>$("#tests").addClass("active");</script>';
 //---
-include_once('functions.php');
-include_once('sql_tables.php');
+include_once 'functions.php';
+include_once 'sql_tables.php';
 //---
 $tests_floders = [];
 foreach (glob('tests/*.php') as $file) {

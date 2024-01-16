@@ -11,7 +11,7 @@ if (isset($_REQUEST['test'])) {
 	error_reporting(E_ALL);
 };
 //---
-include_once('td_config.php');
+include_once 'td_config.php';
 //---
 $conf = get_configs('conf.json');
 //---

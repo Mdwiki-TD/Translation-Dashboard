@@ -5,8 +5,8 @@ if (isset($_POST['del'])) {
 		$del	= $_POST['del'][$i];
 		//---
 		if ($del != '') {
-			$qua2 = "DELETE FROM categories WHERE id = '$del'";
-			execute_query($qua2);
+			$qua2 = "DELETE FROM categories WHERE id = ?";
+			execute_query($qua2, [$del]);
 		};
 	};
 };
@@ -31,11 +31,12 @@ if (isset($_POST['cats'])) {
 		if ($ido != '') {
 			$qua = "UPDATE categories 
 			SET 
-			display = ?,
-			category = ?,
-			depth = ?,
-			def = ?
-			WHERE id = ?
+				display = ?,
+				category = ?,
+				depth = ?,
+				def = ?
+			WHERE 
+				id = ?
 			";
 			$params = [$dis, $cats, $dep, $def, $ido];
 		};
@@ -44,7 +45,7 @@ if (isset($_POST['cats'])) {
 			echo "<br>$qua<br>";
 		};
 		//---
-		execute_query($qua, $params=$params);
+		execute_query($qua, $params);
 	};
 	if ($_REQUEST['test'] == 'dd') {
 		exit;
@@ -60,20 +61,25 @@ if (isset($_POST['cat'])) {
 		$ido = (isset($ido)) ? $ido : '';
 		$dep = $_POST['dep'][$i];
 		//---
-		$qua = "INSERT INTO categories (category, display, depth, def) SELECT '$cat', '$dis', '$dep', '$def'
-		WHERE NOT EXISTS (SELECT 1 FROM categories WHERE category = '$cat')";
+		$qua = "INSERT INTO categories (category, display, depth, def) 
+			SELECT ?, ?, ?, ?
+		WHERE NOT EXISTS (SELECT 1 FROM categories WHERE category = ?)";
+		//---
+		$params = [$cat, $dis, $dep, $def, $cat];
 		//---
 		if ($ido != '') {
 			$qua = "UPDATE categories 
 			SET 
-			display = '$dis',
-			category = '$cat',
-			depth = '$dep',
-			def = '$def'
-			WHERE id = '$ido'
+				display = ?,
+				category = ?,
+				depth = ?,
+				def = ?
+			WHERE 
+				id = ?
 			";
+			$params = [$dis, $cat, $dep, $def, $ido];
 		};
-		execute_query($qua);
+		execute_query($qua, $params);
 	};
 };
 //---

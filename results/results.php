@@ -1,11 +1,11 @@
 <?PHP
 //---
-include_once('results_table.php');
-include_once('langcode.php');
-include_once('getcats.php');
-include_once('functions.php');
-include_once('tables.php');
-include_once('sql_tables.php');
+include_once 'results_table.php';
+include_once 'langcode.php';
+include_once 'getcats.php';
+include_once 'functions.php';
+include_once 'tables.php';
+include_once 'sql_tables.php';
 //---
 $doit = isset($_REQUEST['doit']);
 //---
@@ -43,7 +43,7 @@ echo "<div class='container'>";
 //---
 if ($doit) {
     //---
-    $items = get_cat_members($cat, $depth, $code) ; # mdwiki pages in the cat
+    $items = get_cat_exists_and_missing($cat, $depth, $code) ; # mdwiki pages in the cat
     //---
     if ($items == null ) $items = array() ;
     //---
