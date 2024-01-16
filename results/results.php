@@ -43,7 +43,7 @@ echo "<div class='container'>";
 //---
 if ($doit) {
     //---
-    $items = get_cat_members($cat, $depth, $code) ; # mdwiki pages in the cat
+    $items = get_cat_exists_and_missing($cat, $depth, $code) ; # mdwiki pages in the cat
     //---
     if ($items == null ) $items = array() ;
     //---

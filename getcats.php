@@ -199,7 +199,7 @@ function get_mdwiki_cat_members( $cat, $use_cash=false, $depth=0 ) {
     //---
 };
 //---
-function get_cat_members( $cat, $depth, $code, $use_cash=false ) {
+function get_cat_exists_and_missing( $cat, $depth, $code, $use_cash=false ) {
     //---
     $members_to = get_mdwiki_cat_members( $cat, $use_cash=$use_cash, $depth=$depth );
     //---
@@ -243,7 +243,7 @@ function get_cat_members( $cat, $depth, $code, $use_cash=false ) {
         "missing"=> $missing
     );
     //---
-    test_print("<br>end of get_cat_members <br>===============================<br>");
+    test_print("<br>end of get_cat_exists_and_missing <br>===============================<br>");
     //---
     return $results;
     //---

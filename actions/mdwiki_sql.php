@@ -150,7 +150,6 @@ function update_settings($id, $title, $displayed, $value, $type) {
     return $results;
 }
 
-//---
 function insert_to_translate_type($tt_title, $tt_lead, $tt_full, $tt_id=0) {
     $params = [$tt_lead, $tt_full, $tt_title];
     //---
@@ -165,8 +164,7 @@ function insert_to_translate_type($tt_title, $tt_lead, $tt_full, $tt_id=0) {
     //---
     return $result;
 }
-//---
-//---
+
 function insert_to_projects($g_title, $g_id) {
     $query = "UPDATE projects SET g_title = ? WHERE g_id = ?";
     $params = [$g_title, $g_id];
@@ -180,7 +178,7 @@ function insert_to_projects($g_title, $g_id) {
     //---
     return $result;
 }
-//---
+
 function get_all($tab="(categories|coordinator|copy_pages|pages|projects|qids|users|views|wddone|words)") {
     //---
     $query = "SELECT * FROM $tab";
@@ -188,7 +186,7 @@ function get_all($tab="(categories|coordinator|copy_pages|pages|projects|qids|us
     //---
     return $data;
 }
-//---
+
 function display_tables() {
     $sql_query = "SELECT TABLE_NAME, TABLE_TYPE FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() ORDER BY TABLE_NAME";
     $result = execute_query($sql_query);
@@ -198,7 +196,7 @@ function display_tables() {
     //---
     // test_print($tables);
 }
-//---
+
 $test = $_GET['test'] ?? '';
 if ($test != '') display_tables();
 ?>
