@@ -5,6 +5,22 @@ function add_quotes($str) {
     return $quote . $str . $quote;
 };
 //---
+function login_card() {
+    return <<<HTML
+    <div class='card' style='font-weight: bold;'>
+        <div class='card-body'>
+            <div class='row'>
+                <div class='col-md-10'>
+                    <a role='button' class='btn btn-primary' onclick='login()'>
+                        <i class='fas fa-sign-in-alt fa-sm fa-fw mr-1'></i><span class='navtitles'>Login</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    HTML;
+}
+
 function make_modal_fade($label, $text, $id, $button='') {
     $exampleModalLabel = rand(1000, 9999);
     return <<<HTML

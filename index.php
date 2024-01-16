@@ -213,7 +213,7 @@ echo <<<HTML
 <!-- <script src='/Translation_Dashboard/js/codes.js'></script> -->
 HTML;
 //---
-require 'results.php';
+require 'results/results.php';
 //---
 require 'foter.php';
 //---

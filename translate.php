@@ -4,6 +4,7 @@ require 'header.php';
 require 'tables.php';
 include_once 'functions.php';
 include_once 'enwiki/td1.php';
+include_once 'actions/html.php';
 
 // Define root path
 $pathParts = explode('public_html', __FILE__);
@@ -15,27 +16,27 @@ $coden = strtolower($_GET['code']);
 $title_o = $_GET['title'];
 // $useree  = (global_username != '') ? global_username : $_GET['username'];
 $useree = (global_username != '') ? global_username : '';
-$tit_line = make_input_group('title', 'title', $title_o, 'required');
-$cod_line = make_input_group('code', 'code', $coden, 'required');
-
-$nana = <<<HTML
-    <div class='card' style='font-weight: bold;'>
-        <div class='card-body'>
-            <div class='row'>
-                <div class='col-md-10 col-md-offset-1'>
-                    <form action='translate.php' method='GET'>
-                        $tit_line
-                        $cod_line
-                        <input class='btn btn-primary' type='submit' name='start' value='Start' />
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-HTML;
 
 // Display form if 'form' is set in the URL
 if (isset($_GET['form'])) {
+    $tit_line = make_input_group('title', 'title', $title_o, 'required');
+    $cod_line = make_input_group('code', 'code', $coden, 'required');
+
+    $nana = <<<HTML
+        <div class='card' style='font-weight: bold;'>
+            <div class='card-body'>
+                <div class='row'>
+                    <div class='col-md-10 col-md-offset-1'>
+                        <form action='translate.php' method='GET'>
+                            $tit_line
+                            $cod_line
+                            <input class='btn btn-primary' type='submit' name='start' value='Start' />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    HTML;
     echo $nana;
 }
 
@@ -66,19 +67,7 @@ function insertPage($title_o, $word, $tr_type, $cat, $coden, $useree, $test) {
 
 // Display login button if user is not logged in
 if ($useree == '') {
-    echo <<<HTML
-    <div class='card' style='font-weight: bold;'>
-        <div class='card-body'>
-            <div class='row'>
-                <div class='col-md-10'>
-                    <a role='button' class='btn btn-primary' onclick='login()'>
-                        <i class='fas fa-sign-in-alt fa-sm fa-fw mr-1'></i><span class='navtitles'>Login</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-    HTML;
+    echo login_card();
 }
 
 // Process form data if title, code, and user are set
