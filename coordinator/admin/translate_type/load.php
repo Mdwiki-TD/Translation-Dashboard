@@ -156,10 +156,6 @@ foreach ( $cat_titles as $title ) {
 
 <script type="text/javascript">
 
-	function pupwindow(url) {
-		window.open(url, 'popupWindow', 'width=850,height=550,scrollbars=yes');
-	};
-
 	var i = 1;
 	function add_row() {
 		var ii = $('#tab_ma >tr').length + 1;

@@ -66,6 +66,7 @@ function create_side() {
 		array('id' => 'Campaigns', 		'admin' => 1,	'href' => 'Campaigns', 		'title' => 'Campaigns'),
 		array('id' => 'stat', 			'admin' => 0,	'href' => 'stat', 			'title' => 'Status'),
 		array('id' => 'settings', 		'admin' => 1,	'href' => 'settings', 		'title' => 'Settings'),
+		array('id' => 'qidsload', 		'admin' => 1,	'href' => 'qids/load', 		'title' => 'qids'),
 	);
 	//---
 	$main['Tools'] = array(
@@ -131,12 +132,14 @@ foreach (glob('coordinator/tools/*.php') as $file) $tools_floders[] = basename($
 test_print($corrd_floders);
 test_print($tools_floders);
 //---
-$file = "coordinator/$ty.php";
+$adminfile = "coordinator/admin/$ty.php";
 // if 
 if (in_array($ty, $tools_floders)) {
 	require "coordinator/tools/$ty.php";
 } elseif (in_array($ty, $corrd_floders) && user_in_coord) {
-	require "coordinator/admin/$ty.php";
+	require $adminfile;
+} elseif (is_file($adminfile) && user_in_coord) {
+	require $adminfile;
 } else {
 	require 'coordinator/404.php';
 };

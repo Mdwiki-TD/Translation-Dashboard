@@ -73,7 +73,7 @@ function make_mail_icon($tab) {
 	$onclick = 'pupwindow("' . $mail_url . '")';
     //---
     return <<<HTML
-    	<a class='btn btn-primary btn-sm' onclick='$onclick'>Email</a>
+    	<a class='btn btn-outline-primary btn-sm' onclick='$onclick'>Email</a>
     HTML;
 }
 //---
@@ -214,7 +214,7 @@ function make_datalist_options($hyh) {
 function make_mdwiki_title($title) {
     if ($title != '') {
         $encoded_title = rawurlencode(str_replace(' ', '_', $title));
-        return "<a href='https://mdwiki.org/wiki/$encoded_title'>$title</a>";
+        return "<a target='_blank' href='https://mdwiki.org/wiki/$encoded_title'>$title</a>";
     }
     return $title;
 }
