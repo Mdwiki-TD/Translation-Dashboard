@@ -26,7 +26,7 @@ function make_edit_icon($id, $title, $qid) {
 //---
 $testin = (($_REQUEST['test'] ?? '') != '') ? "<input name='test' value='1' hidden/>" : "";
 //---
-$dis = $_GET['dis'] ?? 'empty';
+$dis = $_GET['dis'] ?? 'all';
 //---
 echo <<<HTML
 <script>$('#qidsload').addClass('active');</script>

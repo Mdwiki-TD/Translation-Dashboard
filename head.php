@@ -30,6 +30,7 @@ if (!isset($_GET['noboot'])) {
     <link href='/Translation_Dashboard/css/styles.css' rel='stylesheet' type='text/css'>
     <link href='/Translation_Dashboard/css/Responsive_Table.css' rel='stylesheet' type='text/css'>
     <link href='/Translation_Dashboard/css/dashboard_new1.css' rel='stylesheet' type='text/css'>
+    <link href='/Translation_Dashboard/css/sidebars.css' rel='stylesheet' type='text/css'>
     <link href='$hoste/ajax/libs/font-awesome/5.15.3/css/all.min.css' rel='stylesheet' type='text/css'>
     <link href='$hoste/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
     <link href='$hoste/ajax/libs/datatables.net-bs5/1.13.5/dataTables.bootstrap5.css' rel='stylesheet' type='text/css'>

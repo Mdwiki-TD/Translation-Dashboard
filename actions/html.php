@@ -1,5 +1,7 @@
 <?php
 //---
+include_once 'html_side1.php';
+//---
 function add_quotes($str) {
     $quote = preg_match("/[']+/u", $str) ? '"' : "'";
     return $quote . $str . $quote;
