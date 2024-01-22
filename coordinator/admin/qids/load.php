@@ -42,6 +42,10 @@ echo <<<HTML
 			<div class='col-md-3'>
 				<a class='btn btn-outline-secondary' href="coordinator.php?ty=qids/load&dis=all">All</a>				
 			</div>
+			<div class='col-md-3'>
+				<!-- only display empty qids -->
+				<a class='btn btn-outline-secondary' href="coordinator.php?ty=qids/load&dis=duplicate">Duplicate</a>
+			</div>
 		</div>
 	</div>
 	<div class='card-body'>
@@ -49,6 +53,7 @@ echo <<<HTML
 			<thead>
 				<tr>
 					<th>#</th>
+					<th>id</th>
 					<th>Title</th>
 					<th>Qid</th>
 					<th>Edit</th>
@@ -59,26 +64,40 @@ HTML;
 //---
 $uuux = '';
 //---
-$qua = ($dis == 'all') ? 'select id, title, qid from qids;' : "select id, title, qid from qids where qid = '';";
+$quaries = [
+	'empty' => "select id, title, qid from qids where qid = '';",
+	'all' => "select id, title, qid from qids;",
+	'duplicate' => <<<SQL
+		SELECT 
+		A.id AS id, A.title AS title, A.qid AS qid, 
+		B.id AS id2, B.title AS title2, B.qid AS qid2
+	FROM 
+		qids A
+	JOIN 
+		qids B ON A.qid = B.qid
+	WHERE 
+		A.qid != '' AND A.title != B.title AND A.id != B.id;
+	SQL
+];
+//---
+$qua = (in_array($dis, $quaries)) ? $quaries['all'] : $quaries[$dis];
 //---
 $qq = execute_query($qua);
 //---
 $numb = 0;
 //---
-foreach ( $qq AS $Key => $table ) {
-	$numb += 1;
-	$id 	= $table['id'];
-	$title 	= $table['title'];
-	$qid 	= $table['qid'];
-    //---
+function make_row($id, $title, $qid, $numb) {
 	$edit_icon = make_edit_icon($id, $title, $qid);
     //---
 	$md_title = make_mdwiki_title($title);
     //---
-	echo <<<HTML
+	return <<<HTML
 	<tr>
 		<th data-content="#" data-sort="$numb">
 			$numb
+		</th>
+		<th data-content="#" data-sort="$id">
+			$id
 		</th>
 		<td data-content="title" data-sort="$title">
 			$md_title
@@ -91,6 +110,25 @@ foreach ( $qq AS $Key => $table ) {
 		</td>
 	</tr>
 	HTML;
+}
+//---
+foreach ( $qq AS $Key => $table ) {
+	$numb += 1;
+	$id 	= $table['id'];
+	$title 	= $table['title'];
+	$qid 	= $table['qid'];
+    //---
+	echo make_row($id, $title, $qid, $numb);
+	//---
+	if ($dis == 'duplicate') {
+		$numb += 1;
+		$id2 	= $table['id2'];
+		$title2 = $table['title2'];
+		$qid2 	= $table['qid2'];
+		//---
+		echo make_row($id2, $title2, $qid2, $numb);
+	};
+	//---
 };
 //---
 echo <<<HTML
