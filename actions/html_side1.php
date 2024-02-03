@@ -25,7 +25,7 @@ function create_side($filename) {
             ['id' => 'process', 'admin' => 0, 'href' => 'process', 'title' => 'In process'],
             ['id' => 'Pending', 'admin' => 0, 'href' => 'Pending', 'title' => 'In process (total)'],
             ['id' => 'add', 'admin' => 1, 'href' => 'add', 'title' => 'Add'],
-            ['id' => 'translate_type', 'admin' => 1, 'href' => 'translate_type', 'title' => 'Translate Type'],
+            ['id' => 'tt_load', 'admin' => 1, 'href' => 'tt/load', 'title' => 'Translate Type'],
         ],
         'Users' => [
             ['id' => 'Emails', 'admin' => 1, 'href' => 'Emails', 'title' => 'Emails'],
