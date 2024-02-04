@@ -87,7 +87,9 @@ foreach (execute_query($qua_all) as $Key => $teb) {
     $user   = $teb['user'];
     $target = $teb['target'];
     $word   = $teb['word'];
-    
+    if ($word == 0) {
+        $word = $Words_table[$title] ?? 0; 
+    }
     $coco = $Views_by_lang_target[$lang][$target][$year] ?? 0;
     
     $Words_total += $word;
