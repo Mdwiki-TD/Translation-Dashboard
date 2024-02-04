@@ -10,7 +10,7 @@ INSERT INTO translate_type (tt_title, tt_lead, tt_full) SELECT DISTINCT q.title,
 require 'getcats.php';
 include_once 'functions.php';
 //---
-$cat = $_REQUEST['cat'] ?? 'RTTILAE';
+$cat = $_REQUEST['cat'] ?? 'All';
 $testin = (($_REQUEST['test'] ?? '') != '') ? "<input name='test' value='1' hidden/>" : "";
 //---
 function filter_stat($cat) {
@@ -223,7 +223,7 @@ HTML;
 		var t = $('#em').DataTable({
 		// order: [[5	, 'desc']],
 		// paging: false,
-		lengthMenu: [[50, 100, 150], [50, 100, 150]],
+		lengthMenu: [[250, 500], [250, 500]],
 		// scrollY: 800
 		});
 	} );

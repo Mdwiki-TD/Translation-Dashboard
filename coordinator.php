@@ -40,6 +40,9 @@ if (!isset($_REQUEST['nonav'])) {
 //---
 $ty = $_REQUEST['ty'] ?? 'last';
 //---
+// replace translate_type with tt/load
+if ($ty == 'translate_type') $ty = 'tt/load';
+//---
 $corrd_floders = [];
 foreach (glob('coordinator/admin/*.php') as $file) $corrd_floders[] = basename($file, '.php');
 //---
