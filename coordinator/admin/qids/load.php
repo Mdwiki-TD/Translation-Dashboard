@@ -84,8 +84,6 @@ $qua = (in_array($dis, $quaries)) ? $quaries['all'] : $quaries[$dis];
 //---
 $qq = execute_query($qua);
 //---
-$numb = 0;
-//---
 function make_row($id, $title, $qid, $numb) {
 	$edit_icon = make_edit_icon($id, $title, $qid);
     //---
@@ -112,6 +110,8 @@ function make_row($id, $title, $qid, $numb) {
 	HTML;
 }
 //---
+$numb = 0;
+//---
 foreach ( $qq AS $Key => $table ) {
 	$numb += 1;
 	$id 	= $table['id'];
@@ -135,7 +135,7 @@ echo <<<HTML
 	</tbody>
 	</table>
 
-<form action="coordinator.php?ty=qids/post&nonav=1" method="POST">
+<form action="coordinator.php?ty=qids/post" method="POST">
 	$testin
 	<input name='ty' value="qids/post" hidden/>
 	<div id='qidstab' style='display: none;'>
@@ -153,13 +153,14 @@ echo <<<HTML
 		</table>
 	</div>
 	<span role='button' id="add_row" class="btn btn-info" style="position: absolute; right: 130px;" onclick='add_row()'>New row</span>
-	<button type="submit" class="btn btn-success">Submit</button>
+	<button id="submit_bt" type="submit" class="btn btn-success" style='display: none;'>Submit</button>
 </form>
 HTML;
 ?>
 <script type="text/javascript">
 var i = 1;
 function add_row() {
+	$('#submit_bt').show();
 	$('#qidstab').show();
 	var ii = $('#tab_new >tr').length + 1;
 	var e = "<tr>";
