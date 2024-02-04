@@ -55,7 +55,7 @@ function make_views_by_lang_target() {
     $vta = array();
 
     $qua_vi = "
-    SELECT target, lang, countall, count2021, count2022, count2023
+    SELECT target, lang, countall, count2021, count2022, count2023, count2024, count2025, count2026
     FROM views;
     ";
 
@@ -71,7 +71,10 @@ function make_views_by_lang_target() {
             'all'  => $tab['countall'],
             '2021' => $tab['count2021'],
             '2022' => $tab['count2022'],
-            '2023' => $tab['count2023']
+            '2023' => $tab['count2023'],
+            '2024' => $tab['count2024'],
+            '2025' => $tab['count2025'],
+            '2026' => $tab['count2026'],
         );
     }
     return $vta;
