@@ -20,7 +20,7 @@ function make_edit_icon($id, $title, $qid) {
 	$onclick = 'pupwindow1("' . $edit_url . '")';
     //---
     return <<<HTML
-    	<a class='btn btn-primary btn-sm' onclick='$onclick'>Edit</a>
+    	<a class='btn btn-outline-primary btn-sm' onclick='$onclick'>Edit</a>
     HTML;
 }
 //---
@@ -29,7 +29,10 @@ $testin = (($_REQUEST['test'] ?? '') != '') ? "<input name='test' value='1' hidd
 $dis = $_GET['dis'] ?? 'all';
 //---
 echo <<<HTML
-<script>$('#qidsload').addClass('active');</script>
+	<script>
+		$('#qidsload').addClass('active');
+		$("#qidsload").closest('.mb-1').find('.collapse').addClass('show');
+	</script>
 	<div class='card-header'>
 		<div class='row'>
 			<div class='col-md-3'>
