@@ -5,6 +5,26 @@
 name=$1$2$1
 */
 //---
+function make_edit_icon($id, $user, $email, $wiki2, $project) {
+	//---
+    $edit_params = array(
+		'id'   => $id,
+		'nonav'  => 1,
+		'user'  => $user,
+		'email'  => $email,
+		'wiki'  => $wiki2,
+		'project'  => $project
+	);
+    //---
+    $edit_url = "coordinator.php?ty=Emails/edit_user&" . http_build_query( $edit_params );
+    //---
+	$onclick = 'pupwindow1("' . $edit_url . '")';
+    //---
+    return <<<HTML
+    	<a class='btn btn-outline-primary btn-sm' onclick='$onclick'>Edit</a>
+    HTML;
+}
+//---
 $last_user_to_tab = array();
 if (true) {
 	$last_qua = <<<SQL
@@ -45,7 +65,8 @@ echo <<<HTML
 						<th>Project</th>
 						<th>Wiki</th>
 						<th>Live</th>
-						<th>Delete</th>
+						<th>Edit</th>
+						<!-- <th>Delete</th> -->
 					</tr>
 				</thead>
 				<tbody id="tab_ma">
@@ -117,6 +138,8 @@ foreach ( $sorted_array as $user_name => $d) {
 	} else {
 	};
 	//---
+	$edit_icon = make_edit_icon($id, $user, $email, $wiki, $project);
+	//---
 	echo <<<HTML
 	<tr>
 		<td data-order='$numb' data-content='#'>
@@ -142,9 +165,12 @@ foreach ( $sorted_array as $user_name => $d) {
 		<td data-order='$live' data-content='Live'>
 			<span>$live</span>
 		</td>
-		<td data-content='Delete'>
-			<input type='checkbox' name='del[]$numb' value='$id'/> <label>delete</label>
+		<td data-content='Edit'>
+			<span>$edit_icon</span>
 		</td>
+		<!-- <td data-content='Delete'>
+			<input type='checkbox' name='del[]$numb' value='$id'/> <label>delete</label>
+		</td> -->
 	</tr>
 	HTML;
 };

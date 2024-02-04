@@ -6,7 +6,7 @@
 		window.open(url, 'popupWindow', 'width=850,height=550,left=50,top=50,scrollbars=yes');
 	};
 	function pupwindow1(url) {
-		window.open(url, 'popupWindow', 'width=500,height=350, left=100, top=100, location=no');
+		window.open(url, 'popupWindow', 'width=500,height=400, left=100, top=100, location=no');
 	};
 
 	function login() {

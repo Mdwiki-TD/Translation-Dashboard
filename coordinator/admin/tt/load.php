@@ -59,7 +59,10 @@ if ($cat == 'All') {
 }
 //---
 echo <<<HTML
-	<script>$('#tt_load').addClass('active');</script>
+	<script>
+		$('#tt_load').addClass('active');
+		$("#tt_load").closest('.mb-1').find('.collapse').addClass('show');
+	</script>
 	<div class='card-header'>
 		<form action="coordinator.php?ty=tt/load" method="GET">
 			$testin
@@ -105,7 +108,7 @@ function make_edit_icon($id, $title, $full, $lead) {
 	$onclick = 'pupwindow1("' . $edit_url . '")';
     //---
     return <<<HTML
-    	<a class='btn btn-primary btn-sm' onclick='$onclick'>Edit</a>
+    	<a class='btn btn-outline-primary btn-sm' onclick='$onclick'>Edit</a>
     HTML;
 }
 //---

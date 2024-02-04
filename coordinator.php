@@ -62,7 +62,13 @@ if (in_array($ty, $tools_floders)) {
 };
 //---
 if (isset($ty)) {
-	$gg = "<script>$('#" . $ty . "').addClass('active');</script>";
+	$gg = <<<HTML
+	<script>
+		$('#$ty').addClass('active');
+		$("#$ty").closest('.mb-1').find('.collapse').addClass('show');
+	</script>
+		
+HTML;
 };
 //---
 echo $gg;

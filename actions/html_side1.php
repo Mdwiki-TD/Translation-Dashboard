@@ -69,7 +69,7 @@ function create_side($filename) {
                         data-bs-target="#$key-collapse" aria-expanded="true">
                         $key
                     </button>
-                    <div class="collapse show" id="$key-collapse" style="">
+                    <div class="collapse" id="$key-collapse" style="">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                             $lis
                         </ul>
