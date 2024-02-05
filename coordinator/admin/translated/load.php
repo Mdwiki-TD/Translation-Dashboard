@@ -59,64 +59,58 @@ function filter_recent($lang) {
 }
 //---
 $recent_table = <<<HTML
-	<table class="table table-sm table-striped table-mobile-responsive table-mobile-sided" id="last_tabel" style="font-size:90%;">
+	<table class="table table-sm table-striped table-mobile-responsive table-mobile-sided" id="pages_table" style="font-size:90%;">
         <thead>
             <tr>
                 <th>#</th>
                 <th>User</th>
-                <th></th>
-                <th><span data-toggle="tooltip" title="Language">Lang.</span></th>
+                <th>Lang.</th>
                 <th>Title</th>
-                <th><span data-toggle="tooltip" title="Campaign">Camp.</span></th>
-                <!-- <th>Words</th> -->
                 <th>Translated</th>
                 <th>Date</th>
-                <th>Views</th>
-                <th>fixref</th>
-                <th>add_date</th>
+                <th>Edit</th>
             </tr>
         </thead>
         <tbody>
 HTML;
 //---
+function make_edit_icon($id, $title, $target, $lang, $user, $pupdate) {
+	//---
+    $edit_params = array(
+		'id'   => $id,
+		'title'  => $title,
+		'target'  => $target,
+		'lang'  => $lang,
+		'user'  => $user,
+		'pupdate' => $pupdate,
+		'nonav' => 1
+
+	);
+    //---
+    $edit_url = "coordinator.php?ty=translated/edit_page&" . http_build_query( $edit_params );
+    //---
+	$onclick = 'pupwindow1("' . $edit_url . '")';
+    //---
+    return <<<HTML
+    	<a class='btn btn-outline-primary btn-sm' onclick='$onclick'>Edit</a>
+    HTML;
+}
+//---
 function make_td($tabg, $nnnn) {
     //---
-    global $code_to_lang, $Words_table, $views_sql, $cat_to_camp;
-    //---
     $id       = $tabg['id'];
-    $date     = $tabg['date'];
-    //---
-    //return $date . '<br>';
     //---
     $user     = $tabg['user'];
-    $llang    = $tabg['lang'];
+    $lang    = $tabg['lang'];
     $md_title = trim($tabg['title']);
-    $cat      = $tabg['cat'];
-    $word     = $tabg['word'];
-    $targe    = trim($tabg['target']);
+    $target    = trim($tabg['target']);
     $pupdate  = $tabg['pupdate'] ?? '';
-    $add_date = $tabg['add_date'] ?? '';
     //---
-    $views_number = $views_sql[$targe] ?? '?';
+    $mdwiki_title = make_mdwiki_title( $md_title );
     //---
-    // $lang2 = $code_to_lang[$llang] ?? $llang;
-    $lang2 = $llang;
-    //---
-    // $ccat = make_cat_url( $cat );
-    $ccat = $cat_to_camp[$cat] ?? $cat;
-    //---
-    $worde = $word ?? $Words_table[$md_title];
-    //---
-    $nana = make_mdwiki_title( $md_title );
-    //---
-    $targe33 = make_target_url( $targe, $llang );
-	$targe2  = urlencode($targe);
-    //---
-    $view = make_view_by_number($targe, $views_number, $llang, $pupdate);
-    //---
-    if (user_in_coord != false) {
-        $mail_icon = make_mail_icon($tabg);
-    };
+    $targe33 = make_target_url( $target, $lang );
+	//---
+    $edit_icon = make_edit_icon($id, $md_title, $target, $lang, $user, $pupdate);
     //---
     $laly = <<<HTML
         <tr>
@@ -124,36 +118,22 @@ function make_td($tabg, $nnnn) {
                 $nnnn
             </td>
             <td data-content='User'>
-                <a target='' href='leaderboard.php?user=$user'>$user</a>
-            </td>
-            <td data-content=''>
-                $mail_icon
+                <a href='leaderboard.php?user=$user'>$user</a>
             </td>
             <td data-content='Lang.'>
-                <a target='' href='leaderboard.php?langcode=$llang'>$lang2</a>
+                <a href='leaderboard.php?langcode=$lang'>$lang</a>
             </td>
             <td style='max-width:150px;' data-content='Title'>
-                $nana
+                $mdwiki_title
             </td>
-            <!-- <td>$date</td> -->
-            <td data-content='Campaign'>
-                $ccat
-            </td>
-            <!-- <td>$worde</td> -->
             <td style='max-width:150px;' data-content='Translated'>
                 $targe33
             </td>
             <td data-content='Date'>
                 $pupdate
             </td>
-            <td data-content='Views'>
-                $view
-            </td>
-            <td data-content='fixref'>
-                <a target='_blank' href="../fixwikirefs.php?title=$targe2&lang=$llang">fix</a>
-            </td>
-            <td data-content='add_date'>
-                $add_date
+            <td data-content='Date'>
+                $edit_icon
             </td>
         </tr>
     HTML;
@@ -166,18 +146,14 @@ function get_recent_sql($lang) {
     //---
     if ($lang != '' && $lang != 'All') $lang_line = "and lang = '$lang'";
     //---
-    $dd0 = execute_query("select * from pages where target != '' $lang_line ORDER BY pupdate DESC limit 100;");
-    $dd1 = execute_query("select * from pages where target != '' $lang_line ORDER BY add_date DESC limit 100");
-    //---
-    // merage the two arrays without duplicates
-    $dd2 = array_unique(array_merge($dd0, $dd1), SORT_REGULAR);
+    $dd = execute_query("select * from pages where target != '' $lang_line ORDER BY pupdate DESC;");
     //---
     // sort the table by add_date
-    usort($dd2, function($a, $b) {
+    usort($dd, function($a, $b) {
         return strtotime($b['add_date']) - strtotime($a['add_date']);
     });
     //---
-    return $dd2;    
+    return $dd;    
 }
 //---
 $qsl_results = get_recent_sql($lang);
@@ -200,10 +176,10 @@ $uuu = filter_recent($lang);
 echo <<<HTML
 <div class='card-header'>
     <form method='get' action='coordinator.php'>
-        <input name='ty' value='last' hidden/>
+        <input name='ty' value='translated/load' hidden/>
         <div class='row'>
             <div class='col-md-4'>
-                <h4>Most recent translations:</h4>
+                <h4>Translated pages:</h4>
             </div>
             <div class='col-md-4'>
                 $uuu
@@ -221,13 +197,12 @@ echo $recent_table;
 //---
 ?>
 <script>
-function pupwindow(url) {
-	window.open(url, 'popupWindow', 'width=850,height=550,scrollbars=yes');
-};
+$('#translated').addClass('active');
+$("#translated").closest('.mb-1').find('.collapse').addClass('show');
 
 $(document).ready( function () {
-	var t = $('#last_tabel').DataTable({
-	order: [[10	, 'desc']],
+	var t = $('#pages_table').DataTable({
+	// order: [[10	, 'desc']],
     // paging: false,
 	lengthMenu: [[50, 100, 150], [50, 100, 150]],
     // scrollY: 800
