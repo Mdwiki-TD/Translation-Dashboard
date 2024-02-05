@@ -74,7 +74,7 @@ function echo_form($id, $title, $qid) {
                             <div class='input-group-prepend'>
                                 <span class='input-group-text'>Id</span>
                             </div>
-                            <input class='form-control' type='text'value='$id' disabled/>
+                            <input class='form-control' type='text' value='$id' disabled/>
                             <input class='form-control' type='text' id='id' name='id' value='$id' hidden/>
                         </div>
                     </div>

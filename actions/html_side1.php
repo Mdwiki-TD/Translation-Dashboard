@@ -24,8 +24,12 @@ function create_side($filename) {
             ['id' => 'last', 'admin' => 0, 'href' => 'last', 'title' => 'Recent'],
             ['id' => 'process', 'admin' => 0, 'href' => 'process', 'title' => 'In process'],
             ['id' => 'Pending', 'admin' => 0, 'href' => 'Pending', 'title' => 'In process (total)'],
+        ],
+        'Pages' => [
             ['id' => 'add', 'admin' => 1, 'href' => 'add', 'title' => 'Add'],
             ['id' => 'tt_load', 'admin' => 1, 'href' => 'tt/load', 'title' => 'Translate Type'],
+            ['id' => 'qidsload', 'admin' => 1, 'href' => 'qids/load', 'title' => 'qids'],
+            ['id' => 'translated', 'admin' => 1, 'href' => 'translated/load', 'title' => 'Translated pages'],
         ],
         'Users' => [
             ['id' => 'Emails', 'admin' => 1, 'href' => 'Emails', 'title' => 'Emails'],
@@ -36,7 +40,6 @@ function create_side($filename) {
             ['id' => 'Campaigns', 'admin' => 1, 'href' => 'Campaigns', 'title' => 'Campaigns'],
             ['id' => 'stat', 'admin' => 0, 'href' => 'stat', 'title' => 'Status'],
             ['id' => 'settings', 'admin' => 1, 'href' => 'settings', 'title' => 'Settings'],
-            ['id' => 'qidsload', 'admin' => 1, 'href' => 'qids/load', 'title' => 'qids'],
         ],
         'Tools' => [
             ['id' => 'wikirefs_options', 'admin' => 1, 'href' => 'wikirefs_options', 'title' => 'Fixwikirefs (options)'],
