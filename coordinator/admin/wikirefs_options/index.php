@@ -43,7 +43,7 @@ $sato = <<<HTML
                 <th>Delete</th>
             </tr>
         </thead>
-        <tbody id="tab_ma">
+        <tbody id="refs_tab">
 HTML;
 //---
 /*
@@ -127,26 +127,26 @@ print $sato;
 ?>
 
 <script type="text/javascript">
-var ii = 1;
-function add_row() {
-	var e = "<tr>";
-	e = e + "<td>" + ii + "</td>";
-	e = e + "<td><input name='newlang[]" + ii + "'/></td>";
-	e = e + "<td><input type='checkbox' name='newmove_dots[]" + ii + "'  id='newmove_dots[]" + ii + "' value='1'/></td>";
-	e = e + "<td><input type='checkbox' name='newexpend[]" + ii + "'  id='newexpend[]" + ii + "' value='1'/></td>";
-	e = e + "<td><input type='checkbox' name='newadden[]" + ii + "'  id='newadden[]" + ii + "' value='1'/></td>";
-	e = e + "</tr>";
+    var ii = $('#refs_tab >tr').length;
+    function add_row() {
+        ii++;
+        var e = "<tr>";
+        e = e + "<td>" + ii + "</td>";
+        e = e + "<td><input name='newlang[]" + ii + "' placeholder='lang code.'/></td>";
+        e = e + "<td><input type='text' name='move_dotsx[]" + ii + "' value='0' disabled/></td>";
+        e = e + "<td><input type='text' name='expendx[]" + ii + "' value='0' disabled/></td>";
+        e = e + "<td><input type='text' name='add_en_lngx[]" + ii + "' value='0' disabled/></td>";
+        e = e + "</tr>";
 
-	$('#tab_ma').append(e);
-	i++;
-};
+        $('#refs_tab').append(e);
+    };
 
-$(document).ready( function () {
-	$('#em2').DataTable({
-	    lengthMenu: [[10, 50, 100, 150], [10, 50, 100, 150]],
-        // paging: false,
-        // searching: false
-	});
-} );
+    $(document).ready( function () {
+        $('#em2').DataTable({
+            lengthMenu: [[10, 50, 100, 150], [10, 50, 100, 150]],
+            // paging: false,
+            // searching: false
+        });
+    } );
 
 </script>

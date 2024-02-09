@@ -7,75 +7,51 @@ if (isset($_REQUEST['test'])) {
     error_reporting(E_ALL);
 }
 
-// Initialize variables for clarity
+// Load configurations from file
 $keysToAdd = ['move_dots', 'expend', 'add_en_lng'];
-
-$tabes = [];
 $tabes = get_configs('fixwikirefs.json');
 
-// Handle new languages
-if (isset($_POST['newlang'])) {
-    if (count($_POST['newlang']) != null) {
-        for ($i = 0; $i < count($_POST['newlang']); $i++) {
-            $lang = $_POST['newlang'][$i] ?? '';
-            $lang = strtolower($lang);
-            $tabes[$lang] = [
-                'move_dots' => ($_POST['newmove_dots'][$i] ?? '') == '1' ? 1 : 0,
-                'expend' => ($_POST['newexpend'][$i] ?? '') == '1' ? 1 : 0,
-                'add_en_lng' => ($_POST['newadden'][$i] ?? '') == '1' ? 1 : 0,
-            ];
-        }
+// Function to initialize language keys
+function initializeLanguageKeys($tabes, $languages, $keysToAdd) {
+    foreach ($languages as $lang) {
+        $lang = strtolower($lang);
+        $tabes[$lang] = array_fill_keys($keysToAdd, 0);
     }
+    return $tabes;
 }
 
-// Handle existing languages
-if (isset($_POST['lang'])) {
-    if (count($_POST['lang']) != null) {
-        for ($io = 0; $io < count($_POST['lang']); $io++) {
-            $lang = strtolower($_POST['lang'][$io]);
-            $tabes[$lang] = array();
-            foreach ($keysToAdd as $key) {
-                $tabes[$lang][$key] = 0;
+// Function to add keys from POST data
+function addKeysFromPost($tabes, $keysToAdd) {
+    foreach ($keysToAdd as $key) {
+        if (isset($_POST[$key])) {
+            foreach ($_POST[$key] as $value) {
+                $value = strtolower($value);
+                if (!isset($tabes[$value])) {
+                    $tabes[$value] = array_fill_keys($keysToAdd, 0);
+                }
+                $tabes[$value][$key] = 1;
             }
         }
     }
+    return $tabes;
 }
 
-// Combine language processing into a single function
-function addKeyFromPost($key)
-{
-    global $tabes;
-    if (isset($_POST[$key])) {
-        if (count($_POST[$key]) != null) {
-            for ($io = 0; $io < count($_POST[$key]); $io++) {
-                $vav = strtolower($_POST[$key][$io]);
-                if (!isset($tabes[$vav])) $tabes[$vav] = array();
-                $tabes[$vav][$key] = 1;
-            }
+// Function to delete keys
+function deleteKeys($tbes) {
+    if (isset($_POST['del'])) {
+        for ($i = 0; $i < count($_POST['del']); $i++) {
+            $key_to_del    = $_POST['del'][$i];
+            if (isset($tbes[$key_to_del])) unset($tbes[$key_to_del]);
         }
     }
+    return $tbes;
 }
 
-// Process additional keys
-foreach ($keysToAdd as $key) {
-    addKeyFromPost($key);
-}
+// Initialize and process languages
+$languagesToAdd = array_filter(array_merge($_POST['newlang'] ?? [], $_POST['lang'] ?? []));
+$tabes = initializeLanguageKeys($tabes, $languagesToAdd, $keysToAdd);
+$tabes = addKeysFromPost($tabes, $keysToAdd);
+$tabes = deleteKeys($tabes, $keysToAdd);
 
-// Uncomment when deletion functionality is needed
-if (isset($_POST['del'])) {
-    for($i = 0; $i < count($_POST['del']); $i++ ) {
-        $key_to_del	= $_POST['del'][$i];
-        if (isset($tabes[$key_to_del])) unset($tabes[$key_to_del]);
-    }
-}
-
-// Save configuration if changes were made
-if (isset($_POST['lang']) || isset($_POST['newlang'])) {
-    $tabes2 = $tabes;
-    foreach ($tabes as $lang => $tab) {
-        foreach ($keysToAdd as $key) {
-            if (!isset($tabes2[$lang][$key])) $tabes2[$lang][$key] = 0;
-        }
-    }
-    set_configs_all_file('fixwikirefs.json', $tabes2);
-}
+// Save configuration
+set_configs_all_file('fixwikirefs.json', $tabes);
