@@ -176,7 +176,7 @@ $uuu = filter_recent($lang);
 echo <<<HTML
 <div class='card-header'>
     <form method='get' action='coordinator.php'>
-        <input name='ty' value='translated/load' hidden/>
+        <input name='ty' value='translated' hidden/>
         <div class='row'>
             <div class='col-md-4'>
                 <h4>Translated pages:</h4>

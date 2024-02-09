@@ -32,7 +32,7 @@ function make_td($tabg, $nnnn) {
     $nana = make_mdwiki_title( $md_title );
     //---
     // $mail_params = array( 'user' => $user, 'lang' => $llang, 'date' => $date, 'title' => $md_title, 'nonav' => '1');
-    // $mail_url = "coordinator.php?ty=msg&" . http_build_query( $mail_params );
+    // $mail_url = "coordinator.php?ty=Emails/msg&" . http_build_query( $mail_params );
 	// $onclick = 'pupwindow("' . $mail_url . '")';
     // $mail = "<a class='btn btn-primary btn-sm' onclick='$onclick'>Email</a>";
     //---

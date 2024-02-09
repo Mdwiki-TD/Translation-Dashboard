@@ -38,6 +38,6 @@ echo <<<HTML
 	<div class='alert alert-success' role='alert'>Translate Type Saved...<br>
 		return to Translate Type page in 2 seconds
 	</div>
-	<meta http-equiv='refresh' content='2; url=coordinator.php?ty=tt/load'>
+	<meta http-equiv='refresh' content='2; url=coordinator.php?ty=tt'>
 HTML;
 //---

@@ -40,14 +40,14 @@ echo <<<HTML
 			</div>
 			<div class='col-md-3'>
 				<!-- only display empty qids -->
-				<a class='btn btn-outline-secondary' href="coordinator.php?ty=qids/load&dis=empty">Only Empty</a>
+				<a class='btn btn-outline-secondary' href="coordinator.php?ty=qids&dis=empty">Only Empty</a>
 			</div>
 			<div class='col-md-3'>
-				<a class='btn btn-outline-secondary' href="coordinator.php?ty=qids/load&dis=all">All</a>				
+				<a class='btn btn-outline-secondary' href="coordinator.php?ty=qids&dis=all">All</a>				
 			</div>
 			<div class='col-md-3'>
 				<!-- only display empty qids -->
-				<a class='btn btn-outline-secondary' href="coordinator.php?ty=qids/load&dis=duplicate">Duplicate</a>
+				<a class='btn btn-outline-secondary' href="coordinator.php?ty=qids&dis=duplicate">Duplicate</a>
 			</div>
 		</div>
 	</div>

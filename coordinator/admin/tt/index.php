@@ -64,9 +64,9 @@ echo <<<HTML
 		$("#tt_load").closest('.mb-1').find('.collapse').addClass('show');
 	</script>
 	<div class='card-header'>
-		<form action="coordinator.php?ty=tt/load" method="GET">
+		<form action="coordinator.php?ty=tt" method="GET">
 			$testin
-			<input name='ty' value="tt/load" hidden/>
+			<input name='ty' value="tt" hidden/>
 			<div class='row'>
 				<div class='col-md-3'>
 					<h4>Translate Type:</h4>

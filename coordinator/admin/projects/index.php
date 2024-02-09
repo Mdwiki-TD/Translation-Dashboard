@@ -1,23 +1,38 @@
 <?php
 //---
-?>
-<div class='card-header'>
-	<h4>Projects:</h4>
-</div>
-<div class='card-body'>
-<form action="coordinator.php?ty=projects" method="POST">
-	<input name='ty' value="projects" hidden/>
-	  <div class="form-group">
-		<table class='table table-striped compact table-mobile-responsive table-mobile-sided' style="width:50%;">
-			<thead>
-				<tr>
-					<th>Id</th>
-					<th>Project</th>
-					<th>Delete</th>
-				</tr>
-			</thead>
-			<tbody id="g_tab">
-<?php
+if (user_in_coord == false) {
+	echo "<meta http-equiv='refresh' content='0; url=index.php'>";
+	exit;
+};
+//---
+if (isset($_REQUEST['test'])) {
+	ini_set('display_errors', 1);
+	ini_set('display_startup_errors', 1);
+	error_reporting(E_ALL);
+};
+//---
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    require 'post.php';
+}
+//---
+echo <<<HTML
+	<div class='card-header'>
+		<h4>Projects:</h4>
+	</div>
+	<div class='card-body'>
+	<form action="coordinator.php?ty=projects" method="POST">
+		<input name='ty' value="projects" hidden/>
+		<div class="form-group">
+			<table class='table table-striped compact table-mobile-responsive table-mobile-sided' style="width:50%;">
+				<thead>
+					<tr>
+						<th>Id</th>
+						<th>Project</th>
+						<th>Delete</th>
+					</tr>
+				</thead>
+				<tbody id="g_tab">
+HTML;
 //---
 $numb = 0;
 //---
