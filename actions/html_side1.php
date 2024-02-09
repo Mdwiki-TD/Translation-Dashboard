@@ -26,10 +26,10 @@ function create_side($filename) {
             ['id' => 'Pending', 'admin' => 0, 'href' => 'Pending', 'title' => 'In process (total)'],
         ],
         'Pages' => [
-            ['id' => 'add', 'admin' => 1, 'href' => 'add', 'title' => 'Add'],
             ['id' => 'tt_load', 'admin' => 1, 'href' => 'tt/load', 'title' => 'Translate Type'],
-            ['id' => 'qidsload', 'admin' => 1, 'href' => 'qids/load', 'title' => 'qids'],
+            ['id' => 'qidsload', 'admin' => 1, 'href' => 'qids/load', 'title' => 'Qids'],
             ['id' => 'translated', 'admin' => 1, 'href' => 'translated/load', 'title' => 'Translated pages'],
+            ['id' => 'add', 'admin' => 1, 'href' => 'add', 'title' => 'Add'],
         ],
         'Users' => [
             ['id' => 'Emails', 'admin' => 1, 'href' => 'Emails', 'title' => 'Emails'],

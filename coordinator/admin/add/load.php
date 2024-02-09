@@ -23,9 +23,9 @@ require 'tables.php';
 						<th>Campaign</th>
 						<th>Type</th>
 						<th>User</th>
-						<th>Lang.</th>
+						<th>Language</th>
 						<th>Target</th>
-						<th>Pupdate</th>
+						<th>Publication date</th>
 					</tr>
 				</thead>
 				<tbody id='g_tab'>
@@ -82,8 +82,8 @@ foreach (range(1, 1) as $numb) {
 		<td data-content='Target'>
 			<input size='20' name='target[]$numb' required/>
 		</td>
-		<td data-content='Pupdate'>
-			<input size='10' name='pupdate[]$numb' required/>
+		<td data-content='Publication date'>
+			<input size='10' name='pupdate[]$numb' placeholder='YYYY-MM-DD' required/>
 		</td>
 	</tr>
 	HTML;
