@@ -13,11 +13,11 @@ if (isset($_REQUEST['test'])) {
 //---
 include_once 'td_config.php';
 //---
-$tabes = get_configs('fixwikirefs.json');
-//---
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     require 'post.php';
 }
+//---
+$tabes = get_configs('fixwikirefs.json');
 //---
 echo <<<HTML
 	<div class='card-header'>
@@ -40,7 +40,7 @@ $sato = <<<HTML
                 <th>Move dots</th>
                 <th>Expend infobox</th>
                 <th>add |language=en</th>
-                <!-- <th>Delete</th> -->
+                <th>Delete</th>
             </tr>
         </thead>
         <tbody id="tab_ma">
@@ -87,9 +87,9 @@ function make_td($lang, $tabg, $numb) {
                     <input class='form-check-input' type='checkbox' name='add_en_lng[]$numb' value='$lang' $add_en_lng/>
                 </div>
             </td>
-            <!-- <td data-content='Delete'>
+            <td data-content='Delete'>
                 <input type='checkbox' name='del[]$numb' value='$lang'>
-            </td> -->
+            </td>
         </tr>
         HTML;
     //---
@@ -133,8 +133,8 @@ function add_row() {
 	e = e + "<td>" + ii + "</td>";
 	e = e + "<td><input name='newlang[]" + ii + "'/></td>";
 	e = e + "<td><input type='checkbox' name='newmove_dots[]" + ii + "'  id='newmove_dots[]" + ii + "' value='1'/></td>";
-	e = e + "<td><input type='checkbox' name='newexpend[]" + ii + "' value='1'/></td>";
-	e = e + "<td><input type='checkbox' name='newadden[]" + ii + "' value='1'/></td>";
+	e = e + "<td><input type='checkbox' name='newexpend[]" + ii + "'  id='newexpend[]" + ii + "' value='1'/></td>";
+	e = e + "<td><input type='checkbox' name='newadden[]" + ii + "'  id='newadden[]" + ii + "' value='1'/></td>";
 	e = e + "</tr>";
 
 	$('#tab_ma').append(e);
@@ -143,7 +143,7 @@ function add_row() {
 
 $(document).ready( function () {
 	$('#em2').DataTable({
-	    lengthMenu: [[50, 100, 150], [50, 100, 150]],
+	    lengthMenu: [[10, 50, 100, 150], [10, 50, 100, 150]],
         // paging: false,
         // searching: false
 	});
