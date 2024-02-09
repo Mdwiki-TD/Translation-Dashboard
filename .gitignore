@@ -14,3 +14,4 @@ coordinator_1.php
 *.html
 leaderboard/leader_tables_old.php
 Tables/assessments.json
+coordinator/admin/wikirefs_options/postx.php
