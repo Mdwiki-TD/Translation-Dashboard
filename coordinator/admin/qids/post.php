@@ -20,7 +20,7 @@ echo <<<HTML
 	<div class='alert alert-success' role='alert'>Qid Saved...<br>
 		return to qids page in 2 seconds
 	</div>
-	<meta http-equiv='refresh' content='2; url=coordinator.php?ty=qids/load'>
+	<meta http-equiv='refresh' content='2; url=coordinator.php?ty=qids'>
 HTML;
 //---
 ?>

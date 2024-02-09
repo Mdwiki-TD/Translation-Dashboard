@@ -18,14 +18,14 @@ echo '<script>$("#tests").addClass("active");</script>';
 include_once 'functions.php';
 include_once 'sql_tables.php';
 //---
-$tests_floders = [];
+$tests_folders = [];
 foreach (glob('tests/*.php') as $file) {
-    $tests_floders[] = basename($file, '.php');
+    $tests_folders[] = basename($file, '.php');
 };
 //---
 $lis = '';
 #---
-foreach ($tests_floders as $item) {
+foreach ($tests_folders as $item) {
     $lis .= "<li id='$item' class='nav-item'><a class='linknave' href='tests.php?te=$item'>$item</a></li>";
 };
 //---
@@ -43,7 +43,7 @@ HTML;
 //---
 $te = $_REQUEST['te'] ?? 'email';
 //---
-if (in_array($te, $tests_floders)) {
+if (in_array($te, $tests_folders)) {
 	require "tests/$te.php";
 } else {
 	require 'coordinator/404.php';

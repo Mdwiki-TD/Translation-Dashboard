@@ -1,14 +1,36 @@
 <?php
 //---
-?>
-<div class='card-header'>
-    <h4>Fix wikirefs options:</h4>
-</div>
-<div class='card-body'>
-<?PHP
+if (user_in_coord == false) {
+	echo "<meta http-equiv='refresh' content='0; url=index.php'>";
+	exit;
+};
+//---
+if (isset($_REQUEST['test'])) {
+	ini_set('display_errors', 1);
+	ini_set('display_startup_errors', 1);
+	error_reporting(E_ALL);
+};
+//---
+include_once 'td_config.php';
+//---
+$tabes = get_configs('fixwikirefs.json');
+//---
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    require 'post.php';
+}
+//---
+echo <<<HTML
+	<div class='card-header'>
+		<h4>Fix wikirefs options:</h4>
+	</div>
+	<div class='card-body'>
+HTML;
+//---
+$testin = (($_REQUEST['test'] ?? '') != '') ? "<input name='test' value='1' hidden/>" : "";
 //---
 $sato = <<<HTML
 <form action="coordinator.php?ty=wikirefs_options" method="POST">
+	$testin
     <input name="ty" value="wikirefs_options" hidden/>
     <table id="em2" class="table table-sm table-striped table-mobile-responsive table-mobile-sided" style="font-size:90%;">
         <thead>
@@ -18,7 +40,7 @@ $sato = <<<HTML
                 <th>Move dots</th>
                 <th>Expend infobox</th>
                 <th>add |language=en</th>
-                <th>Delete</th>
+                <!-- <th>Delete</th> -->
             </tr>
         </thead>
         <tbody id="tab_ma">
@@ -39,7 +61,7 @@ function make_td($lang, $tabg, $numb) {
     //---
     $expend2        = ($tabg['expend'] == 1) ? 'checked' : '';
     $move_dots      = ($tabg['move_dots'] == 1) ? 'checked' : '';
-    $add_en_lang    = ($tabg['add_en_lang'] == 1) ? 'checked' : '';
+    $add_en_lng     = ($tabg['add_en_lng'] == 1) ? 'checked' : '';
     //---
     $laly = <<<HTML
         <tr>
@@ -62,12 +84,12 @@ function make_td($lang, $tabg, $numb) {
             </td>
             <td data-content='Add |language=en'>
                 <div class='form-check form-switch'>
-                    <input class='form-check-input' type='checkbox' name='add_en_lang[]$numb' value='$lang' $add_en_lang/>
+                    <input class='form-check-input' type='checkbox' name='add_en_lng[]$numb' value='$lang' $add_en_lng/>
                 </div>
             </td>
-            <td data-content='Delete'>
+            <!-- <td data-content='Delete'>
                 <input type='checkbox' name='del[]$numb' value='$lang'>
-            </td>
+            </td> -->
         </tr>
         HTML;
     //---
@@ -78,7 +100,7 @@ foreach ( execute_query("select DISTINCT lang from pages;") AS $tat => $tag ) {
     $lal = strtolower($tag['lang']);
     //---
     if (!isset($tabes[$lal])) {
-        $tabes[$lal] = array('expend' => 0, 'move_dots' => 0, 'add_en_lang' => 0);
+        $tabes[$lal] = array('expend' => 0, 'move_dots' => 0, 'add_en_lng' => 0);
     };
 };
 //---
@@ -112,6 +134,7 @@ function add_row() {
 	e = e + "<td><input name='newlang[]" + ii + "'/></td>";
 	e = e + "<td><input type='checkbox' name='newmove_dots[]" + ii + "'  id='newmove_dots[]" + ii + "' value='1'/></td>";
 	e = e + "<td><input type='checkbox' name='newexpend[]" + ii + "' value='1'/></td>";
+	e = e + "<td><input type='checkbox' name='newadden[]" + ii + "' value='1'/></td>";
 	e = e + "</tr>";
 
 	$('#tab_ma').append(e);

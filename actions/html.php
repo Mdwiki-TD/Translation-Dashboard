@@ -70,7 +70,7 @@ function make_mail_icon($tab) {
 		'nonav'  => '1'
 	);
     //---
-    $mail_url = "coordinator.php?ty=msg&" . http_build_query( $mail_params );
+    $mail_url = "coordinator.php?ty=Emails/msg&" . http_build_query( $mail_params );
     //---
 	$onclick = 'pupwindow("' . $mail_url . '")';
     //---

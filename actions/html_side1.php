@@ -26,9 +26,9 @@ function create_side($filename) {
             ['id' => 'Pending', 'admin' => 0, 'href' => 'Pending', 'title' => 'In process (total)'],
         ],
         'Pages' => [
-            ['id' => 'tt_load', 'admin' => 1, 'href' => 'tt/load', 'title' => 'Translate Type'],
-            ['id' => 'qidsload', 'admin' => 1, 'href' => 'qids/load', 'title' => 'Qids'],
-            ['id' => 'translated', 'admin' => 1, 'href' => 'translated/load', 'title' => 'Translated pages'],
+            ['id' => 'tt_load', 'admin' => 1, 'href' => 'tt', 'title' => 'Translate Type'],
+            ['id' => 'qidsload', 'admin' => 1, 'href' => 'qids', 'title' => 'Qids'],
+            ['id' => 'translated', 'admin' => 1, 'href' => 'translated', 'title' => 'Translated pages'],
             ['id' => 'add', 'admin' => 1, 'href' => 'add', 'title' => 'Add'],
         ],
         'Users' => [
@@ -36,7 +36,7 @@ function create_side($filename) {
             ['id' => 'projects', 'admin' => 1, 'href' => 'projects', 'title' => 'Projects'],
         ],
         'Others' => [
-            ['id' => 'coordinators', 'admin' => 1, 'href' => 'coordinators', 'title' => 'Coordinators'],
+            ['id' => 'admins', 'admin' => 1, 'href' => 'admins', 'title' => 'Coordinators'],
             ['id' => 'Campaigns', 'admin' => 1, 'href' => 'Campaigns', 'title' => 'Campaigns'],
             ['id' => 'stat', 'admin' => 0, 'href' => 'stat', 'title' => 'Status'],
             ['id' => 'settings', 'admin' => 1, 'href' => 'settings', 'title' => 'Settings'],
