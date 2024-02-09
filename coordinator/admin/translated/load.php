@@ -67,7 +67,7 @@ $recent_table = <<<HTML
                 <th>Lang.</th>
                 <th>Title</th>
                 <th>Translated</th>
-                <th>Date</th>
+                <th>Publication date</th>
                 <th>Edit</th>
             </tr>
         </thead>
@@ -129,10 +129,10 @@ function make_td($tabg, $nnnn) {
             <td style='max-width:150px;' data-content='Translated'>
                 $targe33
             </td>
-            <td data-content='Date'>
+            <td data-content='Publication date'>
                 $pupdate
             </td>
-            <td data-content='Date'>
+            <td data-content='Edit'>
                 $edit_icon
             </td>
         </tr>

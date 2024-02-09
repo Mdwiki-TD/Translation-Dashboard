@@ -111,9 +111,9 @@ function echo_form($id, $title, $target, $lang, $user, $pupdate) {
                     <div class='col-md-3'>
                         <div class='input-group mb-3'>
                             <div class='input-group-prepend'>
-                                <span class='input-group-text'>pupdate</span>
+                                <span class='input-group-text'>Publication date</span>
                             </div>
-                            <input class='form-control' type='text' id='pupdate' name='pupdate' value='$pupdate' required/>
+                            <input class='form-control' type='text' id='pupdate' name='pupdate' value='$pupdate' placeholder='YYYY-MM-DD' required/>
                         </div>
                     </div>
                     <div class='col-md-2'>
