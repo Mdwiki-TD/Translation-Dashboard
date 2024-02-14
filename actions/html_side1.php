@@ -51,7 +51,7 @@ function create_side($filename) {
 
 	$sidebar = <<<HTML
         <!-- $homeSpan -->
-        <ul class="list-unstyled ps-0">
+        <ul class="list-unstyled">
     HTML;
 
     foreach ($mainMenu as $key => $items) {
