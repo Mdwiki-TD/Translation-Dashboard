@@ -11,6 +11,7 @@ function make_view_by_number($target, $numb, $lang, $pupdate) {
         'agent' => 'all-agents',
         'start' => $start,
         'end' => $end,
+        // 'range' => 'all-time',
         'redirects' => '0',
         'pages' => $target,
     ));

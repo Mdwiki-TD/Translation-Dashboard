@@ -22,11 +22,23 @@ $filename = $_SERVER['SCRIPT_NAME'];
 function echo_card_start($filename) {
 	$sidebar = create_side($filename);
 	echo <<<HTML
+	<style>
+		@media (min-width: 768px) {
+			.colmd2 {
+				width: 12% !important;
+			}
+			.colmd10 {
+				width: 88% !important;
+			}
+		}
+	
+	</style>
 		<div class='row content'>
-			<div class='col-md-2'>
+			<!-- <div class='col-md-2 px-0' style="width: 10.66666667%;"> -->
+			<div class='col-md-2 px-0 colmd2'>
 				$sidebar
 			</div>
-			<div class='px-0 col-md-10'>
+			<div class='px-0 col-md-10 colmd10'>
 				<div class='container-fluid'>
 					<div class='card'>
 	HTML;

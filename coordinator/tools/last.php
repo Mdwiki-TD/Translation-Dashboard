@@ -174,7 +174,8 @@ function get_recent_sql($lang) {
     //---
     // sort the table by add_date
     usort($dd2, function($a, $b) {
-        return strtotime($b['add_date']) - strtotime($a['add_date']);
+        // return strtotime($b['add_date']) - strtotime($a['add_date']);
+        return strtotime($b['pupdate']) - strtotime($a['pupdate']);
     });
     //---
     return $dd2;    
@@ -227,9 +228,9 @@ function pupwindow(url) {
 
 $(document).ready( function () {
 	var t = $('#last_tabel').DataTable({
-	order: [[10	, 'desc']],
+	order: [[7	, 'desc']],
     // paging: false,
-	lengthMenu: [[50, 100, 150], [50, 100, 150]],
+	lengthMenu: [[100, 150, 200], [100, 150, 200]],
     // scrollY: 800
 	});
 } );
