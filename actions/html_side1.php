@@ -22,6 +22,7 @@ function create_side($filename) {
     $mainMenu = [
         'Translations' => [
             ['id' => 'last', 'admin' => 0, 'href' => 'last', 'title' => 'Recent'],
+            ['id' => 'last_users', 'admin' => 0, 'href' => 'last_users', 'title' => 'Recent in User space'],
             ['id' => 'process', 'admin' => 0, 'href' => 'process', 'title' => 'In process'],
             ['id' => 'Pending', 'admin' => 0, 'href' => 'Pending', 'title' => 'In process (total)'],
         ],

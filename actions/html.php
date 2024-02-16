@@ -263,7 +263,7 @@ function make_target_url($target, $lang, $name = '') {
     $display_name = ($name != '') ? $name : $target;
     if ($target != '') {
         $encoded_target = rawurlencode(str_replace(' ', '_', $target));
-        return "<a href='https://$lang.wikipedia.org/wiki/$encoded_target'>$display_name</a>";
+        return "<a target='_blank' href='https://$lang.wikipedia.org/wiki/$encoded_target'>$display_name</a>";
     }
     return $target;
 }
