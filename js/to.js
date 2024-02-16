@@ -1,5 +1,11 @@
 
 function to_get() {
+	// get the data from the hrefjson if the server not localhost
+    if ( window.location.hostname === 'localhost' ) {
+		// log to console
+		console.log('not localhost');
+		return;
+	}
 	var ele = $("[hrefjson]");
 	ele.each(function(){
 		var item = $(this);

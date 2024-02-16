@@ -2,78 +2,16 @@
 //---
 include_once 'langcode.php';
 //---
-$lang = $_GET['lang'] ?? 'All';
-//---
-if ($lang !== 'All' && !isset($code_to_lang[$lang])) {
-    $lang = 'All';
-};
-//---
-function filter_recent($lang) {
-    global $code_to_lang;
-    //---
-    $tabes = [];
-    //---
-    foreach ( execute_query("select DISTINCT lang from pages;") AS $tat => $tag ) {
-        $lag = strtolower($tag['lang']);
-        //---
-        $tabes[] = $lag;
-        //---
-    };
-    //---
-    ksort($tabes);
-    //---
-    $lang_list = "<option data-tokens='All' value='All'>All</option>";
-    //---
-    foreach ( $tabes as $codr ) {
-        $langeee = $code_to_lang[$codr] ?? '';
-		$selected = ($codr == $lang) ? 'selected' : '';
-        $lang_list .= <<<HTML
-            <option data-tokens='$codr' value='$codr' $selected>$langeee</option>
-            HTML;
-    };
-    //---
-    $langse = <<<HTML
-        <select 
-            class="selectpicker"
-            id='lang'
-            name='lang'
-            placeholder='two letter code'
-            data-live-search="true"
-            data-container="body"
-            data-live-search-style="begins"
-            data-bs-theme="auto"
-            data-style='btn active'
-            data-width="90%"
-            >
-            $lang_list
-        </select>
-    HTML;
-    //---
-    $uuu = <<<HTML
-        <div class="input-group">
-            $langse
-        </div>
-    HTML;
-    //---
-    return $uuu;
-}
-//---
-$mail_th = (user_in_coord != false) ? "<th></th>" : '';
-//---
 $recent_table = <<<HTML
 	<table class="table table-sm table-striped table-mobile-responsive table-mobile-sided" id="last_tabel" style="font-size:90%;">
         <thead>
             <tr>
                 <th>#</th>
                 <th>User</th>
-                $mail_th
                 <th>Lang</th>
                 <th>Title</th>
-                <th>Campaign</th>
-                <!-- <th>Words</th> -->
                 <th>Translated</th>
                 <th>Publication date</th>
-                <th>Views</th>
                 <th>Fixref</th>
                 <th>add_date</th>
             </tr>
@@ -107,8 +45,6 @@ function make_td($tabg, $nnnn) {
         $username = $username[0];        
     }
     //---
-    $views_number = $views_sql[$targe] ?? '?';
-    //---
     // $lang2 = $code_to_lang[$llang] ?? $llang;
     $lang2 = $llang;
     //---
@@ -122,11 +58,6 @@ function make_td($tabg, $nnnn) {
     $targe33 = make_target_url( $targe, $llang );
 	$targe2  = urlencode($targe);
     //---
-    $view = make_view_by_number($targe, $views_number, $llang, $pupdate);
-    //---
-    $mail_icon = (user_in_coord != false) ? make_mail_icon($tabg) : '';
-    $mail_icon_td = ($mail_icon != '') ? "<td data-content=''>$mail_icon</td>" : '';
-    //---
     $laly = <<<HTML
         <tr>
             <td data-content='#'>
@@ -134,30 +65,20 @@ function make_td($tabg, $nnnn) {
             </td>
             <td data-content='User'>
                 <a href='leaderboard.php?user=$user'>
-                    <!-- <span data-toggle="tooltip" title="$user">$username</span> -->
                     $username
                 </a>
             </td>
-            $mail_icon_td
             <td data-content='Lang'>
                 <a href='leaderboard.php?langcode=$llang'>$lang2</a>
             </td>
             <td style='max-width:150px;' data-content='Title'>
                 $nana
             </td>
-            <!-- <td>$date</td> -->
-            <td data-content='Campaign'>
-                $ccat
-            </td>
-            <!-- <td>$worde</td> -->
             <td style='max-width:150px;' data-content='Translated'>
                 $targe33
             </td>
             <td data-content='Publication date'>
                 $pupdate
-            </td>
-            <td data-content='Views'>
-                $view
             </td>
             <td data-content='Fixref'>
                 <a target='_blank' href="../fixwikirefs.php?title=$targe2&lang=$llang">Fix</a>
@@ -171,27 +92,23 @@ function make_td($tabg, $nnnn) {
     return $laly;
 };
 //---
-function get_recent_sql($lang) {
+function get_recent_sql() {
     $lang_line = '';
     //---
-    if ($lang != '' && $lang != 'All') $lang_line = "and lang = '$lang'";
+    // pages_users (title, lang, user, pupdate, target, add_date)
     //---
-    $dd0 = execute_query("select * from pages where target != '' $lang_line ORDER BY pupdate DESC limit 100;");
-    $dd1 = execute_query("select * from pages where target != '' $lang_line ORDER BY add_date DESC limit 100");
-    //---
-    // merage the two arrays without duplicates
-    $dd2 = array_unique(array_merge($dd0, $dd1), SORT_REGULAR);
+    $dd0 = execute_query("select * from pages_users where target != '' ORDER BY pupdate DESC limit 100;");
     //---
     // sort the table by add_date
-    usort($dd2, function($a, $b) {
+    usort($dd0, function($a, $b) {
         // return strtotime($b['add_date']) - strtotime($a['add_date']);
         return strtotime($b['pupdate']) - strtotime($a['pupdate']);
     });
     //---
-    return $dd2;    
+    return $dd0;    
 }
 //---
-$qsl_results = get_recent_sql($lang);
+$qsl_results = get_recent_sql();
 //---
 $noo = 0;
 foreach ( $qsl_results AS $tat => $tabe ) {
@@ -206,24 +123,9 @@ $recent_table .= <<<HTML
     </table>
 HTML;
 //---
-$uuu = filter_recent($lang);
-//---
 echo <<<HTML
 <div class='card-header'>
-    <form method='get' action='coordinator.php'>
-        <input name='ty' value='last' hidden/>
-        <div class='row'>
-            <div class='col-md-5'>
-                <h4>Most recent translations:</h4>
-            </div>
-            <div class='col-md-3'>
-                $uuu
-            </div>
-            <div class='aligncenter col-md-2'>
-                <input class='btn btn-primary' type='submit' name='start' value='Filter' />
-            </div>
-        </div>
-    </form>
+    <h4>Recent translations in user space:</h4>
 </div>
 <div class='card-body'>
 HTML;
