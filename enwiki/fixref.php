@@ -53,7 +53,9 @@ function fix_ref($first, $alltext) {
             //---
             // test_print('--------------------------<br>');
             //---
-            $firstx = preg_replace("/<ref\s*name\s*=\s*[\"']*\s*" . $ref_name . "\s*[\"']*\s*\/\s*>/", $full_ref, $first);
+            // $pattern = "/<ref\s*name\s*=\s*[\"']*\s*" . $ref_name . "\s*[\"']*\s*\/\s*>/";
+            $pattern = "/<ref\s*name\s*=\s*[\"']*\s*" . preg_quote($ref_name, '/') . "\s*[\"']*\s*\/\s*>/";
+            $firstx = preg_replace($pattern, $full_ref, $first);
             //---
             // test_print("name\t:($ref_name)<br>");
             // test_print("ref\t:" . htmlentities($full_ref) . "<br>");
