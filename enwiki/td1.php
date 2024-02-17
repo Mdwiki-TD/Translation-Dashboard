@@ -15,7 +15,7 @@ class WikiTranslator
         $this->title = $title;
         $this->title = str_replace(' ', '_', $this->title);
         $this->traType = $traType;
-        $this->wholeArticle = $traType == 'all' ? true : false;
+        $this->wholeArticle = ($traType == 'all') ? true : false;
     }
 
     private function getTextFromMdWiki()

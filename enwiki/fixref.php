@@ -51,11 +51,17 @@ function fix_ref($first, $alltext) {
         //---
         if ($ref_name != '') {
             //---
-            $first = preg_replace("/<ref\s*name\s*=\s*[\"']*\s*" . $ref_name . "\s*[\"']*\s*\/\s*>/", $full_ref, $first);
-            //---
             // test_print('--------------------------<br>');
+            //---
+            $firstx = preg_replace("/<ref\s*name\s*=\s*[\"']*\s*" . $ref_name . "\s*[\"']*\s*\/\s*>/", $full_ref, $first);
+            //---
             // test_print("name\t:($ref_name)<br>");
             // test_print("ref\t:" . htmlentities($full_ref) . "<br>");
+            //---
+            if ($firstx) {
+                $first = $firstx;
+            }
+            //---
         }
     }
     // ---
