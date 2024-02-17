@@ -97,7 +97,21 @@ function get_recent_sql() {
     //---
     // pages_users (title, lang, user, pupdate, target, add_date)
     //---
-    $dd0 = execute_query("select * from pages_users where target != '' ORDER BY pupdate DESC limit 100;");
+    $qua = <<<SQL
+        select
+            title, lang, user, pupdate, target, add_date
+        from
+            pages_users
+        where
+            target != ''
+        and title not in (
+            select p.title from pages p where p.lang = lang and p.target != ''
+        )
+        ORDER BY pupdate
+        DESC limit 100;
+    SQL;
+    //---
+    $dd0 = execute_query($qua);
     //---
     // sort the table by add_date
     usort($dd0, function($a, $b) {

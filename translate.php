@@ -72,6 +72,7 @@ if ($useree == '') {
 
 // Process form data if title, code, and user are set
 if ($title_o != '' && $coden != '' && $useree != '') {
+    $nana = '';
     $title_o = trim($title_o);
     $coden   = trim($coden);
     $useree  = trim($useree);
