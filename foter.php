@@ -14,7 +14,7 @@
 		var code = $('#code').val() || '';
 		var type = $('input[name=type]:checked').val() || '';
 		var test = $('#test').val() || '';
-		var url = 'auth.php?a=login';
+		var url = 'auth.php?a=login&doit=1';
 		if (cat !== '') {
 			url += '&cat=' + cat;
 		}
