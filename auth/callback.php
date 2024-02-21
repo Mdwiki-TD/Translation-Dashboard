@@ -55,7 +55,7 @@ echo "Continue to <a href='auth.php?a=index'>index</a><br>";
 
 $test = $_GET['test'] ?? '';
 
-foreach (['cat', 'code', 'type'] as $key) {
+foreach (['cat', 'code', 'type', 'doit'] as $key) {
 	$da = $_GET[$key] ?? '';
 	if ($da != '') $state[$key] = $da;
 };
