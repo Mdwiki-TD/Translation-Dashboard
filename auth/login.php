@@ -51,7 +51,7 @@ function make_callback_url() {
     $state = array();
     // ?action=login&cat=RTT&depth=1&code=&type=lead
 
-    foreach (['cat', 'code', 'type', 'test'] as $key) {
+    foreach (['cat', 'code', 'type', 'test', 'doit'] as $key) {
         $da = $_GET[$key] ?? '';
         if ($da != '') $state[$key] = $da;
     };
