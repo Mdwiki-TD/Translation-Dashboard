@@ -34,42 +34,68 @@ function get_in_process($missing, $code) {
     return $titles;
     //---
 }
-//---
-function get_cat_from_cach( $cat ) {
-    //---
+
+function open_json_file($file_path) {
+    $new_list = array();
+    // Check if the file exists
+    if (!is_file($file_path)) {
+        // Handle the case when the file does not exist
+        test_print("$file_path does not exist<br>");
+        return $new_list; // Return an empty list
+    }
+
+    // Attempt to read the file contents
+    $text = file_get_contents($file_path);
+
+    // Check if file_get_contents was successful
+    if ($text === false) {
+        // Handle the case when file_get_contents fails
+        test_print("Failed to read file contents from $file_path<br>");
+        return $new_list; // Return an empty list
+    }
+
+    // Attempt to decode JSON
+    $data = json_decode($text, true);
+
+    // Check if json_decode was successful
+    if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
+        // Handle the case when json_decode fails
+        test_print("Failed to decode JSON from $file_path<br>");
+        return $new_list; // Return an empty list
+    }
+    return $data;
+}
+
+function get_cat_from_cache($cat) {
+    // Initialize an empty array for the list
+    $empty_list = array();
+
+    // Construct the file path
     $file_path = "cats_cash/$cat.json";
-    //---
-    if(!is_file($file_path)) {
-        test_print("$file_path dont exist<br>");
-        return array();
-        // file does not exist
-    };
-    //---
-    $RTTtext = file_get_contents($file_path);
-    //---
-    $RTT = json_decode( $RTTtext, true );
-    //---
-    $new_liste = array();
-    //---
-    $liste = $RTT['list'];
-    //---
-    foreach ($liste as $key => $value) {
-        // find if not starts with Category:
-        $test_value = preg_match('/^(Category|File|Template|User):/', $value);
-        // find if not ends with (disambiguation)
-        $test_value2 = preg_match('/\(disambiguation\)$/', $value);
-        //---
-        if ($test_value == 0 && $test_value2 == 0) {
-            $new_liste[] = $value;
-        };
-    };
-    //---
-    test_print("<br>get_cat_from_cach: list lenth:" . count($new_liste) );
-    //---
-    return $new_liste;
-    //---
-};
-//---
+
+    $new_list = open_json_file($file_path);
+
+    // Check if 'list' key exists in the decoded JSON
+    if (!isset($new_list['list']) || !is_array($new_list['list'])) {
+        // Handle the case when 'list' key is missing or not an array
+        test_print("Invalid format in JSON file $file_path<br>");
+        return $empty_list; // Return an empty list
+    }
+    $data = array();
+    // Process the list
+    foreach ($new_list['list'] as $key => $value) {
+        // Check conditions
+        if (!preg_match('/^(Category|File|Template|User):/', $value) && !preg_match('/\(disambiguation\)$/', $value)) {
+            $data[] = $value;
+        }
+    }
+
+    // Print list length
+    test_print("<br>get_cat_from_cache: list length: " . count($data));
+
+    return $data;
+}
+
 function get_categorymembers( $cat ) {
     //---
     $ch = null;
@@ -153,11 +179,11 @@ function get_mdwiki_cat_members( $cat, $use_cash=false, $depth=0 ) {
 		//---
 		foreach( $cats as $cat1 ){
             if ($use_cash || $_SERVER['SERVER_NAME'] == 'localhost' ) {
-				$all = get_cat_from_cach( $cat1 );
+				$all = get_cat_from_cache( $cat1 );
                 if (empty($all)) $all = get_categorymembers($cat1);
 			} else {
 				$all = get_categorymembers( $cat1 );
-                if (empty($all)) $all = get_cat_from_cach($cat1);
+                if (empty($all)) $all = get_cat_from_cache($cat1);
 			};
 			//---
 			foreach( $all as $title ){
@@ -201,57 +227,40 @@ function get_mdwiki_cat_members( $cat, $use_cash=false, $depth=0 ) {
     return $newtitles;
     //---
 };
-//---
-function get_cat_exists_and_missing( $cat, $depth, $code, $use_cash=false ) {
-    //---
-    $members_to = get_mdwiki_cat_members( $cat, $use_cash=$use_cash, $depth=$depth );
-    //---
-    test_print("<br>members_to size:" . count($members_to) );
-    //---
+
+function get_cat_exists_and_missing($cat, $depth, $code, $use_cash = false)
+{
+    $members_to = get_mdwiki_cat_members($cat, $use_cash = $use_cash, $depth = $depth);
+    test_print("<br>members_to size:" . count($members_to));
     $members = array();
-    //---
-    foreach( $members_to as $mr ) {
-        //---
+    foreach ($members_to as $mr) {
         $members[] = $mr;
-    }; 
-    //---
-    test_print("<br>members size:" . count($members) );
-    //---
-    $exists = array();
-    //--- 
+    };
+    test_print("<br>members size:" . count($members));
     $json_file = "cash_exists/$code.json";
-    if(is_file($json_file))  {
-        $exists = json_decode(file_get_contents($json_file), true);
-    } else {
-        // log to console
-        // error_log("file $json_file not found", LOG_INFO);
-		$exists = array();
-    };
-    //---
-    if ($exists == null) $exists = array();
-    //---
-    test_print("<br>$json_file: exists size:" . count($exists) );
-    //---
-    // $missing = array_diff($members,$exists);
+
+    $exists = open_json_file($json_file);
+
+    test_print("<br>$json_file: exists size:" . count($exists));
+
+    // Find missing elements
+    // $missing = array_diff($members, $exists);
     $missing = array();
-    //---
-    foreach( $members as $mem ) {
-        if (!in_array($mem,$exists)) $missing[] = $mem;
+    foreach ($members as $mem) {
+        if (!in_array($mem, $exists)) $missing[] = $mem;
     };
-    //---
-    // remove duplicates from $missing
+
+    // Remove duplicates from $missing
     $missing = array_unique($missing);
-    //---
+
+    // Calculate length of exists
     $exs_len = count($members) - count($missing);
-    //---
+
     $results = array(
-        "len_of_exists"=> $exs_len,
-        "missing"=> $missing
+        "len_of_exists" => $exs_len,
+        "missing" => $missing
     );
-    //---
     test_print("<br>end of get_cat_exists_and_missing <br>===============================<br>");
-    //---
     return $results;
-    //---
-};
-//---
+}
+
