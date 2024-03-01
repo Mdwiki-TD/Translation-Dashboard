@@ -178,6 +178,9 @@ function get_mdwiki_cat_members( $cat, $use_cash=false, $depth=0 ) {
 		//---
 	};
     //---
+    // remove duplicates from $titles
+    $titles = array_unique( $titles );
+    //---
     test_print("<br>cats size:" . count($cats) );
     //---
     $newtitles = array();
@@ -225,9 +228,9 @@ function get_cat_exists_and_missing( $cat, $depth, $code, $use_cash=false ) {
 		$exists = array();
     };
     //---
-    test_print("<br>$json_file: exists size:" . count($exists) );
-    //---
     if ($exists == null) $exists = array();
+    //---
+    test_print("<br>$json_file: exists size:" . count($exists) );
     //---
     // $missing = array_diff($members,$exists);
     $missing = array();
@@ -235,6 +238,9 @@ function get_cat_exists_and_missing( $cat, $depth, $code, $use_cash=false ) {
     foreach( $members as $mem ) {
         if (!in_array($mem,$exists)) $missing[] = $mem;
     };
+    //---
+    // remove duplicates from $missing
+    $missing = array_unique($missing);
     //---
     $exs_len = count($members) - count($missing);
     //---
