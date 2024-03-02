@@ -55,7 +55,7 @@ if ($cat == 'All') {
 	};
 	$cat_titles = array_keys($full_translates_tab);
 } else {
-	$cat_titles = get_mdwiki_cat_members($cat, $use_cash=true, $depth=1);
+	$cat_titles = get_mdwiki_cat_members($cat, $use_cache=true, $depth=1);
 }
 //---
 echo <<<HTML

@@ -166,7 +166,7 @@ function get_categorymembers( $cat ) {
     //---
 };
 //---
-function get_mdwiki_cat_members( $cat, $use_cash=false, $depth=0 ) {
+function get_mdwiki_cat_members( $cat, $use_cache=false, $depth=0 ) {
     //---
     $titles = array();
     $cats = array();
@@ -178,7 +178,7 @@ function get_mdwiki_cat_members( $cat, $use_cash=false, $depth=0 ) {
 		$cats2 = array();
 		//---
 		foreach( $cats as $cat1 ){
-            if ($use_cash || $_SERVER['SERVER_NAME'] == 'localhost' ) {
+            if ($use_cache || $_SERVER['SERVER_NAME'] == 'localhost' ) {
 				$all = get_cat_from_cache( $cat1 );
                 if (empty($all)) $all = get_categorymembers($cat1);
 			} else {
@@ -228,9 +228,9 @@ function get_mdwiki_cat_members( $cat, $use_cash=false, $depth=0 ) {
     //---
 };
 
-function get_cat_exists_and_missing($cat, $depth, $code, $use_cash = false)
+function get_cat_exists_and_missing($cat, $depth, $code, $use_cache = false)
 {
-    $members_to = get_mdwiki_cat_members($cat, $use_cash = $use_cash, $depth = $depth);
+    $members_to = get_mdwiki_cat_members($cat, $use_cache = $use_cache, $depth = $depth);
     test_print("<br>members_to size:" . count($members_to));
     $members = array();
     foreach ($members_to as $mr) {

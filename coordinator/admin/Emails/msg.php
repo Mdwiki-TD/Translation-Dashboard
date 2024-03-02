@@ -46,7 +46,7 @@ $views  = get_views($target, $lang, $date);
 $sugust = '';
 //---
 if ($title != '') {
-    $items = get_cat_exists_and_missing( 'RTT', '1', $lang, $use_cash=true );
+    $items = get_cat_exists_and_missing( 'RTT', '1', $lang, $use_cache=true );
     //---
     $items_missing = $items['missing'] ?? array();
     //---

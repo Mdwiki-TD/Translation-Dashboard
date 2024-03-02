@@ -68,7 +68,7 @@ $table = <<<HTML
 		<tbody>
 	HTML;
 //---
-$titles = get_mdwiki_cat_members($cat, $use_cash=true, $depth=1);
+$titles = get_mdwiki_cat_members($cat, $use_cache=true, $depth=1);
 //---
 $no_qid = 0;
 $no_word = 0;
