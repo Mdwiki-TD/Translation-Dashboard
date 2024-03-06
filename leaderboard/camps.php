@@ -10,7 +10,7 @@ $camps_to_articles = [];
 //---
 foreach ($cat_to_camp as $cat => $camp) {
     $camps_to_articles[$camp] = [];
-    $members = get_cat_from_cach($cat);
+    $members = get_cat_from_cache($cat);
     //---
     foreach ($members as $member) {
         if (!in_array($member, $camps_to_articles[$camp])) {
