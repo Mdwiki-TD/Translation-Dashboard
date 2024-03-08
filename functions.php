@@ -105,6 +105,35 @@ function getMyYears() {
     return $my_years1;
 }
 
+function getUserYearsAndLangs($user) {
+    $years_q = <<<SQL
+    SELECT
+        CONCAT(left(pupdate, 4)) AS year, lang
+    FROM
+        pages
+    WHERE
+        pupdate != ''
+    AND
+        user = '$user'
+    GROUP BY
+        left(pupdate, 4), lang
+    SQL;
+    
+    $data = execute_query($years_q);
+    
+    $result = [];
+    $result["years"] = [];
+    $result["langs"] = [];
+    
+    foreach ($data as $key => $table) {
+        $result["years"][] = $table['year'];
+        $result["langs"][] = $table['lang'];
+    }
+    $result["years"] = array_unique($result["years"]);
+    $result["langs"] = array_unique($result["langs"]);
+    return $result;
+}
+
 $usrs = [];
 $usrs1 = execute_query('SELECT user FROM coordinator;'); 
 
