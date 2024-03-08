@@ -125,10 +125,12 @@ function make_filter_form($user) {
     </div>
     HTML;
     //---
-    $result = getUserYearsAndLangs($user);
+    // $result = getUserYearsAndLangs($user);
+    // $langs = $result['langs'];
+    // $years = $result['years'];
     //---
-    $langs = $result['langs'];
-    $years = $result['years'];
+    $years = array_map('current', execute_query("SELECT DISTINCT LEFT(date, 4) AS year FROM pages WHERE user = '$user'"));
+    $langs = array_map('current', execute_query("SELECT DISTINCT lang FROM pages WHERE user = '$user'"));
     //---
     $y2 = makeDropdown($langs, $lang_y, 'lang', 'All');
     $langsDropdown = sprintf($d33, 'Lang', $y2);

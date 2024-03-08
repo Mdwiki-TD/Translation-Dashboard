@@ -77,7 +77,7 @@ if ( $raw == '' ) {
     require '../header.php';
     //---
 	if (!in_array(global_username, $usrs)) {
-		echo "<meta http-equiv='refresh' content='0; url=index.php'>";
+		echo "<meta http-equiv='refresh' content='0; url=/Translation_Dashboard/index.php'>";
 		exit;
 	};
 	//---

@@ -143,7 +143,7 @@ function createNumbersTable($c_user, $c_articles, $c_words, $c_langs, $c_views) 
 function makeUsersTable($min=2) {
     
     global $sql_users_tab, $Users_word_table, $Views_by_users, $sql_users_tab_to_lang;
-    $usrs = [];
+    $usrse = [];
     $text = <<<HTML
     <table class='table compact table-striped sortable' style='margin-top: 0px !important;margin-bottom: 0px !important'>
         <thead>
@@ -167,7 +167,7 @@ function makeUsersTable($min=2) {
             // if ($usercount < $min && $numb > 15) continue;
             $numb += 1;
             $usercount = number_format($usercount);
-            $usrs[$user] = isset($sql_users_tab_to_lang[$user]) ? $sql_users_tab_to_lang[$user] : [];
+            $usrse[$user] = isset($sql_users_tab_to_lang[$user]) ? $sql_users_tab_to_lang[$user] : [];
             $views = isset($Views_by_users[$user]) ? number_format($Views_by_users[$user]) : 0;
             $words = isset($Users_word_table[$user]) ? number_format($Users_word_table[$user]) : 0;
             
@@ -193,7 +193,7 @@ function makeUsersTable($min=2) {
     </table>
     HTML;
     $lal = "<textarea cols='55' rows='10' id='users_targets' name='users_targets'>";
-    foreach ($usrs as $user => $langs) {
+    foreach ($usrse as $user => $langs) {
         // sort $langs by numbers
         arsort($langs);
         // get first item in $langs

@@ -66,7 +66,8 @@ $projects = array_keys($projects_title_to_id);
 $y2 = makeDropdown($projects, $project, 'project', 'all');
 $projectDropdown = sprintf($d33, 'Translators', $y2);
 //---
-$mYears = getMyYears();
+$mYears = array_map('current', execute_query("SELECT DISTINCT LEFT(pupdate, 4) AS year FROM pages WHERE pupdate <> ''"));
+//---
 $y3 = makeDropdown($mYears, $year, 'year', 'all');
 $yearDropdown = sprintf($d33, 'Year', $y3);
 //---

@@ -75,22 +75,10 @@ function make_filter_form($mainlang) {
         %s
     </div>
     HTML;
-    //---
-	$years_q = <<<SQL
-		SELECT CONCAT(left(pupdate, 4)) AS year
-		FROM pages
-		WHERE lang = '$mainlang'
-		GROUP BY
-			left(pupdate, 4)
-		SQL;
-	
-	$years = [];
 
-	foreach (execute_query($years_q) as $key => $table) {
-		$years[] = $table['year'];
-	}
-	$years = array_unique($years);
-    //---
+	$years_q = "SELECT DISTINCT LEFT(pupdate, 4) AS year FROM pages WHERE lang = '$mainlang' AND pupdate <> ''";
+	$years = array_map('current', execute_query($years_q));
+
     $y3 = makeDropdown($years, $year_y, 'year', 'All');
     $yearDropdown = sprintf($d33, 'Year', $y3);
     //---
