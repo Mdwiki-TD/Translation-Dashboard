@@ -71,73 +71,13 @@ function strendswith($text, $end) {
 }
 
 function test_print($s) {
-    if (print_te) {
-        if (gettype($s) == 'string') {
-            echo "<br>$s";
-        } else {
-            echo "<br>";
-            print_r($s);
-        }
+    if (print_te && gettype($s) == 'string') {
+        echo "<br>$s";
+    } elseif (print_te) {
+        echo "<br>";
+        print_r($s);
     }
 }
 
-function getMyYears() {
-    $my_years1 = [];
-    
-    $years_q = <<<SQL
-    SELECT
-        CONCAT(left(pupdate, 4)) AS year
-    FROM
-        pages
-    WHERE
-        pupdate != ''
-    GROUP BY
-        left(pupdate, 4)
-    SQL;
-    
-    $years = execute_query($years_q);
-    
-    foreach ($years as $key => $table) {
-        $year = $table['year'];
-        $my_years1[] = $year;
-    }
-    
-    return $my_years1;
-}
-
-function getUserYearsAndLangs($user) {
-    $years_q = <<<SQL
-    SELECT
-        CONCAT(left(pupdate, 4)) AS year, lang
-    FROM
-        pages
-    WHERE
-        pupdate != ''
-    AND
-        user = '$user'
-    GROUP BY
-        left(pupdate, 4), lang
-    SQL;
-    
-    $data = execute_query($years_q);
-    
-    $result = [];
-    $result["years"] = [];
-    $result["langs"] = [];
-    
-    foreach ($data as $key => $table) {
-        $result["years"][] = $table['year'];
-        $result["langs"][] = $table['lang'];
-    }
-    $result["years"] = array_unique($result["years"]);
-    $result["langs"] = array_unique($result["langs"]);
-    return $result;
-}
-
-$usrs = [];
-$usrs1 = execute_query('SELECT user FROM coordinator;'); 
-
-foreach ($usrs1 as $id => $row) {
-    $usrs[] = $row['user'];
-}
+$usrs = array_map('current', execute_query("SELECT user FROM coordinator;"));
 ?>
