@@ -150,7 +150,7 @@ function make_filter_form($user) {
                         $yearDropdown
                     </div>
                     <div class="aligncenter col-md-4">
-                        <input class='btn btn-primary' type='submit' name='start' value='Filter' />
+                        <input class='btn btn-outline-primary' type='submit' name='start' value='Filter' />
                     </div>
                 </div>
             </div>

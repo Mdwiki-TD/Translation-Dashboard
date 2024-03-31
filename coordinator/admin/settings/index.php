@@ -112,7 +112,7 @@ $text = make_settings_tab($qq);
 echo $text;
 //---
 echo <<<HTML
-            <button type='submit' class='btn btn-success'>send</button>
+            <button type='submit' class='btn btn-outline-primary'>Save</button>
         </form>
     </div>
 </div>

@@ -109,7 +109,7 @@ echo <<<HTML
             $yearDropdown
         </div>
         <div class="aligncenter $colg1">
-            <input class='btn btn-primary' type='submit' name='start' value='Filter' />
+            <input class='btn btn-outline-primary' type='submit' name='start' value='Filter' />
         </div>
     </div>
 </form>

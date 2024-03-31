@@ -33,21 +33,21 @@ function filter_stat($cat) {
 $uuu = filter_stat($cat);
 //---
 $fa = <<<HTML
-<div class='card-header'>
-	<form method='get' action='coordinator.php'>
-		<input name='ty' value='stat' hidden/>
-		<div class='row'>
-			<div class='col-md-3'>
-				<h4>Status:</h4>
+	<div class='card-header'>
+		<form method='get' action='coordinator.php'>
+			<input name='ty' value='stat' hidden/>
+			<div class='row'>
+				<div class='col-md-3'>
+					<h4>Status:</h4>
+				</div>
+				<div class='col-md-3'>
+					$uuu
+				</div>
+				<div class='aligncenter col-md-2'><input class='btn btn-outline-primary' type='submit' name='start' value='Filter' /></div>
 			</div>
-			<div class='col-md-3'>
-				$uuu
-			</div>
-			<div class='aligncenter col-md-2'><input class='btn btn-primary' type='submit' name='start' value='Filter' /></div>
-		</div>
-	</form>
-</div>
-<div class='cardbody'>
+		</form>
+	</div>
+	<div class='cardbody'>
 HTML;
 //---
 $table = <<<HTML

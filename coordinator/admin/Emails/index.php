@@ -189,8 +189,8 @@ foreach ( $sorted_array as $user_name => $d) {
 
 			</tbody>
 		</table>
-		<button type="submit" class="btn btn-success">Submit</button>
-		<span role='button' id="add_row" class="btn btn-info" style="position: absolute; right: 130px;" onclick='add_row()'>New row</span>
+		<button type="submit" class="btn btn-outline-primary">Save</button>
+		<span role='button' id="add_row" class="btn btn-outline-primary" style="position: absolute; right: 130px;" onclick='add_row()'>New row</span>
 	  </div>
 </form>
 

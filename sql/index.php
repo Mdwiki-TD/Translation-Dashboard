@@ -200,7 +200,7 @@ if ( $raw == '' ) {
                     </div>
                     <div class='input-group'>
                         <div class='aligncenter'>
-                            <input class='btn btn-primary' type='submit' name='start' value='Start' />
+                            <input class='btn btn-outline-primary' type='submit' name='start' value='Start' />
                         </div>
                     </div>
             

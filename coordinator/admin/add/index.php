@@ -116,9 +116,9 @@ HTML;
 //---
 echo $table;
 ?>
-	<button type="submit" class="btn btn-success mb-10">send</button>
+	<button type="submit" class="btn btn-outline-primary mb-10">Save</button>
 	</form>
-	<span role='button' id="add_row" class="btn btn-info" style="position: absolute; right: 130px;" onclick='add_row()'>New row</span>
+	<span role='button' id="add_row" class="btn btn-outline-primary" style="position: absolute; right: 130px;" onclick='add_row()'>New row</span>
 </div>
 
 <script type="text/javascript">

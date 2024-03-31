@@ -63,10 +63,10 @@ foreach ( $qq AS $Key => $table ) {
 ?>
 					</tbody>
 				</table>
-				<button type="submit" class="btn btn-success">send</button>
+				<button type="submit" class="btn btn-outline-primary">Save</button>
 			</form>
 		</div>
-		<span role='button' id="add_row" class="btn btn-info" style="position: absolute; right: 130px;" onclick='add_row()'>New row</span>
+		<span role='button' id="add_row" class="btn btn-outline-primary" style="position: absolute; right: 130px;" onclick='add_row()'>New row</span>
 	</div>
 	<script type="text/javascript">
 	var i = 1;
