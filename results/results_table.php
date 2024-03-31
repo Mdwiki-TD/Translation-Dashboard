@@ -47,13 +47,13 @@ function make_one_row($v, $cnt, $cod, $cat, $words, $refs, $asse, $tra_type, $pa
         );
     $translate_url = $mdwiki_url;
     $tab = <<<HTML
-        <a role='button' class='btn btn-primary' onclick='login()'>
+        <a role='button' class='btn btn-outline-primary' onclick='login()'>
             <i class='fas fa-sign-in-alt fa-sm fa-fw mr-1'></i><span class='navtitles'>Login</span>
         </a>
         HTML;
     if (global_username != '') {
         $translate_url = 'translate.php?' . http_build_query($params);
-        $tab = "<a href='$translate_url' class='btn btn-primary btn-sm'>Translate</a>";
+        $tab = "<a href='$translate_url' class='btn btn-outline-primary btn-sm'>Translate</a>";
     }
     //---
     $inprocess_tds = '';

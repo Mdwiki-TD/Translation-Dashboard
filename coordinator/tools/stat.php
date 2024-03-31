@@ -43,7 +43,7 @@ $fa = <<<HTML
 				<div class='col-md-3'>
 					$uuu
 				</div>
-				<div class='aligncenter col-md-2'><input class='btn btn-primary' type='submit' name='start' value='Filter' /></div>
+				<div class='aligncenter col-md-2'><input class='btn btn-outline-primary' type='submit' name='start' value='Filter' /></div>
 			</div>
 		</form>
 	</div>

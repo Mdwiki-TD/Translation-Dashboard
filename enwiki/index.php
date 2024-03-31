@@ -33,7 +33,7 @@ $nana = <<<HTML
                         $cod_line
                         $ref_line
                         $text_line
-                        <input class='btn btn-primary' type='submit' name='start' value='Start' />
+                        <input class='btn btn-outline-primary' type='submit' name='start' value='Start' />
                     </form>
                 </div>
             </div>

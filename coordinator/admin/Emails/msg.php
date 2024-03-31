@@ -262,7 +262,7 @@ print "
 			</textarea>
 		</div>
 		<div class='aligncenter mt-2'>
-			<button type='submit' name='send' value='send' class='btn btn-primary'>Send</button>
+			<button type='submit' name='send' value='send' class='btn btn-outline-primary'>Save</button>
 		</div>
 	</form>
 </div>

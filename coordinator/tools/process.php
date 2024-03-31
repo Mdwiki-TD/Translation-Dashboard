@@ -34,7 +34,7 @@ function make_td($tabg, $nnnn) {
     // $mail_params = array( 'user' => $user, 'lang' => $llang, 'date' => $date, 'title' => $md_title, 'nonav' => '1');
     // $mail_url = "coordinator.php?ty=Emails/msg&" . http_build_query( $mail_params );
 	// $onclick = 'pupwindow("' . $mail_url . '")';
-    // $mail = "<a class='btn btn-primary btn-sm' onclick='$onclick'>Email</a>";
+    // $mail = "<a class='btn btn-outline-primary btn-sm' onclick='$onclick'>Email</a>";
     //---
     $laly = <<<HTML
         <tr>

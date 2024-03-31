@@ -108,12 +108,12 @@ function print_form_start1() {
     };
     //---
     $uiu = <<<HTML
-    <a role="button" class="btn btn-primary" onclick="login()">
+    <a role="button" class="btn btn-outline-primary" onclick="login()">
     <i class="fas fa-sign-in-alt fa-sm fa-fw mr-1"></i><span class="navtitles">Login</span>
     </a>
     HTML;
     //---
-    if ( global_username != '' ) $uiu = '<input type="submit" name="doit" class="btn btn-primary" value="Do it"/>';
+    if ( global_username != '' ) $uiu = '<input type="submit" name="doit" class="btn btn-outline-primary" value="Do it"/>';
     //---
     $catinput = make_drop($catinput_list, $cat_ch);
     //---

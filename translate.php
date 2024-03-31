@@ -30,7 +30,7 @@ if (isset($_GET['form'])) {
                         <form action='translate.php' method='GET'>
                             $tit_line
                             $cod_line
-                            <input class='btn btn-primary' type='submit' name='start' value='Start' />
+                            <input class='btn btn-outline-primary' type='submit' name='start' value='Start' />
                         </form>
                     </div>
                 </div>

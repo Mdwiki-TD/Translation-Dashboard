@@ -91,7 +91,7 @@ function make_filter_form($mainlang) {
                         $yearDropdown
                     </div>
                     <div class="aligncenter col-md-6">
-                        <input class='btn btn-primary' type='submit' name='start' value='Filter' />
+                        <input class='btn btn-outline-primary' type='submit' name='start' value='Filter' />
                     </div>
                 </div>
             </div>

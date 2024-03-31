@@ -155,8 +155,8 @@ echo <<<HTML
 			</tbody>
 		</table>
 	</div>
-	<span role='button' id="add_row" class="btn btn-info" style="position: absolute; right: 130px;" onclick='add_row()'>New row</span>
-	<button id="submit_bt" type="submit" class="btn btn-success" style='display: none;'>Submit</button>
+	<span role='button' id="add_row" class="btn btn-outline-primary" style="position: absolute; right: 130px;" onclick='add_row()'>New row</span>
+	<button id="submit_bt" type="submit" class="btn btn-outline-primary" style='display: none;'>Save</button>
 </form>
 HTML;
 ?>
