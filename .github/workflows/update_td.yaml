@@ -17,4 +17,3 @@ jobs:
       if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
       run: |
         curl -L -f -S -s https://mdwiki.toolforge.org/update_md.php?td=1 > curl_output.txt || echo "Curl request failed with status code $?"
-        
