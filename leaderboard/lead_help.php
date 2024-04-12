@@ -75,7 +75,7 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
             $view = make_view_by_number($target, $view_number, $lang, $pupdate);
         }
         //---
-        $target_link = make_target_url($target, $lang, $name="", $deleted=true);
+        $target_link = make_target_url($target, $lang, $name="", $deleted=$deleted);
         //---
         $td_views = "<td data-content='Views' data-sort='$view_number' data-filter='$view_number'>$view</td>";
     };
