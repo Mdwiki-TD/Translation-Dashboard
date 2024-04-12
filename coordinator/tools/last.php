@@ -176,8 +176,8 @@ function get_recent_sql($lang) {
     //---
     if ($lang != '' && $lang != 'All') $lang_line = "and lang = '$lang'";
     //---
-    $dd0 = execute_query("select * from pages where target != '' $lang_line ORDER BY pupdate DESC limit 100;");
-    $dd1 = execute_query("select * from pages where target != '' $lang_line ORDER BY add_date DESC limit 100");
+    $dd0 = execute_query("select * from pages where target != '' $lang_line ORDER BY pupdate DESC limit 250;");
+    $dd1 = execute_query("select * from pages where target != '' $lang_line ORDER BY add_date DESC limit 250");
     //---
     // merage the two arrays without duplicates
     $dd2 = array_unique(array_merge($dd0, $dd1), SORT_REGULAR);
@@ -239,8 +239,8 @@ function pupwindow(url) {
 $(document).ready( function () {
 	var t = $('#last_tabel').DataTable({
 	order: [[7	, 'desc']],
-    // paging: false,
-	lengthMenu: [[100, 150, 200], [100, 150, 200]],
+    paging: false,
+	// lengthMenu: [[100, 150, 200], [250, 150, 200]],
     // scrollY: 800
 	});
 } );
