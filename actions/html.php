@@ -265,7 +265,7 @@ function make_target_url($target, $lang, $name = '', $deleted=false) {
         $encoded_target = rawurlencode(str_replace(' ', '_', $target));
         $link = "<a target='_blank' href='https://$lang.wikipedia.org/wiki/$encoded_target'>$display_name</a>";
             
-        if ($deleted) {
+        if ($deleted == 1) {
             $link .= ' <span class="text-danger">(DELETED)</span>';
         }
         return $link;
