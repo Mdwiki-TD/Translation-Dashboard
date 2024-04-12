@@ -259,11 +259,16 @@ function make_mdwiki_user_url($user) {
     return $user;
 }
 //---
-function make_target_url($target, $lang, $name = '') {
+function make_target_url($target, $lang, $name = '', $deleted=false) {
     $display_name = ($name != '') ? $name : $target;
     if ($target != '') {
         $encoded_target = rawurlencode(str_replace(' ', '_', $target));
-        return "<a target='_blank' href='https://$lang.wikipedia.org/wiki/$encoded_target'>$display_name</a>";
+        $link = "<a target='_blank' href='https://$lang.wikipedia.org/wiki/$encoded_target'>$display_name</a>";
+            
+        if ($deleted) {
+            $link .= ' <span class="text-danger">(DELETED)</span>';
+        }
+        return $link;
     }
     return $target;
 }
