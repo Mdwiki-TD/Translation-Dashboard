@@ -8,6 +8,7 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
     $date    = $tabb['date'];
     $lang    = $tabb['lang'];
     $cat     = $tabb['cat'];
+    $deleted = $tabb['deleted'];
     $pupdate = $tabb['pupdate'];
     //---
     $word = number_format($word);
@@ -69,9 +70,12 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
     } else {
         $target  = trim($tabb['target']);
         //---
-        $view = make_view_by_number($target, $view_number, $lang, $pupdate);
+        $view = "-";
+        if ($deleted == 0) {
+            $view = make_view_by_number($target, $view_number, $lang, $pupdate);
+        }
         //---
-        $target_link = make_target_url($target, $lang);
+        $target_link = make_target_url($target, $lang, $name="", $deleted=true);
         //---
         $td_views = "<td data-content='Views' data-sort='$view_number' data-filter='$view_number'>$view</td>";
     };
@@ -152,8 +156,15 @@ function make_table_lead($dd, $tab_type='a', $views_table = array(), $page_type=
         //---
         $noo += 1;
         //---
+        $deleted = $tabe['deleted'] ?? 0;
+        //---
         $target  = $tabe['target'];
         $view_number = $views_table[$target] ?? 0;
+        //---
+        if ($deleted == 1) {
+            $view_number = 0;
+        }
+        //---
         $total_views += $view_number;
         //---
         $mdtitle = $tabe['title'];
