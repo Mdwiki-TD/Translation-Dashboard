@@ -119,13 +119,21 @@ function make_td($tabg, $nnnn) {
     //---
     $nana = make_mdwiki_title( $md_title );
     //---
-    $targe33 = make_target_url( $targe, $llang );
+    $targe33_name = $targe;
+    //---
+    // if ( strlen($targe33_name) > 20 ) {
+    //     $targe33_name = substr($targe33_name, 0, 20) . '...';
+    // }
+    //---
+    $targe33 = make_target_url( $targe, $llang, $targe33_name);
 	$targe2  = urlencode($targe);
     //---
     $view = make_view_by_number($targe, $views_number, $llang, $pupdate);
     //---
     $mail_icon = (user_in_coord != false) ? make_mail_icon($tabg) : '';
     $mail_icon_td = ($mail_icon != '') ? "<td data-content=''>$mail_icon</td>" : '';
+    //---
+    $talk = make_talk_url($llang, $user);
     //---
     $laly = <<<HTML
         <tr>
@@ -136,7 +144,7 @@ function make_td($tabg, $nnnn) {
                 <a href='leaderboard.php?user=$user'>
                     <!-- <span data-toggle="tooltip" title="$user">$username</span> -->
                     $username
-                </a>
+                </a> ($talk)
             </td>
             $mail_icon_td
             <td data-content='Lang'>
@@ -176,8 +184,8 @@ function get_recent_sql($lang) {
     //---
     if ($lang != '' && $lang != 'All') $lang_line = "and lang = '$lang'";
     //---
-    $dd0 = execute_query("select * from pages where target != '' $lang_line ORDER BY pupdate DESC limit 100;");
-    $dd1 = execute_query("select * from pages where target != '' $lang_line ORDER BY add_date DESC limit 100");
+    $dd0 = execute_query("select * from pages where target != '' $lang_line ORDER BY pupdate DESC limit 250;");
+    $dd1 = execute_query("select * from pages where target != '' $lang_line ORDER BY add_date DESC limit 250");
     //---
     // merage the two arrays without duplicates
     $dd2 = array_unique(array_merge($dd0, $dd1), SORT_REGULAR);
@@ -239,8 +247,8 @@ function pupwindow(url) {
 $(document).ready( function () {
 	var t = $('#last_tabel').DataTable({
 	order: [[7	, 'desc']],
-    // paging: false,
-	lengthMenu: [[100, 150, 200], [100, 150, 200]],
+    paging: false,
+	// lengthMenu: [[100, 150, 200], [250, 150, 200]],
     // scrollY: 800
 	});
 } );

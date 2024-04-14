@@ -224,9 +224,13 @@ function make_mdwiki_title($title) {
 function make_cat_url($category) {
     if ($category != '') {
         $encoded_category = rawurlencode(str_replace(' ', '_', $category));
-        return "<a href='https://mdwiki.org/wiki/Category:$encoded_category'>$category</a>";
+        return "<a target='_blank' href='https://mdwiki.org/wiki/Category:$encoded_category'>$category</a>";
     }
     return $category;
+}
+//---
+function make_talk_url($lang, $user) {
+    return "<a target='_blank' href='//$lang.wikipedia.org/w/index.php?title=User_talk:$user'>talk</a>";
 }
 //---
 function make_translation_url($title, $lang, $tr_type) {
