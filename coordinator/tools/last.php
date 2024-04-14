@@ -119,13 +119,21 @@ function make_td($tabg, $nnnn) {
     //---
     $nana = make_mdwiki_title( $md_title );
     //---
-    $targe33 = make_target_url( $targe, $llang );
+    $targe33_name = $targe;
+    //---
+    // if ( strlen($targe33_name) > 20 ) {
+    //     $targe33_name = substr($targe33_name, 0, 20) . '...';
+    // }
+    //---
+    $targe33 = make_target_url( $targe, $llang, $targe33_name);
 	$targe2  = urlencode($targe);
     //---
     $view = make_view_by_number($targe, $views_number, $llang, $pupdate);
     //---
     $mail_icon = (user_in_coord != false) ? make_mail_icon($tabg) : '';
     $mail_icon_td = ($mail_icon != '') ? "<td data-content=''>$mail_icon</td>" : '';
+    //---
+    $talk = make_talk_url($llang, $user);
     //---
     $laly = <<<HTML
         <tr>
@@ -136,7 +144,7 @@ function make_td($tabg, $nnnn) {
                 <a href='leaderboard.php?user=$user'>
                     <!-- <span data-toggle="tooltip" title="$user">$username</span> -->
                     $username
-                </a>
+                </a> ($talk)
             </td>
             $mail_icon_td
             <td data-content='Lang'>

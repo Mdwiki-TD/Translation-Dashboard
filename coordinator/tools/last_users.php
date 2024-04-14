@@ -55,8 +55,16 @@ function make_td($tabg, $nnnn) {
     //---
     $nana = make_mdwiki_title( $md_title );
     //---
-    $targe33 = make_target_url( $targe, $llang );
+    $targe33_name = $targe;
+    //---
+    // if ( strlen($targe33_name) > 15 ) {
+    //     $targe33_name = substr($targe33_name, 0, 15) . '...';
+    // }
+    //---
+    $targe33 = make_target_url( $targe, $llang, $targe33_name);
 	$targe2  = urlencode($targe);
+    //---
+    $talk = make_talk_url($llang, $user);
     //---
     $laly = <<<HTML
         <tr>
@@ -66,7 +74,7 @@ function make_td($tabg, $nnnn) {
             <td data-content='User'>
                 <a href='leaderboard.php?user=$user'>
                     $username
-                </a>
+                </a> ($talk)
             </td>
             <td data-content='Lang'>
                 <a href='leaderboard.php?langcode=$llang'>$lang2</a>
