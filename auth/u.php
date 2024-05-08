@@ -1,5 +1,5 @@
 <?php
-$u = $_GET['u'] ?? '';
+$u = filter_input(INPUT_GET, 'u', FILTER_SANITIZE_SPECIAL_CHARS);
 $allowed_u = [
     "Mina karaca"
 ];
@@ -7,6 +7,7 @@ if ($u != '' && in_array($u, $allowed_u)) {
     session_start();
     $_SESSION['username'] = $u;
     //---
+    session_regenerate_id();
     header("Location: /Translation_Dashboard/index.php");
     exit(0);
 };
