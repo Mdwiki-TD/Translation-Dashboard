@@ -7,16 +7,16 @@ function login() {
     var url = 'auth.php?a=login&doit=1';
     // var url = 'login/index.php?doit=1';
     if (cat !== '') {
-        url += '&cat=' + cat;
+        url += '&cat=' + encodeURIComponent(cat);
     }
     if (code !== '') {
-        url += '&code=' + code;
+        url += '&code=' + encodeURIComponent(code);
     }
     if (type !== '') {
-        url += '&type=' + type;
+        url += '&type=' + encodeURIComponent(type);
     }
     if (test !== '') {
-        url += '&test=' + test;
+        url += '&test=' + encodeURIComponent(test);
     }
 
     window.location.href = url;
