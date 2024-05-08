@@ -56,8 +56,10 @@ echo "Continue to <a href='auth.php?a=index'>index</a><br>";
 $test = $_GET['test'] ?? '';
 
 foreach (['cat', 'code', 'type', 'doit'] as $key) {
-	$da = $_GET[$key] ?? '';
-	if ($da != '') $state[$key] = $da;
+	$da1 = $_GET[$key] ?? '';
+	if ($da1 != '') {
+		$state[$key] = $da;
+	};
 };
 //---
 $state = http_build_query($state);

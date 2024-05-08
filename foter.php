@@ -5,31 +5,11 @@
 	function pupwindow(url) {
 		window.open(url, 'popupWindow', 'width=850,height=550,left=50,top=50,scrollbars=yes');
 	};
+
 	function pupwindow1(url) {
 		window.open(url, 'popupWindow', 'width=500,height=400, left=100, top=100, location=no');
 	};
 
-	function login() {
-		var cat = $('#cat').val() || '';
-		var code = $('#code').val() || '';
-		var type = $('input[name=type]:checked').val() || '';
-		var test = $('#test').val() || '';
-		var url = 'auth.php?a=login&doit=1';
-		if (cat !== '') {
-			url += '&cat=' + cat;
-		}
-		if (code !== '') {
-			url += '&code=' + code;
-		}
-		if (type !== '') {
-			url += '&type=' + type;
-		}
-		if (test !== '') {
-			url += '&test=' + test;
-		}
-
-		window.location.href = url;
-	}
 
 	$('.sortable').DataTable({
 		paging: false,
@@ -58,11 +38,6 @@
 		}, 3000);
 	});
 </script>
-<!-- Footer -->
-<!-- 
-<footer class='app-footer'>
-</footer>
- -->
 </body>
 
 </html>

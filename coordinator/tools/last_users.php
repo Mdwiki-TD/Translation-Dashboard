@@ -19,7 +19,8 @@ $recent_table = <<<HTML
         <tbody>
 HTML;
 //---
-function make_td($tabg, $nnnn) {
+function make_td($tabg, $nnnn)
+{
     //---
     global $code_to_lang, $Words_table, $views_sql, $cat_to_camp;
     //---
@@ -38,11 +39,11 @@ function make_td($tabg, $nnnn) {
     $pupdate  = $tabg['pupdate'] ?? '';
     $add_date = $tabg['add_date'] ?? '';
     //---
-    $username = $user;
-    // $username is the first word of the user if length > 15
+    $user_name = $user;
+    // $user_name is the first word of the user if length > 15
     if (strlen($user) > 15) {
-        $username = explode(' ', $user);
-        $username = $username[0];        
+        $user_name = explode(' ', $user);
+        $user_name = $user_name[0];
     }
     //---
     // $lang2 = $code_to_lang[$llang] ?? $llang;
@@ -53,7 +54,7 @@ function make_td($tabg, $nnnn) {
     //---
     $worde = $word ?? $Words_table[$md_title];
     //---
-    $nana = make_mdwiki_title( $md_title );
+    $nana = make_mdwiki_title($md_title);
     //---
     $targe33_name = $targe;
     //---
@@ -61,8 +62,8 @@ function make_td($tabg, $nnnn) {
     //     $targe33_name = substr($targe33_name, 0, 15) . '...';
     // }
     //---
-    $targe33 = make_target_url( $targe, $llang, $targe33_name);
-	$targe2  = urlencode($targe);
+    $targe33 = make_target_url($targe, $llang, $targe33_name);
+    $targe2  = urlencode($targe);
     //---
     $talk = make_talk_url($llang, $user);
     //---
@@ -73,7 +74,7 @@ function make_td($tabg, $nnnn) {
             </td>
             <td data-content='User'>
                 <a href='leaderboard.php?user=$user'>
-                    $username
+                    $user_name
                 </a> ($talk)
             </td>
             <td data-content='Lang'>
@@ -100,7 +101,8 @@ function make_td($tabg, $nnnn) {
     return $laly;
 };
 //---
-function get_recent_sql() {
+function get_recent_sql()
+{
     $lang_line = '';
     //---
     // pages_users (title, lang, user, pupdate, target, add_date)
@@ -122,18 +124,18 @@ function get_recent_sql() {
     $dd0 = execute_query($qua);
     //---
     // sort the table by add_date
-    usort($dd0, function($a, $b) {
+    usort($dd0, function ($a, $b) {
         // return strtotime($b['add_date']) - strtotime($a['add_date']);
         return strtotime($b['pupdate']) - strtotime($a['pupdate']);
     });
     //---
-    return $dd0;    
+    return $dd0;
 }
 //---
 $qsl_results = get_recent_sql();
 //---
 $noo = 0;
-foreach ( $qsl_results AS $tat => $tabe ) {
+foreach ($qsl_results as $tat => $tabe) {
     //---
     $noo = $noo + 1;
     $recent_table .= make_td($tabe, $noo);
@@ -156,17 +158,21 @@ echo $recent_table;
 //---
 ?>
 <script>
-function pupwindow(url) {
-	window.open(url, 'popupWindow', 'width=850,height=550,scrollbars=yes');
-};
+    function pupwindow(url) {
+        window.open(url, 'popupWindow', 'width=850,height=550,scrollbars=yes');
+    };
 
-$(document).ready( function () {
-	var t = $('#last_tabel').DataTable({
-	order: [[7	, 'desc']],
-    // paging: false,
-	lengthMenu: [[100, 150, 200], [100, 150, 200]],
-    // scrollY: 800
-	});
-} );
-
+    $(document).ready(function() {
+        var t = $('#last_tabel').DataTable({
+            order: [
+                [7, 'desc']
+            ],
+            // paging: false,
+            lengthMenu: [
+                [100, 150, 200],
+                [100, 150, 200]
+            ],
+            // scrollY: 800
+        });
+    });
 </script>
