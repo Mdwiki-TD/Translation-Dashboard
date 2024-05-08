@@ -6,6 +6,8 @@ if (isset($_REQUEST['test'])) {
 	error_reporting(E_ALL);
 };
 //---
+ini_set('session.use_strict_mode', '1');
+//---
 define('root_dir', __DIR__);
 //---
 $testxx = isset($_GET['test']) ? $_GET['test'] : "";
@@ -185,33 +187,33 @@ echo <<<HTML
 </header>
 HTML;
 ?>
-<script>	
+<script>
 	// $(document).ready(function() {
 	var lo = $('#myusername').text();
-	if ( lo != '' ) {
+	if (lo != '') {
 		$('#login_btn').hide();
 		$("#doit_btn").show();
-	
+
 		$('#myboard').show();
 		$('#loginli').hide();
-	
+
 		$('#username_li').show();
 		$('#logout_btn').show();
 		$('#user_name').text(lo);
-	
+
 	} else {
 		$('#login_btn').show();
 		$("#doit_btn").hide();
-	
+
 		$('#loginli').show();
-	
+
 		$('#username_li').hide();
 		$('#logout_btn').hide();
 	};
 	// });
-	</script>
+</script>
 <main id="body">
 	<!-- <div id="maindiv" class="container-fluid"> -->
 	<div id="maindiv" class="container-fluid">
-	<!-- <br> -->
-	<!-- <hr/> -->
+		<!-- <br> -->
+		<!-- <hr/> -->

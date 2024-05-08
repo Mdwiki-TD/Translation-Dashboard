@@ -1,31 +1,32 @@
 <!DOCTYPE html>
 <HTML lang=en dir=ltr data-bs-theme="light" xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
-	<meta name="robots" content="noindex">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="robots" content="noindex">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="light dark" />
-  
+
     <meta name="theme-color" content="#111111" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#eeeeee" media="(prefers-color-scheme: dark)" />
-	<title>Wiki Project Med Translation Dashboard</title>
+    <title>Wiki Project Med Translation Dashboard</title>
 
-<?php
-//---
-if (isset($_REQUEST['test'])) {
-	ini_set('display_errors', 1);
-	ini_set('display_startup_errors', 1);
-	error_reporting(E_ALL);
-};
-//---
-$hoste = '';
-//---
-$hoste = 'https://tools-static.wmflabs.org/cdnjs';
-if ( $_SERVER['SERVER_NAME'] == 'localhost' )  $hoste = 'https://cdnjs.cloudflare.com';
-//---
-if (!isset($_GET['noboot'])) {
-    echo <<<HTML
+    <?php
+    //---
+    if (isset($_REQUEST['test'])) {
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
+        error_reporting(E_ALL);
+    };
+    //---
+    $hoste = '';
+    //---
+    $hoste = 'https://tools-static.wmflabs.org/cdnjs';
+    if ($_SERVER['SERVER_NAME'] == 'localhost')  $hoste = 'https://cdnjs.cloudflare.com';
+    //---
+    if (!isset($_GET['noboot'])) {
+        echo <<<HTML
 
     <link href='/Translation_Dashboard/css/styles.css' rel='stylesheet' type='text/css'>
     <link href='/Translation_Dashboard/css/Responsive_Table.css' rel='stylesheet' type='text/css'>
@@ -37,7 +38,7 @@ if (!isset($_GET['noboot'])) {
     <link href='$hoste/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css' rel='stylesheet' type='text/css'>
     <link href="$hoste/ajax/libs/bootstrap-select/1.14.0-beta3/css/bootstrap-select.css" rel='stylesheet' type='text/css'>
 
-    <style> 
+    <style>
     a {
         text-decoration: none;
     }</style>
@@ -53,9 +54,10 @@ if (!isset($_GET['noboot'])) {
     <script type="module" src="/Translation_Dashboard/js/color-modes.js"></script>
     <!-- <script src='/Translation_Dashboard/js/sorttable.js'></script> -->
     <script src='/Translation_Dashboard/js/to.js'></script>
+    <script src='/Translation_Dashboard/js/login.js'></script>
     <script src='/Translation_Dashboard/plugins/chart.js/Chart.min.js'></script>
 
 </head>
 HTML;
-};
+    };
 //---

@@ -56,8 +56,12 @@ echo "Continue to <a href='auth.php?a=index'>index</a><br>";
 $test = $_GET['test'] ?? '';
 
 foreach (['cat', 'code', 'type', 'doit'] as $key) {
-	$da = $_GET[$key] ?? '';
-	if ($da != '') $state[$key] = $da;
+	$da = $_GET[$key] ?? $_SESSION[$key] ?? '';
+	if ($da != '') {
+		$state[$key] = $da;
+		// remove it from seasson
+		unset($_SESSION[$key]);
+	};
 };
 //---
 $state = http_build_query($state);

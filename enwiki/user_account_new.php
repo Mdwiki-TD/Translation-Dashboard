@@ -11,7 +11,7 @@ include_once __DIR__ . '/../td_config.php';
 
 $ini = Read_ini_file('user.ini');
 //---
-$username = $ini['botusername'];
+$username_x = $ini['botusername'];
 $password = $ini['botpassword'];
 
 $bot_username = $ini['botusername'];
@@ -26,4 +26,3 @@ $lgname_enwiki = $ini['lgname_enwiki'];
 $lgpass_enwiki = $ini['lgpass_enwiki'];
 
 $qs_token = $ini['qs_token'];
-?>
