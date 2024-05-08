@@ -17,4 +17,5 @@ reviews:
 chat:
   auto_reply: true
 path_filters:
+  - "!old/**"
   - "!**/old/**"

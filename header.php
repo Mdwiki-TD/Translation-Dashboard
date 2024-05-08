@@ -191,24 +191,15 @@ HTML;
 	// $(document).ready(function() {
 	var lo = $('#myusername').text();
 	if (lo != '') {
-		$('#login_btn').hide();
-		$("#doit_btn").show();
-
 		$('#myboard').show();
-		$('#loginli').hide();
-
-		$('#username_li').show();
-		$('#logout_btn').show();
 		$('#user_name').text(lo);
+		
+		$('#login_btn, #loginli').hide();
+		$("#doit_btn, #username_li, #logout_btn").show();
 
 	} else {
-		$('#login_btn').show();
-		$("#doit_btn").hide();
-
-		$('#loginli').show();
-
-		$('#username_li').hide();
-		$('#logout_btn').hide();
+		$('#login_btn, #loginli').show();
+		$("#doit_btn, #username_li, #logout_btn").hide();
 	};
 	// });
 </script>

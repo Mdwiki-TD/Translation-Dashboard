@@ -6,14 +6,6 @@ if (isset($_REQUEST['test'])) {
     error_reporting(E_ALL);
 };
 //---
-foreach (['cat', 'code', 'type', 'test', 'doit'] as $key) {
-    $da = $_GET[$key] ?? '';
-    if ($da != '') {
-        // save it to seasson
-        $_SESSION[$key] = $da;
-    }
-};
-//---
 // Require the library and set up the classes we're going to use in this first part.
 require_once __DIR__ . '/u.php';
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -39,7 +31,7 @@ $conf->setConsumer(new Consumer($consumerKey, $consumerSecret));
 $conf->setUserAgent($gUserAgent);
 $client = new Client($conf);
 
-function make_callback_url()
+function make_callback_url($url)
 {
     $state = array();
     // ?action=login&cat=RTT&depth=1&code=&type=lead
@@ -52,16 +44,22 @@ function make_callback_url()
     };
     // $state = implode('&', $state);
     //---
-    $state = http_build_query($state);
+    $sta = "";
+    if (!empty($state)) {
+        $sta = '&' . http_build_query($state);
+    }
     //---
-    // echo $state;
+    // echo $sta;
     //---
-    $oauth_call = 'https://mdwiki.toolforge.org/Translation_Dashboard/auth.php?a=callback&' . $state;
+    $oauth_call = $url . $sta;
     //---
     return $oauth_call;
 }
-
-$client->setCallback(make_callback_url());
+$call_back_url = 'https://mdwiki.toolforge.org/Translation_Dashboard/auth.php?a=callback';
+// ---
+$call_back_url = make_callback_url($call_back_url);
+// ---
+$client->setCallback($call_back_url);
 
 // Send an HTTP request to the wiki to get the authorization URL and a Request Token.
 // These are returned together as two elements in an array (with keys 0 and 1).
