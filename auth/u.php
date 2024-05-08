@@ -1,5 +1,5 @@
 <?php
-$u = $_GET['u'] ?? '';
+$u = filter_input(INPUT_GET, 'u', FILTER_SANITIZE_SPECIAL_CHARS);
 $allowed_u = [
     "Mina karaca"
 ];
