@@ -11,11 +11,13 @@ require 'langcode.php';
 include_once 'functions.php';
 // include_once 'auth/api.php';
 //---
-function start_with( $haystack, $needle ) {
-    return strpos( $haystack , $needle ) === 0;
+function start_with($haystack, $needle)
+{
+    return strpos($haystack, $needle) === 0;
 };
 //---
-function get_in_process($missing, $code) {
+function get_in_process($missing, $code)
+{
     $qua = "select * from pages where target = '' and lang = '$code';";
     //---
     $res = execute_query($qua);
@@ -25,7 +27,7 @@ function get_in_process($missing, $code) {
     //--
     $titles = array();
     //---
-    foreach ( $res AS $t) {
+    foreach ($res as $t) {
         if (in_array($t['title'], $missing)) $titles[$t['title']] = $t;
     }
     //---
@@ -35,7 +37,8 @@ function get_in_process($missing, $code) {
     //---
 }
 
-function open_json_file($file_path) {
+function open_json_file($file_path)
+{
     $new_list = array();
     // Check if the file exists
     if (!is_file($file_path)) {
@@ -66,7 +69,8 @@ function open_json_file($file_path) {
     return $data;
 }
 
-function get_cat_from_cache($cat) {
+function get_cat_from_cache($cat)
+{
     // Initialize an empty array for the list
     $empty_list = array();
 
@@ -96,11 +100,12 @@ function get_cat_from_cache($cat) {
     return $data;
 }
 
-function get_categorymembers( $cat ) {
+function get_categorymembers($cat)
+{
     //---
     $ch = null;
     //---
-    if (!start_with($cat , 'Category:')) {
+    if (!start_with($cat, 'Category:')) {
         $cat = "Category:$cat";
     };
     //---
@@ -113,21 +118,21 @@ function get_categorymembers( $cat ) {
         "format" => "json"
     );
     //---
-	$items = array();
-	//---
-	$cmcontinue = 'x';
+    $items = array();
     //---
-	while($cmcontinue != '') {
-		//---
-		if ($cmcontinue != 'x') $params['cmcontinue'] = $cmcontinue;
-		//---
+    $cmcontinue = 'x';
+    //---
+    while ($cmcontinue != '') {
+        //---
+        if ($cmcontinue != 'x') $params['cmcontinue'] = $cmcontinue;
+        //---
         $endPoint = "https://mdwiki.org/w/api.php?" . http_build_query($params);
         //---
-        test_print("<br>params:<br>$endPoint"."<br>");
+        test_print("<br>params:<br>$endPoint" . "<br>");
         //---
-		$resa = get_url_with_params( $params );
+        $resa = get_url_with_params($params);
         //---
-		/*
+        /*
 		if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost') {
 			//---
 			$resa = get_url_with_params( $params );
@@ -135,82 +140,95 @@ function get_categorymembers( $cat ) {
 		} else {
 			$resa = get_api_php($params);
 		};*/
-		//---
-        if (!isset($resa["query"])) $resa = get_url_with_params( $params );
-		//---
-		$continue   = $resa["continue"] ?? '';
-		$cmcontinue = $continue["cmcontinue"] ?? '';// "continue":{"cmcontinue":"page|434c4f42415a414d|60836",
-		//---
-		$query = $resa["query"] ?? array();
-		$categorymembers = $query["categorymembers"] ?? array();
-		$categorymembers = $categorymembers ?? array();
-		//---
-		// print htmlspecialchars( var_export( $categorymembers, 1 ) );
-		//---
-		//
-		foreach( $categorymembers as $pages ){
-			// echo( $pages["title"] . "\n" );
-			if ($pages["ns"] == 0 or $pages["ns"] == 14) {
-				$items[] = $pages["title"];
-			};
-		};
-	};
+        //---
+        if (!isset($resa["query"])) $resa = get_url_with_params($params);
+        //---
+        $continue   = $resa["continue"] ?? '';
+        $cmcontinue = $continue["cmcontinue"] ?? ''; // "continue":{"cmcontinue":"page|434c4f42415a414d|60836",
+        //---
+        $query = $resa["query"] ?? array();
+        $categorymembers = $query["categorymembers"] ?? array();
+        $categorymembers = $categorymembers ?? array();
+        //---
+        // print htmlspecialchars( var_export( $categorymembers, 1 ) );
+        //---
+        //
+        foreach ($categorymembers as $pages) {
+            // echo( $pages["title"] . "\n" );
+            if ($pages["ns"] == 0 or $pages["ns"] == 14) {
+                $items[] = $pages["title"];
+            };
+        };
+    };
     //---
     // $tt = array();
     // $tt['items']    = $items;
     // $tt['continue'] = $cmcontinue;
     //---
-    test_print("<br>get_categorymembers() items size:" . count($items) );
+    test_print("<br>get_categorymembers() items size:" . count($items));
     //---
     return $items;
     //---
 };
 //---
-function get_mdwiki_cat_members( $cat, $use_cache=false, $depth=0 ) {
+function get_mmbrs($cat, $use_cache)
+{
+    if ($use_cache || $_SERVER['SERVER_NAME'] == 'localhost') {
+        //---
+        $all = get_cat_from_cache($cat);
+        //---
+        if (empty($all)) $all = get_categorymembers($cat);
+        //---
+        return $all;
+    };
+    //---
+    $all = get_categorymembers($cat);
+    //---
+    if (empty($all)) $all = get_cat_from_cache($cat);
+    //---
+    return $all;
+}
+//---
+function get_mdwiki_cat_members($cat, $use_cache = false, $depth = 0, $camp = '')
+{
     //---
     $titles = array();
     $cats = array();
-	$cats[] = $cat;
+    $cats[] = $cat;
     //---
     $depth_done = -1;
     //---
-	while (count($cats) > 0 && $depth > $depth_done) {
-		$cats2 = array();
-		//---
-		foreach( $cats as $cat1 ){
-            if ($use_cache || $_SERVER['SERVER_NAME'] == 'localhost' ) {
-				$all = get_cat_from_cache( $cat1 );
-                if (empty($all)) $all = get_categorymembers($cat1);
-			} else {
-				$all = get_categorymembers( $cat1 );
-                if (empty($all)) $all = get_cat_from_cache($cat1);
-			};
-			//---
-			foreach( $all as $title ){
-				if (start_with($title , 'Category:')) {
-					$cats2[] = $title;
-				} else {
-					$titles[] = $title;
-				};
-			//---
-		};
-		};
-		//---
-		test_print("<br>cats2 size:" . count($cats2) );
-		//---
-        $depth_done ++;
-		//---
-		$cats = $cats2;
-		//---
-	};
+    while (count($cats) > 0 && $depth > $depth_done) {
+        $cats2 = array();
+        //---
+        foreach ($cats as $cat1) {
+            $all = get_mmbrs($cat1, $use_cache);
+            //---
+            foreach ($all as $title) {
+                if (start_with($title, 'Category:')) {
+                    $cats2[] = $title;
+                } else {
+                    $titles[] = $title;
+                };
+                //---
+            };
+        };
+        //---
+        test_print("<br>cats2 size:" . count($cats2));
+        //---
+        $depth_done++;
+        //---
+        $cats = $cats2;
+        //---
+    };
     //---
     // remove duplicates from $titles
-    $titles = array_unique( $titles );
+    $titles = array_unique($titles);
     //---
-    test_print("<br>cats size:" . count($cats) );
+    test_print("<br>cats size:" . count($cats));
     //---
     $newtitles = array();
-    foreach( $titles as $title ){
+    foreach ($titles as $title) {
         // find if not starts with Category:
         $test_value = preg_match('/^(File|Template|User):/', $title);
         // find if not ends with (disambiguation)
@@ -221,7 +239,7 @@ function get_mdwiki_cat_members( $cat, $use_cache=false, $depth=0 ) {
         };
     };
     //---
-    test_print("<br>newtitles size:" . count($newtitles) );
+    test_print("<br>newtitles size:" . count($newtitles));
     test_print("<br>end of get_mdwiki_cat_members <br>===============================<br>");
     //---
     return $newtitles;
@@ -230,7 +248,7 @@ function get_mdwiki_cat_members( $cat, $use_cache=false, $depth=0 ) {
 
 function get_cat_exists_and_missing($cat, $camp, $depth, $code, $use_cache = false)
 {
-    $members_to = get_mdwiki_cat_members($cat, $use_cache = $use_cache, $depth = $depth);
+    $members_to = get_mdwiki_cat_members($cat, $use_cache = $use_cache, $depth = $depth, $camp = $camp);
     test_print("<br>members_to size:" . count($members_to));
     $members = array();
     foreach ($members_to as $mr) {
@@ -263,4 +281,3 @@ function get_cat_exists_and_missing($cat, $camp, $depth, $code, $use_cache = fal
     test_print("<br>end of get_cat_exists_and_missing <br>===============================<br>");
     return $results;
 }
-

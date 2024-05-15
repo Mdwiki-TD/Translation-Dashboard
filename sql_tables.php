@@ -35,6 +35,7 @@ $camp_to_cat = array();
 $main_cat = ''; # RTT
 $main_camp = ''; # Main
 //---
+$camps_cat2 = array();
 $camp_input_depth = array();
 // $catinput_depth = array();
 //---
@@ -45,6 +46,8 @@ foreach ( execute_query('select id, category, category2, campaign, depth, def fr
     if ($tab['category'] != '' && $tab['campaign'] != '') {
         //---
         $cat_titles[] = $tab['campaign'];
+        //---
+        $camps_cat2[$tab['campaign']] = $tab['category2'];
         //---
         $cat_to_camp[$tab['category']] = $tab['campaign'];
         $camp_to_cat[$tab['campaign']] = $tab['category'];

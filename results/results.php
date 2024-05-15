@@ -57,8 +57,21 @@ if ($doit) {
     $len_of_exists_pages = $items['len_of_exists'];
     $items_missing       = $items['missing'];
     //---
-    test_print("len_of_exists_pages: $len_of_exists_pages<br>");
+    $cat2 = $camps_cat2[$camp] ?? '';
+    //---
     test_print("items_missing:" . count($items_missing) . "<br>");
+    //---
+    if ($cat2 != '') {
+        $cat2_members = get_mdwiki_cat_members($cat2, $use_cache = true, $depth = $depth, $camp = $camp);
+        // $items_missing2 = array();
+        // $items_missing2 = $items_missing titles that is in $cat2_members
+        $items_missing2 = array_intersect($items_missing, $cat2_members);
+
+        test_print("items_missing2:" . count($items_missing2) . "<br>");
+        $items_missing = $items_missing2;
+    }
+    //---
+    test_print("len_of_exists_pages: $len_of_exists_pages<br>");
     //---
     $missing = array();
     foreach ( $items_missing as $key => $cca ) if (!in_array($cca, $missing)) $missing[] = $cca;
