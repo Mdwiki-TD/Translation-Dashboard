@@ -50,11 +50,11 @@ HTML;
 //---
 $cats = "";
 //---
-$qqq = execute_query('select category, display from categories;');
+$qqq = execute_query('select category, campaign from categories;');
 //---
 foreach ($qqq as $Key => $ta) {
 	$ca = $ta['category'];
-	$ds = $ta['display'];
+	$ds = $ta['campaign'];
 	if ($ca != '') $cats .= "<option value='$ca'>$ds</option>";
 };
 //---
@@ -82,7 +82,7 @@ foreach (range(1, 1) as $numb) {
 			$numb
 		</td>
 		<td data-content='mdwiki title'>
-			<input size='15' class='mdtitles' name='mdtitle[]$numb' required/>
+			<input class="form-control" size='15' class='mdtitles' name='mdtitle[]$numb' required/>
 		</td>
 		<td data-content='Campaign'>
 			$cats_line
@@ -91,16 +91,16 @@ foreach (range(1, 1) as $numb) {
 			$type_line
 		</td>
 		<td data-content='User'>
-			<input size='10' class='useri' name='user[]$numb' required/>
+			<input class="form-control" size='10' class='useri' name='user[]$numb' required/>
 		</td>
 		<td data-content='Lang.'>
-			<input size='2' name='lang[]$numb' required/>
+			<input class="form-control" size='2' name='lang[]$numb' required/>
 		</td>
 		<td data-content='Target'>
-			<input size='20' name='target[]$numb' required/>
+			<input class="form-control" size='20' name='target[]$numb' required/>
 		</td>
 		<td data-content='Publication date'>
-			<input size='10' name='pupdate[]$numb' placeholder='YYYY-MM-DD' required/>
+			<input class="form-control" size='10' name='pupdate[]$numb' placeholder='YYYY-MM-DD' required/>
 		</td>
 	</tr>
 	HTML;
@@ -129,14 +129,14 @@ echo $table;
 		var ii = $('#g_tab >tr').length + 1;
 		var e = "<tr>";
 		e = e + "<td>" + ii + "</td>";
-		e = e + "<td>	<input size='15' class='mdtitles' name='mdtitle[]" + ii + "' required/>	</td>";
+		e = e + "<td>	<input class='form-control' size='15' class='mdtitles' name='mdtitle[]" + ii + "' required/>	</td>";
 		e = e + "<td><select class='form-select catsoptions' name='cat[]" + ii + "'>" + options + "</select></td>";
 		e = e + "<td><select name='type[]%s' class='form-select'>";
 		e = e + "<option value='lead'>Lead</option><option value='all'>All</option></select></td>";
-		e = e + "<td>	<input size='10' class='useri' name='user[]" + ii + "' required/>	</td>";
-		e = e + "<td>	<input size='2' name='lang[]" + ii + "' required/>	</td>";
-		e = e + "<td>	<input size='20' name='target[]" + ii + "' required/>	</td>";
-		e = e + "<td>	<input size='10' name='pupdate[]" + ii + "' required/>	</td>";
+		e = e + "<td>	<input class='form-control' size='10' class='useri' name='user[]" + ii + "' required/>	</td>";
+		e = e + "<td>	<input class='form-control' size='2' name='lang[]" + ii + "' required/>	</td>";
+		e = e + "<td>	<input class='form-control' size='20' name='target[]" + ii + "' required/>	</td>";
+		e = e + "<td>	<input class='form-control' size='10' name='pupdate[]" + ii + "' required/>	</td>";
 		e = e + "<td></td>";
 		e = e + "</tr>";
 		$('#g_tab').append(e);
@@ -154,7 +154,7 @@ $( function() {
     $( ".useri" ).autocomplete({
       source: availableTags
     });
-    
+
 });
 </script>
 HTML;
@@ -170,7 +170,7 @@ foreach (execute_query('SELECT DISTINCT user from pages;') as $k => $tab) {
 echo sprintf($script, $ka);
 //---
 ?>
-<!-- 
+<!--
 <script>
 $( function() {
 	var ur = 'cats_cash/RTT.json';
@@ -180,6 +180,6 @@ $( function() {
 	}
     });
 });
-</script> 
+</script>
 -->
 </div>

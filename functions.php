@@ -17,14 +17,14 @@ include_once 'actions/mdwiki_sql.php';
 
 
 function load_request() {
-    global $lang_to_code, $code_to_lang, $camp_to_cat;
+    global $lang_to_code, $code_to_lang, $camp_to_cat, $cat_to_camp;
     //---
     $code = $_REQUEST['code'] ?? '';
     //---
     if ($code == 'undefined') $code = "";
     //---
     $code = $lang_to_code[$code] ?? $code;
-    $code_lang_name = $code_to_lang[$code] ?? ''; 
+    $code_lang_name = $code_to_lang[$code] ?? '';
     //---
     $cat  = $_REQUEST['cat'] ?? '';
     if ($cat == 'undefined') $cat = "";
@@ -35,11 +35,15 @@ function load_request() {
         $cat = $camp_to_cat[$camp] ?? $cat;
     }
     //---
+    if ($cat != "" && $camp == "") {
+        $camp = $cat_to_camp[$cat] ?? $camp;
+    }
     // if ($cat == "") $cat = "RTT";
     //---
     return [
         'code' => $code,
         'cat' => $cat,
+        'camp' => $camp,
         'code_lang_name' => $code_lang_name
     ];
 }

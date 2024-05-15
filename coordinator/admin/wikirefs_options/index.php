@@ -53,7 +53,7 @@ foreach ($_POST as $key => $values) {
     $ul .= "<li>$key:$vv</li>";
 };
 $ul .= "</lu>";
-echo $ul;*/ 
+echo $ul;*/
 //---
 function make_td($lang, $tabg, $numb) {
     //---
@@ -132,10 +132,11 @@ print $sato;
         ii++;
         var e = "<tr>";
         e = e + "<td>" + ii + "</td>";
-        e = e + "<td><input name='newlang[]" + ii + "' placeholder='lang code.'/></td>";
-        e = e + "<td><input type='text' name='move_dotsx[]" + ii + "' value='0' disabled/></td>";
-        e = e + "<td><input type='text' name='expendx[]" + ii + "' value='0' disabled/></td>";
-        e = e + "<td><input type='text' name='add_en_lngx[]" + ii + "' value='0' disabled/></td>";
+        e = e + "<td><input class='form-control' name='newlang[]" + ii + "' placeholder='lang code.'/></td>";
+        e = e + "<td><input class='form-control' type='text' name='move_dotsx[]" + ii + "' value='0' disabled/></td>";
+        e = e + "<td><input class='form-control' type='text' name='expendx[]" + ii + "' value='0' disabled/></td>";
+        e = e + "<td><input class='form-control' type='text' name='add_en_lngx[]" + ii + "' value='0' disabled/></td>";
+        e = e + "<td>-</td>";
         e = e + "</tr>";
 
         $('#refs_tab').append(e);

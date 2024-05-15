@@ -29,11 +29,13 @@ function sort_py_importance($items, $Assessments_table, $Assessments_fff) {
     return $dd;
 }
 //---
-function make_one_row($v, $cnt, $cod, $cat, $words, $refs, $asse, $tra_type, $pageviews, $qid, $inprocess, $in_process, $tra_btn, $full) {
+function make_one_row($v, $cnt, $cod, $cat, $camp, $words, $refs, $asse, $tra_type, $pageviews, $qid, $inprocess, $in_process, $tra_btn, $full) {
+    //---
+    $cat2 = rawurlEncode($cat);
+    $camp2 = rawurlEncode($camp);
     //---
     $title = str_replace ( '_' , ' ' , $v );
     $title2 = rawurlEncode($title);
-    $cat2 = rawurlEncode($cat);
     $mdwiki_url = "//mdwiki.org/wiki/" . str_replace('+', '_', $title2);
     $qid = ($qid != '') ? "<a class='inline' target='_blank' href='https://wikidata.org/wiki/$qid'>$qid</a>" : '&nbsp;';
     //---
@@ -43,6 +45,7 @@ function make_one_row($v, $cnt, $cod, $cat, $words, $refs, $asse, $tra_type, $pa
         "title" => $title2,
         "code" => $cod,
         "cat" => $cat2,
+        "camp" => $camp2,
         "type" => $tra_type
         );
     $translate_url = $mdwiki_url;
@@ -137,7 +140,7 @@ function make_one_row($v, $cnt, $cod, $cat, $words, $refs, $asse, $tra_type, $pa
     return $lista;
 }
 //---
-function make_results_table($items, $cod, $cat, $tra_type, $tra_btn, $inprocess=false ) {
+function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inprocess=false ) {
     //---
     // $result = make_results_table($items, $cod, $cat, $tra_type, $tra_btn, $inprocess=$inprocess );
     //---
@@ -193,16 +196,16 @@ function make_results_table($items, $cod, $cat, $tra_type, $tra_btn, $inprocess=
     //---
     foreach ( $dd AS $v => $gt) {
         if ( $v == '' ) continue;
-        $title = str_replace ( '_' , ' ' , $v ); 
+        $title = str_replace ( '_' , ' ' , $v );
         $views = $enwiki_pageviews_table[$title] ?? 0;
-        $word  = $words_tab[$title] ?? 0; 
-        $refs  = $ref_tab[$title] ?? 0; 
+        $word  = $words_tab[$title] ?? 0;
+        $refs  = $ref_tab[$title] ?? 0;
         $asse  = $Assessments_table[$title] ?? '';
         $qid   = $sql_qids[$title] ?? "";
         //---
         $cnt2 = $cnt;
         //---
-        $row = make_one_row($v, $cnt2, $cod, $cat, $word, $refs, $asse, $tra_type, $views, $qid, $inprocess, $in_process, $tra_btn, false);
+        $row = make_one_row($v, $cnt2, $cod, $cat, $camp, $word, $refs, $asse, $tra_type, $views, $qid, $inprocess, $in_process, $tra_btn, false);
         //---
         // if in process or full translates not allowed
         if ($inprocess || !$do_full) {
@@ -229,7 +232,7 @@ function make_results_table($items, $cod, $cat, $tra_type, $tra_btn, $inprocess=
             $word  = $All_Words_table[$title] ?? 0;
             $refs  = $All_Refs_table[$title] ?? 0;
             //---
-            $list .= make_one_row($v, $cnt2, $cod, $cat, $word, $refs, $asse, 'all', $views, $qid, $inprocess, $in_process, $tra_btn, true);
+            $list .= make_one_row($v, $cnt2, $cod, $cat, $camp, $word, $refs, $asse, 'all', $views, $qid, $inprocess, $in_process, $tra_btn, true);
         }
         //---
         $cnt++;

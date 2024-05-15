@@ -16,43 +16,25 @@ $conf = get_configs('conf.json');
 //---
 $allow_whole_translate = $settings['allow_type_of_translate']['value'] ?? '1';
 //---
-$catinput_depth = array();
-$catinput_list = array();
-//---
-$main_cat = ''; # RTT
-//---
-foreach (execute_query('select category, display, depth, def from categories;') AS $Key => $table ) {
-    $category = $table['category'];
-    $display  = $table['display'];
-    $catinput_list[$display] = $category;
-    //---
-    $default  = $table['def'];
-    if ($default == 1 || $default == '1') $main_cat = $category;
-    //---
-    $catinput_depth[$category] = $table['depth'];
-    //---
-};
-//---
 $req  = load_request();
 $code = $req['code'];
+//---
 $cat  = ($req['cat'] != '') ? $req['cat'] : $main_cat;
+$camp  = ($req['camp'] != '') ? $req['camp'] : $main_camp;
+//---
 $code_lang_name = $req['code_lang_name'];
 //---
 $tra_type  = $_REQUEST['type'] ?? '';
 if ($allow_whole_translate == '0') $tra_type = 'lead';
 //---
 $cat_ch = htmlspecialchars($cat, ENT_QUOTES);
-//---
-$depth  = $_REQUEST['depth'] ?? 1;
-$depth  = $depth * 1 ;
-//---
-$depth  = $catinput_depth[$cat] ?? 1;
+$camp_ch = htmlspecialchars($camp, ENT_QUOTES);
 //---
 function print_form_start1() {
     //---
     global $allow_whole_translate ;
-    global $lang_to_code, $catinput_list;
-    global $cat_ch, $code_lang_name, $code, $tra_type;
+    global $lang_to_code, $catinput_list, $campaign_input_list;
+    global $cat_ch, $camp_ch, $code_lang_name, $code, $tra_type;
     //---
     $lead_checked = "checked";
     $all_checked = "";
@@ -83,7 +65,7 @@ function print_form_start1() {
 	HTML;
 	//---
     $langse = <<<HTML
-        <select 
+        <select
             class="selectpicker"
             id='code'
             name='code'
@@ -101,7 +83,7 @@ function print_form_start1() {
 	//---
     $err = '';
     //---
-    if ($code_lang_name == '' and $code != '') { 
+    if ($code_lang_name == '' and $code != '') {
         $err = "<span style='font-size:13pt;color:red'>code ($code) not valid wiki.</span>";
     } else {
         if ($code != '') { $_SESSION['code'] = $code; };
@@ -115,11 +97,18 @@ function print_form_start1() {
     //---
     if ( global_username != '' ) $uiu = '<input type="submit" name="doit" class="btn btn-outline-primary" value="Do it"/>';
     //---
-    $catinput = make_drop($catinput_list, $cat_ch);
+    $cat_input = make_drop($catinput_list, $cat_ch);
+    $camp_input = make_drop($campaign_input_list, $camp_ch);
     //---
-    $catinput = <<<HTML
+    $cat_input = <<<HTML
         <select dir='ltr' name='cat' id='cat' class='form-select' data-bs-theme="auto">
-            $catinput
+            $cat_input
+        </select>
+    HTML;
+    //---
+    $camp_input = <<<HTML
+        <select dir='ltr' name='camp' id='camp' class='form-select' data-bs-theme="auto">
+            $camp_input
         </select>
     HTML;
     //---
@@ -155,12 +144,13 @@ function print_form_start1() {
         </div>
     HTML;
     //---
-	$in_cat = sprintf($d22, 'cat', 'Campaign', $catinput);
+	$in_cat = sprintf($d22, 'cat', 'Category', $cat_input);
+	$in_camp = sprintf($d22, 'camp', 'Campaign', $camp_input);
 	//---
 	$in_lng = sprintf($d22, 'code', 'Language', "<div>$langse $err</div>");
 	//---
 	$in_typ = '';
-    if ($allow_whole_translate == '1') { 
+    if ($allow_whole_translate == '1') {
         $in_typ = sprintf($d22, 'type', 'Type', "<div class='form-control'>$ttype</div>");
     } else {
         $in_typ = "<input name='type' value='lead' hidden/>";
@@ -168,7 +158,8 @@ function print_form_start1() {
     //---
     $d = <<<HTML
     <div class='row'>
-        $in_cat
+        <!-- $in_cat -->
+        $in_camp
         $in_lng
         $in_typ
         <div class='$col12'>
@@ -177,7 +168,7 @@ function print_form_start1() {
             </h4>
         </div>
     </div>
-    
+
     HTML;
     //---
     return $d;

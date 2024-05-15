@@ -32,11 +32,33 @@ $cat_titles = array();
 $cat_to_camp = array();
 $camp_to_cat = array();
 //---
-foreach ( execute_query('select id, category, display, depth from categories;') AS $k => $tab ) {
-    if ($tab['category'] != '' && $tab['display'] != '') {
-        $cat_titles[] = $tab['display'];
-        $cat_to_camp[$tab['category']] = $tab['display'];
-        $camp_to_cat[$tab['display']] = $tab['category']; 
+$main_cat = ''; # RTT
+$main_camp = ''; # Main
+//---
+$camp_input_depth = array();
+// $catinput_depth = array();
+//---
+$campaign_input_list = array();
+$catinput_list = array();
+//---
+foreach ( execute_query('select id, category, category2, campaign, depth, def from categories;') AS $k => $tab ) {
+    if ($tab['category'] != '' && $tab['campaign'] != '') {
+        //---
+        $cat_titles[] = $tab['campaign'];
+        //---
+        $cat_to_camp[$tab['category']] = $tab['campaign'];
+        $camp_to_cat[$tab['campaign']] = $tab['category'];
+        //---
+        $catinput_list[$tab['category']] = $tab['category'];
+        $campaign_input_list[$tab['campaign']] = $tab['campaign'];
+        // ---
+        // $catinput_depth[$tab['category']] = $tab['depth'];
+        $camp_input_depth[$tab['campaign']] = $tab['depth'];
+        //---
+        $default  = $tab['def'];
+        if ($default == 1 || $default == '1') $main_cat = $tab['category'];
+        if ($default == 1 || $default == '1') $main_camp = $tab['campaign'];
+        //---
     };
 };
 //---

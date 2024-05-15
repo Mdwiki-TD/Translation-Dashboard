@@ -23,14 +23,15 @@ echo <<<HTML
 <form action="coordinator.php?ty=Campaigns" method="POST">
 	<input name='ty' value="Campaigns" hidden/>
 		<div class="form-group">
-			<table class='table table-striped compact table-mobile-responsive table-mobile-sided' style='width: 90%;'>
+			<table class='table table-striped compact table-mobile-responsive table-mobile-sided'>
 				<thead>
 					<tr>
 						<th>#</th>
-						<th>Category</th>
 						<th>Campaign</th>
+						<th>Category1</th>
+						<th>Category2</th>
 						<th>Depth</th>
-						<th>Default Cat</th>
+						<th>Default</th>
 						<th>Delete</th>
 					</tr>
 				</thead>
@@ -39,41 +40,46 @@ HTML;
 //---
 $uuux = '';
 //---
-// ALTER TABLE `categories` ADD `depth` INT(2) NULL DEFAULT NULL AFTER `display`;
-// ALTER TABLE categories DROP depth;
-//---
-$qq = execute_query('select id, category, display, depth, def from categories;');
+$qq = execute_query('select id, category, category2, campaign, depth, def from categories;');
 //---
 $numb = 0;
 //---
 foreach ( $qq AS $Key => $table ) {
 	$numb += 1;
 	$id 		= $table['id'];
-	$category 	= $table['category'];
-	$display 	= $table['display'];
+	$category1 	= $table['category'];
+	$category2 	= $table['category2'];
+	$campaign 	= $table['campaign'];
 	$depth		= $table['depth'];
     //---
 	$checked    = ($table['def'] == 1) ? 'checked' : '';
     //---
 	echo <<<HTML
 	<tr>
-		<th data-content="#">$numb</th>
-		<td data-content="Category">
-			<input size='25' name='cats[]$numb' value='$category'/>
-			<input name='id[]$numb' value='$id' hidden/>
-		</td>
-		<td data-content="Campaign">
-			<input size='25' name='dis[]$numb' value='$display'/>
-		</td>
-		<td data-content="Depth">
-			<input class='w-auto' type='number' name='dep[]$numb' value='$depth' min='0' max='10'/>
-		</td>
-		<td data-content="Default Cat">
-			<input type='radio' class='form-check-input' id='default_cat' name='default_cat' value='$category' $checked>
-		</td>
-		<td data-content="Delete">
-			<input type='checkbox' name='del[]$numb' value='$id'/> <label>delete</label>
-		</td>
+		<div class='form-group'>
+			<th data-content="#" style="width: 4%;">
+				$numb
+				<input name='id[]$numb' value='$id' hidden/>
+			</th>
+			<td data-content="Campaign">
+				<input class="form-control" size='10' name='camp[]$numb' value='$campaign'/>
+			</td>
+			<td data-content="Category1">
+				<input class="form-control" size='25' name='cats[]$numb' value='$category1'/>
+			</td>
+			<td data-content="Category2">
+				<input class="form-control" size='25' name='cat2[]$numb' value='$category2'/>
+			</td>
+			<td data-content="Depth">
+				<input class="form-control w-auto" type='number' name='dep[]$numb' value='$depth' min='0' max='10'/>
+			</td>
+			<td data-content="Default Cat">
+				<input class="form-check-input" type='radio' id='default_cat' name='default_cat' value='$id' $checked>
+			</td>
+			<td data-content="Delete">
+				<input type='checkbox' name='del[]$numb' value='$id'/> <label>delete</label>
+			</td>
+		</div>
 	</tr>
 	HTML;
 };
@@ -92,9 +98,10 @@ function add_row() {
 	var ii = $('#tab_logic >tr').length + 1;
 	var e = "<tr>";
 	e = e + "<td>" + ii + "</td>";
-	e = e + "<td><input name='cats[]" + ii + "' placeholder='catname'/></td>";
-	e = e + "<td><input name='dis[]" + ii + "' placeholder='display'/></td>";
-	e = e + "<td><input name='dep[]" + ii + "' value='0'/></td>";
+	e = e + "<td><input class='form-control' name='camp[]" + ii + "' placeholder='Campaign'/></td>";
+	e = e + "<td><input class='form-control' name='cats[]" + ii + "' placeholder='Category1'/></td>";
+	e = e + "<td><input class='form-control' name='cat2[]" + ii + "' placeholder='Category2'/></td>";
+	e = e + "<td><input class='form-control w-auto' type='number' name='dep[]" + ii + "' value='0' min='0' max='10'/></td>";
 	e = e + "<td></td>";
 	e = e + "<td></td>";
 	e = e + "</tr>";

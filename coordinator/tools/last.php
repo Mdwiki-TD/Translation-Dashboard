@@ -68,7 +68,7 @@ $recent_table = <<<HTML
                 <th>#</th>
                 <th>User</th>
                 $mail_th
-                <th>Lang</th>
+                <!-- <th>Lang</th> -->
                 <th>Title</th>
                 <th>Campaign</th>
                 <!-- <th>Words</th> -->
@@ -149,9 +149,9 @@ function make_td($tabg, $nnnn)
                 </a> ($talk)
             </td>
             $mail_icon_td
-            <td data-content='Lang'>
+            <!-- <td data-content='Lang'>
                 <a href='leaderboard.php?langcode=$llang'>$lang2</a>
-            </td>
+            </td> -->
             <td style='max-width:150px;' data-content='Title'>
                 $nana
             </td>
@@ -161,7 +161,7 @@ function make_td($tabg, $nnnn)
             </td>
             <!-- <td>$worde</td> -->
             <td style='max-width:150px;' data-content='Translated'>
-                $targe33
+                <a href='leaderboard.php?langcode=$llang'>$lang2</a> : $targe33
             </td>
             <td data-content='Publication date'>
                 $pupdate
@@ -250,7 +250,7 @@ echo $recent_table;
     $(document).ready(function() {
         var t = $('#last_tabel').DataTable({
             order: [
-                [7, 'desc']
+                [6, 'desc']
             ],
             paging: false,
             // lengthMenu: [[100, 150, 200], [250, 150, 200]],

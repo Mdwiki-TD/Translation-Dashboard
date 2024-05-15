@@ -86,7 +86,7 @@ $live_pages = array();
 //---
 if (true) {
 	$q_live = <<<SQL
-		select DISTINCT 
+		select DISTINCT
 		p1.user, (select count(target) from pages p2 where p2.user = p1.user and p2.target != '') as live
 		from pages p1
 		group by p1.user;
@@ -107,7 +107,7 @@ foreach ( execute_query("select user_id, username, email, wiki, user_group from 
 };
 //---
 $qu1 = <<<SQL
-	select DISTINCT user from pages 
+	select DISTINCT user from pages
 	WHERE NOT EXISTS (SELECT 1 FROM users WHERE user = username)
 SQL;
 //---
@@ -161,7 +161,7 @@ foreach ( $sorted_array as $user_name => $d) {
 			<input name='id[]$numb' value='$id' hidden/>
 		</td>
 		<td data-order='$email' data-search='$email' data-content='Email'>
-			<input size='25' name='email[]$numb' value='$email'/>
+			<input class='form-control' size='25' name='email[]$numb' value='$email'/>
 		</td>
 		<td data-content=''>
 			$mail_icon
@@ -170,7 +170,7 @@ foreach ( $sorted_array as $user_name => $d) {
 			<select name='project[]$numb' class='form-select options'>$project_line</select>
 		</td>
 		<td data-order='$wiki' data-search='$wiki2' data-content='Wiki'>
-			<input size='4' name='wiki[]$numb' value='$wiki'/>
+			<input class='form-control' size='4' name='wiki[]$numb' value='$wiki'/>
 		</td>
 		<td data-order='$live' data-content='Live'>
 			<span>$live</span>
@@ -203,19 +203,19 @@ foreach ( $sorted_array as $user_name => $d) {
 	var i = 1;
 	function add_row() {
 		var ii = $('#tab_ma >tr').length + 1;
-		
+
 		var options = $('.options').html();
 		// find if any element has attr selected and unselect it
 		options = options.replace(/selected/g, '');
 		var e = "<tr>";
 		e = e + "<td>" + ii + "</td>";
-		e = e + "<td><input name='username[]" + ii + "'/></td>";
-		e = e + "<td><input size='25' name='email[]" + ii + "'/></td>";
-		e = e + "<td></td>";
+		e = e + "<td><input class='form-control' name='username[]" + ii + "'/></td>";
+		e = e + "<td><input class='form-control' size='25' name='email[]" + ii + "'/></td>";
+		e = e + "<td>-</td>";
 		e = e + "<td><select name='project[]" + ii + "' class='form-select'> " + options + "</select></td>";
-		e = e + "<td><input size='4' name='wiki[]" + ii + "'/></td>";
+		e = e + "<td><input class='form-control' size='4' name='wiki[]" + ii + "'/></td>";
 		e = e + "<td>0</td>";
-		e = e + "<td></td>";
+		e = e + "<td>-</td>";
 		e = e + "</tr>";
 
 		$('#tab_ma').append(e);

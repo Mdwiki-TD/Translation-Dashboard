@@ -128,7 +128,7 @@ function get_categorymembers( $cat ) {
 		$resa = get_url_with_params( $params );
         //---
 		/*
-		if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost') { 
+		if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost') {
 			//---
 			$resa = get_url_with_params( $params );
 			//---
@@ -228,7 +228,7 @@ function get_mdwiki_cat_members( $cat, $use_cache=false, $depth=0 ) {
     //---
 };
 
-function get_cat_exists_and_missing($cat, $depth, $code, $use_cache = false)
+function get_cat_exists_and_missing($cat, $camp, $depth, $code, $use_cache = false)
 {
     $members_to = get_mdwiki_cat_members($cat, $use_cache = $use_cache, $depth = $depth);
     test_print("<br>members_to size:" . count($members_to));
