@@ -71,7 +71,7 @@ function add_row() {
 	var ii = $('#g_tab >tr').length + 1;
 	var e = "<tr>";
 	e = e + "<td><b>" + ii + "</b><input name='g_id[]' value='0' hidden/></td>";
-	e = e + "<td><input class='form-control' name='g_title[]" + ii + "'/></td>";
+	e = e + "<td><input class='form-control' name='g_title[]" + ii + "' value=''/></td>";
 	e = e + "<td>-</td>";
 	e = e + "</tr>";
 	$('#g_tab').append(e);

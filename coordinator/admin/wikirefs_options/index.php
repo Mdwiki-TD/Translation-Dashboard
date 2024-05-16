@@ -47,12 +47,12 @@ $sato = <<<HTML
 HTML;
 //---
 /*
-$ul = '<lu>';
+$ul = '<ul>';
 foreach ($_POST as $key => $values) {
     $vv = var_export($values, $return = true);
     $ul .= "<li>$key:$vv</li>";
 };
-$ul .= "</lu>";
+$ul .= "</ul>";
 echo $ul;*/
 //---
 function make_td($lang, $tabg, $numb) {

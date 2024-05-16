@@ -30,11 +30,7 @@ if ($allow_whole_translate == '0') $tra_type = 'lead';
 $cat_ch = htmlspecialchars($cat, ENT_QUOTES);
 $camp_ch = htmlspecialchars($camp, ENT_QUOTES);
 //---
-function print_form_start1() {
-    //---
-    global $allow_whole_translate ;
-    global $lang_to_code, $catinput_list, $campaign_input_list;
-    global $cat_ch, $camp_ch, $code_lang_name, $code, $tra_type;
+function print_form_start1($allow_whole_translate, $lang_to_code, $catinput_list, $campaign_input_list, $cat_ch, $camp_ch, $code_lang_name, $code, $tra_type) {
     //---
     $lead_checked = "checked";
     $all_checked = "";
@@ -65,7 +61,7 @@ function print_form_start1() {
 	HTML;
 	//---
     $langse = <<<HTML
-        <select
+        <select aria-label="Language code"
             class="selectpicker"
             id='code'
             name='code'
@@ -177,7 +173,7 @@ function print_form_start1() {
 //---
 $img_src = '//upload.wikimedia.org/wikipedia/commons/thumb/5/58/Wiki_Project_Med_Foundation_logo.svg/400px-Wiki_Project_Med_Foundation_logo.svg.png';
 //---
-$form_start1  = print_form_start1();
+$form_start1  = print_form_start1($allow_whole_translate, $lang_to_code, $catinput_list, $campaign_input_list, $cat_ch, $camp_ch, $code_lang_name, $code, $tra_type);
 //---
 $intro = <<<HTML
     This tool looks for Wikidata items that have a page on mdwiki.org but not in another wikipedia language <a href='?cat=RTT&depth=1&code=ceb&doit=Do+it'>(Example)</a>. <a href='//mdwiki.org/wiki/WikiProjectMed:Translation_task_force'><b>How to use.</b></a>

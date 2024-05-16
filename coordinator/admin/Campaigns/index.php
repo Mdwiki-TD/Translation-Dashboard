@@ -98,9 +98,9 @@ function add_row() {
 	var ii = $('#tab_logic >tr').length + 1;
 	var e = "<tr>";
 	e = e + "<td>" + ii + "</td>";
-	e = e + "<td><input class='form-control' name='camp[]" + ii + "' placeholder='Campaign'/></td>";
-	e = e + "<td><input class='form-control' name='cats[]" + ii + "' placeholder='Category1'/></td>";
-	e = e + "<td><input class='form-control' name='cat2[]" + ii + "' placeholder='Category2'/></td>";
+	e = e + "<td><input class='form-control' name='camp[]" + ii + "' placeholder='Campaign' value=''/></td>";
+	e = e + "<td><input class='form-control' name='cats[]" + ii + "' placeholder='Category1' value=''/></td>";
+	e = e + "<td><input class='form-control' name='cat2[]" + ii + "' placeholder='Category2' value=''/></td>";
 	e = e + "<td><input class='form-control w-auto' type='number' name='dep[]" + ii + "' value='0' min='0' max='10'/></td>";
 	e = e + "<td></td>";
 	e = e + "<td></td>";

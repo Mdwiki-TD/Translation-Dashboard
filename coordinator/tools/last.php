@@ -34,7 +34,7 @@ function filter_recent($lang)
     };
     //---
     $langse = <<<HTML
-        <select
+        <select aria-label="Language code"
             class="selectpicker"
             id='lang'
             name='lang'

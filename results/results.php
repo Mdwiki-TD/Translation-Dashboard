@@ -61,7 +61,7 @@ if ($doit) {
     //---
     test_print("items_missing:" . count($items_missing) . "<br>");
     //---
-    if ($cat2 != '') {
+    if ($cat2 != '' && $cat2 != $cat) {
         $cat2_members = get_mdwiki_cat_members($cat2, $use_cache = true, $depth = $depth, $camp = $camp);
         // $items_missing2 = array();
         // $items_missing2 = $items_missing titles that is in $cat2_members

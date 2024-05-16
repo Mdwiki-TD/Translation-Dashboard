@@ -7,7 +7,7 @@ if (user_in_coord == false) {
 //---
 ?>
 </div>
-<script> 
+<script>
     $('#mainnav').hide();
     $('#maindiv').hide();
 </script>
@@ -46,7 +46,7 @@ $views  = get_views($target, $lang, $date);
 $sugust = '';
 //---
 if ($title != '') {
-    $items = get_cat_exists_and_missing( 'RTT', '1', $lang, $use_cache=true );
+    $items = get_cat_exists_and_missing( 'RTT', '', '1', $lang, $use_cache=true );
     //---
     $items_missing = $items['missing'] ?? array();
     //---
@@ -61,7 +61,7 @@ if ($title != '') {
     //---
     foreach ( $items_missing AS $t ) {
         $t = str_replace ( '_' , ' ' , $t );
-        $kry = $enwiki_pageviews_table[$t] ?? 0; 
+        $kry = $enwiki_pageviews_table[$t] ?? 0;
         $dd[$t] = $kry;
     };
     //---
@@ -76,11 +76,11 @@ if ($title != '') {
     };
 };
 //---
-$here_params = array( 
-    // 'username' => rawurlencode($user), 
-    'code' => $lang, 
-    'cat' => 'RTT', 
-    'type' => 'lead', 
+$here_params = array(
+    // 'username' => rawurlencode($user),
+    'code' => $lang,
+    'cat' => 'RTT',
+    'type' => 'lead',
     'title' => $sugust
     );
 //---
@@ -215,7 +215,7 @@ $mag = <<<HTML
     HTML;
 //---
 // $post_php = "mail.php";
-// if ($_REQUEST['t'] == '1') 
+// if ($_REQUEST['t'] == '1')
 $post_php = "/gmail1/index.php";
 //---
 print "
