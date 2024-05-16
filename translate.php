@@ -41,17 +41,17 @@ if (isset($_GET['form'])) {
 }
 
 // Function to insert page into the database
-function insertPage($title_o, $word, $tr_type, $cat, $coden, $useree, $test) {
+function insertPage($title_o, $word, $tr_type, $cat, $camp, $coden, $useree, $test) {
     $useree  = escape_string($useree);
     $cat     = escape_string($cat);
     $title_o = escape_string($title_o);
-    
+
     $quae_new = <<<SQL
         INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target, add_date)
         SELECT ?, ?, ?, ?, ?, now(), ?, '', '', now()
         WHERE NOT EXISTS
             (SELECT 1
-            FROM pages 
+            FROM pages
             WHERE title = ?
             AND lang = ?
             AND user = ?
@@ -76,35 +76,37 @@ if ($title_o != '' && $coden != '' && $useree != '') {
     $title_o = trim($title_o);
     $coden   = trim($coden);
     $useree  = trim($useree);
-    
+
     $test    = $_GET['test'] ?? '';
     $cat     = $_GET['cat'] ?? '';
+    $camp    = $_GET['camp'] ?? '';
     $fixref  = $_GET['fixref'] ?? '';
     $tr_type = $_GET['type'] ?? 'lead';
-    
+
     $useree  = rawurldecode($useree);
     $cat     = rawurldecode($cat);
+    $camp    = rawurldecode($camp);
     $title_o = rawurldecode($title_o);
-    
-    $word = $Words_table[$title_o] ?? 0; 
-    
-    if ($tr_type == 'all') { 
+
+    $word = $Words_table[$title_o] ?? 0;
+
+    if ($tr_type == 'all') {
         $word = $All_Words_table[$title_o] ?? 0;
     }
-    insertPage($title_o, $word, $tr_type, $cat, $coden, $useree, $test);
+    insertPage($title_o, $word, $tr_type, $cat, $camp, $coden, $useree, $test);
     $output = startTranslatePhp($title_o, $tr_type);
-    
+
     if (trim($output) == 'true' || isset($_GET['go'])) {
         $url = make_translation_url($title_o, $coden, $tr_type);
-        
+
         $title_o2 = rawurlencode(str_replace(' ', '_', $title_o));
-    
+
         if ($coden == 'en') {
             $page = $tr_type == 'all' ? "User:Mr. Ibrahem/$title_o2/full" : "User:Mr. Ibrahem/$title_o2";
             //---
             $url = "//en.wikipedia.org/w/index.php?title=$page&action=edit";
         }
-        
+
         if ($test != "" && (!isset($_GET['go']))) {
             echo <<<HTML
                 $nana
@@ -112,7 +114,7 @@ if ($title_o != '' && $coden != '' && $useree != '') {
                 start_tr<br>
                 $url
             HTML;
-            
+
         } else {
             echo <<<HTML
                 <script type='text/javascript'>
@@ -123,7 +125,7 @@ if ($title_o != '' && $coden != '' && $useree != '') {
                 </noscript>
             HTML;
         }
-    
+
     } elseif (trim($output) == 'notext') {
         $li = make_mdwiki_title($title_o);
         echo <<<HTML

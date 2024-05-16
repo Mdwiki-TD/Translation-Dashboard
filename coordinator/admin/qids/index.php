@@ -43,7 +43,7 @@ echo <<<HTML
 				<a class='btn btn-outline-secondary' href="coordinator.php?ty=qids&dis=empty">Only Empty</a>
 			</div>
 			<div class='col-md-3'>
-				<a class='btn btn-outline-secondary' href="coordinator.php?ty=qids&dis=all">All</a>				
+				<a class='btn btn-outline-secondary' href="coordinator.php?ty=qids&dis=all">All</a>
 			</div>
 			<div class='col-md-3'>
 				<!-- only display empty qids -->
@@ -71,14 +71,14 @@ $quaries = [
 	'empty' => "select id, title, qid from qids where qid = '';",
 	'all' => "select id, title, qid from qids;",
 	'duplicate' => <<<SQL
-		SELECT 
-		A.id AS id, A.title AS title, A.qid AS qid, 
+		SELECT
+		A.id AS id, A.title AS title, A.qid AS qid,
 		B.id AS id2, B.title AS title2, B.qid AS qid2
-	FROM 
+	FROM
 		qids A
-	JOIN 
+	JOIN
 		qids B ON A.qid = B.qid
-	WHERE 
+	WHERE
 		A.qid != '' AND A.title != B.title AND A.id != B.id;
 	SQL
 ];
@@ -168,8 +168,8 @@ function add_row() {
 	var ii = $('#tab_new >tr').length + 1;
 	var e = "<tr>";
 	e = e + "<td>" + ii + "</td>";
-	e = e + "<td><input name='add_qids[]" + ii + "' placeholder='title" + ii + "'/></td>";
-	e = e + "<td><input name='qid[]" + ii + "' placeholder='qid" + ii + "'/></td>";
+	e = e + "<td><input class='form-control' name='add_qids[]" + ii + "' placeholder='title" + ii + "'/></td>";
+	e = e + "<td><input class='form-control' name='qid[]" + ii + "' placeholder='qid" + ii + "'/></td>";
 	e = e + "</tr>";
 	$('#tab_new').append(e);
 	i++;

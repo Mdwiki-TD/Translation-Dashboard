@@ -74,8 +74,8 @@ foreach ( $qq AS $Key => $table ) {
 		var ii = $('#coo_tab >tr').length + 1;
 		var e = "<tr>";
 		e = e + "<td>" + ii + "</td>";
-		e = e + "<td><input name='user[]" + ii + "'/></td>";
-		e = e + "<td></td>";
+		e = e + "<td><input class='form-control' name='user[]" + ii + "'/></td>";
+		e = e + "<td>-</td>";
 		e = e + "</tr>";
 		$('#coo_tab').append(e);
 		i++;

@@ -13,6 +13,7 @@ $tra_type  = $_REQUEST['type'] ?? '';
 //---
 $req  = load_request();
 $code = $req['code'];
+$camp  = $req['camp'];
 $cat  = $req['cat'];
 $code_lang_name = $req['code_lang_name'];
 //---
@@ -20,7 +21,13 @@ $translation_button = $settings['translation_button_in_progress_table']['value']
 //---
 if (global_username != 'James Heilman' && global_username != 'Mr. Ibrahem') $translation_button = '0';
 //---
-function make_table( $items, $cod, $cat, $inprocess=false ) {
+$depth  = $_REQUEST['depth'] ?? 1;
+$depth  = $depth * 1 ;
+//---
+// $depth  = $catinput_depth[$cat] ?? 1;
+$depth  = $camp_input_depth[$camp] ?? 1;
+//---
+function make_table( $items, $cod, $cat, $camp, $inprocess=false ) {
     global $tra_type, $translation_button;
     //---
     // global $Words_table, $All_Words_table, $Lead_Refs_table, $All_Refs_table;
@@ -32,7 +39,7 @@ function make_table( $items, $cod, $cat, $inprocess=false ) {
     //---
     // $result = make_results_table($items, $cod, $cat, $words_tab, $ref_tab, $Assessments_table, $tra_type, $enwiki_pageviews_table, $translation_button, $sql_qids, $full_translates, $inprocess=$inprocess );
     //---
-    $result = make_results_table($items, $cod, $cat, $tra_type, $translation_button, $inprocess=$inprocess );
+    $result = make_results_table($items, $cod, $cat, $camp, $tra_type, $translation_button, $inprocess=$inprocess );
     //---
     return $result;
     }
@@ -43,15 +50,28 @@ echo "<div class='container'>";
 //---
 if ($doit) {
     //---
-    $items = get_cat_exists_and_missing($cat, $depth, $code) ; # mdwiki pages in the cat
+    $items = get_cat_exists_and_missing($cat, $camp, $depth, $code) ; # mdwiki pages in the cat
     //---
     if ($items == null ) $items = array() ;
     //---
     $len_of_exists_pages = $items['len_of_exists'];
     $items_missing       = $items['missing'];
     //---
-    test_print("len_of_exists_pages: $len_of_exists_pages<br>");
+    $cat2 = $camps_cat2[$camp] ?? '';
+    //---
     test_print("items_missing:" . count($items_missing) . "<br>");
+    //---
+    if ($cat2 != '' && $cat2 != $cat) {
+        $cat2_members = get_mdwiki_cat_members($cat2, $use_cache = true, $depth = $depth, $camp = $camp);
+        // $items_missing2 = array();
+        // $items_missing2 = $items_missing titles that is in $cat2_members
+        $items_missing2 = array_intersect($items_missing, $cat2_members);
+
+        test_print("items_missing2:" . count($items_missing2) . "<br>");
+        $items_missing = $items_missing2;
+    }
+    //---
+    test_print("len_of_exists_pages: $len_of_exists_pages<br>");
     //---
     $missing = array();
     foreach ( $items_missing as $key => $cca ) if (!in_array($cca, $missing)) $missing[] = $cca;
@@ -84,7 +104,7 @@ if ($doit) {
         echo "code_lang_name:$code_lang_name<br>";
         //---
     };
-    $table = make_table($missing, $code, $cat) ;
+    $table = make_table($missing, $code, $cat, $camp) ;
     //---
     echo <<<HTML
     <br>
@@ -94,14 +114,14 @@ if ($doit) {
             <!-- <h5>$ix</h5> -->
         </div>
         <div class='card-body1 card2'>
-            $table 
+            $table
         </div>
     </div>
     HTML;
     //---
     if ($len_in_process > 0) {
         //---
-        $table_2 = make_table($in_process, $code, $cat, $inprocess=true) ;
+        $table_2 = make_table($in_process, $code, $cat, $camp, $inprocess=true) ;
         //---
         echo <<<HTML
         <br>

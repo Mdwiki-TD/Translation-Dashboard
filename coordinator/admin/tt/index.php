@@ -2,7 +2,7 @@
 //---
 /*
 
-INSERT INTO translate_type (tt_title, tt_lead, tt_full) SELECT DISTINCT q.title, 1, 0 from qids q 
+INSERT INTO translate_type (tt_title, tt_lead, tt_full) SELECT DISTINCT q.title, 1, 0 from qids q
 	WHERE q.title not in (SELECT tt_title FROM translate_type)
 
 */
@@ -202,15 +202,15 @@ HTML;
 		var e = "<tr>";
 		e = e + "<td>" + ii + "</td>";
 		e = e + "<input type='hidden' name='add[]" + ii + "'/>";
-		e = e + "<td><input name='title[]" + ii + "'/></td>";
+		e = e + "<td><input class='form-control' name='title[]" + ii + "'/></td>";
 
 		e = e + "<td data-content='Lead'><div class='form-check form-switch'>";
-		e = e + "<input type='text' name='lead[]" + ii + "' value='0'/>";
+		e = e + "<input class='form-control' type='text' name='lead[]" + ii + "' value='0'/>";
 		// e = e + "<input size='2' class='form-check-input' type='checkbox' name='lead[]" + ii + "' value='1'>";
 		e = e + "</div></td>";
 
 		e = e + "<td data-content='Full'><div class='form-check form-switch'>";
-		e = e + "<input type='text' name='full[]" + ii + "' value='0'/>";
+		e = e + "<input class='form-control' type='text' name='full[]" + ii + "' value='0'/>";
 		// e = e + "<input size='2' class='form-check-input' type='checkbox' name='full[]" + ii + "' value='1'>";
 		e = e + "</div></td>";
 

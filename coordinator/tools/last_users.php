@@ -8,7 +8,6 @@ $recent_table = <<<HTML
             <tr>
                 <th>#</th>
                 <th>User</th>
-                <th>Lang</th>
                 <th>Title</th>
                 <th>Translated</th>
                 <th>Publication date</th>
@@ -77,14 +76,11 @@ function make_td($tabg, $nnnn)
                     $user_name
                 </a> ($talk)
             </td>
-            <td data-content='Lang'>
-                <a href='leaderboard.php?langcode=$llang'>$lang2</a>
-            </td>
             <td style='max-width:150px;' data-content='Title'>
                 $nana
             </td>
             <td style='max-width:150px;' data-content='Translated'>
-                $targe33
+                <a href='leaderboard.php?langcode=$llang'>$lang2</a> : $targe33
             </td>
             <td data-content='Publication date'>
                 $pupdate
@@ -165,7 +161,7 @@ echo $recent_table;
     $(document).ready(function() {
         var t = $('#last_tabel').DataTable({
             order: [
-                [7, 'desc']
+                [4, 'desc']
             ],
             // paging: false,
             lengthMenu: [

@@ -15,30 +15,35 @@ $default_cat = $_POST['default_cat'] ?? '';
 //---
 if (isset($_POST['cats'])) {
 	for($i = 0; $i < count($_POST['cats']); $i++ ){
-		$cats= $_POST['cats'][$i];
-		$dis = $_POST['dis'][$i];
+		$cat1= $_POST['cats'][$i];
+		$cat2= $_POST['cat2'][$i];
+		$camp = $_POST['camp'][$i];
 		$ido = $_POST['id'][$i];
 		$ido = (isset($ido)) ? $ido : '';
 		$dep = $_POST['dep'][$i];
 		//---
 		// $def = $_POST['def'][$i];
-		$def = ($default_cat == $cats) ? 1 : 0;
+		$def = ($default_cat == $ido) ? 1 : 0;
 		//---
-		$qua = "INSERT INTO categories (category, display, depth, def) SELECT ?, ?, ?, ?
-		WHERE NOT EXISTS (SELECT 1 FROM categories WHERE category = ?)";
-		$params = [$cats, $dis, $dep, $def, $cats];
+		// $qua = "INSERT INTO categories (category, campaign, depth, def) SELECT ?, ?, ?, ?
+		// WHERE NOT EXISTS (SELECT 1 FROM categories WHERE category = ?)";
+		// $params = [$cat1, $camp, $dep, $def, $cat1];
+		//---
+		$qua = "INSERT INTO categories (category, campaign, depth, def, category2) SELECT ?, ?, ?, ?, ?";
+		$params = [$cat1, $camp, $dep, $def, $cat2];
 		//---
 		if ($ido != '') {
-			$qua = "UPDATE categories 
-			SET 
-				display = ?,
+			$qua = "UPDATE categories
+			SET
+				campaign = ?,
 				category = ?,
+				category2 = ?,
 				depth = ?,
 				def = ?
-			WHERE 
+			WHERE
 				id = ?
 			";
-			$params = [$dis, $cats, $dep, $def, $ido];
+			$params = [$camp, $cat1, $cat2, $dep, $def, $ido];
 		};
 		//---
 		if (isset($_REQUEST['test'])) {
@@ -49,37 +54,6 @@ if (isset($_POST['cats'])) {
 	};
 	if ($_REQUEST['test'] == 'dd') {
 		exit;
-	};
-};
-//---
-if (isset($_POST['cat'])) {
-	for($i = 0; $i < count($_POST['cat']); $i++ ){
-		$cat = $_POST['cat'][$i];
-		$dis = $_POST['dis'][$i];
-		$def = $_POST['def'][$i];
-		$ido = $_POST['id'][$i];
-		$ido = (isset($ido)) ? $ido : '';
-		$dep = $_POST['dep'][$i];
-		//---
-		$qua = "INSERT INTO categories (category, display, depth, def) 
-			SELECT ?, ?, ?, ?
-		WHERE NOT EXISTS (SELECT 1 FROM categories WHERE category = ?)";
-		//---
-		$params = [$cat, $dis, $dep, $def, $cat];
-		//---
-		if ($ido != '') {
-			$qua = "UPDATE categories 
-			SET 
-				display = ?,
-				category = ?,
-				depth = ?,
-				def = ?
-			WHERE 
-				id = ?
-			";
-			$params = [$dis, $cat, $dep, $def, $ido];
-		};
-		execute_query($qua, $params);
 	};
 };
 //---

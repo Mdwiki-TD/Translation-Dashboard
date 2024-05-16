@@ -33,7 +33,7 @@ function filter_recent($lang) {
     };
     //---
     $langse = <<<HTML
-        <select 
+        <select aria-label="Language code"
             class="selectpicker"
             id='lang'
             name='lang'
@@ -153,7 +153,7 @@ function get_recent_sql($lang) {
         return strtotime($b['add_date']) - strtotime($a['add_date']);
     });
     //---
-    return $dd;    
+    return $dd;
 }
 //---
 $qsl_results = get_recent_sql($lang);
