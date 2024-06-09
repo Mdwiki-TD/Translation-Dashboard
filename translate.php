@@ -5,11 +5,16 @@ require 'tables.php';
 include_once 'functions.php';
 include_once 'enwiki/td1.php';
 include_once 'actions/html.php';
+include_once 'sql_tables.php';
 
 // Define root path
 $pathParts = explode('public_html', __FILE__);
 // the root path is the first part of the split file path
 $ROOT_PATH = $pathParts[0];
+
+$fix_ref_in_text = $settings['fix_ref_in_text']['value'] ?? '0';
+
+$fix_ref_in_text = ($fix_ref_in_text == "1") ? true : false;
 
 // Get parameters from the URL
 $coden = strtolower($_GET['code']);
@@ -41,7 +46,8 @@ if (isset($_GET['form'])) {
 }
 
 // Function to insert page into the database
-function insertPage($title_o, $word, $tr_type, $cat, $camp, $coden, $useree, $test) {
+function insertPage($title_o, $word, $tr_type, $cat, $camp, $coden, $useree, $test)
+{
     $useree  = escape_string($useree);
     $cat     = escape_string($cat);
     $title_o = escape_string($title_o);
@@ -62,7 +68,7 @@ function insertPage($title_o, $word, $tr_type, $cat, $camp, $coden, $useree, $te
     if ($test != '') {
         echo "<br>$quae_new<br>";
     }
-    execute_query($quae_new, $params=$params);
+    execute_query($quae_new, $params = $params);
 }
 
 // Display login button if user is not logged in
@@ -94,7 +100,7 @@ if ($title_o != '' && $coden != '' && $useree != '') {
         $word = $All_Words_table[$title_o] ?? 0;
     }
     insertPage($title_o, $word, $tr_type, $cat, $camp, $coden, $useree, $test);
-    $output = startTranslatePhp($title_o, $tr_type);
+    $output = startTranslatePhp($title_o, $tr_type, false, $do_fix_refs = $fix_ref_in_text);
 
     if (trim($output) == 'true' || isset($_GET['go'])) {
         $url = make_translation_url($title_o, $coden, $tr_type);
@@ -114,7 +120,6 @@ if ($title_o != '' && $coden != '' && $useree != '') {
                 start_tr<br>
                 $url
             HTML;
-
         } else {
             echo <<<HTML
                 <script type='text/javascript'>
@@ -125,7 +130,6 @@ if ($title_o != '' && $coden != '' && $useree != '') {
                 </noscript>
             HTML;
         }
-
     } elseif (trim($output) == 'notext') {
         $li = make_mdwiki_title($title_o);
         echo <<<HTML
