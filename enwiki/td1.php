@@ -10,11 +10,12 @@ class WikiTranslator
     private $title;
     private $traType;
 
-    public function __construct($title, $traType)
+    public function __construct($title, $traType, $do_fix_refs=true)
     {
         $this->title = $title;
         $this->title = str_replace(' ', '_', $this->title);
         $this->traType = $traType;
+        $this->do_fix_refs = $do_fix_refs;
         $this->wholeArticle = ($traType == 'all') ? true : false;
     }
 
@@ -22,9 +23,9 @@ class WikiTranslator
     {
         $first = '';
         $params2 = array(
-            "action" => "parse", 
-            "format" => "json", 
-            "page" => $this->title, 
+            "action" => "parse",
+            "format" => "json",
+            "page" => $this->title,
             "prop" => "wikitext"
         );
         $json2 = get_url_with_params($params2);
@@ -35,10 +36,10 @@ class WikiTranslator
             $first = $allText;
         } else {
             $params = array(
-                "action" => "parse", 
-                "format" => "json", 
-                "page" => $this->title, 
-                "section" => "0", 
+                "action" => "parse",
+                "format" => "json",
+                "page" => $this->title,
+                "section" => "0",
                 "prop" => "wikitext"
             );
             $json1 = get_url_with_params($params);
@@ -58,15 +59,19 @@ class WikiTranslator
         return [$text, $allText];
     }
 
-    private function parseText()
+    public function parseText()
     {
         $txt = $this->getTextFromMdWiki();
         $text = $txt[0];
         $allText = $txt[1];
         $newText = $text;
 
-        $newText = fix_ref($newText, $allText);
+        if ($this->do_fix_refs) {
+            $newText = fix_ref($newText, $allText);
+        };
+
         $newText = text_changes_work($newText);
+
         $newText = str_replace('[[Category:', '[[:Category:', $newText);
 
         if ($newText === '') {
@@ -77,16 +82,8 @@ class WikiTranslator
         return $newText;
     }
 
-    public function startTranslatePhp()
+    private function PostToEnwiki($newText)
     {
-        /*
-        1. get text from mdwiki.org
-        2. fix ref
-        3. fix text
-        4. put to enwiki
-        5. return result
-        */
-        $newText = $this->parseText();
         $suus = 'from https://mdwiki.org/wiki/' . str_replace(' ', '_', $this->title);
         $title2 = 'User:Mr. Ibrahem/' . $this->title;
 
@@ -103,13 +100,33 @@ class WikiTranslator
 
         return $success;
     }
+    public function startTranslate()
+    {
+        /*
+        1. get text from mdwiki.org
+        2. fix ref
+        3. fix text
+        4. put to enwiki
+        5. return result
+        */
+        $newText = $this->parseText();
+
+        $success = $this->PostToEnwiki($newText);
+
+        return $success;
+    }
 }
 
-function startTranslatePhp($title, $traType) {
-    
-    $wikiTranslator = new WikiTranslator($title, $traType);
+function startTranslatePhp($title, $traType, $return_text, $do_fix_refs=true)
+{
 
-    $result = $wikiTranslator->startTranslatePhp();
-    
+    $wikiTranslator = new WikiTranslator($title, $traType, $do_fix_refs=$do_fix_refs);
+
+    if ($return_text) {
+        return $wikiTranslator->parseText();
+    }
+
+    $result = $wikiTranslator->startTranslate();
+
     return $result;
 }

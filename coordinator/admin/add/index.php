@@ -12,7 +12,7 @@ if (isset($_REQUEST['test'])) {
 };
 //---
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    require 'post.php';
+	require 'post.php';
 }
 //---
 
@@ -69,7 +69,7 @@ $table = "";
 foreach (range(1, 1) as $numb) {
 	//---
 	$cats_line = <<<HTML
-		<select class='form-select catsoptions' name='cat[]$numb' data-bs-theme='auto'>
+		<select class='form-select catsoptions' name='cat[]$numb' data-bs-theme="auto">
 			$cats
 		</select>
 	HTML;
@@ -116,9 +116,9 @@ HTML;
 //---
 echo $table;
 ?>
-	<button type="submit" class="btn btn-outline-primary mb-10">Save</button>
-	</form>
-	<span role='button' id="add_row" class="btn btn-outline-primary" style="position: absolute; right: 130px;" onclick='add_row()'>New row</span>
+<button type="submit" class="btn btn-outline-primary mb-10">Save</button>
+</form>
+<span role='button' id="add_row" class="btn btn-outline-primary" style="position: absolute; right: 130px;" onclick='add_row()'>New row</span>
 </div>
 
 <script type="text/javascript">

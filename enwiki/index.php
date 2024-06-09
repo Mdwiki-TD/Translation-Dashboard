@@ -59,20 +59,25 @@ if ($title_o != '' && $coden != '') {
     // ---
     $wholearticle = $tr_type == 'all' ? true : false;
     //---
-    if ($test == 00) {
-        startTranslatePhp($title_o, $tr_type);
-    } else {
-        $newtext = prase_text($title_o, $wholearticle, $text_fix=$text_fix, $refs_fix=$refs_fix);
-        // ---
-        echo "<pre>" . htmlentities($newtext). "</pre>";
-        // ---
-    }
+    echo "<br>startTranslatePhp:";
+    //---
+    $newtext = startTranslatePhp($title_o, $tr_type, true, $do_fix_refs=$refs_fix);
+    //---
+    $new_text = htmlentities($newtext);
+    //---
+    // echo "<pre>" . htmlentities($newtext). "</pre>";
+    //---
+    echo <<<HTML
+        new text:<br>
+        <textarea class="form-control" cols="20" rows="25">$new_text
+        </textarea>
+    HTML;
 };
 
 echo '</div>';
 
 
 include_once root_dir . '/foter.php';
-    
+
 
 ?>

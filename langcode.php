@@ -1,5 +1,20 @@
 <?PHP
 //---
+/*
+"als" : "gsw"
+"bat-smg" : "sgs"
+"be-x-old" : "be-tarask"
+"cbk-zam" : "cbk-x-zam"
+"fiu-vro" : "vro"
+"map-bms" : "jv-x-bms"
+"roa-rup" : "rup"
+"roa-tara" : "nap-x-tara"
+"nds-nl" : "nds-NL"
+"zh-classical" : "lzh"
+"zh-min-nan" : "nan"
+"zh-yue" : "yue"
+*/
+// ---
 $skip_codes = ["commons", "species", "ary", "arz", "meta"];
 //---
 $change_codes = [

@@ -17,12 +17,12 @@ $example = array(
 );
 //---
 $short_example = array (
-    0 => 
+    0 =>
     array (
         0 => '<ref name=Lh2013/>',
         1 => '<ref name=NORD2023/>',
     ),
-    1 => 
+    1 =>
     array (
         0 => 'Lh2013',
         1 => 'NORD2023',
@@ -30,6 +30,8 @@ $short_example = array (
 );
 //---
 function fix_ref($first, $alltext) {
+    // ---
+    echo '<br>------------- fix_ref -------------<br>';
     // ---
     $ref_complite = '/<ref(\s*name\s*\=*\s*[\"\']*([^>]*)[\"\']*\s*)>[^<>]+<\/ref>/';
     //---
