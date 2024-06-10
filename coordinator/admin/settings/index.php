@@ -12,9 +12,9 @@ if (isset($_REQUEST['test'])) {
 };
 //---
 include_once 'functions.php';
-include_once 'td_config.php';
+// include_once 'td_config.php';
 //---
-$conf = get_configs('conf.json');
+// $conf = get_configs('conf.json');
 //---
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     require 'post.php';
@@ -24,7 +24,7 @@ echo <<<HTML
     <div class='card-header'>
         <h4>Settings:</h4>
     </div>
-    <div class='card-body'>  
+    <div class='card-body'>
         <div class='row'>
             <form action='coordinator.php' method='POST'>
                 <input name='ty' value='settings' hidden/>
@@ -66,7 +66,7 @@ function make_settings_tab($tabe) {
                     <input type='hidden' name='value_$nn' value='0'>
                     <input class='form-check-input' type='checkbox' name='value_$nn' value='1' $checked>
                 </div>
-            HTML;            
+            HTML;
         }
         //---
         $tr = <<<HTML

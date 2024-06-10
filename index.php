@@ -9,10 +9,10 @@ if (isset($_REQUEST['test'])) {
 require 'header.php';
 require 'langcode.php';
 include_once 'functions.php';
-include_once 'td_config.php';
+// include_once 'td_config.php';
 include_once 'sql_tables.php';
 //---
-$conf = get_configs('conf.json');
+// $conf = get_configs('conf.json');
 //---
 $allow_whole_translate = $settings['allow_type_of_translate']['value'] ?? '1';
 //---
