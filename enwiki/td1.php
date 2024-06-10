@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../actions/mdwiki_api.php';
+require_once __DIR__ . '/../langcode.php';
 require_once 'en_api.php';
 require_once 'fixtext.php';
 require_once 'fixref.php';

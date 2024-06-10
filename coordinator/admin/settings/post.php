@@ -18,13 +18,3 @@ if (isset($_POST['se'])) {
         $re = update_settings($id, $title, $displayed, $value, $type);
     }
 }
-//---
-$display_type = $_REQUEST['display_type'];
-//---
-if (isset($display_type)) {
-    $value = ($display_type == '0') ? false : true;
-    set_configs('conf.json', 'allow_type_of_translate', $value);
-    $conf = get_configs('conf.json');
-};
-//---
-?>
