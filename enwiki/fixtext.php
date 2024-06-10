@@ -9,7 +9,10 @@ if (isset($_REQUEST['test'])) {
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+require_once 'fix_images.php';
+
 use WikiConnect\ParseWiki\ParserTemplate;
+use WikiConnect\ParseWiki\ParserCategorys;
 
 // ---
 $tempsToDelete = [
@@ -43,7 +46,7 @@ function remove_lang_links($text) {
     // ---
     return $text;
 }
-function text_changes_work($text) {
+function remove_templates($text) {
     global $tempsToDelete;
     // ---
     preg_match_all("/\{{2}((?>[^\{\}]+)|(?R))*\}{2}/x", $text, $matches);
@@ -80,10 +83,16 @@ function text_changes_work($text) {
         }
     }
     // ---
-    $text = remove_lang_links($text);
-    // ---
     return trim($text);
 }
 
-?>
-
+function text_changes_work($text) {
+    // ---
+    $text = remove_templates($text);
+    // ---
+    $text = remove_lang_links($text);
+    // ---
+    $text = remove_images($text);
+    // ---
+    return trim($text);
+}
