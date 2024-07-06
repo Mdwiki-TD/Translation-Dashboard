@@ -7,7 +7,8 @@ if (isset($_REQUEST['test'])) {
 //---
 /*
 // Require the library and set up the classes we're going to use in this second part of the demo.
-include_once __DIR__ . '/../vendor/autoload.php';
+
+include_once __DIR__ . '/../vendor_load.php';
 
 use MediaWiki\OAuthClient\Client;
 use MediaWiki\OAuthClient\ClientConfig;

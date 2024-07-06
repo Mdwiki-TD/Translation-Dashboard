@@ -6,7 +6,7 @@ if (isset($_REQUEST['test'])) {
     error_reporting(E_ALL);
 };
 //---
-include_once __DIR__ . '/../vendor/autoload.php';
+include_once __DIR__ . '/../vendor_load.php';
 
 use MediaWiki\OAuthClient\Client;
 use MediaWiki\OAuthClient\ClientConfig;
@@ -46,7 +46,7 @@ function get_edit_token(){
 function doApiQuery($Params, $addtoken = null){
     global $client, $accessToken, $apiUrl;
     //---
-    if ($addtoken !== null) $Params['token'] = get_edit_token();    
+    if ($addtoken !== null) $Params['token'] = get_edit_token();
     //---
     $Result = $client->makeOAuthCall(
         $accessToken,

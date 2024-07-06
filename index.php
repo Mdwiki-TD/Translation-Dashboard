@@ -8,10 +8,10 @@ if (isset($_REQUEST['test'])) {
     error_reporting(E_ALL);
 };
 //---
-include_once 'header.php';
-include_once 'Tables/langcode.php';
-include_once 'actions/functions.php';
-include_once 'Tables/sql_tables.php';
+include_once __DIR__ . '/header.php';
+include_once __DIR__ . '/Tables/langcode.php';
+include_once __DIR__ . '/actions/functions.php';
+include_once __DIR__ . '/Tables/sql_tables.php';
 //---
 // $conf = get_configs('conf.json');
 //---
@@ -199,7 +199,7 @@ echo <<<HTML
 <!-- <script src='/Translation_Dashboard/js/codes.js'></script> -->
 HTML;
 //---
-include_once 'results/results.php';
+include_once __DIR__ . '/results/results.php';
 //---
-include_once 'foter.php';
+include_once __DIR__ . '/foter.php';
 //---

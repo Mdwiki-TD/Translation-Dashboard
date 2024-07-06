@@ -6,7 +6,7 @@ if (isset($_REQUEST['test'])) {
     error_reporting(E_ALL);
 };
 //---
-include_once 'header.php';
+include_once __DIR__ . '/header.php';
 //---
 echo <<<HTML
 	<!-- </div> -->
@@ -14,8 +14,8 @@ echo <<<HTML
 	<!-- <div id="maindiv" class="container-fluid"> -->
 HTML;
 //---
-include_once 'actions/functions.php';
-include_once 'Tables/sql_tables.php'; // $sql_qids $cat_titles $cat_to_camp $camp_to_cat
+include_once __DIR__ . '/actions/functions.php';
+include_once __DIR__ . '/Tables/sql_tables.php'; // $sql_qids $cat_titles $cat_to_camp $camp_to_cat
 //---
 $filename = $_SERVER['SCRIPT_NAME'];
 //---
@@ -94,5 +94,5 @@ function echo_card_end($ty) {
 //---
 echo_card_end($ty);
 //---
-include_once 'foter.php';
+include_once __DIR__ . '/foter.php';
 //---
