@@ -24,7 +24,7 @@ echo <<<HTML
             <th>mdtitle</th>
 HTML;
 
-$file2 = "Tables/sitelinks.json";
+$file2 = "Tables/jsons/sitelinks.json";
 $json2 = file_get_contents($file2);
 $data2 = json_decode($json2, true);
 

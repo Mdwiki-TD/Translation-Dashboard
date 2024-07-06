@@ -6,8 +6,8 @@ if (isset($_REQUEST['test'])) {
 	error_reporting(E_ALL);
 };
 //---
-require 'header.php';
-require 'langcode.php';
+include_once 'header.php';
+include_once 'langcode.php';
 include_once 'functions.php';
 // include_once 'td_config.php';
 include_once 'sql_tables.php';
@@ -52,14 +52,6 @@ function print_form_start1($allow_whole_translate, $lang_to_code, $catinput_list
             HTML;
     };
     //---
-    $langse_old = <<<HTML
-		<input list='sLanguages' type='text' placeholder='two letter code' id='code' name='code' value='$coco' autocomplete='off' role='combobox' class='form-select' required>
-			<datalist id='Languages' class='selectpickerr' role='listbox' data-bs-theme="auto">
-			$lang_list
-			</datalist>
-		</input>
-	HTML;
-	//---
     $langse = <<<HTML
         <select aria-label="Language code"
             class="selectpicker"
@@ -91,7 +83,8 @@ function print_form_start1($allow_whole_translate, $lang_to_code, $catinput_list
     </a>
     HTML;
     //---
-    if ( global_username != '' ) $uiu = '<input type="submit" name="doit" class="btn btn-outline-primary" value="Do it"/>';
+    // if ( global_username != '' )
+    $uiu = '<input type="submit" name="doit" class="btn btn-outline-primary" value="Do it"/>';
     //---
     $cat_input = make_drop($catinput_list, $cat_ch);
     $camp_input = make_drop($campaign_input_list, $camp_ch);
@@ -200,8 +193,7 @@ echo <<<HTML
 <!-- <script src='/Translation_Dashboard/js/codes.js'></script> -->
 HTML;
 //---
-require 'results/results.php';
+include_once 'results/results.php';
 //---
-require 'foter.php';
+include_once 'foter.php';
 //---
-?>

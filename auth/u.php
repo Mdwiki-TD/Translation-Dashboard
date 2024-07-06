@@ -20,7 +20,7 @@ if ($_SERVER['SERVER_NAME'] == 'localhost') {
         $user = 'Mr. Ibrahem';
         $_SESSION['username'] = $user;
         //---
-        // require_once __DIR__ . "/../actions/mdwiki_sql.php";
+        // include_once __DIR__ . "/../actions/mdwiki_sql.php";
         // sql_add_user($user, '', '', '', '');
         //---
         header("Location: /Translation_Dashboard/index.php");

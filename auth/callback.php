@@ -1,7 +1,7 @@
 <?php
 
 // Require the library and set up the classes we're going to use in this second part of the demo.
-require_once __DIR__ . '/../vendor/autoload.php';
+include_once __DIR__ . '/../vendor/autoload.php';
 
 use MediaWiki\OAuthClient\Client;
 use MediaWiki\OAuthClient\ClientConfig;
@@ -18,7 +18,7 @@ if (!isset($_GET['oauth_verifier'])) {
 }
 
 // Get the wiki URL and OAuth consumer details from the config file.
-require_once __DIR__ . '/config.php';
+include_once __DIR__ . '/config.php';
 
 // Configure the OAuth client with the URL and consumer details.
 $conf = new ClientConfig($oauthUrl);
@@ -45,7 +45,7 @@ $_SESSION['access_secret'] = $accessToken1->secret;
 // You also no longer need the Request Token.
 unset($_SESSION['request_key'], $_SESSION['request_secret']);
 
-require_once __DIR__ . '/userinfo.php';
+include_once __DIR__ . '/userinfo.php';
 // The demo continues in demo/edit.php
 echo "Continue to <a href='auth.php?a=edit'>edit</a><br>";
 echo "Continue to <a href='auth.php?a=index'>index</a><br>";

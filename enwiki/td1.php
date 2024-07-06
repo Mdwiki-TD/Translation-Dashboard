@@ -1,10 +1,10 @@
 <?php
 
-require_once __DIR__ . '/../actions/mdwiki_api.php';
-require_once __DIR__ . '/../langcode.php';
-require_once 'en_api.php';
-require_once 'fixtext.php';
-require_once 'fixref.php';
+include_once __DIR__ . '/../actions/mdwiki_api.php';
+include_once __DIR__ . '/../langcode.php';
+include_once 'en_api.php';
+include_once 'fixtext.php';
+include_once 'fixref.php';
 
 class WikiTranslator
 {

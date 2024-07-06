@@ -19,7 +19,7 @@ $actionFile = $action . '.php';
 
 // Redirect to the corresponding action file
 // header("Location: auth/" . $actionFile);
-require_once __DIR__ . "/auth/" . $actionFile;
+include_once __DIR__ . "/auth/" . $actionFile;
 
 if ($action == 'index') {
     echo_login();

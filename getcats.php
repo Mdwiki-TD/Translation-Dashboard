@@ -75,7 +75,7 @@ function get_cat_from_cache($cat)
     $empty_list = array();
 
     // Construct the file path
-    $file_path = "cats_cash/$cat.json";
+    $file_path = root_dir . "/Tables/cats_cash/$cat.json";
 
     $new_list = open_json_file($file_path);
 
@@ -126,10 +126,6 @@ function get_categorymembers($cat)
         //---
         if ($cmcontinue != 'x') $params['cmcontinue'] = $cmcontinue;
         //---
-        $endPoint = "https://mdwiki.org/w/api.php?" . http_build_query($params);
-        //---
-        test_print("<br>params:<br>$endPoint" . "<br>");
-        //---
         $resa = get_url_with_params($params);
         //---
         /*
@@ -141,7 +137,7 @@ function get_categorymembers($cat)
 			$resa = get_api_php($params);
 		};*/
         //---
-        if (!isset($resa["query"])) $resa = get_url_with_params($params);
+        // if (!isset($resa["query"])) $resa = get_url_with_params($params);
         //---
         $continue   = $resa["continue"] ?? '';
         $cmcontinue = $continue["cmcontinue"] ?? ''; // "continue":{"cmcontinue":"page|434c4f42415a414d|60836",
@@ -214,7 +210,7 @@ function get_mdwiki_cat_members($cat, $use_cache = false, $depth = 0, $camp = ''
             };
         };
         //---
-        test_print("<br>cats2 size:" . count($cats2));
+        // test_print("<br>cats2 size:" . count($cats2));
         //---
         $depth_done++;
         //---
@@ -225,7 +221,7 @@ function get_mdwiki_cat_members($cat, $use_cache = false, $depth = 0, $camp = ''
     // remove duplicates from $titles
     $titles = array_unique($titles);
     //---
-    test_print("<br>cats size:" . count($cats));
+    // test_print("<br>cats size:" . count($cats));
     //---
     $newtitles = array();
     foreach ($titles as $title) {
@@ -255,7 +251,7 @@ function get_cat_exists_and_missing($cat, $camp, $depth, $code, $use_cache = fal
         $members[] = $mr;
     };
     test_print("<br>members size:" . count($members));
-    $json_file = "cash_exists/$code.json";
+    $json_file = root_dir . "/Tables/cash_exists/$code.json";
 
     $exists = open_json_file($json_file);
 

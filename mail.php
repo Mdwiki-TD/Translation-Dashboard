@@ -14,7 +14,7 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 //---
 // Composer autoload
-require_once __DIR__ . '/vendor/autoload.php';
+include_once __DIR__ . '/vendor/autoload.php';
 //---
 include_once 'td_config.php';
 $my_ini     = Read_ini_file('my_config.ini');

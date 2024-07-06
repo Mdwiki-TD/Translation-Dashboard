@@ -11,7 +11,7 @@ if (isset($_REQUEST['test'])) {
 	error_reporting(E_ALL);
 };
 //---
-$missingfile = file_get_contents("Tables/missing.json");
+$missingfile = file_get_contents("Tables/jsons/missing.json");
 //print $wordsjson;
 $MIS = json_decode( $missingfile, true) ; //{'all' : len(listenew), 'date' : Day_History, 'langs' : {} }
 //---
