@@ -1,7 +1,7 @@
 <?php
 
 include_once __DIR__ . '/../actions/mdwiki_api.php';
-include_once __DIR__ . '/../langcode.php';
+include_once __DIR__ . '/../Tables/langcode.php';
 include_once 'en_api.php';
 include_once 'fixtext.php';
 include_once 'fixref.php';
@@ -29,7 +29,7 @@ class WikiTranslator
             "page" => $this->title,
             "prop" => "wikitext"
         );
-        $json2 = get_url_with_params($params2);
+        $json2 = get_mdwiki_url_with_params($params2);
 
         $allText = $json2["parse"]["wikitext"]["*"] ?? '';
 
@@ -43,7 +43,7 @@ class WikiTranslator
                 "section" => "0",
                 "prop" => "wikitext"
             );
-            $json1 = get_url_with_params($params);
+            $json1 = get_mdwiki_url_with_params($params);
             $first = $json1["parse"]["wikitext"]["*"] ?? '';
         }
 

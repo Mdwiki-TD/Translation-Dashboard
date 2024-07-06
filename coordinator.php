@@ -6,7 +6,7 @@ if (isset($_REQUEST['test'])) {
     error_reporting(E_ALL);
 };
 //---
-require 'header.php';
+include_once 'header.php';
 //---
 echo <<<HTML
 	<!-- </div> -->
@@ -14,8 +14,8 @@ echo <<<HTML
 	<!-- <div id="maindiv" class="container-fluid"> -->
 HTML;
 //---
-include_once 'functions.php';
-include_once 'sql_tables.php'; // $sql_qids $cat_titles $cat_to_camp $camp_to_cat
+include_once 'actions/functions.php';
+include_once 'Tables/sql_tables.php'; // $sql_qids $cat_titles $cat_to_camp $camp_to_cat
 //---
 $filename = $_SERVER['SCRIPT_NAME'];
 //---
@@ -31,7 +31,7 @@ function echo_card_start($filename) {
 				width: 88% !important;
 			}
 		}
-	
+
 	</style>
 		<div class='row content'>
 			<!-- <div class='col-md-2 px-0' style="width: 10.66666667%;"> -->
@@ -61,7 +61,7 @@ test_print("corrd_folders" . json_encode($corrd_folders));
 test_print("tools_folders" . json_encode($tools_folders));
 //---
 $adminfile = "coordinator/admin/$ty.php";
-// if 
+// if
 if (in_array($ty, $tools_folders)) {
 	require "coordinator/tools/$ty.php";
 } elseif (in_array($ty, $corrd_folders) && user_in_coord) {
@@ -94,6 +94,5 @@ function echo_card_end($ty) {
 //---
 echo_card_end($ty);
 //---
-require 'foter.php';
+include_once 'foter.php';
 //---
-?>

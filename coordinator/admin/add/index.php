@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 //---
 
 //---
-require 'tables.php';
+include_once 'Tables/tables.php';
 //---
 echo <<<HTML
 <style>

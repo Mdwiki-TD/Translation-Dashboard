@@ -6,10 +6,9 @@ if (isset($_REQUEST['test'])) {
     error_reporting(E_ALL);
 };
 //---
-require 'tables.php';
-require 'langcode.php';
-include_once 'functions.php';
-// include_once 'auth/api.php';
+include_once 'Tables/tables.php';
+include_once 'Tables/langcode.php';
+include_once 'actions/functions.php';
 //---
 function start_with($haystack, $needle)
 {
@@ -66,6 +65,9 @@ function open_json_file($file_path)
         test_print("Failed to decode JSON from $file_path<br>");
         return $new_list; // Return an empty list
     }
+
+    // Return the decoded data
+    test_print("Successfully decoded JSON from $file_path. " . count($data) . " <br>");
     return $data;
 }
 
@@ -103,8 +105,6 @@ function get_cat_from_cache($cat)
 function get_categorymembers($cat)
 {
     //---
-    $ch = null;
-    //---
     if (!start_with($cat, 'Category:')) {
         $cat = "Category:$cat";
     };
@@ -126,18 +126,18 @@ function get_categorymembers($cat)
         //---
         if ($cmcontinue != 'x') $params['cmcontinue'] = $cmcontinue;
         //---
-        $resa = get_url_with_params($params);
+        $resa = get_mdwiki_url_with_params($params);
         //---
         /*
 		if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost') {
 			//---
-			$resa = get_url_with_params( $params );
+			$resa = get_mdwiki_url_with_params( $params );
 			//---
 		} else {
 			$resa = get_api_php($params);
 		};*/
         //---
-        // if (!isset($resa["query"])) $resa = get_url_with_params($params);
+        // if (!isset($resa["query"])) $resa = get_mdwiki_url_with_params($params);
         //---
         $continue   = $resa["continue"] ?? '';
         $cmcontinue = $continue["cmcontinue"] ?? ''; // "continue":{"cmcontinue":"page|434c4f42415a414d|60836",
@@ -167,7 +167,7 @@ function get_categorymembers($cat)
     //---
 };
 //---
-function get_mmbrs($cat, $use_cache)
+function get_mmbrs($cat, $use_cache = true)
 {
     if ($use_cache || $_SERVER['SERVER_NAME'] == 'localhost') {
         //---
@@ -185,7 +185,7 @@ function get_mmbrs($cat, $use_cache)
     return $all;
 }
 //---
-function get_mdwiki_cat_members($cat, $use_cache = false, $depth = 0, $camp = '')
+function get_mdwiki_cat_members($cat, $use_cache = true, $depth = 0, $camp = '')
 {
     //---
     $titles = array();
@@ -242,10 +242,10 @@ function get_mdwiki_cat_members($cat, $use_cache = false, $depth = 0, $camp = ''
     //---
 };
 
-function get_cat_exists_and_missing($cat, $camp, $depth, $code, $use_cache = false)
+function get_cat_exists_and_missing($cat, $camp, $depth, $code, $use_cache = true)
 {
     $members_to = get_mdwiki_cat_members($cat, $use_cache = $use_cache, $depth = $depth, $camp = $camp);
-    test_print("<br>members_to size:" . count($members_to));
+    // z("<br>members_to size:" . count($members_to));
     $members = array();
     foreach ($members_to as $mr) {
         $members[] = $mr;

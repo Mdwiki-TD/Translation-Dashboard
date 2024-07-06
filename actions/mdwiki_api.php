@@ -24,8 +24,8 @@ function get_url_params_result(string $endPoint, array $params = []): string
     return $output;
 }
 
-//---
-function get_url_with_params(array $params): array
+
+function get_mdwiki_url_with_params(array $params): array
 {
     $endPoint = 'https://mdwiki.org/w/api.php';
     $query = http_build_query($params);
@@ -35,7 +35,7 @@ function get_url_with_params(array $params): array
     $url2 = str_replace('&format=json', '', $url);
     $url2 = "<a href='$url2'>$url2</a>";
     //---
-    test_print("<br>get_url_with_params: $url2<br>");
+    test_print("<br>get_mdwiki_url_with_params: $url2<br>");
     //---
     $out = get_url_params_result($endPoint, $params);
     //---
@@ -56,7 +56,7 @@ function get_api_php(array $params): array
     //---
     $url = "{$endPoint}?{$query}";
     //---
-    test_print("<br>get_url_with_params: $url<br>");
+    test_print("<br>get_mdwiki_url_with_params: $url<br>");
     //---
     $out = get_url_params_result($endPoint, $params);
     //---

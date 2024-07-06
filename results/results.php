@@ -1,11 +1,11 @@
 <?PHP
 //---
 include_once 'results_table.php';
-include_once 'langcode.php';
-include_once 'getcats.php';
-include_once 'functions.php';
-include_once 'tables.php';
-include_once 'sql_tables.php';
+include_once 'Tables/langcode.php';
+include_once 'results/getcats.php';
+include_once 'actions/functions.php';
+include_once 'Tables/tables.php';
+include_once 'Tables/sql_tables.php';
 include_once 'get_results.php';
 //---
 $doit = isset($_REQUEST['doit']);
@@ -25,7 +25,6 @@ if (global_username != 'James Heilman' && global_username != 'Mr. Ibrahem') $tra
 $depth  = $_REQUEST['depth'] ?? 1;
 $depth  = $depth * 1;
 //---
-// $depth  = $catinput_depth[$cat] ?? 1;
 $depth  = $camp_input_depth[$camp] ?? 1;
 //---
 if ($code_lang_name == '') $doit = false;

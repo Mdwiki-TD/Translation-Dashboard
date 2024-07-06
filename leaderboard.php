@@ -6,14 +6,14 @@ if (isset($_REQUEST['test'])) {
     error_reporting(E_ALL);
 };
 
-require 'header.php';
+include_once 'header.php';
 echo '<script>$("#leaderboard").addClass("active");</script>';
-require 'langcode.php';
-require 'tables.php';
-include_once 'functions.php';
+include_once 'Tables/langcode.php';
+include_once 'Tables/tables.php';
+include_once 'actions/functions.php';
 
-require 'leaderboard/graph.php';
-include_once 'sql_tables.php'; // $sql_qids $cat_titles $cat_to_camp $camp_to_cat
+include_once 'leaderboard/graph.php';
+include_once 'Tables/sql_tables.php'; // $sql_qids $cat_titles $cat_to_camp $camp_to_cat
 
 $users = $_REQUEST['user'] ?? '';
 $langs = $_REQUEST['langcode'] ?? '';
@@ -36,5 +36,5 @@ if ($users !== '') {
 <!-- <script src="/Translation_Dashboard/js/leadtable.js"></script> -->
 
 <?php
-require 'foter.php';
+include_once 'foter.php';
 ?>

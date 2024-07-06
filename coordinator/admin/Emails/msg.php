@@ -27,9 +27,9 @@ echo "<script src='$hoste/ajax/libs/summernote/0.8.20/summernote-lite.min.js'></
 <link rel='stylesheet' href='$hoste/ajax/libs/summernote/0.8.20/summernote-lite.min.css' type='text/css' media='screen' charset='utf-8'>";
 //---
 // require 'header.php';
-require 'tables.php';
-include_once 'functions.php';
-include_once 'getcats.php';
+include_once 'Tables/tables.php';
+include_once 'actions/functions.php';
+include_once 'results/getcats.php';
 include_once 'td_config.php';
 //---
 $tabs = array();

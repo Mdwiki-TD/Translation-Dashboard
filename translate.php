@@ -1,11 +1,11 @@
 <?php
 // Consolidate includes
-require 'header.php';
-require 'tables.php';
-include_once 'functions.php';
+include_once 'header.php';
+include_once 'Tables/tables.php';
+include_once 'actions/functions.php';
 include_once 'enwiki/td1.php';
 include_once 'actions/html.php';
-include_once 'sql_tables.php';
+include_once 'Tables/sql_tables.php';
 
 // Define root path
 $pathParts = explode('public_html', __FILE__);
@@ -145,4 +145,4 @@ if ($title_o != '' && $coden != '' && $useree != '') {
 }
 
 echo '</div>';
-require 'foter.php';
+include_once 'foter.php';

@@ -6,7 +6,7 @@ if (isset($_REQUEST['test'])) {
 	error_reporting(E_ALL);
 };
 //---
-require 'header.php';
+include_once 'header.php';
 //---
 if (user_in_coord == false) {
 	echo "<meta http-equiv='refresh' content='0; url=index.php'>";
@@ -15,8 +15,8 @@ if (user_in_coord == false) {
 //---
 echo '<script>$("#tests").addClass("active");</script>';
 //---
-include_once 'functions.php';
-include_once 'sql_tables.php';
+include_once 'actions/functions.php';
+include_once 'Tables/sql_tables.php';
 //---
 $tests_folders = [];
 foreach (glob('tests/*.php') as $file) {
@@ -63,6 +63,6 @@ echo <<<HTML
 </div>
 HTML;
 //---
-require 'foter.php';
+include_once 'foter.php';
 //---
 ?>

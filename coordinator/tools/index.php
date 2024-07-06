@@ -1,4 +1,4 @@
 <?PHP
 //---
-require 'last.php';
+include_once 'last.php';
 ?>

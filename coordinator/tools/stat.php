@@ -6,9 +6,9 @@ if (isset($_REQUEST['test'])) {
     error_reporting(E_ALL);
 };
 //---
-require 'tables.php'; 
-require 'getcats.php';
-include_once 'functions.php';
+include_once 'Tables/tables.php';
+include_once 'results/getcats.php';
+include_once 'actions/functions.php';
 //---
 $cat = $_REQUEST['cat'] ?? 'RTT';
 //---
@@ -88,7 +88,7 @@ foreach ($titles as $title) {
 	//---
 	$qidurl = ($qid != '') ? "<a href='https://wikidata.org/wiki/$qid'>$qid</a>" : '';
 	//---
-	$word = $Words_table[$title] ?? 0; 
+	$word = $Words_table[$title] ?? 0;
 	//---
 	$allword = $All_Words_table[$title] ?? 0;
 	if ($word == 0) $no_word +=1;
@@ -103,7 +103,7 @@ foreach ($titles as $title) {
 	$asse = $Assessments_table[$title] ?? '';
 	if (!isset($Assessments_table[$title])) $no_Importance +=1;
 	//---
-	$pv = $enwiki_pageviews_table[$title] ?? 0; 
+	$pv = $enwiki_pageviews_table[$title] ?? 0;
 	if (!isset($enwiki_pageviews_table[$title])) $no_pv +=1;
 	//---
 	//---

@@ -1,5 +1,5 @@
 <?php
-require 'header.php';
+include_once 'header.php';
 
 $site = isset($_REQUEST["site"]) ? $_REQUEST["site"] : "all";
 $title_limit = isset($_REQUEST["title_limit"]) ? number_format($_REQUEST["title_limit"]) : 150;
@@ -77,5 +77,5 @@ foreach ($qids_o as $qid => $tab) {
 }
 
 echo "</tbody></table></div><div>";
-require 'foter.php';
+include_once 'foter.php';
 ?>

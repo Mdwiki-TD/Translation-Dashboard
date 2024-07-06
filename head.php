@@ -51,6 +51,7 @@
     <script src='$hoste/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js'></script>
     <script src="$hoste/ajax/libs/bootstrap-select/1.14.0-beta3/js/bootstrap-select.min.js"></script>
 
+    <script type="module" src="/Translation_Dashboard/js/color-modes.js"></script>
     <!-- <script src='/Translation_Dashboard/js/sorttable.js'></script> -->
     <script src='/Translation_Dashboard/js/to.js'></script>
     <script src='/Translation_Dashboard/js/login.js'></script>

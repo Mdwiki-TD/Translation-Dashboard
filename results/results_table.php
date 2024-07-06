@@ -1,7 +1,7 @@
 <?PHP
 //---
-include_once 'tables.php';
-include_once 'sql_tables.php';
+include_once 'Tables/tables.php';
+include_once 'Tables/sql_tables.php';
 //---
 function sort_py_PageViews($items, $en_views_tab) {
     $dd = [];

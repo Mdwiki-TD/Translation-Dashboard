@@ -64,8 +64,8 @@ CREATE TABLE words (
 */
 //---
 include_once '../td_config.php';
+include_once '../actions/functions.php';
 $ini = Read_ini_file('OAuthConfig.ini');
-include_once '../functions.php';
 //---
 $sqlpass = $ini['sqlpass'];
 //---
@@ -84,7 +84,7 @@ if ( $raw == '' ) {
     $quu = "SELECT A.id from pages A, pages B where A.target = '' and A.lang = B.lang and A.title = B.title and B.target != '';";
     //---
     $quaa = $qua ? $qua : $quu ;
-    //---    
+    //---
     echo '
 
     <style>
@@ -99,7 +99,7 @@ if ( $raw == '' ) {
     //---
 	$sql_php = "index.php?pass=$pass";
     //---
-    $qu1 = urlencode("SELECT 
+    $qu1 = urlencode("SELECT
         A.id as id1, A.target as t1,
         B.id as id2, B.target as t2
         FROM views A, views B
@@ -108,12 +108,12 @@ if ( $raw == '' ) {
         and A.id != B.id
         ;");
     //---
-    $qu2 = urlencode("SELECT * from pages p1 
+    $qu2 = urlencode("SELECT * from pages p1
         where p1.target = '' and EXISTS  (SELECT 1 FROM pages p2 WHERE p1.title = p2.title and p2.target != ''
         and p1.lang = p2.lang
         )");
     //---
-    $qu3 = urlencode("SELECT A.lang as lang,A.title as title, 
+    $qu3 = urlencode("SELECT A.lang as lang,A.title as title,
         A.id AS id1, A.user AS u1, A.target as T1, A.date as d1,
         B.id AS id2, B.user AS u2, B.target as T2, B.date as d2
         FROM pages A, pages B
@@ -123,16 +123,16 @@ if ( $raw == '' ) {
         and A.target != ''
         ORDER BY A.title;");
     //---
-    $qu4 = urlencode("SELECT 
-        A.id as id1, A.title as t1, A.qid as q1, 
+    $qu4 = urlencode("SELECT
+        A.id as id1, A.title as t1, A.qid as q1,
         B.id as id2, B.title as t2, B.qid as q2
         FROM qids A, qids B
         WHERE A.title = B.title
         and A.id != B.id
         ;");
     //---
-    $qu5 = urlencode("SELECT 
-        A.id as id1, A.title as t1, A.qid as q1, 
+    $qu5 = urlencode("SELECT
+        A.id as id1, A.title as t1, A.qid as q1,
         B.id as id2, B.title as t2, B.qid as q2
         FROM qids A, qids B
         WHERE A.qid = B.qid
@@ -203,7 +203,7 @@ if ( $raw == '' ) {
                             <input class='btn btn-outline-primary' type='submit' name='start' value='Start' />
                         </div>
                     </div>
-            
+
                 </div>
             </div>
         </form>

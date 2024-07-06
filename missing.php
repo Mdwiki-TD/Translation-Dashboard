@@ -1,8 +1,8 @@
 <?PHP
 //---
-require 'header.php';
+include_once 'header.php';
 echo '<script>$("#missing").addClass("active");</script>';
-require 'langcode.php';
+include_once 'Tables/langcode.php';
 //---
 if (isset($_REQUEST['test'])) {
 
@@ -110,6 +110,6 @@ echo <<<HTML
 </div>
 HTML;
 //---
-require 'foter.php';
+include_once 'foter.php';
 //---
 ?>
