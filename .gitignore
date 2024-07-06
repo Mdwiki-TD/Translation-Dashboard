@@ -1,9 +1,6 @@
 *.csv
 */old/**
 .gitignore
-Tables/**
-cash_exists/*
-cats_cash/**
 cookie.txt
 ma.js
 old/*
@@ -12,9 +9,10 @@ ui.html
 vendor/**
 coordinator_1.php
 *.html
-leaderboard/leader_tables_old.php
-Tables/assessments.json
 coordinator/admin/wikirefs_options/postx.php
 /login
-auth/u.php
+/auth/u.php
 *.7z
+/Tables/jsons/*.json
+/Tables/cash_exists/*.json
+/Tables/cats_cash/*.json
