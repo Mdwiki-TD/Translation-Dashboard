@@ -38,7 +38,7 @@ function getLoginToken()
 
 	$output = curl_exec($ch);
     if ($output === FALSE) {
-        echo("cURL Error: " . curl_error($ch));
+        echo("<br>cURL Error: " . curl_error($ch));
     }
 	curl_close($ch);
 	// ---
@@ -82,7 +82,7 @@ function loginRequest($logintoken)
 
 	$output = curl_exec($ch);
     if ($output === FALSE) {
-        echo("cURL Error: " . curl_error($ch));
+        echo("<br>cURL Error: " . curl_error($ch));
     }
 	curl_close($ch);
 }
@@ -111,7 +111,7 @@ function getCSRFToken()
 
 	$output = curl_exec($ch);
     if ($output === FALSE) {
-        echo("cURL Error: " . curl_error($ch));
+        echo("<br>cURL Error: " . curl_error($ch));
     }
 	curl_close($ch);
 
@@ -141,7 +141,7 @@ function send_params($params4)
 
 	$output = curl_exec($ch);
     if ($output === FALSE) {
-        echo("cURL Error: " . curl_error($ch));
+        echo("<br>cURL Error: " . curl_error($ch));
     }
 	curl_close($ch);
 
