@@ -10,10 +10,10 @@ if (isset($_REQUEST['test'])) {
 
 define('print_te', $print_t);
 
-include_once 'actions/html.php';
-include_once 'actions/wiki_api.php';
-include_once 'actions/mdwiki_api.php';
-include_once 'actions/mdwiki_sql.php';
+include_once __DIR__ . '/html.php';
+include_once __DIR__ . '/wiki_api.php';
+include_once __DIR__ . '/mdwiki_api.php';
+include_once __DIR__ . '/mdwiki_sql.php';
 
 
 function load_request() {
