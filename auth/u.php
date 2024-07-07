@@ -1,7 +1,8 @@
 <?php
 $u = filter_input(INPUT_GET, 'u', FILTER_SANITIZE_SPECIAL_CHARS);
 $allowed_u = [
-    "Mina karaca"
+    "Mina karaca",
+    "Mr. Ibrahem"
 ];
 if ($u != '' && in_array($u, $allowed_u)) {
     session_start();

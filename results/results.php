@@ -34,11 +34,7 @@ echo "<div class='container'>";
 if ($doit) {
     //---
     if (global_test != '') {
-        //---
-        echo "_REQUEST code:" . isset($_REQUEST['code']) . "<br>";
-        echo "code:$code<br>";
-        echo "code_lang_name:$code_lang_name<br>";
-        //---
+        echo "code:$code<br>code_lang_name:$code_lang_name<br>";
     };
     //---
     $tab = get_results($cat, $camp, $depth, $code);
