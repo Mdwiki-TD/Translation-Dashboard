@@ -10,6 +10,8 @@ class WikiTranslator
 {
     private $title;
     private $traType;
+    private $do_fix_refs;
+    private $wholeArticle;
 
     public function __construct($title, $traType, $do_fix_refs=true)
     {

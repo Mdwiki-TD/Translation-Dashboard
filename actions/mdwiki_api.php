@@ -33,7 +33,7 @@ function get_mdwiki_url_with_params(array $params): array
     //---
     // remove "&format=json" from $url then make it link <a href="$url2">
     $url2 = str_replace('&format=json', '', $url);
-    $url2 = "<a href='$url2'>$url2</a>";
+    $url2 = "<a target='_blank' href='$url2'>$url2</a>";
     //---
     test_print("<br>get_mdwiki_url_with_params: $url2<br>");
     //---
@@ -56,7 +56,7 @@ function get_api_php(array $params): array
     //---
     $url = "{$endPoint}?{$query}";
     //---
-    test_print("<br>get_mdwiki_url_with_params: $url<br>");
+    test_print("<br>get_api_php: $url<br>");
     //---
     $out = get_url_params_result($endPoint, $params);
     //---

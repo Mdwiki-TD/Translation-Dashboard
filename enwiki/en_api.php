@@ -44,7 +44,10 @@ function getLoginToken()
 	// echo "</pre><br>";
 	//---
 	$result = json_decode($output, true);
-	return $result["query"]["tokens"]["logintoken"];
+	if (!is_array($result)) {
+		$result = array();
+	}
+	return $result["query"]["tokens"]["logintoken"] ?? "";
 }
 
 // Step 2: POST request to log in. Use of main account for login is not
@@ -104,7 +107,10 @@ function getCSRFToken()
 	curl_close($ch);
 
 	$result = json_decode($output, true);
-	return $result["query"]["tokens"]["csrftoken"];
+	if (!is_array($result)) {
+		$result = array();
+	}
+	return $result["query"]["tokens"]["csrftoken"] ?? "";
 }
 
 // Step 4: POST request to edit a page
@@ -134,9 +140,20 @@ function do_edit($title, $text, $summary)
 {
 
 	$login_Token = getLoginToken(); // Step 1
+	// ---
+	if ($login_Token == "") {
+		echo "<br>Login Token not found<br>";
+		return false;
+	}
+	// ---
 	loginRequest($login_Token); // Step 2
 	$csrf_Token = getCSRFToken(); // Step 3
-
+	// ---
+	if ($csrf_Token == "") {
+		echo "<br>CSRF Token not found<br>";
+		return false;
+	}
+	// ---
 	$params4 = [
 		"action" => "edit",
 		"title" => $title,

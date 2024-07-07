@@ -100,8 +100,9 @@ if ($title_o != '' && $coden != '' && $useree != '') {
         $word = $All_Words_table[$title_o] ?? 0;
     }
     insertPage($title_o, $word, $tr_type, $cat, $camp, $coden, $useree, $test);
+    // ---
     $output = startTranslatePhp($title_o, $tr_type, false, $do_fix_refs = $fix_ref_in_text);
-
+    // ---
     if (trim($output) == 'true' || isset($_GET['go'])) {
         $url = make_translation_url($title_o, $coden, $tr_type);
 
