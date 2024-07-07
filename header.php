@@ -8,7 +8,7 @@ if (isset($_REQUEST['test'])) {
 //---
 ini_set('session.use_strict_mode', '1');
 //---
-define('root_dir', __DIR__);
+define('root_dire', __DIR__);
 //---
 $testxx = isset($_GET['test']) ? $_GET['test'] : "";
 //---

@@ -77,7 +77,7 @@ function get_cat_from_cache($cat)
     $empty_list = array();
 
     // Construct the file path
-    $file_path = root_dir . "/Tables/cats_cash/$cat.json";
+    $file_path = root_dire . "/Tables/cats_cash/$cat.json";
 
     $new_list = open_json_file($file_path);
 
@@ -251,7 +251,7 @@ function get_cat_exists_and_missing($cat, $camp, $depth, $code, $use_cache = tru
         $members[] = $mr;
     };
     test_print("<br>members size:" . count($members));
-    $json_file = root_dir . "/Tables/cash_exists/$code.json";
+    $json_file = root_dire . "/Tables/cash_exists/$code.json";
 
     $exists = open_json_file($json_file);
 
