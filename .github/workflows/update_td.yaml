@@ -16,3 +16,4 @@ jobs:
     - name: Open URL on successful merge
       run: |
         curl -L -f -S -s https://mdwiki.toolforge.org/update_md.php?td=1 > curl_output.txt || echo "Curl request failed with status code $?"
+        curl -L -f -S -s https://medwiki.toolforge.org/update_md.php?td=1 > curl_output.txt || echo "Curl request failed with status code $?"
