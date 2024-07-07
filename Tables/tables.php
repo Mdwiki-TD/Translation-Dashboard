@@ -22,7 +22,7 @@ $tables = array(
 	'allwords' => &$All_Words_table,
 	'all_refcount' => &$All_Refs_table,
 	'lead_refcount' => &$Lead_Refs_table,
-	'medwiki_to_enwiki' => &$medwiki_to_enwiki,
+	// 'medwiki_to_enwiki' => &$medwiki_to_enwiki,
 	'assessments' => &$Assessments_table
 );
 //---

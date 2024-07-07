@@ -8,6 +8,9 @@ function get_url_result(string $url): string
     curl_setopt($ch, CURLOPT_COOKIEFILE, "cookie.txt");
 
     $output = curl_exec($ch);
+    if ($output === FALSE) {
+        echo("cURL Error: " . curl_error($ch));
+    }
 
     curl_close($ch);
 

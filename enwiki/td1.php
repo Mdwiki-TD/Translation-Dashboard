@@ -51,22 +51,20 @@ class WikiTranslator
 
         $text = $first;
 
-        if ($text === '') {
-            return "notext";
-        }
-
-        if (!$this->wholeArticle) {
-            $text .= "\n==References==\n<references />";
-        }
-
-        return [$text, $allText];
+        return array("text" => $text, "allText" => $allText);
     }
 
     public function parseText()
     {
         $txt = $this->getTextFromMdWiki();
-        $text = $txt[0];
-        $allText = $txt[1];
+        $text = $txt["text"];
+        $allText = $txt["allText"];
+
+        if ($text === '') {
+            echo ('no text');
+            return "notext";
+        }
+
         $newText = $text;
 
         if ($this->do_fix_refs) {
@@ -87,6 +85,10 @@ class WikiTranslator
 
     private function PostToEnwiki($newText)
     {
+        if ($newText === '') {
+            echo ('no text');
+            return "notext";
+        }
         $suus = 'from https://mdwiki.org/wiki/' . str_replace(' ', '_', $this->title);
         $title2 = 'User:Mr. Ibrahem/' . $this->title;
 
@@ -114,6 +116,17 @@ class WikiTranslator
         */
         $newText = $this->parseText();
 
+        if ($newText === '' || $newText == '' || $newText == 'n') {
+            return "notext";
+        }
+
+        if (strlen($newText) < 1000) {
+            return 'notext';
+        }
+
+        if (!$this->wholeArticle) {
+            $newText .= "\n==References==\n<references />";
+        }
         $success = $this->PostToEnwiki($newText);
 
         return $success;
