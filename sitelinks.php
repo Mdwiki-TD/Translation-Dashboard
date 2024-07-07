@@ -1,5 +1,5 @@
 <?php
-require 'header.php';
+include_once __DIR__ . '/header.php';
 
 $site = isset($_REQUEST["site"]) ? $_REQUEST["site"] : "all";
 $title_limit = isset($_REQUEST["title_limit"]) ? number_format($_REQUEST["title_limit"]) : 150;
@@ -24,7 +24,7 @@ echo <<<HTML
             <th>mdtitle</th>
 HTML;
 
-$file2 = "Tables/sitelinks.json";
+$file2 = "Tables/jsons/sitelinks.json";
 $json2 = file_get_contents($file2);
 $data2 = json_decode($json2, true);
 
@@ -77,5 +77,5 @@ foreach ($qids_o as $qid => $tab) {
 }
 
 echo "</tbody></table></div><div>";
-require 'foter.php';
+include_once __DIR__ . '/foter.php';
 ?>

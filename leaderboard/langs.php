@@ -1,7 +1,7 @@
 <?PHP
 //---
-require 'lead_help.php';
-require 'camps.php';
+include_once 'lead_help.php';
+include_once 'camps.php';
 //---
 $test = $_REQUEST['test'] ?? '';
 $mainlang = $_REQUEST['langcode'];

@@ -1,16 +1,17 @@
 <?PHP
 //---
+namespace TD;
+
 if (isset($_REQUEST['test'])) {
-	ini_set('display_errors', 1);
-	ini_set('display_startup_errors', 1);
-	error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
 };
 //---
-require 'header.php';
-require 'langcode.php';
-include_once 'functions.php';
-// include_once 'td_config.php';
-include_once 'sql_tables.php';
+include_once __DIR__ . '/header.php';
+include_once __DIR__ . '/Tables/langcode.php';
+include_once __DIR__ . '/actions/functions.php';
+include_once __DIR__ . '/Tables/sql_tables.php';
 //---
 // $conf = get_configs('conf.json');
 //---
@@ -30,7 +31,8 @@ if ($allow_whole_translate == '0') $tra_type = 'lead';
 $cat_ch = htmlspecialchars($cat, ENT_QUOTES);
 $camp_ch = htmlspecialchars($camp, ENT_QUOTES);
 //---
-function print_form_start1($allow_whole_translate, $lang_to_code, $catinput_list, $campaign_input_list, $cat_ch, $camp_ch, $code_lang_name, $code, $tra_type) {
+function print_form_start1($allow_whole_translate, $lang_to_code, $catinput_list, $campaign_input_list, $cat_ch, $camp_ch, $code_lang_name, $code, $tra_type)
+{
     //---
     $lead_checked = "checked";
     $all_checked = "";
@@ -41,25 +43,19 @@ function print_form_start1($allow_whole_translate, $lang_to_code, $catinput_list
     };
     //---
     $coco = $code_lang_name;
-    if ( $coco == '') { $coco = $code ; };
+    if ($coco == '') {
+        $coco = $code;
+    };
     //---
     $lang_list = '';
     //---
-    foreach ( $lang_to_code AS $langeee => $codr ) {
-		$selected = ($codr == $code) ? 'selected' : '';
+    foreach ($lang_to_code as $langeee => $codr) {
+        $selected = ($codr == $code) ? 'selected' : '';
         $lang_list .= <<<HTML
             <option data-tokens='$codr' value='$codr' $selected>$langeee</option>
             HTML;
     };
     //---
-    $langse_old = <<<HTML
-		<input list='sLanguages' type='text' placeholder='two letter code' id='code' name='code' value='$coco' autocomplete='off' role='combobox' class='form-select' required>
-			<datalist id='Languages' class='selectpickerr' role='listbox' data-bs-theme="auto">
-			$lang_list
-			</datalist>
-		</input>
-	HTML;
-	//---
     $langse = <<<HTML
         <select aria-label="Language code"
             class="selectpicker"
@@ -76,13 +72,15 @@ function print_form_start1($allow_whole_translate, $lang_to_code, $catinput_list
             $lang_list
         </select>
     HTML;
-	//---
+    //---
     $err = '';
     //---
     if ($code_lang_name == '' and $code != '') {
         $err = "<span style='font-size:13pt;color:red'>code ($code) not valid wiki.</span>";
     } else {
-        if ($code != '') { $_SESSION['code'] = $code; };
+        if ($code != '') {
+            $_SESSION['code'] = $code;
+        };
     };
     //---
     $uiu = <<<HTML
@@ -91,7 +89,8 @@ function print_form_start1($allow_whole_translate, $lang_to_code, $catinput_list
     </a>
     HTML;
     //---
-    if ( global_username != '' ) $uiu = '<input type="submit" name="doit" class="btn btn-outline-primary" value="Do it"/>';
+    // if ( global_username != '' )
+    $uiu = '<input type="submit" name="doit" class="btn btn-outline-primary" value="Do it"/>';
     //---
     $cat_input = make_drop($catinput_list, $cat_ch);
     $camp_input = make_drop($campaign_input_list, $camp_ch);
@@ -119,8 +118,8 @@ function print_form_start1($allow_whole_translate, $lang_to_code, $catinput_list
         </div>
     HTML;
     //---
-	$col12 		= 'col-10';
-	$gridclass 	= 'input-group col-7 mb-3';
+    $col12         = 'col-10';
+    $gridclass     = 'input-group col-7 mb-3';
     //---
     $d2 = <<<HTML
         <div class='$col12'>
@@ -131,7 +130,7 @@ function print_form_start1($allow_whole_translate, $lang_to_code, $catinput_list
         </div>
     HTML;
     //---
-	$d22 = <<<HTML
+    $d22 = <<<HTML
         <div class='$col12'>
             <div class="mb-3">
                 <label for="%s" class="form-label"><b>%s</b></label>
@@ -140,12 +139,12 @@ function print_form_start1($allow_whole_translate, $lang_to_code, $catinput_list
         </div>
     HTML;
     //---
-	$in_cat = sprintf($d22, 'cat', 'Category', $cat_input);
-	$in_camp = sprintf($d22, 'camp', 'Campaign', $camp_input);
-	//---
-	$in_lng = sprintf($d22, 'code', 'Language', "<div>$langse $err</div>");
-	//---
-	$in_typ = '';
+    $in_cat = sprintf($d22, 'cat', 'Category', $cat_input);
+    $in_camp = sprintf($d22, 'camp', 'Campaign', $camp_input);
+    //---
+    $in_lng = sprintf($d22, 'code', 'Language', "<div>$langse $err</div>");
+    //---
+    $in_typ = '';
     if ($allow_whole_translate == '1') {
         $in_typ = sprintf($d22, 'type', 'Type', "<div class='form-control'>$ttype</div>");
     } else {
@@ -200,8 +199,7 @@ echo <<<HTML
 <!-- <script src='/Translation_Dashboard/js/codes.js'></script> -->
 HTML;
 //---
-require 'results/results.php';
+include_once __DIR__ . '/results/results.php';
 //---
-require 'foter.php';
+include_once __DIR__ . '/foter.php';
 //---
-?>

@@ -1,7 +1,8 @@
 <script src="/Translation_Dashboard/js/g.js"></script>
 <?PHP
 //---
-function graph_html($keys, $values, $id='chart1', $no_card=false) {
+function graph_html($keys, $values, $id = 'chart1', $no_card = false)
+{
     $canvas = <<<HTML
         <div class="position-relative">
             <canvas id="$id" height="200"></canvas>
@@ -35,8 +36,9 @@ function graph_html($keys, $values, $id='chart1', $no_card=false) {
     HTML;
     return $graph;
 }
-function print_graph_from_sql($id='chart1') {
-        
+function print_graph_from_sql($id = 'chart1')
+{
+
     $query = <<<SQL
         SELECT LEFT(pupdate, 7) as m, COUNT(*) as c
         FROM pages
@@ -59,12 +61,13 @@ function print_graph_from_sql($id='chart1') {
     $ms = substr($ms, 0, -1);
     $cs = substr($cs, 0, -1);
     //---
-    $graph =  graph_html($ms, $cs, $id=$id);
+    $graph =  graph_html($ms, $cs, $id = $id);
     //---
     return $graph;
 }
 
-function print_graph_for_table($table, $id='chart1', $no_card=false) {
+function print_graph_for_table($table, $id = 'chart1', $no_card = false)
+{
     //---
     // sort $table by keys
     ksort($table);
@@ -72,7 +75,7 @@ function print_graph_for_table($table, $id='chart1', $no_card=false) {
     $ms = "";
     $cs = "";
     //---
-    foreach ( $table as $key => $value ) {
+    foreach ($table as $key => $value) {
         //---
         $ms .= "'$key',";
         $cs .= "$value,";
@@ -80,11 +83,12 @@ function print_graph_for_table($table, $id='chart1', $no_card=false) {
     $ms = substr($ms, 0, -1);
     $cs = substr($cs, 0, -1);
     //---
-    $graph =  graph_html($ms, $cs, $id=$id, $no_card=$no_card);
+    $graph =  graph_html($ms, $cs, $id = $id, $no_card = $no_card);
     //---
     return $graph;
 }
-function print_graph_tab() {
+function print_graph_tab()
+{
     $g = print_graph_from_sql();
     echo <<<HTML
         <div class="container">

@@ -7,10 +7,10 @@ if (isset($_REQUEST['test'])) {
 };
 //---
 include_once '../header.php';
-include_once root_dir . '/tables.php';
-include_once root_dir . '/functions.php';
+include_once root_dir . '/Tables/tables.php';
+include_once root_dir . '/actions/functions.php';
 include_once root_dir . '/enwiki/td1.php';
-include_once root_dir . '/langcode.php';
+include_once root_dir . '/Tables/langcode.php';
 // ---
 $coden = strtolower($_GET['code'] ?? '');
 $title_o = $_GET['title'] ?? 'Dravet syndrome';

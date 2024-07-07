@@ -7,8 +7,8 @@ INSERT INTO translate_type (tt_title, tt_lead, tt_full) SELECT DISTINCT q.title,
 
 */
 //---
-require 'getcats.php';
-include_once 'functions.php';
+include_once 'results/getcats.php';
+include_once 'actions/functions.php';
 //---
 $cat = $_REQUEST['cat'] ?? 'All';
 $testin = (($_REQUEST['test'] ?? '') != '') ? "<input name='test' value='1' hidden/>" : "";

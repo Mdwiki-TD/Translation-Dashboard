@@ -1,6 +1,6 @@
 <?PHP
 //---
-include_once 'langcode.php';
+include_once 'Tables/langcode.php';
 //---
 $lang = $_GET['lang'] ?? 'All';
 //---

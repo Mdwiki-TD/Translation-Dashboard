@@ -1,6 +1,6 @@
 <?PHP
 //---
-include_once 'langcode.php';
+include_once 'Tables/langcode.php';
 //---
 $recent_table = <<<HTML
 	<table class="table table-sm table-striped table-mobile-responsive table-mobile-sided" id="last_tabel" style="font-size:90%;">

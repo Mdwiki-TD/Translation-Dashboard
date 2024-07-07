@@ -1,9 +1,10 @@
 <?PHP
-//---
-include_once 'tables.php';
-include_once 'sql_tables.php';
-//---
-function sort_py_PageViews($items, $en_views_tab) {
+
+include_once 'Tables/tables.php';
+include_once 'Tables/sql_tables.php';
+
+function sort_py_PageViews($items, $en_views_tab)
+{
     $dd = [];
     foreach ($items as $t) {
         $t = str_replace('_', ' ', $t);
@@ -14,7 +15,8 @@ function sort_py_PageViews($items, $en_views_tab) {
     return $dd;
 }
 
-function sort_py_importance($items, $Assessments_table, $Assessments_fff) {
+function sort_py_importance($items, $Assessments_table, $Assessments_fff)
+{
     $empty = $Assessments_fff['Unknown'] ?? '';
     $dd = [];
     foreach ($items as $t) {
@@ -28,42 +30,48 @@ function sort_py_importance($items, $Assessments_table, $Assessments_fff) {
     arsort($dd);
     return $dd;
 }
-//---
-function make_one_row($v, $cnt, $cod, $cat, $camp, $words, $refs, $asse, $tra_type, $pageviews, $qid, $inprocess, $in_process, $tra_btn, $full) {
+
+function make_one_row($v, $cnt, $cod, $cat, $camp, $words, $refs, $asse, $tra_type, $pageviews, $qid, $inprocess, $in_process, $tra_btn, $full)
+{
     //---
     $cat2 = rawurlEncode($cat);
     $camp2 = rawurlEncode($camp);
     //---
-    $title = str_replace ( '_' , ' ' , $v );
+    $title = str_replace('_', ' ', $v);
     $title2 = rawurlEncode($title);
     $mdwiki_url = "//mdwiki.org/wiki/" . str_replace('+', '_', $title2);
     $qid = ($qid != '') ? "<a class='inline' target='_blank' href='https://wikidata.org/wiki/$qid'>$qid</a>" : '&nbsp;';
     //---
-    if ( $asse == '' ) $asse = 'Unknown';
+    if ($asse == '') $asse = 'Unknown';
     // "username" => global_username,
+    //---
     $params = array(
         "title" => $title2,
         "code" => $cod,
         "cat" => $cat2,
         "camp" => $camp2,
         "type" => $tra_type
-        );
-    $translate_url = $mdwiki_url;
-    $tab = <<<HTML
-        <a role='button' class='btn btn-outline-primary' onclick='login()'>
-            <i class='fas fa-sign-in-alt fa-sm fa-fw mr-1'></i><span class='navtitles'>Login</span>
-        </a>
-        HTML;
-    if (global_username != '') {
-        $translate_url = 'translate.php?' . http_build_query($params);
-        $tab = "<a href='$translate_url' class='btn btn-outline-primary btn-sm'>Translate</a>";
+    );
+    //---
+    $translate_url = 'translate.php?' . http_build_query($params);
+    $tab = "<a href='$translate_url' class='btn btn-outline-primary btn-sm'>Translate</a>";
+    //---
+    // if (global_username == '') {
+    if (global_username == 'xxaaa') {
+        $tab = <<<HTML
+            <a role='button' class='btn btn-outline-primary' onclick='login()'>
+                <i class='fas fa-sign-in-alt fa-sm fa-fw mr-1'></i><span class='navtitles'>Login</span>
+            </a>
+            HTML;
+        //---
+        $translate_url = $mdwiki_url;
     }
     //---
     $inprocess_tds = '';
     $_user_ = $in_process[$v]['user'] ?? '';
     $_date_ = $in_process[$v]['date'] ?? '';
     //---
-    if ( $inprocess ) {
+    if ($inprocess) {
         $inprocess_tds = <<<HTML
             <td class='hide_on_mobile_cell' data-content="user">$_user_</td>
             <td class='hide_on_mobile_cell' data-content="Date">$_date_</td>
@@ -82,7 +90,7 @@ function make_one_row($v, $cnt, $cod, $cat, $camp, $words, $refs, $asse, $tra_ty
         array("Refs.", $refs),
         array("Qid", $qid)
     );
-    if ( $inprocess ) {
+    if ($inprocess) {
         // add User : $_user_ and Date : $_date_
         $data[] = array("User", $_user_);
         $data[] = array("Date", $_date_);
@@ -111,7 +119,7 @@ function make_one_row($v, $cnt, $cod, $cat, $camp, $words, $refs, $asse, $tra_ty
     //---
     $div_id = "t_$cnt";
     //---
-    if ( $inprocess ) $div_id .= '_in';
+    if ($inprocess) $div_id .= '_in';
     if ($full) $div_id .= '_full';
     //---
     $lista = <<<HTML
@@ -139,10 +147,9 @@ function make_one_row($v, $cnt, $cod, $cat, $camp, $words, $refs, $asse, $tra_ty
     //---
     return $lista;
 }
-//---
-function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inprocess=false ) {
-    //---
-    // $result = make_results_table($items, $cod, $cat, $tra_type, $tra_btn, $inprocess=$inprocess );
+
+function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inprocess = false)
+{
     //---
     global $Words_table, $All_Words_table, $Assessments_table;
     global $Lead_Refs_table, $All_Refs_table, $enwiki_pageviews_table;
@@ -161,14 +168,14 @@ function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inp
     //---
     $in_process = array();
     $inprocess_first = '';
-    if ( $inprocess ) {
+    if ($inprocess) {
         $inprocess_first = '<th>user</th><th>date</th>';
         $in_process = $items;
         $items = array_keys($items);
         if ($tra_btn != '1') $Translate_th = '<th></th>';
     };
     //---
-	$frist = <<<HTML
+    $frist = <<<HTML
     <!-- <div class="table-responsive"> -->
     <table class="table compact sortable table-striped table-mobile-responsive table-mobile-sided" id="main_table">
         <thead>
@@ -191,12 +198,12 @@ function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inp
     $dd = sort_py_PageViews($items, $enwiki_pageviews_table);
     // $dd = sort_py_importance($items, $Assessments_table, $Assessments_fff);
     //---
-    $list = "" ;
-    $cnt = 1 ;
+    $list = "";
+    $cnt = 1;
     //---
-    foreach ( $dd AS $v => $gt) {
-        if ( $v == '' ) continue;
-        $title = str_replace ( '_' , ' ' , $v );
+    foreach ($dd as $v => $gt) {
+        if ($v == '') continue;
+        $title = str_replace('_', ' ', $v);
         $views = $enwiki_pageviews_table[$title] ?? 0;
         $word  = $words_tab[$title] ?? 0;
         $refs  = $ref_tab[$title] ?? 0;
@@ -220,15 +227,15 @@ function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inp
         // if title in full_translates array then $full = true
         $full = (in_array($title, $full_translates)) ? true : false;
         //---
-        if ( $no_lead && !$full ) {
+        if ($no_lead && !$full) {
             continue;
         }
         //---
-        if ( !$no_lead ) {
+        if (!$no_lead) {
             $list .= $row;
         }
         //---
-        if ( $full ) {
+        if ($full) {
             $word  = $All_Words_table[$title] ?? 0;
             $refs  = $All_Refs_table[$title] ?? 0;
             //---
@@ -243,7 +250,4 @@ function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inp
     <!-- </div> -->
     HTML;
     return $frist . $list . $last;
-    }
-
-?>
-
+}

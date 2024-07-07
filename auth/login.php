@@ -7,8 +7,9 @@ if (isset($_REQUEST['test'])) {
 };
 //---
 // Require the library and set up the classes we're going to use in this first part.
-require_once __DIR__ . '/u.php';
-require_once __DIR__ . '/../vendor/autoload.php';
+include_once __DIR__ . '/u.php';
+
+include_once __DIR__ . '/../vendor_load.php';
 
 use MediaWiki\OAuthClient\Client;
 use MediaWiki\OAuthClient\ClientConfig;
@@ -23,7 +24,7 @@ if (!file_exists($configFile)) {
 }
 
 // Get the wiki URL and OAuth consumer details from the config file.
-require_once $configFile;
+include_once $configFile;
 
 // Configure the OAuth client with the URL and consumer details.
 $conf = new ClientConfig($oauthUrl);

@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 //---
 
 //---
-require 'tables.php';
+include_once 'Tables/tables.php';
 //---
 echo <<<HTML
 <style>
@@ -173,7 +173,7 @@ echo sprintf($script, $ka);
 <!--
 <script>
 $( function() {
-	var ur = 'cats_cash/RTT.json';
+	var ur = 'Tables/cats_cash/RTT.json';
     $( ".mdtitles" ).autocomplete({
 	source: function (request, response){
 		$.ajax({url: ur ,dataType: "json",data:{term: request.term,},success: function (data) {response(data.list);}});

@@ -6,7 +6,7 @@ if (isset($_REQUEST['test'])) {
     error_reporting(E_ALL);
 };
 //---
-require_once __DIR__ . '/../vendor/autoload.php';
+include_once __DIR__ . '/../vendor_load.php';
 
 use MediaWiki\OAuthClient\Client;
 use MediaWiki\OAuthClient\ClientConfig;
@@ -17,7 +17,7 @@ use MediaWiki\OAuthClient\Token;
 // header( 'Content-type: text/plain' );
 
 // Get the wiki URL and OAuth consumer details from the config file.
-require_once __DIR__ . '/config.php';
+include_once __DIR__ . '/config.php';
 
 // Configure the OAuth client with the URL and consumer details.
 $conf = new ClientConfig( $oauthUrl );
@@ -46,7 +46,7 @@ function get_edit_token(){
 function doApiQuery($Params, $addtoken = null){
     global $client, $accessToken, $apiUrl;
     //---
-    if ($addtoken !== null) $Params['token'] = get_edit_token();    
+    if ($addtoken !== null) $Params['token'] = get_edit_token();
     //---
     $Result = $client->makeOAuthCall(
         $accessToken,

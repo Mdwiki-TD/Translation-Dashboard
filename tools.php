@@ -1,5 +1,5 @@
 <?PHP
 //---
-require 'coordinator.php';
+include_once __DIR__ . '/coordinator.php';
 //---
 ?>

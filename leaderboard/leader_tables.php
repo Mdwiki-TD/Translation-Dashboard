@@ -1,9 +1,9 @@
 <?PHP
-include_once 'tables.php';
-include_once 'functions.php';
-include_once 'langcode.php';
-include_once 'sql_tables.php'; // $sql_qids $cat_titles $cat_to_camp $camp_to_cat
-require 'leaderboard/camps.php';
+include_once 'Tables/tables.php';
+include_once 'actions/functions.php';
+include_once 'Tables/langcode.php';
+include_once 'Tables/sql_tables.php'; // $sql_qids $cat_titles $cat_to_camp $camp_to_cat
+include_once 'leaderboard/camps.php';
 include_once 'actions/html.php';
 
 $year = $_REQUEST['year'] ?? 'all';

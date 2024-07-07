@@ -7,7 +7,7 @@ if (isset($_REQUEST['test'])) {
 };
 //---
 /*
-include_once 'td_config.php';
+include_once __DIR__ . '/td_config.php';
 $ini = Read_ini_file('OAuthConfig.ini');
 //---
 */

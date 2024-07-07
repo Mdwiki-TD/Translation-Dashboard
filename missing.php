@@ -1,8 +1,8 @@
 <?PHP
 //---
-require 'header.php';
+include_once __DIR__ . '/header.php';
+include_once __DIR__ . '/Tables/langcode.php';
 echo '<script>$("#missing").addClass("active");</script>';
-require 'langcode.php';
 //---
 if (isset($_REQUEST['test'])) {
 
@@ -11,7 +11,7 @@ if (isset($_REQUEST['test'])) {
 	error_reporting(E_ALL);
 };
 //---
-$missingfile = file_get_contents("Tables/missing.json");
+$missingfile = file_get_contents("Tables/jsons/missing.json");
 //print $wordsjson;
 $MIS = json_decode( $missingfile, true) ; //{'all' : len(listenew), 'date' : Day_History, 'langs' : {} }
 //---
@@ -110,6 +110,6 @@ echo <<<HTML
 </div>
 HTML;
 //---
-require 'foter.php';
+include_once __DIR__ . '/foter.php';
 //---
 ?>

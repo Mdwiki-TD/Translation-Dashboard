@@ -27,7 +27,7 @@ $tables = array(
 );
 //---
 foreach ($tables as $key => &$value) {
-	$file = file_get_contents(__DIR__ . "/Tables/{$key}.json");
+	$file = file_get_contents(__DIR__ . "/jsons/{$key}.json");
 	$value = json_decode($file, true);
 }
 //---

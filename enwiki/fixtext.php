@@ -7,9 +7,10 @@ if (isset($_REQUEST['test'])) {
     error_reporting(E_ALL);
 };
 
-require_once __DIR__ . '/../vendor/autoload.php';
 
-require_once 'fix_images.php';
+include_once __DIR__ . '/../vendor_load.php';
+
+include_once 'fix_images.php';
 
 use WikiConnect\ParseWiki\ParserTemplate;
 use WikiConnect\ParseWiki\ParserCategorys;
