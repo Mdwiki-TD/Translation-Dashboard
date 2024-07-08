@@ -22,7 +22,7 @@ class WikiTranslator
         $this->wholeArticle = ($traType == 'all') ? true : false;
     }
 
-    private function getTextFromMdWiki()
+    private function getTextFromMdWikiOld()
     {
         $first = '';
         $params2 = array(
@@ -47,6 +47,33 @@ class WikiTranslator
             );
             $json1 = get_mdwiki_url_with_params($params);
             $first = $json1["parse"]["wikitext"]["*"] ?? '';
+        }
+
+        $text = $first;
+
+        return array("text" => $text, "allText" => $allText);
+    }
+
+    private function getTextFromMdWiki()
+    {
+        $first = '';
+        $allText = '';
+
+        $url = "https://mdwiki.org/wiki/" . $this->title . "?action=raw";
+
+        test_print("file_get_contents($url);");
+        $allText = file_get_contents($url, false, stream_context_create(array('http' => array('follow_location' => false))));
+
+        if ($allText === FALSE) {
+            $allText = get_url_result($url);
+        };
+
+        if ($this->wholeArticle) {
+            $first = $allText;
+        } else {
+            // split before the first header ==
+            $first = explode('==', $allText)[0];
+            $first .= "\n==References==\n<references />";
         }
 
         $text = $first;
@@ -116,7 +143,7 @@ class WikiTranslator
         */
         $newText = $this->parseText();
 
-        if ($newText === '' || $newText == '' || $newText == 'n') {
+        if ($newText === '' || $newText == '' || $newText == 'n' || $newText == 'notext') {
             return "notext";
         }
 
@@ -124,9 +151,6 @@ class WikiTranslator
             return 'notext';
         }
 
-        if (!$this->wholeArticle) {
-            $newText .= "\n==References==\n<references />";
-        }
         $success = $this->PostToEnwiki($newText);
 
         return $success;
