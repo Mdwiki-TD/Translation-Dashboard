@@ -9,7 +9,7 @@ function get_url_result(string $url): string
 
     $output = curl_exec($ch);
     if ($output === FALSE) {
-        echo("cURL Error: " . curl_error($ch));
+        echo("<br>cURL Error: " . curl_error($ch));
     }
 
     curl_close($ch);

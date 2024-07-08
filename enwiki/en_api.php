@@ -33,12 +33,12 @@ function getLoginToken()
 	curl_setopt($ch, CURLOPT_COOKIEJAR, "cookie.txt");
 	curl_setopt($ch, CURLOPT_COOKIEFILE, "cookie.txt");
 
-	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
-	curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+	curl_setopt($ch, CURLOPT_TIMEOUT, 5);
 
 	$output = curl_exec($ch);
     if ($output === FALSE) {
-        echo("cURL Error: " . curl_error($ch));
+        echo("<br>cURL Error: " . curl_error($ch));
     }
 	curl_close($ch);
 	// ---
@@ -77,12 +77,12 @@ function loginRequest($logintoken)
 	curl_setopt($ch, CURLOPT_COOKIEJAR, "cookie.txt");
 	curl_setopt($ch, CURLOPT_COOKIEFILE, "cookie.txt");
 
-	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
-	curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+	curl_setopt($ch, CURLOPT_TIMEOUT, 5);
 
 	$output = curl_exec($ch);
     if ($output === FALSE) {
-        echo("cURL Error: " . curl_error($ch));
+        echo("<br>cURL Error: " . curl_error($ch));
     }
 	curl_close($ch);
 }
@@ -106,12 +106,12 @@ function getCSRFToken()
 	curl_setopt($ch, CURLOPT_COOKIEJAR, "cookie.txt");
 	curl_setopt($ch, CURLOPT_COOKIEFILE, "cookie.txt");
 
-	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
-	curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+	curl_setopt($ch, CURLOPT_TIMEOUT, 5);
 
 	$output = curl_exec($ch);
     if ($output === FALSE) {
-        echo("cURL Error: " . curl_error($ch));
+        echo("<br>cURL Error: " . curl_error($ch));
     }
 	curl_close($ch);
 
@@ -136,12 +136,12 @@ function send_params($params4)
 	curl_setopt($ch, CURLOPT_COOKIEJAR, "cookie.txt");
 	curl_setopt($ch, CURLOPT_COOKIEFILE, "cookie.txt");
 
-	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
-	curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+	curl_setopt($ch, CURLOPT_TIMEOUT, 5);
 
 	$output = curl_exec($ch);
     if ($output === FALSE) {
-        echo("cURL Error: " . curl_error($ch));
+        echo("<br>cURL Error: " . curl_error($ch));
     }
 	curl_close($ch);
 
