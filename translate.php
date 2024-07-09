@@ -76,13 +76,13 @@ function insertPage($title_o, $word, $tr_type, $cat, $camp, $coden, $useree, $te
 }
 
 // Display login button if user is not logged in
-// if ($useree == '') echo login_card();
+if ($useree == '') echo login_card();
 //---
 $user_valid = ($useree != '') ? true : false;
 $go      = $_GET['go'] ?? false;
 //---
 // TODO: temporary solution
-$user_valid = true;
+// $user_valid = true;
 // $go = true;
 
 // Process form data if title, code, and user are set
@@ -153,7 +153,7 @@ if ($title_o != '' && $coden != '' && $user_valid) {
     } else {
         echo <<<HTML
             $nana
-            enwiki: error..<br>($output)
+            save to enwiki: error..<br>($output)
         HTML;
     }
 }

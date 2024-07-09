@@ -84,13 +84,14 @@ function print_form_start1($allow_whole_translate, $lang_to_code, $catinput_list
     };
     //---
     $uiu = <<<HTML
-    <a role="button" class="btn btn-outline-primary" onclick="login()">
-    <i class="fas fa-sign-in-alt fa-sm fa-fw mr-1"></i><span class="navtitles">Login</span>
-    </a>
+            <a role="button" class="btn btn-outline-primary" onclick="login()">
+            <i class="fas fa-sign-in-alt fa-sm fa-fw mr-1"></i><span class="navtitles">Login</span>
+            </a>
     HTML;
     //---
-    // if ( global_username != '' )
-    $uiu = '<input type="submit" name="doit" class="btn btn-outline-primary" value="Do it"/>';
+    if ( global_username != '' ) {
+        $uiu = '<input type="submit" name="doit" class="btn btn-outline-primary" value="Do it"/>';
+    }
     //---
     $cat_input = make_drop($catinput_list, $cat_ch);
     $camp_input = make_drop($campaign_input_list, $camp_ch);
