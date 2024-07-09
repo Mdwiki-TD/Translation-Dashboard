@@ -15,9 +15,9 @@ function get_url_params_result(string $endPoint, array $params = []): string
     curl_setopt($ch, CURLOPT_TIMEOUT, 5);
 
     $output = curl_exec($ch);
-
+    $url = "{$endPoint}?" . http_build_query($params);
     if ($output === FALSE) {
-        echo("<br>cURL Error: " . curl_error($ch));
+        echo ("<br>cURL Error: " . curl_error($ch) . "<br>$url");
     }
 
     curl_close($ch);

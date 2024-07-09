@@ -110,13 +110,11 @@ if ($title_o != '' && $coden != '' && $user_valid) {
     }
     insertPage($title_o, $word, $tr_type, $cat, $camp, $coden, $useree, $test);
     // ---
-    // $output = startTranslatePhp($title_o, $tr_type, false, $do_fix_refs = $fix_ref_in_text);
-    $title2 = 'User:Mr. Ibrahem/' . $title_o;
-    $output = Find_pages_exists_or_not($title2);
+    $output = startTranslatePhp($title_o, $tr_type, false, $do_fix_refs = $fix_ref_in_text);
     // ---
     echo $output;
     // ---
-    if (trim($output) == true || $go) {
+    if (trim($output) == 'true' || $go) {
         $url = make_translation_url($title_o, $coden, $tr_type);
 
         $title_o2 = rawurlencode(str_replace(' ', '_', $title_o));
@@ -153,7 +151,7 @@ if ($title_o != '' && $coden != '' && $user_valid) {
     } else {
         echo <<<HTML
             $nana
-            enwiki: error..<br>($output)
+            save to enwiki: error..<br>($output)
         HTML;
     }
 }
