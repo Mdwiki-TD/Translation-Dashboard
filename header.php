@@ -24,7 +24,7 @@ HTML;
 //---
 include_once 'actions/functions.php'; // $usrs
 //---
-$username = $_SESSION['username'] ?? '';
+include_once 'auth/index.php';
 //---
 define('global_username', $username);
 //---

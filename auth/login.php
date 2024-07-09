@@ -43,7 +43,6 @@ function make_callback_url($url)
             $state[$key] = $da;
         }
     };
-    // $state = implode('&', $state);
     //---
     $sta = "";
     if (!empty($state)) {
@@ -56,9 +55,8 @@ function make_callback_url($url)
     //---
     return $oauth_call;
 }
-$call_back_url = 'https://mdwiki.toolforge.org/Translation_Dashboard/auth.php?a=callback';
 // ---
-$call_back_url = make_callback_url($call_back_url);
+$call_back_url = make_callback_url('https://mdwiki.toolforge.org/Translation_Dashboard/auth.php?a=callback');
 // ---
 $client->setCallback($call_back_url);
 

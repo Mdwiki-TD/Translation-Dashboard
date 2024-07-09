@@ -30,7 +30,7 @@ $gUserAgent = 'mdwiki MediaWikiOAuthClient/1.0';
 //---
 // To get this demo working, you need to go to this wiki and register a new OAuth consumer.
 // Not that this URL must be of the long form with 'title=Special:OAuth', and not a clean URL.
-$oauthUrl = 'https://mdwiki.org/w/index.php?title=Special:OAuth';
+$oauthUrl = 'https://meta.wikimedia.org/w/index.php?title=Special:OAuth';
 
 // Make the api.php URL from the OAuth URL.
 $apiUrl = preg_replace( '/index\.php.*/', 'api.php', $oauthUrl );

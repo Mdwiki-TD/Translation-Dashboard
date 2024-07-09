@@ -1,14 +1,22 @@
 <?php
 
+include_once(__DIR__ . '/../infos/user_account_new.php');
+
+$usr_agent = $user_agent;
+
 function get_url_result(string $url): string
 {
+    global $usr_agent;
+
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_COOKIEJAR, "cookie.txt");
     curl_setopt($ch, CURLOPT_COOKIEFILE, "cookie.txt");
 
-	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-	curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+    curl_setopt($ch, CURLOPT_USERAGENT, $usr_agent);
+
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 5);
 
     $output = curl_exec($ch);
     if ($output === FALSE) {

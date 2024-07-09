@@ -32,13 +32,12 @@ $ident = $client->identify($accessToken);
 echo "You are authenticated as " . htmlspecialchars($ident->username, ENT_QUOTES, 'UTF-8') . ".\n\n";
 //---
 $_SESSION['username'] = $ident->username;
-
 //---
-include_once __DIR__ . "/../actions/mdwiki_sql.php";
-//---
-if ($ident->username != '') {
-    sql_add_user($ident->username, '', '', '', '');
-};
+// include_once __DIR__ . "/../actions/mdwiki_sql.php";
+// //---
+// if ($ident->username != '') {
+//     sql_add_user($ident->username, '', '', '', '');
+// };
 //---
 // Example 2: do a simple API call.
 $userInfo = json_decode($client->makeOAuthCall(
