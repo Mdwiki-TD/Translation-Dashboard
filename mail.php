@@ -16,7 +16,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 //---
-include_once __DIR__ . '/td_config.php';
+include_once __DIR__ . '/infos/td_config.php';
 $my_ini     = Read_ini_file('my_config.ini');
 $tool_email = $my_ini['mdwiki_Username'];
 $tool_pass  = $my_ini['mdwiki_Password'];

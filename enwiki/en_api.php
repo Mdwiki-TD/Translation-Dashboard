@@ -8,16 +8,17 @@
     MIT license
 */
 
-include_once(__DIR__ . '/user_account_new.php');
+include_once(__DIR__ . '/../infos/user_account_new.php');
 $lgname_enwiki = $lgname_enwiki;
 $lgpass_enwiki = $lgpass_enwiki;
+$usr_agent = $user_agent;
 
 $endPoint = "https://en.wikipedia.org/w/api.php";
 
 // Step 1: GET request to fetch login token
 function getLoginToken()
 {
-	global $endPoint;
+	global $endPoint, $usr_agent;
 
 	$params1 = [
 		"action" => "query",
@@ -32,6 +33,8 @@ function getLoginToken()
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch, CURLOPT_COOKIEJAR, "cookie.txt");
 	curl_setopt($ch, CURLOPT_COOKIEFILE, "cookie.txt");
+
+	curl_setopt($ch, CURLOPT_USERAGENT, $usr_agent);
 
 	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
 	curl_setopt($ch, CURLOPT_TIMEOUT, 5);
@@ -58,7 +61,7 @@ function getLoginToken()
 // (https://www.mediawiki.org/wiki/Special:BotPasswords) for lgname & lgpassword
 function loginRequest($logintoken)
 {
-	global $endPoint, $lgname_enwiki, $lgpass_enwiki;
+	global $endPoint, $usr_agent, $lgname_enwiki, $lgpass_enwiki;
 
 	$params2 = [
 		"action" => "login",
@@ -76,6 +79,7 @@ function loginRequest($logintoken)
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch, CURLOPT_COOKIEJAR, "cookie.txt");
 	curl_setopt($ch, CURLOPT_COOKIEFILE, "cookie.txt");
+	curl_setopt($ch, CURLOPT_USERAGENT, $usr_agent);
 
 	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
 	curl_setopt($ch, CURLOPT_TIMEOUT, 5);
@@ -92,7 +96,7 @@ function loginRequest($logintoken)
 // Step 3: GET request to fetch CSRF token
 function getCSRFToken()
 {
-	global $endPoint;
+	global $endPoint, $usr_agent;
 
 	$params3 = [
 		"action" => "query",
@@ -107,6 +111,7 @@ function getCSRFToken()
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch, CURLOPT_COOKIEJAR, "cookie.txt");
 	curl_setopt($ch, CURLOPT_COOKIEFILE, "cookie.txt");
+	curl_setopt($ch, CURLOPT_USERAGENT, $usr_agent);
 
 	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
 	curl_setopt($ch, CURLOPT_TIMEOUT, 5);
@@ -127,7 +132,7 @@ function getCSRFToken()
 // Step 4: POST request to edit a page
 function send_params($params4)
 {
-	global $endPoint;
+	global $endPoint, $usr_agent;
 
 	$ch = curl_init();
 
@@ -137,6 +142,7 @@ function send_params($params4)
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch, CURLOPT_COOKIEJAR, "cookie.txt");
 	curl_setopt($ch, CURLOPT_COOKIEFILE, "cookie.txt");
+	curl_setopt($ch, CURLOPT_USERAGENT, $usr_agent);
 
 	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
 	curl_setopt($ch, CURLOPT_TIMEOUT, 5);

@@ -22,7 +22,7 @@ class WikiTranslator
         $this->wholeArticle = ($traType == 'all') ? true : false;
     }
 
-    private function getTextFromMdWikiOld()
+    private function getTextFromMdWiki()
     {
         $first = '';
         $params2 = array(
@@ -58,7 +58,7 @@ class WikiTranslator
         return array("text" => $text, "allText" => $allText);
     }
 
-    private function getTextFromMdWiki()
+    private function getTextFromMdWiki_raw()
     {
         $first = '';
         $allText = '';
@@ -89,7 +89,7 @@ class WikiTranslator
 
     public function parseText()
     {
-        $txt = $this->getTextFromMdWikiOld();
+        $txt = $this->getTextFromMdWiki();
         $text = $txt["text"];
         $allText = $txt["allText"];
 

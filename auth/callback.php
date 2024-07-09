@@ -59,7 +59,7 @@ $test = $_GET['test'] ?? '';
 foreach (['cat', 'code', 'type', 'doit'] as $key) {
 	$da1 = $_GET[$key] ?? '';
 	if ($da1 != '') {
-		$state[$key] = $da;
+		$state[$key] = $da1;
 	};
 };
 //---

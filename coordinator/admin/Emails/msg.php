@@ -30,7 +30,7 @@ HTML;
 include_once 'Tables/tables.php';
 include_once 'actions/functions.php';
 include_once 'results/getcats.php';
-include_once 'td_config.php';
+include_once 'infos/td_config.php';
 //---
 $tabs = array();
 //---

@@ -7,7 +7,7 @@ if (isset($_REQUEST['test'])) {
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 }
-include_once __DIR__ . '/../td_config.php';
+include_once __DIR__ . '/td_config.php';
 
 $ini = Read_ini_file('user.ini');
 //---
@@ -26,3 +26,5 @@ $lgname_enwiki = $ini['lgname_enwiki'];
 $lgpass_enwiki = $ini['lgpass_enwiki'];
 
 $qs_token = $ini['qs_token'];
+
+$user_agent = $ini['user_agent'];
