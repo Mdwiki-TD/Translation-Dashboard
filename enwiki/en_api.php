@@ -37,9 +37,9 @@ function getLoginToken()
 	curl_setopt($ch, CURLOPT_TIMEOUT, 5);
 
 	$output = curl_exec($ch);
-    if ($output === FALSE) {
-        echo("<br>cURL Error: " . curl_error($ch));
-    }
+	if ($output === FALSE) {
+		echo ("<br>cURL Error: " . curl_error($ch) . "<br>$url");
+	}
 	curl_close($ch);
 	// ---
 	// echo "<pre>";
@@ -80,10 +80,12 @@ function loginRequest($logintoken)
 	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
 	curl_setopt($ch, CURLOPT_TIMEOUT, 5);
 
+	$url = "{$endPoint}?" . http_build_query($params2);
+
 	$output = curl_exec($ch);
-    if ($output === FALSE) {
-        echo("<br>cURL Error: " . curl_error($ch));
-    }
+	if ($output === FALSE) {
+		echo ("<br>cURL Error: " . curl_error($ch) . "<br>$url");
+	}
 	curl_close($ch);
 }
 
@@ -110,9 +112,9 @@ function getCSRFToken()
 	curl_setopt($ch, CURLOPT_TIMEOUT, 5);
 
 	$output = curl_exec($ch);
-    if ($output === FALSE) {
-        echo("<br>cURL Error: " . curl_error($ch));
-    }
+	if ($output === FALSE) {
+		echo ("<br>cURL Error: " . curl_error($ch) . "<br>$url");
+	}
 	curl_close($ch);
 
 	$result = json_decode($output, true);
@@ -140,9 +142,12 @@ function send_params($params4)
 	curl_setopt($ch, CURLOPT_TIMEOUT, 5);
 
 	$output = curl_exec($ch);
-    if ($output === FALSE) {
-        echo("<br>cURL Error: " . curl_error($ch));
-    }
+
+	$url = "{$endPoint}?" . http_build_query($params4);
+
+	if ($output === FALSE) {
+		echo ("<br>cURL Error: " . curl_error($ch) . "<br>$url");
+	}
 	curl_close($ch);
 
 	return $output;
@@ -182,4 +187,28 @@ function do_edit($title, $text, $summary)
 	// echo "<pre>"; print_r($result); echo "</pre>";
 	//---
 	return $result;
+}
+
+function Find_pages_exists_or_not($title)
+{
+	// {"action": "query", "titles": title, "rvslots": "*"}
+	$params = [
+		"action" => "query",
+		"titles" => $title,
+		'format' => 'json',
+		"formatversion" => 2
+	];
+
+	$result = send_params($params);
+
+	$result = json_decode($result, true);
+	$result = $result['query']['pages'] ?? [];
+
+	if (count($result) > 0) {
+		$page = $result[0];
+		$pageid = ($page['pageid']) ? 'true' : 'false';
+		return $pageid;
+	}
+
+	return false;
 }

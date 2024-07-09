@@ -7,9 +7,12 @@ function get_url_result(string $url): string
     curl_setopt($ch, CURLOPT_COOKIEJAR, "cookie.txt");
     curl_setopt($ch, CURLOPT_COOKIEFILE, "cookie.txt");
 
+	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+	curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+
     $output = curl_exec($ch);
     if ($output === FALSE) {
-        echo("<br>cURL Error: " . curl_error($ch));
+        echo ("<br>cURL Error: " . curl_error($ch) . "<br>$url");
     }
 
     curl_close($ch);

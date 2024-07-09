@@ -23,7 +23,8 @@ echo <<<HTML
 HTML;
 //---
 include_once 'actions/functions.php'; // $usrs
-include_once 'auth/index.php';
+//---
+$username = $_SESSION['username'] ?? '';
 //---
 define('global_username', $username);
 //---

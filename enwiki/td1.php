@@ -47,6 +47,10 @@ class WikiTranslator
             );
             $json1 = get_mdwiki_url_with_params($params);
             $first = $json1["parse"]["wikitext"]["*"] ?? '';
+            // ---
+            if ($first != '') {
+                $first .= "\n==References==\n<references />";
+            }
         }
 
         $text = $first;
@@ -73,7 +77,9 @@ class WikiTranslator
         } else {
             // split before the first header ==
             $first = explode('==', $allText)[0];
-            $first .= "\n==References==\n<references />";
+            if ($first != '') {
+                $first .= "\n==References==\n<references />";
+            }
         }
 
         $text = $first;
@@ -83,7 +89,7 @@ class WikiTranslator
 
     public function parseText()
     {
-        $txt = $this->getTextFromMdWiki();
+        $txt = $this->getTextFromMdWikiOld();
         $text = $txt["text"];
         $allText = $txt["allText"];
 
