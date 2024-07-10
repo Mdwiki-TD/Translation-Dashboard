@@ -113,6 +113,8 @@ class WikiTranslator
             return "";
         }
 
+        $newText .= "\n\n[[Category:Mdwiki Translation Dashboard articles]]";
+
         return $newText;
     }
 

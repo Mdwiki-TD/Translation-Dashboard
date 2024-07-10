@@ -1,6 +1,7 @@
 <?PHP
 //---
-function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'users', $tab_ty='a', $_user_='') {
+function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'users', $tab_ty = 'a', $_user_ = '')
+{
     global $cat_to_camp, $articles_to_camps, $camps_to_articles;
     //---
     $mdtitle = trim($tabb['title']);
@@ -13,7 +14,7 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
     //---
     $word = number_format($word);
     //---
-    $nana = make_mdwiki_title( $mdtitle );
+    $nana = make_mdwiki_title($mdtitle);
     //---
     $ccat = make_cat_url($cat);
     //---
@@ -34,7 +35,7 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
         $ccat = substr($ccat, 0, -4);
     } else {
         // echo "No campaigns for $mdtitle<br>";
-        if ( $campaign != '') {
+        if ($campaign != '') {
             $ccat = "<a href='leaderboard.php?camp=$campaign'>$campaign</a>";
         };
     };
@@ -50,7 +51,7 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
         $urll_data = $lang;
     } else {
         $use = rawurlEncode($user);
-        $use = str_replace ( '+' , '_' , $use );
+        $use = str_replace('+', '_', $use);
         //---
         $urll = "<a href='leaderboard.php?user=$use'><span style='white-space: nowrap;'>$user</span></a>";
         $urll_data = $user;
@@ -59,6 +60,8 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
     //---
     $udate = $pupdate;
     $complate   = '';
+    //---
+    $target = "";
     //---
     if ($tab_ty == 'pending') {
         $udate = $date;
@@ -75,12 +78,12 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
             $view = make_view_by_number($target, $view_number, $lang, $pupdate);
         }
         //---
-        $target_link = make_target_url($target, $lang, $name="", $deleted=$deleted);
+        $target_link = make_target_url($target, $lang, $name = "", $deleted = $deleted);
         //---
         $td_views = "<td data-content='Views' data-sort='$view_number' data-filter='$view_number'>$view</td>";
     };
     //---
-    $year = substr($udate,0,4);
+    $year = substr($udate, 0, 4);
     //---
     $laly = <<<HTML
         <!-- <tr class='filterDiv show2 $year'> -->
@@ -115,7 +118,8 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
     //---
 };
 //---
-function make_table_lead($dd, $tab_type='a', $views_table = array(), $page_type='users', $user='', $lang='') {
+function make_table_lead($dd, $tab_type = 'a', $views_table = array(), $page_type = 'users', $user = '', $lang = '')
+{
     //---
     global $Words_table;
     //---
@@ -152,7 +156,7 @@ function make_table_lead($dd, $tab_type='a', $views_table = array(), $page_type=
         HTML;
     //---
     $noo = 0;
-    foreach ( $dd AS $tat => $tabe ) {
+    foreach ($dd as $tat => $tabe) {
         //---
         $noo += 1;
         //---
@@ -171,11 +175,11 @@ function make_table_lead($dd, $tab_type='a', $views_table = array(), $page_type=
         $word2 = $Words_table[$mdtitle] ?? 0;
         $word = $tabe['word'] ?? 0;
         //---
-        if ( $word < 1 ) $word = $word2;
+        if ($word < 1) $word = $word2;
         //---
         $total_words += $word;
         //---
-        $sato .= make_td_fo_user($tabe, $noo, $view_number, $word, $page_type = $page_type, $tab_ty=$tab_type, $_user_=$user);
+        $sato .= make_td_fo_user($tabe, $noo, $view_number, $word, $page_type = $page_type, $tab_ty = $tab_type, $_user_ = $user);
         //---
     };
     //---
@@ -193,7 +197,7 @@ function make_table_lead($dd, $tab_type='a', $views_table = array(), $page_type=
             </table>
         HTML;
     //---
-    $arra = array('table1' => $table1, 'table2' => $sato );
+    $arra = array('table1' => $table1, 'table2' => $sato);
     //---
     return $arra;
     //---
