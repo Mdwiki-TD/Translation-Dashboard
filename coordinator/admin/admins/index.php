@@ -40,8 +40,8 @@ $numb = 0;
 //---
 foreach ( $qq AS $Key => $table ) {
 	$numb += 1;
-	$ide	= $table['id'];
-	$usere	= $table['user'];
+	$ide	= $table['id'] ?? "";
+	$usere	= $table['user'] ?? "";
     //---
 	echo <<<HTML
 		<tr>

@@ -1,13 +1,4 @@
 <?php
-// Consolidate includes
-include_once __DIR__ . '/header.php';
-include_once __DIR__ . '/Tables/tables.php';
-include_once __DIR__ . '/actions/functions.php';
-include_once __DIR__ . '/enwiki/en_api.php';
-include_once __DIR__ . '/enwiki/td1.php';
-include_once __DIR__ . '/actions/html.php';
-include_once __DIR__ . '/Tables/sql_tables.php';
-
 // Define root path
 $pathParts = explode('public_html', __FILE__);
 // the root path is the first part of the split file path
@@ -19,7 +10,7 @@ $fix_ref_in_text = ($fix_ref_in_text == "1") ? true : false;
 
 // Get parameters from the URL
 $coden = strtolower($_GET['code']);
-$title_o = $_GET['title'];
+$title_o = $_GET['title'] ?? "";
 // $useree  = (global_username != '') ? global_username : $_GET['username'];
 $useree = (global_username != '') ? global_username : '';
 
@@ -87,7 +78,6 @@ $go      = $_GET['go'] ?? false;
 
 // Process form data if title, code, and user are set
 if ($title_o != '' && $coden != '' && $user_valid) {
-    $nana = '';
     $title_o = trim($title_o);
     $coden   = trim($coden);
     $useree  = trim($useree);
@@ -127,7 +117,6 @@ if ($title_o != '' && $coden != '' && $user_valid) {
 
         if ($test != "" && (!$go)) {
             echo <<<HTML
-                $nana
                 <br>trim($output) == true<br>
                 start_tr<br>
                 $url
@@ -145,16 +134,11 @@ if ($title_o != '' && $coden != '' && $user_valid) {
     } elseif (trim($output) == 'notext') {
         $li = make_mdwiki_title($title_o);
         echo <<<HTML
-            $nana
             page: $li has no text..<br>
         HTML;
     } else {
         echo <<<HTML
-            $nana
             save to enwiki: error..<br>($output)
         HTML;
     }
 }
-
-echo '</div>';
-include_once __DIR__ . '/foter.php';

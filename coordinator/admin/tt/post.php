@@ -2,7 +2,7 @@
 //---
 if (isset($_POST['se'])) {
 	// echo "<pre>" . var_export($_POST, true) . "</pre>";
-    $se   = $_POST['se'];
+    $se   = $_POST['se'] ?? [];
     foreach ($se as $index => $n) {
         //---
         $id       = $_POST["id_$n"] ?? '';

@@ -8,12 +8,13 @@ if ($lang !== 'All' && !isset($code_to_lang[$lang])) {
     $lang = 'All';
 };
 //---
-function filter_recent($lang) {
+function filter_recent($lang)
+{
     global $code_to_lang;
     //---
     $tabes = [];
     //---
-    foreach ( execute_query("select DISTINCT lang from pages;") AS $tat => $tag ) {
+    foreach (execute_query("select DISTINCT lang from pages;") as $tat => $tag) {
         $lag = strtolower($tag['lang']);
         //---
         $tabes[] = $lag;
@@ -24,9 +25,9 @@ function filter_recent($lang) {
     //---
     $lang_list = "<option data-tokens='All' value='All'>All</option>";
     //---
-    foreach ( $tabes as $codr ) {
+    foreach ($tabes as $codr) {
         $langeee = $code_to_lang[$codr] ?? '';
-		$selected = ($codr == $lang) ? 'selected' : '';
+        $selected = ($codr == $lang) ? 'selected' : '';
         $lang_list .= <<<HTML
             <option data-tokens='$codr' value='$codr' $selected>$langeee</option>
             HTML;
@@ -74,42 +75,44 @@ $recent_table = <<<HTML
         <tbody>
 HTML;
 //---
-function make_edit_icon($id, $title, $target, $lang, $user, $pupdate) {
-	//---
+function make_edit_icon($id, $title, $target, $lang, $user, $pupdate)
+{
+    //---
     $edit_params = array(
-		'id'   => $id,
-		'title'  => $title,
-		'target'  => $target,
-		'lang'  => $lang,
-		'user'  => $user,
-		'pupdate' => $pupdate,
-		'nonav' => 1
+        'id'   => $id,
+        'title'  => $title,
+        'target'  => $target,
+        'lang'  => $lang,
+        'user'  => $user,
+        'pupdate' => $pupdate,
+        'nonav' => 1
 
-	);
+    );
     //---
-    $edit_url = "coordinator.php?ty=translated/edit_page&" . http_build_query( $edit_params );
+    $edit_url = "coordinator.php?ty=translated/edit_page&" . http_build_query($edit_params);
     //---
-	$onclick = 'pupwindow1("' . $edit_url . '")';
+    $onclick = 'pupwindow1("' . $edit_url . '")';
     //---
     return <<<HTML
     	<a class='btn btn-outline-primary btn-sm' onclick='$onclick'>Edit</a>
     HTML;
 }
 //---
-function make_td($tabg, $nnnn) {
+function make_td($tabg, $nnnn)
+{
     //---
-    $id       = $tabg['id'];
+    $id       = $tabg['id'] ?? "";
     //---
-    $user     = $tabg['user'];
-    $lang    = $tabg['lang'];
+    $user     = $tabg['user'] ?? "";
+    $lang    = $tabg['lang'] ?? "";
     $md_title = trim($tabg['title']);
     $target    = trim($tabg['target']);
     $pupdate  = $tabg['pupdate'] ?? '';
     //---
-    $mdwiki_title = make_mdwiki_title( $md_title );
+    $mdwiki_title = make_mdwiki_title($md_title);
     //---
-    $targe33 = make_target_url( $target, $lang );
-	//---
+    $targe33 = make_target_url($target, $lang);
+    //---
     $edit_icon = make_edit_icon($id, $md_title, $target, $lang, $user, $pupdate);
     //---
     $laly = <<<HTML
@@ -141,7 +144,8 @@ function make_td($tabg, $nnnn) {
     return $laly;
 };
 //---
-function get_recent_sql($lang) {
+function get_recent_sql($lang)
+{
     $lang_line = '';
     //---
     if ($lang != '' && $lang != 'All') $lang_line = "and lang = '$lang'";
@@ -149,7 +153,7 @@ function get_recent_sql($lang) {
     $dd = execute_query("select * from pages where target != '' $lang_line ORDER BY pupdate DESC;");
     //---
     // sort the table by add_date
-    usort($dd, function($a, $b) {
+    usort($dd, function ($a, $b) {
         return strtotime($b['add_date']) - strtotime($a['add_date']);
     });
     //---
@@ -159,7 +163,7 @@ function get_recent_sql($lang) {
 $qsl_results = get_recent_sql($lang);
 //---
 $noo = 0;
-foreach ( $qsl_results AS $tat => $tabe ) {
+foreach ($qsl_results as $tat => $tabe) {
     //---
     $noo = $noo + 1;
     $recent_table .= make_td($tabe, $noo);
@@ -197,16 +201,18 @@ echo $recent_table;
 //---
 ?>
 <script>
-$('#translated').addClass('active');
-$("#translated").closest('.mb-1').find('.collapse').addClass('show');
+    $('#translated').addClass('active');
+    $("#translated").closest('.mb-1').find('.collapse').addClass('show');
 
-$(document).ready( function () {
-	var t = $('#pages_table').DataTable({
-	// order: [[10	, 'desc']],
-    // paging: false,
-	lengthMenu: [[50, 100, 150], [50, 100, 150]],
-    // scrollY: 800
-	});
-} );
-
+    $(document).ready(function() {
+        var t = $('#pages_table').DataTable({
+            // order: [[10	, 'desc']],
+            // paging: false,
+            lengthMenu: [
+                [50, 100, 150],
+                [50, 100, 150]
+            ],
+            // scrollY: 800
+        });
+    });
 </script>

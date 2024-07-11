@@ -1,7 +1,8 @@
 <?php
 
-function get_results($cat, $camp, $depth, $code) {
-   //---
+function get_results($cat, $camp, $depth, $code)
+{
+    //---
     $items = get_cat_exists_and_missing($cat, $camp, $depth, $code); # mdwiki pages in the cat
     //---
     if ($items == null) $items = array();

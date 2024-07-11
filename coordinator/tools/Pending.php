@@ -1,11 +1,10 @@
-
 <div class='card-header'>
-	<h4>Translations in process</h4>
+    <h4>Translations in process</h4>
 </div>
 <div class='card-body'>
-<?PHP
-//---
-/*
+    <?PHP
+    //---
+    /*
 
 صفحات مكررة
 
@@ -21,12 +20,12 @@ and B.target != ''
 للحذف:
 SELECT A.id from pages A, pages B where A.target = '' and A.lang = B.lang and A.title = B.title and B.target != '';
 */
-//---
-$user_process_tab = array();
-//---
-$sql_t = 'select user, count(target) as count from pages where target = "" group by user order by count(target) desc;';
-//---
-$text = <<<HTML
+    //---
+    $user_process_tab = array();
+    //---
+    $sql_t = 'select user, count(target) as count from pages where target = "" group by user order by count(target) desc;';
+    //---
+    $text = <<<HTML
 <table class='table table-striped compact soro table-mobile-responsive table-mobile-sided'>
     <thead>
         <tr>
@@ -38,21 +37,21 @@ $text = <<<HTML
     <tbody>
 
 HTML;
-//---
-$n = 0;
-//---
-foreach ( execute_query($sql_t) AS $k => $t ) {
-    $user  = $t['user'];
-    $count = $t['count'];
-    $user_process_tab[$user] = $count;
-    if ($user != 'test' && $user != '' && $count > 0 ) {
-        //---
-        $n ++;
-        //---
-        $use = rawurlEncode($user);
-        $use = str_replace ( '+' , '_' , $use );
-        //---
-        $text .= <<<HTML
+    //---
+    $n = 0;
+    //---
+    foreach (execute_query($sql_t) as $k => $t) {
+        $user  = $t['user'] ?? "";
+        $count = $t['count'] ?? "";
+        $user_process_tab[$user] = $count;
+        if ($user != 'test' && $user != '' && $count > 0) {
+            //---
+            $n++;
+            //---
+            $use = rawurlEncode($user);
+            $use = str_replace('+', '_', $use);
+            //---
+            $text .= <<<HTML
         <tr>
             <td data-content='#'>
                 $n
@@ -66,13 +65,13 @@ foreach ( execute_query($sql_t) AS $k => $t ) {
         </tr>
         HTML;
         };
-};
-//---
-$text .= <<<HTML
+    };
+    //---
+    $text .= <<<HTML
 	</tbody>
 	</table>
 HTML;
-//---
-echo $text;
-//---
-?>
+    //---
+    echo $text;
+    //---
+    ?>

@@ -88,19 +88,24 @@ $here_url = "https://mdwiki.toolforge.org/Translation_Dashboard/translate.php?" 
 //---
 $HERE = "<a target='_blank' href='$here_url'><b>HERE</b></a>";
 //---
+
 $Emails_array = array();
 //---
+
 foreach (execute_query("select username, email from users;") as $Key => $ta) {
+
     $Emails_array[$ta['username']] = $ta['email'];
 };
 //---
 $email_to = $Emails_array[$user] ?? '';
 $cc_to    = $Emails_array[$username] ?? '';
 //---
-$title2  = make_mdwiki_title($title);
+$title2  =    make_mdwiki_title($title);
 $sugust2 = make_mdwiki_title($sugust);
+
 //---
-$url_views_2 = 'https://' . 'pageviews.wmcloud.org/?project=' . $lang . '.wikipedia.org&platform=all-access&agent=all-agents&redirects=0&range=all-time&pages=' . rawurlEncode($target);
+$url_views_2 = 'https://'
+    . 'pageviews.wmcloud.org/?project=' . $lang . '.wikipedia.org&platform=all-access&agent=all-agents&redirects=0&range=all-time&pages=' . rawurlEncode($target);
 //---
 $start = $date != '' ? $date : '2019-01-01';
 $end = date("Y-m-d", strtotime("yesterday"));

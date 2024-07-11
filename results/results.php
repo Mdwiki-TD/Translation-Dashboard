@@ -13,10 +13,10 @@ $doit = isset($_REQUEST['doit']);
 $tra_type  = $_REQUEST['type'] ?? '';
 //---
 $req  = load_request();
-$code = $req['code'];
-$camp  = $req['camp'];
-$cat  = $req['cat'];
-$code_lang_name = $req['code_lang_name'];
+$code = $req['code'] ?? "";
+$camp  = $req['camp'] ?? "";
+$cat  = $req['cat'] ?? "";
+$code_lang_name = $req['code_lang_name'] ?? "";
 //---
 $translation_button = $settings['translation_button_in_progress_table']['value'] ?? '0';
 //---

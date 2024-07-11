@@ -47,12 +47,12 @@ function make_settings_tab($tabe) {
     //---
     foreach ($tabe as $key => $v) {
         $nn += 1;
-        $id       = $v['id'];
-        $title    = $v['title'];
-        $displayed= $v['displayed'];
-        $value    = $v['value'];
+        $id       = $v['id'] ?? "";
+        $title    = $v['title'] ?? "";
+        $displayed= $v['displayed'] ?? "";
+        $value    = $v['value'] ?? "";
         //---
-        $type     = $v['type'];
+        $type     = $v['type'] ?? "";
         //---
         $value_line = <<<HTML
             <input class='form-control' size='4' name='value_$nn' value='$value'/>

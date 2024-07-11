@@ -23,17 +23,17 @@ function make_td($tabg, $nnnn)
     //---
     global $code_to_lang, $Words_table, $views_sql, $cat_to_camp;
     //---
-    $id       = $tabg['id'];
-    $date     = $tabg['date'];
+    $id       = $tabg['id'] ?? "";
+    $date     = $tabg['date'] ?? "";
     //---
     //return $date . '<br>';
     //---
-    $user     = $tabg['user'];
+    $user     = $tabg['user'] ?? "";
     //---
-    $llang    = $tabg['lang'];
+    $llang    = $tabg['lang'] ?? "";
     $md_title = trim($tabg['title']);
-    $cat      = $tabg['cat'];
-    $word     = $tabg['word'];
+    $cat      = $tabg['cat'] ?? "";
+    $word     = $tabg['word'] ?? "";
     $targe    = trim($tabg['target']);
     $pupdate  = $tabg['pupdate'] ?? '';
     $add_date = $tabg['add_date'] ?? '';
@@ -49,9 +49,9 @@ function make_td($tabg, $nnnn)
     $lang2 = $llang;
     //---
     // $ccat = make_cat_url( $cat );
-    $ccat = $cat_to_camp[$cat] ?? $cat;
+    // $ccat = $cat_to_camp[$cat] ?? $cat;
     //---
-    $worde = $word ?? $Words_table[$md_title];
+    // $worde = $word ?? $Words_table[$md_title];
     //---
     $nana = make_mdwiki_title($md_title);
     //---
@@ -99,7 +99,7 @@ function make_td($tabg, $nnnn)
 //---
 function get_recent_sql()
 {
-    $lang_line = '';
+    // $lang_line = '';
     //---
     // pages_users (title, lang, user, pupdate, target, add_date)
     //---

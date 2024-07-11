@@ -52,8 +52,8 @@ function print_graph_from_sql($id = 'chart1')
     //---
     foreach (execute_query($query) as $yhu => $Taab) {
         //---
-        $m = $Taab['m'];
-        $c = $Taab['c'];
+        $m = $Taab['m'] ?? "";
+        $c = $Taab['c'] ?? "";
         //---
         $ms .= "'$m',";
         $cs .= "$c,";

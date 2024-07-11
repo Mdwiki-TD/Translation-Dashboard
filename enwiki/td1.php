@@ -13,7 +13,7 @@ class WikiTranslator
     private $do_fix_refs;
     private $wholeArticle;
 
-    public function __construct($title, $traType, $do_fix_refs=true)
+    public function __construct($title, $traType, $do_fix_refs = true)
     {
         $this->title = $title;
         $this->title = str_replace(' ', '_', $this->title);
@@ -90,8 +90,8 @@ class WikiTranslator
     public function parseText()
     {
         $txt = $this->getTextFromMdWiki();
-        $text = $txt["text"];
-        $allText = $txt["allText"];
+        $text = $txt["text"] ?? "";
+        $allText = $txt["allText"] ?? "";
 
         if ($text === '') {
             echo ('no text');
@@ -112,6 +112,8 @@ class WikiTranslator
             echo ('no text');
             return "";
         }
+
+        $newText .= "\n\n[[Category:Mdwiki Translation Dashboard articles]]";
 
         return $newText;
     }
@@ -163,10 +165,10 @@ class WikiTranslator
     }
 }
 
-function startTranslatePhp($title, $traType, $return_text, $do_fix_refs=true)
+function startTranslatePhp($title, $traType, $return_text, $do_fix_refs = true)
 {
 
-    $wikiTranslator = new WikiTranslator($title, $traType, $do_fix_refs=$do_fix_refs);
+    $wikiTranslator = new WikiTranslator($title, $traType, $do_fix_refs = $do_fix_refs);
 
     if ($return_text) {
         return $wikiTranslator->parseText();

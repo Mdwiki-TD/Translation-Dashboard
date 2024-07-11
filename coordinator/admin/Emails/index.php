@@ -54,7 +54,7 @@ if (true) {
 };
 //---
 // $nn = 0;
-// foreach(execute_query('SELECT count(DISTINCT user) as c from pages;') as $k => $tab) $nn = $tab['c'];
+// foreach(execute_query('SELECT count(DISTINCT user) as c from pages;') as $k => $tab) $nn = $tab['c'] ?? "";
 //---<h4>Emails ($nn user):</h4>
 //---
 echo <<<HTML
@@ -133,15 +133,15 @@ foreach ( $sorted_array as $user_name => $d) {
 	//---
     // print_r(json_encode($table));
 	//---
-	$id			= $table['user_id'];
-	$email 		= $table['email'];
-	$wiki		= $table['wiki'];
+	$id			= $table['user_id'] ?? "";
+	$email 		= $table['email'] ?? "";
+	$wiki		= $table['wiki'] ?? "";
 	$wiki2		= $wiki . "wiki";
-	$project	= $table['user_group'];
+	$project	= $table['user_group'] ?? "";
     //---
 	$project_line = make_project_to_user($projects_title_to_id, $project);
 	//---
-	$user 		= $table['username'];
+	$user 		= $table['username'] ?? "";
 	$mail_icon = '';
 	if (in_array($user_name, array_keys($last_user_to_tab))) {
 		$mail_icon = make_mail_icon($last_user_to_tab[$user_name]);

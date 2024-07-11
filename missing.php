@@ -15,19 +15,19 @@ $missingfile = file_get_contents("Tables/jsons/missing.json");
 //print $wordsjson;
 $MIS = json_decode( $missingfile, true) ; //{'all' : len(listenew), 'date' : Day_History, 'langs' : {} }
 //---
-//$lenth = file_get_contents("len.csv"); 
-$lenth = $MIS['all']; 
-$lenth2 = number_format($lenth); 
+//$lenth = file_get_contents("len.csv");
+$lenth = $MIS['all'] ?? "";
+$lenth2 = number_format($lenth);
 //---
 //$date = '15-05-2021';
-$date = $MIS['date']; 
+$date = $MIS['date'] ?? "";
 //---
-$Table = array(); 
-$langs = $MIS['langs']; 
+$Table = array();
+$langs = $MIS['langs'] ?? "";
 //---
 foreach ( $langs as $code => $tabe ) {
     //$tabe = { 'missing' leeen :  , 'exists' : len( table[langs] ) };
-    $aaa = $tabe['missing'];
+    $aaa = $tabe['missing'] ?? "";
     //$aaa = number_format( $aaa );
     $Table[$code] = $aaa;
 };

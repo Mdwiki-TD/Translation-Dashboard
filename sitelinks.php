@@ -29,7 +29,7 @@ $json2 = file_get_contents($file2);
 $data2 = json_decode($json2, true);
 
 $heads = array_diff($data2["heads"], array("commons"));
-$qids_o = $data2['qids'];
+$qids_o = $data2['qids'] ?? [];
 
 $heads = array_slice($heads, 0, 50);
 $qids_o = array_slice($qids_o, 0, $title_limit);
@@ -39,7 +39,7 @@ $notitle = true;
 if ($site != "" && $site != "all") {
     $notitle = false;
     $heads = array($site);
-    $qids_o = $data2['qids'];
+    $qids_o = $data2['qids'] ?? [];
 }
 
 foreach ($heads as $head) {
@@ -52,7 +52,7 @@ $i = 0;
 foreach ($qids_o as $qid => $tab) {
     $i++;
     echo "<tr>";
-    $mdtitle = $tab['mdtitle'];
+    $mdtitle = $tab['mdtitle'] ?? "";
 
     echo "<td>$i</td>";
     echo "<td><a href='https://wikidata.org/wiki/$qid'>$qid</a></td>";
