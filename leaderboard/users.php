@@ -22,7 +22,7 @@ $table_of_views = array();
 //---
 if (True) {
     $user_main = $mainuser;
-    $user_main = rawurldecode( str_replace ('_', ' ', $user_main) );
+    $user_main = rawurldecode(str_replace('_', ' ', $user_main));
     //---
     $pages_qua = <<<SQL
         select * from pages where user = '$user_main'
@@ -67,7 +67,7 @@ if ($mainuser != '') {
     //---
     unset($count_query);
     //---
-    if ($test != '' ) echo "<br>user_count : $user_count<br>";
+    if ($test != '') echo "<br>user_count : $user_count<br>";
     //---
     $done = 0;
     $offset = 0;
@@ -83,9 +83,9 @@ if ($mainuser != '') {
         //---
         if (count($views_query) == 0) $done = $user_count;
         //---
-        foreach ( $views_query AS $Key => $table ) {
-            $countall = $table['countall'];
-            $targ = $table['target'];
+        foreach ($views_query as $Key => $table) {
+            $countall = $table['countall'] ?? "";
+            $targ = $table['target'] ?? "";
             $table_of_views[$targ] = $countall;
             //---
             $done += 1;
@@ -100,21 +100,22 @@ if ($mainuser != '') {
     //---
     $sql_result = execute_query($pages_qua);
     //---
-    foreach ( $sql_result AS $tait => $tabb ) {
-            //---
-            $kry = str_replace('-','',$tabb['pupdate']) . ':' . $tabb['lang'] . ':' . $tabb['title'] ;
-            //---
-            if ( $tabb['target'] != '' ) {
-                $dd[$kry] = $tabb;
-            } else {
-                $dd_Pending[$kry] = $tabb;
-            };
-            //---
+    foreach ($sql_result as $tait => $tabb) {
+        //---
+        $kry = str_replace('-', '', $tabb['pupdate']) . ':' . $tabb['lang'] . ':' . $tabb['title'];
+        //---
+        if ($tabb['target'] != '') {
+            $dd[$kry] = $tabb;
+        } else {
+            $dd_Pending[$kry] = $tabb;
         };
+        //---
+    };
     //---
 };
 //---
-function make_filter_form($user) {
+function make_filter_form($user)
+{
     //---
     global $lang_y, $year_y;
     //---
@@ -126,8 +127,8 @@ function make_filter_form($user) {
     HTML;
     //---
     // $result = getUserYearsAndLangs($user);
-    // $langs = $result['langs'];
-    // $years = $result['years'];
+    // $langs = $result['langs'] ?? "";
+    // $years = $result['years'] ?? "";
     //---
     $years = array_map('current', execute_query("SELECT DISTINCT LEFT(date, 4) AS year FROM pages WHERE user = '$user'"));
     $langs = array_map('current', execute_query("SELECT DISTINCT lang FROM pages WHERE user = '$user'"));
@@ -162,7 +163,7 @@ krsort($dd);
 //---
 $count_new = count($dd);
 //---
-$tat = make_table_lead($dd, $tab_type='translations', $views_table = $table_of_views, $page_type='users', $user=$mainuser, $lang='');
+$tat = make_table_lead($dd, $tab_type = 'translations', $views_table = $table_of_views, $page_type = 'users', $user = $mainuser, $lang = '');
 //---
 $table1 = $tat['table1'];
 $table2 = $tat['table2'];
@@ -186,7 +187,7 @@ HTML;
 //---
 krsort($dd_Pending);
 //---
-$table_pnd = make_table_lead($dd_Pending, $tab_type='pending', $views_table = $table_of_views, $page_type='users', $user=$mainuser, $lang='');
+$table_pnd = make_table_lead($dd_Pending, $tab_type = 'pending', $views_table = $table_of_views, $page_type = 'users', $user = $mainuser, $lang = '');
 //---
 $tab_pnd = $table_pnd['table2'];
 //---
@@ -200,4 +201,3 @@ echo <<<HTML
     </div>
 HTML;
 //---
-?>

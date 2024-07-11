@@ -53,8 +53,8 @@ $cats = "";
 $qqq = execute_query('select category, campaign from categories;');
 //---
 foreach ($qqq as $Key => $ta) {
-	$ca = $ta['category'];
-	$ds = $ta['campaign'];
+	$ca = $ta['category'] ?? "";
+	$ds = $ta['campaign'] ?? "";
 	if ($ca != '') $cats .= "<option value='$ca'>$ds</option>";
 };
 //---
@@ -162,7 +162,7 @@ HTML;
 $ka = '';
 //---
 foreach (execute_query('SELECT DISTINCT user from pages;') as $k => $tab) {
-	$u = $tab['user'];
+	$u = $tab['user'] ?? "";
 	$ka .= '"' . $u . '",
 	';
 };

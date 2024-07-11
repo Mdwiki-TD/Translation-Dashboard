@@ -1,4 +1,3 @@
-
 <?php
 //---
 if (user_in_coord == false) {
@@ -6,20 +5,21 @@ if (user_in_coord == false) {
 	exit;
 };
 //---
-function make_edit_icon($id, $title, $qid) {
+function make_edit_icon($id, $title, $qid)
+{
 	//---
-    $edit_params = array(
+	$edit_params = array(
 		'id'   => $id,
 		'title'  => $title,
 		'nonav'  => 1,
 		'qid'  => $qid
 	);
-    //---
-    $edit_url = "coordinator.php?ty=qids/edit_qid&" . http_build_query( $edit_params );
-    //---
+	//---
+	$edit_url = "coordinator.php?ty=qids/edit_qid&" . http_build_query($edit_params);
+	//---
 	$onclick = 'pupwindow1("' . $edit_url . '")';
-    //---
-    return <<<HTML
+	//---
+	return <<<HTML
     	<a class='btn btn-outline-primary btn-sm' onclick='$onclick'>Edit</a>
     HTML;
 }
@@ -87,11 +87,12 @@ $qua = (in_array($dis, $quaries)) ? $quaries['all'] : $quaries[$dis];
 //---
 $qq = execute_query($qua);
 //---
-function make_row($id, $title, $qid, $numb) {
+function make_row($id, $title, $qid, $numb)
+{
 	$edit_icon = make_edit_icon($id, $title, $qid);
-    //---
+	//---
 	$md_title = make_mdwiki_title($title);
-    //---
+	//---
 	return <<<HTML
 	<tr>
 		<th data-content="#" data-sort="$numb">
@@ -115,19 +116,19 @@ function make_row($id, $title, $qid, $numb) {
 //---
 $numb = 0;
 //---
-foreach ( $qq AS $Key => $table ) {
+foreach ($qq as $Key => $table) {
 	$numb += 1;
-	$id 	= $table['id'];
-	$title 	= $table['title'];
-	$qid 	= $table['qid'];
-    //---
+	$id 	= $table['id'] ?? "";
+	$title 	= $table['title'] ?? "";
+	$qid 	= $table['qid'] ?? "";
+	//---
 	echo make_row($id, $title, $qid, $numb);
 	//---
 	if ($dis == 'duplicate') {
 		$numb += 1;
-		$id2 	= $table['id2'];
-		$title2 = $table['title2'];
-		$qid2 	= $table['qid2'];
+		$id2 	= $table['id2'] ?? "";
+		$title2 = $table['title2'] ?? "";
+		$qid2 	= $table['qid2'] ?? "";
 		//---
 		echo make_row($id2, $title2, $qid2, $numb);
 	};
@@ -161,18 +162,19 @@ echo <<<HTML
 HTML;
 ?>
 <script type="text/javascript">
-var i = 1;
-function add_row() {
-	$('#submit_bt').show();
-	$('#qidstab').show();
-	var ii = $('#tab_new >tr').length + 1;
-	var e = "<tr>";
-	e = e + "<td>" + ii + "</td>";
-	e = e + "<td><input class='form-control' name='add_qids[]" + ii + "' placeholder='title" + ii + "'/></td>";
-	e = e + "<td><input class='form-control' name='qid[]" + ii + "' placeholder='qid" + ii + "'/></td>";
-	e = e + "</tr>";
-	$('#tab_new').append(e);
-	i++;
-};
+	var i = 1;
+
+	function add_row() {
+		$('#submit_bt').show();
+		$('#qidstab').show();
+		var ii = $('#tab_new >tr').length + 1;
+		var e = "<tr>";
+		e = e + "<td>" + ii + "</td>";
+		e = e + "<td><input class='form-control' name='add_qids[]" + ii + "' placeholder='title" + ii + "'/></td>";
+		e = e + "<td><input class='form-control' name='qid[]" + ii + "' placeholder='qid" + ii + "'/></td>";
+		e = e + "</tr>";
+		$('#tab_new').append(e);
+		i++;
+	};
 </script>
 </div>

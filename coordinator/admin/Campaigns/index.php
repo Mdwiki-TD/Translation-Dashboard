@@ -46,11 +46,11 @@ $numb = 0;
 //---
 foreach ( $qq AS $Key => $table ) {
 	$numb += 1;
-	$id 		= $table['id'];
-	$category1 	= $table['category'];
-	$category2 	= $table['category2'];
-	$campaign 	= $table['campaign'];
-	$depth		= $table['depth'];
+	$id 		= $table['id'] ?? "";
+	$category1 	= $table['category'] ?? "";
+	$category2 	= $table['category2'] ?? "";
+	$campaign 	= $table['campaign'] ?? "";
+	$depth		= $table['depth'] ?? "";
     //---
 	$checked    = ($table['def'] == 1) ? 'checked' : '';
     //---

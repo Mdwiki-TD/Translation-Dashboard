@@ -13,7 +13,8 @@ include_once 'actions/functions.php';
 $cat = $_REQUEST['cat'] ?? 'All';
 $testin = (($_REQUEST['test'] ?? '') != '') ? "<input name='test' value='1' hidden/>" : "";
 //---
-function filter_stat($cat) {
+function filter_stat($cat)
+{
 	global $cat_to_camp;
 	// array keys
 	$cats_titles = array_keys($cat_to_camp);
@@ -28,7 +29,7 @@ function filter_stat($cat) {
 	$y1 = makeDropdown($cats_titles, $cat, 'cat', 'All');
 	$uuu = sprintf($d33, 'Category:', $y1);
 	//---
-    return $uuu;
+	return $uuu;
 }
 //---
 $uuu = filter_stat($cat);
@@ -41,21 +42,21 @@ $translate_type_sql = <<<SQL
 	FROM translate_type
 SQL;
 //---
-foreach ( execute_query($translate_type_sql) AS $k => $tab ) {
+foreach (execute_query($translate_type_sql) as $k => $tab) {
 	$full_translates_tab[$tab['tt_title']] = ['id' => $tab['tt_id'], 'lead' => $tab['tt_lead'], 'full' => $tab['tt_full']];
 }
 //---
 $cat_titles = array();
 //---
 if ($cat == 'All') {
-	foreach ( execute_query('SELECT DISTINCT title from qids WHERE title not in (SELECT tt_title FROM translate_type)') AS $Key => $gg ) {
+	foreach (execute_query('SELECT DISTINCT title from qids WHERE title not in (SELECT tt_title FROM translate_type)') as $Key => $gg) {
 		if (!in_array($gg['title'], $full_translates_tab)) {
 			$new_titles[] = $gg['title'];
 		}
 	};
 	$cat_titles = array_keys($full_translates_tab);
 } else {
-	$cat_titles = get_mdwiki_cat_members($cat, $use_cache=true, $depth=1);
+	$cat_titles = get_mdwiki_cat_members($cat, $use_cache = true, $depth = 1);
 }
 //---
 echo <<<HTML
@@ -93,33 +94,35 @@ echo <<<HTML
 		<tbody id="tab_ma">
 	HTML;
 //---
-function make_edit_icon($id, $title, $full, $lead) {
+function make_edit_icon($id, $title, $full, $lead)
+{
 	//---
-    $edit_params = array(
+	$edit_params = array(
 		'id'   => $id,
 		'title'  => $title,
 		'nonav'  => 1,
 		'lead'  => $lead,
 		'full'  => $full
 	);
-    //---
-    $edit_url = "coordinator.php?ty=tt/edit_translate_type&" . http_build_query( $edit_params );
-    //---
+	//---
+	$edit_url = "coordinator.php?ty=tt/edit_translate_type&" . http_build_query($edit_params);
+	//---
 	$onclick = 'pupwindow1("' . $edit_url . '")';
-    //---
-    return <<<HTML
+	//---
+	return <<<HTML
     	<a class='btn btn-outline-primary btn-sm' onclick='$onclick'>Edit</a>
     HTML;
 }
 //---
-function make_row($id, $title, $lead, $full, $numb) {
+function make_row($id, $title, $lead, $full, $numb)
+{
 	$edit_icon = make_edit_icon($id, $title, $full, $lead);
-    //---
+	//---
 	$md_title = make_mdwiki_title($title);
-    //---
+	//---
 	$lead_checked = ($lead == 1 || $lead == "1") ? 'checked' : '';
 	$full_checked = ($full == 1 || $full == "1") ? 'checked' : '';
-    //---
+	//---
 	return <<<HTML
 	<tr>
 		<th data-content="#" data-sort="$numb">
@@ -150,7 +153,7 @@ function make_row($id, $title, $lead, $full, $numb) {
 //---
 $numb = 0;
 //---
-foreach ( $cat_titles as $title ) {
+foreach ($cat_titles as $title) {
 	//---
 	if (in_array($title, $new_titles)) continue;
 	//---
@@ -161,7 +164,7 @@ foreach ( $cat_titles as $title ) {
 	$id			= $table['id'] ?? '';
 	$lead 		= $table['lead'] ?? 1;
 	$full		= $table['full'] ?? 0;
-    //---
+	//---
 	echo make_row($id, $title, $lead, $full, $numb);
 	//---
 };
@@ -195,6 +198,7 @@ HTML;
 ?>
 <script type="text/javascript">
 	var i = 1;
+
 	function add_row() {
 		$('#submit_bt').show();
 		$('#tt_table').show();
@@ -219,15 +223,17 @@ HTML;
 		i++;
 	};
 
-	$(document).ready( function () {
+	$(document).ready(function() {
 		var t = $('#em').DataTable({
-		// order: [[5	, 'desc']],
-		// paging: false,
-		lengthMenu: [[250, 500], [250, 500]],
-		// scrollY: 800
+			// order: [[5	, 'desc']],
+			// paging: false,
+			lengthMenu: [
+				[250, 500],
+				[250, 500]
+			],
+			// scrollY: 800
 		});
-	} );
-
+	});
 </script>
 
 </div>

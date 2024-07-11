@@ -5,12 +5,12 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
     global $cat_to_camp, $articles_to_camps, $camps_to_articles;
     //---
     $mdtitle = trim($tabb['title']);
-    $user    = $tabb['user'];
-    $date    = $tabb['date'];
-    $lang    = $tabb['lang'];
-    $cat     = $tabb['cat'];
-    $deleted = $tabb['deleted'];
-    $pupdate = $tabb['pupdate'];
+    $user    = $tabb['user'] ?? "";
+    $date    = $tabb['date'] ?? "";
+    $lang    = $tabb['lang'] ?? "";
+    $cat     = $tabb['cat'] ?? "";
+    $deleted = $tabb['deleted'] ?? "";
+    $pupdate = $tabb['pupdate'] ?? "";
     //---
     $word = number_format($word);
     //---
@@ -162,7 +162,7 @@ function make_table_lead($dd, $tab_type = 'a', $views_table = array(), $page_typ
         //---
         $deleted = $tabe['deleted'] ?? 0;
         //---
-        $target  = $tabe['target'];
+        $target  = $tabe['target'] ?? "";
         $view_number = $views_table[$target] ?? 0;
         //---
         if ($deleted == 1) {
@@ -171,7 +171,7 @@ function make_table_lead($dd, $tab_type = 'a', $views_table = array(), $page_typ
         //---
         $total_views += $view_number;
         //---
-        $mdtitle = $tabe['title'];
+        $mdtitle = $tabe['title'] ?? "";
         $word2 = $Words_table[$mdtitle] ?? 0;
         $word = $tabe['word'] ?? 0;
         //---

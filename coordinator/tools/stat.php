@@ -1,9 +1,9 @@
 <?PHP
 //---
 if (isset($_REQUEST['test'])) {
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
+	ini_set('display_errors', 1);
+	ini_set('display_startup_errors', 1);
+	error_reporting(E_ALL);
 };
 //---
 include_once 'Tables/tables.php';
@@ -12,10 +12,11 @@ include_once 'actions/functions.php';
 //---
 $cat = $_REQUEST['cat'] ?? 'RTT';
 //---
-function filter_stat($cat) {
+function filter_stat($cat)
+{
 	$cats_titles = array();
 	//---
-	foreach ( execute_query('select category from categories;') AS $k => $tab ) $cats_titles[] = $tab['category'];
+	foreach (execute_query('select category from categories;') as $k => $tab) $cats_titles[] = $tab['category'] ?? "";
 	//---
 	$d33 = <<<HTML
 		<div class="input-group">
@@ -27,7 +28,7 @@ function filter_stat($cat) {
 	$y1 = makeDropdown($cats_titles, $cat, 'cat', '');
 	$uuu = sprintf($d33, 'Category:', $y1);
 	//---
-    return $uuu;
+	return $uuu;
 }
 //---
 $uuu = filter_stat($cat);
@@ -68,7 +69,7 @@ $table = <<<HTML
 		<tbody>
 	HTML;
 //---
-$titles = get_mdwiki_cat_members($cat, $use_cache=true, $depth=1);
+$titles = get_mdwiki_cat_members($cat, $use_cache = true, $depth = 1);
 //---
 $no_qid = 0;
 $no_word = 0;
@@ -84,27 +85,27 @@ foreach ($titles as $title) {
 	//---
 	$qid = $sql_qids[$title] ?? "";
 	//---
-	if ($qid == '') $no_qid +=1;
+	if ($qid == '') $no_qid += 1;
 	//---
 	$qidurl = ($qid != '') ? "<a href='https://wikidata.org/wiki/$qid'>$qid</a>" : '';
 	//---
 	$word = $Words_table[$title] ?? 0;
 	//---
 	$allword = $All_Words_table[$title] ?? 0;
-	if ($word == 0) $no_word +=1;
-	if ($allword == 0) $no_allword +=1;
+	if ($word == 0) $no_word += 1;
+	if ($allword == 0) $no_allword += 1;
 	//---
 	$refs = $Lead_Refs_table[$title] ?? 0;
 	//---
 	$all_refs = $All_Refs_table[$title] ?? 0;
 	//---
-	if ($refs == 0) $no_ref +=1;
-	if ($all_refs == 0) $no_allref +=1;
+	if ($refs == 0) $no_ref += 1;
+	if ($all_refs == 0) $no_allref += 1;
 	$asse = $Assessments_table[$title] ?? '';
-	if (!isset($Assessments_table[$title])) $no_Importance +=1;
+	if (!isset($Assessments_table[$title])) $no_Importance += 1;
 	//---
 	$pv = $enwiki_pageviews_table[$title] ?? 0;
-	if (!isset($enwiki_pageviews_table[$title])) $no_pv +=1;
+	if (!isset($enwiki_pageviews_table[$title])) $no_pv += 1;
 	//---
 	//---
 	$table .= <<<HTML
@@ -194,4 +195,3 @@ echo '
 </div>
 </div>
 ';
-?>

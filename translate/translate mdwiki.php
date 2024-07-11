@@ -10,7 +10,7 @@ $fix_ref_in_text = ($fix_ref_in_text == "1") ? true : false;
 
 // Get parameters from the URL
 $coden = strtolower($_GET['code']);
-$title_o = $_GET['title'];
+$title_o = $_GET['title'] ?? "";
 // $useree  = (global_username != '') ? global_username : $_GET['username'];
 $useree = (global_username != '') ? global_username : '';
 

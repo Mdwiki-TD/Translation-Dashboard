@@ -4,7 +4,7 @@ include_once 'lead_help.php';
 include_once 'camps.php';
 //---
 $test = $_REQUEST['test'] ?? '';
-$mainlang = $_REQUEST['langcode'];
+$mainlang = $_REQUEST['langcode'] ?? "";
 $mainlang = rawurldecode( str_replace ( '_' , ' ' , $mainlang ) );
 //---
 $year_y = $_REQUEST['year'] ?? 'All';
@@ -13,14 +13,14 @@ $langname = $code_to_lang[$mainlang] ?? $mainlang;
 //---
 $man = $langname;
 //---
-if ( $_SERVER['SERVER_NAME'] == 'localhost' || $test != '' ) { 
+if ( $_SERVER['SERVER_NAME'] == 'localhost' || $test != '' ) {
     $man .= ' <a target="_blank" href="http://' . $mainlang . '.wikipedia.org/wiki/Category:Translated_from_MDWiki">(cat)</a>';
 };
 //---
 // views (target, countall, count2021, count2022, count2023, lang)
 $qua_views = <<<SQL
-select 
-    #p.title, p.user, p.date, p.word, p.lang, p.cat, p.pupdate, 
+select
+    #p.title, p.user, p.date, p.word, p.lang, p.cat, p.pupdate,
     p.target, v.countall
 
     from pages p, views v
@@ -35,7 +35,7 @@ $dd = array();
 $dd_Pending = array();
 $table_of_views = array();
 //---
-foreach ( $views_quary AS $Key => $t ) $table_of_views[$t['target']] = $t['countall'];
+foreach ( $views_quary AS $Key => $t ) $table_of_views[$t['target']] = $t['countall'] ?? "";
 //---
 $pages_qua = <<<SQL
 	select * from pages where lang = '$mainlang'
@@ -137,4 +137,3 @@ echo <<<HTML
 	</div>
 HTML;
 //---
-?>

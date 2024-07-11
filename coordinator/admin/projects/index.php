@@ -12,7 +12,7 @@ if (isset($_REQUEST['test'])) {
 };
 //---
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    require 'post.php';
+	require 'post.php';
 }
 //---
 echo <<<HTML
@@ -36,12 +36,12 @@ HTML;
 //---
 $numb = 0;
 //---
-foreach ( execute_query('select g_id, g_title from projects;') AS $g_title => $tab ) {
+foreach (execute_query('select g_id, g_title from projects;') as $g_title => $tab) {
 	$numb += 1;
-    //---
-	$g_id = $tab['g_id'];
-	$g_title = $tab['g_title'];
-    //---
+	//---
+	$g_id = $tab['g_id'] ?? "";
+	$g_title = $tab['g_title'] ?? "";
+	//---
 	echo <<<HTML
 	<tr>
 		<td data-content='id'>
@@ -61,21 +61,22 @@ foreach ( execute_query('select g_id, g_title from projects;') AS $g_title => $t
 ?>
 </tbody>
 </table>
-  <button type="submit" class="btn btn-outline-primary">Save</button>
+<button type="submit" class="btn btn-outline-primary">Save</button>
 </form>
 <span role='button' id="add_row" class="btn btn-outline-primary" style="position: absolute; right: 130px;" onclick='add_row()'>New row</span>
 </div>
 <script type="text/javascript">
-var i = 1;
-function add_row() {
-	var ii = $('#g_tab >tr').length + 1;
-	var e = "<tr>";
-	e = e + "<td><b>" + ii + "</b><input name='g_id[]' value='0' hidden/></td>";
-	e = e + "<td><input class='form-control' name='g_title[]" + ii + "' value=''/></td>";
-	e = e + "<td>-</td>";
-	e = e + "</tr>";
-	$('#g_tab').append(e);
-	i++;
-};
+	var i = 1;
+
+	function add_row() {
+		var ii = $('#g_tab >tr').length + 1;
+		var e = "<tr>";
+		e = e + "<td><b>" + ii + "</b><input name='g_id[]' value='0' hidden/></td>";
+		e = e + "<td><input class='form-control' name='g_title[]" + ii + "' value=''/></td>";
+		e = e + "<td>-</td>";
+		e = e + "</tr>";
+		$('#g_tab').append(e);
+		i++;
+	};
 </script>
 </div>

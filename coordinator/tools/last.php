@@ -87,17 +87,17 @@ function make_td($tabg, $nnnn)
     //---
     global $code_to_lang, $Words_table, $views_sql, $cat_to_camp;
     //---
-    $id       = $tabg['id'];
-    $date     = $tabg['date'];
+    $id       = $tabg['id'] ?? "";
+    $date     = $tabg['date'] ?? "";
     //---
     //return $date . '<br>';
     //---
-    $user     = $tabg['user'];
+    $user     = $tabg['user'] ?? "";
     //---
-    $llang    = $tabg['lang'];
+    $llang    = $tabg['lang'] ?? "";
     $md_title = trim($tabg['title']);
-    $cat      = $tabg['cat'];
-    $word     = $tabg['word'];
+    $cat      = $tabg['cat'] ?? "";
+    $word     = $tabg['word'] ?? "";
     $targe    = trim($tabg['target']);
     $pupdate  = $tabg['pupdate'] ?? '';
     $add_date = $tabg['add_date'] ?? '';

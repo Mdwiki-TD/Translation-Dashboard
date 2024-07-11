@@ -8,6 +8,8 @@ if (isset($_REQUEST['test'])) {
     error_reporting(E_ALL);
 };
 //---
+include_once __DIR__ . '/../../d/db1.php';
+//---
 include_once __DIR__ . '/header.php';
 include_once __DIR__ . '/Tables/langcode.php';
 include_once __DIR__ . '/actions/functions.php';
@@ -18,13 +20,13 @@ include_once __DIR__ . '/Tables/sql_tables.php';
 $allow_whole_translate = $settings['allow_type_of_translate']['value'] ?? '1';
 //---
 $req  = load_request();
-$code = $req['code'];
+$code = $req['code'] ?? "";
 //---
 $cat  = ($req['cat'] != '') ? $req['cat'] : $main_cat;
 $camp  = ($req['camp'] != '') ? $req['camp'] : $main_camp;
 //---
-$code_lang_name = $req['code_lang_name'];
-//---
+$code_lang_name = $req['code_lang_name'] ?? "";
+//---s
 $tra_type  = $_REQUEST['type'] ?? '';
 if ($allow_whole_translate == '0') $tra_type = 'lead';
 //---

@@ -18,11 +18,11 @@ use PHPMailer\PHPMailer\Exception;
 //---
 include_once __DIR__ . '/infos/td_config.php';
 $my_ini     = Read_ini_file('my_config.ini');
-$tool_email = $my_ini['mdwiki_Username'];
-$tool_pass  = $my_ini['mdwiki_Password'];
-$tool_host  = $my_ini['mail_host'];
-$tool_port  = $my_ini['mail_port'];
-$tool_tls   = $my_ini['mail_tls'];
+$tool_email = $my_ini['mdwiki_Username'] ?? "";
+$tool_pass  = $my_ini['mdwiki_Password'] ?? "";
+$tool_host  = $my_ini['mail_host'] ?? "";
+$tool_port  = $my_ini['mail_port'] ?? "";
+$tool_tls   = $my_ini['mail_tls'] ?? "";
 //---
 if ($msg != '' && $email_to != '' ) {
     echo "

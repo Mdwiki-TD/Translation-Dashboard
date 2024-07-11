@@ -2,7 +2,7 @@
 //---
 if (isset($_POST['se'])) {
     // var_dump(json_encode($_POST));
-    $se   = $_POST['se'];
+    $se   = $_POST['se'] ?? [];
     foreach ($se as $index => $n) {
         //---
         // {"id_":"1","title_":"allow_type_of_translate","displayed_":"Allow whole translate","value_":"0","type_":"check"}
