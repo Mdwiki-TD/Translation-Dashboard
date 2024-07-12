@@ -4,21 +4,20 @@ include_once __DIR__ . '/../actions/mdwiki_api.php';
 include_once __DIR__ . '/../Tables/langcode.php';
 include_once 'en_api.php';
 include_once 'fixtext.php';
-include_once 'fixref.php';
 
 class WikiTranslator
 {
     private $title;
     private $traType;
-    private $do_fix_refs;
+    private $expend_refs;
     private $wholeArticle;
 
-    public function __construct($title, $traType, $do_fix_refs = true)
+    public function __construct($title, $traType, $expend_refs = true)
     {
         $this->title = $title;
         $this->title = str_replace(' ', '_', $this->title);
         $this->traType = $traType;
-        $this->do_fix_refs = $do_fix_refs;
+        $this->expend_refs = $expend_refs;
         $this->wholeArticle = ($traType == 'all') ? true : false;
     }
 
@@ -69,7 +68,7 @@ class WikiTranslator
         $allText = file_get_contents($url, false, stream_context_create(array('http' => array('follow_location' => false))));
 
         if ($allText === FALSE) {
-            $allText = get_url_result($url);
+            $allText = get_url_result_curl($url);
         };
 
         if ($this->wholeArticle) {
@@ -87,6 +86,25 @@ class WikiTranslator
         return array("text" => $text, "allText" => $allText);
     }
 
+    public function EditTexts($text, $allText)
+    {
+
+        $newText = $text;
+
+        $newText = text_changes_work($newText, $allText, $this->expend_refs);
+
+        if ($newText === '') {
+            echo ('no text');
+            return "";
+        }
+        // if newtext has Category:Mdwiki Translation Dashboard articles dont add it again!
+        if (strpos($newText, 'Category:Mdwiki Translation Dashboard articles') === false) {
+            $newText .= "\n\n[[Category:Mdwiki Translation Dashboard articles]]";
+        }
+
+        return $newText;
+    }
+
     public function parseText()
     {
         $txt = $this->getTextFromMdWiki();
@@ -98,23 +116,7 @@ class WikiTranslator
             return "notext";
         }
 
-        $newText = $text;
-
-        if ($this->do_fix_refs) {
-            $newText = fix_ref($newText, $allText);
-        };
-
-        $newText = text_changes_work($newText);
-
-        $newText = str_replace('[[Category:', '[[:Category:', $newText);
-
-        if ($newText === '') {
-            echo ('no text');
-            return "";
-        }
-
-        $newText .= "\n\n[[Category:Mdwiki Translation Dashboard articles]]";
-
+        $newText = $this->EditTexts($text, $allText);
         return $newText;
     }
 
@@ -135,7 +137,7 @@ class WikiTranslator
         $success = $result['edit']['result'] ?? '';
 
         if ($success == 'Success') {
-            return 'true';
+            return true;
         }
 
         return $success;
@@ -165,16 +167,26 @@ class WikiTranslator
     }
 }
 
-function startTranslatePhp($title, $traType, $return_text, $do_fix_refs = true)
+function startTranslatePhp($title, $traType, $return_text, $expend_refs = true)
 {
 
-    $wikiTranslator = new WikiTranslator($title, $traType, $do_fix_refs = $do_fix_refs);
+    $wikiTranslator = new WikiTranslator($title, $traType, $expend_refs = $expend_refs);
 
     if ($return_text) {
         return $wikiTranslator->parseText();
     }
 
     $result = $wikiTranslator->startTranslate();
+
+    return $result;
+}
+
+function TranslatePhpEditText($text, $expend_refs = true)
+{
+
+    $wikiTranslator = new WikiTranslator("", "", $expend_refs = $expend_refs);
+
+    $result = $wikiTranslator->EditTexts($text, $text);
 
     return $result;
 }

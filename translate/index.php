@@ -107,46 +107,7 @@ function go_to_translate_url($output, $go, $title_o, $coden, $tr_type, $test)
     } else {
         $en_link = make_target_url($page_en, "en", $name = $title_o);
         echo <<<HTML
-            error when save to enwiki..<br>($output)
-        HTML;
-    }
-    $url = make_translation_url($title_o, $coden, $tr_type);
-    $title_o2 = rawurlencode(str_replace(' ', '_', $title_o));
-    // ---
-    $page_en = $tr_type == 'all' ? "User:Mr. Ibrahem/$title_o2/full" : "User:Mr. Ibrahem/$title_o2";
-    // ---
-    if ($coden == 'en') {
-        $url = "//en.wikipedia.org/w/index.php?title=$page_en&action=edit";
-    }
-    // ---
-    if (trim($output) == true || $go) {
-
-        if ($test != "" && (!$go)) {
-            echo <<<HTML
-                <br>trim($output) == true<br>
-                start_tr<br>
-                $url
-            HTML;
-        } else {
-            echo <<<HTML
-                <script type='text/javascript'>
-                window.open('$url', '_self');
-                </script>
-                <noscript>
-                    <meta http-equiv='refresh' content='0; url=$url'>
-                </noscript>
-            HTML;
-        }
-    } elseif (trim($output) == 'notext') {
-        $li = make_mdwiki_title($title_o);
-        // ---
-        echo <<<HTML
-            page: $li has no text..<br>
-        HTML;
-    } else {
-        $en_link = make_target_url($page_en, "en", $name = $title_o);
-        echo <<<HTML
-            error when save to enwiki..<br>($output)
+            error when save to enwiki. $en_link.<br>($output)
         HTML;
     }
 }
@@ -182,9 +143,13 @@ if ($title_o != '' && $coden != '' && $user_valid) {
     }
     insertPage($title_o, $word, $tr_type, $cat, $camp, $coden, $useree, $test);
     // ---
-    // $output = startTranslatePhp($title_o, $tr_type, false, $do_fix_refs = $fix_ref_in_text);
     $title2 = 'User:Mr. Ibrahem/' . $title_o;
-    $output = Find_pages_exists_or_not($title2);
+    // ---
+    $output = startTranslatePhp($title_o, $tr_type, false, $expend_refs = $fix_ref_in_text);
+    // ---
+    if ($output != true) {
+        $output = Find_pages_exists_or_not($title2);
+    };
     // ---
     echo $output;
     // ---

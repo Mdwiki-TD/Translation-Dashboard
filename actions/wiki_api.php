@@ -4,7 +4,7 @@ include_once(__DIR__ . '/../infos/user_account_new.php');
 
 $usr_agent = $user_agent;
 
-function get_url_result(string $url): string
+function get_url_result_curl(string $url): string
 {
     global $usr_agent;
 
@@ -65,7 +65,7 @@ function get_views($target, $lang, $pupdate)
     $url = 'https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/' . $lang . '.wikipedia/all-access/all-agents/' . rawurlencode($target) . '/daily/' . $start2 . '/2030010100';
     // ---
     // $output = file_get_contents( $url );
-    $output = get_url_result($url);
+    $output = get_url_result_curl($url);
     // ---
     $result = json_decode($output, true);
     //---
