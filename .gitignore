@@ -16,3 +16,5 @@ coordinator/admin/wikirefs_options/postx.php
 /Tables/jsons/*.json
 /Tables/cash_exists/*.json
 /Tables/cats_cash/*.json
+/vendor_o
+enwiki/.vscode/launch.json

@@ -10,69 +10,88 @@ include_once __DIR__ . '/actions/functions.php';
 include_once __DIR__ . '/enwiki/td1.php';
 // include_once __DIR__ . '/Tables/langcode.php';
 // ---
-$title = $_GET['title'] ?? '';
+$title = $_POST['title'] ?? '';
+$text  = $_POST['text'] ?? '';
 // ---
-$tit_line = make_input_group('title', 'title', $title, 'required');
+$tit_line = make_input_group_no_col('title', 'title', $title, '');
 // ---
-$ref_line  = make_form_check_input('fix ref', 'refs_fix', 1, 0, ($_GET['refs_fix'] ?? '') == 1 ? 'checked' : '');
-$text_line = make_form_check_input('fix text', 'text_fix', 1, 0, ($_GET['text_fix'] ?? '') == 1 ? 'checked' : '');
-$type_line = make_form_check_input('full?', 'tr_type', 1, 0, ($_GET['tr_type'] ?? '') == 1 ? 'checked' : '');
-$testin    = make_form_check_input('test', 'test', 1, 0, ($_GET['test'] ?? '') == 1 ? 'checked' : '');
+$ref_line  = make_form_check_input('expend refs', 'refs_expend', 1, 0, ($_POST['refs_expend'] ?? '') == 1 ? 'checked' : '');
+// $text_line = make_form_check_input('fix text', 'text_fix', 1, 0, ($_POST['text_fix'] ?? '') == 1 ? 'checked' : '');
+$type_line = make_form_check_input('full?', 'tr_type', 1, 0, ($_POST['tr_type'] ?? '') == 1 ? 'checked' : '');
+$testin    = make_form_check_input('test', 'test', 1, 0, ($_POST['test'] ?? '') == 1 ? 'checked' : '');
 // ---
 $nana = <<<HTML
-    <form action='enwiki.php' method='GET'>
+    <form action='enwiki.php' method='POST'>
         <div class='row'>
-            $tit_line
             <div class='col-md-4'>
-                $ref_line
-                $text_line
+                $tit_line
+                <input class='btn btn-outline-primary' type='submit' name='start' value='Start' />
             </div>
-            <div class='col-md-4'>
+            <div class='col-md-2'>
+                $ref_line
+                <!-- $ text_line -->
                 $type_line
                 $testin
+            </div>
+            <div class='col-md-6'>
+                <div class='form-group'>
+                    <label for='text'>Text:</label>
+                    <textarea id='text' name='text' class='form-control'>$text</textarea>
+                </div>
             </div>
         </div>
         <div class='row'>
             <div class='col-md-4'>
-                <input class='btn btn-outline-primary' type='submit' name='start' value='Start' />
             </div>
         </div>
     </form>
 HTML;
 
-
+// ---
+$text_fix = ($_POST['text_fix'] ?? '') == 1 ? true : false;
+$refs_expend = ($_POST['refs_expend'] ?? '') == 1 ? true : false;
+$fixref  = $_POST['fixref'] ?? '';
+// ---
 $new_text = "";
-
+$page_line = "";
+// ---
 if ($title != '') {
     $title = trim($title);
     // ---
-    $text_fix = ($_GET['text_fix'] ?? '') == 1 ? true : false;
-    $refs_fix = ($_GET['refs_fix'] ?? '') == 1 ? true : false;
+    $articleurl = "https://mdwiki.org/w/index.php?title=$title";
+    // ---
+    $page_line = "page: <a target='_blank' href='$articleurl'>$title</a>";
     // ---
     test_print("enwiki/index.php; title: $title");
     // ---
-    $test    = $_GET['test'] ?? '';
-    $cat     = $_GET['cat'] ?? '';
-    $fixref  = $_GET['fixref'] ?? '';
-    $tr_type = ($_GET['tr_type'] ?? '') == 1 ? 'all' : 'lead';
+    $tr_type = ($_POST['tr_type'] ?? '') == 1 ? 'all' : 'lead';
     // ---
     $wholearticle = $tr_type == 'all' ? true : false;
     //---
-    $newtext = startTranslatePhp($title, $tr_type, true, $do_fix_refs = $refs_fix);
+    $newtext = startTranslatePhp($title, $tr_type, true, $expend_refs = $refs_expend);
     //---
     // trim
     $newtext = trim($newtext);
     //---
     $new_text = htmlentities($newtext);
-};
-
+    //---
+} elseif ($text != "") {
+    $page_line = "work on text.";
+    // ---
+    $newtext = TranslatePhpEditText($text, $expend_refs = $refs_expend);
+    //---
+    $new_text = htmlentities($newtext);
+}
+//---
+$done = "";
 if ($new_text != '') {
+    $done = "done";
     $new_text = <<<HTML
         new text:
         <textarea class="form-control" cols="20" rows="10">$new_text</textarea>
     HTML;
 }
-$articleurl = "https://mdwiki.org/w/index.php?title=$title";
+// ---
 echo <<<HTML
     <div class='container'>
         <div class='card'>
@@ -89,14 +108,14 @@ echo <<<HTML
         <div class='card'>
             <div class="card-header aligncenter" style="font-weight:bold;">
                 <h3>
-                    page: <a target='_blank' href='$articleurl'>$title</a>
+                    $page_line
                 </h3>
             </div>
             <div class='card-body'>
                 $new_text
             </div>
             <div class='card-footer'>
-                done.
+                $done.
             </div>
         </div>
     </div>

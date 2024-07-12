@@ -2,12 +2,14 @@
 //---
 include_once 'html_side1.php';
 //---
-function add_quotes($str) {
+function add_quotes($str)
+{
     $quote = preg_match("/[']+/u", $str) ? '"' : "'";
     return $quote . $str . $quote;
 };
 //---
-function login_card() {
+function login_card()
+{
     return <<<HTML
     <div class='card' style='font-weight: bold;'>
         <div class='card-body'>
@@ -23,10 +25,11 @@ function login_card() {
     HTML;
 }
 
-function make_modal_fade($label, $text, $id, $button='') {
+function make_modal_fade($label, $text, $id, $button = '')
+{
     $exampleModalLabel = rand(1000, 9999);
     return <<<HTML
-        
+
         <!-- Logout Modal-->
         <div class="modal fade" id="$id" tabindex="-1" role="dialog" aria-labelledby="$exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -46,7 +49,8 @@ function make_modal_fade($label, $text, $id, $button='') {
     HTML;
 }
 
-function make_form_check_input($label, $name, $value_yes, $value_no, $checked) {
+function make_form_check_input($label, $name, $value_yes, $value_no, $checked)
+{
     //---
     $label_line = ($label != '') ? "<label class='form-check-label' for='$name'>$label</label>" : "";
     //---
@@ -56,45 +60,47 @@ function make_form_check_input($label, $name, $value_yes, $value_no, $checked) {
             <input class='form-check-input' type='checkbox' name='$name' value='$value_yes' $checked>
         </div>
     HTML;
-    
 }
 //---
-function make_mail_icon($tab) {
-	//---
+function make_mail_icon($tab)
+{
+    //---
     $mail_params = array(
-		'user'   => $tab['user'], 
-		'lang'   => $tab['lang'],
-		'target' => $tab['target'],
-		'date'   => $tab['pupdate'],
-		'title'  => $tab['title'],
-		'nonav'  => '1'
-	);
+        'user'   => $tab['user'],
+        'lang'   => $tab['lang'],
+        'target' => $tab['target'],
+        'date'   => $tab['pupdate'],
+        'title'  => $tab['title'],
+        'nonav'  => '1'
+    );
     //---
-    $mail_url = "coordinator.php?ty=Emails/msg&" . http_build_query( $mail_params );
+    $mail_url = "coordinator.php?ty=Emails/msg&" . http_build_query($mail_params);
     //---
-	$onclick = 'pupwindow("' . $mail_url . '")';
+    $onclick = 'pupwindow("' . $mail_url . '")';
     //---
     return <<<HTML
     	<a class='btn btn-outline-primary btn-sm' onclick='$onclick'>Email</a>
     HTML;
 }
 //---
-function make_project_to_user($projects, $project){
-	//---
+function make_project_to_user($projects, $project)
+{
+    //---
     $str = "<option value='Uncategorized'>Uncategorized</option>";
     // $str = "";
     //---
-    foreach ( $projects AS $p_title => $p_id ) {
-		$cdcdc = $project == $p_title ? "selected" : "";
+    foreach ($projects as $p_title => $p_id) {
+        $cdcdc = $project == $p_title ? "selected" : "";
         $str .= <<<HTML
 			<option value='$p_title' $cdcdc>$p_title</option>
 		HTML;
     };
     //---
-	return $str;
+    return $str;
 };
 //---
-function make_input_group( $label, $id, $value, $required='') {
+function make_input_group($label, $id, $value, $required)
+{
     $val2 = add_quotes($value);
     return <<<HTML
     <div class='col-md-3'>
@@ -106,15 +112,27 @@ function make_input_group( $label, $id, $value, $required='') {
     HTML;
 };
 //---
-function makeDropdown($tab, $cat, $id, $add) {
+function make_input_group_no_col($label, $id, $value, $required)
+{
+    $val2 = add_quotes($value);
+    return <<<HTML
+    <div class='input-group mb-3'>
+        <span class='input-group-text'>$label</span>
+        <input class='form-control' type='text' name='$id' value=$val2 $required/>
+    </div>
+    HTML;
+};
+//---
+function makeDropdown($tab, $cat, $id, $add)
+{
     //---
     $options = "";
     //---
-    foreach ( $tab AS $dd ) {
+    foreach ($tab as $dd) {
         //---
         $se = '';
         //---
-        if ( $cat == $dd ) $se = 'selected';
+        if ($cat == $dd) $se = 'selected';
         //---
         $options .= <<<HTML
             <option value='$dd' $se>$dd</option>
@@ -122,15 +140,15 @@ function makeDropdown($tab, $cat, $id, $add) {
         //---
     };
     //---
-	$sel_line = "";
-	//---
-    if ($add != '' ) {
+    $sel_line = "";
+    //---
+    if ($add != '') {
         $add2 = ($add == 'all') ? 'All' : $add;
-	    $sel = "";
-	    if ( $cat == $add ) $sel = "celected";
+        $sel = "";
+        if ($cat == $add) $sel = "celected";
         $sel_line = "<option value='$add' $sel>$add2</option>";
     }
-	//---
+    //---
     return <<<HTML
         <select dir="ltr" id="$id" name="$id" class="form-select" data-bs-theme="auto">
             $sel_line
@@ -139,7 +157,8 @@ function makeDropdown($tab, $cat, $id, $add) {
     HTML;
 };
 //---
-function makeCard($title, $table) {
+function makeCard($title, $table)
+{
     return <<<HTML
     <div class="card">
         <div class="card-header aligncenter" style="font-weight:bold;">
@@ -153,7 +172,8 @@ function makeCard($title, $table) {
     HTML;
 };
 //---
-function makeColSm4($title, $table, $numb=4, $table2='', $title2='') {
+function makeColSm4($title, $table, $numb = 4, $table2 = '', $title2 = '')
+{
     return <<<HTML
     <div class="col-md-$numb">
         <div class="card mb-3">
@@ -175,7 +195,8 @@ function makeColSm4($title, $table, $numb=4, $table2='', $title2='') {
     HTML;
 };
 //---
-function make_col_sm_body($title, $subtitle, $table, $numb=4) {
+function make_col_sm_body($title, $subtitle, $table, $numb = 4)
+{
     return <<<HTML
     <div class="col-md-$numb">
         <div class="card">
@@ -191,21 +212,23 @@ function make_col_sm_body($title, $subtitle, $table, $numb=4) {
     HTML;
 };
 //---
-function make_drop($uxutable, $code) {
+function make_drop($uxutable, $code)
+{
     $options  =  "";
     //---
-    foreach ($uxutable AS $name => $cod) {
+    foreach ($uxutable as $name => $cod) {
         $cdcdc = $code == $cod ? "selected" : "";
         $options .= <<<HTML
 		<option value='$cod' $cdcdc>$name</option>
-		
+
 		HTML;
     };
     //---
-	return $options;
+    return $options;
 };
 //---
-function make_datalist_options($hyh) {
+function make_datalist_options($hyh)
+{
     $options = '';
     foreach ($hyh as $language => $code) {
         $options .= "<option value='$code'>$language</option>";
@@ -213,7 +236,8 @@ function make_datalist_options($hyh) {
     return $options;
 }
 //---
-function make_mdwiki_title($title) {
+function make_mdwiki_title($title)
+{
     if ($title != '') {
         $encoded_title = rawurlencode(str_replace(' ', '_', $title));
         return "<a target='_blank' href='https://mdwiki.org/wiki/$encoded_title'>$title</a>";
@@ -221,7 +245,8 @@ function make_mdwiki_title($title) {
     return $title;
 }
 //---
-function make_cat_url($category) {
+function make_cat_url($category)
+{
     if ($category != '') {
         $encoded_category = rawurlencode(str_replace(' ', '_', $category));
         return "<a target='_blank' href='https://mdwiki.org/wiki/Category:$encoded_category'>$category</a>";
@@ -229,11 +254,13 @@ function make_cat_url($category) {
     return $category;
 }
 //---
-function make_talk_url($lang, $user) {
+function make_talk_url($lang, $user)
+{
     return "<a target='_blank' href='//$lang.wikipedia.org/w/index.php?title=User_talk:$user'>talk</a>";
 }
 //---
-function make_translation_url($title, $lang, $tr_type) {
+function make_translation_url($title, $lang, $tr_type)
+{
     //---
     $page = $tr_type == 'all' ? "User:Mr. Ibrahem/$title/full" : "User:Mr. Ibrahem/$title";
     //---
@@ -255,7 +282,8 @@ function make_translation_url($title, $lang, $tr_type) {
     return $url;
 }
 //---
-function make_mdwiki_user_url($user) {
+function make_mdwiki_user_url($user)
+{
     if ($user != '') {
         $encoded_user = rawurlencode(str_replace(' ', '_', $user));
         return "<a href='https://mdwiki.org/wiki/User:$encoded_user'>$user</a>";
@@ -263,12 +291,13 @@ function make_mdwiki_user_url($user) {
     return $user;
 }
 //---
-function make_target_url($target, $lang, $name = '', $deleted=false) {
+function make_target_url($target, $lang, $name = '', $deleted = false)
+{
     $display_name = ($name != '') ? $name : $target;
     if ($target != '') {
         $encoded_target = rawurlencode(str_replace(' ', '_', $target));
         $link = "<a target='_blank' href='https://$lang.wikipedia.org/wiki/$encoded_target'>$display_name</a>";
-            
+
         if ($deleted == 1) {
             $link .= ' <span class="text-danger">(DELETED)</span>';
         }
@@ -277,4 +306,3 @@ function make_target_url($target, $lang, $name = '', $deleted=false) {
     return $target;
 }
 //---
-?>
