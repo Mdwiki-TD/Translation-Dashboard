@@ -1,4 +1,17 @@
 <?php
+namespace EnWiki\API;
+
+/*
+Usage:
+
+use function EnWiki\API\getLoginToken;
+use function EnWiki\API\loginRequest;
+use function EnWiki\API\getCSRFToken;
+use function EnWiki\API\send_params;
+use function EnWiki\API\do_edit;
+use function EnWiki\API\Find_pages_exists_or_not;
+
+*/
 
 /*
     edit.php

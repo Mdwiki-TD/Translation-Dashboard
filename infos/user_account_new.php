@@ -7,7 +7,11 @@ if (isset($_REQUEST['test'])) {
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 }
+// ---
 include_once __DIR__ . '/td_config.php';
+// ---
+use function Infos\TdConfig\Read_ini_file;
+// ---
 
 $ini = Read_ini_file('user.ini');
 //---

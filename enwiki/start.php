@@ -1,9 +1,26 @@
 <?php
+namespace EnWiki\Start;
+
+/*
+Usage:
+
+use function EnWiki\Start\startTranslatePhp;
+use function EnWiki\Start\TranslatePhpEditText;
+
+*/
+
 
 include_once __DIR__ . '/../actions/mdwiki_api.php';
 include_once __DIR__ . '/../Tables/langcode.php';
 include_once 'en_api.php';
 include_once 'fixtext.php';
+
+use function Actions\WikiApi\get_url_result_curl;
+use function Actions\Functions\test_print;
+use function EnWiki\API\do_edit;
+use function EnWiki\FixText\text_changes_work;
+
+use function Actions\MdwikiApi\get_mdwiki_url_with_params;
 
 class WikiTranslator
 {

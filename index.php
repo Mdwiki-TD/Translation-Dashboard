@@ -2,6 +2,14 @@
 //---
 namespace TD;
 
+/*
+Usage:
+
+use function TD\print_form_start1;
+
+*/
+
+
 if (isset($_REQUEST['test'])) {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
@@ -14,6 +22,10 @@ include_once __DIR__ . '/header.php';
 include_once __DIR__ . '/Tables/langcode.php';
 include_once __DIR__ . '/actions/functions.php';
 include_once __DIR__ . '/Tables/sql_tables.php';
+//---
+use function Actions\Functions\load_request;
+use function Infos\TdConfig\get_configs;
+use function Actions\Html\make_drop;
 //---
 // $conf = get_configs('conf.json');
 //---

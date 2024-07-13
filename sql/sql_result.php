@@ -1,5 +1,7 @@
 <?php
 //---
+use function Actions\MdwikiSql\execute_query;
+
 function make_sql_result($qua, $raw)
 {
     $uu = execute_query($qua);

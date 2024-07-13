@@ -9,6 +9,7 @@ use MediaWiki\OAuthClient\ClientConfig;
 use MediaWiki\OAuthClient\Consumer;
 use MediaWiki\OAuthClient\Token;
 
+use function Actions\MdwikiSql\sql_add_user;
 // Get the wiki URL and OAuth consumer details from the config file.
 include_once __DIR__ . '/config.php';
 

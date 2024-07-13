@@ -65,6 +65,8 @@ CREATE TABLE words (
 //---
 include_once __DIR__ . '/../infos/td_config.php';
 include_once __DIR__ . '/../actions/functions.php';
+use function Infos\TdConfig\Read_ini_file;
+
 //---
 $ini = Read_ini_file('OAuthConfig.ini');
 //---

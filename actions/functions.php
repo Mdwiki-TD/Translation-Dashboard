@@ -1,4 +1,15 @@
 <?php
+namespace Actions\Functions;
+/*
+Usage:
+use function Actions\Functions\load_request;
+use function Actions\Functions\escape_string;
+use function Actions\Functions\strstartswithn;
+use function Actions\Functions\strendswith;
+use function Actions\Functions\test_print;
+*/
+use function Actions\MdwikiSql\execute_query;
+
 $print_t = false;
 
 if (isset($_REQUEST['test'])) {

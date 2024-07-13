@@ -1,4 +1,5 @@
 <?PHP
+namespace Results\Results;
 //---
 include_once 'results_table.php';
 include_once 'Tables/langcode.php';
@@ -7,6 +8,10 @@ include_once 'actions/functions.php';
 include_once 'Tables/tables.php';
 include_once 'Tables/sql_tables.php';
 include_once 'get_results.php';
+//---
+use function Results\GetResults\get_results;
+use function Results\ResultsTable\make_results_table;
+use function Actions\Functions\load_request;
 //---
 $doit = isset($_REQUEST['doit']);
 //---

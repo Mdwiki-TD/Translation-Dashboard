@@ -1,4 +1,9 @@
 <?php
+namespace Actions\HtmlSide;
+/*
+Usage:
+use function Actions\HtmlSide\create_side;
+*/
 
 function generateListItem($id, $href, $title, $filename, $target = '') {
 	$li1 = "<li id='%s'><a class='linknave rounded' href='$filename?ty=%s'>%s</a></li>";
