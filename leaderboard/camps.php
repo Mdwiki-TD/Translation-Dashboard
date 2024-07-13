@@ -1,9 +1,21 @@
 <?PHP
+namespace Leaderboard\Camps;
+
+/*
+Usage:
+use function Leaderboard\Camps\camps_list;
+
+*/
+
+
 include_once 'Tables/tables.php';
 include_once 'actions/functions.php';
 include_once 'Tables/langcode.php';
 include_once 'results/getcats.php';
 include_once 'Tables/sql_tables.php'; // $sql_qids $cat_titles $cat_to_camp $camp_to_cat
+
+use function Results\GetCats\get_cat_from_cache;
+
 // $cat_to_camp
 $articles_to_camps = [];
 $camps_to_articles = [];

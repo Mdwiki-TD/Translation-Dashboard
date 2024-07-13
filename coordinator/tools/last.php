@@ -2,6 +2,15 @@
 //---
 include_once 'Tables/langcode.php';
 //---
+use function Actions\WikiApi\make_view_by_number;
+use function Actions\Html\make_mail_icon;
+use function Actions\Html\make_talk_url;
+use function Actions\Html\make_target_url;
+use function Actions\MdwikiSql\execute_query;
+use function Actions\Html\make_cat_url;
+use function Actions\Html\make_mdwiki_title;
+
+//---
 $lang = $_GET['lang'] ?? 'All';
 //---
 if ($lang !== 'All' && !isset($code_to_lang[$lang])) {

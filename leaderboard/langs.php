@@ -1,7 +1,20 @@
 <?PHP
+namespace Leaderboard\Langs;
+
+/*
+Usage:
+
+use function Leaderboard\Langs\make_filter_form;
+
+*/
+
 //---
 include_once 'lead_help.php';
 include_once 'camps.php';
+//---
+use function Actions\MdwikiSql\execute_query;
+use function Leaderboard\LeadHelp\make_table_lead;
+use function Actions\Html\makeDropdown;
 //---
 $test = $_REQUEST['test'] ?? '';
 $mainlang = $_REQUEST['langcode'] ?? "";

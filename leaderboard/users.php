@@ -1,7 +1,22 @@
 <?PHP
+namespace Leaderboard\Users;
+
+/*
+Usage:
+
+use function Leaderboard\Users\make_filter_form;
+
+*/
+
 //---
 include_once 'lead_help.php';
 include_once 'camps.php';
+//---
+use function Actions\Html\makeDropdown;
+use function Actions\MdwikiSql\execute_query;
+use function Leaderboard\LeadHelp\make_table_lead;
+
+use function Actions\Html\make_mdwiki_user_url;
 //---
 $test     = $_REQUEST['test'] ?? '';
 $mainuser = $_REQUEST['user'] ?? '';

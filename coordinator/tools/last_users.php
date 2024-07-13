@@ -1,6 +1,11 @@
 <?PHP
 //---
 include_once 'Tables/langcode.php';
+use function Actions\Html\make_mdwiki_title;
+use function Actions\Html\make_talk_url;
+use function Actions\Html\make_target_url;
+use function Actions\MdwikiSql\execute_query;
+use function Actions\Html\make_cat_url;
 //---
 $recent_table = <<<HTML
 	<table class="table table-sm table-striped table-mobile-responsive table-mobile-sided" id="last_tabel" style="font-size:90%;">
