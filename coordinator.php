@@ -8,6 +8,9 @@ if (isset($_REQUEST['test'])) {
 //---
 include_once __DIR__ . '/header.php';
 //---
+use function Actions\Functions\test_print;
+use function Actions\HtmlSide\create_side;
+
 echo <<<HTML
 	<!-- </div> -->
 	<script>$("#coord").addClass("active");</script>

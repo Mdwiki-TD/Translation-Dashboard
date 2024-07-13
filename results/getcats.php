@@ -1,4 +1,20 @@
 <?PHP
+namespace Results\GetCats;
+
+/*
+Usage:
+
+use function Results\GetCats\start_with;
+use function Results\GetCats\get_in_process;
+use function Results\GetCats\open_json_file;
+use function Results\GetCats\get_cat_from_cache;
+use function Results\GetCats\get_categorymembers;
+use function Results\GetCats\get_mmbrs;
+use function Results\GetCats\get_mdwiki_cat_members;
+use function Results\GetCats\get_cat_exists_and_missing;
+
+*/
+
 //---
 if (isset($_REQUEST['test'])) {
     ini_set('display_errors', 1);
@@ -9,6 +25,10 @@ if (isset($_REQUEST['test'])) {
 include_once 'Tables/tables.php';
 include_once 'Tables/langcode.php';
 include_once 'actions/functions.php';
+//---
+use function Actions\Functions\test_print;
+use function Actions\MdwikiSql\execute_query;
+use function Actions\MdwikiApi\get_mdwiki_url_with_params;
 //---
 function start_with($haystack, $needle)
 {

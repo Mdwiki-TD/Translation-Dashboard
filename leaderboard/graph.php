@@ -1,7 +1,18 @@
 <?PHP
-//---
+namespace Leaderboard\Graph;
+/*
+Usage:
+
+use function Leaderboard\Graph\graph_html;
+use function Leaderboard\Graph\print_graph_from_sql;
+use function Leaderboard\Graph\print_graph_for_table;
+use function Leaderboard\Graph\print_graph_tab;
+
+*/
 echo '<script src="/Translation_Dashboard/js/g.js"></script>';
 //---
+use function Actions\MdwikiSql\execute_query;
+// ---
 function graph_html($keys, $values, $id = 'chart1', $no_card = false)
 {
     $canvas = <<<HTML

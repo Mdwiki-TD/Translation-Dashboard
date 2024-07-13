@@ -1,9 +1,24 @@
 <?php
+namespace Actions\MdwikiSql;
+/*
+Usage:
+use function Actions\MdwikiSql\execute_query;
+use function Actions\MdwikiSql\sql_add_user;
+use function Actions\MdwikiSql\update_settings;
+use function Actions\MdwikiSql\insert_to_translate_type;
+use function Actions\MdwikiSql\insert_to_projects;
+use function Actions\MdwikiSql\get_all;
+use function Actions\MdwikiSql\display_tables;
+*/
 if (isset($_REQUEST['test'])) {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 };
+//---
+use function Actions\Functions\test_print;
+use PDO;
+use PDOException;
 //---
 class Database {
 

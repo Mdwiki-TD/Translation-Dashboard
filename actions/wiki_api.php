@@ -1,5 +1,13 @@
 <?php
 
+namespace Actions\WikiApi;
+/*
+Usage:
+use function Actions\WikiApi\get_url_result_curl;
+use function Actions\WikiApi\make_view_by_number;
+use function Actions\WikiApi\get_views;
+*/
+
 include_once(__DIR__ . '/../infos/user_account_new.php');
 
 $usr_agent = $user_agent;

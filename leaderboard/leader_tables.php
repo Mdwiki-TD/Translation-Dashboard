@@ -1,10 +1,26 @@
 <?PHP
+namespace Leaderboard\LeaderTables;
+
+/*
+Usage:
+
+use function Leaderboard\LeaderTables\makeSqlQuery;
+use function Leaderboard\LeaderTables\createNumbersTable;
+use function Leaderboard\LeaderTables\makeUsersTable;
+use function Leaderboard\LeaderTables\makeLangTable;
+
+*/
+
+
 include_once 'Tables/tables.php';
 include_once 'actions/functions.php';
 include_once 'Tables/langcode.php';
 include_once 'Tables/sql_tables.php'; // $sql_qids $cat_titles $cat_to_camp $camp_to_cat
 include_once 'leaderboard/camps.php';
 include_once 'actions/html.php';
+
+use function Actions\MdwikiSql\execute_query;
+use function Actions\Html\make_modal_fade;
 
 $year = $_REQUEST['year'] ?? 'all';
 $camp = $_REQUEST['camp'] ?? 'all';

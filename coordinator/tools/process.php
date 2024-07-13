@@ -1,5 +1,9 @@
 <?PHP
 //---
+use function Actions\Html\make_mdwiki_title;
+use function Actions\MdwikiSql\execute_query;
+use function Actions\Html\make_cat_url;
+//---
 echo <<<HTML
     <div class='card-header'>
         <h4>Translations in process:</h4>

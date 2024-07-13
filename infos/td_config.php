@@ -1,4 +1,17 @@
 <?php
+namespace Infos\TdConfig;
+
+/*
+Usage:
+
+use function Infos\TdConfig\Read_ini_file;
+use function Infos\TdConfig\get_configs;
+use function Infos\TdConfig\set_configs;
+use function Infos\TdConfig\set_configs_all_file;
+
+*/
+
+
 //---
 if (isset($_REQUEST['test'])) {
     ini_set('display_errors', 1);

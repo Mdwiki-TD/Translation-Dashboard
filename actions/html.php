@@ -1,5 +1,28 @@
 <?php
-//---
+namespace Actions\Html;
+/*
+Usage:
+use function Actions\Html\login_card;
+use function Actions\Html\makeCard;
+use function Actions\Html\makeColSm4;
+use function Actions\Html\makeDropdown;
+use function Actions\Html\make_cat_url;
+use function Actions\Html\make_col_sm_body;
+use function Actions\Html\make_datalist_options;
+use function Actions\Html\make_drop;
+use function Actions\Html\make_form_check_input;
+use function Actions\Html\make_input_group;
+use function Actions\Html\make_input_group_no_col;
+use function Actions\Html\make_mail_icon;
+use function Actions\Html\make_mdwiki_title;
+use function Actions\Html\make_mdwiki_user_url;
+use function Actions\Html\make_modal_fade;
+use function Actions\Html\make_project_to_user;
+use function Actions\Html\make_talk_url;
+use function Actions\Html\make_target_url;
+use function Actions\Html\make_translation_url;
+*/
+
 include_once 'html_side1.php';
 //---
 function add_quotes($str)

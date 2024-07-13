@@ -8,6 +8,13 @@ include_once __DIR__ . '/../header.php';
 include_once __DIR__ . '/../actions/functions.php';
 include_once __DIR__ . '/start.php';
 // ---
+use function Actions\Html\make_form_check_input;
+use function Actions\Html\make_input_group_no_col;
+use function EnWiki\Start\startTranslatePhp;
+use function EnWiki\Start\TranslatePhpEditText;
+use function Actions\Functions\test_print;
+
+// ---
 function make_form($text)
 {
     // ---

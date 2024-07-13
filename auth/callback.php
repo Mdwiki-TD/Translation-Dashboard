@@ -57,7 +57,7 @@ echo "Continue to <a href='auth.php?a=index'>index</a><br>";
 $test = $_GET['test'] ?? '';
 $return_to = $_GET['return_to'] ?? '';
 // ---
-if ($return_to != '') {
+if ($return_to != '' && (strpos($return_to, '/Translation_Dashboard/index.php') === false)) {
 	$newurl = $return_to;
 } else {
 	foreach (['cat', 'code', 'type', 'doit'] as $key) {

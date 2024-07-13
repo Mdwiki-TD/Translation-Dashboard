@@ -1,4 +1,13 @@
 <?PHP
+namespace Leaderboard\Index;
+
+/*
+Usage:
+
+use function Leaderboard\Index\print_cat_table;
+
+*/
+
 //---
 if (isset($_REQUEST['test'])) {
     ini_set('display_errors', 1);
@@ -7,6 +16,16 @@ if (isset($_REQUEST['test'])) {
 };
 //---
 include_once 'leaderboard/leader_tables.php';
+
+use function Actions\Html\makeColSm4;
+use function Actions\MdwikiSql\execute_query;
+use function Leaderboard\Graph\print_graph_from_sql;
+use function Leaderboard\Graph\print_graph_for_table;
+use function Leaderboard\LeaderTables\createNumbersTable;
+use function Leaderboard\LeaderTables\makeUsersTable;
+use function Leaderboard\LeaderTables\makeLangTable;
+
+use function Actions\Html\makeDropdown;
 //---
 function print_cat_table(): string {
     global $sql_users_tab, $Articles_numbers, $Words_total, $sql_Languages_tab, $global_views, $tab_for_graph;

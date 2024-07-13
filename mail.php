@@ -13,6 +13,7 @@ $cc_to      = $_REQUEST['cc_to'] ?? '';
 include_once __DIR__ . '/vendor_load.php';
 include_once __DIR__ . '/infos/td_config.php';
 //---
+use function Infos\TdConfig\Read_ini_file;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;

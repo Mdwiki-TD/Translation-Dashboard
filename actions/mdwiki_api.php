@@ -1,5 +1,15 @@
 <?php
+
+namespace Actions\MdwikiApi;
+/*
+Usage:
+use function Actions\MdwikiApi\get_url_params_result;
+use function Actions\MdwikiApi\get_mdwiki_url_with_params;
+*/
+
 include_once(__DIR__ . '/../infos/user_account_new.php');
+
+use function Actions\Functions\test_print;
 
 $usr_agent = $user_agent;
 
@@ -41,27 +51,6 @@ function get_mdwiki_url_with_params(array $params): array
     $url2 = "<a target='_blank' href='$url2'>$url2</a>";
     //---
     test_print("<br>get_mdwiki_url_with_params: $url2<br>");
-    //---
-    $out = get_url_params_result($endPoint, $params);
-    //---
-    $result = json_decode($out, true);
-    //---
-    if (!is_array($result)) {
-        $result = array();
-    }
-    //---
-    return $result;
-}
-
-function get_api_php(array $params): array
-{
-    $endPoint = '/Translation_Dashboard/auth/api.php';
-    //---
-    $query = http_build_query($params);
-    //---
-    $url = "{$endPoint}?{$query}";
-    //---
-    test_print("<br>get_api_php: $url<br>");
     //---
     $out = get_url_params_result($endPoint, $params);
     //---

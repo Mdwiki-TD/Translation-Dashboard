@@ -1,4 +1,16 @@
 <?PHP
+namespace Results\ResultsTable;
+
+/*
+Usage:
+
+use function Results\ResultsTable\sort_py_PageViews;
+use function Results\ResultsTable\sort_py_importance;
+use function Results\ResultsTable\make_one_row;
+use function Results\ResultsTable\make_results_table;
+
+*/
+
 
 include_once 'Tables/tables.php';
 include_once 'Tables/sql_tables.php';

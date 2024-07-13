@@ -1,4 +1,17 @@
 <?php
+namespace Results\GetResults;
+
+/*
+Usage:
+
+use function Results\GetResults\get_results;
+
+*/
+use function Results\GetCats\get_in_process;
+use function Results\GetCats\get_mdwiki_cat_members;
+use function Results\GetCats\get_cat_exists_and_missing;
+
+use function Actions\Functions\test_print;
 
 function get_results($cat, $camp, $depth, $code)
 {

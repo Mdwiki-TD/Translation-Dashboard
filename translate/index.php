@@ -1,5 +1,15 @@
 <?php
 // Define root path
+use function Actions\Html\login_card;
+use function Actions\Html\make_input_group;
+use function Actions\Html\make_mdwiki_title;
+use function Actions\Html\make_translation_url;
+use function Actions\Functions\escape_string;
+use function Actions\MdwikiSql\execute_query;
+use function EnWiki\API\Find_pages_exists_or_not;
+use function EnWiki\Start\startTranslatePhp;
+use function Actions\Html\make_target_url;
+
 $pathParts = explode('public_html', __FILE__);
 // the root path is the first part of the split file path
 $ROOT_PATH = $pathParts[0];

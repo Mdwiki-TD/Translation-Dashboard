@@ -1,5 +1,21 @@
 <?PHP
+namespace Leaderboard\LeadHelp;
+
+/*
+Usage:
+
+use function Leaderboard\LeadHelp\make_td_fo_user;
+use function Leaderboard\LeadHelp\make_table_lead;
+
+*/
+
 //---
+use function Actions\WikiApi\make_view_by_number;
+use function Actions\Html\make_cat_url;
+use function Actions\Html\make_mdwiki_title;
+use function Actions\Html\make_translation_url;
+use function Actions\Html\make_target_url;
+
 function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'users', $tab_ty = 'a', $_user_ = '')
 {
     global $cat_to_camp, $articles_to_camps, $camps_to_articles;
