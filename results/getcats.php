@@ -1,4 +1,5 @@
 <?PHP
+
 namespace Results\GetCats;
 
 /*
@@ -22,9 +23,9 @@ if (isset($_REQUEST['test'])) {
     error_reporting(E_ALL);
 };
 //---
-include_once 'Tables/tables.php';
-include_once 'Tables/langcode.php';
-include_once 'actions/functions.php';
+include_once __DIR__ . '/../Tables/tables.php';
+include_once __DIR__ . '/../Tables/langcode.php';
+include_once __DIR__ . '/../actions/functions.php';
 //---
 use function Actions\Functions\test_print;
 use function Actions\MdwikiSql\execute_query;
@@ -87,7 +88,7 @@ function open_json_file($file_path)
     }
 
     // Return the decoded data
-    test_print("Successfully decoded JSON from $file_path. " . count($data) . " <br>");
+    // test_print("Successfully decoded JSON from $file_path. " . count($data) . " <br>");
     return $data;
 }
 
@@ -97,7 +98,7 @@ function get_cat_from_cache($cat)
     $empty_list = array();
 
     // Construct the file path
-    $file_path = root_dire . "/Tables/cats_cash/$cat.json";
+    $file_path = __DIR__ . "/../Tables/cats_cash/$cat.json";
 
     $new_list = open_json_file($file_path);
 
@@ -117,7 +118,7 @@ function get_cat_from_cache($cat)
     }
 
     // Print list length
-    test_print("<br>get_cat_from_cache: list length: " . count($data));
+    // test_print("<br>get_cat_from_cache: list length: " . count($data));
 
     return $data;
 }
@@ -262,7 +263,7 @@ function get_cat_exists_and_missing($cat, $camp, $depth, $code, $use_cache = tru
         $members[] = $mr;
     };
     test_print("<br>members size:" . count($members));
-    $json_file = root_dire . "/Tables/cash_exists/$code.json";
+    $json_file = __DIR__ . "/../Tables/cash_exists/$code.json";
 
     $exists = open_json_file($json_file);
 

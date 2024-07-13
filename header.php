@@ -22,15 +22,15 @@ echo <<<HTML
 	<input type='hidden' id='test' value='$testhtml'>
 HTML;
 //---
-include_once 'actions/functions.php'; // $usrs
+include_once __DIR__ . '/actions/functions.php'; // $usrs
 //---
-include_once 'auth/index.php';
+include_once __DIR__ . '/auth/index.php';
 //---
 define('global_username', $username);
 //---
 $hoste = '';
 //---
-include_once 'head.php';
+include_once __DIR__ . '/head.php';
 //---
 echo "
 <span id='myusername' style='display:none'>" . global_username . "</span>";

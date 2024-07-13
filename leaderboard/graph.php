@@ -1,4 +1,5 @@
 <?PHP
+
 namespace Leaderboard\Graph;
 /*
 Usage:
@@ -9,6 +10,7 @@ use function Leaderboard\Graph\print_graph_for_table;
 use function Leaderboard\Graph\print_graph_tab;
 
 */
+
 echo '<script src="/Translation_Dashboard/js/g.js"></script>';
 //---
 use function Actions\MdwikiSql\execute_query;

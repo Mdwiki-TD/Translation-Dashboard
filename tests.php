@@ -46,7 +46,7 @@ $te = $_REQUEST['te'] ?? 'email';
 if (in_array($te, $tests_folders)) {
 	require "tests/$te.php";
 } else {
-	require 'coordinator/404.php';
+	include_once __DIR__ . '/coordinator/404.php';
 };
 //---
 if (isset($te)) {

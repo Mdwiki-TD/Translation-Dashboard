@@ -1,5 +1,7 @@
 <?PHP
 //---
+use function Actions\MdwikiSql\update_settings;
+//---
 if (isset($_POST['se'])) {
     // var_dump(json_encode($_POST));
     $se   = $_POST['se'] ?? [];

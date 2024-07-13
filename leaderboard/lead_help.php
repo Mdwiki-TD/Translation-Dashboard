@@ -10,6 +10,8 @@ use function Leaderboard\LeadHelp\make_table_lead;
 */
 
 //---
+include_once __DIR__ . '/camps.php';
+
 use function Actions\WikiApi\make_view_by_number;
 use function Actions\Html\make_cat_url;
 use function Actions\Html\make_mdwiki_title;

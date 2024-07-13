@@ -5,6 +5,9 @@ if (user_in_coord == false) {
 	exit;
 };
 //---
+use function Actions\Html\make_mdwiki_title;
+use function Actions\MdwikiSql\execute_query;
+//---
 function make_edit_icon($id, $title, $qid)
 {
 	//---

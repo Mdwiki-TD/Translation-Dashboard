@@ -11,6 +11,14 @@ include_once 'actions/functions.php';
 include_once 'results/getcats.php';
 include_once 'infos/td_config.php';
 //---
+use function Actions\MdwikiSql\execute_query;
+use function Actions\WikiApi\get_views;
+use function Actions\Html\make_mdwiki_title;
+use function Actions\Html\make_talk_url;
+use function Results\GetCats\get_in_process;
+use function Results\GetCats\get_cat_exists_and_missing;
+use function Actions\Html\make_target_url;
+//---
 echo "</div>";
 //---
 if (isset($_REQUEST['test'])) {

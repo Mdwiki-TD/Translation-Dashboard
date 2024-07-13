@@ -5,6 +5,10 @@ if (user_in_coord == false) {
 	exit;
 };
 //---
+use function Actions\Html\make_mail_icon;
+use function Actions\Html\make_project_to_user;
+use function Actions\MdwikiSql\execute_query;
+//---
 if (isset($_REQUEST['test'])) {
 	ini_set('display_errors', 1);
 	ini_set('display_startup_errors', 1);
@@ -12,7 +16,7 @@ if (isset($_REQUEST['test'])) {
 };
 //---
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    require 'post.php';
+    require __DIR__ . '/post.php';
 }
 //---
 function make_edit_icon($id, $user, $email, $wiki2, $project) {

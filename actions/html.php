@@ -23,7 +23,7 @@ use function Actions\Html\make_target_url;
 use function Actions\Html\make_translation_url;
 */
 
-include_once 'html_side1.php';
+include_once __DIR__ . '/html_side1.php';
 //---
 function add_quotes($str)
 {

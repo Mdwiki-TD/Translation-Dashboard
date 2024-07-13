@@ -4,7 +4,7 @@
 include_once 'Tables/sql_tables.php'; // $sql_qids $cat_titles $cat_to_camp $camp_to_cat
 */
 //---
-include_once 'actions/functions.php';
+include_once __DIR__ . '/../actions/functions.php';
 //---
 use function Actions\MdwikiSql\execute_query;
 //---
