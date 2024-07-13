@@ -1,11 +1,12 @@
 <?php
+namespace EnWiki\Fixes\FixTemps;
 
-if (isset($_REQUEST['test'])) {
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
-};
-include_once __DIR__ . '/../WikiParse/Template.php';
+/*
+Usage:
+
+use function EnWiki\Fixes\FixTemps\remove_templates;
+
+*/
 
 // include_once __DIR__ . '/../vendor_load.php';
 use function WikiParse\Template\getTemplate;
@@ -27,7 +28,8 @@ function remove_templates($text)
 {
     global $tempsToDelete;
     // ---
-    preg_match_all("/\{{2}((?>[^\{\}]+)|(?R))*\}{2}/x", $text, $matches);
+    $pattern = "/\{{2}((?>[^\{\}]+)|(?R))*\}{2}/x";
+    preg_match_all($pattern, $text, $matches);
     // ---
     // echo "<pre>";
     // echo htmlentities(var_export($matches, true));

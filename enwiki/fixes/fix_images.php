@@ -1,10 +1,13 @@
 <?php
+namespace EnWiki\Fixes\FixImages;
 
-if (isset($_REQUEST['test'])) {
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
-};
+/*
+Usage:
+
+use function EnWiki\Fixes\FixImages\remove_images;
+
+*/
+
 
 function remove_images($text)
 {

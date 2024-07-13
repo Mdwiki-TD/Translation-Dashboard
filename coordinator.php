@@ -1,9 +1,9 @@
 <?PHP
 //---
 if (isset($_REQUEST['test'])) {
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
+	ini_set('display_errors', 1);
+	ini_set('display_startup_errors', 1);
+	error_reporting(E_ALL);
 };
 //---
 include_once __DIR__ . '/header.php';
@@ -19,7 +19,8 @@ include_once __DIR__ . '/Tables/sql_tables.php'; // $sql_qids $cat_titles $cat_t
 //---
 $filename = $_SERVER['SCRIPT_NAME'];
 //---
-function echo_card_start($filename) {
+function echo_card_start($filename)
+{
 	$sidebar = create_side($filename);
 	echo <<<HTML
 	<style>
@@ -55,7 +56,7 @@ if ($ty == 'translate_type') $ty = 'tt';
 // list of folders in coordinator
 $corrd_folders = array_map('basename', glob('coordinator/admin/*', GLOB_ONLYDIR));
 //---
-$tools_folders = array_map(fn($file) => basename($file, '.php'), glob('coordinator/tools/*.php'));
+$tools_folders = array_map(fn ($file) => basename($file, '.php'), glob('coordinator/tools/*.php'));
 //---
 test_print("corrd_folders" . json_encode($corrd_folders));
 test_print("tools_folders" . json_encode($tools_folders));
@@ -73,7 +74,8 @@ if (in_array($ty, $tools_folders)) {
 	require 'coordinator/404.php';
 };
 //---
-function echo_card_end($ty) {
+function echo_card_end($ty)
+{
 	//---
 	if (isset($ty)) {
 		echo <<<HTML

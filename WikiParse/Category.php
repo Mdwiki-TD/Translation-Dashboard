@@ -1,5 +1,13 @@
 <?php
 namespace WikiParse\Category;
+
+/*
+Usage:
+
+use function WikiParse\Category\get_categories;
+
+*/
+
 // include_once __DIR__ . '/../WikiParse/Category.php';
 
 function get_categories($text)

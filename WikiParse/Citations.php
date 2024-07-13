@@ -1,5 +1,16 @@
 <?php
 namespace WikiParse\Citations;
+
+/*
+Usage:
+
+use function WikiParse\Citations\get_name;
+use function WikiParse\Citations\getCitations;
+use function WikiParse\Citations\get_full_refs;
+use function WikiParse\Citations\getShortCitations;
+
+*/
+
 // include_once __DIR__ . '/../WikiParse/Citations.php';
 
 /**
@@ -14,7 +25,7 @@ function get_name($options)
     if (trim($options) == "") {
         return "";
     }
-    $pa = "/name\s*=\s*\"(.*?)\"/i";
+    // $pa = "/name\s*=\s*\"(.*?)\"/i";
     $pa = "/name\s*\=\s*[\"\']*([^>\"\']*)[\"\']*\s*/i";
     preg_match($pa, $options, $matches);
     // ---
@@ -30,17 +41,17 @@ function getCitations($text)
     // ---
     $citations = [];
     // ---
-    foreach ($matches[1] as $key => $text_citation) {
+    foreach ($matches[1] as $key => $citation_options) {
         $content = $matches[2][$key];
         $ref_tag = $matches[0][$key];
-        $options = $text_citation;
-        $_Citation = [
+        $options = $citation_options;
+        $citation = [
             "content" => $content,
             "tag" => $ref_tag,
             "name" => get_name($options),
             "options" => $options
         ];
-        $citations[] = $_Citation;
+        $citations[] = $citation;
     }
 
     return $citations;
@@ -67,16 +78,16 @@ function getShortCitations($text)
     // ---
     $citations = [];
     // ---
-    foreach ($matches[1] as $key => $text_citation) {
+    foreach ($matches[1] as $key => $citation_options) {
         $ref_tag = $matches[0][$key];
-        $options = $text_citation;
-        $_Citation = [
+        $options = $citation_options;
+        $citation = [
             "content" => "",
             "tag" => $ref_tag,
             "name" => get_name($options),
             "options" => $options
         ];
-        $citations[] = $_Citation;
+        $citations[] = $citation;
     }
 
     return $citations;

@@ -128,15 +128,6 @@ function get_categorymembers($cat)
         //---
         $resa = get_mdwiki_url_with_params($params);
         //---
-        /*
-		if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost') {
-			//---
-			$resa = get_mdwiki_url_with_params( $params );
-			//---
-		} else {
-			$resa = get_api_php($params);
-		};*/
-        //---
         // if (!isset($resa["query"])) $resa = get_mdwiki_url_with_params($params);
         //---
         $continue   = $resa["continue"] ?? '';

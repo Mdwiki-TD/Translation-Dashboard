@@ -1,32 +1,30 @@
 <?php
 //---
 if (user_in_coord == false) {
-	echo "<meta http-equiv='refresh' content='0; url=index.php'>";
-	exit;
-};
-//---
-?>
-</div>
-<script> 
-    $('#mainnav').hide();
-    $('#maindiv').hide();
-</script>
-<div class="container-fluid">
-<?PHP
-//---
-if (isset($_REQUEST['test'])) {
-	ini_set('display_errors', 1);
-	ini_set('display_startup_errors', 1);
-	error_reporting(E_ALL);
+    echo "<meta http-equiv='refresh' content='0; url=index.php'>";
+    exit;
 };
 //---
 include_once 'actions/functions.php';
+//---
+echo '</div><script>
+    $("#mainnav").hide();
+    $("#maindiv").hide();
+</script>
+<div class="container-fluid">';
+//---
+//---
+if (isset($_REQUEST['test'])) {
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+};
 //---
 $tabs = array();
 //---
 $user   = $_REQUEST['user'] ?? '';
 $wiki   = $_REQUEST['wiki'] ?? '';
-$project= $_REQUEST['project'] ?? '';
+$project = $_REQUEST['project'] ?? '';
 $email  = $_REQUEST['email'] ?? '';
 $id     = $_REQUEST['id'] ?? '';
 //---
@@ -38,7 +36,8 @@ echo <<<HTML
     <div class='card-body'>
 HTML;
 //---
-function send_user($id, $user, $project, $wiki, $email) {
+function send_user($id, $user, $project, $wiki, $email)
+{
     //---
     if ($user != '') {
         //---
@@ -54,7 +53,7 @@ function send_user($id, $user, $project, $wiki, $email) {
     // green text success
     echo <<<HTML
         <div class='alert alert-success' role='alert'>User "$user" information updated<br>
-            window will close in 3 seconds            
+            window will close in 3 seconds
         </div>
         <!-- close window after 3 seconds -->
         <script>
@@ -65,12 +64,13 @@ function send_user($id, $user, $project, $wiki, $email) {
     HTML;
 }
 //---
-function echo_form($user, $wiki, $project, $email, $id) {
+function echo_form($user, $wiki, $project, $email, $id)
+{
     //---
     global $projects_title_to_id;
     //---
-	$project_line = make_project_to_user($projects_title_to_id, $project);
-	//---
+    $project_line = make_project_to_user($projects_title_to_id, $project);
+    //---
     echo <<<HTML
         <form action='coordinator.php?ty=Emails/edit_user&nonav=120' method='POST'>
             <input name='edit' value="1" hidden/>
@@ -126,7 +126,7 @@ function echo_form($user, $wiki, $project, $email, $id) {
     HTML;
 }
 //---
-if ( isset($_REQUEST['edit']) ) {
+if (isset($_REQUEST['edit'])) {
     send_user($id, $user, $project, $wiki, $email);
     //---
 } else {

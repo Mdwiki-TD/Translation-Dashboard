@@ -144,6 +144,7 @@ function make_td($tabg, $nnnn)
     return $laly;
 };
 //---
+
 function get_recent_sql($lang)
 {
     $lang_line = '';

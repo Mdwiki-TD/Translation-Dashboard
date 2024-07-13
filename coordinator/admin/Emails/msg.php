@@ -5,6 +5,12 @@ if (user_in_coord == false) {
     exit;
 };
 //---
+// require 'header.php';
+include_once 'Tables/tables.php';
+include_once 'actions/functions.php';
+include_once 'results/getcats.php';
+include_once 'infos/td_config.php';
+//---
 echo "</div>";
 //---
 if (isset($_REQUEST['test'])) {
@@ -25,12 +31,6 @@ echo <<<HTML
 </script>
 <div id='yeye' class='container-fluid'>
 HTML;
-//---
-// require 'header.php';
-include_once 'Tables/tables.php';
-include_once 'actions/functions.php';
-include_once 'results/getcats.php';
-include_once 'infos/td_config.php';
 //---
 $tabs = array();
 //---

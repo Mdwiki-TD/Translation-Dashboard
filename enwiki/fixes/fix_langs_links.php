@@ -1,4 +1,13 @@
 <?php
+namespace EnWiki\Fixes\fix_langs_links;
+
+/*
+Usage:
+
+use function EnWiki\Fixes\fix_langs_links\remove_lang_links;
+
+*/
+
 
 function remove_lang_links($text)
 {

@@ -12,17 +12,17 @@ function print_cat_table(): string {
     global $sql_users_tab, $Articles_numbers, $Words_total, $sql_Languages_tab, $global_views, $tab_for_graph;
 
     $numbersTable = createNumbersTable(
-        count($sql_users_tab), 
-        number_format($Articles_numbers), 
-        number_format($Words_total), 
-        count($sql_Languages_tab), 
+        count($sql_users_tab),
+        number_format($Articles_numbers),
+        number_format($Words_total),
+        count($sql_Languages_tab),
         number_format($global_views)
     );
     //---
     // $gg = print_graph_from_sql();
     $gg = print_graph_for_table($tab_for_graph, $id='chart09', $no_card=false);
     //---
-    
+
     $numbersCol = makeColSm4('Numbers', $numbersTable, 3, $gg);
 
     $usersTable = makeUsersTable();
@@ -37,7 +37,7 @@ function print_cat_table(): string {
     //---
     $languagesTable = makeLangTable();
     $languagesCol = makeColSm4('Top languages by number of Articles', $languagesTable, 4);
-       
+
     return <<<HTML
         <div class="row g-3">
             $numbersCol
@@ -119,4 +119,3 @@ echo <<<HTML
 </div>
 HTML;
 //---
-?>

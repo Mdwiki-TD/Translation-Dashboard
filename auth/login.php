@@ -37,6 +37,12 @@ function make_callback_url($url)
     $state = array();
     // ?action=login&cat=RTT&depth=1&code=&type=lead
 
+    $return_to = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
+    //---
+    if ($return_to != '') {
+        $state['return_to'] = $return_to;
+    }
+    //---
     foreach (['cat', 'code', 'type', 'test', 'doit'] as $key) {
         $da = $_GET[$key] ?? '';
         if ($da != '') {
