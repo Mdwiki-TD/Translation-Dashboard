@@ -55,21 +55,25 @@ echo "Continue to <a href='auth.php?a=index'>index</a><br>";
 # automatic redirect to edit.php
 
 $test = $_GET['test'] ?? '';
-
-foreach (['cat', 'code', 'type', 'doit'] as $key) {
-	$da1 = $_GET[$key] ?? '';
-	if ($da1 != '') {
-		$state[$key] = $da1;
+$return_to = $_GET['return_to'] ?? '';
+// ---
+if ($return_to != '') {
+	$newurl = $return_to;
+} else {
+	foreach (['cat', 'code', 'type', 'doit'] as $key) {
+		$da1 = $_GET[$key] ?? '';
+		if ($da1 != '') {
+			$state[$key] = $da1;
+		};
 	};
-};
-//---
-$state = http_build_query($state);
-//---
-$newurl = "/Translation_Dashboard/index.php?$state";
-//---
+	//---
+	$state = http_build_query($state);
+	//---
+	$newurl = "/Translation_Dashboard/index.php?$state";
+}
+// ---
 echo "header('Location: $newurl');<br>";
 //---
 if ($test == '') {
 	header("Location: $newurl");
 }
-//---

@@ -6,13 +6,13 @@ if (isset($_REQUEST['test'])) {
 };
 //---
 class Database {
-    
+
     private $db;
     private $host;
     private $user;
     private $password;
     private $dbname;
-    
+
     public function __construct($server_name) {
         if ($server_name === 'localhost') {
             $this->host = 'localhost:3306';
@@ -28,7 +28,7 @@ class Database {
             $this->password = $ts_mycnf['password'];
             unset($ts_mycnf, $ts_pw);
         }
-        
+
         try {
             $this->db = new PDO("mysql:host=$this->host;dbname=$this->dbname", $this->user, $this->password);
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -37,7 +37,7 @@ class Database {
             exit();
         }
     }
-    
+
     public function execute_query_old($sql_query) {
         try {
             $q = $this->db->prepare($sql_query);
@@ -57,7 +57,7 @@ class Database {
             } else {
                 $q->execute();
             }
-            
+
             // Check if the query starts with "SELECT"
             $query_type = strtoupper(substr(trim((string) $sql_query), 0, 6));
             if ($query_type === 'SELECT') {
@@ -73,14 +73,14 @@ class Database {
             return array();
         }
     }
-    
+
     public function __destruct() {
         $this->db = null;
     }
 }
 //---
 function execute_query($sql_query, $params = null) {
-        
+
     // Create a new database object
     $db = new Database($_SERVER['SERVER_NAME']);
 
@@ -105,7 +105,7 @@ function sql_add_user($user_name, $email, $wiki, $project, $ido) {
     // Create a new database object
     // Use a prepared statement for INSERT
     $qua = <<<SQL
-        INSERT INTO users (username, email, wiki, user_group, reg_date) SELECT ?, ?, ?, ?, now() 
+        INSERT INTO users (username, email, wiki, user_group, reg_date) SELECT ?, ?, ?, ?, now()
         WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = ?)
     SQL;
     $params = [$user_name, $email, $wiki, $project, $user_name];
@@ -114,11 +114,11 @@ function sql_add_user($user_name, $email, $wiki, $project, $ido) {
     if ($ido != '' && $ido != 0 && $ido != "0") {
         // Use a prepared statement for UPDATE
         $qua = <<<SQL
-            UPDATE users SET 
-                username = ?, 
-                email = ?, 
-                user_group = ?, 
-                wiki = ? 
+            UPDATE users SET
+                username = ?,
+                email = ?,
+                user_group = ?,
+                wiki = ?
             WHERE users.user_id = ?
         SQL;
         $params = [$user_name, $email, $project, $wiki, $ido];
@@ -126,7 +126,7 @@ function sql_add_user($user_name, $email, $wiki, $project, $ido) {
 
     // Prepare and execute the SQL query with parameter binding
     $results = execute_query($qua, $params=$params);
-    
+
     return $results;
 }
 
@@ -199,4 +199,3 @@ function display_tables() {
 
 $test = $_GET['test'] ?? '';
 if ($test != '') display_tables();
-?>

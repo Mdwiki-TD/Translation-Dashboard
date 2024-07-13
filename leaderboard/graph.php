@@ -1,5 +1,6 @@
-<script src="/Translation_Dashboard/js/g.js"></script>
 <?PHP
+//---
+echo '<script src="/Translation_Dashboard/js/g.js"></script>';
 //---
 function graph_html($keys, $values, $id = 'chart1', $no_card = false)
 {

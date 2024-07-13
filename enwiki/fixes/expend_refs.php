@@ -1,6 +1,12 @@
 <?php
+namespace EnWiki\Fixes\ExpendRefs;
 
-include_once __DIR__ . '/../WikiParse/Citations.php';
+/*
+Usage:
+
+use function EnWiki\Fixes\ExpendRefs\refs_expend_work;
+
+*/
 
 use function WikiParse\Citations\get_full_refs;
 use function WikiParse\Citations\getShortCitations;
@@ -20,7 +26,7 @@ function refs_expend_work($first, $alltext)
         $name = $cite["name"];
         $refe = $cite["tag"];
         // ---
-        $rr = isset($refs[$name]) ? $refs[$name] : false;
+        $rr = $refs[$name] ?? false;
         if ($rr) {
             $first = str_replace($refe, $rr, $first);
         }

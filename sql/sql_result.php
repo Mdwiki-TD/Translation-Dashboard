@@ -1,7 +1,8 @@
 <?php
 //---
-function make_sql_result($qua, $raw) {
-	$uu = execute_query($qua);
+function make_sql_result($qua, $raw)
+{
+    $uu = execute_query($qua);
     //---
     $start = <<<HTML
     <table class="table table-striped sortable">
@@ -13,21 +14,23 @@ function make_sql_result($qua, $raw) {
     //---
     $number = 0;
     //---
-    foreach ( $uu AS $id => $row ) {
+    foreach ($uu as $id => $row) {
         $number = $number + 1;
         $tr = '';
         //---
-        foreach ( $row AS $nas => $value ) {
+        foreach ($row as $nas => $value) {
             // if ($nas != '') {
-            if (!preg_match( '/^\d+$/', $nas, $m ) ) {
+            if (!preg_match('/^\d+$/', $nas, $m)) {
                 $tr .= "<td>$value</th>";
-                if ($number == 1) { 
+                if ($number == 1) {
                     $start .= "<th class='text-nowrap'>$nas</th>";
                 };
             };
         };
         //---
-        if ($tr != '' ) { $text .= "<tr><td>$number</td>$tr</tr>"; };
+        if ($tr != '') {
+            $text .= "<tr><td>$number</td>$tr</tr>";
+        };
         //---
     };
     //---
@@ -36,7 +39,7 @@ function make_sql_result($qua, $raw) {
         </thead>
     HTML;
     //---
-    if ( $raw == '' ) {
+    if ($raw == '') {
         //---
         echo "<h4>sql results:$number.</h4>";
         //---
@@ -57,26 +60,24 @@ function make_sql_result($qua, $raw) {
         //---
         $n = 0;
         //---
-        foreach ( $uu AS $id => $row ) {
+        foreach ($uu as $id => $row) {
             $ff = array();
-            $n = $n + 1 ;
+            $n = $n + 1;
             //---
-            foreach ( $row AS $nas => $value ) {
-                if (!preg_match( '/^\d+$/', $nas, $m ) ) $ff[$nas] = $value;
+            foreach ($row as $nas => $value) {
+                if (!preg_match('/^\d+$/', $nas, $m)) $ff[$nas] = $value;
             };
             //---
             $sql_result[$n] = $ff;
         };
         echo json_encode($sql_result);
-		//---
-		if ( $raw == '66' ) {
-			echo '<script>window.close();</script>';
-			
-		};
-		//---
-        
+        //---
+        if ($raw == '66') {
+            echo '<script>window.close();</script>';
+        };
+        //---
+
     };
     //---
 };
 //---
-?>

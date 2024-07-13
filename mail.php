@@ -11,12 +11,12 @@ $cc_to      = $_REQUEST['cc_to'] ?? '';
 //---
 // Composer autoload
 include_once __DIR__ . '/vendor_load.php';
+include_once __DIR__ . '/infos/td_config.php';
 //---
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 //---
-include_once __DIR__ . '/infos/td_config.php';
 $my_ini     = Read_ini_file('my_config.ini');
 $tool_email = $my_ini['mdwiki_Username'] ?? "";
 $tool_pass  = $my_ini['mdwiki_Password'] ?? "";

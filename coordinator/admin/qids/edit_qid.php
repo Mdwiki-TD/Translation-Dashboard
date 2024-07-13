@@ -1,26 +1,24 @@
 <?php
 //---
 if (user_in_coord == false) {
-	echo "<meta http-equiv='refresh' content='0; url=index.php'>";
-	exit;
-};
-//---
-?>
-</div>
-<script> 
-    $('#mainnav').hide();
-    $('#maindiv').hide();
-</script>
-<div class="container-fluid">
-<?PHP
-//---
-if (isset($_REQUEST['test'])) {
-	ini_set('display_errors', 1);
-	ini_set('display_startup_errors', 1);
-	error_reporting(E_ALL);
+    echo "<meta http-equiv='refresh' content='0; url=index.php'>";
+    exit;
 };
 //---
 include_once 'actions/functions.php';
+//---
+echo '</div><script>
+    $("#mainnav").hide();
+    $("#maindiv").hide();
+</script>
+<div class="container-fluid">';
+//---
+//---
+if (isset($_REQUEST['test'])) {
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+};
 //---
 $tabs = array();
 //---
@@ -36,13 +34,14 @@ echo <<<HTML
     <div class='card-body'>
 HTML;
 //---
-function send_qid($id, $title, $qid) {
+function send_qid($id, $title, $qid)
+{
     //---
-    $qua = "UPDATE qids 
-    SET 
+    $qua = "UPDATE qids
+    SET
         title = ?,
         qid = ?
-    WHERE 
+    WHERE
         id = ?
     ";
     $params = [$title, $qid, $id];
@@ -52,7 +51,7 @@ function send_qid($id, $title, $qid) {
     // green text success
     echo <<<HTML
         <div class='alert alert-success' role='alert'>Qid updated<br>
-            window will close in 3 seconds            
+            window will close in 3 seconds
         </div>
         <!-- close window after 3 seconds -->
         <script>
@@ -63,7 +62,9 @@ function send_qid($id, $title, $qid) {
     HTML;
 }
 //---
-function echo_form($id, $title, $qid) {
+
+function echo_form($id, $title, $qid)
+{
     echo <<<HTML
         <form action='coordinator.php?ty=qids/edit_qid&nonav=120' method='POST'>
             <input name='edit' value="1" hidden/>
@@ -103,7 +104,7 @@ function echo_form($id, $title, $qid) {
     HTML;
 }
 //---
-if ( isset($_REQUEST['edit']) ) {
+if (isset($_REQUEST['edit'])) {
     send_qid($id, $title, $qid);
 } else {
     echo_form($id, $title, $qid);

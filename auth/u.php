@@ -9,7 +9,10 @@ if ($u != '' && in_array($u, $allowed_u)) {
     $_SESSION['username'] = $u;
     //---
     session_regenerate_id();
-    header("Location: /Translation_Dashboard/index.php");
+    //---
+    $return_to = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/Translation_Dashboard/index.php';
+    //---
+    header("Location: $return_to");
     exit(0);
 };
 if ($_SERVER['SERVER_NAME'] == 'localhost') {
@@ -24,7 +27,9 @@ if ($_SERVER['SERVER_NAME'] == 'localhost') {
         // include_once __DIR__ . "/../actions/mdwiki_sql.php";
         // sql_add_user($user, '', '', '', '');
         //---
-        header("Location: /Translation_Dashboard/index.php");
+        $return_to = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/Translation_Dashboard/index.php';
+        //---
+        header("Location: $return_to");
         exit(0);
     };
 };

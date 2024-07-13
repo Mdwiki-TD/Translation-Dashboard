@@ -6,7 +6,7 @@ if (isset($_POST['add_qids'])) {
 		$title = $_POST['add_qids'][$i];
 		$qid   = $_POST['qid'][$i];
 		//---
-		$qua = "INSERT INTO qids (title, qid) 
+		$qua = "INSERT INTO qids (title, qid)
 			SELECT ?, ?
 		WHERE NOT EXISTS (SELECT 1 FROM qids WHERE qid = ?)";
 		//---
@@ -23,4 +23,3 @@ echo <<<HTML
 	<meta http-equiv='refresh' content='2; url=coordinator.php?ty=qids'>
 HTML;
 //---
-?>

@@ -1,26 +1,24 @@
 <?php
 //---
 if (user_in_coord == false) {
-	echo "<meta http-equiv='refresh' content='0; url=index.php'>";
-	exit;
-};
-//---
-?>
-</div>
-<script> 
-    $('#mainnav').hide();
-    $('#maindiv').hide();
-</script>
-<div class="container-fluid">
-<?PHP
-//---
-if (isset($_REQUEST['test'])) {
-	ini_set('display_errors', 1);
-	ini_set('display_startup_errors', 1);
-	error_reporting(E_ALL);
+    echo "<meta http-equiv='refresh' content='0; url=index.php'>";
+    exit;
 };
 //---
 include_once 'actions/functions.php';
+//---
+//---
+echo '</div><script>
+    $("#mainnav").hide();
+    $("#maindiv").hide();
+</script>
+<div class="container-fluid">';
+//---
+if (isset($_REQUEST['test'])) {
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+};
 //---
 $tabs = array();
 //---
@@ -39,7 +37,8 @@ echo <<<HTML
     <div class='card-body'>
 HTML;
 //---
-function edit_page($id, $title, $target, $lang, $user, $pupdate) {
+function edit_page($id, $title, $target, $lang, $user, $pupdate)
+{
     //---
     $qua = "UPDATE pages
     SET
@@ -48,7 +47,7 @@ function edit_page($id, $title, $target, $lang, $user, $pupdate) {
         lang = ?,
         user = ?,
         pupdate = ?
-    WHERE 
+    WHERE
         id = ?
     ";
     $params = [$title, $target, $lang, $user, $pupdate, $id];
@@ -58,7 +57,7 @@ function edit_page($id, $title, $target, $lang, $user, $pupdate) {
     // green text success
     echo <<<HTML
         <div class='alert alert-success' role='alert'>Page updated<br>
-            window will close in 3 seconds            
+            window will close in 3 seconds
         </div>
         <!-- close window after 3 seconds -->
         <script>
@@ -69,7 +68,9 @@ function edit_page($id, $title, $target, $lang, $user, $pupdate) {
     HTML;
 }
 //---
-function echo_form($id, $title, $target, $lang, $user, $pupdate) {
+
+function echo_form($id, $title, $target, $lang, $user, $pupdate)
+{
     echo <<<HTML
         <form action='coordinator.php?ty=translated/edit_page&nonav=120' method='POST'>
             <input type='text' id='id' name='id' value='$id' hidden/>
@@ -125,7 +126,7 @@ function echo_form($id, $title, $target, $lang, $user, $pupdate) {
     HTML;
 }
 //---
-if ( isset($_REQUEST['edit']) ) {
+if (isset($_REQUEST['edit'])) {
     edit_page($id, $title, $target, $lang, $user, $pupdate);
 } else {
     echo_form($id, $title, $target, $lang, $user, $pupdate);

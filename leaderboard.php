@@ -31,10 +31,8 @@ if ($users !== '') {
 } else {
     require 'leaderboard/index.php';
 }
-?>
 
-<!-- <script src="/Translation_Dashboard/js/leadtable.js"></script> -->
+echo '<!-- <script src="/Translation_Dashboard/js/leadtable.js"></script> -->';
 
-<?php
 include_once __DIR__ . '/foter.php';
 ?>

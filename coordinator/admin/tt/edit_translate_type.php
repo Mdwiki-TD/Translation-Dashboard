@@ -1,26 +1,23 @@
 <?php
 //---
 if (user_in_coord == false) {
-	echo "<meta http-equiv='refresh' content='0; url=index.php'>";
-	exit;
-};
-//---
-?>
-</div>
-<script> 
-    $('#mainnav').hide();
-    $('#maindiv').hide();
-</script>
-<div class="container-fluid">
-<?PHP
-//---
-if (isset($_REQUEST['test'])) {
-	ini_set('display_errors', 1);
-	ini_set('display_startup_errors', 1);
-	error_reporting(E_ALL);
+    echo "<meta http-equiv='refresh' content='0; url=index.php'>";
+    exit;
 };
 //---
 include_once 'actions/functions.php';
+
+echo '</div><script>
+    $("#mainnav").hide();
+    $("#maindiv").hide();
+</script>
+<div class="container-fluid">';
+//---
+if (isset($_REQUEST['test'])) {
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+};
 //---
 $tabs = array();
 //---
@@ -37,14 +34,15 @@ echo <<<HTML
     <div class='card-body'>
 HTML;
 //---
-function send_qid($id, $title, $lead, $full) {
+function send_qid($id, $title, $lead, $full)
+{
     //---
-    insert_to_translate_type($title, $lead, $full, $tt_id=$id);
+    insert_to_translate_type($title, $lead, $full, $tt_id = $id);
     //---
     // green text success
     echo <<<HTML
         <div class='alert alert-success' role='alert'>Translate type updated<br>
-            window will close in 3 seconds            
+            window will close in 3 seconds
         </div>
         <!-- close window after 3 seconds -->
         <script>
@@ -55,9 +53,10 @@ function send_qid($id, $title, $lead, $full) {
     HTML;
 }
 //---
-function echo_form($title, $lead, $full, $id) {
-	$lead_checked = ($lead == 1 || $lead == "1") ? 'checked' : '';
-	$full_checked = ($full == 1 || $full == "1") ? 'checked' : '';
+function echo_form($title, $lead, $full, $id)
+{
+    $lead_checked = ($lead == 1 || $lead == "1") ? 'checked' : '';
+    $full_checked = ($full == 1 || $full == "1") ? 'checked' : '';
     //---
     echo <<<HTML
         <form action='coordinator.php?ty=tt/edit_translate_type&nonav=120' method='POST'>
@@ -116,7 +115,7 @@ function echo_form($title, $lead, $full, $id) {
     HTML;
 }
 //---
-if ( isset($_REQUEST['edit']) ) {
+if (isset($_REQUEST['edit'])) {
     send_qid($id, $title, $lead, $full);
     //---
 } else {

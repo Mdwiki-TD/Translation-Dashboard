@@ -1,5 +1,13 @@
 <?php
-include_once __DIR__ . '/../WikiParse/Category.php';
+namespace EnWiki\Fixes\FixCats;
+
+/*
+Usage:
+
+use function EnWiki\Fixes\FixCats\remove_categories;
+
+*/
+
 
 use function WikiParse\Category\get_categories;
 
