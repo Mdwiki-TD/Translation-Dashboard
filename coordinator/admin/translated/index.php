@@ -1,6 +1,10 @@
 <?PHP
 //---
 include_once 'Tables/langcode.php';
+use function Actions\Html\make_mdwiki_title;
+use function Actions\Html\make_talk_url;
+use function Actions\Html\make_target_url;
+use function Actions\MdwikiSql\execute_query;
 //---
 $lang = $_GET['lang'] ?? 'All';
 //---

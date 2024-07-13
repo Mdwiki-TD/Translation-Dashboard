@@ -7,6 +7,8 @@ if (user_in_coord == false) {
 //---
 include_once 'actions/functions.php';
 
+use function Actions\MdwikiSql\insert_to_translate_type;
+//---
 echo '</div><script>
     $("#mainnav").hide();
     $("#maindiv").hide();

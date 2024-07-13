@@ -13,10 +13,13 @@ if (isset($_REQUEST['test'])) {
 //---
 include_once 'actions/functions.php';
 //---
+use function Infos\TdConfig\get_configs;
+use function Actions\MdwikiSql\execute_query;
+//---
 // $conf = get_configs('conf.json');
 //---
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    require 'post.php';
+    require __DIR__ . '/post.php';
 }
 //---
 echo <<<HTML

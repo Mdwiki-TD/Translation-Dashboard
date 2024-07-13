@@ -13,8 +13,11 @@ if (isset($_REQUEST['test'])) {
 //---
 include_once 'infos/td_config.php';
 //---
+use function Infos\TdConfig\get_configs;
+use function Actions\MdwikiSql\execute_query;
+//---
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    require 'post.php';
+    require __DIR__ . '/post.php';
 }
 //---
 $tabes = get_configs('fixwikirefs.json');

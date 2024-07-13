@@ -1,13 +1,14 @@
 <?PHP
 namespace Results\Results;
 //---
-include_once 'results_table.php';
-include_once 'Tables/langcode.php';
-include_once 'results/getcats.php';
-include_once 'actions/functions.php';
-include_once 'Tables/tables.php';
-include_once 'Tables/sql_tables.php';
-include_once 'get_results.php';
+include_once __DIR__ . '/results_table.php';
+include_once __DIR__ . '/get_results.php';
+include_once __DIR__ . '/getcats.php';
+
+include_once __DIR__ . '/../Tables/langcode.php';
+include_once __DIR__ . '/../actions/functions.php';
+include_once __DIR__ . '/../Tables/tables.php';
+include_once __DIR__ . '/../Tables/sql_tables.php';
 //---
 use function Results\GetResults\get_results;
 use function Results\ResultsTable\make_results_table;

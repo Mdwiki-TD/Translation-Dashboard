@@ -1,5 +1,7 @@
 <?php
 //---
+use function Actions\MdwikiSql\execute_query;
+//---
 if (isset($_POST['add_qids'])) {
 	echo "add_qids";
 	for($i = 0; $i < count($_POST['add_qids']); $i++ ){

@@ -12,8 +12,8 @@ use function Results\ResultsTable\make_results_table;
 */
 
 
-include_once 'Tables/tables.php';
-include_once 'Tables/sql_tables.php';
+include_once __DIR__ . '/../Tables/tables.php';
+include_once __DIR__ . '/../Tables/sql_tables.php';
 
 function sort_py_PageViews($items, $en_views_tab)
 {

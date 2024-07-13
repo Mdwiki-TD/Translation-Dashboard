@@ -1,4 +1,4 @@
 <?PHP
 //---
-include_once 'tools/last.php';
+include_once __DIR__ . '/tools/last.php';
 ?>

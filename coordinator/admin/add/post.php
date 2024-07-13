@@ -1,6 +1,9 @@
 <?php
 //---
 
+use function Actions\Functions\escape_string;
+use function Actions\MdwikiSql\execute_query;
+
 function insert_to_pages($t)
 {
 	//---

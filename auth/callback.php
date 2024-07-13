@@ -58,7 +58,8 @@ $test = $_GET['test'] ?? '';
 $return_to = $_GET['return_to'] ?? '';
 // ---
 if ($return_to != '' && (strpos($return_to, '/Translation_Dashboard/index.php') === false)) {
-	$newurl = $return_to;
+	// $newurl = $return_to;
+	$newurl = filter_var($return_to, FILTER_VALIDATE_URL) ? $return_to : '/Translation_Dashboard/index.php';
 } else {
 	foreach (['cat', 'code', 'type', 'doit'] as $key) {
 		$da1 = $_GET[$key] ?? '';

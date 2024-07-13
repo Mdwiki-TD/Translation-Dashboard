@@ -1,5 +1,8 @@
 <?php
 
+use function Infos\TdConfig\get_configs;
+use function Infos\TdConfig\set_configs_all_file;
+
 // Enable error reporting if requested
 if (isset($_REQUEST['test'])) {
     ini_set('display_errors', 1);

@@ -7,6 +7,8 @@ if (user_in_coord == false) {
 //---
 include_once 'actions/functions.php';
 //---
+use function Actions\MdwikiSql\execute_query;
+//---
 //---
 echo '</div><script>
     $("#mainnav").hide();

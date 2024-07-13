@@ -9,6 +9,10 @@ INSERT INTO translate_type (tt_title, tt_lead, tt_full) SELECT DISTINCT q.title,
 //---
 include_once 'results/getcats.php';
 include_once 'actions/functions.php';
+use function Actions\Html\makeDropdown;
+use function Actions\Html\make_mdwiki_title;
+use function Results\GetCats\get_mdwiki_cat_members;
+use function Actions\MdwikiSql\execute_query;
 //---
 $cat = $_REQUEST['cat'] ?? 'All';
 $testin = (($_REQUEST['test'] ?? '') != '') ? "<input name='test' value='1' hidden/>" : "";

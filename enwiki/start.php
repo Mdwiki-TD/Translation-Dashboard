@@ -12,8 +12,8 @@ use function EnWiki\Start\TranslatePhpEditText;
 
 include_once __DIR__ . '/../actions/mdwiki_api.php';
 include_once __DIR__ . '/../Tables/langcode.php';
-include_once 'en_api.php';
-include_once 'fixtext.php';
+include_once __DIR__ . '/en_api.php';
+include_once __DIR__ . '/fixtext.php';
 
 use function Actions\WikiApi\get_url_result_curl;
 use function Actions\Functions\test_print;

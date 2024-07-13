@@ -1,5 +1,7 @@
 <?php
 //---
+use function Actions\MdwikiSql\execute_query;
+//---
 if (isset($_POST['del'])) {
 	for($i = 0; $i < count($_POST['del']); $i++ ) {
 		$del	= $_POST['del'][$i];

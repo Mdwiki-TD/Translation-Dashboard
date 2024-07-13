@@ -6,6 +6,9 @@ if (user_in_coord == false) {
 };
 //---
 include_once 'actions/functions.php';
+
+use function Actions\MdwikiSql\sql_add_user;
+use function Actions\Html\make_project_to_user;
 //---
 echo '</div><script>
     $("#mainnav").hide();
