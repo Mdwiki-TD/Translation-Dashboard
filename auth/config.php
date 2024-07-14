@@ -1,5 +1,7 @@
 <?php
 //---
+// use Defuse\Crypto\Key;
+//---
 // get the root path from __FILE__ , split before public_html
 // split the file path on the public_html directory
 $pathParts = explode('public_html', __FILE__);
@@ -38,4 +40,6 @@ $apiUrl = preg_replace( '/index\.php.*/', 'api.php', $oauthUrl );
 // When you register, you will get a consumer key and secret. Put these here (and for real
 // applications, keep the secret secret! The key is public knowledge.).
 $consumerKey    = $ini['consumerKey'];
-$consumerSecret =  $ini['consumerSecret'];
+$consumerSecret = $ini['consumerSecret'];
+$cookie_key     = $ini['cookie_key'];
+// $cookie_key = Key::loadFromAsciiSafeString($cookie_key);

@@ -20,21 +20,25 @@ function get_users_tables($mainuser, $year_y, $lang_y, $test = '')
     $table_of_views = array();
     //---
     $pages_qua = <<<SQL
-        select * from pages where user = '$user_main'
+        select * from pages where user = ?
     SQL;
     //---
     $count_sql = <<<SQL
-        select count(title) as count from pages where user = '$user_main'
+        select count(title) as count from pages where user = ?
     SQL;
     //---
+    $params = [$user_main];
+    //---
     if ($lang_y != 'All') {
-        $count_sql .= " and lang = '$lang_y'";
-        $pages_qua .= " and lang = '$lang_y'";
+        $count_sql .= " and lang = ?";
+        $pages_qua .= " and lang = ?";
+        $params[] = $lang_y;
     };
     //---
     if ($year_y != 'All') {
-        $count_sql .= " and YEAR(date) = '$year_y'";
-        $pages_qua .= " and YEAR(date) = '$year_y'";
+        $count_sql .= " and YEAR(date) = ?";
+        $pages_qua .= " and YEAR(date) = ?";
+        $params[] = $year_y;
     };
     //---
     $views_qua = <<<SQL
@@ -46,6 +50,8 @@ function get_users_tables($mainuser, $year_y, $lang_y, $test = '')
         limit 200
     SQL;
     //---
+    $views_params = [$user_main];
+    //---
     if ($test != '') {
         echo $count_sql . '<br>';
         echo $pages_qua . '<br>';
@@ -55,7 +61,7 @@ function get_users_tables($mainuser, $year_y, $lang_y, $test = '')
     //---
     if ($mainuser != '') {
         //---
-        $count_query = execute_query($count_sql);
+        $count_query = execute_query($count_sql, $params);
         //---
         $user_count = $count_query[0]['count'];
         //---
@@ -73,7 +79,7 @@ function get_users_tables($mainuser, $year_y, $lang_y, $test = '')
             offset $offset
             ";
             //---
-            $views_query = execute_query($quaa_view);
+            $views_query = execute_query($quaa_view, $views_params);
             //---
             if (count($views_query) == 0) $done = $user_count;
             //---
@@ -92,7 +98,7 @@ function get_users_tables($mainuser, $year_y, $lang_y, $test = '')
             //---
         };
         //---
-        $sql_result = execute_query($pages_qua);
+        $sql_result = execute_query($pages_qua, $params);
         //---
         foreach ($sql_result as $tait => $tabb) {
             //---
