@@ -5,4 +5,4 @@ if (isset($_REQUEST['test'])) {
     error_reporting(E_ALL);
 };
 
-require __DIR__ . '/auth/index.php';
+require __DIR__ . '/authnew/index.php';

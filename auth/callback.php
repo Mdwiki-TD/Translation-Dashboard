@@ -1,9 +1,5 @@
 <?php
 
-// Require the library and set up the classes we're going to use in this second part of the demo.
-
-include_once __DIR__ . '/../vendor_load.php';
-
 use MediaWiki\OAuthClient\Client;
 use MediaWiki\OAuthClient\ClientConfig;
 use MediaWiki\OAuthClient\Consumer;
@@ -17,9 +13,6 @@ if (!isset($_GET['oauth_verifier'])) {
 	HTML;
 	exit(1);
 }
-
-// Get the wiki URL and OAuth consumer details from the config file.
-include_once __DIR__ . '/config.php';
 
 // Configure the OAuth client with the URL and consumer details.
 $conf = new ClientConfig($oauthUrl);
@@ -46,13 +39,28 @@ $_SESSION['access_secret'] = $accessToken1->secret;
 // You also no longer need the Request Token.
 unset($_SESSION['request_key'], $_SESSION['request_secret']);
 
-include_once __DIR__ . '/userinfo.php';
+// include_once __DIR__ . '/userinfo.php';
 // The demo continues in demo/edit.php
 echo "Continue to <a href='auth.php?a=edit'>edit</a><br>";
 echo "Continue to <a href='auth.php?a=index'>index</a><br>";
 
-// Example 3: make an edit (getting the edit token first).
-# automatic redirect to edit.php
+
+$accessToken = new Token(
+	$accessToken1->key,
+	$accessToken1->secret
+);
+
+$ident = $client->identify($accessToken);
+// Use htmlspecialchars to properly encode the output and prevent XSS vulnerabilities.
+echo "You are authenticated as " . htmlspecialchars($ident->username, ENT_QUOTES, 'UTF-8') . ".\n\n";
+//---
+$_SESSION['username'] = $ident->username;
+
+$twoYears = time() + 60 * 60 * 24 * 365 * 2;
+
+add_to_cookie('username', $ident->username);
+
+echo "Continue to <a href='auth.php?a=index'>index</a><br>";
 
 $test = $_GET['test'] ?? '';
 $return_to = $_GET['return_to'] ?? '';
@@ -73,8 +81,8 @@ if ($return_to != '' && (strpos($return_to, '/Translation_Dashboard/index.php') 
 	$newurl = "/Translation_Dashboard/index.php?$state";
 }
 // ---
-echo "header('Location: $newurl');<br>";
+// echo "header('Location: $newurl');<br>";
 //---
-if ($test == '') {
-	header("Location: $newurl");
-}
+// if ($test == '') {
+header("Location: $newurl");
+// }

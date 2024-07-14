@@ -1,7 +1,8 @@
 {
     "require": {
-        "phpmailer/phpmailer": "^6.1",
-        "mediawiki/oauthclient": "^2.0",
-        "wiki-connect/parsewiki": "^1.0"
+        "mediawiki/oauthclient": "^1.2",
+        "phpmailer/phpmailer": "^6.8",
+        "wiki-connect/parsewiki": "^1.0",
+        "defuse/php-encryption": "^2.4"
     }
 }
