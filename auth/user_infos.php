@@ -1,14 +1,15 @@
 <?php
 //---
+include_once __DIR__ . '/config.php';
 include_once __DIR__ . '/helps.php';
 //---
-// session_name("mdwikitoolforgeoauth");
-// session_set_cookie_params(0, "/", "mdwiki.toolforge.org", true, true);
+session_name("mdwikitoolforgeoauth");
+session_set_cookie_params(0, "/", $domain, true, true);
 session_start();
 //---
 $username = $_SESSION['username'] ?? '';
 //---
-// if ($username == '') $username = get_from_cookie('username');
+if ($username == '') $username = get_from_cookie('username');
 //---
 function echo_login()
 {

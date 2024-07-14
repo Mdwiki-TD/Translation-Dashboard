@@ -1,6 +1,8 @@
 <?php
 //---
-// use Defuse\Crypto\Key;
+include_once __DIR__ . '/../vendor_load.php';
+//---
+use Defuse\Crypto\Key;
 //---
 // get the root path from __FILE__ , split before public_html
 // split the file path on the public_html directory
@@ -42,4 +44,6 @@ $apiUrl = preg_replace( '/index\.php.*/', 'api.php', $oauthUrl );
 $consumerKey    = $ini['consumerKey'];
 $consumerSecret = $ini['consumerSecret'];
 $cookie_key     = $ini['cookie_key'];
-// $cookie_key = Key::loadFromAsciiSafeString($cookie_key);
+$cookie_key = Key::loadFromAsciiSafeString($cookie_key);
+
+$domain = ($_SERVER['SERVER_NAME'] == "mdwiki.toolforge.org") ? 'mdwiki.toolforge.org' : 'loclhost';
