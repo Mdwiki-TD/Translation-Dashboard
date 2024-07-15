@@ -1,10 +1,10 @@
 <?php
-namespace EnWiki\Fixes\fix_langs_links;
+namespace Translate\Fixes\fix_langs_links;
 
 /*
 Usage:
 
-use function EnWiki\Fixes\fix_langs_links\remove_lang_links;
+use function Translate\Fixes\fix_langs_links\remove_lang_links;
 
 */
 

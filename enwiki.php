@@ -1,2 +1,2 @@
 <?PHP
-include_once __DIR__ . '/enwiki/index.php';
+include_once __DIR__ . '/trslate/enwiki/enwiki.php';

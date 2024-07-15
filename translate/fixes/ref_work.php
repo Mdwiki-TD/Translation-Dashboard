@@ -1,10 +1,10 @@
 <?php
-namespace EnWiki\Fixes\RefWork;
+namespace Translate\Fixes\RefWork;
 /*
 Usage:
 
-use function EnWiki\Fixes\RefWork\check_one_cite;
-use function EnWiki\Fixes\RefWork\remove_bad_refs;
+use function Translate\Fixes\RefWork\check_one_cite;
+use function Translate\Fixes\RefWork\remove_bad_refs;
 
 */
 /*

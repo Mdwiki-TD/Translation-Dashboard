@@ -1,10 +1,10 @@
 <?php
-namespace EnWiki\Fixes\FixImages;
+namespace Translate\Fixes\FixImages;
 
 /*
 Usage:
 
-use function EnWiki\Fixes\FixImages\remove_images;
+use function Translate\Fixes\FixImages\remove_images;
 
 */
 

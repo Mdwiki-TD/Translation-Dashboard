@@ -1,11 +1,11 @@
 <?php
-namespace EnWiki\Start;
+namespace Translate\Translator;
 
 /*
 Usage:
 
-use function EnWiki\Start\startTranslatePhp;
-use function EnWiki\Start\TranslatePhpEditText;
+use function Translate\Translator\startTranslatePhp;
+use function Translate\Translator\TranslatePhpEditText;
 
 */
 
@@ -17,8 +17,8 @@ include_once __DIR__ . '/fixtext.php';
 
 use function Actions\WikiApi\get_url_result_curl;
 use function Actions\Functions\test_print;
-use function EnWiki\API\do_edit;
-use function EnWiki\FixText\text_changes_work;
+use function Translate\EnAPI\do_edit;
+use function Translate\FixText\text_changes_work;
 
 use function Actions\MdwikiApi\get_mdwiki_url_with_params;
 

@@ -1,4 +1,5 @@
 <?PHP
+
 namespace Leaderboard\LeadHelp;
 
 /*
@@ -10,7 +11,7 @@ use function Leaderboard\LeadHelp\make_table_lead;
 */
 
 //---
-include_once __DIR__ . '/camps.php';
+include_once __DIR__ . '/../camps.php';
 
 use function Actions\WikiApi\make_view_by_number;
 use function Actions\Html\make_cat_url;
@@ -135,7 +136,7 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
     return $laly;
     //---
 };
-//---
+
 function make_table_lead($dd, $tab_type = 'a', $views_table = array(), $page_type = 'users', $user = '', $lang = '')
 {
     //---
@@ -220,4 +221,3 @@ function make_table_lead($dd, $tab_type = 'a', $views_table = array(), $page_typ
     return $arra;
     //---
 };
-//---

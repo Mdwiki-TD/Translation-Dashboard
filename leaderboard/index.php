@@ -9,13 +9,14 @@ include_once __DIR__ . '/../actions/functions.php';
 include_once __DIR__ . '/../actions/html.php';
 
 //---
+include_once __DIR__ . '/subs/filter_form.php';
+include_once __DIR__ . '/subs/users_sub.php';
+include_once __DIR__ . '/subs/langs_sub.php';
+include_once __DIR__ . '/subs/lead_help.php';
+
 include_once __DIR__ . '/camps.php';
-include_once __DIR__ . '/filter_form.php';
 include_once __DIR__ . '/leader_tables.php';
-include_once __DIR__ . '/lead_help.php';
 include_once __DIR__ . '/graph.php';
-include_once __DIR__ . '/users_sub.php';
-include_once __DIR__ . '/langs_sub.php';
 
 use function Leaderboard\Graph\print_graph_tab;
 use function Leaderboard\Camps\camps_list;

@@ -1,20 +1,20 @@
 <?php
-namespace EnWiki\FixText;
+namespace Translate\FixText;
 
 /*
 Usage:
 
-use function EnWiki\FixText\text_changes_work;
+use function Translate\FixText\text_changes_work;
 
 */
 
-use function EnWiki\Fixes\DelMtRefs\del_empty_refs;
-use function EnWiki\Fixes\ExpendRefs\refs_expend_work;
-use function EnWiki\Fixes\FixCats\remove_categories;
-use function EnWiki\Fixes\FixImages\remove_images;
-use function EnWiki\Fixes\fix_langs_links\remove_lang_links;
-use function EnWiki\Fixes\FixTemps\remove_templates;
-use function EnWiki\Fixes\RefWork\remove_bad_refs;
+use function Translate\Fixes\DelMtRefs\del_empty_refs;
+use function Translate\Fixes\ExpendRefs\refs_expend_work;
+use function Translate\Fixes\FixCats\remove_categories;
+use function Translate\Fixes\FixImages\remove_images;
+use function Translate\Fixes\fix_langs_links\remove_lang_links;
+use function Translate\Fixes\FixTemps\remove_templates;
+use function Translate\Fixes\RefWork\remove_bad_refs;
 
 
 if (isset($_REQUEST['test'])) {

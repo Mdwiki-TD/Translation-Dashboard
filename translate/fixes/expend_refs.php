@@ -1,10 +1,10 @@
 <?php
-namespace EnWiki\Fixes\ExpendRefs;
+namespace Translate\Fixes\ExpendRefs;
 
 /*
 Usage:
 
-use function EnWiki\Fixes\ExpendRefs\refs_expend_work;
+use function Translate\Fixes\ExpendRefs\refs_expend_work;
 
 */
 
