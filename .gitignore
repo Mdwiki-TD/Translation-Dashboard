@@ -22,3 +22,4 @@ enwiki/.vscode/launch.json
 composer.lock1
 composer.json1
 auth/x.php
+actions/mdwiki_api copy.php
