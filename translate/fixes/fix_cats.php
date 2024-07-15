@@ -1,10 +1,10 @@
 <?php
-namespace EnWiki\Fixes\FixCats;
+namespace Translate\Fixes\FixCats;
 
 /*
 Usage:
 
-use function EnWiki\Fixes\FixCats\remove_categories;
+use function Translate\Fixes\FixCats\remove_categories;
 
 */
 

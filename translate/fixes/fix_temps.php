@@ -1,10 +1,10 @@
 <?php
-namespace EnWiki\Fixes\FixTemps;
+namespace Translate\Fixes\FixTemps;
 
 /*
 Usage:
 
-use function EnWiki\Fixes\FixTemps\remove_templates;
+use function Translate\Fixes\FixTemps\remove_templates;
 
 */
 

@@ -1,15 +1,15 @@
 <?php
-namespace EnWiki\API;
+namespace Translate\EnAPI;
 
 /*
 Usage:
 
-use function EnWiki\API\getLoginToken;
-use function EnWiki\API\loginRequest;
-use function EnWiki\API\getCSRFToken;
-use function EnWiki\API\send_params;
-use function EnWiki\API\do_edit;
-use function EnWiki\API\Find_pages_exists_or_not;
+use function Translate\EnAPI\getLoginToken;
+use function Translate\EnAPI\loginRequest;
+use function Translate\EnAPI\getCSRFToken;
+use function Translate\EnAPI\send_params;
+use function Translate\EnAPI\do_edit;
+use function Translate\EnAPI\Find_pages_exists_or_not;
 
 */
 

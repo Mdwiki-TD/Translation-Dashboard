@@ -1,4 +1,6 @@
 <?php
+include_once __DIR__ . '/../vendor_load.php';
+include_once __DIR__ . '/config.php';
 
 use Defuse\Crypto\Crypto;
 
@@ -6,6 +8,7 @@ function add_to_cookie($key, $value)
 {
     global $cookie_key, $domain;
     $twoYears = time() + 60 * 60 * 24 * 365 * 2;
+    $secure = ($_SERVER['SERVER_NAME'] == "localhost") ? false : true;
     try {
         $value = Crypto::encrypt($value, $cookie_key);
 
@@ -19,8 +22,8 @@ function add_to_cookie($key, $value)
         $twoYears,
         "/",
         $domain,// "mdwiki.toolforge.org",
-        true,  // only secure (https)
-        true   // httponly
+        $secure,  // only secure (https)
+        $secure   // httponly
     );
 }
 
@@ -35,7 +38,7 @@ function get_from_cookie($key)
             // return '';
         };
     } else {
-        echo "key: $key<br>";
+        // echo "key: $key<br>";
     };
     return '';
 }

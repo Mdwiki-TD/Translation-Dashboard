@@ -10,14 +10,11 @@ use function Leaderboard\SubLangs\get_langs_tables;
 
 use function Actions\MdwikiSql\execute_query;
 
-function get_langs_tables($mainlang, $year_y)
+function views_tables($mainlang)
 {
     //---
-    $dd = array();
-    $dd_Pending = array();
     $table_of_views = array();
     //---
-    // views (target, countall, count2021, count2022, count2023, lang)
     $qua_views = <<<SQL
     select
         #p.title, p.user, p.date, p.word, p.lang, p.cat, p.pupdate,
@@ -29,9 +26,21 @@ function get_langs_tables($mainlang, $year_y)
         and p.target = v.target
         ;
     SQL;
+    //---
     $views_quary = execute_query($qua_views);
     //---
-    foreach ($views_quary as $Key => $t) $table_of_views[$t['target']] = $t['countall'] ?? "";
+    foreach ($views_quary as $Key => $t) {
+        $table_of_views[$t['target']] = $t['countall'] ?? "";
+    };
+    //---
+    return $table_of_views;
+}
+
+function pages_tables($mainlang, $year_y)
+{
+    //---
+    $dd = array();
+    $dd_Pending = array();
     //---
     $pages_qua = <<<SQL
         select * from pages where lang = '$mainlang'
@@ -58,8 +67,20 @@ function get_langs_tables($mainlang, $year_y)
         } else {
             $dd_Pending[$kry] = $Taab;
         };
-        //---
     };
+    //---
+    return array('dd' => $dd, 'dd_Pending' => $dd_Pending);
+}
+
+function get_langs_tables($mainlang, $year_y)
+{
+    //---
+    $table_of_views = views_tables($mainlang);
+    //---
+    $p_tables = pages_tables($mainlang, $year_y);
+    //---
+    $dd = $p_tables['dd'];
+    $dd_Pending = $p_tables['dd_Pending'];
     //---
     return array('dd' => $dd, 'dd_Pending' => $dd_Pending, 'table_of_views' => $table_of_views);
 }

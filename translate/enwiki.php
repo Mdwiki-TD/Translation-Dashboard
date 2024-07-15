@@ -6,12 +6,12 @@ error_reporting(E_ALL);
 //---
 include_once __DIR__ . '/../header.php';
 include_once __DIR__ . '/../actions/functions.php';
-include_once __DIR__ . '/start.php';
+include_once __DIR__ . '/translator.php';
 // ---
 use function Actions\Html\make_form_check_input;
 use function Actions\Html\make_input_group_no_col;
-use function EnWiki\Start\startTranslatePhp;
-use function EnWiki\Start\TranslatePhpEditText;
+use function Translate\Translator\startTranslatePhp;
+use function Translate\Translator\TranslatePhpEditText;
 use function Actions\Functions\test_print;
 
 // ---

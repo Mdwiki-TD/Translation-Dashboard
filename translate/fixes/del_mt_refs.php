@@ -1,10 +1,10 @@
 <?php
-namespace EnWiki\Fixes\DelMtRefs;
+namespace Translate\Fixes\DelMtRefs;
 
 /*
 Usage:
 
-use function EnWiki\Fixes\DelMtRefs\del_empty_refs;
+use function Translate\Fixes\DelMtRefs\del_empty_refs;
 
 */
 

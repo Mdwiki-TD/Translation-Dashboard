@@ -6,8 +6,8 @@ use function Actions\Html\make_mdwiki_title;
 use function Actions\Html\make_translation_url;
 use function Actions\Functions\escape_string;
 use function Actions\MdwikiSql\execute_query;
-use function EnWiki\API\Find_pages_exists_or_not;
-use function EnWiki\Start\startTranslatePhp;
+use function Translate\EnAPI\Find_pages_exists_or_not;
+use function Translate\Translator\startTranslatePhp;
 use function Actions\Html\make_target_url;
 
 $pathParts = explode('public_html', __FILE__);
