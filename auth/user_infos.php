@@ -11,6 +11,7 @@ if ($_SERVER['SERVER_NAME'] != 'localhost') {
 session_start();
 //---
 $username = get_from_cookie('username');
+$username = str_replace("+", " ", $username);
 //---
 if ($username == '' && $_SERVER['SERVER_NAME'] == 'localhost') {
 	$username = $_SESSION['username'] ?? '';

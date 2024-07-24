@@ -39,7 +39,6 @@ function get_url_params_result(string $endPoint, array $params = []): string
     return $output;
 }
 
-
 function get_mdwiki_url_with_params(array $params): array
 {
     $endPoint = 'https://mdwiki.org/w/api.php';
