@@ -16,8 +16,6 @@ if (isset($_REQUEST['test'])) {
     error_reporting(E_ALL);
 };
 //---
-include_once __DIR__ . '/../../d/db1.php';
-//---
 include_once __DIR__ . '/header.php';
 include_once __DIR__ . '/Tables/langcode.php';
 include_once __DIR__ . '/actions/functions.php';
