@@ -37,13 +37,13 @@ $gUserAgent = 'mdwiki MediaWikiOAuthClient/1.0';
 $oauthUrl = 'https://meta.wikimedia.org/w/index.php?title=Special:OAuth';
 
 // Make the api.php URL from the OAuth URL.
-$apiUrl = preg_replace( '/index\.php.*/', 'api.php', $oauthUrl );
+$apiUrl = preg_replace('/index\.php.*/', 'api.php', $oauthUrl);
 
 // When you register, you will get a consumer key and secret. Put these here (and for real
 // applications, keep the secret secret! The key is public knowledge.).
-$consumerKey    = $ini['consumerKey'];
-$consumerSecret = $ini['consumerSecret'];
-$cookie_key     = $ini['cookie_key'];
+$consumerKey    = $ini['consumerKey'] ?? '';
+$consumerSecret = $ini['consumerSecret'] ?? '';
+$cookie_key     = $ini['cookie_key'] ?? '';
 $cookie_key = Key::loadFromAsciiSafeString($cookie_key);
 
-$domain = ($_SERVER['SERVER_NAME'] == "mdwiki.toolforge.org") ? 'mdwiki.toolforge.org' : 'loclhost';
+$domain = $_SERVER['SERVER_NAME'] ?? 'localhost';
