@@ -12,9 +12,16 @@ if ($_SERVER['SERVER_NAME'] != 'localhost') {
 $username = get_from_cookie('username');
 $username = str_replace("+", " ", $username);
 //---
-if ($username == '' && $_SERVER['SERVER_NAME'] == 'localhost') {
+if ($_SERVER['SERVER_NAME'] == 'localhost') {
 	session_start();
 	$username = $_SESSION['username'] ?? '';
+} else {
+	$access_key = get_from_cookie('access_key');
+	$access_secret = get_from_cookie('access_secret');
+	if ($access_key == '' || $access_secret == '') {
+		setcookie('username', '', time() - 3600, "/", $domain, true, true);
+		$username = '';
+	}
 }
 //---
 define('global_username', $username);

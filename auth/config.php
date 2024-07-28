@@ -29,7 +29,7 @@ if (
     exit(0);
 }
 // $gUserAgent = $ini['agent'];
-$gUserAgent = 'mdwiki MediaWikiOAuthClient/1.0';
+$gUserAgent = 'mdwiki MediaWiki OAuth Client/1.0';
 // Load the user token (request or access) from the session
 //---
 // To get this demo working, you need to go to this wiki and register a new OAuth consumer.
