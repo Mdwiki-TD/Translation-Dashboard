@@ -26,17 +26,16 @@ include_once __DIR__ . '/actions/functions.php'; // $usrs
 //---
 include_once __DIR__ . '/auth/user_infos.php';
 //---
-define('global_username', $username);
-//---
-$hoste = '';
+if (defined('global_username')) {
+	echo "<span id='myusername' style='display:none'>" . global_username . "</span>";
+};
 //---
 include_once __DIR__ . '/head.php';
 //---
 echo "
-<span id='myusername' style='display:none'>" . global_username . "</span>";
-//---
-echo "
 </head>";
+//---
+$hoste = '';
 //---
 $user_in_coord = false;
 $coord_tools = '<a href="tools.php" class="nav-link py-2 px-0 px-lg-2"><span class="navtitles"></span>Tools</a>';
@@ -143,8 +142,9 @@ echo <<<HTML
 HTML;
 ?>
 <script>
-	// $(document).ready(function() {
 	var lo = $('#myusername').text();
+	// get username from cookie
+	// var lo = getCookie('username');
 	if (lo != '') {
 		$('#myboard').show();
 		$('#user_name').text(lo);
@@ -156,7 +156,6 @@ HTML;
 		$('#login_btn, #loginli').show();
 		$("#doit_btn, #username_li, #logout_btn").hide();
 	};
-	// });
 </script>
 <main id="body">
 	<!-- <div id="maindiv" class="container-fluid"> -->

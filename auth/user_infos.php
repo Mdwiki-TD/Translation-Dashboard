@@ -17,6 +17,10 @@ if ($username == '' && $_SERVER['SERVER_NAME'] == 'localhost') {
 	$username = $_SESSION['username'] ?? '';
 }
 //---
+define('global_username', $username);
+//---
+// echo "<span id='myusername' style='display:none'>" . global_username . "</span>";
+//---
 function echo_login()
 {
 	global $username;

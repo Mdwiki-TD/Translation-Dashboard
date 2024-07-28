@@ -54,8 +54,6 @@ if ($doit) {
     $ix         = $tab['ix'];
     $len_in_process = count($in_process);
     //---
-    //---
-    //---
     $table = make_results_table($missing, $code, $cat, $camp, $tra_type, $translation_button);
     //---
     echo <<<HTML

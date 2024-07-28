@@ -36,7 +36,7 @@ class Database {
             $this->password = 'root11';
         } else {
             $ts_pw = posix_getpwuid(posix_getuid());
-            $ts_mycnf = parse_ini_file($ts_pw['dir'] . "/replica.my.cnf");
+            $ts_mycnf = parse_ini_file($ts_pw['dir'] . "/confs/db.ini");
             $this->host = 'tools.db.svc.wikimedia.cloud';
             $this->dbname = $ts_mycnf['user'] . "__mdwiki";
             $this->user = $ts_mycnf['user'];
