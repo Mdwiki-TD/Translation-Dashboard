@@ -8,12 +8,12 @@ if ($_SERVER['SERVER_NAME'] != 'localhost') {
 	session_name("mdwikitoolforgeoauth");
 	session_set_cookie_params(0, "/", $domain, $secure, $secure);
 }
-session_start();
 //---
 $username = get_from_cookie('username');
 $username = str_replace("+", " ", $username);
 //---
 if ($username == '' && $_SERVER['SERVER_NAME'] == 'localhost') {
+	session_start();
 	$username = $_SESSION['username'] ?? '';
 }
 //---
