@@ -22,7 +22,7 @@ use function Translate\EnAPI\Find_pages_exists_or_not;
 */
 
 include_once(__DIR__ . '/../infos/user_account_new.php');
-$lgname_enwiki = $lgname_enwiki;
+$my_username = $my_username;
 $lgpass_enwiki = $lgpass_enwiki;
 $usr_agent = $user_agent;
 
@@ -74,11 +74,11 @@ function getLoginToken()
 // (https://www.mediawiki.org/wiki/Special:BotPasswords) for lgname & lgpassword
 function loginRequest($logintoken)
 {
-	global $endPoint, $usr_agent, $lgname_enwiki, $lgpass_enwiki;
+	global $endPoint, $usr_agent, $my_username, $lgpass_enwiki;
 
 	$params2 = [
 		"action" => "login",
-		"lgname" => $lgname_enwiki,
+		"lgname" => $my_username,
 		"lgpassword" => $lgpass_enwiki,
 		"lgtoken" => $logintoken,
 		"format" => "json"

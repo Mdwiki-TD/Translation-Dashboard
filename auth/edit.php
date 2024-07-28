@@ -14,28 +14,29 @@ use MediaWiki\OAuthClient\Token;
 include_once __DIR__ . '/config.php';
 
 // Configure the OAuth client with the URL and consumer details.
-$conf = new ClientConfig( $oauthUrl );
-$conf->setConsumer( new Consumer( $consumerKey, $consumerSecret ) );
-$conf->setUserAgent( $gUserAgent );
-$client = new Client( $conf );
+$conf = new ClientConfig($oauthUrl);
+$conf->setConsumer(new Consumer($consumerKey, $consumerSecret));
+$conf->setUserAgent($gUserAgent);
+$client = new Client($conf);
 
 // Load the Access Token from the session.
 session_start();
-$accessToken = new Token( $_SESSION['access_key'], $_SESSION['access_secret'] );
+$accessToken = new Token($_SESSION['access_key'], $_SESSION['access_secret']);
 
 // Example 1: get the authenticated user's identity.
-$ident = $client->identify( $accessToken );
+$ident = $client->identify($accessToken);
 echo "You are authenticated as " . htmlspecialchars($ident->username, ENT_QUOTES, 'UTF-8') . ".\n\n";
 
-function get_edit_token(){
-    global $client, $accessToken, $apiUrl;
-    // Example 3: make an edit (getting the edit token first).
-    $editToken = json_decode( $client->makeOAuthCall(
-        $accessToken,
-        "$apiUrl?action=query&meta=tokens&format=json"
-    ) )->query->tokens->csrftoken;
-    //---
-    return $editToken;
+function get_edit_token()
+{
+	global $client, $accessToken, $apiUrl;
+	// Example 3: make an edit (getting the edit token first).
+	$editToken = json_decode($client->makeOAuthCall(
+		$accessToken,
+		"$apiUrl?action=query&meta=tokens&format=json"
+	))->query->tokens->csrftoken;
+	//---
+	return $editToken;
 }
 
 $apiParams = [
@@ -47,11 +48,11 @@ $apiParams = [
 	'token' => get_edit_token(),
 	'format' => 'json',
 ];
-$editResult = json_decode( $client->makeOAuthCall(
+$editResult = json_decode($client->makeOAuthCall(
 	$accessToken,
 	$apiUrl,
 	true,
 	$apiParams
-) );
+));
 echo "\n== You made an edit ==\n\n";
-print_r( $editResult );
+print_r($editResult);
