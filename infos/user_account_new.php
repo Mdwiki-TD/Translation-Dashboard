@@ -22,11 +22,8 @@ $bot_username = $ini['botusername'];
 $bot_password = $ini['botpassword'];
 
 $my_username = $ini['my_username'];
-$my_password = $ini['my_password'];
 
 $mdwiki_pass = $ini['mdwiki_pass'];
-
-$lgname_enwiki = $ini['lgname_enwiki'];
 $lgpass_enwiki = $ini['lgpass_enwiki'];
 
 $qs_token = $ini['qs_token'];

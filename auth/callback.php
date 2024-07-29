@@ -28,13 +28,16 @@ $requestToken = new Token(
 );
 
 // Send an HTTP request to the wiki to retrieve an Access Token.
-$accessToken1 = $client->complete($requestToken,  $_GET['oauth_verifier']);
+$accessToken1 = $client->complete($requestToken, $_GET['oauth_verifier']);
 
 // At this point, the user is authenticated, and the access token can be used to make authenticated
 // API requests to the wiki. You can store the Access Token in the session or other secure
 // user-specific storage and re-use it for future requests.
-$_SESSION['access_key'] = $accessToken1->key;
-$_SESSION['access_secret'] = $accessToken1->secret;
+// $_SESSION['access_key'] = $accessToken1->key;
+add_to_cookie('access_key', $accessToken1->key);
+
+// $_SESSION['access_secret'] = $accessToken1->secret;
+add_to_cookie('access_secret', $accessToken1->secret);
 
 // You also no longer need the Request Token.
 unset($_SESSION['request_key'], $_SESSION['request_secret']);
@@ -44,11 +47,8 @@ unset($_SESSION['request_key'], $_SESSION['request_secret']);
 echo "Continue to <a href='auth.php?a=edit'>edit</a><br>";
 echo "Continue to <a href='auth.php?a=index'>index</a><br>";
 
-
-$accessToken = new Token(
-	$accessToken1->key,
-	$accessToken1->secret
-);
+// $accessToken = new Token($_SESSION['access_key'], $_SESSION['access_secret']);
+$accessToken = new Token($accessToken1->key, $accessToken1->secret);
 
 $ident = $client->identify($accessToken);
 // Use htmlspecialchars to properly encode the output and prevent XSS vulnerabilities.
