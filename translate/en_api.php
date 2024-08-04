@@ -26,7 +26,7 @@ $my_username = $my_username;
 $lgpass_enwiki = $lgpass_enwiki;
 $usr_agent = $user_agent;
 
-$endPoint = "https://en.wikipedia.org/w/api.php";
+$endPoint = "https://simple.wikipedia.org/w/api.php";
 
 // Step 1: GET request to fetch login token
 function getLoginToken()

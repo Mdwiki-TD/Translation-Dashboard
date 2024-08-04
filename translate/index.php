@@ -151,7 +151,6 @@ if ($title_o != '' && $coden != '' && $user_valid) {
     if ($tr_type == 'all') {
         $word = $All_Words_table[$title_o] ?? 0;
     }
-    insertPage($title_o, $word, $tr_type, $cat, $camp, $coden, $useree, $test);
     // ---
     $title2 = 'User:Mr. Ibrahem/' . $title_o;
     // ---
@@ -164,6 +163,10 @@ if ($title_o != '' && $coden != '' && $user_valid) {
     };
     // ---
     echo $output;
+    // ---
+    if ($output == true) {
+        insertPage($title_o, $word, $tr_type, $cat, $camp, $coden, $useree, $test);
+    }
     // ---
     go_to_translate_url($output, $go, $title_o, $coden, $tr_type, $test);
 }
