@@ -156,7 +156,7 @@ if ($title_o != '' && $coden != '' && $user_valid) {
     // ---
     $output = false;
     // ---
-    // $output = startTranslatePhp($title_o, $tr_type, false, $expend_refs = $fix_ref_in_text);
+    $output = startTranslatePhp($title_o, $tr_type, false, $expend_refs = $fix_ref_in_text);
     // ---
     if ($output != true) {
         $output = Find_pages_exists_or_not($title2);
