@@ -38,17 +38,17 @@ echo <<<HTML
 	</script>
 	<div class='card-header'>
 		<div class='row'>
-			<div class='col-md-3'>
-				<h4>Qids:</h4>
+			<div class='col-md-5'>
+				<h4>Qids: ($dis:<span id="qidscount"></span>)</h4>
 			</div>
 			<div class='col-md-3'>
 				<!-- only display empty qids -->
 				<a class='btn btn-outline-secondary' href="coordinator.php?ty=qids&dis=empty">Only Empty</a>
 			</div>
-			<div class='col-md-3'>
+			<div class='col-md-2'>
 				<a class='btn btn-outline-secondary' href="coordinator.php?ty=qids&dis=all">All</a>
 			</div>
-			<div class='col-md-3'>
+			<div class='col-md-2'>
 				<!-- only display empty qids -->
 				<a class='btn btn-outline-secondary' href="coordinator.php?ty=qids&dis=duplicate">Duplicate</a>
 			</div>
@@ -119,21 +119,31 @@ function make_row($id, $title, $qid, $numb)
 //---
 $numb = 0;
 //---
+$done = [];
+//---
 foreach ($qq as $Key => $table) {
-	$numb += 1;
 	$id 	= $table['id'] ?? "";
 	$title 	= $table['title'] ?? "";
 	$qid 	= $table['qid'] ?? "";
 	//---
-	echo make_row($id, $title, $qid, $numb);
+	if (!in_array($id, $done)) {
+		$done[] = $id;
+		//---
+		$numb += 1;
+		echo make_row($id, $title, $qid, $numb);
+	}
 	//---
 	if ($dis == 'duplicate') {
-		$numb += 1;
 		$id2 	= $table['id2'] ?? "";
 		$title2 = $table['title2'] ?? "";
 		$qid2 	= $table['qid2'] ?? "";
 		//---
-		echo make_row($id2, $title2, $qid2, $numb);
+		if (!in_array($id2, $done)) {
+			$done[] = $id2;
+			//---
+			$numb += 1;
+			echo make_row($id2, $title2, $qid2, $numb);
+		}
 	};
 	//---
 };
@@ -141,6 +151,7 @@ foreach ($qq as $Key => $table) {
 echo <<<HTML
 	</tbody>
 	</table>
+<script>$("#qidscount").text("{$numb}");</script>
 
 <form action="coordinator.php?ty=qids/post" method="POST">
 	$testin

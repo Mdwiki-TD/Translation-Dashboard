@@ -151,19 +151,22 @@ if ($title_o != '' && $coden != '' && $user_valid) {
     if ($tr_type == 'all') {
         $word = $All_Words_table[$title_o] ?? 0;
     }
-    insertPage($title_o, $word, $tr_type, $cat, $camp, $coden, $useree, $test);
     // ---
     $title2 = 'User:Mr. Ibrahem/' . $title_o;
     // ---
     $output = false;
     // ---
-    // $output = startTranslatePhp($title_o, $tr_type, false, $expend_refs = $fix_ref_in_text);
+    $output = startTranslatePhp($title_o, $tr_type, false, $expend_refs = $fix_ref_in_text);
     // ---
     if ($output != true) {
         $output = Find_pages_exists_or_not($title2);
     };
     // ---
     echo $output;
+    // ---
+    if ($output == true) {
+        insertPage($title_o, $word, $tr_type, $cat, $camp, $coden, $useree, $test);
+    }
     // ---
     go_to_translate_url($output, $go, $title_o, $coden, $tr_type, $test);
 }

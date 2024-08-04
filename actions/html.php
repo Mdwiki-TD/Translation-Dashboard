@@ -289,7 +289,7 @@ function make_translation_url($title, $lang, $tr_type)
     //---
     $params = array(
         'page' => $page,
-        'from' => "en",
+        'from' => "simple",
         'sx' => 'true',
         'to' => $lang,
         'targettitle' => $title

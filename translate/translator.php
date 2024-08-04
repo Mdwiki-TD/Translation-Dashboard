@@ -143,7 +143,8 @@ class WikiTranslator
             echo ('no text');
             return "notext";
         }
-        $suus = 'from https://mdwiki.org/wiki/' . str_replace(' ', '_', $this->title);
+        // $suus = 'from https://mdwiki.org/wiki/' . str_replace(' ', '_', $this->title);
+        $suus = '';
         $title2 = 'User:Mr. Ibrahem/' . $this->title;
 
         if ($this->wholeArticle) {
