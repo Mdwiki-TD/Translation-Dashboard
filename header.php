@@ -140,24 +140,8 @@ echo <<<HTML
 		</div>
 	</header>
 HTML;
-?>
-<script>
-	var lo = $('#myusername').text();
-	// get username from cookie
-	// var lo = getCookie('username');
-	if (lo != '') {
-		$('#myboard').show();
-		$('#user_name').text(lo);
 
-		$('#login_btn, #loginli').hide();
-		$("#doit_btn, #username_li, #logout_btn").show();
-
-	} else {
-		$('#login_btn, #loginli').show();
-		$("#doit_btn, #username_li, #logout_btn").hide();
-	};
-</script>
-<main id="body">
+$aal = <<<HTML
 	<div class='container'>
 		<div class="alert alert-danger d-flex align-items-center" role="alert">
 			<svg xmlns="http://www.w3.org/2000/svg" class="d-none">
@@ -179,6 +163,25 @@ HTML;
 			</div>
 		</div>
 	</div>
+	HTML;
+?>
+<script>
+	var lo = $('#myusername').text();
+	// get username from cookie
+	// var lo = getCookie('username');
+	if (lo != '') {
+		$('#myboard').show();
+		$('#user_name').text(lo);
+
+		$('#login_btn, #loginli').hide();
+		$("#doit_btn, #username_li, #logout_btn").show();
+
+	} else {
+		$('#login_btn, #loginli').show();
+		$("#doit_btn, #username_li, #logout_btn").hide();
+	};
+</script>
+<main id="body">
 	<!-- <div id="maindiv" class="container-fluid"> -->
 	<div id="maindiv" class="container-fluid">
 
