@@ -43,7 +43,8 @@ $apiUrl = preg_replace('/index\.php.*/', 'api.php', $oauthUrl);
 // applications, keep the secret secret! The key is public knowledge.).
 $consumerKey    = $ini['consumerKey'] ?? '';
 $consumerSecret = $ini['consumerSecret'] ?? '';
-$cookie_key     = $ini['cookie_key'] ?? '';
-$cookie_key = Key::loadFromAsciiSafeString($cookie_key);
 
 $domain = $_SERVER['SERVER_NAME'] ?? 'localhost';
+
+$cookie_key     = $ini['cookie_key'] ?? '';
+$cookie_key = Key::loadFromAsciiSafeString($cookie_key);
