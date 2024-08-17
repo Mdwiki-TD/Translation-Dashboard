@@ -16,22 +16,11 @@ use MediaWiki\OAuthClient\Consumer;
 use MediaWiki\OAuthClient\Token;
 use function OAuth\Helps\get_from_cookie;
 
-function get_edits_token($client, $accessToken, $apiUrl)
-{
-    $editToken = json_decode($client->makeOAuthCall(
-        $accessToken,
-        "$apiUrl?action=query&meta=tokens&format=json"
-    ))->query->tokens->csrftoken;
-    //---
-    return $editToken;
-}
-
-function make_edit($title, $text, $summary, $wiki, $access_key, $access_secret)
+function get_client($wiki)
 {
     global $gUserAgent, $consumerKey, $consumerSecret;
     // ---
     $oauthUrl = "https://$wiki.wikipedia.org/w/index.php?title=Special:OAuth";
-    $apiUrl = "https://$wiki.wikipedia.org/w/api.php";
     // ---
     // Configure the OAuth client with the URL and consumer details.
     $conf = new ClientConfig($oauthUrl);
@@ -39,9 +28,37 @@ function make_edit($title, $text, $summary, $wiki, $access_key, $access_secret)
     $conf->setUserAgent($gUserAgent);
     $client = new Client($conf);
     // ---
+    return $client;
+}
+function get_edits_token($client, $accessToken, $apiUrl)
+{
+    $response = $client->makeOAuthCall($accessToken, "$apiUrl?action=query&meta=tokens&format=json");
+    // ---
+    $data = json_decode($response);
+    // ---
+    if (json_last_error() !== JSON_ERROR_NONE || !isset($data->query->tokens->csrftoken)) {
+        // Handle error
+        echo "<br>Error: " . json_last_error() . " " . json_last_error_msg();
+        return null;
+    }
+    return $data->query->tokens->csrftoken;
+}
+
+
+function make_edit($title, $text, $summary, $wiki, $access_key, $access_secret)
+{
+    // ---
+    $apiUrl = "https://$wiki.wikipedia.org/w/api.php";
+    // ---
+    $client = get_client($wiki);
+    // ---
     $accessToken = new Token($access_key, $access_secret);
     // ---
     $editToken = get_edits_token($client, $accessToken, $apiUrl);
+    // ---
+    if ($editToken == null) {
+        return null;
+    }
     // ---
     $apiParams = [
         'action' => 'edit',
@@ -53,13 +70,15 @@ function make_edit($title, $text, $summary, $wiki, $access_key, $access_secret)
         'format' => 'json',
     ];
     // ---
-    $editResult = json_decode($client->makeOAuthCall(
-        $accessToken,
-        $apiUrl,
-        true,
-        $apiParams
-    ));
+    $response = $client->makeOAuthCall($accessToken, $apiUrl, true, $apiParams);
     // ---
+    $editResult = json_decode($response);
+    // ---
+    if (json_last_error() !== JSON_ERROR_NONE || isset($editResult->error)) {
+        // Handle error
+        echo "Error: " . json_last_error() . " " . json_last_error_msg();
+        return null;
+    }
     return $editResult;
 }
 

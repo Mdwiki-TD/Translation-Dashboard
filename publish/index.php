@@ -9,10 +9,6 @@ if (isset($_REQUEST['test'])) {
 };
 //---
 echo <<<HTML
-        <div align=center>
-        <h4>Top languages by missing Articles ($date)</h4>
-        <h5>Number of pages in Category:RTT : $lenth</h5>
-    </div>
     <div class='card'>
         <div class='card-body' style='padding:5px 0px 5px 5px;'>
 HTML;
