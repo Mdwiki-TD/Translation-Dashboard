@@ -1,17 +1,19 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 include_once __DIR__ . '/send_edit.php';
 
-$title = 'وب:ملعب';
+$title   = $_GET['title'] ?? 'وب:ملعب';
+$text    = $_GET['text'] ?? 'new!new!';
+$lang    = $_GET['lang'] ?? 'ar';
+$summary = $_GET['summary'] ?? 'h!';
 
-$summary = 'Hello World';
 
-$wiki = 'ar';
+$editit = do_edit($title, $text, $summary, $lang);
 
-$text = "new!";
+echo "\n== You made an edit ==<br>";
 
-$editit = do_edit($title, $text, $summary, $wiki);
-
-echo "\n== You made an edit ==\n\n";
-
-print_r($editit);
+print(json_encode($editit, JSON_PRETTY_PRINT));
