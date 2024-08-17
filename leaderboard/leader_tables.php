@@ -13,7 +13,7 @@ use function Leaderboard\LeaderTables\makeLangTable;
 
 include_once __DIR__ . '/camps.php';
 
-use function Actions\MdwikiSql\execute_query;
+use function Actions\MdwikiSql\fetch_query;
 use function Actions\Html\make_modal_fade;
 
 $year = $_REQUEST['year'] ?? 'all';
@@ -80,7 +80,7 @@ $Views_by_lang_target = make_views_by_lang_target();
 $tab_for_graph = [];
 // $articles_to_camps, $camps_to_articles
 
-foreach (execute_query($qua_all) as $Key => $teb) {
+foreach (fetch_query($qua_all) as $Key => $teb) {
     $title  = $teb['title'] ?? "";
     //---
     // 2023-08-22

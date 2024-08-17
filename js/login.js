@@ -4,7 +4,8 @@ function login() {
     var code = $('#code').val() || '';
     var type = $('input[name=type]:checked').val() || '';
     var test = $('#test').val() || '';
-    var url = 'https://mdwiki.toolforge.org/Translation_Dashboard/auth.php?a=login';
+    // var url = 'https://mdwiki.toolforge.org/Translation_Dashboard/auth.php?a=login';
+    var url = '/Translation_Dashboard/auth.php?a=login';
     // var url = 'login/index.php?doit=1';
     if (cat !== '') {
         url += '&cat=' + encodeURIComponent(cat);

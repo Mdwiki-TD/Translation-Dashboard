@@ -13,7 +13,7 @@ use function Leaderboard\Graph\print_graph_tab;
 
 echo '<script src="/Translation_Dashboard/js/g.js"></script>';
 //---
-use function Actions\MdwikiSql\execute_query;
+use function Actions\MdwikiSql\fetch_query;
 // ---
 function graph_html($keys, $values, $id = 'chart1', $no_card = false)
 {
@@ -64,7 +64,7 @@ function print_graph_from_sql($id = 'chart1')
     $ms = "";
     $cs = "";
     //---
-    foreach (execute_query($query) as $yhu => $Taab) {
+    foreach (fetch_query($query) as $yhu => $Taab) {
         //---
         $m = $Taab['m'] ?? "";
         $c = $Taab['c'] ?? "";

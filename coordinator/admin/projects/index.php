@@ -11,7 +11,7 @@ if (isset($_REQUEST['test'])) {
 	error_reporting(E_ALL);
 };
 //---
-use function Actions\MdwikiSql\execute_query;
+use function Actions\MdwikiSql\fetch_query;
 //---
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	require __DIR__ . '/post.php';
@@ -38,7 +38,7 @@ HTML;
 //---
 $numb = 0;
 //---
-foreach (execute_query('select g_id, g_title from projects;') as $g_title => $tab) {
+foreach (fetch_query('select g_id, g_title from projects;') as $g_title => $tab) {
 	$numb += 1;
 	//---
 	$g_id = $tab['g_id'] ?? "";

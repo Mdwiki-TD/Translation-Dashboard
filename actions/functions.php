@@ -8,7 +8,7 @@ use function Actions\Functions\strstartswithn;
 use function Actions\Functions\strendswith;
 use function Actions\Functions\test_print;
 */
-use function Actions\MdwikiSql\execute_query;
+use function Actions\MdwikiSql\fetch_query;
 
 $print_t = false;
 
@@ -94,5 +94,5 @@ function test_print($s) {
     }
 }
 
-$usrs = array_map('current', execute_query("SELECT user FROM coordinator;"));
+$usrs = array_map('current', fetch_query("SELECT user FROM coordinator;"));
 ?>

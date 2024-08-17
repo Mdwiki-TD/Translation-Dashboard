@@ -8,7 +8,7 @@ use function Leaderboard\SubLangs\get_langs_tables;
 
 */
 
-use function Actions\MdwikiSql\execute_query;
+use function Actions\MdwikiSql\fetch_query;
 
 function views_tables($mainlang)
 {
@@ -27,7 +27,7 @@ function views_tables($mainlang)
         ;
     SQL;
     //---
-    $views_quary = execute_query($qua_views);
+    $views_quary = fetch_query($qua_views);
     //---
     foreach ($views_quary as $Key => $t) {
         $table_of_views[$t['target']] = $t['countall'] ?? "";
@@ -50,7 +50,7 @@ function pages_tables($mainlang, $year_y)
         $pages_qua .= " and YEAR(date) = '$year_y'";
     };
     //---
-    foreach (execute_query($pages_qua) as $yhu => $Taab) {
+    foreach (fetch_query($pages_qua) as $yhu => $Taab) {
         //---
         $dat1 = $Taab['pupdate'] ?? '';
         $dat2 = $Taab['date'] ?? '';

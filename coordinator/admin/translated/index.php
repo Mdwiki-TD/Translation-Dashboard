@@ -4,7 +4,7 @@ include_once 'Tables/langcode.php';
 use function Actions\Html\make_mdwiki_title;
 use function Actions\Html\make_talk_url;
 use function Actions\Html\make_target_url;
-use function Actions\MdwikiSql\execute_query;
+use function Actions\MdwikiSql\fetch_query;
 //---
 $lang = $_GET['lang'] ?? 'All';
 //---
@@ -18,7 +18,7 @@ function filter_recent($lang)
     //---
     $tabes = [];
     //---
-    foreach (execute_query("select DISTINCT lang from pages;") as $tat => $tag) {
+    foreach (fetch_query("select DISTINCT lang from pages;") as $tat => $tag) {
         $lag = strtolower($tag['lang']);
         //---
         $tabes[] = $lag;
@@ -155,7 +155,7 @@ function get_recent_sql($lang)
     //---
     if ($lang != '' && $lang != 'All') $lang_line = "and lang = '$lang'";
     //---
-    $dd = execute_query("select * from pages where target != '' $lang_line ORDER BY pupdate DESC;");
+    $dd = fetch_query("select * from pages where target != '' $lang_line ORDER BY pupdate DESC;");
     //---
     // sort the table by add_date
     usort($dd, function ($a, $b) {

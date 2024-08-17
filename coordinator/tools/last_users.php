@@ -4,7 +4,7 @@ include_once 'Tables/langcode.php';
 use function Actions\Html\make_mdwiki_title;
 use function Actions\Html\make_talk_url;
 use function Actions\Html\make_target_url;
-use function Actions\MdwikiSql\execute_query;
+use function Actions\MdwikiSql\fetch_query;
 use function Actions\Html\make_cat_url;
 //---
 $recent_table = <<<HTML
@@ -122,7 +122,7 @@ function get_recent_sql()
         DESC limit 100;
     SQL;
     //---
-    $dd0 = execute_query($qua);
+    $dd0 = fetch_query($qua);
     //---
     // sort the table by add_date
     usort($dd0, function ($a, $b) {

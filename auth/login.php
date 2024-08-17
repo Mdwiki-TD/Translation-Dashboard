@@ -59,4 +59,7 @@ $_SESSION['request_secret'] = $token->secret;
 // Redirect the user to the authorization URL. This is usually done with an HTTP redirect, but we're
 // making it a manual link here so you can see everything in action.
 echo "Go to this URL to authorize this demo:<br /><a href='$authUrl'>$authUrl</a>";
-header("Location: $authUrl");
+if ($_SERVER['SERVER_NAME'] !== 'localhost') {
+    header("Location: $authUrl");
+    exit(0);
+}

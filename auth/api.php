@@ -12,6 +12,7 @@ use MediaWiki\OAuthClient\Client;
 use MediaWiki\OAuthClient\ClientConfig;
 use MediaWiki\OAuthClient\Consumer;
 use MediaWiki\OAuthClient\Token;
+use function OAuth\Helps\get_from_cookie;
 
 // Output the demo as plain text, for easier formatting.
 // header( 'Content-type: text/plain' );
@@ -28,7 +29,7 @@ $client = new Client($conf);
 
 // Load the Access Token from the session.
 
-$access_key = get_from_cookie('access_key');
+$access_key = get_from_cookie('accesskey');
 $access_secret = get_from_cookie('access_secret');
 
 $accessToken = new Token($access_key, $access_secret);

@@ -27,7 +27,7 @@ include_once __DIR__ . '/../Tables/langcode.php';
 include_once __DIR__ . '/../actions/functions.php';
 //---
 use function Actions\Functions\test_print;
-use function Actions\MdwikiSql\execute_query;
+use function Actions\MdwikiSql\fetch_query;
 use function Actions\MdwikiApi\get_mdwiki_url_with_params;
 //---
 function start_with($haystack, $needle)
@@ -39,7 +39,7 @@ function get_in_process($missing, $code)
 {
     $qua = "select * from pages where target = '' and lang = '$code';";
     //---
-    $res = execute_query($qua);
+    $res = fetch_query($qua);
     //---
     // echo "<br>";
     // var_export(json_encode($res));

@@ -43,6 +43,8 @@ if ($allow_whole_translate == '0') $tra_type = 'lead';
 $cat_ch = htmlspecialchars($cat, ENT_QUOTES);
 $camp_ch = htmlspecialchars($camp, ENT_QUOTES);
 //---
+// echo $_SERVER['SERVER_NAME'];
+//---
 function print_form_start1($allow_whole_translate, $lang_to_code, $catinput_list, $campaign_input_list, $cat_ch, $camp_ch, $code_lang_name, $code, $tra_type)
 {
     //---

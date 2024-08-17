@@ -1,7 +1,9 @@
 <?php
+
 namespace Actions\MdwikiSql;
 /*
 Usage:
+use function Actions\MdwikiSql\fetch_query;
 use function Actions\MdwikiSql\execute_query;
 use function Actions\MdwikiSql\sql_add_user;
 use function Actions\MdwikiSql\update_settings;
@@ -10,6 +12,7 @@ use function Actions\MdwikiSql\insert_to_projects;
 use function Actions\MdwikiSql\get_all;
 use function Actions\MdwikiSql\display_tables;
 */
+
 if (isset($_REQUEST['test'])) {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
@@ -20,7 +23,8 @@ use function Actions\Functions\test_print;
 use PDO;
 use PDOException;
 //---
-class Database {
+class Database
+{
 
     private $db;
     private $host;
@@ -28,7 +32,8 @@ class Database {
     private $password;
     private $dbname;
 
-    public function __construct($server_name) {
+    public function __construct($server_name)
+    {
         if ($server_name === 'localhost') {
             $this->host = 'localhost:3306';
             $this->dbname = 'mdwiki';
@@ -47,24 +52,26 @@ class Database {
         try {
             $this->db = new PDO("mysql:host=$this->host;dbname=$this->dbname", $this->user, $this->password);
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch(PDOException $e) {
+        } catch (PDOException $e) {
             echo $e->getMessage();
             exit();
         }
     }
 
-    public function execute_query_old($sql_query) {
+    public function execute_query_old($sql_query)
+    {
         try {
             $q = $this->db->prepare($sql_query);
             $q->execute();
             $result = $q->fetchAll(PDO::FETCH_ASSOC);
             return $result;
-        } catch(PDOException $e) {
+        } catch (PDOException $e) {
             echo "sql error:" . $e->getMessage() . "<br>" . $sql_query;
             return array();
         }
     }
-    public function execute_query($sql_query, $params = null) {
+    public function execute_query($sql_query, $params = null)
+    {
         try {
             $q = $this->db->prepare($sql_query);
             if ($params) {
@@ -83,18 +90,40 @@ class Database {
                 // Otherwise, return null
                 return array();
             }
-        } catch(PDOException $e) {
+        } catch (PDOException $e) {
             echo "sql error:" . $e->getMessage() . "<br>" . $sql_query;
             return array();
         }
     }
 
-    public function __destruct() {
+    public function fetch_query($sql_query, $params = null)
+    {
+        try {
+            $q = $this->db->prepare($sql_query);
+            if ($params) {
+                $q->execute($params);
+            } else {
+                $q->execute();
+            }
+
+            // Fetch the results if it's a SELECT query
+            $result = $q->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+
+        } catch (PDOException $e) {
+            echo "sql error:" . $e->getMessage() . "<br>" . $sql_query;
+            return array();
+        }
+    }
+
+    public function __destruct()
+    {
         $this->db = null;
     }
 }
-//---
-function execute_query($sql_query, $params = null) {
+
+function execute_query($sql_query, $params = null)
+{
 
     // Create a new database object
     $db = new Database($_SERVER['SERVER_NAME']);
@@ -115,8 +144,31 @@ function execute_query($sql_query, $params = null) {
     //---
     return $results;
 };
+function fetch_query($sql_query, $params = null)
+{
 
-function sql_add_user($user_name, $email, $wiki, $project, $ido) {
+    // Create a new database object
+    $db = new Database($_SERVER['SERVER_NAME']);
+
+    // Execute a SQL query
+    if ($params) {
+        $results = $db->fetch_query($sql_query, $params);
+    } else {
+        $results = $db->fetch_query($sql_query);
+    }
+
+    // Print the results
+    // foreach ($results as $row) echo $row['column1'] . " " . $row['column2'] . "<br>";
+
+    // Destroy the database object
+    $db = null;
+
+    //---
+    return $results;
+};
+
+function sql_add_user($user_name, $email, $wiki, $project, $ido)
+{
     // Create a new database object
     // Use a prepared statement for INSERT
     $qua = <<<SQL
@@ -140,12 +192,13 @@ function sql_add_user($user_name, $email, $wiki, $project, $ido) {
     }
 
     // Prepare and execute the SQL query with parameter binding
-    $results = execute_query($qua, $params=$params);
+    $results = execute_query($qua, $params = $params);
 
     return $results;
 }
 
-function update_settings($id, $title, $displayed, $value, $type) {
+function update_settings($id, $title, $displayed, $value, $type)
+{
     // Create a new database object
 
     $query = <<<SQL
@@ -165,7 +218,8 @@ function update_settings($id, $title, $displayed, $value, $type) {
     return $results;
 }
 
-function insert_to_translate_type($tt_title, $tt_lead, $tt_full, $tt_id=0) {
+function insert_to_translate_type($tt_title, $tt_lead, $tt_full, $tt_id = 0)
+{
     $params = [$tt_lead, $tt_full, $tt_title];
     //---
     $query = "UPDATE translate_type SET tt_lead = ?, tt_full = ? WHERE tt_title = ?";
@@ -180,7 +234,8 @@ function insert_to_translate_type($tt_title, $tt_lead, $tt_full, $tt_id=0) {
     return $result;
 }
 
-function insert_to_projects($g_title, $g_id) {
+function insert_to_projects($g_title, $g_id)
+{
     $query = "UPDATE projects SET g_title = ? WHERE g_id = ?";
     $params = [$g_title, $g_id];
     //---
@@ -194,17 +249,19 @@ function insert_to_projects($g_title, $g_id) {
     return $result;
 }
 
-function get_all($tab="(categories|coordinator|copy_pages|pages|projects|qids|users|views|wddone|words)") {
+function get_all($tab = "(categories|coordinator|copy_pages|pages|projects|qids|users|views|wddone|words)")
+{
     //---
     $query = "SELECT * FROM $tab";
-    $data = execute_query($query);
+    $data = fetch_query($query);
     //---
     return $data;
 }
 
-function display_tables() {
+function display_tables()
+{
     $sql_query = "SELECT TABLE_NAME, TABLE_TYPE FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() ORDER BY TABLE_NAME";
-    $result = execute_query($sql_query);
+    $result = fetch_query($sql_query);
     //---
     $tables = [];
     foreach ($result as $row) $tables[] = $row['TABLE_NAME'];

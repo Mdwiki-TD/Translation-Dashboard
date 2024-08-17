@@ -6,7 +6,7 @@ include_once 'Tables/sql_tables.php'; // $sql_qids $cat_titles $cat_to_camp $cam
 //---
 include_once __DIR__ . '/../actions/functions.php';
 //---
-use function Actions\MdwikiSql\execute_query;
+use function Actions\MdwikiSql\fetch_query;
 //---
 $full_translates = [];
 $no_lead_translates = [];
@@ -16,7 +16,7 @@ $translate_type_sql = <<<SQL
 	FROM translate_type
 SQL;
 //---
-foreach ( execute_query($translate_type_sql) AS $k => $tab ) {
+foreach ( fetch_query($translate_type_sql) AS $k => $tab ) {
     // if tt_full == 1 then add tt_title to $full_translates
     if ($tab['tt_full'] == 1) {
         $full_translates[] = $tab['tt_title'];
@@ -28,7 +28,7 @@ foreach ( execute_query($translate_type_sql) AS $k => $tab ) {
 //---
 $sql_qids = array();
 //---
-foreach ( execute_query('select title, qid from qids;') AS $k => $tab ) $sql_qids[$tab['title']] = $tab['qid'];
+foreach ( fetch_query('select title, qid from qids;') AS $k => $tab ) $sql_qids[$tab['title']] = $tab['qid'];
 //---
 $cat_titles = array();
 $cat_to_camp = array();
@@ -44,7 +44,7 @@ $camp_input_depth = array();
 $campaign_input_list = array();
 $catinput_list = array();
 //---
-foreach ( execute_query('select id, category, category2, campaign, depth, def from categories;') AS $k => $tab ) {
+foreach ( fetch_query('select id, category, category2, campaign, depth, def from categories;') AS $k => $tab ) {
     if ($tab['category'] != '' && $tab['campaign'] != '') {
         //---
         $cat_titles[] = $tab['campaign'];
@@ -69,11 +69,11 @@ foreach ( execute_query('select id, category, category2, campaign, depth, def fr
 //---
 $projects_title_to_id = array();
 //---
-foreach ( execute_query('select g_id, g_title from projects;') AS $Key => $table ) $projects_title_to_id[$table['g_title']] = $table['g_id'];
+foreach ( fetch_query('select g_id, g_title from projects;') AS $Key => $table ) $projects_title_to_id[$table['g_title']] = $table['g_id'];
 //---
 $settings = array();
 //---
-foreach ( execute_query('select id, title, displayed, value, Type from settings;') AS $Key => $table ) {
+foreach ( fetch_query('select id, title, displayed, value, Type from settings;') AS $Key => $table ) {
     $settings[$table['title']] = $table;
 }
 //---
@@ -86,7 +86,7 @@ function make_views_by_lang_target() {
     FROM views;
     ";
 
-    foreach (execute_query($qua_vi) as $k => $tab) {
+    foreach (fetch_query($qua_vi) as $k => $tab) {
         // check if lang already in array array_key_exists
         $langcode = $tab['lang'];
         $target   = $tab['target'];

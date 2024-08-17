@@ -19,7 +19,7 @@ include_once __DIR__ . '/graph.php';
 //---
 use function Actions\Html\makeDropdown;
 use function Actions\Html\makeColSm4;
-use function Actions\MdwikiSql\execute_query;
+use function Actions\MdwikiSql\fetch_query;
 use function Leaderboard\Graph\print_graph_for_table;
 use function Leaderboard\LeaderTables\createNumbersTable;
 use function Leaderboard\LeaderTables\makeUsersTable;
@@ -83,7 +83,7 @@ $projects = array_keys($projects_title_to_id);
 $y2 = makeDropdown($projects, $project, 'project', 'all');
 $projectDropdown = sprintf($d33, 'Translators', $y2);
 //---
-$mYears = array_map('current', execute_query("SELECT DISTINCT LEFT(pupdate, 4) AS year FROM pages WHERE pupdate <> ''"));
+$mYears = array_map('current', fetch_query("SELECT DISTINCT LEFT(pupdate, 4) AS year FROM pages WHERE pupdate <> ''"));
 //---
 $y3 = makeDropdown($mYears, $year, 'year', 'all');
 $yearDropdown = sprintf($d33, 'Year', $y3);

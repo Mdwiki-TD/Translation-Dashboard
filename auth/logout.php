@@ -3,7 +3,7 @@
 session_start();
 session_destroy();
 setcookie('username', '', time() - 3600, "/", $domain, true, true);
-setcookie('access_key', '', time() - 3600, "/", $domain, true, true);
+setcookie('accesskey', '', time() - 3600, "/", $domain, true, true);
 setcookie('access_secret', '', time() - 3600, "/", $domain, true, true);
 // echo "You are now logged out. <a href='auth.php?a=index'>Log in.</a>";
 

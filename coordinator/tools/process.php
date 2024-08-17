@@ -1,7 +1,7 @@
 <?PHP
 //---
 use function Actions\Html\make_mdwiki_title;
-use function Actions\MdwikiSql\execute_query;
+use function Actions\MdwikiSql\fetch_query;
 use function Actions\Html\make_cat_url;
 //---
 echo <<<HTML
@@ -74,7 +74,7 @@ $quaa = "select * from pages where target = ''
     ORDER BY date DESC
     limit 100;
     ";
-$dd = execute_query($quaa);
+$dd = fetch_query($quaa);
 //---
 $sato = <<<HTML
 	<table class="table table-sm table-striped soro table-mobile-responsive table-mobile-sided" style="font-size:90%;">

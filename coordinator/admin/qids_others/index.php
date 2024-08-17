@@ -6,7 +6,7 @@ if (user_in_coord == false) {
 };
 //---
 use function Actions\Html\make_mdwiki_title;
-use function Actions\MdwikiSql\execute_query;
+use function Actions\MdwikiSql\fetch_query;
 //---
 function make_edit_icon($id, $title, $qid)
 {
@@ -88,7 +88,7 @@ $quaries = [
 //---
 $qua = (in_array($dis, $quaries)) ? $quaries['all'] : $quaries[$dis];
 //---
-$qq = execute_query($qua);
+$qq = fetch_query($qua);
 //---
 function make_row($id, $title, $qid, $numb)
 {

@@ -1,6 +1,6 @@
 <?PHP
 //---
-use function Actions\MdwikiSql\execute_query;
+use function Actions\MdwikiSql\fetch_query;
 //---
 echo <<<HTML
     <div class='card-header'>
@@ -45,7 +45,7 @@ HTML;
 //---
 $n = 0;
 //---
-foreach (execute_query($sql_t) as $k => $t) {
+foreach (fetch_query($sql_t) as $k => $t) {
     $user  = $t['user'] ?? "";
     $count = $t['count'] ?? "";
     $user_process_tab[$user] = $count;
