@@ -30,7 +30,7 @@ if ($u != '' && in_array($u, $allowed_u)) {
 
 // use function Actions\MdwikiSql\sql_add_user;
 
-if ($_SERVER['SERVER_NAME'] == 'localhost') {
+if ($_SERVER['SERVER_NAME'] === 'localhost') {
     $fa = $_GET['test'] ?? '';
     // if ($fa != 'xx') {
     // Get the Request Token's details from the session and create a new Token object.

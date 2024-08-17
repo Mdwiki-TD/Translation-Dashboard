@@ -26,7 +26,7 @@ function get_edits_token($client, $accessToken, $apiUrl)
     return $editToken;
 }
 
-function send_edit($title, $text, $summary, $wiki)
+function make_edit($title, $text, $summary, $wiki, $access_key, $access_secret)
 {
     global $gUserAgent, $consumerKey, $consumerSecret;
     // ---
@@ -39,8 +39,6 @@ function send_edit($title, $text, $summary, $wiki)
     $conf->setUserAgent($gUserAgent);
     $client = new Client($conf);
     // ---
-    $access_key = get_from_cookie('accesskey');
-    $access_secret = get_from_cookie('access_secret');
     $accessToken = new Token($access_key, $access_secret);
     // ---
     $editToken = get_edits_token($client, $accessToken, $apiUrl);
@@ -63,4 +61,21 @@ function send_edit($title, $text, $summary, $wiki)
     ));
     // ---
     return $editResult;
+}
+
+function send_edit($title, $text, $summary, $wiki)
+{
+    // ---
+    if ($wiki == '' || $title == '' || $text == '') {
+        return 'error:  wiki or title or text is empty';
+    }
+    // ---
+    $access_key = get_from_cookie('accesskey');
+    $access_secret = get_from_cookie('access_secret');
+    // ---
+    if ($access_key == '' || $access_secret == '') {
+        return 'error:  access_key or access_secret is empty';
+    }
+    // ---
+    return make_edit($title, $text, $summary, $wiki, $access_key, $access_secret);
 }
