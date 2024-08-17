@@ -7,7 +7,7 @@ if (user_in_coord == false) {
 //---
 use function Actions\Html\make_mail_icon;
 use function Actions\Html\make_project_to_user;
-use function Actions\MdwikiSql\execute_query;
+use function Actions\MdwikiSql\fetch_query;
 //---
 if (isset($_REQUEST['test'])) {
 	ini_set('display_errors', 1);
@@ -50,7 +50,7 @@ if (true) {
 		ORDER BY p1.pupdate DESC
 	SQL;
 	//---
-	foreach ( execute_query($last_qua) AS $Key => $gg ) {
+	foreach ( fetch_query($last_qua) AS $Key => $gg ) {
 		if(!in_array($gg['user'], $last_user_to_tab)) $last_user_to_tab[$gg['user']] = $gg;
 	};
 	//---
@@ -58,7 +58,7 @@ if (true) {
 };
 //---
 // $nn = 0;
-// foreach(execute_query('SELECT count(DISTINCT user) as c from pages;') as $k => $tab) $nn = $tab['c'] ?? "";
+// foreach(fetch_query('SELECT count(DISTINCT user) as c from pages;') as $k => $tab) $nn = $tab['c'] ?? "";
 //---<h4>Emails ($nn user):</h4>
 //---
 echo <<<HTML
@@ -96,7 +96,7 @@ if (true) {
 		group by p1.user;
 	SQL;
 	//---
-	foreach ( execute_query($q_live) AS $Key => $gg ) {
+	foreach ( fetch_query($q_live) AS $Key => $gg ) {
 		$live_pages[$gg['user']] = number_format($gg['live']);
 	};
 	//---
@@ -106,7 +106,7 @@ if (true) {
 //---
 $users_done = array();
 //---
-foreach ( execute_query("select user_id, username, email, wiki, user_group from users;") AS $Key => $gk ) {
+foreach ( fetch_query("select user_id, username, email, wiki, user_group from users;") AS $Key => $gk ) {
     $users_done[$gk['username']] = $gk;
 };
 //---
@@ -115,7 +115,7 @@ $qu1 = <<<SQL
 	WHERE NOT EXISTS (SELECT 1 FROM users WHERE user = username)
 SQL;
 //---
-foreach ( execute_query($qu1) AS $d => $tat ) if (!in_array($tat['user'], $users_done)) {
+foreach ( fetch_query($qu1) AS $d => $tat ) if (!in_array($tat['user'], $users_done)) {
     $users_done[$tat['user']] = array( 'user_id' => 0, 'username' => $tat['user'], 'email' => '', 'wiki' => '', 'user_group' => '');
 }
 //---

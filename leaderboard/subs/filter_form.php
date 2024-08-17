@@ -12,24 +12,24 @@ use function Leaderboard\FilterForm\make_filter_form_users;
 //---
 //---
 use function Actions\Html\makeDropdown;
-use function Actions\MdwikiSql\execute_query;
+use function Actions\MdwikiSql\fetch_query;
 //---
 function get_lang_years($mainlang)
 {
     $years_q = "SELECT DISTINCT LEFT(pupdate, 4) AS year FROM pages WHERE lang = '$mainlang' AND pupdate <> ''";
-    return array_map('current', execute_query($years_q));
+    return array_map('current', fetch_query($years_q));
 }
 
 function get_user_years($user)
 {
     $qua = "SELECT DISTINCT LEFT(date, 4) AS year FROM pages WHERE user = '$user'";
-    return array_map('current', execute_query($qua));
+    return array_map('current', fetch_query($qua));
 }
 
 function get_user_langs($user)
 {
     $qua = "SELECT DISTINCT lang FROM pages WHERE user = '$user'";
-    return array_map('current', execute_query($qua));
+    return array_map('current', fetch_query($qua));
 }
 function make_filter_form_langs($mainlang, $year_y)
 {

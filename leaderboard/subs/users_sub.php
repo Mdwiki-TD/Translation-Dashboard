@@ -8,7 +8,7 @@ use function Leaderboard\SubUsers\get_users_tables;
 
 */
 
-use function Actions\MdwikiSql\execute_query;
+use function Actions\MdwikiSql\fetch_query;
 
 function views_tables($user_main, $year_y, $lang_y, $test = '')
 {
@@ -47,7 +47,7 @@ function views_tables($user_main, $year_y, $lang_y, $test = '')
         echo $views_qua . '<br>';
     }
     //--
-    $count_query = execute_query($count_sql, $params);
+    $count_query = fetch_query($count_sql, $params);
     //---
     $user_count = $count_query[0]['count'];
     //---
@@ -65,7 +65,7 @@ function views_tables($user_main, $year_y, $lang_y, $test = '')
             offset $offset
         ";
         //---
-        $views_query = execute_query($quaa_view, $views_params);
+        $views_query = fetch_query($quaa_view, $views_params);
         //---
         if (count($views_query) == 0) $done = $user_count;
         //---
@@ -112,7 +112,7 @@ function pages_tables($user_main, $year_y, $lang_y, $test = '')
         echo $pages_qua . '<br>';
     }
     //---
-    $sql_result = execute_query($pages_qua, $params);
+    $sql_result = fetch_query($pages_qua, $params);
     //---
     foreach ($sql_result as $tait => $tabb) {
         //---

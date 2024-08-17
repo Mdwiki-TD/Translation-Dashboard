@@ -11,7 +11,7 @@ include_once 'actions/functions.php';
 include_once 'results/getcats.php';
 include_once 'infos/td_config.php';
 //---
-use function Actions\MdwikiSql\execute_query;
+use function Actions\MdwikiSql\fetch_query;
 use function Actions\WikiApi\get_views;
 use function Actions\Html\make_mdwiki_title;
 use function Actions\Html\make_talk_url;
@@ -100,7 +100,7 @@ $HERE = "<a target='_blank' href='$here_url'><b>HERE</b></a>";
 $Emails_array = array();
 //---
 
-foreach (execute_query("select username, email from users;") as $Key => $ta) {
+foreach (fetch_query("select username, email from users;") as $Key => $ta) {
 
     $Emails_array[$ta['username']] = $ta['email'];
 };

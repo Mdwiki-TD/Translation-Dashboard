@@ -5,7 +5,7 @@ if (user_in_coord == false) {
 	exit;
 };
 //---
-use function Actions\MdwikiSql\execute_query;
+use function Actions\MdwikiSql\fetch_query;
 //---
 if (isset($_REQUEST['test'])) {
 	ini_set('display_errors', 1);
@@ -52,7 +52,7 @@ HTML;
 //---
 $cats = "";
 //---
-$qqq = execute_query('select category, campaign from categories;');
+$qqq = fetch_query('select category, campaign from categories;');
 //---
 foreach ($qqq as $Key => $ta) {
 	$ca = $ta['category'] ?? "";
@@ -163,7 +163,7 @@ HTML;
 //---
 $ka = '';
 //---
-foreach (execute_query('SELECT DISTINCT user from pages;') as $k => $tab) {
+foreach (fetch_query('SELECT DISTINCT user from pages;') as $k => $tab) {
 	$u = $tab['user'] ?? "";
 	$ka .= '"' . $u . '",
 	';

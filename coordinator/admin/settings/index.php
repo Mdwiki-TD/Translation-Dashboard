@@ -14,7 +14,7 @@ if (isset($_REQUEST['test'])) {
 include_once 'actions/functions.php';
 //---
 use function Infos\TdConfig\get_configs;
-use function Actions\MdwikiSql\execute_query;
+use function Actions\MdwikiSql\fetch_query;
 //---
 // $conf = get_configs('conf.json');
 //---
@@ -105,7 +105,7 @@ function make_settings_tab($tabe) {
     //---
 };
 //---
-$qq = execute_query('select id, title, displayed, type, value from settings;');
+$qq = fetch_query('select id, title, displayed, type, value from settings;');
 //---
 // var_export($qq);
 //---

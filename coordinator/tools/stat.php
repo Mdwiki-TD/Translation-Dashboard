@@ -12,7 +12,7 @@ include_once 'actions/functions.php';
 
 use function Actions\Html\makeDropdown;
 use function Results\GetCats\get_mdwiki_cat_members;
-use function Actions\MdwikiSql\execute_query;
+use function Actions\MdwikiSql\fetch_query;
 //---
 $cat = $_REQUEST['cat'] ?? 'RTT';
 //---
@@ -20,7 +20,7 @@ function filter_stat($cat)
 {
 	$cats_titles = array();
 	//---
-	foreach (execute_query('select category from categories;') as $k => $tab) $cats_titles[] = $tab['category'] ?? "";
+	foreach (fetch_query('select category from categories;') as $k => $tab) $cats_titles[] = $tab['category'] ?? "";
 	//---
 	$d33 = <<<HTML
 		<div class="input-group">

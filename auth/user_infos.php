@@ -3,6 +3,8 @@
 include_once __DIR__ . '/config.php';
 include_once __DIR__ . '/helps.php';
 //---
+use function OAuth\Helps\get_from_cookie;
+//---
 $secure = ($_SERVER['SERVER_NAME'] == "localhost") ? false : true;
 if ($_SERVER['SERVER_NAME'] != 'localhost') {
 	session_name("mdwikitoolforgeoauth");
@@ -16,7 +18,7 @@ if ($_SERVER['SERVER_NAME'] == 'localhost') {
 	session_start();
 	$username = $_SESSION['username'] ?? '';
 } else {
-	$access_key = get_from_cookie('access_key');
+	$access_key = get_from_cookie('accesskey');
 	$access_secret = get_from_cookie('access_secret');
 	if ($access_key == '' || $access_secret == '') {
 		setcookie('username', '', time() - 3600, "/", $domain, true, true);
