@@ -20,7 +20,7 @@ function decode_value($value)
     global $cookie_key;
     try {
         $value = Crypto::decrypt($value, $cookie_key);
-    } catch (Exception $e) {
+    } catch (\Exception $e) {
         $value = $value;
     }
     return $value;
@@ -31,7 +31,7 @@ function encode_value($value)
     global $cookie_key;
     try {
         $value = Crypto::encrypt($value, $cookie_key);
-    } catch (Exception $e) {
+    } catch (\Exception $e) {
         $value = $value;
     };
     return $value;
