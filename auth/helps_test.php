@@ -11,10 +11,9 @@ use function OAuth\Helps\get_access_from_db;
 
 $user = $_GET['user'];
 
-$testsecret = rand() . "xx";
+// $testsecret = rand() . "xx";
 
-add_access_to_db($user, 'testkey', $testsecret);
-
+// add_access_to_db($user, 'testkey', $testsecret);
 
 $t = get_access_from_db($user);
 
