@@ -41,7 +41,7 @@ $sato = <<<HTML
                 <th>#</th>
                 <th>Lang.</th>
                 <th>Move dots</th>
-                <th>Expend infobox</th>
+                <th>Expand infobox</th>
                 <th>add |language=en</th>
                 <th>Delete</th>
             </tr>
