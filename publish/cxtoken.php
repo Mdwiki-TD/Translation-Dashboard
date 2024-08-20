@@ -1,20 +1,17 @@
 <?php
-
-namespace Publish\Edit;
-/*
-Usage:
-use function Publish\Edit\send_edit;
-*/
+header('Content-Type: application/json; charset=utf-8');
+header("Access-Control-Allow-Origin: *");
 
 include_once __DIR__ . '/../vendor_load.php';
 include_once __DIR__ . '/../auth/config.php';
 include_once __DIR__ . '/../auth/helps.php';
+include_once __DIR__ . '/helps.php';
 
+use function Publish\Helps\get_access_from_db;
 use MediaWiki\OAuthClient\Client;
 use MediaWiki\OAuthClient\ClientConfig;
 use MediaWiki\OAuthClient\Consumer;
 use MediaWiki\OAuthClient\Token;
-use function OAuth\Helps\get_from_cookie;
 
 function get_client($wiki)
 {
@@ -30,7 +27,7 @@ function get_client($wiki)
     // ---
     return $client;
 }
-function get_edits_token($client, $accessToken, $apiUrl)
+function get_csrftoken($client, $accessToken, $apiUrl)
 {
     $response = $client->makeOAuthCall($accessToken, "$apiUrl?action=query&meta=tokens&format=json");
     // ---
@@ -38,15 +35,14 @@ function get_edits_token($client, $accessToken, $apiUrl)
     // ---
     if ($data == null || !isset($data->query->tokens->csrftoken)) {
         // Handle error
-        echo "<br>get_edits_token Error: " . json_last_error() . " " . json_last_error_msg();
+        echo "<br>get_csrftoken Error: " . json_last_error() . " " . json_last_error_msg();
         return null;
     }
     // ---
     return $data->query->tokens->csrftoken;
 }
 
-
-function make_edit($title, $text, $summary, $wiki, $access_key, $access_secret)
+function get_cxtoken($wiki, $access_key, $access_secret)
 {
     // ---
     $apiUrl = "https://$wiki.wikipedia.org/w/api.php";
@@ -55,19 +51,15 @@ function make_edit($title, $text, $summary, $wiki, $access_key, $access_secret)
     // ---
     $accessToken = new Token($access_key, $access_secret);
     // ---
-    $editToken = get_edits_token($client, $accessToken, $apiUrl);
+    $csrftoken = get_csrftoken($client, $accessToken, $apiUrl);
     // ---
-    if ($editToken == null) {
-        return json_encode(['error' => 'get_edits_token failed']);
+    if ($csrftoken == null) {
+        return json_encode(['error' => 'get_csrftoken failed']);
     }
     // ---
     $apiParams = [
-        'action' => 'edit',
-        'title' => $title,
-        // 'section' => 'new',
-        'summary' => $summary,
-        'text' => $text,
-        'token' => $editToken,
+        'action' => 'cxtoken',
+        'token' => $csrftoken,
         'format' => 'json',
     ];
     // ---
@@ -76,24 +68,31 @@ function make_edit($title, $text, $summary, $wiki, $access_key, $access_secret)
     $editResult = json_decode($response);
     // ---
     if ($editResult == null || isset($editResult->error)) {
-        // Handle error
         echo "<br>make_edit: Error: " . json_last_error() . " " . json_last_error_msg();
-        return json_encode($editResult);
     }
     // ---
     return $editResult;
 }
 
-function send_edit($title, $text, $summary, $wiki, $access_key, $access_secret)
-{
-    // ---
-    if ($wiki == '' || $title == '' || $text == '') {
-        return json_encode(['error' => 'title or text is empty']);
-    }
-    // ---
-    if ($access_key == '' || $access_secret == '') {
-        return json_encode(['error' => 'access key or secret is empty']);
-    }
-    // ---
-    return make_edit($title, $text, $summary, $wiki, $access_key, $access_secret);
+$wiki    = $_GET['wiki'] ?? '';
+$user    = $_GET['user'] ?? '';
+
+if ($wiki == '' || $user == '') {
+    print(json_encode(['error' => 'wiki or user is empty']));
+    exit(1);
 }
+
+$access = get_access_from_db($user);
+
+if ($access == null) {
+    $cxtoken = ['error' => 'no access', 'username' => $user];
+    // exit(1);
+} else {
+    $access_key = $access['access_key'];
+    $access_secret = $access['access_secret'];
+    // $text = get_medwiki_text($title);
+
+    $cxtoken = get_cxtoken($wiki, $access_key, $access_secret);
+}
+
+print(json_encode($cxtoken, JSON_PRETTY_PRINT));

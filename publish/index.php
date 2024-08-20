@@ -13,7 +13,7 @@ echo <<<HTML
         <div class='card-body' style='padding:5px 0px 5px 5px;'>
 HTML;
 // ---
-require_once __DIR__ . '/main.php';
+require_once __DIR__ . '/main_get.php';
 // ---
 echo <<<HTML
         </div>

@@ -30,7 +30,7 @@ function get_edits_token($client, $accessToken, $apiUrl)
     return $data->query->tokens->csrftoken;
 }
 
-function do_edit($title, $text, $summary, $wiki)
+function do_edit($title, $text, $summary, $wiki, $access_key, $access_secret)
 {
     global $gUserAgent, $consumerKey, $consumerSecret;
     // ---
@@ -43,8 +43,6 @@ function do_edit($title, $text, $summary, $wiki)
     $conf->setUserAgent($gUserAgent);
     $client = new Client($conf);
     // ---
-    $access_key = get_from_cookie('accesskey');
-    $access_secret = get_from_cookie('access_secret');
     $accessToken = new Token($access_key, $access_secret);
     // ---
     $editToken = get_edits_token($client, $accessToken, $apiUrl);
@@ -66,7 +64,7 @@ function do_edit($title, $text, $summary, $wiki)
         $apiParams
     );
     // ---
-    $editResult = json_decode($req);
+    $editResult = json_decode($req, true);
     // ---
     return $editResult;
 }
