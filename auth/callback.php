@@ -1,12 +1,12 @@
 <?php
-// require_once __DIR__ . '/../publish/helps.php';
+require_once __DIR__ . '/../publish/helps.php';
 
 use MediaWiki\OAuthClient\Client;
 use MediaWiki\OAuthClient\ClientConfig;
 use MediaWiki\OAuthClient\Consumer;
 use MediaWiki\OAuthClient\Token;
 use function OAuth\Helps\add_to_cookie;
-// use function Publish\Helps\add_access_to_db;
+use function Publish\Helps\add_access_to_db;
 
 if (!isset($_GET['oauth_verifier'])) {
 	echo "This page should only be access after redirection back from the wiki.";
@@ -61,7 +61,7 @@ $_SESSION['username'] = $ident->username;
 
 $twoYears = time() + 60 * 60 * 24 * 365 * 2;
 
-// add_access_to_db($ident->username, $accessToken1->key, $accessToken1->secret);
+add_access_to_db($ident->username, $accessToken1->key, $accessToken1->secret);
 
 add_to_cookie('username', $ident->username);
 

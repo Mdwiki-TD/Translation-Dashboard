@@ -44,6 +44,9 @@ $apiUrl = preg_replace('/index\.php.*/', 'api.php', $oauthUrl);
 $consumerKey    = $ini['consumerKey'] ?? '';
 $consumerSecret = $ini['consumerSecret'] ?? '';
 
+$consumerKey_new    = $ini['consumerKey_new'] ?? '';
+$consumerSecrety_new = $ini['consumerSecrety_new'] ?? '';
+
 $domain = $_SERVER['SERVER_NAME'] ?? 'localhost';
 
 $cookie_key     = $ini['cookie_key'] ?? '';

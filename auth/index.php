@@ -11,7 +11,7 @@ if (!file_exists($configFile)) {
 include_once $configFile;
 include_once __DIR__ . '/helps.php';
 //---
-$allowedActions = ['login', 'callback', 'logout'];
+$allowedActions = ['login', 'callback', 'logout', 'edit'];
 $action = $_GET['a'] ?? 'user_infos';
 //---
 if (in_array($action, $allowedActions)) {
