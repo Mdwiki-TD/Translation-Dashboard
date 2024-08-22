@@ -14,18 +14,20 @@ function open_fixwikirefs($target, $lang)
 {
     // ----
     $params = [
-        'save' => 1,
+        'save' => "1",
         'title' => $target,
         'lang' => $lang
     ];
     // ----
-    $url = "/fixwikirefs.php?" + http_build_query($params);
+    $url = "https://mdwiki.toolforge.org/fixwikirefs.php?" . http_build_query($params);
     // ----
     // open new window
     echo <<<HTML
+        \n
         <script type='text/javascript'>
-            window.open('$url', '_self');
+            window.open('$url', '_blank');
         </script>
+        \n
     HTML;
     // ----
 }
@@ -99,8 +101,14 @@ function start_main_get()
         // ----
         open_fixwikirefs($target, $lang);
         // ----
-        echo <<<HTML
-            <meta http-equiv="refresh" content="0; URL={$link}" />
-    HTML;
+        if ($test != '') {
+            echo <<<HTML
+                < meta http-equiv="refresh" content="0; URL={$link}" />
+            HTML;
+        } else {
+            echo <<<HTML
+                <meta http-equiv="refresh" content="0; URL={$link}" />
+            HTML;
+        }
     };
 }
