@@ -15,6 +15,8 @@ HTML;
 // ---
 require_once __DIR__ . '/main_get.php';
 // ---
+echo start_main_get();
+// ---
 echo <<<HTML
         </div>
     </div>

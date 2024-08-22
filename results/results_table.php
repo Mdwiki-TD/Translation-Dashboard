@@ -15,6 +15,9 @@ use function Results\ResultsTable\make_results_table;
 include_once __DIR__ . '/../Tables/tables.php';
 include_once __DIR__ . '/../Tables/sql_tables.php';
 
+use function Results\TrLink\make_translate_link;
+use function Results\TrLink\make_translate_link_old;
+
 function sort_py_PageViews($items, $en_views_tab)
 {
     $dd = [];
@@ -57,16 +60,10 @@ function make_one_row($v, $cnt, $cod, $cat, $camp, $words, $refs, $asse, $tra_ty
     if ($asse == '') $asse = 'Unknown';
     // "username" => global_username,
     //---
-    $params = array(
-        "title" => $title2,
-        "code" => $cod,
-        "cat" => $cat2,
-        "camp" => $camp2,
-        "type" => $tra_type
-    );
+    $translate_url = make_translate_link_old($title, $cod, $cat, $camp, $tra_type);
+    // $translate_url = make_translate_link($title, $cod, $cat, $camp, $tra_type);
     //---
-    $translate_url = 'translate.php?' . http_build_query($params);
-    $tab = "<a href='$translate_url' class='btn btn-outline-primary btn-sm'>Translate</a>";
+    $tab = "<a href='$translate_url' class='btn btn-outline-primary btn-sm' target='_blank'>Translate</a>";
     //---
     if (global_username == '') {
         $tab = <<<HTML

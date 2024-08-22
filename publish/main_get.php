@@ -2,92 +2,105 @@
 include_once __DIR__ . '/../auth/config.php';
 include_once __DIR__ . '/../auth/helps.php';
 include_once __DIR__ . '/../auth/send_edit.php';
+include_once __DIR__ . '/../Tables/sql_tables.php'; // $sql_qids $cat_titles $cat_to_camp $camp_to_cat
+include_once __DIR__ . '/add_to_db.php';
+include_once __DIR__ . '/text.php';
 
-// include_once __DIR__ . '/helps.php';
-// include_once __DIR__ . '/send_edit.php';
-
-// use function Publish\Helps\get_access_from_db;
-// use function Publish\Edit\send_edit;
 use function OAuth\Helps\get_from_cookie;
+use function Publish\AddToDb\InsertPageTarget;
+use function Publish\Text\get_medwiki_text;
 
-function get_medwiki_text($title)
+function open_fixwikirefs($target, $lang)
 {
+    // ----
     $params = [
-        'title' => $title,
-        'action' => 'raw',
+        'save' => 1,
+        'title' => $target,
+        'lang' => $lang
     ];
-    $endPoint = "https://medwiki.toolforge.org/md/index.php?";
-
-    $usr_agent = "WikiProjectMed Translation Dashboard/1.0 (https://mdwiki.toolforge.org/; tools.mdwiki@toolforge.org)";
-
-    $ch = curl_init();
-
-    curl_setopt($ch, CURLOPT_URL, $endPoint);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    // curl_setopt($ch, CURLOPT_COOKIEJAR, "cookie.txt");
-    // curl_setopt($ch, CURLOPT_COOKIEFILE, "cookie.txt");
-    curl_setopt($ch, CURLOPT_USERAGENT, $usr_agent);
-    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-
-    $output = curl_exec($ch);
-    $url = "{$endPoint}?" . http_build_query($params);
-    if ($output === FALSE) {
-        echo ("<br>cURL Error: " . curl_error($ch) . "<br>$url");
+    // ----
+    $url = "/fixwikirefs.php" + http_build_query($params);
+    // ----
+    // open new window
+    echo <<<HTML
+        <script type='text/javascript'>
+            window.open('$url', '_self');
+        </script>
+    HTML;
+    // ----
+}
+function do_it($target, $text, $summary, $sourcetitle, $lang, $access_key, $access_secret)
+{
+    if ($summary === "") {
+        $summary = 'Created by translating the page [[:mdwiki:' . $sourcetitle . '|' . $sourcetitle . ']]. #mdwikicx .';
     }
 
-    curl_close($ch);
-    return $output;
-}
+    $editit = do_edit($target, $text, $summary, $lang, $access_key, $access_secret);
 
-$title   = $_GET['title'] ?? '';
-$lang    = $_GET['lang'] ?? '';
-$summary = $_GET['summary'] ?? '';
-$sourcetitle = $_GET['sourcetitle'] ?? '';
-$user    = $_GET['user'] ?? '';
+    print(json_encode($editit, JSON_PRETTY_PRINT));
 
-$username = get_from_cookie('username');
-if ($username != $user) {
-    echo json_encode(['error' => 'no access', 'user' => $user]);
-    exit(1);
-}
-// $access = get_access_from_db($user);
+    $Success = $editit['edit']['result'] ?? '';
 
-$text = get_medwiki_text($title) ?? '';
-
-if ($text === '') {
-    // refresh the page
-    header("Refresh:1; url={$_SERVER['PHP_SELF']}?title=$title&lang=$lang&summary=$summary&user=$user");
-    exit();
-}
-
-$access_key = get_from_cookie('accesskey');
-$access_secret = get_from_cookie('access_secret');
-
-$link = "https://{$lang}.wikipedia.org/w/index.php?title={$title}";
-
-echo <<<HTML
-    <a href='$link' target='_blank'>{$title}</a><br>
-    <textarea id='text' name='text' cols='80' rows='8'>{$text}</textarea>
-    <br>
-HTML;
-if ($summary === "") {
-    $summary = 'Created by translating the page [[:mdwiki:' . $sourcetitle . '|' . $sourcetitle . ']]. #mdwikicx .';
-}
-$editit = do_edit($title, $text, $summary, $lang, $access_key, $access_secret);
-
-print(json_encode($editit, JSON_PRETTY_PRINT));
-
-$Success = $editit['edit']['result'] ?? '';
-
-echo <<<HTML
-    <br>Success:$Success<br>
-HTML;
-
-if ($Success === 'Success') {
     echo <<<HTML
-        <meta http-equiv="refresh" content="0; URL={$link}" />
-HTML;
-};
+        <br>Success:$Success<br>
+    HTML;
+
+    return $Success;
+}
+function start_main_get()
+{
+    global $camp_to_cat;
+    // ---
+    $campaign = $_GET['campaign'] ?? '';
+    $cat = $camp_to_cat[$campaign] ?? '';
+    // ---
+    $target  = $_GET['title'] ?? '';
+    $lang    = $_GET['lang'] ?? '';
+    $sourcetitle = $_GET['sourcetitle'] ?? '';
+    $user    = $_GET['user'] ?? '';
+    // ---
+    $summary = $_GET['summary'] ?? '';
+    $test    = $_GET['test'] ?? '';
+
+    $username = get_from_cookie('username');
+    if ($username != $user) {
+        echo json_encode(['error' => 'no access', 'user' => $user]);
+        exit(1);
+    }
+    // $access = get_access_from_db($user);
+
+    $text = get_medwiki_text($target) ?? '';
+
+    if ($text === '') {
+        // refresh the page
+        header("Refresh:1; url={$_SERVER['PHP_SELF']}?title=$target&lang=$lang&summary=$summary&user=$user");
+        exit();
+    }
+
+    $access_key = get_from_cookie('accesskey');
+    $access_secret = get_from_cookie('access_secret');
+    if ($access_key === '' || $access_secret === '') {
+        echo json_encode(['error' => 'log in first!', 'user' => $user]);
+        exit(1);
+    }
+    $link = "https://{$lang}.wikipedia.org/w/index.php?title={$target}";
+
+    echo <<<HTML
+        <a href='$link' target='_blank'>{$target}</a><br>
+        <textarea id='text' name='text' cols='80' rows='8'>{$text}</textarea>
+        <br>
+    HTML;
+
+
+    $result = do_it($target, $text, $summary, $sourcetitle, $lang, $access_key, $access_secret);
+
+    if ($result === 'Success') {
+        InsertPageTarget($sourcetitle, 'lead', $cat, $lang, $user, $test, $target);
+        // ----
+        open_fixwikirefs($target, $lang);
+        // ----
+        echo <<<HTML
+            <meta http-equiv="refresh" content="0; URL={$link}" />
+    HTML;
+    };
+}

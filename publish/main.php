@@ -5,19 +5,13 @@ include_once __DIR__ . '/../auth/send_edit.php';
 
 include_once __DIR__ . '/helps.php';
 include_once __DIR__ . '/send_edit.php';
+include_once __DIR__ . '/text.php';
 
 use function Publish\Helps\get_access_from_db;
 use function Publish\Edit\send_edit;
 use function OAuth\Helps\get_from_cookie;
+use function Publish\Text\get_medwiki_text;
 
-function get_medwiki_text($title)
-{
-    $title = urlencode($title);
-    $url = "https://medwiki.toolforge.org/md/index.php?title=$title&action=raw";
-    $text = file_get_contents($url);
-
-    return $text;
-}
 /*
 $t_Params = [
     'title' => $title->getPrefixedDBkey(),
