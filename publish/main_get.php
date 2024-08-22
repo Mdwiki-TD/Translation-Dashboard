@@ -19,7 +19,7 @@ function open_fixwikirefs($target, $lang)
         'lang' => $lang
     ];
     // ----
-    $url = "/fixwikirefs.php" + http_build_query($params);
+    $url = "/fixwikirefs.php?" + http_build_query($params);
     // ----
     // open new window
     echo <<<HTML

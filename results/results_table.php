@@ -1,4 +1,5 @@
 <?PHP
+
 namespace Results\ResultsTable;
 
 /*
@@ -15,8 +16,10 @@ use function Results\ResultsTable\make_results_table;
 include_once __DIR__ . '/../Tables/tables.php';
 include_once __DIR__ . '/../Tables/sql_tables.php';
 
+$use_medwiki = $settings['use_medwiki']['value'] ?? false;
+
 use function Results\TrLink\make_translate_link;
-use function Results\TrLink\make_translate_link_old;
+use function Results\TrLink\make_translate_link_medwiki;
 
 function sort_py_PageViews($items, $en_views_tab)
 {
@@ -48,9 +51,7 @@ function sort_py_importance($items, $Assessments_table, $Assessments_fff)
 
 function make_one_row($v, $cnt, $cod, $cat, $camp, $words, $refs, $asse, $tra_type, $pageviews, $qid, $inprocess, $in_process, $tra_btn, $full)
 {
-    //---
-    $cat2 = rawurlEncode($cat);
-    $camp2 = rawurlEncode($camp);
+    global $use_medwiki;
     //---
     $title = str_replace('_', ' ', $v);
     $title2 = rawurlEncode($title);
@@ -60,10 +61,10 @@ function make_one_row($v, $cnt, $cod, $cat, $camp, $words, $refs, $asse, $tra_ty
     if ($asse == '') $asse = 'Unknown';
     // "username" => global_username,
     //---
-    if ($_SERVER['SERVER_NAME'] == 'localhost') {
-        $translate_url = make_translate_link($title, $cod, $cat, $camp, $tra_type);
+    if ($use_medwiki) {
+        $translate_url = make_translate_link_medwiki($title, $cod, $cat, $camp, $tra_type);
     } else {
-        $translate_url = make_translate_link_old($title, $cod, $cat, $camp, $tra_type);
+        $translate_url = make_translate_link($title, $cod, $cat, $camp, $tra_type);
     }
     //---
     $tab = "<a href='$translate_url' class='btn btn-outline-primary btn-sm' target='_blank'>Translate</a>";
