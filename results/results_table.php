@@ -60,8 +60,11 @@ function make_one_row($v, $cnt, $cod, $cat, $camp, $words, $refs, $asse, $tra_ty
     if ($asse == '') $asse = 'Unknown';
     // "username" => global_username,
     //---
-    $translate_url = make_translate_link_old($title, $cod, $cat, $camp, $tra_type);
-    // $translate_url = make_translate_link($title, $cod, $cat, $camp, $tra_type);
+    if ($_SERVER['SERVER_NAME'] == 'localhost') {
+        $translate_url = make_translate_link($title, $cod, $cat, $camp, $tra_type);
+    } else {
+        $translate_url = make_translate_link_old($title, $cod, $cat, $camp, $tra_type);
+    }
     //---
     $tab = "<a href='$translate_url' class='btn btn-outline-primary btn-sm' target='_blank'>Translate</a>";
     //---
