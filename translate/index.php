@@ -75,9 +75,6 @@ function insertPage($title_o, $word, $tr_type, $cat, $camp, $coden, $useree, $te
     execute_query($quae_new, $params = $params);
 }
 
-// Display login button if user is not logged in
-if ($useree == '') echo login_card();
-//---
 function go_to_translate_url($output, $go, $title_o, $coden, $tr_type, $test)
 {
     // ---
@@ -121,6 +118,9 @@ function go_to_translate_url($output, $go, $title_o, $coden, $tr_type, $test)
         HTML;
     }
 }
+//---
+// Display login button if user is not logged in
+if ($useree == '') echo login_card();
 //---
 $user_valid = ($useree != '') ? true : false;
 $go = $_GET['go'] ?? '';

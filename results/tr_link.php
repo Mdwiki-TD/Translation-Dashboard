@@ -6,10 +6,10 @@ namespace Results\TrLink;
 Usage:
 
 use function Results\TrLink\make_translate_link;
-use function Results\TrLink\make_translate_link_old;
+use function Results\TrLink\make_translate_link_medwiki;
 
 */
-function make_translate_link($title, $cod, $cat, $camp, $tra_type)
+function make_translate_link_medwiki($title, $cod, $cat, $camp, $tra_type)
 {
     // ---
     global $cat_to_camp;
@@ -35,7 +35,7 @@ function make_translate_link($title, $cod, $cat, $camp, $tra_type)
     return $url;
 }
 
-function make_translate_link_old($title, $cod, $cat, $camp, $tra_type)
+function make_translate_link($title, $cod, $cat, $camp, $tra_type)
 {
     // ---
     $cat2 = rawurlEncode($cat);

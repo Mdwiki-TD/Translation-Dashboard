@@ -7,12 +7,6 @@ include_once __DIR__ . '/actions/functions.php';
 include_once __DIR__ . '/actions/html.php';
 include_once __DIR__ . '/translate/en_api.php';
 include_once __DIR__ . '/translate/translator.php';
-
-if ($_SERVER['SERVER_NAME'] == 'localhost') {
-    include_once __DIR__ . '/translate/index2.php';
-} else {
-    include_once __DIR__ . '/translate/index.php';
-}
-
+include_once __DIR__ . '/translate/index.php';
 echo '</div>';
 include_once __DIR__ . '/foter.php';
