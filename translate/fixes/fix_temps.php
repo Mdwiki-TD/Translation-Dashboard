@@ -12,12 +12,14 @@ use function Translate\Fixes\FixTemps\remove_templates;
 use function WikiParse\Template\getTemplate;
 
 $tempsToDelete = [
+    "distinguish",
+    "use dmy dates",
+    'use mdy dates',
     "short description",
     "toc limit",
     'use american english',
-    'use mdy dates',
-    'use dmy dates',
     'sprotect',
+    'other uses',
     'about',
     'featured article',
     'redirect',

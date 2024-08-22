@@ -18,8 +18,8 @@ function get_url_result_curl(string $url): string
 
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_COOKIEJAR, "cookie.txt");
-    curl_setopt($ch, CURLOPT_COOKIEFILE, "cookie.txt");
+    // curl_setopt($ch, CURLOPT_COOKIEJAR, "cookie.txt");
+    // curl_setopt($ch, CURLOPT_COOKIEFILE, "cookie.txt");
 
     curl_setopt($ch, CURLOPT_USERAGENT, $usr_agent);
 

@@ -44,8 +44,8 @@ function getLoginToken()
 
 	$ch = curl_init($url);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	curl_setopt($ch, CURLOPT_COOKIEJAR, "cookie.txt");
-	curl_setopt($ch, CURLOPT_COOKIEFILE, "cookie.txt");
+	// curl_setopt($ch, CURLOPT_COOKIEJAR, "cookie.txt");
+	// curl_setopt($ch, CURLOPT_COOKIEFILE, "cookie.txt");
 
 	curl_setopt($ch, CURLOPT_USERAGENT, $usr_agent);
 
@@ -90,8 +90,8 @@ function loginRequest($logintoken)
 	curl_setopt($ch, CURLOPT_POST, true);
 	curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params2));
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	curl_setopt($ch, CURLOPT_COOKIEJAR, "cookie.txt");
-	curl_setopt($ch, CURLOPT_COOKIEFILE, "cookie.txt");
+	// curl_setopt($ch, CURLOPT_COOKIEJAR, "cookie.txt");
+	// curl_setopt($ch, CURLOPT_COOKIEFILE, "cookie.txt");
 	curl_setopt($ch, CURLOPT_USERAGENT, $usr_agent);
 
 	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
@@ -122,8 +122,8 @@ function getCSRFToken()
 	$ch = curl_init($url);
 
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	curl_setopt($ch, CURLOPT_COOKIEJAR, "cookie.txt");
-	curl_setopt($ch, CURLOPT_COOKIEFILE, "cookie.txt");
+	// curl_setopt($ch, CURLOPT_COOKIEJAR, "cookie.txt");
+	// curl_setopt($ch, CURLOPT_COOKIEFILE, "cookie.txt");
 	curl_setopt($ch, CURLOPT_USERAGENT, $usr_agent);
 
 	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
@@ -153,8 +153,8 @@ function send_params($params4)
 	curl_setopt($ch, CURLOPT_POST, true);
 	curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params4));
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	curl_setopt($ch, CURLOPT_COOKIEJAR, "cookie.txt");
-	curl_setopt($ch, CURLOPT_COOKIEFILE, "cookie.txt");
+	// curl_setopt($ch, CURLOPT_COOKIEJAR, "cookie.txt");
+	// curl_setopt($ch, CURLOPT_COOKIEFILE, "cookie.txt");
 	curl_setopt($ch, CURLOPT_USERAGENT, $usr_agent);
 
 	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);

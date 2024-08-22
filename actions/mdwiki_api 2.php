@@ -32,8 +32,8 @@ function get_url_params_result(string $endPoint, array $params = []): string
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_COOKIEJAR, "cookie.txt");
-    curl_setopt($ch, CURLOPT_COOKIEFILE, "cookie.txt");
+    // curl_setopt($ch, CURLOPT_COOKIEJAR, "cookie.txt");
+    // curl_setopt($ch, CURLOPT_COOKIEFILE, "cookie.txt");
     curl_setopt($ch, CURLOPT_USERAGENT, $usr_agent);
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
     curl_setopt($ch, CURLOPT_TIMEOUT, 5);
