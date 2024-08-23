@@ -154,8 +154,6 @@ class WikiTranslator
         $result = do_edit($title2, $newText, $suus);
         $success = $result['edit']['result'] ?? '';
 
-        test_print("PostToEnwiki result:" . json_encode($result));
-
         if ($success == 'Success') {
             return true;
         }

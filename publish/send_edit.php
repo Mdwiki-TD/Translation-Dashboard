@@ -3,6 +3,7 @@
 namespace Publish\Edit;
 /*
 Usage:
+include_once __DIR__ . '/../publish/send_edit.php';
 use function Publish\Edit\send_edit;
 */
 
@@ -88,11 +89,11 @@ function send_edit($title, $text, $summary, $wiki, $access_key, $access_secret)
 {
     // ---
     if ($wiki == '' || $title == '' || $text == '') {
-        return json_encode(['error' => 'title or text is empty']);
+        return ['error' => 'title or text is empty'];
     }
     // ---
     if ($access_key == '' || $access_secret == '') {
-        return json_encode(['error' => 'access key or secret is empty']);
+        return ['error' => 'access key or secret is empty'];
     }
     // ---
     return make_edit($title, $text, $summary, $wiki, $access_key, $access_secret);

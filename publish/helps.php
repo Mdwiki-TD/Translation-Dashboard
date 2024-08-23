@@ -3,8 +3,9 @@
 namespace Publish\Helps;
 /*
 Usage:
-use function Publish\Helps\add_access_to_db;
+include_once __DIR__ . '/../publish/helps.php';
 use function Publish\Helps\get_access_from_db;
+use function Publish\Helps\add_access_to_db;
 */
 
 include_once __DIR__ . '/../vendor_load.php';

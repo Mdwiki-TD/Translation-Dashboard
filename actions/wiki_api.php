@@ -8,9 +8,7 @@ use function Actions\WikiApi\make_view_by_number;
 use function Actions\WikiApi\get_views;
 */
 
-include_once(__DIR__ . '/../infos/user_account_new.php');
-
-$usr_agent = $user_agent;
+$usr_agent = "WikiProjectMed Translation Dashboard/1.0 (https://mdwiki.toolforge.org/; tools.mdwiki@toolforge.org)";
 
 function get_url_result_curl(string $url): string
 {

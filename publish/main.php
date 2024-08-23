@@ -1,11 +1,11 @@
 <?php
 include_once __DIR__ . '/../auth/config.php';
 include_once __DIR__ . '/../auth/helps.php';
-include_once __DIR__ . '/../auth/send_edit.php';
+// include_once __DIR__ . '/../auth/send_edit.php';
 
-include_once __DIR__ . '/helps.php';
 include_once __DIR__ . '/send_edit.php';
 include_once __DIR__ . '/text.php';
+include_once __DIR__ . '/helps.php';
 
 use function Publish\Helps\get_access_from_db;
 use function Publish\Edit\send_edit;

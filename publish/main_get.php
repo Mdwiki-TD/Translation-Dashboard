@@ -31,6 +31,7 @@ function open_fixwikirefs($target, $lang)
     HTML;
     // ----
 }
+
 function do_it($target, $text, $summary, $sourcetitle, $lang, $access_key, $access_secret)
 {
     if ($summary === "") {
