@@ -15,6 +15,7 @@ use function Translate\Fixes\FixImages\remove_images;
 use function Translate\Fixes\fix_langs_links\remove_lang_links;
 use function Translate\Fixes\FixTemps\remove_templates;
 use function Translate\Fixes\RefWork\remove_bad_refs;
+use function Actions\Functions\test_print;
 
 
 if (isset($_REQUEST['test'])) {
@@ -54,6 +55,8 @@ function text_changes_work($text, $allText, $expend_refs = false)
     $text = remove_images($text);
     // ---
     $text = remove_categories($text);
+    // ---
+    test_print("text_changes_work: lenth of text:" . strlen($text));
     // ---
     return $text;
 }

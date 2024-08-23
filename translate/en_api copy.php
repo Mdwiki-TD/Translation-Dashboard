@@ -24,8 +24,10 @@ use function Translate\EnAPI\Find_pages_exists_or_not;
 
 
 include_once(__DIR__ . '/../infos/user_account_new.php');
+require_once __DIR__ . '/../actions/curl_api.php';
 
 use function Actions\Functions\test_print;
+use function Actions\CurlApi\post_url_params_result;
 
 $my_username = $my_username;
 $lgpass_enwiki = $lgpass_enwiki;
@@ -33,73 +35,40 @@ $usr_agent = $user_agent;
 
 $endPoint = "https://simple.wikipedia.org/w/api.php";
 
-function post_url_params_enwiki(string $endPoint, array $params = []): string
-{
-    $usr_agent = "WikiProjectMed Translation Dashboard/1.0 (https://mdwiki.toolforge.org/; tools.mdwiki@toolforge.org)";
-
-    $ch = curl_init();
-
-    curl_setopt($ch, CURLOPT_URL, $endPoint);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    // curl_setopt($ch, CURLOPT_COOKIEJAR, "cookie.txt");
-    // curl_setopt($ch, CURLOPT_COOKIEFILE, "cookie.txt");
-    curl_setopt($ch, CURLOPT_USERAGENT, $usr_agent);
-    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-
-    $output = curl_exec($ch);
-    $url = "{$endPoint}?" . http_build_query($params);
-    // ---
-    // remove "&format=json" from $url then make it link <a href="$url2">
-    $url2 = str_replace('&format=json', '', $url);
-    $url2 = "<a target='_blank' href='$url2'>$url2</a>";
-    //---
-    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    //---
-    if ($http_code !== 200) {
-        test_print('Error: API request failed with status code ' . $http_code);
-    }
-    //---
-    test_print("post_url_params_enwiki:(http_code: $http_code) $url2");
-    // ---
-    if ($output === FALSE) {
-        test_print("cURL Error: " . curl_error($ch));
-    }
-
-    if (curl_errno($ch)) {
-        test_print('Error:' . curl_error($ch));
-    }
-
-
-    curl_close($ch);
-    return $output;
-}
-
-function send_params($params, $funcs)
-{
-	global $endPoint;
-	// ---
-	$output = post_url_params_enwiki($endPoint, $params);
-	// ---
-	test_print("$funcs: " . json_encode($output));
-	//---
-	return $output;
-}
-
 // Step 1: GET request to fetch login token
 function getLoginToken()
 {
+	global $endPoint, $usr_agent;
+
 	$params1 = [
 		"action" => "query",
 		"meta" => "tokens",
 		"type" => "login",
 		"format" => "json"
 	];
+
+	$url = $endPoint . "?" . http_build_query($params1);
+
+	$ch = curl_init($url);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	// curl_setopt($ch, CURLOPT_COOKIEJAR, "cookie.txt");
+	// curl_setopt($ch, CURLOPT_COOKIEFILE, "cookie.txt");
+
+	curl_setopt($ch, CURLOPT_USERAGENT, $usr_agent);
+
+	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+	curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+
+	$output = curl_exec($ch);
+	if ($output === FALSE) {
+		echo ("<br>cURL Error: " . curl_error($ch) . "<br>$url");
+	}
+	curl_close($ch);
 	// ---
-	$output = send_params($params1, "getLoginToken");
-	// ---
+	// echo "<pre>";
+	// echo htmlentities(var_export($output, true));
+	// echo "</pre><br>";
+	//---
 	$result = json_decode($output, true);
 	if (!is_array($result)) {
 		$result = array();
@@ -112,7 +81,7 @@ function getLoginToken()
 // (https://www.mediawiki.org/wiki/Special:BotPasswords) for lgname & lgpassword
 function loginRequest($logintoken)
 {
-	global $my_username, $lgpass_enwiki;
+	global $endPoint, $usr_agent, $my_username, $lgpass_enwiki;
 
 	$params2 = [
 		"action" => "login",
@@ -121,30 +90,94 @@ function loginRequest($logintoken)
 		"lgtoken" => $logintoken,
 		"format" => "json"
 	];
-	// ---
-	$output = send_params($params2, "loginRequest");
-	// ---
+
+	$ch = curl_init();
+
+	curl_setopt($ch, CURLOPT_URL, $endPoint);
+	curl_setopt($ch, CURLOPT_POST, true);
+	curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params2));
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	// curl_setopt($ch, CURLOPT_COOKIEJAR, "cookie.txt");
+	// curl_setopt($ch, CURLOPT_COOKIEFILE, "cookie.txt");
+	curl_setopt($ch, CURLOPT_USERAGENT, $usr_agent);
+
+	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+	curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+
+	$url = "{$endPoint}?" . http_build_query($params2);
+
+	$output = curl_exec($ch);
+	if ($output === FALSE) {
+		echo ("<br>cURL Error: " . curl_error($ch) . "<br>$url");
+	}
+	curl_close($ch);
 }
 
 // Step 3: GET request to fetch CSRF token
 function getCSRFToken()
 {
+	global $endPoint, $usr_agent;
+
 	$params3 = [
 		"action" => "query",
 		"meta" => "tokens",
 		"format" => "json"
 	];
-	// ---
-	$output = send_params($params3, "getCSRFToken");
-	// ---
+
+	$url = $endPoint . "?" . http_build_query($params3);
+
+	$ch = curl_init($url);
+
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	// curl_setopt($ch, CURLOPT_COOKIEJAR, "cookie.txt");
+	// curl_setopt($ch, CURLOPT_COOKIEFILE, "cookie.txt");
+	curl_setopt($ch, CURLOPT_USERAGENT, $usr_agent);
+
+	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+	curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+
+	$output = curl_exec($ch);
+	if ($output === FALSE) {
+		echo ("<br>cURL Error: " . curl_error($ch) . "<br>$url");
+	}
+	curl_close($ch);
+
 	$result = json_decode($output, true);
-	//---
 	if (!is_array($result)) {
 		$result = array();
 	}
 	return $result["query"]["tokens"]["csrftoken"] ?? "";
 }
 
+// Step 4: POST request to edit a page
+function send_params($params4)
+{
+	global $endPoint, $usr_agent;
+
+	$ch = curl_init();
+
+	curl_setopt($ch, CURLOPT_URL, $endPoint);
+	curl_setopt($ch, CURLOPT_POST, true);
+	curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params4));
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	// curl_setopt($ch, CURLOPT_COOKIEJAR, "cookie.txt");
+	// curl_setopt($ch, CURLOPT_COOKIEFILE, "cookie.txt");
+	curl_setopt($ch, CURLOPT_USERAGENT, $usr_agent);
+
+	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+	curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+
+	$output = curl_exec($ch);
+
+	$url = "{$endPoint}?" . http_build_query($params4);
+
+	if ($output === FALSE) {
+		echo ("<br>cURL Error: " . curl_error($ch) . "<br>$url");
+	}
+	curl_close($ch);
+
+	return $output;
+}
 
 function do_edit($title, $text, $summary)
 {

@@ -111,7 +111,7 @@ class WikiTranslator
         $newText = text_changes_work($newText, $allText, $this->expend_refs);
 
         if ($newText === '') {
-            echo ('no text');
+            echo('no text');
             return "";
         }
         // if newtext has Category:Mdwiki Translation Dashboard articles dont add it again!
@@ -154,6 +154,8 @@ class WikiTranslator
         $result = do_edit($title2, $newText, $suus);
         $success = $result['edit']['result'] ?? '';
 
+        test_print("PostToEnwiki result:" . json_encode($result));
+
         if ($success == 'Success') {
             return true;
         }
@@ -169,13 +171,16 @@ class WikiTranslator
         4. put to enwiki
         5. return result
         */
+        test_print("startTranslate():");
         $newText = $this->parseText();
 
         if ($newText === '' || $newText == '' || $newText == 'n' || $newText == 'notext') {
+            test_print('notext');
             return "notext";
         }
 
         if (strlen($newText) < 1000) {
+            test_print('text too short: ' . strlen($newText));
             return 'notext';
         }
 
@@ -191,6 +196,7 @@ function startTranslatePhp($title, $traType, $return_text, $expend_refs = true)
     $wikiTranslator = new WikiTranslator($title, $traType, $expend_refs = $expend_refs);
 
     if ($return_text) {
+        test_print("startTranslatePhp: return_text.");
         return $wikiTranslator->parseText();
     }
 

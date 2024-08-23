@@ -1,14 +1,15 @@
 <?php
 
-namespace Actions\MdwikiApi;
+namespace Actions\CurlApi;
 /*
 Usage:
-use function Actions\MdwikiApi\get_mdwiki_url_with_params;
+require_once __DIR__ . '/../actions/curl_api.php';
+use function Actions\CurlApi\post_url_params_result;
 */
 
 use function Actions\Functions\test_print;
 
-function post_url_mdwiki(string $endPoint, array $params = []): string
+function post_url_params_result(string $endPoint, array $params = []): string
 {
     $usr_agent = "WikiProjectMed Translation Dashboard/1.0 (https://mdwiki.toolforge.org/; tools.mdwiki@toolforge.org)";
 
@@ -50,19 +51,4 @@ function post_url_mdwiki(string $endPoint, array $params = []): string
 
     curl_close($ch);
     return $output;
-}
-
-function get_mdwiki_url_with_params(array $params): array
-{
-    $endPoint = 'https://mdwiki.org/w/api.php';
-    //---
-    $out = post_url_mdwiki($endPoint, $params);
-    //---
-    $result = json_decode($out, true);
-    //---
-    if (!is_array($result)) {
-        $result = array();
-    }
-    //---
-    return $result;
 }

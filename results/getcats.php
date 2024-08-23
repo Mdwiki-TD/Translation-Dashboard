@@ -62,7 +62,7 @@ function open_json_file($file_path)
     // Check if the file exists
     if (!is_file($file_path)) {
         // Handle the case when the file does not exist
-        test_print("$file_path does not exist<br>");
+        test_print("$file_path does not exist");
         return $new_list; // Return an empty list
     }
 
@@ -72,7 +72,7 @@ function open_json_file($file_path)
     // Check if file_get_contents was successful
     if ($text === false) {
         // Handle the case when file_get_contents fails
-        test_print("Failed to read file contents from $file_path<br>");
+        test_print("Failed to read file contents from $file_path");
         return $new_list; // Return an empty list
     }
 
@@ -82,12 +82,12 @@ function open_json_file($file_path)
     // Check if json_decode was successful
     if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
         // Handle the case when json_decode fails
-        test_print("Failed to decode JSON from $file_path<br>");
+        test_print("Failed to decode JSON from $file_path");
         return $new_list; // Return an empty list
     }
 
     // Return the decoded data
-    // test_print("Successfully decoded JSON from $file_path. " . count($data) . " <br>");
+    // test_print("Successfully decoded JSON from $file_path. " . count($data) . " ");
     return $data;
 }
 
@@ -104,7 +104,7 @@ function get_cat_from_cache($cat)
     // Check if 'list' key exists in the decoded JSON
     if (!isset($new_list['list']) || !is_array($new_list['list'])) {
         // Handle the case when 'list' key is missing or not an array
-        test_print("Invalid format in JSON file $file_path<br>");
+        test_print("Invalid format in JSON file $file_path");
         return $empty_list; // Return an empty list
     }
     $data = array();
@@ -117,7 +117,7 @@ function get_cat_from_cache($cat)
     }
 
     // Print list length
-    // test_print("<br>get_cat_from_cache: list length: " . count($data));
+    // test_print("get_cat_from_cache: list length: " . count($data));
 
     return $data;
 }
@@ -172,7 +172,7 @@ function get_categorymembers($cat)
     // $tt['items']    = $items;
     // $tt['continue'] = $cmcontinue;
     //---
-    test_print("<br>get_categorymembers() items size:" . count($items));
+    test_print("get_categorymembers() items size:" . count($items));
     //---
     return $items;
     //---
@@ -221,7 +221,7 @@ function get_mdwiki_cat_members($cat, $use_cache = true, $depth = 0, $camp = '')
             };
         };
         //---
-        // test_print("<br>cats2 size:" . count($cats2));
+        // test_print("cats2 size:" . count($cats2));
         //---
         $depth_done++;
         //---
@@ -232,7 +232,7 @@ function get_mdwiki_cat_members($cat, $use_cache = true, $depth = 0, $camp = '')
     // remove duplicates from $titles
     $titles = array_unique($titles);
     //---
-    // test_print("<br>cats size:" . count($cats));
+    // test_print("cats size:" . count($cats));
     //---
     $newtitles = array();
     foreach ($titles as $title) {
@@ -246,8 +246,8 @@ function get_mdwiki_cat_members($cat, $use_cache = true, $depth = 0, $camp = '')
         };
     };
     //---
-    test_print("<br>newtitles size:" . count($newtitles));
-    test_print("<br>end of get_mdwiki_cat_members <br>===============================<br>");
+    test_print("newtitles size:" . count($newtitles));
+    test_print("end of get_mdwiki_cat_members <br>===============================");
     //---
     return $newtitles;
     //---

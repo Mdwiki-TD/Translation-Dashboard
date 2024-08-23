@@ -9,6 +9,7 @@ use function Actions\MdwikiSql\execute_query;
 use function Translate\EnAPI\Find_pages_exists_or_not;
 use function Translate\Translator\startTranslatePhp;
 use function Actions\Html\make_target_url;
+use function Actions\Functions\test_print;
 
 $pathParts = explode('public_html', __FILE__);
 // the root path is the first part of the split file path
@@ -69,9 +70,7 @@ function insertPage($title_o, $word, $tr_type, $cat, $camp, $coden, $useree, $te
     SQL;
 
     $params = [$title_o, $word, $tr_type, $cat, $coden, $useree, $title_o, $coden, $useree];
-    if ($test != '') {
-        echo "<br>$quae_new<br>";
-    }
+    test_print("INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target, add_date)");
     execute_query($quae_new, $params = $params);
 }
 
@@ -90,10 +89,10 @@ function go_to_translate_url($output, $go, $title_o, $coden, $tr_type, $test)
     if (trim($output) == true || $go) {
 
         if ($test != "" && (!$go)) {
+            $wiki = $coden . "wiki";
             echo <<<HTML
-                <br>trim($output) == true<br>
-                start_tr<br>
-                $url
+                <br>trim($output) == true
+                <br><a href='$url' target='_blank'>go to ContentTranslation in $wiki</a>
             HTML;
         } else {
             echo <<<HTML
@@ -158,15 +157,18 @@ if ($title_o != '' && $coden != '' && $user_valid) {
     // ---
     $output = startTranslatePhp($title_o, $tr_type, false, $expend_refs = $fix_ref_in_text);
     // ---
+    test_print("output startTranslatePhp: ($output)");
+    // ---
     if ($output != true) {
         $output = Find_pages_exists_or_not($title2);
+        test_print("output Find_pages_exists_or_not: ($output)");
     };
     // ---
-    echo $output;
+    echo "<br>result: $output";
     // ---
     if ($output == true) {
         insertPage($title_o, $word, $tr_type, $cat, $camp, $coden, $useree, $test);
+        // ---
+        go_to_translate_url($output, $go, $title_o, $coden, $tr_type, $test);
     }
-    // ---
-    go_to_translate_url($output, $go, $title_o, $coden, $tr_type, $test);
 }
