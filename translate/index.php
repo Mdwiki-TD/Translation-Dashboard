@@ -1,14 +1,17 @@
 <?php
 // Define root path
+require_once __DIR__ . '/../actions/curl_api.php';
+
+use function Actions\CurlApi\post_url_params_result;
 use function Actions\Html\login_card;
 use function Actions\Html\make_input_group;
 use function Actions\Html\make_mdwiki_title;
 use function Actions\Html\make_translation_url;
 use function Actions\Functions\escape_string;
 use function Actions\MdwikiSql\execute_query;
-use function Translate\EnAPI\Find_pages_exists_or_not;
 use function Translate\Translator\startTranslatePhp;
 use function Actions\Html\make_target_url;
+use function Actions\Functions\test_print;
 
 $pathParts = explode('public_html', __FILE__);
 // the root path is the first part of the split file path
@@ -49,7 +52,9 @@ if (isset($_GET['form'])) {
 // Function to insert page into the database
 function insertPage($title_o, $word, $tr_type, $cat, $camp, $coden, $useree, $test)
 {
-    if ($useree == "") {
+    test_print("INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target, add_date)");
+    // ---
+    if ($useree == "" || $useree == "Mr. Ibrahem" || $useree == "MdWikiBot") {
         return;
     }
     $useree  = escape_string($useree);
@@ -69,10 +74,37 @@ function insertPage($title_o, $word, $tr_type, $cat, $camp, $coden, $useree, $te
     SQL;
 
     $params = [$title_o, $word, $tr_type, $cat, $coden, $useree, $title_o, $coden, $useree];
-    if ($test != '') {
-        echo "<br>$quae_new<br>";
-    }
     execute_query($quae_new, $params = $params);
+}
+
+
+function Find_pages_exists_or_not($title)
+{
+	// {"action": "query", "titles": title, "rvslots": "*"}
+	$params = [
+		"action" => "query",
+		"titles" => $title,
+		'format' => 'json',
+		"formatversion" => 2
+	];
+    $endPoint = "https://simple.wikipedia.org/w/api.php";
+
+	$result = post_url_params_result($endPoint, $params);
+
+	$result = $result['query']['pages'] ?? [];
+	// ---
+	test_print(json_encode($result));
+	// ---
+	if (count($result) > 0) {
+		$page = $result[0];
+		$misssing = $page['missing'] ?? '';
+		$pageid = $page['pageid'] ?? '';
+		// ---
+		if ($misssing == '' || $pageid != '') {
+			return true;
+		}
+	}
+	return false;
 }
 
 function go_to_translate_url($output, $go, $title_o, $coden, $tr_type, $test)
@@ -90,10 +122,10 @@ function go_to_translate_url($output, $go, $title_o, $coden, $tr_type, $test)
     if (trim($output) == true || $go) {
 
         if ($test != "" && (!$go)) {
+            $wiki = $coden . "wiki";
             echo <<<HTML
-                <br>trim($output) == true<br>
-                start_tr<br>
-                $url
+                <br>trim(output) == "true"
+                <br><a href='$url' target='_blank'>go to ContentTranslation in $wiki</a>
             HTML;
         } else {
             echo <<<HTML
@@ -158,15 +190,18 @@ if ($title_o != '' && $coden != '' && $user_valid) {
     // ---
     $output = startTranslatePhp($title_o, $tr_type, false, $expend_refs = $fix_ref_in_text);
     // ---
+    test_print("output startTranslatePhp: ($output)");
+    // ---
     if ($output != true) {
         $output = Find_pages_exists_or_not($title2);
+        test_print("output Find_pages_exists_or_not: ($output)");
     };
     // ---
-    echo $output;
+    echo "<br>result: $output";
     // ---
     if ($output == true) {
         insertPage($title_o, $word, $tr_type, $cat, $camp, $coden, $useree, $test);
+        // ---
+        go_to_translate_url($output, $go, $title_o, $coden, $tr_type, $test);
     }
-    // ---
-    go_to_translate_url($output, $go, $title_o, $coden, $tr_type, $test);
 }

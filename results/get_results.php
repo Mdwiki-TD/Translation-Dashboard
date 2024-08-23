@@ -23,12 +23,12 @@ function get_cat_exists_and_missing($cat, $camp, $depth, $code, $use_cache = tru
     foreach ($members_to as $mr) {
         $members[] = $mr;
     };
-    test_print("<br>members size:" . count($members));
+    test_print("members size:" . count($members));
     $json_file = __DIR__ . "/../Tables/cash_exists/$code.json";
 
     $exists = open_json_file($json_file);
 
-    test_print("<br>$json_file: exists size:" . count($exists));
+    test_print("$json_file: exists size:" . count($exists));
 
     // Find missing elements
     // $missing = array_diff($members, $exists);
@@ -47,7 +47,7 @@ function get_cat_exists_and_missing($cat, $camp, $depth, $code, $use_cache = tru
         "len_of_exists" => $exs_len,
         "missing" => $missing
     );
-    test_print("<br>end of get_cat_exists_and_missing <br>===============================<br>");
+    test_print("end of get_cat_exists_and_missing <br>===============================");
     return $results;
 }
 
@@ -64,16 +64,16 @@ function get_results($cat, $camp, $depth, $code)
     //---
     $cat2 = $camps_cat2[$camp] ?? '';
     //---
-    test_print("items_missing:" . count($items_missing) . "<br>");
+    test_print("items_missing:" . count($items_missing) . "");
     //---
     if ($cat2 != '' && $cat2 != $cat) {
         $cat2_members = get_mdwiki_cat_members($cat2, $use_cache = true, $depth = $depth, $camp = $camp);
         $items_missing2 = array_intersect($items_missing, $cat2_members);
-        test_print("items_missing2:" . count($items_missing2) . "<br>");
+        test_print("items_missing2:" . count($items_missing2) . "");
         $items_missing = $items_missing2;
     }
     //---
-    test_print("len_of_exists_pages: $len_of_exists_pages<br>");
+    test_print("len_of_exists_pages: $len_of_exists_pages");
     //---
     $missing = array();
     foreach ($items_missing as $key => $cca) if (!in_array($cca, $missing)) $missing[] = $cca;

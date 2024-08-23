@@ -73,7 +73,7 @@ if (in_array($ty, $tools_folders)) {
 } elseif (is_file($adminfile) && user_in_coord) {
 	require $adminfile;
 } else {
-	test_print("<br>can't find $adminfile");
+	test_print("can't find $adminfile");
 	require 'coordinator/404.php';
 };
 //---

@@ -1,5 +1,13 @@
 <?php
 
+namespace OAuth\SendEdit;
+/*
+Usage:
+include_once __DIR__ . '/../auth/send_edit.php';
+use function OAuth\SendEdit\auth_do_edit;
+use function OAuth\SendEdit\get_edits_token;
+*/
+
 include_once __DIR__ . '/../vendor_load.php';
 
 use MediaWiki\OAuthClient\Client;
@@ -30,7 +38,7 @@ function get_edits_token($client, $accessToken, $apiUrl)
     return $data->query->tokens->csrftoken;
 }
 
-function do_edit($title, $text, $summary, $wiki, $access_key, $access_secret)
+function auth_do_edit($title, $text, $summary, $wiki, $access_key, $access_secret)
 {
     global $gUserAgent, $consumerKey, $consumerSecret;
     // ---

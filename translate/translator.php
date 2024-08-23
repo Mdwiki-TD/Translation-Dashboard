@@ -1,4 +1,5 @@
 <?php
+
 namespace Translate\Translator;
 
 /*
@@ -17,7 +18,7 @@ include_once __DIR__ . '/fixtext.php';
 
 use function Actions\WikiApi\get_url_result_curl;
 use function Actions\Functions\test_print;
-use function Translate\EnAPI\do_edit;
+use function Translate\EnAPI\do_en_edit;
 use function Translate\FixText\text_changes_work;
 
 use function Actions\MdwikiApi\get_mdwiki_url_with_params;
@@ -36,6 +37,23 @@ class WikiTranslator
         $this->traType = $traType;
         $this->expend_refs = $expend_refs;
         $this->wholeArticle = ($traType == 'all') ? true : false;
+
+        $user = 'User:Mr. Ibrahem';
+        // if global_username is MdWikiBot then use it
+        if (global_username == 'MdWikiBot') {
+            $user = 'User:MdWikiBot';
+        }
+        $this->title2 = $user . '/' . $this->title;
+
+        if ($this->wholeArticle) {
+            $this->title2 = $user . '/' . $this->title . '/full';
+        }
+
+        $this->url = "https://simple.wikipedia.org/w/index.php?title={$this->title2}";
+
+        $url = "<a target='_blank' href='$this->url'>{$this->title2}</a>";
+
+        test_print("title: $url");
     }
 
     private function getTextFromMdWiki()
@@ -145,13 +163,7 @@ class WikiTranslator
         }
         $suus = 'from https://mdwiki.org/wiki/' . str_replace(' ', '_', $this->title);
         // $suus = '';
-        $title2 = 'User:Mr. Ibrahem/' . $this->title;
-
-        if ($this->wholeArticle) {
-            $title2 = 'User:Mr. Ibrahem/' . $this->title . '/full';
-        }
-
-        $result = do_edit($title2, $newText, $suus);
+        $result = do_en_edit($this->title2, $newText, $suus);
         $success = $result['edit']['result'] ?? '';
 
         if ($success == 'Success') {
@@ -169,13 +181,16 @@ class WikiTranslator
         4. put to enwiki
         5. return result
         */
+        test_print("startTranslate():");
         $newText = $this->parseText();
 
         if ($newText === '' || $newText == '' || $newText == 'n' || $newText == 'notext') {
+            test_print('notext');
             return "notext";
         }
 
         if (strlen($newText) < 1000) {
+            test_print('text too short: ' . strlen($newText));
             return 'notext';
         }
 
@@ -187,15 +202,24 @@ class WikiTranslator
 
 function startTranslatePhp($title, $traType, $return_text, $expend_refs = true)
 {
-
     $wikiTranslator = new WikiTranslator($title, $traType, $expend_refs = $expend_refs);
 
     if ($return_text) {
+        test_print("startTranslatePhp: return_text.");
         return $wikiTranslator->parseText();
     }
 
     $result = $wikiTranslator->startTranslate();
-
+    if (isset($_GET["go_simple"])) {
+        echo <<<HTML
+            <script type='text/javascript'>
+            window.open('$wikiTranslator->url', '_self');
+            </script>
+            <noscript>
+                <meta http-equiv='refresh' content='0; url={$wikiTranslator->url}'>
+            </noscript>
+        HTML;
+    }
     return $result;
 }
 

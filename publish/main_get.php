@@ -6,6 +6,7 @@ include_once __DIR__ . '/../Tables/sql_tables.php'; // $sql_qids $cat_titles $ca
 include_once __DIR__ . '/add_to_db.php';
 include_once __DIR__ . '/text.php';
 
+use function OAuth\SendEdit\auth_do_edit;
 use function OAuth\Helps\get_from_cookie;
 use function Publish\AddToDb\InsertPageTarget;
 use function Publish\Text\get_medwiki_text;
@@ -31,13 +32,14 @@ function open_fixwikirefs($target, $lang)
     HTML;
     // ----
 }
+
 function do_it($target, $text, $summary, $sourcetitle, $lang, $access_key, $access_secret)
 {
     if ($summary === "") {
         $summary = 'Created by translating the page [[:mdwiki:' . $sourcetitle . '|' . $sourcetitle . ']]. #mdwikicx .';
     }
 
-    $editit = do_edit($target, $text, $summary, $lang, $access_key, $access_secret);
+    $editit = auth_do_edit($target, $text, $summary, $lang, $access_key, $access_secret);
 
     print(json_encode($editit, JSON_PRETTY_PRINT));
 

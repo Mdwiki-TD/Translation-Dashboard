@@ -68,7 +68,7 @@ function get_cxtoken($wiki, $access_key, $access_secret)
     $editResult = json_decode($response);
     // ---
     if ($editResult == null || isset($editResult->error)) {
-        echo "<br>make_edit: Error: " . json_last_error() . " " . json_last_error_msg();
+        echo "<br>get_cxtoken: Error: " . json_last_error() . " " . json_last_error_msg();
     }
     // ---
     return $editResult;
