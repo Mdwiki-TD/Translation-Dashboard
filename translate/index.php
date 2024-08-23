@@ -52,7 +52,9 @@ if (isset($_GET['form'])) {
 // Function to insert page into the database
 function insertPage($title_o, $word, $tr_type, $cat, $camp, $coden, $useree, $test)
 {
-    if ($useree == "") {
+    test_print("INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target, add_date)");
+    // ---
+    if ($useree == "" || $useree == "Mr. Ibrahem" || $useree == "MdWikiBot") {
         return;
     }
     $useree  = escape_string($useree);
@@ -72,7 +74,6 @@ function insertPage($title_o, $word, $tr_type, $cat, $camp, $coden, $useree, $te
     SQL;
 
     $params = [$title_o, $word, $tr_type, $cat, $coden, $useree, $title_o, $coden, $useree];
-    test_print("INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target, add_date)");
     execute_query($quae_new, $params = $params);
 }
 
@@ -123,7 +124,7 @@ function go_to_translate_url($output, $go, $title_o, $coden, $tr_type, $test)
         if ($test != "" && (!$go)) {
             $wiki = $coden . "wiki";
             echo <<<HTML
-                <br>trim($output) == true
+                <br>trim(output) == "true"
                 <br><a href='$url' target='_blank'>go to ContentTranslation in $wiki</a>
             HTML;
         } else {
