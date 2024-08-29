@@ -29,6 +29,9 @@ class WikiTranslator
     private $traType;
     private $expend_refs;
     private $wholeArticle;
+    public $revid;
+    public $title2;
+    public $url;
 
     public function __construct($title, $traType, $expend_refs = true)
     {
@@ -37,6 +40,7 @@ class WikiTranslator
         $this->traType = $traType;
         $this->expend_refs = $expend_refs;
         $this->wholeArticle = ($traType == 'all') ? true : false;
+        $this->revid = "";
 
         $user = 'User:Mr. Ibrahem';
         // if global_username is MdWikiBot then use it
@@ -51,9 +55,9 @@ class WikiTranslator
 
         $this->url = "https://simple.wikipedia.org/w/index.php?title={$this->title2}";
 
-        $url = "<a target='_blank' href='$this->url'>{$this->title2}</a>";
+        $urle = "<a target='_blank' href='$this->url'>{$this->title2}</a>";
 
-        test_print("title: $url");
+        test_print("title: $urle");
     }
 
     private function getTextFromMdWiki()
@@ -63,11 +67,12 @@ class WikiTranslator
             "action" => "parse",
             "format" => "json",
             "page" => $this->title,
-            "prop" => "wikitext"
+            "prop" => "wikitext|revid"
         );
         $json2 = get_mdwiki_url_with_params($params2);
 
         $allText = $json2["parse"]["wikitext"]["*"] ?? '';
+        $this->revid = $json2["parse"]["revid"] ?? '';
 
         if ($this->wholeArticle) {
             $first = $allText;
@@ -77,40 +82,11 @@ class WikiTranslator
                 "format" => "json",
                 "page" => $this->title,
                 "section" => "0",
-                "prop" => "wikitext"
+                "prop" => "wikitext|revid"
             );
             $json1 = get_mdwiki_url_with_params($params);
             $first = $json1["parse"]["wikitext"]["*"] ?? '';
             // ---
-            if ($first != '') {
-                $first .= "\n==References==\n<references />";
-            }
-        }
-
-        $text = $first;
-
-        return array("text" => $text, "allText" => $allText);
-    }
-
-    private function getTextFromMdWiki_raw()
-    {
-        $first = '';
-        $allText = '';
-
-        $url = "https://mdwiki.org/wiki/" . $this->title . "?action=raw";
-
-        test_print("file_get_contents($url);");
-        $allText = file_get_contents($url, false, stream_context_create(array('http' => array('follow_location' => false))));
-
-        if ($allText === FALSE) {
-            $allText = get_url_result_curl($url);
-        };
-
-        if ($this->wholeArticle) {
-            $first = $allText;
-        } else {
-            // split before the first header ==
-            $first = explode('==', $allText)[0];
             if ($first != '') {
                 $first .= "\n==References==\n<references />";
             }
@@ -126,7 +102,7 @@ class WikiTranslator
 
         $newText = $text;
 
-        $newText = text_changes_work($newText, $allText, $this->expend_refs);
+        $newText = text_changes_work($newText, $allText, $this->expend_refs, $this->title);
 
         if ($newText === '') {
             echo ('no text');
@@ -161,7 +137,11 @@ class WikiTranslator
             echo ('no text');
             return "notext";
         }
-        $suus = 'from https://mdwiki.org/wiki/' . str_replace(' ', '_', $this->title);
+        // $suus = 'from https://mdwiki.org/wiki/' . str_replace(' ', '_', $this->title);
+
+        $title2 = str_replace('_', ' ', $this->title);
+
+        $suus = 'from mdwiki: [[:mdwiki:Special:Redirect/revision/' . $this->revid . '|' . $title2 . ']]';
         // $suus = '';
         $result = do_en_edit($this->title2, $newText, $suus);
         $success = $result['edit']['result'] ?? '';
