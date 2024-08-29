@@ -1,4 +1,5 @@
 <?php
+
 namespace Translate\FixText;
 
 /*
@@ -13,6 +14,8 @@ use function Translate\Fixes\ExpendRefs\refs_expend_work;
 use function Translate\Fixes\FixCats\remove_categories;
 use function Translate\Fixes\FixImages\remove_images;
 use function Translate\Fixes\fix_langs_links\remove_lang_links;
+use function Translate\Fixes\FixTemps\remove_templates_lead;
+use function Translate\Fixes\FixTemps\add_missing_title;
 use function Translate\Fixes\FixTemps\remove_templates;
 use function Translate\Fixes\RefWork\remove_bad_refs;
 use function Actions\Functions\test_print;
@@ -37,8 +40,15 @@ include_once __DIR__ . '/fixes/del_mt_refs.php';
 include_once __DIR__ . '/fixes/expend_refs.php';
 include_once __DIR__ . '/fixes/ref_work.php';
 
-function text_changes_work($text, $allText, $expend_refs = false)
+function text_changes_work($text, $allText, $expend_refs = false, $title)
 {
+    // ---
+    $title = str_replace('_', ' ', $title);
+    // ---
+    $text = str_replace("{{drugbox", "{{Infobox drug", $text);
+    $text = str_replace("{{Drugbox", "{{Infobox drug", $text);
+    // ---
+    $text = add_missing_title($text, $title);
     // ---
     if ($expend_refs) {
         $text = refs_expend_work($text, $allText);
@@ -48,7 +58,8 @@ function text_changes_work($text, $allText, $expend_refs = false)
     // ---
     $text = del_empty_refs($text);
     // ---
-    $text = remove_templates($text);
+    $text = remove_templates_lead($text);
+    // $text = remove_templates($text);
     // ---
     $text = remove_lang_links($text);
     // ---

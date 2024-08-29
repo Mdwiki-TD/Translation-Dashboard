@@ -14,7 +14,6 @@ use function Translate\Translator\startTranslatePhp;
 use function Translate\Translator\TranslatePhpEditText;
 use function Actions\Functions\test_print;
 
-// ---
 function make_form($text)
 {
     // ---

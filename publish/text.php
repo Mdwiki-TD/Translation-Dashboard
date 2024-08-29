@@ -21,6 +21,10 @@ function get_medwiki_text($target)
     $endPoint = "https://medwiki.toolforge.org/md/index.php?";
 
     $result = post_url_params_result($endPoint, $params);
-
+    $result = trim($result);
+    // if $result start with <pre> and end with </pre> remove them
+    if (substr($result, 0, 5) == '<pre>' && substr($result, -6) == '</pre>') {
+        $result = substr($result, 5, -6);
+    }
     return $result;
 }

@@ -23,3 +23,5 @@ composer.lock1
 composer.json1
 auth/x.php
 actions/mdwiki_api copy.php
+translate/fixes/test/new.txt
+/translate/fixes/test
