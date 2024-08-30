@@ -30,7 +30,7 @@ $summary = $_POST['summary'] ?? '';
 
 $access = get_access_from_db($user);
 if ($access == null) {
-    $editit = ['error' => 'no access', 'username' => $user];
+    $editit = ['edit'=> ['error' => 'no access'], 'username' => $user];
     // exit(1);
 } else {
     $access_key = $access['access_key'];
