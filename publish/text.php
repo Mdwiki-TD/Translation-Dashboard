@@ -18,7 +18,7 @@ function get_medwiki_text($target)
         'title' => $target,
         'action' => 'raw',
     ];
-    $endPoint = "https://medwiki.toolforge.org/md/index.php?";
+    $endPoint = "https://medwiki.toolforge.org/ws/index.php?";
 
     $result = post_url_params_result($endPoint, $params);
     $result = trim($result);
