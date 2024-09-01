@@ -5,10 +5,12 @@ include_once __DIR__ . '/../auth/send_edit.php';
 
 include_once __DIR__ . '/helps.php';
 include_once __DIR__ . '/fix_refs.php';
+include_once __DIR__ . '/add_to_db.php';
 
 use function OAuth\SendEdit\auth_do_edit;
 use function Publish\Helps\get_access_from_db;
 use function Publish\FixRefs\fix_wikirefs;
+use function Publish\AddToDb\InsertPageTarget;
 
 /*
 $t_Params = [
@@ -41,6 +43,13 @@ if ($access == null) {
     $text = fix_wikirefs($text, $lang);
     // ---
     $editit = auth_do_edit($title, $text, $summary, $lang, $access_key, $access_secret);
+    // ---
+    $Success = $editit['edit']['result'] ?? '';
+    // ---
+    if ($Success === 'Success') {
+        InsertPageTarget($sourcetitle, 'lead', $cat, $lang, $user, false, $title);
+    };
+    // ---
 }
 print(json_encode($editit, JSON_PRETTY_PRINT));
 
