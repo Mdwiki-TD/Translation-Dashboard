@@ -15,6 +15,7 @@ function refs_expend_work($first, $alltext)
 {
     if ($alltext == "") {
         $alltext = $first;
+
     }
     $refs = get_full_refs($alltext);
     // echo  "refs:" . count($refs) . "<br>";

@@ -2,7 +2,10 @@
 
 namespace Publish\AddToDb;
 
+include_once __DIR__ . '/../vendor_load.php';
 include_once __DIR__ . '/../Tables/tables.php';
+include_once __DIR__ . '/../actions/functions.php';
+include_once __DIR__ . '/../actions/mdwiki_sql.php';
 
 /*
 
@@ -24,6 +27,9 @@ function InsertPageTarget($title, $tr_type, $cat, $lang, $user, $test, $target)
     $word = $Words_table[$title] ?? 0;
     // ---
     $use_user_sql = false;
+    // ---
+    $target = str_replace("_", " ", $target);
+    $user   = str_replace("_", " ", $user);
     // ---
     // if target contains user
     if (strpos($target, $user) !== false) {
