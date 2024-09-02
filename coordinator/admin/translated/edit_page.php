@@ -15,32 +15,31 @@ echo '</div><script>
 </script>
 <div class="container-fluid">';
 //---
-if (isset($_GET['test'])) {
+if (isset($_REQUEST['test'])) {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 };
 //---
-$tabs = array();
-//---
-$id         = $_GET['id'] ?? '';
-$title      = $_GET['title'] ?? '';
-$target     = $_GET['target'] ?? '';
-$lang       = $_GET['lang'] ?? '';
-$user       = $_GET['user'] ?? '';
-$pupdate    = $_GET['pupdate'] ?? '';
+$id         = $_REQUEST['id'] ?? '';
+$title      = $_REQUEST['title'] ?? '';
+$target     = $_REQUEST['target'] ?? '';
+$lang       = $_REQUEST['lang'] ?? '';
+$user       = $_REQUEST['user'] ?? '';
+$pupdate    = $_REQUEST['pupdate'] ?? '';
+$table      = $_REQUEST['table'] ?? 'pages';
 //---
 echo <<<HTML
 <div class='card'>
     <div class='card-header'>
-        <h4>Edit Page (id: $id)</h4>
+        <h4>Edit Page (id: $id, table: $table)</h4>
     </div>
     <div class='card-body'>
 HTML;
 //---
-function delete_page($id)
+function delete_page($id, $table)
 {
-    $qua = "DELETE FROM pages WHERE id = ?";
+    $qua = "DELETE FROM $table WHERE id = ?";
     // ---
     $params = [$id];
     // ---
@@ -59,10 +58,10 @@ function delete_page($id)
         </script>
     HTML;
 }
-function edit_page($id, $title, $target, $lang, $user, $pupdate)
+function edit_page($id, $title, $target, $lang, $user, $pupdate, $table)
 {
     //---
-    $qua = "UPDATE pages
+    $qua = "UPDATE $table
     SET
         title = ?,
         target = ?,
@@ -75,6 +74,11 @@ function edit_page($id, $title, $target, $lang, $user, $pupdate)
     $params = [$title, $target, $lang, $user, $pupdate, $id];
     //---
     execute_query($qua, $params);
+    //---
+    if (isset($_REQUEST['test'])) {
+        echo "<pre>$qua</pre>";
+        echo "<pre>$params</pre>";
+    }
     //---
     // green text success
     echo <<<HTML
@@ -91,12 +95,16 @@ function edit_page($id, $title, $target, $lang, $user, $pupdate)
 }
 //---
 
-function echo_form($id, $title, $target, $lang, $user, $pupdate)
+function echo_form($id, $title, $target, $lang, $user, $pupdate, $table)
 {
+    $test_line = (isset($_REQUEST['test'])) ? "<input name='test' value='1' hidden/>" : "";
+
     echo <<<HTML
         <form action='coordinator.php?ty=translated/edit_page&nonav=120' method='POST'>
             <input type='text' id='id' name='id' value='$id' hidden/>
             <input name='edit' value="1" hidden/>
+            <input name='table' value="$table" hidden/>
+            $test_line
             <div class='container'>
                 <div class='row'>
                     <div class='col-md-3'>
@@ -145,7 +153,7 @@ function echo_form($id, $title, $target, $lang, $user, $pupdate)
                         <input class='btn btn-outline-primary' type='submit' value='send'/>
                     </div>
                     <div class='col-6'>
-                        <input class='btn btn-danger btn-sm' type='button' value='Delete' onclick="window.location.href='coordinator.php?ty=translated/edit_page&nonav=120&delete=$id&id=$id'"/>
+                        <input class='btn btn-danger btn-sm' type='button' value='Delete' onclick="window.location.href='coordinator.php?ty=translated/edit_page&table=$table&nonav=120&delete=$id&id=$id'"/>
                     </div>
                 </div>
             </div>
@@ -153,12 +161,12 @@ function echo_form($id, $title, $target, $lang, $user, $pupdate)
     HTML;
 }
 //---
-if (isset($_GET['delete'])) {
-    delete_page($_GET['delete']);
-} elseif (isset($_GET['edit'])) {
-    edit_page($id, $title, $target, $lang, $user, $pupdate);
+if (isset($_REQUEST['delete'])) {
+    delete_page($_REQUEST['delete'], $table);
+} elseif (isset($_REQUEST['edit'])) {
+    edit_page($id, $title, $target, $lang, $user, $pupdate, $table);
 } else {
-    echo_form($id, $title, $target, $lang, $user, $pupdate);
+    echo_form($id, $title, $target, $lang, $user, $pupdate, $table);
 }
 //---
 echo <<<HTML
