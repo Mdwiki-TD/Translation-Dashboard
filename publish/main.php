@@ -4,12 +4,12 @@ include_once __DIR__ . '/../auth/helps.php';
 include_once __DIR__ . '/../auth/send_edit.php';
 
 include_once __DIR__ . '/helps.php';
-include_once __DIR__ . '/fix_refs.php';
+// include_once __DIR__ . '/fix_refs.php';
 include_once __DIR__ . '/add_to_db.php';
 
 use function OAuth\SendEdit\auth_do_edit;
 use function Publish\Helps\get_access_from_db;
-use function Publish\FixRefs\fix_wikirefs;
+// use function Publish\FixRefs\fix_wikirefs;
 use function Publish\AddToDb\InsertPageTarget;
 
 /*
@@ -40,7 +40,7 @@ if ($access == null) {
     $access_key = $access['access_key'];
     $access_secret = $access['access_secret'];
     // ---
-    $text = fix_wikirefs($text, $lang);
+    // $text = fix_wikirefs($text, $lang);
     // ---
     $editit = auth_do_edit($title, $text, $summary, $lang, $access_key, $access_secret);
     // ---
