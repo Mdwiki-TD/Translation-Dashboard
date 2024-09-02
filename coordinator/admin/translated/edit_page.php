@@ -9,14 +9,13 @@ include_once 'actions/functions.php';
 //---
 use function Actions\MdwikiSql\execute_query;
 //---
-//---
 echo '</div><script>
     $("#mainnav").hide();
     $("#maindiv").hide();
 </script>
 <div class="container-fluid">';
 //---
-if (isset($_REQUEST['test'])) {
+if (isset($_GET['test'])) {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
@@ -24,12 +23,12 @@ if (isset($_REQUEST['test'])) {
 //---
 $tabs = array();
 //---
-$id         = $_REQUEST['id'] ?? '';
-$title      = $_REQUEST['title'] ?? '';
-$target     = $_REQUEST['target'] ?? '';
-$lang       = $_REQUEST['lang'] ?? '';
-$user       = $_REQUEST['user'] ?? '';
-$pupdate    = $_REQUEST['pupdate'] ?? '';
+$id         = $_GET['id'] ?? '';
+$title      = $_GET['title'] ?? '';
+$target     = $_GET['target'] ?? '';
+$lang       = $_GET['lang'] ?? '';
+$user       = $_GET['user'] ?? '';
+$pupdate    = $_GET['pupdate'] ?? '';
 //---
 echo <<<HTML
 <div class='card'>
@@ -39,6 +38,27 @@ echo <<<HTML
     <div class='card-body'>
 HTML;
 //---
+function delete_page($id)
+{
+    $qua = "DELETE FROM pages WHERE id = ?";
+    // ---
+    $params = [$id];
+    // ---
+    execute_query($qua, $params);
+    //---
+    // green text success
+    echo <<<HTML
+        <div class='alert alert-success' role='alert'>Page updated<br>
+            window will close in 3 seconds
+        </div>
+        <!-- close window after 3 seconds -->
+        <script>
+            setTimeout(function() {
+                window.close();
+            }, 3000);
+        </script>
+    HTML;
+}
 function edit_page($id, $title, $target, $lang, $user, $pupdate)
 {
     //---
@@ -119,8 +139,13 @@ function echo_form($id, $title, $target, $lang, $user, $pupdate)
                             <input class='form-control' type='text' id='pupdate' name='pupdate' value='$pupdate' placeholder='YYYY-MM-DD' required/>
                         </div>
                     </div>
-                    <div class='col-md-2'>
+                </div>
+                <div class='row'>
+                    <div class='col-6'>
                         <input class='btn btn-outline-primary' type='submit' value='send'/>
+                    </div>
+                    <div class='col-6'>
+                        <input class='btn btn-danger btn-sm' type='button' value='Delete' onclick="window.location.href='coordinator.php?ty=translated/edit_page&nonav=120&delete=$id&id=$id'"/>
                     </div>
                 </div>
             </div>
@@ -128,7 +153,9 @@ function echo_form($id, $title, $target, $lang, $user, $pupdate)
     HTML;
 }
 //---
-if (isset($_REQUEST['edit'])) {
+if (isset($_GET['delete'])) {
+    delete_page($_GET['delete']);
+} elseif (isset($_GET['edit'])) {
     edit_page($id, $title, $target, $lang, $user, $pupdate);
 } else {
     echo_form($id, $title, $target, $lang, $user, $pupdate);
