@@ -47,7 +47,7 @@ if ($access == null) {
     $Success = $editit['edit']['result'] ?? '';
     // ---
     if ($Success === 'Success') {
-        InsertPageTarget($sourcetitle, 'lead', $cat, $lang, $user, false, $title);
+        InsertPageTarget($sourcetitle, 'lead', $cat, $lang, $user, "", $title);
     };
     // ---
 }

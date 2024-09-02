@@ -2,7 +2,10 @@
 
 namespace Publish\AddToDb;
 
+include_once __DIR__ . '/../vendor_load.php';
 include_once __DIR__ . '/../Tables/tables.php';
+include_once __DIR__ . '/../actions/functions.php';
+include_once __DIR__ . '/../actions/mdwiki_sql.php';
 
 /*
 
