@@ -13,14 +13,36 @@ use function Publish\AddToDb\InsertPageTarget;
 
 */
 
-use function Actions\Functions\escape_string;
 use function Actions\MdwikiSql\execute_query;
+
+function find_exists($title, $lang, $user)
+{
+    $query = <<<SQL
+        SELECT 1 FROM (
+            SELECT 1 FROM pages WHERE title = ? AND lang = ? AND user = ?
+            UNION
+            SELECT 1 FROM pages_users WHERE title = ? AND lang = ? AND user = ?
+        ) AS combined
+    SQL;
+    // ---
+    $params = [$title, $lang, $user, $title, $lang, $user];
+    // ---
+    $result = execute_query($query, $params);
+    // ---
+    return count($result) > 0;
+}
 
 function InsertPageTarget($title, $tr_type, $cat, $lang, $user, $test, $target)
 {
     global $Words_table;
     // ---
     if ($user == "") {
+        return;
+    }
+    // ---
+    $exists = find_exists($title, $lang, $user);
+    // ---
+    if ($exists) {
         return;
     }
     // ---
@@ -36,49 +58,27 @@ function InsertPageTarget($title, $tr_type, $cat, $lang, $user, $test, $target)
         $use_user_sql = true;
     }
     // ---
-    $user  = escape_string($user);
-    $cat   = escape_string($cat);
-    $title = escape_string($title);
-    // ---
     // today date like: 2024-08-21
     $today = date("Y-m-d");
     // ---
     $query_user = <<<SQL
         INSERT INTO pages_users (title, lang, user, pupdate, target, add_date)
         SELECT ?, ?, ?, ?, ?, now()
-        WHERE NOT EXISTS
-            (SELECT 1
-            FROM pages
-            WHERE title = ?
-            AND lang = ?
-            AND user = ?
-        )
     SQL;
     // ---
-    $query_user_params = [$title, $lang, $user, $today, $target, $title, $lang, $user];
+    $query_user_params = [$title, $lang, $user, $today, $target];
     // ---
-    $query_pages = <<<SQL
+    $query = <<<SQL
         INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target, add_date)
         SELECT ?, ?, ?, ?, ?, now(), ?, ?, ?, now()
-        WHERE NOT EXISTS
-            (SELECT 1
-            FROM pages
-            WHERE title = ?
-            AND lang = ?
-            AND user = ?
-        )
     SQL;
     // ---
-    $query_pages_params = [
+    $params = [
         $title, $word, $tr_type, $cat, $lang,
         $user,
         $today,
-        $target,
-        $title, $lang, $user
+        $target
     ];
-    // ---
-    $query = $query_pages;
-    $params = $query_pages_params;
     // ---
     // if $title has $user in it then use $query_user else use $query
     if ($use_user_sql) {

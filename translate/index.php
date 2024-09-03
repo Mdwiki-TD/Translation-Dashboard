@@ -7,7 +7,6 @@ use function Actions\Html\login_card;
 use function Actions\Html\make_input_group;
 use function Actions\Html\make_mdwiki_title;
 use function Actions\Html\make_translation_url;
-use function Actions\Functions\escape_string;
 use function Actions\MdwikiSql\execute_query;
 use function Translate\Translator\startTranslatePhp;
 use function Actions\Html\make_target_url;
@@ -57,10 +56,6 @@ function insertPage($title_o, $word, $tr_type, $cat, $camp, $coden, $useree, $te
     if ($useree == "" || $useree == "Mr. Ibrahem" || $useree == "MdWikiBot") {
         return;
     }
-    $useree  = escape_string($useree);
-    $cat     = escape_string($cat);
-    $title_o = escape_string($title_o);
-
     $quae_new = <<<SQL
         INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target, add_date)
         SELECT ?, ?, ?, ?, ?, now(), ?, '', '', now()
@@ -75,36 +70,35 @@ function insertPage($title_o, $word, $tr_type, $cat, $camp, $coden, $useree, $te
 
     $params = [$title_o, $word, $tr_type, $cat, $coden, $useree, $title_o, $coden, $useree];
     execute_query($quae_new, $params = $params);
-}
+};
 
-
-function Find_pages_exists_or_not($title)
+function find_pages_exists_or_not($title)
 {
-	// {"action": "query", "titles": title, "rvslots": "*"}
-	$params = [
-		"action" => "query",
-		"titles" => $title,
-		'format' => 'json',
-		"formatversion" => 2
-	];
+    // {"action": "query", "titles": title, "rvslots": "*"}
+    $params = [
+        "action" => "query",
+        "titles" => $title,
+        'format' => 'json',
+        "formatversion" => 2
+    ];
     $endPoint = "https://simple.wikipedia.org/w/api.php";
 
-	$result = post_url_params_result($endPoint, $params);
+    $result = post_url_params_result($endPoint, $params);
 
-	$result = $result['query']['pages'] ?? [];
-	// ---
-	test_print(json_encode($result));
-	// ---
-	if (count($result) > 0) {
-		$page = $result[0];
-		$misssing = $page['missing'] ?? '';
-		$pageid = $page['pageid'] ?? '';
-		// ---
-		if ($misssing == '' || $pageid != '') {
-			return true;
-		}
-	}
-	return false;
+    $result = $result['query']['pages'] ?? [];
+    // ---
+    test_print(json_encode($result));
+    // ---
+    if (count($result) > 0) {
+        $page = $result[0];
+        $misssing = $page['missing'] ?? '';
+        $pageid = $page['pageid'] ?? '';
+        // ---
+        if ($misssing == '' || $pageid != '') {
+            return true;
+        }
+    }
+    return false;
 }
 
 function go_to_translate_url($output, $go, $title_o, $coden, $tr_type, $test)
@@ -193,8 +187,8 @@ if ($title_o != '' && $coden != '' && $user_valid) {
     test_print("output startTranslatePhp: ($output)");
     // ---
     if ($output != true) {
-        $output = Find_pages_exists_or_not($title2);
-        test_print("output Find_pages_exists_or_not: ($output)");
+        $output = find_pages_exists_or_not($title2);
+        test_print("output find_pages_exists_or_not: ($output)");
     };
     // ---
     echo "<br>result: $output";
