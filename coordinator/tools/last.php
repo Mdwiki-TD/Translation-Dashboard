@@ -6,10 +6,9 @@ use function Actions\WikiApi\make_view_by_number;
 use function Actions\Html\make_mail_icon;
 use function Actions\Html\make_talk_url;
 use function Actions\Html\make_target_url;
-use function Actions\MdwikiSql\execute_query;
+use function Actions\MdwikiSql\fetch_query;
 use function Actions\Html\make_cat_url;
 use function Actions\Html\make_mdwiki_title;
-
 //---
 $lang = $_GET['lang'] ?? 'All';
 //---
@@ -23,7 +22,7 @@ function filter_recent($lang)
     //---
     $tabes = [];
     //---
-    foreach (execute_query("select DISTINCT lang from pages;") as $tat => $tag) {
+    foreach (fetch_query("select DISTINCT lang from pages;") as $tat => $tag) {
         $lag = strtolower($tag['lang']);
         //---
         $tabes[] = $lag;
@@ -68,7 +67,7 @@ function filter_recent($lang)
     return $uuu;
 }
 //---
-$mail_th = (user_in_coord != false) ? "<th></th>" : '';
+$mail_th = (user_in_coord != false) ? "<th>Email</th>" : '';
 //---
 $recent_table = <<<HTML
 	<table class="table table-sm table-striped table-mobile-responsive table-mobile-sided" id="last_tabel" style="font-size:90%;">
@@ -142,7 +141,7 @@ function make_td($tabg, $nnnn)
     $view = make_view_by_number($targe, $views_number, $llang, $pupdate);
     //---
     $mail_icon = (user_in_coord != false) ? make_mail_icon($tabg) : '';
-    $mail_icon_td = ($mail_icon != '') ? "<td data-content=''>$mail_icon</td>" : '';
+    $mail_icon_td = ($mail_icon != '') ? "<td data-content='Email'>$mail_icon</td>" : '';
     //---
     $talk = make_talk_url($llang, $user);
     //---
@@ -152,10 +151,7 @@ function make_td($tabg, $nnnn)
                 $nnnn
             </td>
             <td data-content='User'>
-                <a href='leaderboard.php?user=$user'>
-                    <!-- <span data-toggle="tooltip" title="$user">$user_name</span> -->
-                    $user_name
-                </a> ($talk)
+                <a href="leaderboard.php?user=$user" data-bs-toggle="tooltip" data-bs-title="$user">$user_name</a> ($talk)
             </td>
             $mail_icon_td
             <!-- <td data-content='Lang'>
@@ -196,19 +192,19 @@ function get_recent_sql($lang)
     //---
     if ($lang != '' && $lang != 'All') $lang_line = "and lang = '$lang'";
     //---
-    $dd0 = execute_query("select * from pages where target != '' $lang_line ORDER BY pupdate DESC limit 250;");
-    $dd1 = execute_query("select * from pages where target != '' $lang_line ORDER BY add_date DESC limit 250");
+    $dd0 = fetch_query("select * from pages where target != '' $lang_line ORDER BY pupdate DESC limit 250;");
+    $dd1 = fetch_query("select * from pages where target != '' $lang_line ORDER BY add_date DESC limit 250");
     //---
     // merage the two arrays without duplicates
-    $dd2 = array_unique(array_merge($dd0, $dd1), SORT_REGULAR);
+    $tab = array_unique(array_merge($dd0, $dd1), SORT_REGULAR);
     //---
     // sort the table by add_date
-    usort($dd2, function ($a, $b) {
+    usort($tab, function ($a, $b) {
         // return strtotime($b['add_date']) - strtotime($a['add_date']);
         return strtotime($b['pupdate']) - strtotime($a['pupdate']);
     });
     //---
-    return $dd2;
+    return $tab;
 }
 //---
 $qsl_results = get_recent_sql($lang);

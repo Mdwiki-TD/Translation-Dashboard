@@ -26,7 +26,9 @@
 		// Call to_get() function
 		to_get();
 
-		$('[data-toggle="tooltip"]').tooltip();
+		// $('[data-toggle="tooltip"]').tooltip();
+		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+		const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
 		setTimeout(function() {
 			$('.soro').DataTable({
