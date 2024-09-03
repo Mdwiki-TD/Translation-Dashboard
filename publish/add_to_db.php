@@ -18,26 +18,18 @@ use function Actions\MdwikiSql\execute_query;
 function find_exists($title, $lang, $user)
 {
     $query = <<<SQL
-        SELECT 1 FROM pages WHERE title = ? AND lang = ? AND user = ?
+        SELECT 1 FROM (
+            SELECT 1 FROM pages WHERE title = ? AND lang = ? AND user = ?
+            UNION
+            SELECT 1 FROM pages_users WHERE title = ? AND lang = ? AND user = ?
+        ) AS combined
     SQL;
     // ---
-    $in = execute_query($query, [$title, $lang, $user]);
+    $params = [$title, $lang, $user, $title, $lang, $user];
     // ---
-    if (count($in) > 0) {
-        return true;
-    }
+    $result = execute_query($query, $params);
     // ---
-    $query2 = <<<SQL
-        SELECT 1 FROM pages_users WHERE  title = ? AND lang = ? AND user = ?
-    SQL;
-    // ---
-    $in2 = execute_query($query2, [$title, $lang, $user]);
-    // ---
-    if (count($in2) > 0) {
-        return true;
-    }
-    // ---
-    return false;
+    return count($result) > 0;
 }
 
 function InsertPageTarget($title, $tr_type, $cat, $lang, $user, $test, $target)
