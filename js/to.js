@@ -3,7 +3,7 @@ function to_get() {
 	// get the data from the hrefjson if the server not localhost
     if ( window.location.hostname === 'localhost' ) {
 		// log to console
-		console.log('not localhost');
+		console.log('dont load to_get() in localhost');
 		return;
 	}
 	var ele = $("[hrefjson]");
@@ -13,7 +13,7 @@ function to_get() {
 		// get the data from the hrefjson then add it to the value
         //---------------
 		// console.log(hrefjson);
-		
+
 		// console.log(item.text());
 		//---------------
         jQuery.ajax({

@@ -1,11 +1,72 @@
 <?PHP
 //---
 include_once 'Tables/langcode.php';
-use function Actions\Html\make_mdwiki_title;
+//---
+
 use function Actions\Html\make_talk_url;
 use function Actions\Html\make_target_url;
 use function Actions\MdwikiSql\fetch_query;
 use function Actions\Html\make_cat_url;
+use function Actions\Html\make_mdwiki_title;
+//---
+$lang = $_GET['lang'] ?? 'All';
+//---
+if ($lang !== 'All' && !isset($code_to_lang[$lang])) {
+    $lang = 'All';
+};
+//---
+function filter_recent($lang)
+{
+    global $code_to_lang;
+    //---
+    $tabes = [];
+    //---
+    foreach (fetch_query("select DISTINCT lang from pages_users;") as $tat => $tag) {
+        $lag = strtolower($tag['lang']);
+        //---
+        $tabes[] = $lag;
+        //---
+    };
+    //---
+    ksort($tabes);
+    //---
+    $lang_list = "<option data-tokens='All' value='All'>All</option>";
+    //---
+    foreach ($tabes as $codr) {
+        $langeee = $code_to_lang[$codr] ?? '';
+        $selected = ($codr == $lang) ? 'selected' : '';
+        $lang_list .= <<<HTML
+            <option data-tokens='$codr' value='$codr' $selected>$langeee</option>
+            HTML;
+    };
+    //---
+    $langse = <<<HTML
+        <select aria-label="Language code"
+            class="selectpicker"
+            id='lang'
+            name='lang'
+            placeholder='two letter code'
+            data-live-search="true"
+            data-container="body"
+            data-live-search-style="begins"
+            data-bs-theme="auto"
+            data-style='btn active'
+            data-width="90%"
+            >
+            $lang_list
+        </select>
+    HTML;
+    //---
+    $uuu = <<<HTML
+        <div class="input-group">
+            $langse
+        </div>
+    HTML;
+    //---
+    return $uuu;
+}
+//---
+$mail_th = (user_in_coord != false) ? "<th>Email</th>" : '';
 //---
 $recent_table = <<<HTML
 	<table class="table table-sm table-striped table-mobile-responsive table-mobile-sided" id="last_tabel" style="font-size:90%;">
@@ -77,9 +138,7 @@ function make_td($tabg, $nnnn)
                 $nnnn
             </td>
             <td data-content='User'>
-                <a href='leaderboard.php?user=$user'>
-                    $user_name
-                </a> ($talk)
+                <a href="leaderboard.php?user=$user" data-bs-toggle="tooltip" data-bs-title="$user">$user_name</a> ($talk)
             </td>
             <td style='max-width:150px;' data-content='Title'>
                 $nana
@@ -102,11 +161,13 @@ function make_td($tabg, $nnnn)
     return $laly;
 };
 //---
-function get_recent_sql()
+function get_recent_sql($lang)
 {
-    // $lang_line = '';
-    //---
     // pages_users (title, lang, user, pupdate, target, add_date)
+    //---
+    $lang_line = '';
+    //---
+    if ($lang != '' && $lang != 'All') $lang_line = "and lang = '$lang'";
     //---
     $qua = <<<SQL
         select
@@ -118,22 +179,23 @@ function get_recent_sql()
         and title not in (
             select p.title from pages p where p.lang = lang and p.target != ''
         )
+        $lang_line
         ORDER BY pupdate
         DESC limit 100;
     SQL;
     //---
-    $dd0 = fetch_query($qua);
+    $tab = fetch_query($qua);
     //---
     // sort the table by add_date
-    usort($dd0, function ($a, $b) {
+    usort($tab, function ($a, $b) {
         // return strtotime($b['add_date']) - strtotime($a['add_date']);
         return strtotime($b['pupdate']) - strtotime($a['pupdate']);
     });
     //---
-    return $dd0;
+    return $tab;
 }
 //---
-$qsl_results = get_recent_sql();
+$qsl_results = get_recent_sql($lang);
 //---
 $noo = 0;
 foreach ($qsl_results as $tat => $tabe) {
@@ -148,9 +210,24 @@ $recent_table .= <<<HTML
     </table>
 HTML;
 //---
+$uuu = filter_recent($lang);
+//---
 echo <<<HTML
 <div class='card-header'>
-    <h4>Recent translations in user space:</h4>
+    <form method='get' action='coordinator.php'>
+        <input name='ty' value='last_users' hidden/>
+        <div class='row'>
+            <div class='col-md-5'>
+            <h4>Recent translations in user space:</h4>
+            </div>
+            <div class='col-md-3'>
+                $uuu
+            </div>
+            <div class='aligncenter col-md-2'>
+                <input class='btn btn-outline-primary' type='submit' name='start' value='Filter' />
+            </div>
+        </div>
+    </form>
 </div>
 <div class='card-body'>
 HTML;

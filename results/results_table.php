@@ -176,7 +176,7 @@ function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inp
     //---
     $Refs_word    = 'Refs.';
     $Words_word   = 'Words';
-    $Translate_th = "<th tt='h_len'>Translate</th>";
+    $Translate_th = "<th>Translate</th>";
     //---
     $in_process = array();
     $inprocess_first = '';
@@ -192,14 +192,28 @@ function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inp
     <table class="table compact sortable table-striped table-mobile-responsive table-mobile-sided" id="main_table">
         <thead>
             <tr>
-                <th class="num">#</th>
-                <th class="spannowrap" tt="h_title">Title</th>
+                <th class="num">
+                    #
+                </th>
+                <th class="spannowrap">
+                    Title
+                </th>
                 $Translate_th
-                <th class="spannowrap" tt="h_len"><span data-toggle="tooltip" title="Page views in last month in English Wikipedia">Views</span></th>
-                <th class="spannowrap" tt="h_len"><span data-toggle="tooltip" title="Page important from medicine project in English Wikipedia">Importance</span></th>
-                <th class="spannowrap" tt="h_len"><span data-toggle="tooltip" title="number of word of the article in mdwiki.org">$Words_word</span></th>
-                <th class="spannowrap" tt="h_len"><span data-toggle="tooltip" title="number of reference of the article in mdwiki.org">$Refs_word</span></th>
-                <th class="spannowrap" tt="h_len"><span data-toggle="tooltip" title="Wikidata identifier">Qid</span></th>
+                <th class="spannowrap">
+                    <span data-bs-toggle="tooltip" data-bs-title="Page views in last month in English Wikipedia">Views</span>
+                </th>
+                <th class="spannowrap">
+                    <span data-bs-toggle="tooltip" data-bs-title="Page important from medicine project in English Wikipedia">Importance</span>
+                </th>
+                <th class="spannowrap">
+                    <span data-bs-toggle="tooltip" data-bs-title="number of word of the article in mdwiki.org">$Words_word</span>
+                </th>
+                <th class="spannowrap">
+                    <span data-bs-toggle="tooltip" data-bs-title="number of reference of the article in mdwiki.org">$Refs_word</span>
+                </th>
+                <th class="spannowrap">
+                    <span data-bs-toggle="tooltip" data-bs-title="Wikidata identifier">Qid</span>
+                </th>
                 $inprocess_first
             </tr>
         </thead>

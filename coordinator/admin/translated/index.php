@@ -239,7 +239,7 @@ echo <<<HTML
         <input name='ty' value='translated' hidden/>
         <div class='row'>
             <div class='col-md-3'>
-                <h4>Translated pages:</h4>
+                <h4>Translated Pages:</h4>
             </div>
             <div class='col-md-3'>
                 $filter_la
