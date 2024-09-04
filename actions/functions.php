@@ -87,9 +87,9 @@ function strendswith($text, $end) {
 
 function test_print($s) {
     if (print_te && gettype($s) == 'string') {
-        echo "<br>$s";
+        echo "\n<br>\n$s";
     } elseif (print_te) {
-        echo "<br>";
+        echo "\n<br>\n";
         print_r($s);
     }
 }

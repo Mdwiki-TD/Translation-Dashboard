@@ -1,16 +1,25 @@
 <?php
+if (isset($_REQUEST['test'])) {
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+};
 include_once __DIR__ . '/../auth/config.php';
 include_once __DIR__ . '/../auth/helps.php';
 include_once __DIR__ . '/../auth/send_edit.php';
 
+include_once __DIR__ . '/../actions/functions.php';
 include_once __DIR__ . '/helps.php';
 // include_once __DIR__ . '/fix_refs.php';
 include_once __DIR__ . '/add_to_db.php';
+include_once __DIR__ . '/wd.php';
 
+use function Actions\Functions\test_print;
 use function OAuth\SendEdit\auth_do_edit;
 use function Publish\Helps\get_access_from_db;
 // use function Publish\FixRefs\fix_wikirefs;
 use function Publish\AddToDb\InsertPageTarget;
+use function Publish\WD\LinkToWikidata;
 
 /*
 $t_Params = [
@@ -23,12 +32,12 @@ $t_Params = [
 ];
 */
 
-$title   = $_POST['title'] ?? '';
-$sourcetitle   = $_POST['sourcetitle'] ?? '';
-$user    = $_POST['user'] ?? '';
-$lang    = $_POST['target'] ?? '';
-$text    = $_POST['text'] ?? '';
-$summary = $_POST['summary'] ?? '';
+$title   = $_REQUEST['title'] ?? '';
+$sourcetitle   = $_REQUEST['sourcetitle'] ?? '';
+$user    = $_REQUEST['user'] ?? '';
+$lang    = $_REQUEST['target'] ?? '';
+$text    = $_REQUEST['text'] ?? '';
+$summary = $_REQUEST['summary'] ?? '';
 
 // $username = get_from_cookie('username');
 
@@ -47,10 +56,15 @@ if ($access == null) {
     $Success = $editit['edit']['result'] ?? '';
     // ---
     if ($Success === 'Success') {
-        InsertPageTarget($sourcetitle, 'lead', $cat, $lang, $user, "", $title);
+        InsertPageTarget($sourcetitle, 'lead', "", $lang, $user, "", $title);
+        LinkToWikidata($sourcetitle, $lang, $user, $title, $access_key, $access_secret);
     };
     // ---
 }
+
+test_print("\n<br>");
+test_print("\n<br>");
+
 print(json_encode($editit, JSON_PRETTY_PRINT));
 
 file_put_contents(__DIR__ . '/editit.json', json_encode($editit, JSON_PRETTY_PRINT));

@@ -34,7 +34,7 @@ class Database
 
     public function __construct($server_name)
     {
-        if ($server_name === 'localhost') {
+        if ($server_name === 'localhost' || !getenv('HOME')) {
             $this->host = 'localhost:3306';
             $this->dbname = 'mdwiki';
             $this->user = 'root';
@@ -126,7 +126,7 @@ function execute_query($sql_query, $params = null)
 {
 
     // Create a new database object
-    $db = new Database($_SERVER['SERVER_NAME']);
+    $db = new Database($_SERVER['SERVER_NAME'] ?? '');
 
     // Execute a SQL query
     if ($params) {
@@ -148,7 +148,7 @@ function fetch_query($sql_query, $params = null)
 {
 
     // Create a new database object
-    $db = new Database($_SERVER['SERVER_NAME']);
+    $db = new Database($_SERVER['SERVER_NAME'] ?? '');
 
     // Execute a SQL query
     if ($params) {
