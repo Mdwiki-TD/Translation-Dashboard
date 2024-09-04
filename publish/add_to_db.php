@@ -1,18 +1,17 @@
 <?php
 
 namespace Publish\AddToDb;
+/*
+
+use function Publish\AddToDb\InsertPageTarget;
+*/
 
 include_once __DIR__ . '/../vendor_load.php';
 include_once __DIR__ . '/../Tables/tables.php';
 include_once __DIR__ . '/../actions/functions.php';
 include_once __DIR__ . '/../actions/mdwiki_sql.php';
 
-/*
-
-use function Publish\AddToDb\InsertPageTarget;
-
-*/
-
+use function Actions\MdwikiSql\fetch_query;
 use function Actions\MdwikiSql\execute_query;
 
 function find_exists($title, $lang, $user)
@@ -27,7 +26,7 @@ function find_exists($title, $lang, $user)
     // ---
     $params = [$title, $lang, $user, $title, $lang, $user];
     // ---
-    $result = execute_query($query, $params);
+    $result = fetch_query($query, $params);
     // ---
     return count($result) > 0;
 }
