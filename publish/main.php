@@ -57,7 +57,7 @@ if ($access == null) {
     // ---
     if ($Success === 'Success') {
         InsertPageTarget($sourcetitle, 'lead', "", $lang, $user, "", $title);
-        LinkToWikidata($sourcetitle, $lang, $user, $title, $access_key, $access_secret);
+        $editit['LinkToWikidata'] = LinkToWikidata($sourcetitle, $lang, $user, $title, $access_key, $access_secret);
     };
     // ---
 }

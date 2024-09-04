@@ -84,12 +84,6 @@ function LinkIt($qid, $lang, $sourcetitle, $targettitle, $access_key, $access_se
         test_print($response);
     }
     // ---
-    $success = $Result['success'] ?? false;
-    // ---
-    if ($success) {
-        test_print("success: $success");
-    };
-    // ---
     return $Result;
 }
 
@@ -102,7 +96,7 @@ function LinkToWikidata($sourcetitle, $lang, $user, $targettitle, $access_key, $
             test_print("user = $user");
             test_print("access == null");
             // ---
-            return;
+            return ['error' => 'access not found. for user: ' . $user];
         }
         $access_key = $access['access_key'];
         $access_secret = $access['access_secret'];
@@ -120,10 +114,22 @@ function LinkToWikidata($sourcetitle, $lang, $user, $targettitle, $access_key, $
     test_print("ns: ($ns), Not_found: ($Not_found)");
     test_print(json_encode($title_info));
     // ---
-    // ---
-    if ($ns != 0 || $Not_found == "Not found.") {
-        return;
+    if ($ns != 0) {
+        return ['error' => 'no link for ns:' . $ns];
     }
     // ---
-    return LinkIt($qid, $lang, $sourcetitle, $targettitle, $access_key, $access_secret);
+    if ($Not_found == "Not found.") {
+        return ['error' => 'page not found:' . $sourcetitle];
+    }
+    // ---
+    $link_iit = LinkIt($qid, $lang, $sourcetitle, $targettitle, $access_key, $access_secret);
+    // ---
+    $success = $Result['success'] ?? false;
+    // ---
+    if ($success) {
+        test_print("success: $success");
+        return ['result' => "success"];
+    };
+    // ---
+    return $link_iit;
 }
