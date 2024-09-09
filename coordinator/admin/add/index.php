@@ -57,7 +57,7 @@ $qqq = fetch_query('select category, campaign from categories;');
 foreach ($qqq as $Key => $ta) {
 	$ca = $ta['category'] ?? "";
 	$ds = $ta['campaign'] ?? "";
-	if ($ca != '') $cats .= "<option value='$ca'>$ds</option>";
+	if (!empty($ca)) $cats .= "<option value='$ca'>$ds</option>";
 };
 //---
 $typies = <<<HTML
