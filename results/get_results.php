@@ -66,7 +66,7 @@ function get_results($cat, $camp, $depth, $code)
     //---
     test_print("items_missing:" . count($items_missing) . "");
     //---
-    if ($cat2 != '' && $cat2 != $cat) {
+    if (!empty($cat2) && $cat2 != $cat) {
         $cat2_members = get_mdwiki_cat_members($cat2, $use_cache = true, $depth = $depth, $camp = $camp);
         $items_missing2 = array_intersect($items_missing, $cat2_members);
         test_print("items_missing2:" . count($items_missing2) . "");

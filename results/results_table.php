@@ -56,9 +56,9 @@ function make_one_row($v, $cnt, $cod, $cat, $camp, $words, $refs, $asse, $tra_ty
     $title = str_replace('_', ' ', $v);
     $title2 = rawurlEncode($title);
     $mdwiki_url = "//mdwiki.org/wiki/" . str_replace('+', '_', $title2);
-    $qid = ($qid != '') ? "<a class='inline' target='_blank' href='https://wikidata.org/wiki/$qid'>$qid</a>" : '&nbsp;';
+    $qid = (!empty($qid)) ? "<a class='inline' target='_blank' href='https://wikidata.org/wiki/$qid'>$qid</a>" : '&nbsp;';
     //---
-    if ($asse == '') $asse = 'Unknown';
+    if (empty($asse)) $asse = 'Unknown';
     // "username" => global_username,
     //---
     if ($use_medwiki) {
@@ -228,7 +228,7 @@ function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inp
     $cnt = 1;
     //---
     foreach ($dd as $v => $gt) {
-        if ($v == '') continue;
+        if (empty($v)) continue;
         $title = str_replace('_', ' ', $v);
         $views = $enwiki_pageviews_table[$title] ?? 0;
         $word  = $words_tab[$title] ?? 0;

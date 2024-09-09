@@ -34,7 +34,7 @@ $depth  = $depth * 1;
 //---
 $depth  = $camp_input_depth[$camp] ?? 1;
 //---
-if ($code_lang_name == '') $doit = false;
+if (empty($code_lang_name)) $doit = false;
 //---
 echo "<div class='container'>";
 //---

@@ -42,7 +42,7 @@ HTML;
 function send_user($id, $user, $project, $wiki, $email)
 {
     //---
-    if ($user != '') {
+    if (!empty($user)) {
         //---
         $user = trim($user);
         $email     = trim($email);

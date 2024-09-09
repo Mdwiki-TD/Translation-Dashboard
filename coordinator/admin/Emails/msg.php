@@ -53,7 +53,7 @@ $views  = get_views($target, $lang, $date);
 //---
 $sugust = '';
 //---
-if ($title != '') {
+if (!empty($title)) {
     $items = get_cat_exists_and_missing('RTT', '', '1', $lang, $use_cache = true);
     //---
     $items_missing = $items['missing'] ?? array();
@@ -115,7 +115,7 @@ $sugust2 = make_mdwiki_title($sugust);
 $url_views_2 = 'https://'
     . 'pageviews.wmcloud.org/?project=' . $lang . '.wikipedia.org&platform=all-access&agent=all-agents&redirects=0&range=all-time&pages=' . rawurlEncode($target);
 //---
-$start = $date != '' ? $date : '2019-01-01';
+$start = !empty($date) ? $date : '2019-01-01';
 $end = date("Y-m-d", strtotime("yesterday"));
 //---
 $url_views_3  = 'https://' . 'pageviews.wmcloud.org/?' . http_build_query(array(

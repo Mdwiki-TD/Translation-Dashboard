@@ -66,7 +66,7 @@ if (isset($_POST['mdtitle'])) {
 		$target		= $_REQUEST['target'][$i] ?? '';
 		$pupdate	= $_REQUEST['pupdate'][$i] ?? '';
 		//---
-		if ($mdtitle != '' && $lang != '' && $user != '' && $target != '') {
+		if (!empty($mdtitle) && !empty($lang) && !empty($user) && !empty($target)) {
 			//---
 			add_to_db($mdtitle, $type, $cat, $lang, $user, $target, $pupdate);
 			//---

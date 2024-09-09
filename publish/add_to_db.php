@@ -35,7 +35,7 @@ function InsertPageTarget($title, $tr_type, $cat, $lang, $user, $test, $target)
 {
     global $Words_table;
     // ---
-    if ($user == "") {
+    if (empty($user)) {
         return;
     }
     // ---
@@ -85,7 +85,7 @@ function InsertPageTarget($title, $tr_type, $cat, $lang, $user, $test, $target)
         $params = $query_user_params;
     }
     // ---
-    if ($test != '') {
+    if (!empty($test)) {
         echo "<br>$query<br>";
     }
     execute_query($query, $params = $params);

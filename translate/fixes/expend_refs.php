@@ -13,7 +13,7 @@ use function WikiParse\Citations\getShortCitations;
 
 function refs_expend_work($first, $alltext)
 {
-    if ($alltext == "") {
+    if (empty($alltext)) {
         $alltext = $first;
 
     }

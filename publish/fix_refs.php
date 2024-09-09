@@ -28,7 +28,7 @@ function fix_wikirefs($wikitext, $lang)
     //---
     if ($t3) {
         $newtext = file_get_contents($resultb);
-        if ($newtext != '') {
+        if (!empty($newtext)) {
             return $newtext;
         };
     };

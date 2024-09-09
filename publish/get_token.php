@@ -25,7 +25,7 @@ function get_client($wiki, $oauthUrl = "")
 {
     global $gUserAgent, $consumerKey, $consumerSecret;
     // ---
-    if ($wiki != '') {
+    if (!empty($wiki)) {
         $oauthUrl = "https://$wiki.wikipedia.org/w/index.php?title=Special:OAuth";
     }
     // ---

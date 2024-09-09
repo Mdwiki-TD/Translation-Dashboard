@@ -19,13 +19,13 @@ function make_callback_url($url)
 
     $return_to = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
     //---
-    if ($return_to != '') {
+    if (!empty($return_to)) {
         $state['return_to'] = $return_to;
     }
     //---
     foreach (['cat', 'code', 'type', 'test', 'doit'] as $key) {
         $da = $_GET[$key] ?? '';
-        if ($da != '') {
+        if (!empty($da)) {
             $state[$key] = $da;
         }
     };

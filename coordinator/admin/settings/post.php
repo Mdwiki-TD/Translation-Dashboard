@@ -15,7 +15,7 @@ if (isset($_POST['se'])) {
         $type     = $_POST["type_$n"] ?? '';
         $value    = $_POST["value_$n"] ?? '';
         //---
-        if ($title == '' || $displayed == '' || $type == '') continue;
+        if (empty($title) || empty($displayed) || empty($type)) continue;
         //---
         $re = update_settings($id, $title, $displayed, $value, $type);
     }

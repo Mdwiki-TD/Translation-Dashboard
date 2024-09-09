@@ -36,7 +36,7 @@ $qids_o = array_slice($qids_o, 0, $title_limit);
 
 $notitle = true;
 
-if ($site != "" && $site != "all") {
+if (!empty($site) && $site != "all") {
     $notitle = false;
     $heads = array($site);
     $qids_o = $data2['qids'] ?? [];
@@ -62,7 +62,7 @@ foreach ($qids_o as $qid => $tab) {
         $value = $tab['sitelinks'][$head] ?? '';
         $link = "";
 
-        if ($value != "") {
+        if (!empty($value)) {
             $link = "<a href='https://$head.wikipedia.org/wiki/$value'>$value</a>";
 
             if ($notitle) {

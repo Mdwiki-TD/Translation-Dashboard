@@ -6,7 +6,7 @@ if (isset($_POST['del'])) {
 	for($i = 0; $i < count($_POST['del']); $i++ ) {
 		$del	= $_POST['del'][$i];
 		//---
-		if ($del != '') {
+		if (!empty($del)) {
 			$qua2 = "DELETE FROM categories WHERE id = ?";
 			execute_query($qua2, [$del]);
 		};
@@ -34,7 +34,7 @@ if (isset($_POST['cats'])) {
 		$qua = "INSERT INTO categories (category, campaign, depth, def, category2) SELECT ?, ?, ?, ?, ?";
 		$params = [$cat1, $camp, $dep, $def, $cat2];
 		//---
-		if ($ido != '') {
+		if (!empty($ido)) {
 			$qua = "UPDATE categories
 			SET
 				campaign = ?,

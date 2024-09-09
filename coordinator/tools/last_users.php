@@ -167,7 +167,7 @@ function get_recent_sql($lang)
     //---
     $lang_line = '';
     //---
-    if ($lang != '' && $lang != 'All') $lang_line = "and lang = '$lang'";
+    if (!empty($lang) && $lang != 'All') $lang_line = "and lang = '$lang'";
     //---
     $qua = <<<SQL
         select

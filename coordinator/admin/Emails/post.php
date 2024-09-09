@@ -11,7 +11,7 @@ if (isset($_POST['del'])) {
 	for($i = 0; $i < count($_POST['del']); $i++ ) {
 		$del	= $_POST['del'][$i];
 		//---
-		if ($del != '') {
+		if (!empty($del)) {
 			$qu = "DELETE FROM users WHERE user_id = ?";
 			execute_query($qu, $params=[$del]);
 		};
@@ -29,7 +29,7 @@ if (isset($_POST['username'])) {
 		$project 	= $_POST['project'][$i];
 		// $project 	= '';
 		//---
-		if ($user_name != '') {
+		if (!empty($user_name)) {
 			//---
 			$user_name = trim($user_name);
 			$email     = trim($email);

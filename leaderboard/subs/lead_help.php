@@ -54,7 +54,7 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
         $ccat = substr($ccat, 0, -4);
     } else {
         // echo "No campaigns for $mdtitle<br>";
-        if ($campaign != '') {
+        if (!empty($campaign)) {
             $ccat = "<a href='leaderboard.php?camp=$campaign'>$campaign</a>";
         };
     };

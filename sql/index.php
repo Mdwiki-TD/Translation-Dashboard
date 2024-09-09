@@ -77,7 +77,7 @@ $pass = $_REQUEST['pass'] ?? '';
 $qua  = $_REQUEST['code'] ?? '';
 $raw  = $_REQUEST['raw'] ?? '';
 //---
-if ($raw == '') {
+if (empty($raw)) {
     require '../header.php';
     //---
     if (!in_array(global_username, $usrs)) {
@@ -233,7 +233,7 @@ if ($raw == '') {
     HTML;
 };
 //---
-if ($qua != '' and ($pass == $sqlpass or $_SERVER['SERVER_NAME'] == 'localhost')) {
+if (!empty($qua) and ($pass == $sqlpass or $_SERVER['SERVER_NAME'] == 'localhost')) {
     //---
     require 'sql_result.php';
     make_sql_result($qua, $raw);
@@ -255,7 +255,7 @@ $result = $this->db->getConnection()->exec($sql);
 
 */
 //---
-if ($raw == '') {
+if (empty($raw)) {
     print "</div>";
     //---
     require '../foter.php';

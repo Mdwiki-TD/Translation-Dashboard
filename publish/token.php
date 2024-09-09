@@ -16,7 +16,7 @@ $wiki    = $_GET['wiki'] ?? '';
 $user    = $_GET['user'] ?? '';
 $ty      = $_GET['ty'] ?? '';
 
-if ($wiki == '' || $user == '') {
+if (empty($wiki) || empty($user)) {
     print(json_encode(['error' => 'wiki or user is empty']));
     exit(1);
 }

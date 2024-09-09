@@ -141,7 +141,7 @@ function make_td($tabg, $nnnn)
     $view = make_view_by_number($targe, $views_number, $llang, $pupdate);
     //---
     $mail_icon = (user_in_coord != false) ? make_mail_icon($tabg) : '';
-    $mail_icon_td = ($mail_icon != '') ? "<td data-content='Email'>$mail_icon</td>" : '';
+    $mail_icon_td = (!empty($mail_icon)) ? "<td data-content='Email'>$mail_icon</td>" : '';
     //---
     $talk = make_talk_url($llang, $user);
     //---
@@ -190,7 +190,7 @@ function get_recent_sql($lang)
 {
     $lang_line = '';
     //---
-    if ($lang != '' && $lang != 'All') $lang_line = "and lang = '$lang'";
+    if (!empty($lang) && $lang != 'All') $lang_line = "and lang = '$lang'";
     //---
     $dd0 = fetch_query("select * from pages where target != '' $lang_line ORDER BY pupdate DESC limit 250;");
     $dd1 = fetch_query("select * from pages where target != '' $lang_line ORDER BY add_date DESC limit 250");
