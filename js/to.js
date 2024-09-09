@@ -1,20 +1,19 @@
 /**
- * Retrieves data from specified JSON endpoints and updates the DOM elements accordingly.
- * This function is designed to be executed in a non-localhost environment.
- * If executed on localhost, it will log a message to the console and terminate early.
- *
- * The function searches for elements with the attribute `hrefjson`, makes an AJAX GET request
- * to the URLs specified in those attributes, and processes the returned data to update
- * the text content of the elements and their parent elements.
- *
- * @throws {Error} Throws an error if the AJAX request fails.
- *
- * @returns {boolean} Returns true upon successful execution of the function.
- *
- * @example
- * // Call the function to initiate data retrieval and DOM updates
- * to_get();
- */
+     * Retrieves data from specified JSON endpoints and updates the DOM elements accordingly.
+     * The function checks if the current hostname is 'localhost'; if so, it logs a message and exits early.
+     * For each element with the attribute 'hrefjson', it performs an AJAX GET request to the specified URL,
+     * aggregates view counts from the returned data, and updates the text of the element as well as its parent.
+     * Additionally, it updates a separate element with the cumulative view count.
+     *
+     * @function to_get
+     * @returns {boolean} Returns true if the function executes successfully.
+     *
+     * @throws {Error} Throws an error if the AJAX request fails, but does not handle it explicitly.
+     *
+     * @example
+     * // Call the function to initiate data retrieval and DOM updates
+     * to_get();
+     */
 function to_get() {
 	// get the data from the hrefjson if the server not localhost
 	if (window.location.hostname === 'localhost') {
