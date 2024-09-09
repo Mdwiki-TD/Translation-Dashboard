@@ -54,23 +54,24 @@ if ($access == null) {
     // ---
     $Success = $editit['edit']['result'] ?? '';
     // ---
-    if ($Success === 'Success') {
-        $tab = [
-            'title' => $title,
-            'summary' => $summary,
-            'lang' => $lang,
-            'user' => $user,
-            'sourcetitle' => $sourcetitle
+    $tab = [
+        'title' => $title,
+        'summary' => $summary,
+        'lang' => $lang,
+        'user' => $user,
+        'result' => $Success,
+        'sourcetitle' => $sourcetitle
 
-        ];
-        // ---
-        try {
-            // dump $tab to file in folder to_do
-            $file_name = __DIR__ . '/to_do/' . rand(0, 999999999) . '.json';
-            file_put_contents($file_name, json_encode($tab, JSON_PRETTY_PRINT));
-        } catch (Exception $e) {
-            test_print($e->getMessage());
-        }
+    ];
+    try {
+        // dump $tab to file in folder to_do
+        $file_name = __DIR__ . '/to_do/' . rand(0, 999999999) . '.json';
+        file_put_contents($file_name, json_encode($tab, JSON_PRETTY_PRINT));
+    } catch (Exception $e) {
+        test_print($e->getMessage());
+    }
+    // ---
+    if ($Success === 'Success') {
         // ---
         try {
             InsertPageTarget($sourcetitle, 'lead', "", $lang, $user, "", $title);
