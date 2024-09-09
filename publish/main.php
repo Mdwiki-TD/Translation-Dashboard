@@ -44,7 +44,6 @@ $summary = $_REQUEST['summary'] ?? '';
 $access = get_access_from_db($user);
 if ($access == null) {
     $editit = ['edit' => ['error' => 'no access'], 'username' => $user];
-    // exit(1);
 } else {
     $access_key = $access['access_key'];
     $access_secret = $access['access_secret'];
@@ -56,10 +55,27 @@ if ($access == null) {
     $Success = $editit['edit']['result'] ?? '';
     // ---
     if ($Success === 'Success') {
-        InsertPageTarget($sourcetitle, 'lead', "", $lang, $user, "", $title);
-        $editit['LinkToWikidata'] = LinkToWikidata($sourcetitle, $lang, $user, $title, $access_key, $access_secret);
-    };
+        $tab = [
+            'title' => $title,
+            'summary' => $summary,
+            'lang' => $lang,
+            'user' => $user,
+            'sourcetitle' => $sourcetitle
+
+        ];
+        // ---
+        // dump $tab to file in folder to_do
+        $file_name = __DIR__ . '/to_do/' . rand(0, 999999999) . '.json';
+        file_put_contents($file_name, json_encode($tab, JSON_PRETTY_PRINT));
+        // ---
+        try {
+            InsertPageTarget($sourcetitle, 'lead', "", $lang, $user, "", $title);
+            $editit['LinkToWikidata'] = LinkToWikidata($sourcetitle, $lang, $user, $title, $access_key, $access_secret);
+        } catch (Exception $e) {
+            test_print($e->getMessage());
+        }
     // ---
+    };
 }
 
 test_print("\n<br>");
