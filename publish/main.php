@@ -64,9 +64,13 @@ if ($access == null) {
 
         ];
         // ---
-        // dump $tab to file in folder to_do
-        $file_name = __DIR__ . '/to_do/' . rand(0, 999999999) . '.json';
-        file_put_contents($file_name, json_encode($tab, JSON_PRETTY_PRINT));
+        try {
+            // dump $tab to file in folder to_do
+            $file_name = __DIR__ . '/to_do/' . rand(0, 999999999) . '.json';
+            file_put_contents($file_name, json_encode($tab, JSON_PRETTY_PRINT));
+        } catch (Exception $e) {
+            test_print($e->getMessage());
+        }
         // ---
         try {
             InsertPageTarget($sourcetitle, 'lead', "", $lang, $user, "", $title);
@@ -74,7 +78,7 @@ if ($access == null) {
         } catch (Exception $e) {
             test_print($e->getMessage());
         }
-    // ---
+        // ---
     };
 }
 
