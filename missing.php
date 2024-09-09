@@ -67,7 +67,7 @@ foreach ( $Table as $langcode2 => $missing ) {
     $exists_1 = bcsub($lenth, $missing);
     $exists = $langs[$langcode]['exists'] ?? '';
     #---
-    if ($exists == '' ) $exists = $langs[$langcode2]['exists'] ?? $exists_1;
+    if (empty($exists) ) $exists = $langs[$langcode2]['exists'] ?? $exists_1;
     //---
     $numb = number_format($missing);
     //---

@@ -62,7 +62,7 @@ function LinkIt($qid, $lang, $sourcetitle, $targettitle, $access_key, $access_se
         "linktitle" => $targettitle,
         "linksite" => "{$lang}wiki",
     ];
-    if ($qid != '') {
+    if (!empty($qid)) {
         $apiParams["id"] = $qid;
     } else {
         $apiParams["title"] = $sourcetitle;

@@ -35,7 +35,7 @@ function open_fixwikirefs($target, $lang)
 
 function do_it($target, $text, $summary, $sourcetitle, $lang, $access_key, $access_secret)
 {
-    if ($summary === "") {
+    if (empty($summary)) {
         $summary = 'Created by translating the page [[:mdwiki:' . $sourcetitle . '|' . $sourcetitle . ']]. #mdwikicx .';
     }
 
@@ -75,7 +75,7 @@ function start_main_get()
 
     $text = get_medwiki_text($target) ?? '';
 
-    if ($text === '') {
+    if (empty($text)) {
         // refresh the page
         header("Refresh:1; url={$_SERVER['PHP_SELF']}?title=$target&lang=$lang&summary=$summary&user=$user");
         exit();
@@ -83,7 +83,7 @@ function start_main_get()
 
     $access_key = get_from_cookie('accesskey');
     $access_secret = get_from_cookie('access_secret');
-    if ($access_key === '' || $access_secret === '') {
+    if (empty($access_key) || empty($access_secret)) {
         echo json_encode(['error' => 'log in first!', 'user' => $user]);
         exit(1);
     }
@@ -103,7 +103,7 @@ function start_main_get()
         // ----
         open_fixwikirefs($target, $lang);
         // ----
-        if ($test != '') {
+        if (!empty($test)) {
             echo <<<HTML
                 < meta http-equiv="refresh" content="0; URL={$link}" />
             HTML;

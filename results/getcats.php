@@ -142,7 +142,7 @@ function get_categorymembers($cat)
     //---
     $cmcontinue = 'x';
     //---
-    while ($cmcontinue != '') {
+    while (!empty($cmcontinue)) {
         //---
         if ($cmcontinue != 'x') $params['cmcontinue'] = $cmcontinue;
         //---

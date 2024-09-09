@@ -25,7 +25,7 @@ $tool_host  = $my_ini['mail_host'] ?? "";
 $tool_port  = $my_ini['mail_port'] ?? "";
 $tool_tls   = $my_ini['mail_tls'] ?? "";
 //---
-if ($msg != '' && $email_to != '' ) {
+if (!empty($msg) && !empty($email_to) ) {
     echo "
     <script>
         $('#mainnav').hide();
@@ -92,7 +92,7 @@ if ($msg != '' && $email_to != '' ) {
     $mail->Body    = $msg1;
     // $mail->AltBody = 'You prefer plain text, no problem.';
 
-    if ($ccme == 1 && $cc_to != '') {
+    if ($ccme == 1 && !empty($cc_to)) {
         $mail->addCC($cc_to);
     };
 
