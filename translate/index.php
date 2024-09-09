@@ -53,7 +53,7 @@ function insertPage($title_o, $word, $tr_type, $cat, $camp, $coden, $useree, $te
 {
     test_print("INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target, add_date)");
     // ---
-    if ($useree == "" || $useree == "Mr. Ibrahem" || $useree == "MdWikiBot") {
+    if (empty($useree) || $useree == "Mr. Ibrahem" || $useree == "MdWikiBot") {
         return;
     }
     $quae_new = <<<SQL
@@ -94,7 +94,7 @@ function find_pages_exists_or_not($title)
         $misssing = $page['missing'] ?? '';
         $pageid = $page['pageid'] ?? '';
         // ---
-        if ($misssing == '' || $pageid != '') {
+        if (empty($misssing) || !empty($pageid)) {
             return true;
         }
     }
@@ -115,7 +115,7 @@ function go_to_translate_url($output, $go, $title_o, $coden, $tr_type, $test)
     // ---
     if (trim($output) == true || $go) {
 
-        if ($test != "" && (!$go)) {
+        if (!empty($test) && (!$go)) {
             $wiki = $coden . "wiki";
             echo <<<HTML
                 <br>trim(output) == "true"
@@ -146,17 +146,17 @@ function go_to_translate_url($output, $go, $title_o, $coden, $tr_type, $test)
 }
 //---
 // Display login button if user is not logged in
-if ($useree == '') echo login_card();
+if (empty($useree)) echo login_card();
 //---
-$user_valid = ($useree != '') ? true : false;
+$user_valid = (!empty($useree)) ? true : false;
 $go = $_GET['go'] ?? '';
-$go = ($go != '') ? true : false;
+$go = (!empty($go)) ? true : false;
 //---
 // TODO: temporary solution
 // $user_valid = true;
 // $go = true;
 // Process form data if title, code, and user are set
-if ($title_o != '' && $coden != '' && $user_valid) {
+if (!empty($title_o) && !empty($coden) && $user_valid) {
     $title_o = trim($title_o);
     $coden   = trim($coden);
     $useree  = trim($useree);

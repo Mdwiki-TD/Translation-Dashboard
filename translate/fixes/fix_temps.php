@@ -142,7 +142,7 @@ function add_missing_title($text, $title)
             echo "$name: $param";
             // ---
             $name_p = $temp->getParameter($param);
-            if (!$name_p || trim($name_p) == "") {
+            if (!$name_p || empty(trim($name_p))) {
                 // $temp->setParameter($param, $title);
                 // $new_temp = $temp->toString(true);
                 // ---

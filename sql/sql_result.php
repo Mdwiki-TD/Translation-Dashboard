@@ -21,7 +21,7 @@ function make_sql_result($qua, $raw)
         $tr = '';
         //---
         foreach ($row as $nas => $value) {
-            // if ($nas != '') {
+            // if (!empty($nas)) {
             if (!preg_match('/^\d+$/', $nas, $m)) {
                 $tr .= "<td>$value</th>";
                 if ($number == 1) {
@@ -30,7 +30,7 @@ function make_sql_result($qua, $raw)
             };
         };
         //---
-        if ($tr != '') {
+        if (!empty($tr)) {
             $text .= "<tr><td>$number</td>$tr</tr>";
         };
         //---
@@ -41,7 +41,7 @@ function make_sql_result($qua, $raw)
         </thead>
     HTML;
     //---
-    if ($raw == '') {
+    if (empty($raw)) {
         //---
         echo "<h4>sql results:$number.</h4>";
         //---
@@ -49,7 +49,7 @@ function make_sql_result($qua, $raw)
         //---
         if (global_test != '') var_export($uu);
         //---
-        if ($text == '') {
+        if (empty($text)) {
             if (global_test != '') {
                 print_r($uu);
             } else {

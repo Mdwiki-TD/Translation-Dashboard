@@ -87,7 +87,7 @@ class WikiTranslator
             $json1 = get_mdwiki_url_with_params($params);
             $first = $json1["parse"]["wikitext"]["*"] ?? '';
             // ---
-            if ($first != '') {
+            if (!empty($first)) {
                 $first .= "\n==References==\n<references />";
             }
         }
@@ -104,7 +104,7 @@ class WikiTranslator
 
         $newText = text_changes_work($newText, $allText, $this->expend_refs, $this->title);
 
-        if ($newText === '') {
+        if (empty($newText)) {
             echo ('no text');
             return "";
         }
@@ -122,7 +122,7 @@ class WikiTranslator
         $text = $txt["text"] ?? "";
         $allText = $txt["allText"] ?? "";
 
-        if ($text === '') {
+        if (empty($text)) {
             echo ('no text');
             return "notext";
         }
@@ -133,7 +133,7 @@ class WikiTranslator
 
     private function PostToEnwiki($newText)
     {
-        if ($newText === '') {
+        if (empty($newText)) {
             echo ('no text');
             return "notext";
         }
@@ -164,7 +164,7 @@ class WikiTranslator
         test_print("startTranslate():");
         $newText = $this->parseText();
 
-        if ($newText === '' || $newText == '' || $newText == 'n' || $newText == 'notext') {
+        if (empty($newText) || empty($newText) || $newText == 'n' || $newText == 'notext') {
             test_print('notext');
             return "notext";
         }

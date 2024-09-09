@@ -63,7 +63,7 @@ function get_result($title, $text, $refs_expend)
     $new_text = "";
     $page_line = "";
     // ---
-    if ($title != '') {
+    if (!empty($title)) {
         $title = trim($title);
         // ---
         $articleurl = "https://mdwiki.org/w/index.php?title=$title";
@@ -83,7 +83,7 @@ function get_result($title, $text, $refs_expend)
         //---
         $new_text = htmlentities($newtext);
         //---
-    } elseif ($text != "") {
+    } elseif (!empty($text)) {
         $page_line = "work on text.";
         // ---
         $newtext = TranslatePhpEditText($text, $expend_refs = $refs_expend);
@@ -92,7 +92,7 @@ function get_result($title, $text, $refs_expend)
     }
     //---
     $done = "";
-    if ($new_text != '') {
+    if (!empty($new_text)) {
         $done = "done";
         $new_text = <<<HTML
             new text:

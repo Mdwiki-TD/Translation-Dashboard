@@ -45,7 +45,7 @@ $campaign_input_list = array();
 $catinput_list = array();
 //---
 foreach ( fetch_query('select id, category, category2, campaign, depth, def from categories;') AS $k => $tab ) {
-    if ($tab['category'] != '' && $tab['campaign'] != '') {
+    if (!empty($tab['category']) && !empty($tab['campaign'])) {
         //---
         $cat_titles[] = $tab['campaign'];
         //---
