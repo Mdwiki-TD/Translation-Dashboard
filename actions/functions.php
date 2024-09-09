@@ -42,14 +42,14 @@ function load_request() {
     //---
     $camp = $_REQUEST['camp'] ?? '';
     //---
-    if ($cat == "" && $camp != "") {
+    if (empty($cat) && !empty($camp)) {
         $cat = $camp_to_cat[$camp] ?? $cat;
     }
     //---
-    if ($cat != "" && $camp == "") {
+    if (!empty($cat) && empty($camp)) {
         $camp = $cat_to_camp[$cat] ?? $camp;
     }
-    // if ($cat == "") $cat = "RTT";
+    // if (empty($cat)) $cat = "RTT";
     //---
     return [
         'code' => $code,

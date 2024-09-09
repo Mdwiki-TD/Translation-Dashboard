@@ -19,7 +19,7 @@ if ($_SERVER['SERVER_NAME'] == 'localhost') {
 } else {
 	$access_key = get_from_cookie('accesskey');
 	$access_secret = get_from_cookie('access_secret');
-	if ($access_key == '' || $access_secret == '') {
+	if (empty($access_key) || empty($access_secret)) {
 		setcookie('username', '', time() - 3600, "/", $domain, true, true);
 		$username = '';
 	}
@@ -34,7 +34,7 @@ function echo_login()
 	global $username;
 	$safeUsername = htmlspecialchars($username); // Escape characters to prevent XSS
 
-	if ($username == '') {
+	if (empty($username)) {
 		echo <<<HTML
 			Go to this URL to authorize this tool:<br />
 			<a href='auth.php?a=login'>Login</a><br />

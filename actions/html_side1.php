@@ -74,7 +74,7 @@ function create_side($filename) {
             $lis .= generateListItem($item['id'], $item['href'], $item['title'], $filename, $target);
         }
 
-        if ($lis !== '') {
+        if (!empty($lis)) {
 			$sidebar .= <<<HTML
                 <li class="mb-1">
                     <button class="btn btn-toggle align-items-center rounded" data-bs-toggle="collapse"

@@ -178,7 +178,7 @@ function sql_add_user($user_name, $email, $wiki, $project, $ido)
     $params = [$user_name, $email, $wiki, $project, $user_name];
 
     // Check if $ido is set and not empty
-    if ($ido != '' && $ido != 0 && $ido != "0") {
+    if (!empty($ido) && $ido != 0 && $ido != "0") {
         // Use a prepared statement for UPDATE
         $qua = <<<SQL
             UPDATE users SET
@@ -207,7 +207,7 @@ function update_settings($id, $title, $displayed, $value, $type)
     $params = [$title, $displayed, $type, $value, $id];
 
     // Define the SQL query using a prepared statement
-    if ($id == 0 || $id == '0' || $id == '') {
+    if ($id == 0 || $id == '0' || empty($id)) {
         $query = "INSERT INTO settings (id, title, displayed, Type, value) SELECT ?, ?, ?, ?, ? WHERE NOT EXISTS (SELECT 1 FROM settings WHERE title = ?)";
         $params = [$id, $title, $displayed, $type, $value, $title];
     }
@@ -224,7 +224,7 @@ function insert_to_translate_type($tt_title, $tt_lead, $tt_full, $tt_id = 0)
     //---
     $query = "UPDATE translate_type SET tt_lead = ?, tt_full = ? WHERE tt_title = ?";
     //---
-    if ($tt_id == 0 || $tt_id == '0' || $tt_id == '') {
+    if ($tt_id == 0 || $tt_id == '0' || empty($tt_id)) {
         $query = "INSERT INTO translate_type (tt_title, tt_lead, tt_full) SELECT ?, ?, ?";
         $params = [$tt_title, $tt_lead, $tt_full];
     };
@@ -239,7 +239,7 @@ function insert_to_projects($g_title, $g_id)
     $query = "UPDATE projects SET g_title = ? WHERE g_id = ?";
     $params = [$g_title, $g_id];
     //---
-    if ($g_id == 0 || $g_id == '0' || $g_id == '') {
+    if ($g_id == 0 || $g_id == '0' || empty($g_id)) {
         $query = "INSERT INTO projects (g_title) SELECT ? WHERE NOT EXISTS (SELECT 1 FROM projects WHERE g_title = ?)";
         $params = [$g_title, $g_title];
     };
@@ -270,4 +270,4 @@ function display_tables()
 }
 
 $test = $_GET['test'] ?? '';
-if ($test != '') display_tables();
+if (!empty($test)) display_tables();

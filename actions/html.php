@@ -75,7 +75,7 @@ function make_modal_fade($label, $text, $id, $button = '')
 function make_form_check_input($label, $name, $value_yes, $value_no, $checked)
 {
     //---
-    $label_line = ($label != '') ? "<label class='form-check-label' for='$name'>$label</label>" : "";
+    $label_line = (!empty($label)) ? "<label class='form-check-label' for='$name'>$label</label>" : "";
     //---
     return <<<HTML
         <div class='form-check form-switch'>
@@ -165,7 +165,7 @@ function makeDropdown($tab, $cat, $id, $add)
     //---
     $sel_line = "";
     //---
-    if ($add != '') {
+    if (!empty($add)) {
         $add2 = ($add == 'all') ? 'All' : $add;
         $sel = "";
         if ($cat == $add) $sel = "celected";
@@ -261,7 +261,7 @@ function make_datalist_options($hyh)
 //---
 function make_mdwiki_title($title)
 {
-    if ($title != '') {
+    if (!empty($title)) {
         $encoded_title = rawurlencode(str_replace(' ', '_', $title));
         return "<a target='_blank' href='https://mdwiki.org/wiki/$encoded_title'>$title</a>";
     }
@@ -270,7 +270,7 @@ function make_mdwiki_title($title)
 //---
 function make_cat_url($category)
 {
-    if ($category != '') {
+    if (!empty($category)) {
         $encoded_category = rawurlencode(str_replace(' ', '_', $category));
         return "<a target='_blank' href='https://mdwiki.org/wiki/Category:$encoded_category'>$category</a>";
     }
@@ -307,7 +307,7 @@ function make_translation_url($title, $lang, $tr_type)
 //---
 function make_mdwiki_user_url($user)
 {
-    if ($user != '') {
+    if (!empty($user)) {
         $encoded_user = rawurlencode(str_replace(' ', '_', $user));
         return "<a href='https://mdwiki.org/wiki/User:$encoded_user'>$user</a>";
     }
@@ -316,8 +316,8 @@ function make_mdwiki_user_url($user)
 //---
 function make_target_url($target, $lang, $name = '', $deleted = false)
 {
-    $display_name = ($name != '') ? $name : $target;
-    if ($target != '') {
+    $display_name = (!empty($name)) ? $name : $target;
+    if (!empty($target)) {
         $encoded_target = rawurlencode(str_replace(' ', '_', $target));
         $link = "<a target='_blank' href='https://$lang.wikipedia.org/wiki/$encoded_target'>$display_name</a>";
 
