@@ -54,15 +54,15 @@ function pages_tables($mainlang, $year_y)
         //---
         $dat1 = $Taab['pupdate'] ?? '';
         $dat2 = $Taab['date'] ?? '';
-        $dat = ($dat1 != '') ? $dat1 : $dat2;
+        $dat = (!empty($dat1)) ? $dat1 : $dat2;
         //---
         $urt = '';
-        if ($dat != '') {
+        if (!empty($dat)) {
             $urt = str_replace('-', '', $dat) . ':';
         };
         $kry = $urt . $Taab['lang'] . ':' . $Taab['title'];
         //---
-        if ($Taab['target'] != '') {
+        if (!empty($Taab['target'])) {
             $dd[$kry] = $Taab;
         } else {
             $dd_Pending[$kry] = $Taab;

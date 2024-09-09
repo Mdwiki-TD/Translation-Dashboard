@@ -44,7 +44,7 @@ function makeSqlQuery()
         WHERE p.target != ''
     ";
     // 2023-08-22
-    // if ($camp != 'all' && $camp_cat != '') $queryPart2 .= "AND p.cat = '$camp_cat' \n";
+    // if ($camp != 'all' && !empty($camp_cat)) $queryPart2 .= "AND p.cat = '$camp_cat' \n";
 
     if ($year != 'all') {
         $queryPart2 .= "AND YEAR(p.pupdate) = '$year' \n";
@@ -84,7 +84,7 @@ foreach (fetch_query($qua_all) as $Key => $teb) {
     $title  = $teb['title'] ?? "";
     //---
     // 2023-08-22
-    if ($camp != 'all' && $camp_cat != '') {
+    if ($camp != 'all' && !empty($camp_cat)) {
         if (!in_array($title, $camps_to_articles[$camp])) continue;
     }
     //---

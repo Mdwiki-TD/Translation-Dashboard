@@ -41,7 +41,7 @@ $table2 = $tat['table2'];
 //---
 $man = $langname;
 //---
-if ($_SERVER['SERVER_NAME'] == 'localhost' || $test != '') {
+if ($_SERVER['SERVER_NAME'] == 'localhost' || !empty($test)) {
     $man .= ' <a target="_blank" href="http://' . $mainlang . '.wikipedia.org/wiki/Category:Translated_from_MDWiki">(cat)</a>';
 };
 //---

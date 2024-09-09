@@ -32,8 +32,8 @@ $allow_whole_translate = $settings['allow_type_of_translate']['value'] ?? '1';
 $req  = load_request();
 $code = $req['code'] ?? "";
 //---
-$cat  = ($req['cat'] != '') ? $req['cat'] : $main_cat;
-$camp  = ($req['camp'] != '') ? $req['camp'] : $main_camp;
+$cat  = (!empty($req['cat'])) ? $req['cat'] : $main_cat;
+$camp  = (!empty($req['camp'])) ? $req['camp'] : $main_camp;
 //---
 $code_lang_name = $req['code_lang_name'] ?? "";
 //---s
@@ -57,7 +57,7 @@ function print_form_start1($allow_whole_translate, $lang_to_code, $catinput_list
     };
     //---
     $coco = $code_lang_name;
-    if ($coco == '') {
+    if (empty($coco)) {
         $coco = $code;
     };
     //---
@@ -89,10 +89,10 @@ function print_form_start1($allow_whole_translate, $lang_to_code, $catinput_list
     //---
     $err = '';
     //---
-    if ($code_lang_name == '' and $code != '') {
+    if (empty($code_lang_name) and !empty($code)) {
         $err = "<span style='font-size:13pt;color:red'>code ($code) not valid wiki.</span>";
     } else {
-        if ($code != '') {
+        if (!empty($code)) {
             $_SESSION['code'] = $code;
         };
     };

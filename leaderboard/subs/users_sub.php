@@ -42,7 +42,7 @@ function views_tables($user_main, $year_y, $lang_y, $test = '')
     //---
     $views_params = [$user_main];
     //---
-    if ($test != '') {
+    if (!empty($test)) {
         echo $count_sql . '<br>';
         echo $views_qua . '<br>';
     }
@@ -53,7 +53,7 @@ function views_tables($user_main, $year_y, $lang_y, $test = '')
     //---
     unset($count_query);
     //---
-    if ($test != '') echo "<br>user_count : $user_count<br>";
+    if (!empty($test)) echo "<br>user_count : $user_count<br>";
     //---
     $done = 0;
     $offset = 0;
@@ -108,7 +108,7 @@ function pages_tables($user_main, $year_y, $lang_y, $test = '')
         $params[] = $year_y;
     };
     //---
-    if ($test != '') {
+    if (!empty($test)) {
         echo $pages_qua . '<br>';
     }
     //---
@@ -118,7 +118,7 @@ function pages_tables($user_main, $year_y, $lang_y, $test = '')
         //---
         $kry = str_replace('-', '', $tabb['pupdate']) . ':' . $tabb['lang'] . ':' . $tabb['title'];
         //---
-        if ($tabb['target'] != '') {
+        if (!empty($tabb['target'])) {
             $dd[$kry] = $tabb;
         } else {
             $dd_Pending[$kry] = $tabb;
@@ -134,7 +134,7 @@ function get_users_tables($mainuser, $year_y, $lang_y, $test = '')
     $user_main = $mainuser;
     $user_main = rawurldecode(str_replace('_', ' ', $user_main));
     //---
-    if ($mainuser == '') {
+    if (empty($mainuser)) {
         return array('dd' => [], 'dd_Pending' => [], 'table_of_views' => []);
     };
     //---

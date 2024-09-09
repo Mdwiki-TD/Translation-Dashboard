@@ -28,14 +28,14 @@ $langs = $_REQUEST['langcode'] ?? '';
 $graph = $_REQUEST['graph'] ?? '';
 $camps = $_REQUEST['camps'] ?? '';
 
-if ($users !== '') {
+if (!empty($users)) {
     require __DIR__ . '/users.php';
-} elseif ($langs !== '') {
+} elseif (!empty($langs)) {
     require __DIR__ . '/langs.php';
-} elseif ($camps !== '') {
+} elseif (!empty($camps)) {
     require __DIR__ . '/camps.php';
     camps_list();
-} elseif ($graph !== '') {
+} elseif (!empty($graph)) {
     print_graph_tab();
 } else {
     require __DIR__ . '/main.php';
