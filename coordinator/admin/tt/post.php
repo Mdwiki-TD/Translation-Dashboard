@@ -12,7 +12,7 @@ if (isset($_POST['se'])) {
         $lead     = $_POST["lead_$n"] ?? '';
         $full     = $_POST["full_$n"] ?? '';
         //---
-        if ($title == '') continue;
+        if (empty($title)) continue;
         //---
         $re = insert_to_translate_type($title, $lead, $full, $tt_id=$id);
 		//---
@@ -29,7 +29,7 @@ if (isset($_POST['add'])) {
 		$lead 	= $_POST['lead'][$i] ?? 0;
 		$full 	= $_POST['full'][$i] ?? 0;
 		//---
-        if ($title == '') continue;
+        if (empty($title)) continue;
         //---
         $re = insert_to_translate_type($title, $lead, $full);
 		//---

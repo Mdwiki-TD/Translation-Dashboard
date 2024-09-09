@@ -49,7 +49,7 @@ foreach (fetch_query($sql_t) as $k => $t) {
     $user  = $t['user'] ?? "";
     $count = $t['count'] ?? "";
     $user_process_tab[$user] = $count;
-    if ($user != 'test' && $user != '' && $count > 0) {
+    if ($user != 'test' && !empty($user) && $count > 0) {
         //---
         $n++;
         //---

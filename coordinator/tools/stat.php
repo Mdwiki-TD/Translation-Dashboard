@@ -89,9 +89,9 @@ foreach ($titles as $title) {
 	//---
 	$qid = $sql_qids[$title] ?? "";
 	//---
-	if ($qid == '') $no_qid += 1;
+	if (empty($qid)) $no_qid += 1;
 	//---
-	$qidurl = ($qid != '') ? "<a href='https://wikidata.org/wiki/$qid'>$qid</a>" : '';
+	$qidurl = (!empty($qid)) ? "<a href='https://wikidata.org/wiki/$qid'>$qid</a>" : '';
 	//---
 	$word = $Words_table[$title] ?? 0;
 	//---

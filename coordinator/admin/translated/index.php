@@ -203,7 +203,7 @@ function get_recent_sql($lang, $table)
 {
     $lang_line = '';
     //---
-    if ($lang != '' && $lang != 'All') $lang_line = "and lang = '$lang'";
+    if (!empty($lang) && $lang != 'All') $lang_line = "and lang = '$lang'";
     //---
     $dd = fetch_query("select * from $table where target != '' $lang_line ORDER BY pupdate DESC;");
     //---
