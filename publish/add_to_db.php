@@ -4,6 +4,7 @@ namespace Publish\AddToDb;
 /*
 
 use function Publish\AddToDb\InsertPageTarget;
+use function Publish\AddToDb\retrieveCampaignCategories;
 */
 
 include_once __DIR__ . '/../vendor_load.php';
@@ -14,7 +15,7 @@ include_once __DIR__ . '/../actions/mdwiki_sql.php';
 use function Actions\MdwikiSql\fetch_query;
 use function Actions\MdwikiSql\execute_query;
 
-function GetCats()
+function retrieveCampaignCategories()
 {
     $camp_to_cats = [];
     foreach (fetch_query('select id, category, category2, campaign, depth, def from categories;') as $k => $tab) {

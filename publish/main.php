@@ -20,7 +20,7 @@ use function OAuth\SendEdit\auth_do_edit;
 use function Publish\Helps\get_access_from_db;
 // use function Publish\FixRefs\fix_wikirefs;
 use function Publish\AddToDb\InsertPageTarget;
-use function Publish\AddToDb\GetCats;
+use function Publish\AddToDb\retrieveCampaignCategories;
 use function Publish\WD\LinkToWikidata;
 
 /*
@@ -71,6 +71,9 @@ if ($access == null) {
     try {
         // dump $tab to file in folder to_do
         $file_name = __DIR__ . '/to_do/' . rand(0, 999999999) . '.json';
+        if (!is_dir(__DIR__ . '/to_do')) {
+            mkdir(__DIR__ . '/to_do', 0755, true);
+        }
         file_put_contents($file_name, json_encode($tab, JSON_PRETTY_PRINT));
     } catch (Exception $e) {
         test_print($e->getMessage());
@@ -78,7 +81,7 @@ if ($access == null) {
     // ---
     if ($Success === 'Success') {
         // ---
-        $camp_to_cat = GetCats();
+        $camp_to_cat = retrieveCampaignCategories();
         $cat      = $camp_to_cat[$campaign] ?? '';
         // ---
         try {
