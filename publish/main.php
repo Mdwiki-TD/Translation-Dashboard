@@ -13,6 +13,7 @@ include_once __DIR__ . '/helps.php';
 // include_once __DIR__ . '/fix_refs.php';
 include_once __DIR__ . '/add_to_db.php';
 include_once __DIR__ . '/wd.php';
+include_once __DIR__ . '/text_fix.php';
 include_once __DIR__ . '/../Tables/sql_tables.php'; // $sql_qids $cat_titles $cat_to_camp $camp_to_cat
 
 use function Actions\Functions\test_print;
@@ -22,6 +23,7 @@ use function Publish\Helps\get_access_from_db;
 use function Publish\AddToDb\InsertPageTarget;
 use function Publish\AddToDb\retrieveCampaignCategories;
 use function Publish\WD\LinkToWikidata;
+use function Publish\TextFix\DoChangesToText;
 
 /*
 $t_Params = [
@@ -34,13 +36,14 @@ $t_Params = [
 ];
 */
 
-$sourcetitle   = $_REQUEST['sourcetitle'] ?? '';
+$sourcetitle= $_REQUEST['sourcetitle'] ?? '';
 $title    = $_REQUEST['title'] ?? '';
 $user     = $_REQUEST['user'] ?? '';
 $lang     = $_REQUEST['target'] ?? '';
 $text     = $_REQUEST['text'] ?? '';
 $summary  = $_REQUEST['summary'] ?? '';
 $campaign = $_REQUEST['campaign'] ?? '';
+$revid    = $_REQUEST['revid'] ?? '';
 
 // $username = get_from_cookie('username');
 
@@ -53,6 +56,7 @@ if ($access == null) {
     $access_secret = $access['access_secret'];
     // ---
     // $text = fix_wikirefs($text, $lang);
+    $text = DoChangesToText($sourcetitle, $text, $lang, $revid);
     // ---
     $editit = auth_do_edit($title, $text, $summary, $lang, $access_key, $access_secret);
     // ---

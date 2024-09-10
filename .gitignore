@@ -26,3 +26,4 @@ actions/mdwiki_api copy.php
 translate/fixes/test/new.txt
 /translate/fixes/test
 publish/test_add_to_db.php
+publish/test_text_fix.php
