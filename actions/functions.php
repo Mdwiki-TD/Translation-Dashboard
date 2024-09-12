@@ -86,13 +86,16 @@ function strendswith($text, $end) {
 }
 
 function test_print($s) {
-    if (print_te && gettype($s) == 'string') {
-        echo "\n<br>\n$s";
-    } elseif (print_te) {
-        echo "\n<br>\n";
-        print_r($s);
+
+    // if (!isset($_REQUEST['test'])) return;
+    if (!print_te) {
+        if (gettype($s) == 'string') {
+            echo "\n<br>\n$s";
+        } else {
+            echo "\n<br>\n";
+            print_r($s);
+        }
     }
 }
 
 $usrs = array_map('current', fetch_query("SELECT user FROM coordinator;"));
-?>

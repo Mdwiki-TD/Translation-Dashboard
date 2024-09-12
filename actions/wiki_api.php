@@ -8,6 +8,10 @@ use function Actions\WikiApi\make_view_by_number;
 use function Actions\WikiApi\get_views;
 */
 
+include_once __DIR__ . '/functions.php';
+
+use function Actions\Functions\test_print;
+
 $usr_agent = "WikiProjectMed Translation Dashboard/1.0 (https://mdwiki.toolforge.org/; tools.mdwiki@toolforge.org)";
 
 function get_url_result_curl(string $url): string
@@ -26,7 +30,7 @@ function get_url_result_curl(string $url): string
 
     $output = curl_exec($ch);
     if ($output === FALSE) {
-        echo ("<br>cURL Error: " . curl_error($ch) . "<br>$url");
+        test_print("<br>cURL Error: " . curl_error($ch) . "<br>$url");
     }
 
     curl_close($ch);
