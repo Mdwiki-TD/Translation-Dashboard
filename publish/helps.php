@@ -8,35 +8,15 @@ use function Publish\Helps\get_access_from_db;
 use function Publish\Helps\add_access_to_db;
 */
 
-include_once __DIR__ . '/../vendor_load.php';
 include_once __DIR__ . '/../actions/mdwiki_sql.php';
 include_once __DIR__ . '/../auth/config.php';
+include_once __DIR__ . '/../auth/helps.php';
 
-use Defuse\Crypto\Crypto;
 use function Actions\MdwikiSql\execute_query;
 use function Actions\MdwikiSql\fetch_query;
+use function OAuth\Helps\decode_value;
+use function OAuth\Helps\encode_value;
 
-function decode_value($value)
-{
-    global $cookie_key;
-    try {
-        $value = Crypto::decrypt($value, $cookie_key);
-    } catch (\Exception $e) {
-        $value = $value;
-    }
-    return $value;
-}
-
-function encode_value($value)
-{
-    global $cookie_key;
-    try {
-        $value = Crypto::encrypt($value, $cookie_key);
-    } catch (\Exception $e) {
-        $value = $value;
-    };
-    return $value;
-}
 function add_access_to_db($user, $access_key, $access_secret)
 {
     $t = [
