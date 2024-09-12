@@ -46,7 +46,7 @@ function add_to_cookie($key, $value, $age = 0)
 
     $value = encode_value($value);
 
-    echo "add_to_cookie: value: $value<br>";
+    // echo "add_to_cookie: value: $value<br>";
     setcookie(
         $key,
         $value,
