@@ -4,6 +4,11 @@ if (isset($_REQUEST['test'])) {
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 };
+try {
+    header('Content-Type: application/json');
+} catch (Exception $e) {
+    echo "";
+}
 include_once __DIR__ . '/../auth/config.php';
 include_once __DIR__ . '/../auth/helps.php';
 include_once __DIR__ . '/../auth/send_edit.php';
@@ -36,14 +41,52 @@ $t_Params = [
 ];
 */
 
-$sourcetitle= $_REQUEST['sourcetitle'] ?? '';
+function get_revid($sourcetitle)
+{
+    // ---
+    // read all_pages_revids.json file
+    try {
+        $json = json_decode(file_get_contents(__DIR__ . '/all_pages_revids.json'), true);
+        $revid = $json[$sourcetitle] ?? "";
+        return $revid;
+    } catch (Exception $e) {
+        test_print($e->getMessage());
+    }
+    // ---
+    return "";
+}
+
+function make_summary($revid, $sourcetitle, $to)
+{
+    return "Created by translating the page [[:mdwiki:Special:Redirect/revision/$revid|$sourcetitle]] to:$to #mdwikicx";
+}
+
+function to_do($tab)
+{
+    try {
+        // dump $tab to file in folder to_do
+        $file_name = __DIR__ . '/to_do/' . rand(0, 999999999) . '.json';
+        if (!is_dir(__DIR__ . '/to_do')) {
+            mkdir(__DIR__ . '/to_do', 0755, true);
+        }
+        file_put_contents($file_name, json_encode($tab, JSON_PRETTY_PRINT));
+    } catch (Exception $e) {
+        test_print($e->getMessage());
+    }
+}
+
+$sourcetitle = $_REQUEST['sourcetitle'] ?? '';
 $title    = $_REQUEST['title'] ?? '';
 $user     = $_REQUEST['user'] ?? '';
 $lang     = $_REQUEST['target'] ?? '';
 $text     = $_REQUEST['text'] ?? '';
-$summary  = $_REQUEST['summary'] ?? '';
 $campaign = $_REQUEST['campaign'] ?? '';
+
+$summary  = $_REQUEST['summary'] ?? '';
 $revid    = $_REQUEST['revid'] ?? '';
+
+$revid    = get_revid($sourcetitle);
+$summary  = make_summary($revid, $sourcetitle, $lang);
 
 // $username = get_from_cookie('username');
 
@@ -72,21 +115,13 @@ if ($access == null) {
         'sourcetitle' => $sourcetitle
 
     ];
-    try {
-        // dump $tab to file in folder to_do
-        $file_name = __DIR__ . '/to_do/' . rand(0, 999999999) . '.json';
-        if (!is_dir(__DIR__ . '/to_do')) {
-            mkdir(__DIR__ . '/to_do', 0755, true);
-        }
-        file_put_contents($file_name, json_encode($tab, JSON_PRETTY_PRINT));
-    } catch (Exception $e) {
-        test_print($e->getMessage());
-    }
+    // ---
+    to_do($tab);
     // ---
     if ($Success === 'Success') {
         // ---
         $camp_to_cat = retrieveCampaignCategories();
-        $cat      = $camp_to_cat[$campaign] ?? '';
+        $cat         = $camp_to_cat[$campaign] ?? '';
         // ---
         try {
             InsertPageTarget($sourcetitle, 'lead', $cat, $lang, $user, "", $title);
