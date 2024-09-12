@@ -5,6 +5,8 @@ namespace OAuth\Helps;
 Usage:
 use function OAuth\Helps\add_to_cookie;
 use function OAuth\Helps\get_from_cookie;
+use function OAuth\Helps\decode_value;
+use function OAuth\Helps\encode_value;
 */
 
 include_once __DIR__ . '/../vendor_load.php';
@@ -33,10 +35,13 @@ function encode_value($value)
     };
     return $value;
 }
-function add_to_cookie($key, $value)
+function add_to_cookie($key, $value, $age = 0)
 {
     global $domain;
-    $twoYears = time() + 60 * 60 * 24 * 365 * 2;
+    if ($age == 0) {
+        $twoYears = time() + 60 * 60 * 24 * 365 * 2;
+        $age = $twoYears;
+    }
     $secure = ($_SERVER['SERVER_NAME'] == "localhost") ? false : true;
 
     $value = encode_value($value);

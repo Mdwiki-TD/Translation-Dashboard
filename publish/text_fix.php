@@ -43,6 +43,7 @@ function es_section($sourcetitle, $text, $revid)
     // ---
     return $text;
 }
+
 function DoChangesToText($sourcetitle, $text, $lang, $revid)
 {
     // ---
