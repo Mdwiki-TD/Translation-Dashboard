@@ -74,6 +74,7 @@ if (!empty($return_to) && (strpos($return_to, '/Translation_Dashboard/index.php'
 	// $newurl = $return_to;
 	$newurl = filter_var($return_to, FILTER_VALIDATE_URL) ? $return_to : '/Translation_Dashboard/index.php';
 } else {
+	$state = [];
 	foreach (['cat', 'code', 'type', 'doit'] as $key) {
 		$da1 = $_GET[$key] ?? '';
 		if (!empty($da1)) {
