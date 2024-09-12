@@ -37,18 +37,22 @@ function GetQidForMdtitle($title)
 function GetTitleInfo($targettitle, $lang)
 {
     // replace '/' with '%2F'
-    // $targettitle = urlencode($targettitle);
-    $targettitle = str_replace('/', '%2F', $targettitle);
-    $targettitle = str_replace(' ', '_', $targettitle);
-
-
+    $targettitle = urlencode($targettitle);
+    // $targettitle = str_replace('/', '%2F', $targettitle);
+    // $targettitle = str_replace(' ', '_', $targettitle);
+    // ---
     $url = "https://$lang.wikipedia.org/api/rest_v1/page/summary/$targettitle";
     // ---
     test_print("GetTitleInfo url: $url");
     // ---
-    $result = get_url_result_curl($url);
-    // ---
-    $result = json_decode($result, true);
+    try {
+        $result = get_url_result_curl($url);
+        test_print("GetTitleInfo result: $result");
+        $result = json_decode($result, true);
+    } catch (\Exception $e) {
+        test_print("GetTitleInfo: $e");
+        $result = null;
+    }
     // ---
     return $result;
 }
@@ -114,7 +118,7 @@ function LinkToWikidata($sourcetitle, $lang, $user, $targettitle, $access_key, $
     test_print("ns: ($ns), Not_found: ($Not_found)");
     test_print(json_encode($title_info));
     // ---
-    if ($ns != 0) {
+    if ($ns != 0 && $ns != "0") {
         return ['error' => 'no link for ns:' . $ns];
     }
     // ---
