@@ -50,7 +50,8 @@ $revid    = $_REQUEST['revid'] ?? '';
 $access = get_access_from_db($user);
 
 if ($access == null) {
-    $editit = ['edit' => ['error' => 'no access'], 'username' => $user];
+    $ee = ['code' => 'no access', 'info' => 'no access'];
+    $editit = ['error' => $ee, 'edit' => ['error' => $ee, 'username' => $user], 'username' => $user];
 } else {
     $access_key = $access['access_key'];
     $access_secret = $access['access_secret'];

@@ -5,6 +5,7 @@ namespace Publish\Helps;
 Usage:
 include_once __DIR__ . '/../publish/helps.php';
 use function Publish\Helps\get_access_from_db;
+use function Publish\Helps\del_access_from_db;
 use function Publish\Helps\add_access_to_db;
 */
 
@@ -62,4 +63,16 @@ function get_access_from_db($user)
         // إذا لم يتم العثور على نتيجة، إرجاع null أو يمكنك تخصيص رد معين
         return null;
     }
+}
+
+function del_access_from_db($user)
+{
+    $user = trim($user);
+
+    $query = <<<SQL
+        DELETE FROM access_keys WHERE user_name = ?;
+    SQL;
+
+    $result = execute_query($query, [$user]);
+
 }
