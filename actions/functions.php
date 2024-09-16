@@ -1,4 +1,5 @@
 <?php
+
 namespace Actions\Functions;
 /*
 Usage:
@@ -8,6 +9,7 @@ use function Actions\Functions\strstartswithn;
 use function Actions\Functions\strendswith;
 use function Actions\Functions\test_print;
 */
+
 use function Actions\MdwikiSql\fetch_query;
 
 $print_t = false;
@@ -27,7 +29,8 @@ include_once __DIR__ . '/mdwiki_api.php';
 include_once __DIR__ . '/mdwiki_sql.php';
 
 
-function load_request() {
+function load_request()
+{
     global $lang_to_code, $code_to_lang, $camp_to_cat, $cat_to_camp;
     //---
     $code = $_REQUEST['code'] ?? '';
@@ -59,7 +62,8 @@ function load_request() {
     ];
 }
 //---
-function escape_string($unescaped_string) {
+function escape_string($unescaped_string)
+{
     // Alternative mysql_real_escape_string without mysql connection
     $replacementMap = [
         "\0" => "\\0",
@@ -77,15 +81,18 @@ function escape_string($unescaped_string) {
 
     return \strtr($unescaped_string, $replacementMap);
 }
-function strstartswithn($text, $word) {
+function strstartswithn($text, $word)
+{
     return strpos($text, $word) === 0;
 }
 
-function strendswith($text, $end) {
+function strendswith($text, $end)
+{
     return substr($text, -strlen($end)) === $end;
 }
 
-function test_print($s) {
+function test_printxx($s)
+{
 
     // if (!isset($_REQUEST['test'])) return;
     if (!print_te) {
@@ -97,5 +104,13 @@ function test_print($s) {
         }
     }
 }
-
+function test_print($s)
+{
+    if (print_te && gettype($s) == 'string') {
+        echo "\n<br>\n$s";
+    } elseif (print_te) {
+        echo "\n<br>\n";
+        print_r($s);
+    }
+}
 $usrs = array_map('current', fetch_query("SELECT user FROM coordinator;"));
