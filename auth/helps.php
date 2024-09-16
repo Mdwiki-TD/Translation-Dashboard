@@ -12,6 +12,7 @@ use function OAuth\Helps\encode_value;
 include_once __DIR__ . '/../vendor_load.php';
 include_once __DIR__ . '/config.php';
 
+use function Actions\Functions\test_print;
 use Defuse\Crypto\Crypto;
 
 function decode_value($value)
@@ -41,16 +42,18 @@ function add_to_cookie($key, $value, $age = 0)
     if ($age == 0) {
         $twoYears = time() + 60 * 60 * 24 * 365 * 2;
         $age = $twoYears;
+
     }
     $secure = ($_SERVER['SERVER_NAME'] == "localhost") ? false : true;
-
     $value = encode_value($value);
+    test_print("setcookie: value: ($value)");
+    test_print("setcookie: key: ($key)");
 
     // echo "add_to_cookie: value: $value<br>";
     setcookie(
         $key,
         $value,
-        $twoYears,
+        $age,
         "/",
         $domain, // "mdwiki.toolforge.org",
         $secure,  // only secure (https)
@@ -65,6 +68,8 @@ function get_from_cookie($key)
     } else {
         // echo "key: $key<br>";
         $value = "";
+        test_print($key);
+        test_print(json_encode($_COOKIE));
     };
     if ($key == "username") {
         $value = str_replace("+", " ", $value);

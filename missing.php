@@ -13,7 +13,7 @@ if (isset($_REQUEST['test'])) {
 //---
 $missingfile = file_get_contents("Tables/jsons/missing.json");
 //print $wordsjson;
-$MIS = json_decode( $missingfile, true) ; //{'all' : len(listenew), 'date' : Day_History, 'langs' : {} }
+$MIS = json_decode( $missingfile, true); //{'all' : len(listenew), 'date' : Day_History, 'langs' : {} }
 //---
 //$lenth = file_get_contents("len.csv");
 $lenth = $MIS['all'] ?? "";
