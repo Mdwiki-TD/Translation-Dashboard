@@ -10,6 +10,11 @@ $pathParts = explode('public_html', __FILE__);
 // the root path is the first part of the split file path
 $ROOT_PATH = $pathParts[0];
 //---
+// if root path find (I:\) then $ROOT_PATH = ""
+if (strpos($ROOT_PATH, "I:\\") !== false) {
+    $ROOT_PATH = "I:/mdwiki/mdwiki/";
+}
+//---
 $inifile = $ROOT_PATH . '/confs/OAuthConfig.ini';
 //---
 $ini = parse_ini_file($inifile);
