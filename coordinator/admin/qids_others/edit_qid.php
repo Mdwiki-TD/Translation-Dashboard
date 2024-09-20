@@ -8,6 +8,7 @@ if (user_in_coord == false) {
 include_once 'actions/functions.php';
 //---
 use function Actions\MdwikiSql\execute_query;
+use function Actions\Html\add_quotes;
 //---
 echo '</div><script>
     $("#mainnav").hide();
@@ -67,6 +68,8 @@ function send_qid($id, $title, $qid)
 
 function echo_form($id, $title, $qid)
 {
+    $title2 = add_quotes($title);
+    //---
     echo <<<HTML
         <form action='coordinator.php?ty=qids_others/edit_qid&nonav=120' method='POST'>
             <input name='edit' value="1" hidden/>
@@ -86,7 +89,8 @@ function echo_form($id, $title, $qid)
                             <div class='input-group-prepend'>
                                 <span class='input-group-text'>Title</span>
                             </div>
-                            <input class='form-control' type='text' id='title' name='title' value='$title' required/>
+                            <input class='form-control' type='text' id='title' name='title' value=$title2 required/>
+
                         </div>
                     </div>
                     <div class='col-md-3'>

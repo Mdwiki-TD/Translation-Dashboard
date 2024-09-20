@@ -2,6 +2,7 @@
 namespace Actions\Html;
 /*
 Usage:
+use function Actions\Html\add_quotes;
 use function Actions\Html\login_card;
 use function Actions\Html\makeCard;
 use function Actions\Html\makeColSm4;

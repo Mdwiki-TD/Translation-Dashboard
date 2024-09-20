@@ -58,7 +58,7 @@ function load_request() {
         'code_lang_name' => $code_lang_name
     ];
 }
-//---
+
 function escape_string($unescaped_string) {
     // Alternative mysql_real_escape_string without mysql connection
     $replacementMap = [
