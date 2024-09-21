@@ -70,7 +70,7 @@ echo <<<HTML
 		<span><b>Add:</b></span>
 	</td>
 	<td data-content="user">
-		<input class='form-control user_input' name='user[]$numb'/>
+		<input class='form-control td_user_input' name='user[]$numb'/>
 	</td>
 	<td data-content="delete">
 		-
@@ -81,49 +81,24 @@ HTML;
 </tbody>
 </table>
 <button type="submit" class="btn btn-outline-primary">Save</button>
-<span role='button' id="add_row" class="btn btn-outline-primary" style="position: absolute; right: 130px;" onclick='add_row()'>New row</span>
+<span role='button' id="add_row" class="btn btn-outline-primary" style="position: absolute; right: 130px;" onclick='add_row_v()'>New row</span>
 </form>
 </div>
 </div>
 <script type="text/javascript">
-	var i = 1;
+	$(document).ready(function() {
+		var i = 1;
 
-	function add_row() {
-		var ii = $('#full_tab >tr').length + 1;
-		var e = "<tr>";
-		e = e + "<td><b>" + ii + "</b></td>";
-		e = e + "<td><input class='form-control user_input' name='user[]" + ii + "'/></td>";
-		e = e + "<td>-</td>";
-		e = e + "</tr>";
-		$('#full_tab').append(e);
-		i++;
-	};
-
-	var api_end_point = document.location.origin + "/api.php?get=users";
-	console.log(api_end_point);
-	// attach autocomplete behavior to input field
-	$(".user_input").autocomplete({
-		source: function(request, response) {
-			// make AJAX request to Wikipedia API
-			$.ajax({
-			source: function(request, response) {
-				// make AJAX request to Wikipedia API
-				$.ajax({
-					url: api_end_point,
-					dataType: "json",
-					data: {
-						userlike: request.term
-					},
-					success: function(data) {
-						// extract titles from API response and pass to autocomplete
-						response($.map(data.results, function(item) {
-							return item.username
-						}));
-					}
-				});
-			}
-		});
-		}
+		function add_row_v() {
+			var ii = $('#full_tab >tr').length + 1;
+			var e = "<tr>";
+			e = e + "<td><b>" + ii + "</b></td>";
+			e = e + "<td><input class='form-control td_user_input' name='user[]" + ii + "'/></td>";
+			e = e + "<td>-</td>";
+			e = e + "</tr>";
+			$('#full_tab').append(e);
+			i++;
+		};
 	});
 </script>
 </div>

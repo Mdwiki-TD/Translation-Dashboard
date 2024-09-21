@@ -99,5 +99,7 @@ function echo_card_end($ty)
 //---
 echo_card_end($ty);
 //---
+echo "<script src='/Translation_Dashboard/js/autocomplate.js'></script>";
+//---
 include_once __DIR__ . '/foter.php';
 //---

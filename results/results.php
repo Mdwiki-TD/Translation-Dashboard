@@ -36,7 +36,7 @@ $depth  = $camp_input_depth[$camp] ?? 1;
 //---
 if (empty($code_lang_name)) $doit = false;
 //---
-echo "<div class='container'>";
+echo "<div class='container-fluid'>";
 //---
 if ($doit) {
     //---
@@ -91,4 +91,3 @@ if ($doit) {
 };
 //---
 echo "</div>";
-//---
