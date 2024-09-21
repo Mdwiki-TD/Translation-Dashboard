@@ -8,6 +8,7 @@ if (user_in_coord == false) {
 include_once 'actions/functions.php';
 
 use function Actions\MdwikiSql\insert_to_translate_type;
+use function Actions\Html\add_quotes;
 //---
 echo '</div><script>
     $("#mainnav").hide();
@@ -23,7 +24,7 @@ if (isset($_REQUEST['test'])) {
 //---
 $tabs = array();
 //---
-$title  = $_REQUEST['title'] ?? '';
+$title  = (isset($_REQUEST['title'])) ? rawurldecode($_REQUEST['title']) : "";
 $lead    = $_REQUEST['lead'] ?? '';
 $full    = $_REQUEST['full'] ?? '';
 $id     = $_REQUEST['id'] ?? '';
@@ -60,6 +61,8 @@ function echo_form($title, $lead, $full, $id)
     $lead_checked = ($lead == 1 || $lead == "1") ? 'checked' : '';
     $full_checked = ($full == 1 || $full == "1") ? 'checked' : '';
     //---
+    $title2 = add_quotes($title);
+    //---
     echo <<<HTML
         <form action='coordinator.php?ty=tt/edit_translate_type&nonav=120' method='POST'>
             <input name='edit' value="1" hidden/>
@@ -79,7 +82,7 @@ function echo_form($title, $lead, $full, $id)
                             <div class='input-group-prepend'>
                                 <span class='input-group-text'>Title</span>
                             </div>
-                            <input class='form-control' type='text' id='title' name='title' value='$title' required/>
+                            <input class='form-control' type='text' id='title' name='title' value=$title2 required/>
                         </div>
                     </div>
                     <div class='col-md-3'>

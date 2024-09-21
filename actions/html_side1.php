@@ -43,6 +43,7 @@ function create_side($filename) {
         'Users' => [
             ['id' => 'Emails', 'admin' => 1, 'href' => 'Emails', 'title' => 'Emails'],
             ['id' => 'projects', 'admin' => 1, 'href' => 'projects', 'title' => 'Projects'],
+            ['id' => 'full_translators', 'admin' => 1, 'href' => 'full_translators', 'title' => 'Full translators'],
         ],
         'Others' => [
             ['id' => 'admins', 'admin' => 1, 'href' => 'admins', 'title' => 'Coordinators'],

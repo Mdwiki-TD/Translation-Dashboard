@@ -27,9 +27,14 @@ $ini = Read_ini_file('OAuthConfig.ini');
 //---
 // get the root path from __FILE__ , split before public_html
 // split the file path on the public_html directory
-$pathParts = explode('public_html', __FILE__);
-// the root path is the first part of the split file path
-$_dir = $pathParts[0] . '/confs/';
+$pathParts = explode('public_html', __FILE__)[0];
+
+// if root path find (I:\) then $ROOT_PATH = ""
+if (strpos($pathParts, "I:\\") !== false) {
+    $pathParts = "I:/mdwiki/mdwiki/";
+}
+//---
+$_dir = $pathParts . '/confs/';
 //---
 function Read_ini_file($file) {
     global $_dir;

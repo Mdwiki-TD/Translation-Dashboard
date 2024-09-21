@@ -58,7 +58,7 @@ function load_request() {
         'code_lang_name' => $code_lang_name
     ];
 }
-//---
+
 function escape_string($unescaped_string) {
     // Alternative mysql_real_escape_string without mysql connection
     $replacementMap = [
@@ -86,15 +86,11 @@ function strendswith($text, $end) {
 }
 
 function test_print($s) {
-
-    // if (!isset($_REQUEST['test'])) return;
-    if (!print_te) {
-        if (gettype($s) == 'string') {
-            echo "\n<br>\n$s";
-        } else {
-            echo "\n<br>\n";
-            print_r($s);
-        }
+    if (print_te && gettype($s) == 'string') {
+        echo "\n<br>\n$s";
+    } elseif (print_te) {
+        echo "\n<br>\n";
+        print_r($s);
     }
 }
 

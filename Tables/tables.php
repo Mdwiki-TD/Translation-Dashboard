@@ -31,6 +31,3 @@ foreach ($tables as $key => &$value) {
 	$value = json_decode($file, true);
 }
 //---
-
-//---
-?>

@@ -8,6 +8,7 @@ if (user_in_coord == false) {
 include_once 'actions/functions.php';
 //---
 use function Actions\MdwikiSql\execute_query;
+use function Actions\Html\add_quotes;
 //---
 echo '</div><script>
     $("#mainnav").hide();
@@ -99,6 +100,9 @@ function echo_form($id, $title, $target, $lang, $user, $pupdate, $table)
 {
     $test_line = (isset($_REQUEST['test'])) ? "<input name='test' value='1' hidden/>" : "";
 
+    $title2 = add_quotes($title);
+    $target2 = add_quotes($target);
+    //---
     echo <<<HTML
         <form action='coordinator.php?ty=translated/edit_page&nonav=120' method='POST'>
             <input type='text' id='id' name='id' value='$id' hidden/>
@@ -112,7 +116,7 @@ function echo_form($id, $title, $target, $lang, $user, $pupdate, $table)
                             <div class='input-group-prepend'>
                                 <span class='input-group-text'>Title</span>
                             </div>
-                            <input class='form-control' type='text' id='title' name='title' value='$title' required/>
+                            <input class='form-control' type='text' id='title' name='title' value=$title2 required/>
                         </div>
                     </div>
                     <div class='col-md-3'>
@@ -128,7 +132,7 @@ function echo_form($id, $title, $target, $lang, $user, $pupdate, $table)
                             <div class='input-group-prepend'>
                                 <span class='input-group-text'>target</span>
                             </div>
-                            <input class='form-control' type='text' id='target' name='target' value='$target' required/>
+                            <input class='form-control' type='text' id='target' name='target' value=$target2 required/>
                         </div>
                     </div>
                     <div class='col-md-3'>

@@ -24,6 +24,7 @@ function make_translate_link_medwiki($title, $cod, $cat, $camp, $tra_type)
     // ---
     $params = [
         'title' => 'Special:ContentTranslation',
+        'tr_type' => $tra_type,
         'from' => 'mdwiki',
         'to' => $cod,
         'campaign' => $campain,

@@ -26,6 +26,8 @@ foreach ( fetch_query($translate_type_sql) AS $k => $tab ) {
     }
 }
 //---
+$full_translators = array_map(function ($row) { return $row['user']; }, fetch_query("SELECT * FROM full_translators"));
+//---
 $sql_qids = array();
 //---
 foreach ( fetch_query('select title, qid from qids;') AS $k => $tab ) $sql_qids[$tab['title']] = $tab['qid'];
