@@ -1,12 +1,12 @@
 <?php
-require_once __DIR__ . '/../publish/helps.php';
+require_once __DIR__ . '/../actions/access_helps.php';
 
 use MediaWiki\OAuthClient\Client;
 use MediaWiki\OAuthClient\ClientConfig;
 use MediaWiki\OAuthClient\Consumer;
 use MediaWiki\OAuthClient\Token;
 use function OAuth\Helps\add_to_cookie;
-use function Publish\Helps\add_access_to_db;
+use function Actions\AccessHelps\add_access_to_db;
 
 if (!isset($_GET['oauth_verifier'])) {
 	echo "This page should only be access after redirection back from the wiki.";
