@@ -16,7 +16,7 @@ reviews:
         drafts: false
     path_instructions:
         - path: "*"
-        instructions: |
+        instructions:
             update changelog.md with new changes
     path_filters:
         - "!**/old/**"
