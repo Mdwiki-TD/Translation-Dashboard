@@ -216,5 +216,7 @@ HTML;
 //---
 include_once __DIR__ . '/results/results.php';
 //---
+echo "<br>";
+//---
 include_once __DIR__ . '/foter.php';
 //---

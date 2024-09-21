@@ -36,7 +36,7 @@ echo <<<HTML
 				<thead>
 					<tr>
 						<th>#</th>
-						<th>mdwiki title</th>
+						<th>Mdwiki Title</th>
 						<th>Campaign</th>
 						<th>Type</th>
 						<th>User</th>
@@ -81,7 +81,7 @@ foreach (range(1, 1) as $numb) {
 		<td data-order='$numb' data-content='#'>
 			$numb
 		</td>
-		<td data-content='mdwiki title'>
+		<td data-content='Mdwiki Title'>
 			<input class="form-control" size='15' class='mdtitles' name='mdtitle[]$numb' required/>
 		</td>
 		<td data-content='Campaign'>
@@ -91,7 +91,7 @@ foreach (range(1, 1) as $numb) {
 			$type_line
 		</td>
 		<td data-content='User'>
-			<input class="form-control" size='10' class='useri' name='user[]$numb' required/>
+			<input class="form-control td_user_input" size='10' name='user[]$numb' required/>
 		</td>
 		<td data-content='Lang.'>
 			<input class="form-control" size='2' name='lang[]$numb' required/>
@@ -133,7 +133,7 @@ echo $table;
 		e = e + "<td><select class='form-select catsoptions' name='cat[]" + ii + "'>" + options + "</select></td>";
 		e = e + "<td><select name='type[]%s' class='form-select'>";
 		e = e + "<option value='lead'>Lead</option><option value='all'>All</option></select></td>";
-		e = e + "<td>	<input class='form-control' size='10' class='useri' name='user[]" + ii + "' required/>	</td>";
+		e = e + "<td>	<input class='form-control' size='10' class='td_user_input' name='user[]" + ii + "' required/>	</td>";
 		e = e + "<td>	<input class='form-control' size='2' name='lang[]" + ii + "' required/>	</td>";
 		e = e + "<td>	<input class='form-control' size='20' name='target[]" + ii + "' required/>	</td>";
 		e = e + "<td>	<input class='form-control' size='10' name='pupdate[]" + ii + "' required/>	</td>";
@@ -143,33 +143,7 @@ echo $table;
 		i++;
 	};
 </script>
-<?PHP
 
-$script = <<<HTML
-<script>
-$( function() {
-    var availableTags = [
-      %s
-    ];
-    $( ".useri" ).autocomplete({
-      source: availableTags
-    });
-
-});
-</script>
-HTML;
-//---
-$ka = '';
-//---
-foreach (fetch_query('SELECT DISTINCT user from pages;') as $k => $tab) {
-	$u = $tab['user'] ?? "";
-	$ka .= '"' . $u . '",
-	';
-};
-//---
-echo sprintf($script, $ka);
-//---
-?>
 <!--
 <script>
 $( function() {
