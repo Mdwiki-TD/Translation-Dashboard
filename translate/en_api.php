@@ -8,11 +8,11 @@ use function Translate\EnAPI\do_en_edit;
 */
 
 
-include_once __DIR__ . '/../publish/helps.php';
+include_once __DIR__ . '/../actions/access_helps.php';
 include_once __DIR__ . '/../auth/send_edit.php';
 
 use function OAuth\SendEdit\auth_do_edit;
-use function Publish\Helps\get_access_from_db;
+use function Actions\AccessHelps\get_access_from_db;
 use function Actions\Functions\test_print;
 
 function do_en_edit($title, $text, $summary)
