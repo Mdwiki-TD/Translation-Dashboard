@@ -15,7 +15,7 @@ reviews:
         - "DO NOT MERGE"
         drafts: false
     path_instructions:
-        - path: "*"
+        - path: "changelog.md"
           instructions: |
             update changelog.md with new changes
 
