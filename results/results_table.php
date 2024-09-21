@@ -274,10 +274,10 @@ function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inp
                     <span data-bs-toggle="tooltip" data-bs-title="Page important from medicine project in English Wikipedia">Importance</span>
                 </th>
                 <th class="spannowrap">
-                    <span data-bs-toggle="tooltip" data-bs-title="number of word of the article in mdwiki.org">Words</span>
+                    <span data-bs-toggle="tooltip" data-bs-title="number of words of the article in mdwiki.org">Words</span>
                 </th>
                 <th class="spannowrap">
-                    <span data-bs-toggle="tooltip" data-bs-title="number of reference of the article in mdwiki.org">Refs.</span>
+                    <span data-bs-toggle="tooltip" data-bs-title="number of references of the article in mdwiki.org">Refs.</span>
                 </th>
                 <th class="spannowrap">
                     <span data-bs-toggle="tooltip" data-bs-title="Wikidata identifier">Qid</span>
