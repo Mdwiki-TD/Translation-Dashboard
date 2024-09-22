@@ -20,7 +20,9 @@ include_once __DIR__ . '/Tables/sql_tables.php';
 //---
 $tests_folders = [];
 foreach (glob('tests/*.php') as $file) {
-    $tests_folders[] = basename($file, '.php');
+    $name = basename($file, '.php');
+    if ($name == "index") continue;
+    $tests_folders[] = $name;
 };
 //---
 $lis = '';
