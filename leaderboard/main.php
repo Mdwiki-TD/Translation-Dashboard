@@ -17,11 +17,13 @@ if (isset($_REQUEST['test'])) {
 };
 //---
 include_once __DIR__ . '/graph.php';
+include_once __DIR__ . '/graph_api.php';
 //---
 use function Actions\Html\makeDropdown;
 use function Actions\Html\makeColSm4;
 use function Actions\MdwikiSql\fetch_query;
 use function Leaderboard\Graph\print_graph_for_table;
+use function Leaderboard\Graph2\print_graph_api;
 use function Leaderboard\LeaderTables\createNumbersTable;
 use function Leaderboard\LeaderTables\makeUsersTable;
 use function Leaderboard\LeaderTables\makeLangTable;
@@ -29,7 +31,7 @@ use function Leaderboard\LeaderTables\makeLangTable;
 
 function print_cat_table(): string
 {
-    global $sql_users_tab, $Articles_numbers, $Words_total, $sql_Languages_tab, $global_views, $tab_for_graph;
+    global $sql_users_tab, $Articles_numbers, $Words_total, $sql_Languages_tab, $global_views, $tab_for_graph, $tab_for_graph2;
 
     $numbersTable = createNumbersTable(
         count($sql_users_tab),
@@ -39,6 +41,7 @@ function print_cat_table(): string
         number_format($global_views)
     );
     //---
+    // $gg = print_graph_api($tab_for_graph2, $id = "chart09", $no_card = false);
     $gg = print_graph_for_table($tab_for_graph, $id = 'chart09', $no_card = false);
     //---
 

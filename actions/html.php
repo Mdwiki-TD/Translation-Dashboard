@@ -195,7 +195,7 @@ function makeCard($title, $table)
     </div>
     HTML;
 };
-//---
+
 function makeColSm4($title, $table, $numb = 4, $table2 = '', $title2 = '')
 {
     return <<<HTML
@@ -218,7 +218,7 @@ function makeColSm4($title, $table, $numb = 4, $table2 = '', $title2 = '')
     </div>
     HTML;
 };
-//---
+
 function make_col_sm_body($title, $subtitle, $table, $numb = 4)
 {
     return <<<HTML

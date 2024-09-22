@@ -11,7 +11,9 @@ use function Leaderboard\Graph\print_graph_tab;
 
 */
 
-echo '<script src="/Translation_Dashboard/js/g.js"></script>';
+echo '
+<script src="/Translation_Dashboard/js/g.js"></script>
+';
 //---
 use function Actions\MdwikiSql\fetch_query;
 // ---
