@@ -25,9 +25,9 @@ use function Actions\MdwikiSql\fetch_query;
 use function Leaderboard\Graph\print_graph_for_table;
 use function Leaderboard\Graph2\print_graph_api;
 use function Leaderboard\LeaderTables\createNumbersTable;
-use function Leaderboard\LeaderTables\makeUsersTable;
 use function Leaderboard\LeaderTables\makeLangTable;
-
+use function Leaderboard\LeaderTabUsers\makeUsersTable;
+use function Leaderboard\LeaderTabUsers\module_copy;
 
 function print_cat_table(): string
 {
@@ -48,14 +48,15 @@ function print_cat_table(): string
     $numbersCol = makeColSm4('Numbers', $numbersTable, 3, $gg);
 
     $usersTable = makeUsersTable();
+    $copy_module = module_copy();
 
     $modal_a = <<<HTML
-        <button type="button" class="btn btn-tool" href="#" data-bs-toggle="modal" data-bs-target="#targets">
+        <button type="button" class="btn-tool" href="#" data-bs-toggle="modal" data-bs-target="#targets">
             <i class="fas fa-copy"></i>
         </button>
     HTML;
     //---
-    $usersCol = makeColSm4('Top users by number of translation', $usersTable, 5, $table2 = '', $title2 = $modal_a);
+    $usersCol = makeColSm4('Top users by number of translation', $usersTable, 5, $table2 = $copy_module, $title2 = $modal_a);
     //---
     $languagesTable = makeLangTable();
     $languagesCol = makeColSm4('Top languages by number of Articles', $languagesTable, 4);
