@@ -32,10 +32,9 @@
     <link href='/Translation_Dashboard/css/Responsive_Table.css' rel='stylesheet' type='text/css'>
     <link href='/Translation_Dashboard/css/dashboard_new1.css' rel='stylesheet' type='text/css'>
     <link href='/Translation_Dashboard/css/sidebars.css' rel='stylesheet' type='text/css'>
-
     <link href='$hoste/ajax/libs/font-awesome/5.15.3/css/all.min.css' rel='stylesheet' type='text/css'>
     <link href='$hoste/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
-    <link href='$hoste/ajax/libs/datatables.net-bs5/2.1.6/dataTables.bootstrap5.css' rel='stylesheet' type='text/css'>
+    <link href='$hoste/ajax/libs/datatables.net-bs5/1.13.5/dataTables.bootstrap5.css' rel='stylesheet' type='text/css'>
     <link href='$hoste/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css' rel='stylesheet' type='text/css'>
     <link href="$hoste/ajax/libs/bootstrap-select/1.14.0-beta3/css/bootstrap-select.css" rel='stylesheet' type='text/css'>
 
@@ -44,17 +43,17 @@
     <script src='$hoste/ajax/libs/bootstrap/5.3.0/js/bootstrap.min.js'></script>
     <script src='$hoste/ajax/libs/datatables.net/2.1.1/jquery.dataTables.min.js'></script>
     <script src='$hoste/ajax/libs/datatables.net-fixedheader/3.4.0/dataTables.fixedHeader.min.js'></script>
-    <script src='$hoste/ajax/libs/datatables.net-bs5/2.1.6/dataTables.bootstrap5.min.js'></script>
+    <script src='$hoste/ajax/libs/datatables.net-bs5/1.13.5/dataTables.bootstrap5.min.js'></script>
+    <script src='$hoste/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js'></script>
+    <script src="$hoste/ajax/libs/bootstrap-select/1.14.0-beta3/js/bootstrap-select.min.js"></script>
     <!--
         <link href="$hoste/ajax/libs/datatables.net-responsive-bs5/3.0.3/responsive.bootstrap5.min.css" rel="stylesheet">
         <script src="$hoste/ajax/libs/datatables.net-responsive-bs5/3.0.3/responsive.bootstrap5.min.js"></script>
         <script src='$hoste/ajax/libs/datatables.net/2.1.6/dataTables.min.js'></script>
         <script src="https://cdn.datatables.net/responsive/3.0.3/js/dataTables.responsive.min.js"></script>
     -->
-    <script src='$hoste/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js'></script>
-    <script src="$hoste/ajax/libs/bootstrap-select/1.14.0-beta3/js/bootstrap-select.min.js"></script>
-
     <script type="module" src="/Translation_Dashboard/js/color-modes.js"></script>
+    <!-- <script src='/Translation_Dashboard/js/sorttable.js'></script> -->
     <script src='/Translation_Dashboard/js/to.js'></script>
     <script src='/Translation_Dashboard/js/login.js'></script>
     <script src='/Translation_Dashboard/plugins/chart.js/Chart.min.js'></script>
