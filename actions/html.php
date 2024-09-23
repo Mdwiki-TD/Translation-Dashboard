@@ -1,4 +1,5 @@
 <?php
+
 namespace Actions\Html;
 /*
 Usage:
@@ -200,13 +201,16 @@ function makeColSm4($title, $table, $numb = 4, $table2 = '', $title2 = '')
 {
     return <<<HTML
     <div class="col-md-$numb">
-        <div class="card mb-3">
+        <div class="card card2 mb-3">
             <div class="card-header">
                 <span class="card-title" style="font-weight:bold;">
                     $title
                 </span>
                 <div style='float: right'>
                     $title2
+                </div>
+                <div class="card-tools">
+                    <button type="button" class="btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
                 </div>
             </div>
             <div class="card-body1 card2">

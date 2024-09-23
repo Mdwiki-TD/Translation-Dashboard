@@ -1,6 +1,7 @@
 </div>
 </main>
 
+<script src="/Translation_Dashboard/js/c.js"></script>
 <script>
 	function pupwindow(url) {
 		window.open(url, 'popupWindow', 'width=850,height=550,left=50,top=50,scrollbars=yes');
@@ -29,6 +30,8 @@
 		// $('[data-toggle="tooltip"]').tooltip();
 		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 		const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
+		// $('.card').CardWidget('toggle')
 
 		setTimeout(function() {
 			$('.soro').DataTable({
