@@ -1,4 +1,5 @@
 <?PHP
+
 namespace Leaderboard\LeaderTables;
 
 /*
@@ -19,6 +20,12 @@ use function Actions\Html\make_modal_fade;
 $year = $_REQUEST['year'] ?? 'all';
 $camp = $_REQUEST['camp'] ?? 'all';
 $project = $_REQUEST['project'] ?? 'all';
+
+$tab_for_graph2 = [
+    "year" => $year,
+    "campaign" => $camp,
+    "user_group" => $project
+];
 
 if ($camp == 'all' && isset($_REQUEST['cat'])) {
     $camp = $cat_to_camp[$_REQUEST['cat']] ?? 'all';

@@ -11,7 +11,9 @@ use function Leaderboard\Graph\print_graph_tab;
 
 */
 
-echo '<script src="/Translation_Dashboard/js/g.js"></script>';
+echo '
+<script src="/Translation_Dashboard/js/g.js"></script>
+';
 //---
 use function Actions\MdwikiSql\fetch_query;
 // ---
@@ -26,8 +28,10 @@ function graph_html($keys, $values, $id = 'chart1', $no_card = false)
     $graph =  <<<HTML
         <div class="card">
             <div class="card-header aligncenter" style="font-weight:bold;">
-                <!-- <a href="/Translation_Dashboard/leaderboard.php?graph=1">Translation by month</a> -->
                 Translation by month
+                <div class="card-tools">
+                    <button type="button" class="btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                </div>
             </div>
             <div class="card-body1 card5px">
                 $canvas

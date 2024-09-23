@@ -17,7 +17,9 @@ include_once __DIR__ . '/subs/lead_help.php';
 include_once __DIR__ . '/camps.php';
 include_once __DIR__ . '/leader_tables.php';
 include_once __DIR__ . '/graph.php';
+include_once __DIR__ . '/graph_api.php';
 
+use function Leaderboard\Graph2\print_graph_tab_2_new;
 use function Leaderboard\Graph\print_graph_tab;
 use function Leaderboard\Camps\camps_list;
 
@@ -26,6 +28,7 @@ echo '<script>$("#leaderboard").addClass("active");</script>';
 $users = $_REQUEST['user'] ?? '';
 $langs = $_REQUEST['langcode'] ?? '';
 $graph = $_REQUEST['graph'] ?? '';
+$graph_api = $_REQUEST['graph_api'] ?? '';
 $camps = $_REQUEST['camps'] ?? '';
 
 if (!empty($users)) {
@@ -37,6 +40,8 @@ if (!empty($users)) {
     camps_list();
 } elseif (!empty($graph)) {
     print_graph_tab();
+} elseif (!empty($graph_api)) {
+    print_graph_tab_2_new();
 } else {
     require __DIR__ . '/main.php';
 }

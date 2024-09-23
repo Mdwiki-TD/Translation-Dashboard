@@ -8,6 +8,7 @@ if (user_in_coord == false) {
 // require 'header.php';
 include_once 'Tables/tables.php';
 include_once 'actions/functions.php';
+include_once 'results/get_results.php';
 include_once 'results/getcats.php';
 include_once 'infos/td_config.php';
 //---
