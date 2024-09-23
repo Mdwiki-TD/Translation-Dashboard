@@ -33,8 +33,7 @@ function module_copy()
         arsort($langs);
         // get first item in $langs
         $lan = array_keys($langs)[0];
-        $lal .= "#{{#target:User:$user|$lan.wikipedia.org}}
-    ";
+        $lal .= "#{{#target:User:$user|$lan.wikipedia.org}}\n";
     }
     //---
     $lal .= '</textarea>';
