@@ -15,7 +15,11 @@ include_once __DIR__ . '/subs/langs_sub.php';
 include_once __DIR__ . '/subs/lead_help.php';
 
 include_once __DIR__ . '/camps.php';
+
+include_once __DIR__ . '/leader_tables_tabs.php';
 include_once __DIR__ . '/leader_tables.php';
+include_once __DIR__ . '/leader_tables_users.php';
+
 include_once __DIR__ . '/graph.php';
 include_once __DIR__ . '/graph_api.php';
 
