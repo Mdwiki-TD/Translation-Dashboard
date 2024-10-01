@@ -1,16 +1,17 @@
 <?php
 // Define root path
 require_once __DIR__ . '/../actions/curl_api.php';
+include_once __DIR__ . '/inserter.php';
 
 use function Actions\CurlApi\post_url_params_result;
 use function Actions\Html\login_card;
 use function Actions\Html\make_input_group;
 use function Actions\Html\make_mdwiki_title;
 use function Actions\Html\make_translation_url;
-use function Actions\MdwikiSql\execute_query;
-use function Translate\Translator\startTranslatePhp;
 use function Actions\Html\make_target_url;
 use function Actions\Functions\test_print;
+use function Translate\Translator\startTranslatePhp;
+use function Translate\Inserter\insertPage;
 
 $pathParts = explode('public_html', __FILE__);
 // the root path is the first part of the split file path
@@ -48,29 +49,6 @@ if (isset($_GET['form'])) {
     echo $nana;
 }
 
-// Function to insert page into the database
-function insertPage($title_o, $word, $tr_type, $cat, $camp, $coden, $useree, $test)
-{
-    test_print("INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target, add_date)");
-    // ---
-    if (empty($useree) || $useree == "Mr. Ibrahem" || $useree == "MdWikiBot") {
-        return;
-    }
-    $quae_new = <<<SQL
-        INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target, add_date)
-        SELECT ?, ?, ?, ?, ?, now(), ?, '', '', now()
-        WHERE NOT EXISTS
-            (SELECT 1
-            FROM pages
-            WHERE title = ?
-            AND lang = ?
-            AND user = ?
-        )
-    SQL;
-
-    $params = [$title_o, $word, $tr_type, $cat, $coden, $useree, $title_o, $coden, $useree];
-    execute_query($quae_new, $params = $params);
-};
 
 function find_pages_exists_or_not($title)
 {
@@ -194,7 +172,7 @@ if (!empty($title_o) && !empty($coden) && $user_valid) {
     echo "<br>result: $output";
     // ---
     if ($output == true) {
-        insertPage($title_o, $word, $tr_type, $cat, $camp, $coden, $useree, $test);
+        insertPage($title_o, $word, $tr_type, $cat, $coden, $useree);
         // ---
         go_to_translate_url($output, $go, $title_o, $coden, $tr_type, $test);
     }
