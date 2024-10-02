@@ -20,11 +20,14 @@ function go_to_translate_url($go, $title_o, $coden, $tr_type, $cat, $camp, $test
     // ---
     $url = make_translate_link_medwiki($title_o, $coden, $cat, $camp, $tr_type);
     // ---
-    if (!empty($test) && (!$go)) {
-        echo <<<HTML
-            <br><a href='$url' target='_blank'>go to ContentTranslation in medwiki</a>
-        HTML;
-    } else {
+    echo <<<HTML
+        <br>
+        <h2>
+            <a href='$url'>Click here to go to ContentTranslation in medwiki</a>
+        </h2>
+    HTML;
+    // ---
+    if (empty($test)) {
         echo <<<HTML
             <script type='text/javascript'>
             window.open('$url', '_self');
