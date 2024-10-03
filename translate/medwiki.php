@@ -70,7 +70,7 @@ if (!empty($title_o) && !empty($coden) && $user_valid) {
         $word = $All_Words_table[$title_o] ?? 0;
     }
     // ---
-    // insertPage($title_o, $word, $tr_type, $cat, $coden, $useree);
+    insertPage($title_o, $word, $tr_type, $cat, $coden, $useree);
     // ---
     go_to_translate_url($go, $title_o, $coden, $tr_type, $cat, $camp, $test);
 }
