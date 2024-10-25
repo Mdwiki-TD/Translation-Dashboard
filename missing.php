@@ -2,18 +2,20 @@
 //---
 include_once __DIR__ . '/header.php';
 include_once __DIR__ . '/Tables/langcode.php';
+include_once __DIR__ . '/Tables/tables.php';
+
 echo '<script>$("#missing").addClass("active");</script>';
 //---
 if (isset($_REQUEST['test'])) {
 
-	ini_set('display_errors', 1);
-	ini_set('display_startup_errors', 1);
-	error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
 };
 //---
 $missingfile = file_get_contents("Tables/jsons/missing.json");
 //print $wordsjson;
-$MIS = json_decode( $missingfile, true) ; //{'all' : len(listenew), 'date' : Day_History, 'langs' : {} }
+$MIS = json_decode($missingfile, true); //{'all' : len(listenew), 'date' : Day_History, 'langs' : {} }
 //---
 //$lenth = file_get_contents("len.csv");
 $lenth = $MIS['all'] ?? "";
@@ -25,14 +27,14 @@ $date = $MIS['date'] ?? "";
 $Table = array();
 $langs = $MIS['langs'] ?? "";
 //---
-foreach ( $langs as $code => $tabe ) {
+foreach ($langs as $code => $tabe) {
     //$tabe = { 'missing' leeen :  , 'exists' : len( table[langs] ) };
     $aaa = $tabe['missing'] ?? "";
     //$aaa = number_format( $aaa );
     $Table[$code] = $aaa;
 };
 //---
-arsort( $Table );
+arsort($Table);
 //---
 $text = <<<HTML
 <table class="table table-striped compact soro table-mobile-responsive table-mobile-sided">
@@ -41,6 +43,7 @@ $text = <<<HTML
         <th class="spannowrap">#</th>
         <th class="spannowrap">Language code</th>
         <th class="spannowrap">Language name</th>
+        <th class="spannowrap">Autonym</th>
         <th>Exists Articles</th>
         <th>Missing Articles</th>
         </tr>
@@ -51,23 +54,30 @@ HTML;
 //---
 $num = 0;
 //---
-foreach ( $Table as $langcode2 => $missing ) {
+foreach ($Table as $langcode2 => $missing) {
     //---
     $langcode = $langcode2;
     //---
+    if (isset($change_codes[$langcode])) {
+        $langcode = $change_codes[$langcode];
+    }
+    //---
     // skip langcode in $skip_codes
-    if (in_array($langcode, $skip_codes)) continue;
+    if (in_array($langcode, $skip_codes) || in_array($langcode2, $skip_codes)) {
+        continue;
+    };
     //---
-    $langcode = $change_codes[$langcode] ?? $langcode;
+    $lang_info = $Langs_table[$langcode] ?? $Langs_table[$langcode2] ?? [];
     //---
-    $num = $num + 1;
-    $langname = $code_to_wikiname[$langcode] ?? "11 $langcode";
-    $langname = str_replace ( "($langcode) " , '' , $langname ) ;
+    $num += 1;
+    //---
+    $autonym = $lang_info['autonym'] ?? '! autonym';
+    $langname = $lang_info['name'] ?? "! langname";
     //---
     $exists_1 = bcsub($lenth, $missing);
     $exists = $langs[$langcode]['exists'] ?? '';
     #---
-    if (empty($exists) ) $exists = $langs[$langcode2]['exists'] ?? $exists_1;
+    if (empty($exists)) $exists = $langs[$langcode2]['exists'] ?? $exists_1;
     //---
     $numb = number_format($missing);
     //---
@@ -77,10 +87,13 @@ foreach ( $Table as $langcode2 => $missing ) {
                 $num
             </th>
             <td data-content="Language code">
-                $langcode
+                <a target="_blank" href="leaderboard.php?langcode=$langcode">$langcode</a>
             </td>
             <td data-content="Language name">
-                <a target="" href="https://$langcode.wikipedia.org">$langname</a>
+                <a target="_blank" href="https://$langcode.wikipedia.org">$langname</a>
+            </td>
+            <td data-content="Autonym">
+                $autonym
             </td>
             <td data-content="Exists Articles">
                 $exists
@@ -112,4 +125,3 @@ HTML;
 //---
 include_once __DIR__ . '/foter.php';
 //---
-?>

@@ -17,7 +17,8 @@ $Assessments_fff = array(
 //---
 $tables = array(
 	'enwiki_pageviews' => &$enwiki_pageviews_table,
-	'lang_code_to_en' => &$lang_code_to_en,
+	// 'lang_code_to_en' => &$lang_code_to_en,
+	'langs_tables' => &$Langs_table,
 	'words' => &$Words_table,
 	'allwords' => &$All_Words_table,
 	'all_refcount' => &$All_Refs_table,

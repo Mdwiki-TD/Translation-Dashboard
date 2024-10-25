@@ -94,7 +94,7 @@ foreach (range(1, 1) as $numb) {
 			<input class="form-control td_user_input" size='10' name='user[]$numb' required/>
 		</td>
 		<td data-content='Lang.'>
-			<input class="form-control" size='2' name='lang[]$numb' required/>
+			<input class="form-control lang_input" size='2' name='lang[]$numb' required/>
 		</td>
 		<td data-content='Target'>
 			<input class="form-control" size='20' name='target[]$numb' required/>
@@ -134,7 +134,7 @@ echo $table;
 		e = e + "<td><select name='type[]%s' class='form-select'>";
 		e = e + "<option value='lead'>Lead</option><option value='all'>All</option></select></td>";
 		e = e + "<td>	<input class='form-control' size='10' class='td_user_input' name='user[]" + ii + "' required/>	</td>";
-		e = e + "<td>	<input class='form-control' size='2' name='lang[]" + ii + "' required/>	</td>";
+		e = e + "<td>	<input class='form-control lang_input' size='2' name='lang[]" + ii + "' required/>	</td>";
 		e = e + "<td>	<input class='form-control' size='20' name='target[]" + ii + "' required/>	</td>";
 		e = e + "<td>	<input class='form-control' size='10' name='pupdate[]" + ii + "' required/>	</td>";
 		e = e + "<td></td>";

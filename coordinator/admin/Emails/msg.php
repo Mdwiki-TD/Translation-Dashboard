@@ -132,7 +132,7 @@ $url_views_3  = 'https://' . 'pageviews.wmcloud.org/?' . http_build_query(array(
 // $views2 = "<font color='#0000ff'>$views people</font>";
 $views2 = "<a target='_blank' href='$url_views_3'><font color='#0000ff'>$views people</font></a>";
 //---
-$lang2 = $lang_code_to_en[$lang] ?? $lang;
+$lang2 = $Langs_table[$lang]['name'] ?? $lang;
 $lang2 = make_target_url($target, $lang, $name = $lang2);
 //---
 // print tabs values
