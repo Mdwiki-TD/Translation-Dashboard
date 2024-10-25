@@ -74,7 +74,7 @@ function makeLangTable()
         // ---
         $na = $Langs_table[$langcode]['name'] ?? "";
         // ---
-        $langname = ($na) ? "<span data-toggle='tooltip' title='$langcode'>$na</span>" : $langcode;
+        $langname = ($na != "") ? "<span data-toggle='tooltip' title='$langcode'>$na</span>" : $langcode;
         // ---
         $view = number_format($all_views_by_lang[$langcode]) ?? 0;
         $cach = <<<HTML
