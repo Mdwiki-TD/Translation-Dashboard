@@ -72,8 +72,6 @@ function makeLangTable()
         $comp = number_format($comp);
         $numb++;
 
-        // $langname = isset($lang_code_to_en[$langcode]) ? "($langcode) " . $lang_code_to_en[$langcode] : $langcode;
-        // $langname = isset($lang_code_to_en[$langcode]) ? "<span data-toggle='tooltip' title='$lang_code_to_en[$langcode]'>$langcode</span>" : $langcode;
         $langname = isset($lang_code_to_en[$langcode]) ? "<span data-toggle='tooltip' title='$langcode'>$lang_code_to_en[$langcode]</span>" : $langcode;
 
         $view = number_format($all_views_by_lang[$langcode]) ?? 0;
