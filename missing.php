@@ -34,12 +34,18 @@ foreach ($langs as $code => $tabe) {
     $Table[$code] = $aaa;
 };
 //---
-foreach ($Langs_table as $_ => $lang_tab) {
-    $lang_code = $lang_tab['code'] ?? "";
-    if (!isset($Table[$lang_code])) {
-        $Table[$lang_code] = 0;
-    }
-}
+// foreach ($Langs_table as $_ => $lang_tab) {
+//     $lang_code = $lang_tab['code'] ?? "";
+//     if (!isset($Table[$lang_code])) {
+//         $Table[$lang_code] = 0;
+//     }
+// }
+//---
+$lang_codes = array_map(function ($lang_tab) {
+    return $lang_tab['code'] ?? "";
+}, $Langs_table);
+
+$Table += array_fill_keys(array_filter($lang_codes), 0);
 //---
 arsort($Table);
 //---
