@@ -77,9 +77,14 @@ foreach ($Table as $langcode2 => $missing) {
     //---
     $num += 1;
     //---
-    $autonym = $lang_info['autonym'] ?? '! autonym';
-    $langname = $lang_info['name'] ?? "! langname";
+    $autonym = $lang_info['autonym'] ?? '';
+    // ---
+    if (empty($autonym)) $autonym = "! autonym";
+    // ---
+    $langname = $lang_info['name'] ?? "";
     //---
+    if (empty($langname)) $langname = "! langname";
+    // ---
     $exists_1 = bcsub($lenth, $missing);
     $exists = $langs[$langcode]['exists'] ?? '';
     #---
