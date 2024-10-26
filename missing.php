@@ -25,14 +25,27 @@ $lenth2 = number_format($lenth);
 $date = $MIS['date'] ?? "";
 //---
 $Table = array();
-$langs = $MIS['langs'] ?? "";
+$langs = $MIS['langs'] ?? [];
 //---
 foreach ($langs as $code => $tabe) {
     //$tabe = { 'missing' leeen :  , 'exists' : len( table[langs] ) };
-    $aaa = $tabe['missing'] ?? "";
+    $aaa = $tabe['missing'] ?? 0;
     //$aaa = number_format( $aaa );
     $Table[$code] = $aaa;
 };
+//---
+// foreach ($Langs_table as $_ => $lang_tab) {
+//     $lang_code = $lang_tab['code'] ?? "";
+//     if (!isset($Table[$lang_code])) {
+//         $Table[$lang_code] = 0;
+//     }
+// }
+//---
+$lang_codes = array_map(function ($lang_tab) {
+    return $lang_tab['code'] ?? "";
+}, $Langs_table);
+
+$Table += array_fill_keys(array_filter($lang_codes), 0);
 //---
 arsort($Table);
 //---
@@ -58,12 +71,11 @@ foreach ($Table as $langcode2 => $missing) {
     //---
     $langcode = $langcode2;
     //---
-    if (isset($change_codes[$langcode])) {
-        $langcode = $change_codes[$langcode];
-    }
+    $langcode = $change_codes[$langcode] ?? $langcode;
     //---
     // skip langcode in $skip_codes
-    if (in_array($langcode, $skip_codes) || in_array($langcode2, $skip_codes)) {
+    // if (in_array($langcode, $skip_codes) || in_array($langcode2, $skip_codes)) {
+    if (array_intersect([$langcode, $langcode2], $skip_codes)) {
         continue;
     };
     //---
@@ -71,9 +83,14 @@ foreach ($Table as $langcode2 => $missing) {
     //---
     $num += 1;
     //---
-    $autonym = $lang_info['autonym'] ?? '! autonym';
-    $langname = $lang_info['name'] ?? "! langname";
+    $autonym = $lang_info['autonym'] ?? '';
+    // ---
+    if (empty($autonym)) $autonym = "! autonym";
+    // ---
+    $langname = $lang_info['name'] ?? "";
     //---
+    if (empty($langname)) $langname = "! langname";
+    // ---
     $exists_1 = bcsub($lenth, $missing);
     $exists = $langs[$langcode]['exists'] ?? '';
     #---

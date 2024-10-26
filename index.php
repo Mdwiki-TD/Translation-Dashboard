@@ -66,8 +66,8 @@ function print_form_start1($allow_whole_translate, $Langs_table, $catinput_list,
     //---
     // foreach ($lang_to_code as $lang_title => $lang_code) {
     foreach ($Langs_table as $_ => $lang_tab) {
-        $lang_code = $lang_tab['code'];
-        $lang_name = $lang_tab['autonym'];
+        $lang_code = $lang_tab['code'] ?? "";
+        $lang_name = $lang_tab['autonym'] ?? "";
         $lang_title = "($lang_code) $lang_name";
         $selected = ($lang_code == $code) ? 'selected' : '';
         $lang_list .= <<<HTML

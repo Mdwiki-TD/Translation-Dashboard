@@ -1,6 +1,17 @@
 <?PHP
 //---
 /*
+"gsw": "als",
+"gswsgs": "bat-smg",
+"fiu-vro": "vro",
+"roa-rup": "rup",
+"lzh": "zh-classical",
+"nan": "zh-min-nan",
+"yue": "zh-yue",
+"be-x-old": "be-tarask",
+s
+https://ar.wikipedia.org/w/api.php?action=query&format=json&meta=siteinfo&utf8=1&formatversion=2&siprop=languages&sifilteriw=local&sishowalldb=1
+
 https://cxserver.wikimedia.org/v2/list/languagepairs
 
 https://www.wikidata.org/w/api.php?action=query&format=json&meta=languageinfo&utf8=1&formatversion=2&liprop=code%7Cname%7Cfallbacks%7Cvariantnames%7Cvariants%7Cdir%7Cbcp47%7Cautonym
@@ -385,12 +396,12 @@ foreach ($code_to_wikiname as $code => $name) {
 };*/
 //---
 foreach ($Langs_table as $_ => $lang_tab) {
-    $lang_code = $lang_tab['code'];
-    $lang_name = $lang_tab['autonym'];
+    $lang_code = $lang_tab['code'] ?? "";
+    $lang_name = $lang_tab['autonym'] ?? "";
     // ---
     $lang_title = "($lang_code) $lang_name";
     // ---
-    $code_to_lang[$code] = $lang_title;
-    $lang_to_code[$lang_title] = $code;
+    $code_to_lang[$lang_code] = $lang_title;
+    $lang_to_code[$lang_title] = $lang_code;
 };
 //---

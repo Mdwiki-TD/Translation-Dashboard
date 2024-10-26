@@ -21,18 +21,18 @@ $(".td_user_input").autocomplete({
 	}
 });
 
-let cachedData = null; // متغير لتخزين البيانات مؤقتًا
+let cachedData = null; // Variable for temporary data storage
 
 $(".lang_input").autocomplete({
 	source: function (request, response) {
-		// إذا كانت البيانات مخزنة مسبقًا، نستخدمها مباشرةً
+		// If data is already cached, use it directly
 		if (cachedData) {
 			const filteredData = filterData(cachedData, request.term);
 			response(filteredData);
 			return;
 		}
 
-		// طلب البيانات من الـ API مرة واحدة فقط عند أول استدعاء
+		// Fetch data from API only once on first call
 		$.ajax({
 			url: api_end_point + "?get=lang_names",
 			dataType: "json",
@@ -45,13 +45,14 @@ $(".lang_input").autocomplete({
 	}
 });
 
-// دالة لتصفية البيانات بناءً على المدخل
 function filterData(data, term) {
 	return $.map(data, function (item) {
-		// مطابقة العنصر المدخل
 		if (item) {
 			if (item.code.toLowerCase().indexOf(term.toLowerCase()) === 0) {
-				return item.code; //`${item.code} - ${item.name} (${item.autonym})`;
+				return {
+					label: `${item.code} - ${item.name} (${item.autonym})`,
+					value: item.code
+				};
 			}
 		}
 	});
