@@ -25,14 +25,21 @@ $lenth2 = number_format($lenth);
 $date = $MIS['date'] ?? "";
 //---
 $Table = array();
-$langs = $MIS['langs'] ?? "";
+$langs = $MIS['langs'] ?? [];
 //---
 foreach ($langs as $code => $tabe) {
     //$tabe = { 'missing' leeen :  , 'exists' : len( table[langs] ) };
-    $aaa = $tabe['missing'] ?? "";
+    $aaa = $tabe['missing'] ?? 0;
     //$aaa = number_format( $aaa );
     $Table[$code] = $aaa;
 };
+//---
+foreach ($Langs_table as $_ => $lang_tab) {
+    $lang_code = $lang_tab['code'] ?? "";
+    if (!isset($Table[$lang_code])) {
+        $Table[$lang_code] = 0;
+    }
+}
 //---
 arsort($Table);
 //---
@@ -58,12 +65,11 @@ foreach ($Table as $langcode2 => $missing) {
     //---
     $langcode = $langcode2;
     //---
-    if (isset($change_codes[$langcode])) {
-        $langcode = $change_codes[$langcode];
-    }
+    $langcode = $change_codes[$langcode] ?? $langcode;
     //---
     // skip langcode in $skip_codes
-    if (in_array($langcode, $skip_codes) || in_array($langcode2, $skip_codes)) {
+    // if (in_array($langcode, $skip_codes) || in_array($langcode2, $skip_codes)) {
+    if (array_intersect([$langcode, $langcode2], $skip_codes)) {
         continue;
     };
     //---
