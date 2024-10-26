@@ -15,11 +15,7 @@ use function Actions\MdwikiSql\execute_query;
 
 function insertPage($title_o, $word, $tr_type, $cat, $coden, $useree)
 {
-    test_print("INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target, add_date)");
-    // ---
-    if (empty($useree) || $useree == "Mr. Ibrahem" || $useree == "MdWikiBot") {
-        return;
-    }
+    // if (empty($useree) || $useree == "Mr. Ibrahem" || $useree == "MdWikiBot") { return; }
     // ---
     $quae_new = <<<SQL
         INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target, add_date)
@@ -32,6 +28,9 @@ function insertPage($title_o, $word, $tr_type, $cat, $coden, $useree)
             AND user = ?
         )
     SQL;
+    // ---
+    test_print($quae_new);
+    // ---
 
     $params = [$title_o, $word, $tr_type, $cat, $coden, $useree, $title_o, $coden, $useree];
     execute_query($quae_new, $params = $params);

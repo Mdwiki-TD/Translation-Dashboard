@@ -124,7 +124,7 @@ function echo_form($id, $title, $target, $lang, $user, $pupdate, $table)
                             <div class='input-group-prepend'>
                                 <span class='input-group-text'>lang</span>
                             </div>
-                            <input class='form-control' type='text' id='lang' name='lang' value='$lang' required/>
+                            <input class='form-control lang_input' type='text' id='lang' name='lang' value='$lang' required/>
                         </div>
                     </div>
                     <div class='col-md-3'>

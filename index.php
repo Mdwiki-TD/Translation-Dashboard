@@ -17,6 +17,7 @@ if (isset($_REQUEST['test'])) {
 };
 //---
 include_once __DIR__ . '/header.php';
+include_once __DIR__ . '/Tables/tables.php';
 include_once __DIR__ . '/Tables/langcode.php';
 include_once __DIR__ . '/actions/functions.php';
 include_once __DIR__ . '/Tables/sql_tables.php';
@@ -35,8 +36,8 @@ $code = $req['code'] ?? "";
 $cat  = (!empty($req['cat'])) ? $req['cat'] : $main_cat;
 $camp  = (!empty($req['camp'])) ? $req['camp'] : $main_camp;
 //---
-$code_lang_name = $req['code_lang_name'] ?? "";
-//---s
+$code_lang_name  = $req['code_lang_name'];
+//---
 $tra_type  = $_REQUEST['type'] ?? '';
 if ($allow_whole_translate == '0') $tra_type = 'lead';
 //---
@@ -45,7 +46,7 @@ $camp_ch = htmlspecialchars($camp, ENT_QUOTES);
 //---
 // echo $_SERVER['SERVER_NAME'];
 //---
-function print_form_start1($allow_whole_translate, $lang_to_code, $catinput_list, $campaign_input_list, $cat_ch, $camp_ch, $code_lang_name, $code, $tra_type)
+function print_form_start1($allow_whole_translate, $Langs_table, $catinput_list, $campaign_input_list, $cat_ch, $camp_ch, $code_lang_name, $code, $tra_type)
 {
     //---
     $lead_checked = "checked";
@@ -63,10 +64,14 @@ function print_form_start1($allow_whole_translate, $lang_to_code, $catinput_list
     //---
     $lang_list = '';
     //---
-    foreach ($lang_to_code as $langeee => $codr) {
-        $selected = ($codr == $code) ? 'selected' : '';
+    // foreach ($lang_to_code as $lang_title => $lang_code) {
+    foreach ($Langs_table as $_ => $lang_tab) {
+        $lang_code = $lang_tab['code'];
+        $lang_name = $lang_tab['autonym'];
+        $lang_title = "($lang_code) $lang_name";
+        $selected = ($lang_code == $code) ? 'selected' : '';
         $lang_list .= <<<HTML
-            <option data-tokens='$codr' value='$codr' $selected>$langeee</option>
+            <option data-tokens='$lang_code' value='$lang_code' $selected>$lang_title</option>
             HTML;
     };
     //---
@@ -187,7 +192,7 @@ function print_form_start1($allow_whole_translate, $lang_to_code, $catinput_list
 //---
 $img_src = '//upload.wikimedia.org/wikipedia/commons/thumb/5/58/Wiki_Project_Med_Foundation_logo.svg/400px-Wiki_Project_Med_Foundation_logo.svg.png';
 //---
-$form_start1  = print_form_start1($allow_whole_translate, $lang_to_code, $catinput_list, $campaign_input_list, $cat_ch, $camp_ch, $code_lang_name, $code, $tra_type);
+$form_start1  = print_form_start1($allow_whole_translate, $Langs_table, $catinput_list, $campaign_input_list, $cat_ch, $camp_ch, $code_lang_name, $code, $tra_type);
 //---
 $intro = <<<HTML
     This tool looks for Wikidata items that have a page on mdwiki.org but not in another wikipedia language <a href='?cat=RTT&depth=1&code=ceb&doit=Do+it'>(Example)</a>. <a href='//mdwiki.org/wiki/WikiProjectMed:Translation_task_force'><b>How to use.</b></a>

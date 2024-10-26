@@ -40,7 +40,7 @@ function createNumbersTable($c_user, $c_articles, $c_words, $c_langs, $c_views)
 function makeLangTable()
 {
 
-    global $lang_code_to_en, $sql_Languages_tab, $all_views_by_lang;
+    global $sql_Languages_tab, $all_views_by_lang, $Langs_table;
 
     arsort($sql_Languages_tab);
 
@@ -71,11 +71,11 @@ function makeLangTable()
         if ($comp < 1) continue;
         $comp = number_format($comp);
         $numb++;
-
-        // $langname = isset($lang_code_to_en[$langcode]) ? "($langcode) " . $lang_code_to_en[$langcode] : $langcode;
-        // $langname = isset($lang_code_to_en[$langcode]) ? "<span data-toggle='tooltip' title='$lang_code_to_en[$langcode]'>$langcode</span>" : $langcode;
-        $langname = isset($lang_code_to_en[$langcode]) ? "<span data-toggle='tooltip' title='$langcode'>$lang_code_to_en[$langcode]</span>" : $langcode;
-
+        // ---
+        $na = $Langs_table[$langcode]['name'] ?? "";
+        // ---
+        $langname = ($na != "") ? "<span data-toggle='tooltip' title='$langcode'>$na</span>" : $langcode;
+        // ---
         $view = number_format($all_views_by_lang[$langcode]) ?? 0;
         $cach = <<<HTML
             <td><a target="_blank" href="https://$langcode.wikipedia.org/wiki/Category:Translated_from_MDWiki">cat</a></td>
