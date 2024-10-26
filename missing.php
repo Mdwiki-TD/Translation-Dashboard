@@ -3,11 +3,10 @@
 include_once __DIR__ . '/header.php';
 include_once __DIR__ . '/Tables/langcode.php';
 include_once __DIR__ . '/Tables/tables.php';
-
+//---
 echo '<script>$("#missing").addClass("active");</script>';
 //---
 if (isset($_REQUEST['test'])) {
-
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
@@ -67,6 +66,8 @@ HTML;
 //---
 $num = 0;
 //---
+$tab_done = [];
+//---
 foreach ($Table as $langcode2 => $missing) {
     //---
     $langcode = $langcode2;
@@ -78,6 +79,9 @@ foreach ($Table as $langcode2 => $missing) {
     if (array_intersect([$langcode, $langcode2], $skip_codes)) {
         continue;
     };
+    //---
+    if (isset($tab_done[$langcode])) continue;
+    $tab_done[$langcode] = true;
     //---
     $lang_info = $Langs_table[$langcode] ?? $Langs_table[$langcode2] ?? [];
     //---

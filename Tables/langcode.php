@@ -37,6 +37,7 @@ require_once __DIR__ . '/tables.php';
 $skip_codes = ["commons", "species", "ary", "arz", "meta", "en", "simple"];
 //---
 $change_codes = [
+    "nb"    =>    "no",
     "bat_smg"    =>    "bat-smg",
     "be-x-old"    =>    "be-tarask",
     "be_x_old"    =>    "be-tarask",
@@ -399,9 +400,12 @@ foreach ($Langs_table as $_ => $lang_tab) {
     $lang_code = $lang_tab['code'] ?? "";
     $lang_name = $lang_tab['autonym'] ?? "";
     // ---
+    if (isset($change_codes[$lang_code]) && isset($code_to_lang[$change_codes[$lang_code]])) {
+        continue;
+    }
+    // ---
     $lang_title = "($lang_code) $lang_name";
     // ---
     $code_to_lang[$lang_code] = $lang_title;
     $lang_to_code[$lang_title] = $lang_code;
 };
-//---
