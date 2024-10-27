@@ -44,7 +44,7 @@ $lang_codes = array_map(function ($lang_tab) {
     return $lang_tab['code'] ?? "";
 }, $Langs_table);
 
-$Table += array_fill_keys(array_filter($lang_codes), 0);
+$Table += array_fill_keys(array_filter($lang_codes), $lenth);
 //---
 arsort($Table);
 //---
