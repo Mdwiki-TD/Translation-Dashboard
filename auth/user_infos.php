@@ -21,7 +21,8 @@ $username = get_from_cookie('username');
 if ($_SERVER['SERVER_NAME'] == 'localhost') {
 	session_start();
 	$username = $_SESSION['username'] ?? '';
-} else {
+} elseif (!empty($username)) {
+	// ---
 	$access_key = get_from_cookie('accesskey');
 	$access_secret = get_from_cookie('access_secret');
 	// ---
