@@ -43,7 +43,7 @@ class Database
             $ts_pw = posix_getpwuid(posix_getuid());
             $ts_mycnf = parse_ini_file($ts_pw['dir'] . "/confs/db.ini");
             $this->host = 'tools.db.svc.wikimedia.cloud';
-            $this->dbname = $ts_mycnf['user'] . "__mdwiki";
+            $this->dbname = $ts_mycnf['db'];
             $this->user = $ts_mycnf['user'];
             $this->password = $ts_mycnf['password'];
             unset($ts_mycnf, $ts_pw);
