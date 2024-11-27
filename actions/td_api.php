@@ -5,11 +5,23 @@ namespace Actions\TDApi;
 Usage:
 
 use function Actions\TDApi\get_td_api;
+use function Actions\TDApi\compare_it;
 
 */
 
 use function Actions\Functions\test_print;
 
+function compare_it($t1, $t2)
+{
+    echo "<br>fetch_query:<br>";
+    // //---
+    var_dump(json_encode($t1, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+    // //---
+    echo "<br>get_td_api:<br>";
+    // //---
+    var_dump(json_encode($t2, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+    //---
+}
 function post_url(string $endPoint, array $params = []): string
 {
     $usr_agent = "WikiProjectMed Translation Dashboard/1.0 (https://mdwiki.toolforge.org/; tools.mdwiki@toolforge.org)";
