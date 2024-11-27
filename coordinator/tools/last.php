@@ -6,9 +6,10 @@ use function Actions\WikiApi\make_view_by_number;
 use function Actions\Html\make_mail_icon;
 use function Actions\Html\make_talk_url;
 use function Actions\Html\make_target_url;
-use function Actions\MdwikiSql\fetch_query;
+// use function Actions\MdwikiSql\fetch_query;
 use function Actions\Html\make_cat_url;
 use function Actions\Html\make_mdwiki_title;
+use function Actions\TDApi\get_td_api;
 //---
 $lang = $_GET['lang'] ?? 'All';
 //---
@@ -20,14 +21,12 @@ function filter_recent($lang)
 {
     global $code_to_lang;
     //---
-    $tabes = [];
+    // $result = fetch_query("select DISTINCT lang from pages;");
     //---
-    foreach (fetch_query("select DISTINCT lang from pages;") as $tat => $tag) {
-        $lag = strtolower($tag['lang']);
-        //---
-        $tabes[] = $lag;
-        //---
-    };
+    // http://localhost:9001/api.php?get=pages_users&distinct=1&select=lang
+    $result = get_td_api(array('get' => 'pages', 'distinct' => 1, 'select' => 'lang'));
+    //---
+    $tabes = array_map('current', $result);
     //---
     ksort($tabes);
     //---
@@ -190,10 +189,23 @@ function get_recent_sql($lang)
 {
     $lang_line = '';
     //---
-    if (!empty($lang) && $lang != 'All') $lang_line = "and lang = '$lang'";
+    if (!empty($lang) && $lang != 'All') {
+        $lang_line = "and lang = '$lang'";
+    }
     //---
-    $dd0 = fetch_query("select * from pages where target != '' $lang_line ORDER BY pupdate DESC limit 250;");
-    $dd1 = fetch_query("select * from pages where target != '' $lang_line ORDER BY add_date DESC limit 250");
+    $params0 = array('get' => 'pages', 'target_notempty' => '1', 'limit' => '250', 'order' => 'pupdate');
+    $params1 = array('get' => 'pages', 'target_notempty' => '1', 'limit' => '250', 'order' => 'add_date');
+    //---
+    if (!empty($lang) && $lang != 'All') {
+        $params0['lang'] = $lang;
+        $params1['lang'] = $lang;
+    }
+    //---
+    // $dd0 = fetch_query("select * from pages where target != '' $lang_line ORDER BY pupdate DESC limit 250");
+    $dd0 = get_td_api($params0);
+    //---
+    // $dd1 = fetch_query("select * from pages where target != '' $lang_line ORDER BY add_date DESC limit 250");
+    $dd1 = get_td_api($params1);
     //---
     // merage the two arrays without duplicates
     $tab = array_unique(array_merge($dd0, $dd1), SORT_REGULAR);

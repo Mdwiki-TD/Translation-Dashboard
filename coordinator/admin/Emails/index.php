@@ -91,9 +91,11 @@ $live_pages = array();
 if (true) {
 	$q_live = <<<SQL
 		select DISTINCT
-		p1.user, (select count(target) from pages p2 where p2.user = p1.user and p2.target != '') as live
+		p1.user, count(target) as live
 		from pages p1
-		group by p1.user;
+		where p1.target != ''
+		group by p1.user
+		order by live desc
 	SQL;
 	//---
 	foreach ( fetch_query($q_live) AS $Key => $gg ) {

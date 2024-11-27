@@ -8,7 +8,8 @@ use function Actions\Functions\strstartswithn;
 use function Actions\Functions\strendswith;
 use function Actions\Functions\test_print;
 */
-use function Actions\MdwikiSql\fetch_query;
+// use function Actions\MdwikiSql\fetch_query;
+
 
 $print_t = false;
 
@@ -24,8 +25,10 @@ define('print_te', $print_t);
 include_once __DIR__ . '/html.php';
 include_once __DIR__ . '/wiki_api.php';
 include_once __DIR__ . '/mdwiki_api.php';
+include_once __DIR__ . '/td_api.php';
 include_once __DIR__ . '/mdwiki_sql.php';
 
+use function Actions\TDApi\get_td_api;
 
 function load_request() {
     global $lang_to_code, $code_to_lang, $camp_to_cat, $cat_to_camp;
@@ -94,4 +97,10 @@ function test_print($s) {
     }
 }
 
-$usrs = array_map('current', fetch_query("SELECT user FROM coordinator;"));
+// $coordinators = array_map('current', fetch_query ("SELECT user FROM coordinator;"));
+$coordinators = get_td_api(array('get' => 'coordinator', 'select' => 'user'));
+
+$coordinators = array_map('current', $coordinators);
+
+// var_dump(json_encode($coordinators2, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+

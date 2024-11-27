@@ -9,7 +9,6 @@ use function Actions\MdwikiSql\sql_add_user;
 use function Actions\MdwikiSql\update_settings;
 use function Actions\MdwikiSql\insert_to_translate_type;
 use function Actions\MdwikiSql\insert_to_projects;
-use function Actions\MdwikiSql\get_all;
 use function Actions\MdwikiSql\display_tables;
 */
 
@@ -248,26 +247,3 @@ function insert_to_projects($g_title, $g_id)
     //---
     return $result;
 }
-
-function get_all($tab = "(categories|coordinator|copy_pages|pages|projects|qids|users|views|wddone|words)")
-{
-    //---
-    $query = "SELECT * FROM $tab";
-    $data = fetch_query($query);
-    //---
-    return $data;
-}
-
-function display_tables()
-{
-    $sql_query = "SELECT TABLE_NAME, TABLE_TYPE FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() ORDER BY TABLE_NAME";
-    $result = fetch_query($sql_query);
-    //---
-    $tables = [];
-    foreach ($result as $row) $tables[] = $row['TABLE_NAME'];
-    //---
-    // test_print($tables);
-}
-
-$test = $_GET['test'] ?? '';
-if (!empty($test)) display_tables();

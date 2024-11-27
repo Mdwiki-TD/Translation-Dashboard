@@ -8,6 +8,7 @@ use function Actions\Html\make_target_url;
 use function Actions\MdwikiSql\fetch_query;
 use function Actions\Html\make_cat_url;
 use function Actions\Html\make_mdwiki_title;
+use function Actions\TDApi\get_td_api;
 //---
 $lang = $_GET['lang'] ?? 'All';
 //---
@@ -19,16 +20,17 @@ function filter_recent($lang)
 {
     global $code_to_lang;
     //---
-    $tabes = [];
+    // $result = fetch_query ("select DISTINCT lang from pages_users;");
     //---
-    foreach (fetch_query("select DISTINCT lang from pages_users;") as $tat => $tag) {
-        $lag = strtolower($tag['lang']);
-        //---
-        $tabes[] = $lag;
-        //---
-    };
+    // http://localhost:9001/api.php?get=pages_users&distinct=1&select=lang
+    //---
+    $result = get_td_api(array('get' => 'pages_users', 'distinct' => 1, 'select' => 'lang'));
+    //---
+    $tabes = array_map('current', $result);
     //---
     ksort($tabes);
+    //---
+    // var_dump(json_encode($tabes, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
     //---
     $lang_list = "<option data-tokens='All' value='All'>All</option>";
     //---
@@ -167,11 +169,16 @@ function get_recent_sql($lang)
     //---
     $lang_line = '';
     //---
-    if (!empty($lang) && $lang != 'All') $lang_line = "and lang = '$lang'";
+    $params0 = array('get' => 'pages_users', 'target_notempty' => '1', 'limit' => '10', 'order' => 'pupdate', 'title_not_in_pages' => '1');
+    //---
+    if (!empty($lang) && $lang != 'All') {
+        $lang_line = "and lang = '$lang'";
+        $params0['lang'] = $lang;
+    };
     //---
     $qua = <<<SQL
         select
-            title, lang, user, pupdate, target, add_date
+            *
         from
             pages_users
         where
@@ -180,19 +187,29 @@ function get_recent_sql($lang)
             select p.title from pages p where p.lang = lang and p.target != ''
         )
         $lang_line
-        ORDER BY pupdate
-        DESC limit 100;
+        ORDER BY pupdate DESC
+        limit 10;
     SQL;
     //---
-    $tab = fetch_query($qua);
+    $tab0 = get_td_api($params0);
+    //---
+    // $tab = fetch_query ($qua);
+    //---
+    // echo "<br>get_td_api:<br>";
+    // //---
+    // var_dump(json_encode($tab0, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+    // //---
+    // echo "<br>fetch_query:<br>";
+    // //---
+    // var_dump(json_encode($tab, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
     //---
     // sort the table by add_date
-    usort($tab, function ($a, $b) {
+    usort($tab0, function ($a, $b) {
         // return strtotime($b['add_date']) - strtotime($a['add_date']);
         return strtotime($b['pupdate']) - strtotime($a['pupdate']);
     });
     //---
-    return $tab;
+    return $tab0;
 }
 //---
 $qsl_results = get_recent_sql($lang);

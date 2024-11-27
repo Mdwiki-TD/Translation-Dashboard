@@ -5,7 +5,8 @@ if (user_in_coord == false) {
 	exit;
 };
 //---
-use function Actions\MdwikiSql\fetch_query;
+// use function Actions\MdwikiSql\fetch_query;
+use function Actions\TDApi\get_td_api;
 //---
 if (isset($_REQUEST['test'])) {
 	ini_set('display_errors', 1);
@@ -36,7 +37,8 @@ echo <<<HTML
 					<tbody id="coo_tab">
 HTML;
 //---
-$qq = fetch_query('select id, user from coordinator;');
+// $qq = fetch_query ('select id, user from coordinator;');
+$qq = get_td_api(array('get' => 'coordinator'));
 //---
 $numb = 0;
 //---

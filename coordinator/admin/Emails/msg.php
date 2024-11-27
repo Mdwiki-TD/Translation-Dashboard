@@ -16,7 +16,7 @@ use function Actions\MdwikiSql\fetch_query;
 use function Actions\WikiApi\get_views;
 use function Actions\Html\make_mdwiki_title;
 use function Actions\Html\make_talk_url;
-use function Results\GetCats\get_in_process;
+use function Results\GetCats\get_in_process_api;
 use function Results\GetResults\get_cat_exists_and_missing;
 use function Actions\Html\make_target_url;
 //---
@@ -59,7 +59,7 @@ if (!empty($title)) {
     //---
     $items_missing = $items['missing'] ?? array();
     //---
-    $in_process = get_in_process($items_missing, $lang);
+    $in_process = get_in_process_api($items_missing, $lang);
     //---
     // delete $in_process keys from $missing
     if (!empty($in_process)) {

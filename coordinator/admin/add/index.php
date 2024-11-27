@@ -5,7 +5,8 @@ if (user_in_coord == false) {
 	exit;
 };
 //---
-use function Actions\MdwikiSql\fetch_query;
+// use function Actions\MdwikiSql\fetch_query;
+use function Actions\TDApi\get_td_api;
 //---
 if (isset($_REQUEST['test'])) {
 	ini_set('display_errors', 1);
@@ -50,7 +51,9 @@ HTML;
 //---
 $cats = "";
 //---
-$qqq = fetch_query('select category, campaign from categories;');
+// $qqq = fetch_query ('select category, campaign from categories;');
+//---
+$qqq = get_td_api(array('get' => 'categories'));
 //---
 foreach ($qqq as $Key => $ta) {
 	$ca = $ta['category'] ?? "";
