@@ -80,7 +80,7 @@ $raw  = $_REQUEST['raw'] ?? '';
 if (empty($raw)) {
     require '../header.php';
     //---
-    if (!in_array(global_username, $usrs)) {
+    if (!in_array(global_username, $coordinators)) {
         echo "<meta http-equiv='refresh' content='0; url=/Translation_Dashboard/index.php'>";
         exit;
     };
@@ -149,6 +149,8 @@ if (empty($raw)) {
             and A.qid = B.qid
             ;"
     ];
+    //---
+    echo "<div class='container-fluid'>";
     //---
     echo <<<HTML
         <div class='row'>
@@ -238,6 +240,10 @@ if (!empty($qua) and ($pass == $sqlpass or $_SERVER['SERVER_NAME'] == 'localhost
     require 'sql_result.php';
     make_sql_result($qua, $raw);
     //---
+};
+//---
+if (empty($raw)) {
+    echo "</div>";
 };
 //---
 /*

@@ -94,4 +94,4 @@ function test_print($s) {
     }
 }
 
-$usrs = array_map('current', fetch_query("SELECT user FROM coordinator;"));
+$coordinators = array_map('current', fetch_query("SELECT user FROM coordinator;"));
