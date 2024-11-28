@@ -1,6 +1,8 @@
 <?PHP
 
-use function Actions\MdwikiSql\fetch_query;
+// use function Actions\MdwikiSql\fetch_query;
+use function Actions\TDApi\get_td_api;
+use function Actions\TDApi\compare_it;
 
 $year = $_REQUEST['year'] ?? 'all';
 $camp = $_REQUEST['camp'] ?? 'all';
@@ -60,7 +62,8 @@ function makeSqlQuery()
 }
 //---
 $qua_all = makeSqlQuery();
-echo $qua_all;
+// echo $qua_all;
+//---
 $Words_total = 0;
 $Articles_numbers = 0;
 $global_views = 0;
@@ -75,7 +78,22 @@ $Views_by_lang_target = make_views_by_lang_target();
 $tab_for_graph = [];
 // $articles_to_camps, $camps_to_articles
 
-foreach (fetch_query($qua_all) as $Key => $teb) {
+// $ddde = fetch_query ($qua_all);
+$api_params = ['get' => 'leaderboard_table'];
+// ----
+if ($year != 'all') {
+    $api_params['year'] = $year;
+}
+// ---
+if ($project != 'all') {
+    $api_params['user_group'] = $project;
+}
+// ---
+$ddde1 = get_td_api($api_params);
+// ---
+// compare_it($ddde, $ddde1);
+// ---
+foreach ($ddde1 as $Key => $teb) {
     $title  = $teb['title'] ?? "";
     //---
     // 2023-08-22

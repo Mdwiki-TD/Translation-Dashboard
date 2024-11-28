@@ -44,7 +44,7 @@ function views_by_page($user_main, $user_count, $test = '')
             ";
         }
         //---
-        $views_query = fetch_query($quaa_view, $views_params);
+        $views_query = fetch_query ($quaa_view, $views_params);
         //---
         if (count($views_query) == 0) $done = $user_count;
         //---
@@ -84,7 +84,7 @@ function views_by_page_new($user_main, $user_count, $test = '')
         echo $views_qua . '<br>';
     }
     //--
-    $views_query = fetch_query($views_qua, $views_params);
+    $views_query = fetch_query ($views_qua, $views_params);
     //---
     foreach ($views_query as $Key => $table) {
         $targ = $table['target'] ?? "";
@@ -121,7 +121,7 @@ function views_tables($user_main, $year_y, $lang_y, $test = '')
         echo $count_sql . '<br>';
     }
     //--
-    $count_query = fetch_query($count_sql, $params);
+    $count_query = fetch_query ($count_sql, $params);
     //---
     $user_count = $count_query[0]['count'];
     //---

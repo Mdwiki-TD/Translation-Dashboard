@@ -29,7 +29,7 @@ function views_table_y($mainlang)
         ;
     SQL;
     //---
-    $views_quary = fetch_query($qua_views);
+    $views_quary = fetch_query ($qua_views);
     //---
     foreach ($views_quary as $Key => $t) {
         $table_of_views[$t['target']] = $t['countall'] ?? "";
