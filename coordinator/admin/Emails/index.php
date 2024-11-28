@@ -7,9 +7,6 @@ if (user_in_coord == false) {
 //---
 use function Actions\Html\make_mail_icon;
 use function Actions\Html\make_project_to_user;
-use function Actions\MdwikiSql\fetch_query;
-use function Actions\TDApi\get_td_api;
-use function Actions\TDApi\compare_it;
 //---
 if (isset($_REQUEST['test'])) {
 	ini_set('display_errors', 1);
@@ -20,6 +17,8 @@ if (isset($_REQUEST['test'])) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	require __DIR__ . '/post.php';
 }
+//---
+require __DIR__ . '/tables.php';
 //---
 function make_edit_icon($id, $user, $email, $wiki2, $project)
 {
@@ -41,28 +40,6 @@ function make_edit_icon($id, $user, $email, $wiki2, $project)
     	<a class='btn btn-outline-primary btn-sm' onclick='$onclick'>Edit</a>
     HTML;
 }
-//---
-$last_user_to_tab = array();
-if (true) {
-	$last_qua = <<<SQL
-		select DISTINCT p1.target, p1.title, p1.cat, p1.user, p1.pupdate, p1.lang
-		from pages p1
-		where target != ''
-		and p1.pupdate = (select p2.pupdate from pages p2 where p2.user = p1.user ORDER BY p2.pupdate DESC limit 1)
-		group by p1.user
-		ORDER BY p1.pupdate DESC
-	SQL;
-	//---
-	foreach (fetch_query($last_qua) as $Key => $gg) {
-		if (!in_array($gg['user'], $last_user_to_tab)) $last_user_to_tab[$gg['user']] = $gg;
-	};
-	//---
-	// print_r(json_encode($last_user_to_tab));
-};
-//---
-// $nn = 0;
-// foreach(fetch_query('SELECT count(DISTINCT user) as c from pages;') as $k => $tab) $nn = $tab['c'] ?? "";
-//---<h4>Emails ($nn user):</h4>
 //---
 echo <<<HTML
 	<div class='card-header'>
@@ -88,46 +65,6 @@ echo <<<HTML
 				</thead>
 				<tbody id="tab_ma">
 	HTML;
-//---
-$live_pages = array();
-//---
-if (true) {
-	$q_live = "select DISTINCT p1.user, count(target) as live from pages p1 where p1.target != '' group by p1.user order by live desc";
-	//---
-	$result = fetch_query($q_live);
-	//---
-	$result1 = get_td_api(array('get' => 'users_live_pages', 'order' => 'live'));
-	//---
-	// compare_it($result, $result1);
-	//---
-	foreach ($result as $Key => $gg) {
-		$live_pages[$gg['user']] = number_format($gg['live']);
-	};
-	//---
-	// print_r(json_encode($live_pages));
-	//---
-};
-//---
-$users_done = array();
-//---
-foreach (fetch_query("select user_id, username, email, wiki, user_group from users;") as $Key => $gk) {
-	$users_done[$gk['username']] = $gk;
-};
-//---
-$qu1 = <<<SQL
-	select DISTINCT user from pages
-	WHERE NOT EXISTS (SELECT 1 FROM users WHERE user = username)
-SQL;
-//---
-foreach (fetch_query($qu1) as $d => $tat) if (!in_array($tat['user'], $users_done)) {
-	$users_done[$tat['user']] = array('user_id' => 0, 'username' => $tat['user'], 'email' => '', 'wiki' => '', 'user_group' => '');
-}
-//---
-$sorted_array = array();
-foreach ($users_done as $u => $tab) {
-	$sorted_array[$u] = $live_pages[$u] ?? 0;
-};
-arsort($sorted_array);
 //---
 $numb = 0;
 //---

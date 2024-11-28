@@ -16,7 +16,7 @@ $translate_type_sql = <<<SQL
 	FROM translate_type
 SQL;
 //---
-foreach ( fetch_query($translate_type_sql) AS $k => $tab ) {
+foreach (fetch_query($translate_type_sql) as $k => $tab) {
     // if tt_full == 1 then add tt_title to $full_translates
     if ($tab['tt_full'] == 1) {
         $full_translates[] = $tab['tt_title'];
@@ -26,11 +26,13 @@ foreach ( fetch_query($translate_type_sql) AS $k => $tab ) {
     }
 }
 //---
-$full_translators = array_map(function ($row) { return $row['user']; }, fetch_query("SELECT * FROM full_translators"));
+$full_translators = array_map(function ($row) {
+    return $row['user'];
+}, fetch_query("SELECT * FROM full_translators"));
 //---
 $sql_qids = array();
 //---
-foreach ( fetch_query('select title, qid from qids;') AS $k => $tab ) $sql_qids[$tab['title']] = $tab['qid'];
+foreach (fetch_query('select title, qid from qids;') as $k => $tab) $sql_qids[$tab['title']] = $tab['qid'];
 //---
 $cat_titles = array();
 $cat_to_camp = array();
@@ -46,7 +48,10 @@ $camp_input_depth = array();
 $campaign_input_list = array();
 $catinput_list = array();
 //---
-foreach ( fetch_query('select id, category, category2, campaign, depth, def from categories;') AS $k => $tab ) {
+$categories_tab = fetch_query('select id, category, category2, campaign, depth, def from categories;');
+//---
+//---
+foreach ($categories_tab as $k => $tab) {
     if (!empty($tab['category']) && !empty($tab['campaign'])) {
         //---
         $cat_titles[] = $tab['campaign'];
@@ -71,16 +76,21 @@ foreach ( fetch_query('select id, category, category2, campaign, depth, def from
 //---
 $projects_title_to_id = array();
 //---
-foreach ( fetch_query('select g_id, g_title from projects;') AS $Key => $table ) $projects_title_to_id[$table['g_title']] = $table['g_id'];
+$projects_tab = fetch_query('select g_id, g_title from projects;');
+//---
+foreach ($projects_tab as $Key => $table) $projects_title_to_id[$table['g_title']] = $table['g_id'];
 //---
 $settings = array();
 //---
-foreach ( fetch_query('select id, title, displayed, value, Type from settings;') AS $Key => $table ) {
+$settings_tab = fetch_query('select id, title, displayed, value, Type from settings;');
+//---
+foreach ($settings_tab as $Key => $table) {
     $settings[$table['title']] = $table;
 }
 //---
 
-function make_views_by_lang_target() {
+function make_views_by_lang_target()
+{
     $vta = array();
 
     $qua_vi = "
@@ -92,9 +102,9 @@ function make_views_by_lang_target() {
         // check if lang already in array array_key_exists
         $langcode = $tab['lang'];
         $target   = $tab['target'];
-		if (!array_key_exists($langcode, $vta)) {
-			$vta[$langcode] = [];
-		};
+        if (!array_key_exists($langcode, $vta)) {
+            $vta[$langcode] = [];
+        };
         // add to array
         $vta[$langcode][$target] = array(
             'all'  => $tab['countall'],
@@ -109,4 +119,3 @@ function make_views_by_lang_target() {
     return $vta;
 }
 //---
-?>

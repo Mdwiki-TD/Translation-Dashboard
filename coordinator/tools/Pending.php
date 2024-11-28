@@ -1,6 +1,8 @@
 <?PHP
 //---
 use function Actions\MdwikiSql\fetch_query;
+use function Actions\TDApi\get_td_api;
+use function Actions\TDApi\compare_it;
 //---
 echo <<<HTML
     <div class='card-header'>
@@ -26,10 +28,6 @@ and B.target != ''
 SELECT A.id from pages A, pages B where A.target = '' and A.lang = B.lang and A.title = B.title and B.target != '';
 */
 //---
-$user_process_tab = array();
-//---
-$sql_t = 'select user, count(target) as count from pages where target = "" group by user order by count(target) desc;';
-//---
 $text = <<<HTML
 <table class='table table-striped compact soro table-mobile-responsive table-mobile-sided'>
     <thead>
@@ -43,9 +41,19 @@ $text = <<<HTML
 
 HTML;
 //---
+$user_process_tab = array();
+//---
+$sql_t = 'select user, count(target) as count from pages where target = "" group by user order by count(target) desc;';
+//---
+$sql_result = fetch_query($sql_t);
+//---
+$sql_result1 = get_td_api(array('get' => 'count_pages', 'target_empty' => 1));
+//---
+// compare_it($sql_result, $sql_result1);
+//---
 $n = 0;
 //---
-foreach (fetch_query($sql_t) as $k => $t) {
+foreach ($sql_result as $k => $t) {
     $user  = $t['user'] ?? "";
     $count = $t['count'] ?? "";
     $user_process_tab[$user] = $count;

@@ -2,6 +2,8 @@
 //---
 use function Actions\Html\make_mdwiki_title;
 use function Actions\MdwikiSql\fetch_query;
+use function Actions\TDApi\get_td_api;
+use function Actions\TDApi\compare_it;
 use function Actions\Html\make_cat_url;
 //---
 echo <<<HTML
@@ -70,11 +72,13 @@ function make_td($tabg, $nnnn)
     return $laly;
 };
 //---
-$quaa = "select * from pages where target = ''
-    ORDER BY date DESC
-    limit 100;
-    ";
-$dd = fetch_query($quaa);
+$quaa = "select * from pages where target = '' ORDER BY date DESC limit 100;";
+// ---
+// $dd = fetch_query ($quaa);
+//---
+$dd1 = get_td_api(array('get' => 'pages', 'order' => 'date', 'target_empty' => 1, 'limit' => "100"));
+//---
+// compare_it($dd, $dd1);
 //---
 $sato = <<<HTML
 	<table class="table table-sm table-striped soro table-mobile-responsive table-mobile-sided" style="font-size:90%;">
