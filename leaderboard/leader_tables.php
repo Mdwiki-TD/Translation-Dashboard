@@ -5,7 +5,6 @@ namespace Leaderboard\LeaderTables;
 /*
 Usage:
 
-use function Leaderboard\LeaderTables\makeSqlQuery;
 use function Leaderboard\LeaderTables\createNumbersTable;
 use function Leaderboard\LeaderTables\makeLangTable;
 

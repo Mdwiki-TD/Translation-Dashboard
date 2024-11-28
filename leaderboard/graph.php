@@ -15,7 +15,9 @@ echo '
 <script src="/Translation_Dashboard/js/g.js"></script>
 ';
 //---
-use function Actions\MdwikiSql\fetch_query;
+// use function Actions\MdwikiSql\fetch_query;
+use function Actions\TDApi\get_td_api;
+// use function Actions\TDApi\compare_it;
 // ---
 function graph_html($keys, $values, $id = 'chart1', $no_card = false)
 {
@@ -68,7 +70,10 @@ function print_graph_from_sql($id = 'chart1')
     $ms = "";
     $cs = "";
     //---
-    foreach (fetch_query($query) as $yhu => $Taab) {
+    // $data = fetch_query ($query);
+    $data = get_td_api(array('get' => 'graph_data'));
+    //---
+    foreach ($data as $yhu => $Taab) {
         //---
         $m = $Taab['m'] ?? "";
         $c = $Taab['c'] ?? "";

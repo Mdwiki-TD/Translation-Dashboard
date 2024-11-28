@@ -10,7 +10,7 @@ use function Results\GetResults\get_cat_exists_and_missing;
 
 */
 
-use function Results\GetCats\get_in_process;
+use function Results\GetCats\get_in_process_api;
 use function Results\GetCats\get_mdwiki_cat_members;
 use function Results\GetCats\open_json_file;
 use function Actions\Functions\test_print;
@@ -75,10 +75,10 @@ function get_results($cat, $camp, $depth, $code)
     //---
     test_print("len_of_exists_pages: $len_of_exists_pages");
     //---
-    $missing = array();
-    foreach ($items_missing as $key => $cca) if (!in_array($cca, $missing)) $missing[] = $cca;
+    $missing = array_unique($items_missing);
     //---
-    $in_process = get_in_process($missing, $code);
+    // $in_process = get_in_process_api($missing, $code);
+    $in_process = get_in_process_api($missing, $code);
     //---
     $len_in_process = count($in_process);
     //---

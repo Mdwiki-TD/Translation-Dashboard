@@ -1,5 +1,6 @@
 
 function graph_js_params(id, params) {
+    // https://mdwiki.toolforge.org/api.php
     var end_point = window.location.origin
     var url = end_point + "/api.php?get=status&" + $.param(params);
     console.log(url)

@@ -1,4 +1,5 @@
 
+// https://mdwiki.toolforge.org/api.php
 var api_end_point = document.location.origin + "/api.php";
 
 // attach autocomplete behavior to input field

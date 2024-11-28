@@ -22,7 +22,7 @@ echo <<<HTML
 	<input type='hidden' id='test' value='$testhtml'>
 HTML;
 //---
-include_once __DIR__ . '/actions/functions.php'; // $usrs
+include_once __DIR__ . '/actions/functions.php'; // $coordinators
 //---
 include_once __DIR__ . '/auth/user_infos.php';
 //---
@@ -42,7 +42,7 @@ $hoste = '';
 $user_in_coord = false;
 $coord_tools = '<a href="tools.php" class="nav-link py-2 px-0 px-lg-2"><span class="navtitles"></span>Tools</a>';
 //---
-if (in_array(global_username, $usrs)) {
+if (in_array(global_username, $coordinators)) {
 	$coord_tools = '<a href="coordinator.php" class="nav-link py-2 px-0 px-lg-2"><span class="navtitles"></span>Coordinator Tools</a>';
 	$user_in_coord = true;
 };
