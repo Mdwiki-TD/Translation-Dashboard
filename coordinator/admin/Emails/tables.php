@@ -13,6 +13,25 @@ $last_qua = <<<SQL
 	ORDER BY p1.pupdate DESC
 SQL;
 //---
+if (isset($_GET['newsql'])) {
+	$last_qua = <<<SQL
+		WITH RankedPages AS (
+			SELECT
+				p1.target,
+				p1.user,
+				p1.pupdate,
+				p1.lang,
+				ROW_NUMBER() OVER (PARTITION BY p1.user ORDER BY p1.pupdate DESC) AS rn
+			FROM pages p1
+			WHERE p1.target != ''
+		)
+		SELECT target, user, pupdate, lang
+		FROM RankedPages
+		WHERE rn = 1
+		ORDER BY pupdate DESC;
+	SQL;
+};
+//---
 $rr = fetch_query($last_qua);
 //---
 $last_user_to_tab = array();
