@@ -150,6 +150,8 @@ if (empty($raw)) {
             ;"
     ];
     //---
+    echo "<div class='container-fluid'>";
+    //---
     echo <<<HTML
         <div class='row'>
             <div class='col-md'>
@@ -238,6 +240,10 @@ if (!empty($qua) and ($pass == $sqlpass or $_SERVER['SERVER_NAME'] == 'localhost
     require 'sql_result.php';
     make_sql_result($qua, $raw);
     //---
+};
+//---
+if (empty($raw)) {
+    echo "</div>";
 };
 //---
 /*
