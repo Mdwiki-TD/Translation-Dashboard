@@ -4,7 +4,15 @@ use function Actions\MdwikiSql\execute_query;
 
 function make_sql_result($qua, $raw)
 {
+    //---
+    $start_time = microtime(true);
+    //---
     $uu = execute_query($qua);
+    //---
+    $end_time = microtime(true);
+    //---
+    $execution_time = $end_time - $start_time;
+    $execution_time = number_format($execution_time, 2);
     //---
     $start = <<<HTML
     <table class="table table-striped sortable">
@@ -43,7 +51,7 @@ function make_sql_result($qua, $raw)
     //---
     if (empty($raw)) {
         //---
-        echo "<h4>sql results:$number.</h4>";
+        echo "<h4>sql results:$number. (time:$execution_time)</h4>";
         //---
         echo $start . $text . '</table>';
         //---
