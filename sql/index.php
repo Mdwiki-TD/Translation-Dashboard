@@ -80,7 +80,7 @@ $raw  = $_REQUEST['raw'] ?? '';
 if (empty($raw)) {
     require '../header.php';
     //---
-    if (!in_array(global_username, $usrs)) {
+    if (!in_array(global_username, $coordinators)) {
         echo "<meta http-equiv='refresh' content='0; url=/Translation_Dashboard/index.php'>";
         exit;
     };
