@@ -43,9 +43,9 @@ HTML;
 //---
 $user_process_tab = array();
 //---
-$sql_t = 'select user, count(target) as count from pages where target = "" group by user order by count(target) desc;';
+$sql_t = 'select DISTINCT user, count(target) as count from pages where target = "" group by user order by count desc';
 //---
-$sql_result = fetch_query($sql_t);
+// $sql_result = fetch_query($sql_t);
 //---
 $sql_result1 = get_td_api(array('get' => 'count_pages', 'target_empty' => 1));
 //---
@@ -53,7 +53,7 @@ $sql_result1 = get_td_api(array('get' => 'count_pages', 'target_empty' => 1));
 //---
 $n = 0;
 //---
-foreach ($sql_result as $k => $t) {
+foreach ($sql_result1 as $k => $t) {
     $user  = $t['user'] ?? "";
     $count = $t['count'] ?? "";
     $user_process_tab[$user] = $count;

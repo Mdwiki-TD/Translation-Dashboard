@@ -51,7 +51,8 @@ function make_sql_result($qua, $raw)
     //---
     if (empty($raw)) {
         //---
-        echo "<h4>sql results:$number. (time:$execution_time)</h4>";
+        // echo "<h4>sql results:$number. (time:$execution_time)</h4>";
+        echo "<h4>SQL Results: $number (Execution time: $execution_time seconds)</h4>";
         //---
         echo $start . $text . '</table>';
         //---
