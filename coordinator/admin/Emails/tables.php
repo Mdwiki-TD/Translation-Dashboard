@@ -50,7 +50,7 @@ $q_live = "select DISTINCT user, count(target) as count from pages where target 
 //---
 // $result = fetch_query ($q_live);
 //---
-$result1 = get_td_api(array('get' => 'count_pages', 'target_notempty' => 1));
+$result1 = get_td_api(array('get' => 'count_pages', 'target' => 'not_empty'));
 //---
 // compare_it($result, $result1);
 //---
@@ -66,13 +66,21 @@ foreach ($ddi as $Key => $gk) {
 	$users_done[$gk['username']] = $gk;
 };
 //---
-$der0 = fetch_query("select DISTINCT user from pages WHERE NOT EXISTS (SELECT 1 FROM users WHERE user = username)");
+// $der0 = fetch_query ("select DISTINCT user from pages WHERE NOT EXISTS (SELECT 1 FROM users WHERE user = username)");
+// $der0 = array_map('current', $der0);
 //---
 $der1 = get_td_api(array('get' => 'pages', 'distinct' => 1, 'select' => 'user'));
+// $der1 = array_map('current', $der1);
 //---
-// compare_it($der0, $der1);
+$der2 = [];
 //---
-foreach ($der0 as $d => $tat) if (!in_array($tat['user'], $users_done)) {
+foreach ($der1 as $Key => $gg) {
+	if (!isset($users_done[$gg['user']])) {
+		$der2[] = $gg;
+	}
+}
+//---
+foreach ($der2 as $d => $tat) if (!in_array($tat['user'], $users_done)) {
 	$users_done[$tat['user']] = array('user_id' => 0, 'username' => $tat['user'], 'email' => '', 'wiki' => '', 'user_group' => '');
 }
 //---

@@ -21,7 +21,7 @@ function filter_recent($lang)
 {
     global $code_to_lang;
     //---
-    // $result = fetch_query("select DISTINCT lang from pages;");
+    // $result = fetch_query ("select DISTINCT lang from pages;");
     //---
     // http://localhost:9001/api.php?get=pages_users&distinct=1&select=lang
     $result = get_td_api(array('get' => 'pages', 'distinct' => 1, 'select' => 'lang'));
@@ -193,18 +193,18 @@ function get_recent_sql($lang)
         $lang_line = "and lang = '$lang'";
     }
     //---
-    $params0 = array('get' => 'pages', 'target_notempty' => '1', 'limit' => '250', 'order' => 'pupdate');
-    $params1 = array('get' => 'pages', 'target_notempty' => '1', 'limit' => '250', 'order' => 'add_date');
+    $params0 = array('get' => 'pages', 'target' => 'not_empty', 'limit' => '250', 'order' => 'pupdate');
+    $params1 = array('get' => 'pages', 'target' => 'not_empty', 'limit' => '250', 'order' => 'add_date');
     //---
     if (!empty($lang) && $lang != 'All') {
         $params0['lang'] = $lang;
         $params1['lang'] = $lang;
     }
     //---
-    // $dd0 = fetch_query("select * from pages where target != '' $lang_line ORDER BY pupdate DESC limit 250");
+    // $dd0 = fetch_query ("select * from pages where target != '' $lang_line ORDER BY pupdate DESC limit 250");
     $dd0 = get_td_api($params0);
     //---
-    // $dd1 = fetch_query("select * from pages where target != '' $lang_line ORDER BY add_date DESC limit 250");
+    // $dd1 = fetch_query ("select * from pages where target != '' $lang_line ORDER BY add_date DESC limit 250");
     $dd1 = get_td_api($params1);
     //---
     // merage the two arrays without duplicates

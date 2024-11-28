@@ -45,9 +45,9 @@ $user_process_tab = array();
 //---
 $sql_t = 'select DISTINCT user, count(target) as count from pages where target = "" group by user order by count desc';
 //---
-// $sql_result = fetch_query($sql_t);
+// $sql_result = fetch_query ($sql_t);
 //---
-$sql_result1 = get_td_api(array('get' => 'count_pages', 'target_empty' => 1));
+$sql_result1 = get_td_api(array('get' => 'count_pages', 'target' => 'empty'));
 //---
 // compare_it($sql_result, $sql_result1);
 //---

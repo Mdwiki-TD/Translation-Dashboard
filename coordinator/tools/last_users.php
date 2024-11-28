@@ -169,7 +169,7 @@ function get_recent_sql($lang)
     //---
     $lang_line = '';
     //---
-    $params0 = array('get' => 'pages_users', 'target_notempty' => '1', 'limit' => '10', 'order' => 'pupdate', 'title_not_in_pages' => '1');
+    $params0 = array('get' => 'pages_users', 'target' => 'not_empty', 'limit' => '10', 'order' => 'pupdate', 'title_not_in_pages' => '1');
     //---
     if (!empty($lang) && $lang != 'All') {
         $lang_line = "and lang = '$lang'";

@@ -41,7 +41,7 @@ function get_in_process_api($missing, $code)
     $params = array(
         "get" => "pages",
         "lang" => $code,
-        "target_empty" => "1"
+        'target' => 'empty'
     );
     //---
     $res = get_td_api($params);

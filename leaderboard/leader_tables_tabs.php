@@ -19,7 +19,10 @@ $camp_cat = $camp_to_cat[$camp] ?? '';
 
 function makeSqlQuery()
 {
-    global $year, $camp, $project, $camp_cat;
+    // global $camp, $camp_cat;
+    // ---
+    global $year, $project;
+    // ---
     $queryPart1Group = "SELECT p.title,
         p.target, p.cat, p.lang, p.word, YEAR(p.pupdate) AS pup_y, p.user, u.user_group, LEFT(p.pupdate, 7) as m
         FROM pages p, users u
@@ -57,7 +60,7 @@ function makeSqlQuery()
 }
 //---
 $qua_all = makeSqlQuery();
-
+echo $qua_all;
 $Words_total = 0;
 $Articles_numbers = 0;
 $global_views = 0;

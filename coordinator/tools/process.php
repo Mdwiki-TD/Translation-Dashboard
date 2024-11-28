@@ -76,7 +76,7 @@ $quaa = "select * from pages where target = '' ORDER BY date DESC limit 100;";
 // ---
 // $dd = fetch_query ($quaa);
 //---
-$dd1 = get_td_api(array('get' => 'pages', 'order' => 'date', 'target_empty' => 1, 'limit' => "100"));
+$dd1 = get_td_api(array('get' => 'pages', 'order' => 'date', 'target' => 'empty', 'limit' => "100"));
 //---
 // compare_it($dd, $dd1);
 //---

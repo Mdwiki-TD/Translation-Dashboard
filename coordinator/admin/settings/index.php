@@ -15,6 +15,7 @@ include_once 'actions/functions.php';
 //---
 use function Infos\TdConfig\get_configs;
 use function Actions\MdwikiSql\fetch_query;
+use function Actions\TDApi\get_td_api;
 //---
 // $conf = get_configs('conf.json');
 //---
@@ -55,7 +56,7 @@ function make_settings_tab($tabe) {
         $displayed= $v['displayed'] ?? "";
         $value    = $v['value'] ?? "";
         //---
-        $type     = $v['type'] ?? "";
+        $type     = $v['Type'] ?? "";
         //---
         $value_line = <<<HTML
             <input class='form-control' size='4' name='value_$nn' value='$value'/>
@@ -105,7 +106,8 @@ function make_settings_tab($tabe) {
     //---
 };
 //---
-$qq = fetch_query('select id, title, displayed, type, value from settings;');
+// $qq = fetch_query ('select id, title, displayed, Type, value from settings;');
+$qq = get_td_api(array('get' => 'settings'));
 //---
 // var_export($qq);
 //---

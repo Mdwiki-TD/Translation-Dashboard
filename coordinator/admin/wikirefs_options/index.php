@@ -14,7 +14,9 @@ if (isset($_REQUEST['test'])) {
 include_once 'infos/td_config.php';
 //---
 use function Infos\TdConfig\get_configs;
-use function Actions\MdwikiSql\fetch_query;
+// use function Actions\MdwikiSql\fetch_query;
+use function Actions\TDApi\get_td_api;
+use function Actions\TDApi\compare_it;
 //---
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     require __DIR__ . '/post.php';
@@ -99,7 +101,10 @@ function make_td($lang, $tabg, $numb) {
     return $laly;
 };
 //---
-foreach ( fetch_query("select DISTINCT lang from pages;") AS $tat => $tag ) {
+// $langs_d = fetch_query ("select DISTINCT lang from pages;");
+$langs_d = get_td_api(array('get' => 'pages', 'distinct' => 1, 'select' => 'lang'));
+//---
+foreach ( $langs_d AS $tat => $tag ) {
     $lal = strtolower($tag['lang']);
     //---
     if (!isset($tabes[$lal])) {

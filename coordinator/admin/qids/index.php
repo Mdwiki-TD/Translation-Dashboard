@@ -6,7 +6,9 @@ if (user_in_coord == false) {
 };
 //---
 use function Actions\Html\make_mdwiki_title;
-use function Actions\MdwikiSql\fetch_query;
+// use function Actions\MdwikiSql\fetch_query;
+use function Actions\TDApi\get_td_api;
+use function Actions\TDApi\compare_it;
 //---
 function make_edit_icon($id, $title, $qid)
 {
@@ -88,7 +90,10 @@ $quaries = [
 //---
 $qua = (in_array($dis, $quaries)) ? $quaries['all'] : $quaries[$dis];
 //---
-$qq = fetch_query($qua);
+// $qq1 = fetch_query ($qua);
+$qq2 = get_td_api(array('get' => 'qids', 'dis' => $dis));
+//---
+// compare_it($qq1, $qq2);
 //---
 function make_row($id, $title, $qid, $numb)
 {

@@ -9,8 +9,10 @@ use function Leaderboard\SubLangs\get_langs_tables;
 */
 
 use function Actions\MdwikiSql\fetch_query;
+use function Actions\TDApi\get_td_api;
+use function Actions\TDApi\compare_it;
 
-function views_tables($mainlang)
+function views_table_y($mainlang)
 {
     //---
     $table_of_views = array();
@@ -46,11 +48,19 @@ function pages_tables($mainlang, $year_y)
         select * from pages where lang = '$mainlang'
     SQL;
     //---
+    $api_params = ['get' => 'pages', 'lang' => $mainlang];
+    //---
     if ($year_y != 'All') {
         $pages_qua .= " and YEAR(date) = '$year_y'";
+        $api_params['YEAR(date)'] = $year_y;
     };
     //---
-    foreach (fetch_query($pages_qua) as $yhu => $Taab) {
+    // $rrr = fetch_query ($pages_qua);
+    $rrr2 = get_td_api($api_params);
+    //---
+    // compare_it($rrr, $rrr2);
+    //---
+    foreach ($rrr2 as $yhu => $Taab) {
         //---
         $dat1 = $Taab['pupdate'] ?? '';
         $dat2 = $Taab['date'] ?? '';
@@ -75,7 +85,17 @@ function pages_tables($mainlang, $year_y)
 function get_langs_tables($mainlang, $year_y)
 {
     //---
-    $table_of_views = views_tables($mainlang);
+    // $table_of_views_old = views_table_y($mainlang);
+    //---
+    $uux = get_td_api(['get' => 'lang_views', 'lang' => $mainlang]);
+    $table_of_views = [];
+    // ---
+    foreach ($uux as $Key => $table) {
+        $targ = $table['target'] ?? "";
+        $table_of_views[$targ] = $table['countall'] ?? "";
+    };
+    //---
+    // compare_it($table_of_views_old, $table_of_views);
     //---
     $p_tables = pages_tables($mainlang, $year_y);
     //---

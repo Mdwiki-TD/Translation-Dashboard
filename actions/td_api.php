@@ -37,8 +37,8 @@ function post_url(string $endPoint, array $params = []): string
     // curl_setopt($ch, CURLOPT_COOKIEJAR, "cookie.txt");
     // curl_setopt($ch, CURLOPT_COOKIEFILE, "cookie.txt");
     curl_setopt($ch, CURLOPT_USERAGENT, $usr_agent);
-    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
 
     $output = curl_exec($ch);
     // ---
