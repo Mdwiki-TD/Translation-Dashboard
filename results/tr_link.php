@@ -72,7 +72,7 @@ function make_tr_link_medwiki($title, $cod, $cat, $camp, $tra_type)
         "type" => $tra_type
     );
     //---
-    $url = 'translate/medwiki.php?' . http_build_query($params);
+    $url = 'translate_med/medwiki.php?' . http_build_query($params);
     //---
     return $url;
 }
