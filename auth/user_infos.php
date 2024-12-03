@@ -7,7 +7,6 @@ require_once __DIR__ . '/../actions/access_helps.php';
 require_once __DIR__ . '/../actions/html.php';
 //---
 use function OAuth\Helps\get_from_cookie;
-use function Actions\AccessHelps\get_access_from_db;
 use function Actions\Html\banner_alert;
 use function Actions\TDApi\get_td_api;
 //---
@@ -27,7 +26,6 @@ if ($_SERVER['SERVER_NAME'] == 'localhost') {
 	$access_key = get_from_cookie('accesskey');
 	$access_secret = get_from_cookie('access_secret');
 	// ---
-	// $access = get_access_from_db($username);
 	$access = get_td_api(array('get' => 'user_access', 'user_name' => $username));
 	// ---
 	if (count($access) == 0) $access = null;
