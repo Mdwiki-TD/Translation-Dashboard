@@ -24,7 +24,7 @@ function dark_mode_icon()
     return <<<HTML
         <button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown"
             data-bs-display="static" aria-label="Toggle theme (light)">
-            <span class="me-2 opacity-50 theme-icon-active">
+            <span class="theme-icon-active my-1">
                 <i class="bi bi-sun-fill"></i>
             </span>
             <span class="d-lg-none ms-2" id="bd-theme-text"></span>
