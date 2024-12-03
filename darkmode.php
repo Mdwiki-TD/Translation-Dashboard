@@ -1,4 +1,6 @@
 <!-- <link href='/helps/styles.css' rel='stylesheet' type='text/css'> -->
+<!-- <link href="$hoste/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel='stylesheet' type='text/css'> -->
+
 <script type="module" src="/Translation_Dashboard/js/color-modes.js"></script>
 <?php
 function dark_mode_icon()
