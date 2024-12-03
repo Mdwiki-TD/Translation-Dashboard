@@ -28,6 +28,7 @@
     if (!isset($_GET['noboot'])) {
         echo <<<HTML
 
+    <link href='/Translation_Dashboard/css/theme.css' rel='stylesheet' type='text/css'>
     <link href='/Translation_Dashboard/css/styles.css' rel='stylesheet' type='text/css'>
     <link href='/Translation_Dashboard/css/Responsive_Table.css' rel='stylesheet' type='text/css'>
     <link href='/Translation_Dashboard/css/dashboard_new1.css' rel='stylesheet' type='text/css'>
@@ -58,7 +59,7 @@
     <script src='/Translation_Dashboard/js/to.js'></script>
     <script src='/Translation_Dashboard/js/login.js'></script>
     <script src='/Translation_Dashboard/plugins/chart.js/Chart.min.js'></script>
-
+    <script src='/Translation_Dashboard/js/theme.js'></script>
     <style>
     a {
         text-decoration: none;
