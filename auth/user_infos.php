@@ -37,8 +37,6 @@ if ($_SERVER['SERVER_NAME'] == 'localhost') {
 //---
 define('global_username', $username);
 //---
-// echo "<span id='myusername' style='display:none'>" . global_username . "</span>";
-//---
 function echo_login()
 {
 	global $username;
