@@ -26,10 +26,6 @@ include_once __DIR__ . '/actions/functions.php'; // $coordinators
 //---
 include_once __DIR__ . '/auth/user_infos.php';
 //---
-if (defined('global_username')) {
-	echo "<span id='myusername' style='display:none'>" . global_username . "</span>";
-};
-//---
 include_once __DIR__ . '/head.php';
 //---
 use function Actions\Html\banner_alert;
@@ -51,6 +47,30 @@ define('user_in_coord', $user_in_coord);
 //---
 require("darkmode.php");
 $them_li = dark_mode_icon();
+//---
+$li_user = <<<HTML
+	<li class="nav-item col-4 col-lg-auto">
+		<a role="button" class="nav-link py-2 px-0 px-lg-2" onclick="login()">
+			<i class="fas fa-sign-in-alt fa-sm fa-fw mr-2"></i> <span class="navtitles">Login</span>
+		</a>
+HTML;
+//---
+if (defined('global_username') && global_username != '') {
+	$u_name = global_username;
+	$li_user = <<<HTML
+		</li>
+		<li class="nav-item col-4 col-lg-auto" id="">
+			<a href="leaderboard.php?user=$username" class="nav-link py-2 px-0 px-lg-2">
+				<i class="fas fa-user fa-sm fa-fw mr-2"></i> <span class="navtitles">$u_name</span>
+			</a>
+		</li>
+		<li class="nav-item col-4 col-lg-auto">
+			<a class="nav-link py-2 px-0 px-lg-2" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">
+				<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2"></i> <span class="d-lg-none navtitles">Logout</span>
+			</a>
+		</li>
+	HTML;
+}
 //---
 echo <<<HTML
 <body>
@@ -94,21 +114,7 @@ echo <<<HTML
 						<li class="nav-item col-4 col-lg-auto dropdown">
 							$them_li
 						</li>
-						<li class="nav-item col-4 col-lg-auto" id="">
-							<a id="username_li" href="leaderboard.php?user=$username" class="nav-link py-2 px-0 px-lg-2" style="display:none">
-								<i class="fas fa-user fa-sm fa-fw mr-2"></i> <span class="navtitles" id="user_name"></span>
-							</a>
-						</li>
-						<li class="nav-item col-4 col-lg-auto" id="loginli">
-							<a role="button" class="nav-link py-2 px-0 px-lg-2" onclick="login()">
-								<i class="fas fa-sign-in-alt fa-sm fa-fw mr-2"></i> <span class="navtitles">Login</span>
-							</a>
-						</li>
-						<li class="nav-item col-4 col-lg-auto">
-							<a id="logout_btn" class="nav-link py-2 px-0 px-lg-2" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal" style="display:none">
-								<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2"></i> <span class="d-lg-none navtitles">Logout</span>
-							</a>
-						</li>
+						$li_user
 					</ul>
 				</div>
 			</div>
@@ -135,22 +141,6 @@ HTML;
 $aal = banner_alert("Tool is down due to cultural and technical reasons since Aug 3 2024. Work is ongoing to get it functional again");
 // ---
 ?>
-<script>
-	var lo = $('#myusername').text();
-	// get username from cookie
-	// var lo = getCookie('username');
-	if (lo != '') {
-		$('#myboard').show();
-		$('#user_name').text(lo);
-
-		$('#login_btn, #loginli').hide();
-		$("#doit_btn, #username_li, #logout_btn").show();
-
-	} else {
-		$('#login_btn, #loginli').show();
-		$("#doit_btn, #username_li, #logout_btn").hide();
-	};
-</script>
 <main id="body">
 	<!-- <div id="maindiv" class="container-fluid"> -->
 	<div id="maindiv" class="container-fluid">
