@@ -1,12 +1,12 @@
 <?php
 
-namespace Translate\Inserter;
+namespace TranslateMed\Inserter;
 
 /*
 Usage:
-include_once __DIR__ . '/inserter.php';
+include_once __DIR__ . '/db_insert.php';
 
-use function Translate\Inserter\insertPage;
+use function TranslateMed\Inserter\insertPage;
 
 */
 
