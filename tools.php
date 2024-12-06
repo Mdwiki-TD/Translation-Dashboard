@@ -1,5 +1,5 @@
 <?PHP
 //---
-include_once __DIR__ . '/coordinator.php';
+$stats = http_build_query($_GET);
 //---
-?>
+HEADER("Location: /tdc/index.php?$stats");
