@@ -63,13 +63,25 @@ CREATE TABLE words (
     )
 */
 //---
-include_once __DIR__ . '/../infos/td_config.php';
 include_once __DIR__ . '/../actions/functions.php';
 
-use function Infos\TdConfig\Read_ini_file;
+$pathParts = explode('public_html', __FILE__)[0];
 
+// if root path find (I:\) then $ROOT_PATH = ""
+if (strpos($pathParts, "I:\\") !== false) {
+    $pathParts = "I:/mdwiki/mdwiki/";
+}
 //---
-$ini = Read_ini_file('OAuthConfig.ini');
+$_dir = $pathParts . '/confs/';
+//---
+function Read_ini($file)
+{
+    global $_dir;
+    //---
+    return parse_ini_file($_dir . $file);
+};
+//---
+$ini = Read_ini('OAuthConfig.ini');
 //---
 $sqlpass = $ini['sqlpass'];
 //---

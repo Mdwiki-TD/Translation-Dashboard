@@ -24,7 +24,7 @@ HTML;
 //---
 include_once __DIR__ . '/actions/functions.php'; // $coordinators
 //---
-include_once __DIR__ . '/auth/user_infos.php';
+include_once __DIR__ . '/../auth/auth/user_infos.php';
 //---
 include_once __DIR__ . '/head.php';
 //---
@@ -56,17 +56,17 @@ if (user_in_coord == true) {
 };
 //---
 $li_user = <<<HTML
-<li class="nav-item col-4 col-lg-auto">
-	<a role="button" class="nav-link py-2 px-0 px-lg-2" onclick="login()">
-		<i class="fas fa-sign-in-alt fa-sm fa-fw mr-2"></i> <span class="navtitles">Login</span>
-	</a>
+	<li class="nav-item col-4 col-lg-auto">
+		<a role="button" class="nav-link py-2 px-0 px-lg-2" onclick="login()">
+			<i class="fas fa-sign-in-alt fa-sm fa-fw mr-2"></i> <span class="navtitles">Login</span>
+		</a>
+	</li>
 HTML;
 //---
 if (defined('global_username') && global_username != '') {
-$u_name = global_username;
-$li_user = <<<HTML
-	</li>
-	<li class="nav-item col-4 col-lg-auto" id="">
+	$u_name = global_username;
+	$li_user = <<<HTML
+	<li class="nav-item col-4 col-lg-auto">
 		<a href="leaderboard.php?user=$username" class="nav-link py-2 px-0 px-lg-2">
 			<i class="fas fa-user fa-sm fa-fw mr-2"></i> <span class="navtitles">$u_name</span>
 		</a>
@@ -165,7 +165,7 @@ echo <<<HTML
 					<div class="modal-body">Select &quot;Logout&quot; below if you are ready to end your current session.</div>
 					<div class="modal-footer">
 						<button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
-						<a class="btn btn-outline-primary" href="auth.php?a=logout">Logout</a>
+						<a class="btn btn-outline-primary" href="/auth/index.php?a=logout">Logout</a>
 					</div>
 				</div>
 			</div>

@@ -15,8 +15,6 @@ use function Results\ResultsTable\make_results_table;
 include_once __DIR__ . '/../Tables/tables.php';
 include_once __DIR__ . '/../Tables/sql_tables.php';
 
-use function Results\TrLink\make_translate_link;
-use function Results\TrLink\make_translate_link_medwiki;
 use function Results\TrLink\make_tr_link_medwiki;
 
 $use_medwiki = $settings['use_medwiki']['value'] ?? false;
@@ -155,13 +153,15 @@ function make_one_row($title, $tra_type, $cnt, $cod, $cat, $camp, $inprocess, $i
     $mdwiki_url = "//mdwiki.org/wiki/" . str_replace('+', '_', $title2);
     $qid = (!empty($qid)) ? "<a class='inline' target='_blank' href='https://wikidata.org/wiki/$qid'>$qid</a>" : '&nbsp;';
     //---
-    if ($use_medwiki) {
-        $full_translate_url = make_tr_link_medwiki($title, $cod, $cat, $camp, "all");
-        $translate_url = make_tr_link_medwiki($title, $cod, $cat, $camp, $tra_type);
-    } else {
-        $full_translate_url = make_translate_link($title, $cod, $cat, $camp, "all");
-        $translate_url = make_translate_link($title, $cod, $cat, $camp, $tra_type);
-    }
+    // if ($use_medwiki) {
+    //---
+    $full_translate_url = make_tr_link_medwiki($title, $cod, $cat, $camp, "all");
+    $translate_url = make_tr_link_medwiki($title, $cod, $cat, $camp, $tra_type);
+    //---
+    // } else {
+    // $full_translate_url = make_translate_link($title, $cod, $cat, $camp, "all");
+    // $translate_url = make_translate_link($title, $cod, $cat, $camp, $tra_type);
+    // }
     //---
     $tab = "<a href='$translate_url' class='btn btn-outline-primary btn-sm' target='_blank'>Translate</a>";
     //---
