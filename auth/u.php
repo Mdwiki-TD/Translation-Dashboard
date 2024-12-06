@@ -28,8 +28,6 @@ if ($u != '' && in_array($u, $allowed_u)) {
     exit(0);
 };
 
-// use function Actions\MdwikiSql\sql_add_user;
-
 if ($_SERVER['SERVER_NAME'] === 'localhost') {
     $fa = $_GET['test'] ?? '';
     // if ($fa != 'xx') {
