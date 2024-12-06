@@ -5,7 +5,7 @@ include_once __DIR__ . '/../actions/functions.php';
 include_once __DIR__ . '/../actions/html.php';
 include_once __DIR__ . '/../actions/mdwiki_sql.php';
 include_once __DIR__ . '/../results/tr_link.php';
-include_once __DIR__ . '/inserter.php';
+include_once __DIR__ . '/db_insert.php';
 
 use function Actions\Html\login_card;
 use function Results\TrLink\make_translate_link_medwiki;

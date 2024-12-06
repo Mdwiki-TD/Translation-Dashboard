@@ -4,7 +4,7 @@ namespace Translate\Inserter;
 
 /*
 Usage:
-include_once __DIR__ . '/inserter.php';
+include_once __DIR__ . '/db_insert.php';
 
 use function Translate\Inserter\insertPage;
 
