@@ -137,7 +137,7 @@ echo <<<HTML
 							</a>
 						</li>
 						<li class="nav-item col-4 col-lg-auto" id="coord">$coord_tools</li>
-						$testsline
+						
 						<li class="nav-item col-4 col-lg-auto">
 							<a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/MrIbrahem/Translation-Dashboard" target="_blank">
 								<span class="navtitles">Github</span>
