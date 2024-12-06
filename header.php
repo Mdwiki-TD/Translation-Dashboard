@@ -24,7 +24,7 @@ HTML;
 //---
 include_once __DIR__ . '/actions/functions.php'; // $coordinators
 //---
-include_once __DIR__ . '/auth/user_infos.php';
+include_once __DIR__ . '/../auth/auth/user_infos.php';
 //---
 include_once __DIR__ . '/head.php';
 //---
@@ -154,7 +154,7 @@ echo <<<HTML
 					<div class="modal-body">Select &quot;Logout&quot; below if you are ready to end your current session.</div>
 					<div class="modal-footer">
 						<button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
-						<a class="btn btn-outline-primary" href="auth.php?a=logout">Logout</a>
+						<a class="btn btn-outline-primary" href="/auth/index.php?a=logout">Logout</a>
 					</div>
 				</div>
 			</div>
