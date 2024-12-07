@@ -8,23 +8,29 @@ if (isset($_REQUEST['test'])) {
 //---
 ini_set('session.use_strict_mode', '1');
 //---
-define('root_dire', __DIR__);
+// set env
+$tables_dir = __DIR__ . '/../td/Tables';
+
+if (substr($tables_dir, 0, 2) == 'I:') {
+	// $tables_dir = __DIR__ . '/../mdwiki/public_html/td/Tables';
+	$tables_dir = 'I:/mdwiki/mdwiki/public_html/td/Tables';
+}
 //---
-$testxx = isset($_GET['test']) ? $_GET['test'] : "";
-//---
-if (!defined('global_test')) {
-	define('global_test', $testxx);
-};
-//---
-$testhtml = htmlspecialchars($testxx, ENT_QUOTES, 'UTF-8');
-//---
-echo <<<HTML
-	<input type='hidden' id='test' value='$testhtml'>
-HTML;
+if (!getenv('tables_dir')) {
+	putenv('tables_dir=' . $tables_dir);
+}
 //---
 include_once __DIR__ . '/actions/functions.php'; // $coordinators
 //---
 include_once __DIR__ . '/../auth/auth/user_infos.php';
+//---
+$user_in_coord = false;
+//---
+if (in_array(global_username, $coordinators)) {
+	$user_in_coord = true;
+};
+//---
+define('user_in_coord', $user_in_coord);
 //---
 include_once __DIR__ . '/head.php';
 //---
@@ -35,15 +41,9 @@ echo "
 //---
 $hoste = '';
 //---
-$user_in_coord = false;
-$coord_tools = '<a href="/tdc/tools.php" class="nav-link py-2 px-0 px-lg-2"><span class="navtitles"></span>Tools</a>';
-//---
 if (in_array(global_username, $coordinators)) {
 	$coord_tools = '<a href="/tdc/index.php" class="nav-link py-2 px-0 px-lg-2"><span class="navtitles"></span>Coordinator Tools</a>';
-	$user_in_coord = true;
 };
-//---
-define('user_in_coord', $user_in_coord);
 //---
 $them_li = <<<HTML
 	<button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown"

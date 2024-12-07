@@ -12,7 +12,9 @@ if (isset($_REQUEST['test'])) {
     error_reporting(E_ALL);
 };
 //---
-$missingfile = file_get_contents("Tables/jsons/missing.json");
+$missingfile_path = getenv('tables_dir') . "/jsons/missing.json";
+//---
+$missingfile = file_get_contents($missingfile_path);
 //print $wordsjson;
 $MIS = json_decode($missingfile, true); //{'all' : len(listenew), 'date' : Day_History, 'langs' : {} }
 //---

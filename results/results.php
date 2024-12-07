@@ -40,7 +40,7 @@ echo "<div class='container-fluid'>";
 //---
 if ($doit) {
     //---
-    if (global_test != '') {
+    if (isset($_GET['test'])) {
         echo "code:$code<br>code_lang_name:$code_lang_name<br>";
     };
     //---
@@ -48,7 +48,7 @@ if ($doit) {
     //---
     $res_line = " Results ";
     //---
-    if (global_test != '') $res_line .= 'test:';
+    if (isset($_GET['test'])) $res_line .= 'test:';
     //---
     $in_process = $tab['in_process'];
     $missing    = $tab['missing'];
