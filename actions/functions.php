@@ -4,9 +4,6 @@ namespace Actions\Functions;
 /*
 Usage:
 use function Actions\Functions\load_request;
-use function Actions\Functions\escape_string;
-use function Actions\Functions\strstartswithn;
-use function Actions\Functions\strendswith;
 use function Actions\Functions\test_print;
 */
 
@@ -61,35 +58,6 @@ function load_request()
         'camp' => $camp,
         'code_lang_name' => $code_lang_name
     ];
-}
-
-function escape_string($unescaped_string)
-{
-    // Alternative mysql_real_escape_string without mysql connection
-    $replacementMap = [
-        "\0" => "\\0",
-        "\n" => "",
-        "\r" => "",
-        "\t" => "",
-        chr(26) => "\\Z",
-        chr(8) => "\\b",
-        '"' => '\"',
-        "'" => "\'",
-        '_' => "\_",
-        "%" => "\%",
-        '\\' => '\\\\'
-    ];
-
-    return \strtr($unescaped_string, $replacementMap);
-}
-function strstartswithn($text, $word)
-{
-    return strpos($text, $word) === 0;
-}
-
-function strendswith($text, $end)
-{
-    return substr($text, -strlen($end)) === $end;
 }
 
 function test_print($s)
