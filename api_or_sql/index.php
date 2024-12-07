@@ -6,6 +6,7 @@ namespace SQLorAPI\Get;
 
 Usage:
 
+use function SQLorAPI\Get\isvalid;
 use function SQLorAPI\Get\get_lang_years;
 use function SQLorAPI\Get\get_user_years;
 use function SQLorAPI\Get\get_user_langs;
@@ -20,10 +21,16 @@ use function SQLorAPI\Get\get_in_process_tdapi;
 
 */
 
+include_once __DIR__ . '/get_lead.php';
+include_once __DIR__ . '/data_tab.php';
+
 use function Actions\MdwikiSql\fetch_query;
 use function Actions\TDApi\get_td_api;
 
-$from_api  = (isset($_GET['from_api'])) ? true : false;
+$use_td_api = $settings['use_td_api']['value'] ?? false;
+$from_api  = ($use_td_api == true) ? true : false;
+
+echo "<br>use_td_api: $use_td_api<br>";
 
 function isvalid($str)
 {

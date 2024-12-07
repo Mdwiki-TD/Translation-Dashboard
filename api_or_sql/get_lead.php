@@ -12,13 +12,10 @@ use function SQLorAPI\GetLead\get_leaderboard_table;
 
 use function Actions\MdwikiSql\fetch_query;
 use function Actions\TDApi\get_td_api;
+use function SQLorAPI\Get\isvalid;
 
-$from_api  = (isset($_GET['from_api'])) ? true : false;
-
-function isvalid($str)
-{
-    return !empty($str) && $str != 'All' && $str != 'all';
-}
+$use_td_api = $settings['use_td_api']['value'] ?? false;
+$from_api  = ($use_td_api == true) ? true : false;
 
 function makeSqlQuery($year, $project)
 {
