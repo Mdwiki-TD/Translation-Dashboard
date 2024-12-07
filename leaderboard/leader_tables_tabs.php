@@ -19,7 +19,10 @@ $camp_cat = $camp_to_cat[$camp] ?? '';
 
 function makeSqlQuery()
 {
-    global $year, $camp, $project, $camp_cat;
+    // global $camp, $camp_cat;
+    // ---
+    global $year, $project;
+    // ---
     $queryPart1Group = "SELECT p.title,
         p.target, p.cat, p.lang, p.word, YEAR(p.pupdate) AS pup_y, p.user, u.user_group, LEFT(p.pupdate, 7) as m
         FROM pages p, users u
@@ -72,7 +75,11 @@ $Views_by_lang_target = make_views_by_lang_target();
 $tab_for_graph = [];
 // $articles_to_camps, $camps_to_articles
 
-foreach (fetch_query($qua_all) as $Key => $teb) {
+$ddde1 = fetch_query($qua_all);
+// ---
+
+// ---
+foreach ($ddde1 as $Key => $teb) {
     $title  = $teb['title'] ?? "";
     //---
     // 2023-08-22

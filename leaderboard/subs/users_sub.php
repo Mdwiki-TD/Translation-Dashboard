@@ -10,10 +10,38 @@ use function Leaderboard\SubUsers\get_users_tables;
 
 use function Actions\MdwikiSql\fetch_query;
 
-function views_tables($user_main, $year_y, $lang_y, $test = '')
+function views_by_page_new($user_main, $test = '')
 {
     //---
     $table_of_views = array();
+    //---
+    $views_qua = <<<SQL
+        select p.target, v.countall
+        from pages p, views v
+        where p.user = ?
+        and p.lang = v.lang
+        and p.target = v.target
+    SQL;
+    //---
+    $views_params = [$user_main];
+    //---
+    if (!empty($test)) {
+        echo $views_qua . '<br>';
+    }
+    //--
+    $views_query = fetch_query($views_qua, $views_params);
+    //---
+    foreach ($views_query as $Key => $table) {
+        $targ = $table['target'] ?? "";
+        $table_of_views[$targ] = $table['countall'] ?? "";
+        //---
+    };
+    //---
+    return $table_of_views;
+}
+
+function views_tables($user_main, $year_y, $lang_y, $test = '')
+{
     //---
     $count_sql = <<<SQL
         select count(title) as count from pages where user = ?
@@ -31,20 +59,8 @@ function views_tables($user_main, $year_y, $lang_y, $test = '')
         $params[] = $year_y;
     };
     //---
-    $views_qua = <<<SQL
-        select p.target, v.countall
-        from pages p, views v
-        where p.user = ?
-        and p.lang = v.lang
-        and p.target = v.target
-        limit 200
-    SQL;
-    //---
-    $views_params = [$user_main];
-    //---
     if (!empty($test)) {
         echo $count_sql . '<br>';
-        echo $views_qua . '<br>';
     }
     //--
     $count_query = fetch_query($count_sql, $params);
@@ -55,33 +71,7 @@ function views_tables($user_main, $year_y, $lang_y, $test = '')
     //---
     if (!empty($test)) echo "<br>user_count : $user_count<br>";
     //---
-    $done = 0;
-    $offset = 0;
-    //---
-    while ($done < $user_count) {
-        //---
-        $quaa_view = $views_qua;
-        $quaa_view .= "
-            offset $offset
-        ";
-        //---
-        $views_query = fetch_query($quaa_view, $views_params);
-        //---
-        if (count($views_query) == 0) $done = $user_count;
-        //---
-        foreach ($views_query as $Key => $table) {
-            $countall = $table['countall'] ?? "";
-            $targ = $table['target'] ?? "";
-            $table_of_views[$targ] = $countall;
-            //---
-            $done += 1;
-        };
-        //---
-        unset($views_query);
-        //---
-        $offset += 200;
-        //---
-    };
+    $table_of_views = views_by_page_new($user_main, $test = $test);
     //---
     return $table_of_views;
 }

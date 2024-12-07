@@ -50,7 +50,9 @@ function pages_tables($mainlang, $year_y)
         $pages_qua .= " and YEAR(date) = '$year_y'";
     };
     //---
-    foreach (fetch_query($pages_qua) as $yhu => $Taab) {
+    $rrr2 = fetch_query($pages_qua);
+    //---
+    foreach ($rrr2 as $yhu => $Taab) {
         //---
         $dat1 = $Taab['pupdate'] ?? '';
         $dat2 = $Taab['date'] ?? '';
