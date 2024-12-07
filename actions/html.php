@@ -25,7 +25,6 @@ use function Actions\Html\make_target_url;
 use function Actions\Html\make_translation_url;
 */
 
-include_once __DIR__ . '/html_side1.php';
 //---
 function add_quotes($str)
 {
@@ -100,59 +99,6 @@ function make_modal_fade($label, $text, $id, $button = '')
     HTML;
 }
 
-function make_form_check_input($label, $name, $value_yes, $value_no, $checked)
-{
-    //---
-    $label_line = (!empty($label)) ? "<label class='form-check-label' for='$name'>$label</label>" : "";
-    //---
-    return <<<HTML
-        <div class='form-check form-switch'>
-            $label_line
-            <input class='form-check-input' type='checkbox' name='$name' value='$value_yes' $checked>
-        </div>
-    HTML;
-}
-//---
-function make_project_to_user($projects, $project)
-{
-    //---
-    $str = "<option value='Uncategorized'>Uncategorized</option>";
-    // $str = "";
-    //---
-    foreach ($projects as $p_title => $p_id) {
-        $cdcdc = $project == $p_title ? "selected" : "";
-        $str .= <<<HTML
-			<option value='$p_title' $cdcdc>$p_title</option>
-		HTML;
-    };
-    //---
-    return $str;
-};
-//---
-function make_input_group($label, $id, $value, $required)
-{
-    $val2 = add_quotes($value);
-    return <<<HTML
-    <div class='col-md-3'>
-        <div class='input-group mb-3'>
-            <span class='input-group-text'>$label</span>
-            <input class='form-control' type='text' name='$id' value=$val2 $required/>
-        </div>
-    </div>
-    HTML;
-};
-//---
-function make_input_group_no_col($label, $id, $value, $required)
-{
-    $val2 = add_quotes($value);
-    return <<<HTML
-    <div class='input-group mb-3'>
-        <span class='input-group-text'>$label</span>
-        <input class='form-control' type='text' name='$id' value=$val2 $required/>
-    </div>
-    HTML;
-};
-//---
 function makeDropdown($tab, $cat, $id, $add)
 {
     //---
@@ -186,21 +132,6 @@ function makeDropdown($tab, $cat, $id, $add)
         </select>
     HTML;
 };
-//---
-function makeCard($title, $table)
-{
-    return <<<HTML
-    <div class="card">
-        <div class="card-header aligncenter" style="font-weight:bold;">
-            $title
-        </div>
-        <div class="card-body1 card2">
-            $table
-        </div>
-        <!-- <div class="card-footer"></div> -->
-    </div>
-    HTML;
-};
 
 function makeColSm4($title, $table, $numb = 4, $table2 = '', $title2 = '')
 {
@@ -228,23 +159,6 @@ function makeColSm4($title, $table, $numb = 4, $table2 = '', $title2 = '')
     HTML;
 };
 
-function make_col_sm_body($title, $subtitle, $table, $numb = 4)
-{
-    return <<<HTML
-    <div class="col-md-$numb">
-        <div class="card">
-            <div class="card-header aligncenter1">
-                <span style="font-weight:bold;">$title</span> $subtitle
-            </div>
-            <div class="card-body card2">
-                $table
-            </div>
-        </div>
-        <br>
-    </div>
-    HTML;
-};
-//---
 function make_drop($uxutable, $code)
 {
     $options  =  "";
@@ -259,15 +173,6 @@ function make_drop($uxutable, $code)
     //---
     return $options;
 };
-//---
-function make_datalist_options($hyh)
-{
-    $options = '';
-    foreach ($hyh as $language => $code) {
-        $options .= "<option value='$code'>$language</option>";
-    }
-    return $options;
-}
 //---
 function make_mdwiki_title($title)
 {
@@ -285,11 +190,6 @@ function make_cat_url($category)
         return "<a target='_blank' href='https://mdwiki.org/wiki/Category:$encoded_category'>$category</a>";
     }
     return $category;
-}
-//---
-function make_talk_url($lang, $user)
-{
-    return "<a target='_blank' href='//$lang.wikipedia.org/w/index.php?title=User_talk:$user'>talk</a>";
 }
 //---
 function make_translation_url($title, $lang, $tr_type)

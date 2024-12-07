@@ -58,7 +58,7 @@
     <!-- <script src='/Translation_Dashboard/js/sorttable.js'></script> -->
     <script src='/Translation_Dashboard/js/to.js'></script>
     <script src='/Translation_Dashboard/js/login.js'></script>
-    <script src='/Translation_Dashboard/plugins/chart.js/Chart.min.js'></script>
+    <script src='/td/plugins/chart.js/Chart.min.js'></script>
     <script src='/Translation_Dashboard/js/theme.js'></script>
     <style>
     a {

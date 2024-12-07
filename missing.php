@@ -12,7 +12,15 @@ if (isset($_REQUEST['test'])) {
     error_reporting(E_ALL);
 };
 //---
-$missingfile = file_get_contents("Tables/jsons/missing.json");
+$tables_dir = getenv('tables_dir') ?? __DIR__ . '/../../td/Tables';
+//---
+if (substr($tables_dir, 0, 2) == 'I:') {
+    $tables_dir = 'I:/mdwiki/mdwiki/public_html/td/Tables';
+}
+//---
+$missingfile_path = $tables_dir . "/jsons/missing.json";
+//---
+$missingfile = file_get_contents($missingfile_path);
 //print $wordsjson;
 $MIS = json_decode($missingfile, true); //{'all' : len(listenew), 'date' : Day_History, 'langs' : {} }
 //---
