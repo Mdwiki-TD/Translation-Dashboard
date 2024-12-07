@@ -27,7 +27,7 @@ use function Leaderboard\LeaderTables\createNumbersTable;
 use function Leaderboard\LeaderTables\makeLangTable;
 use function Leaderboard\LeaderTabUsers\makeUsersTable;
 use function Leaderboard\LeaderTabUsers\module_copy;
-use function Actions\MdwikiSql\fetch_query;
+use function Leaderboard\Get\get_pages_with_pupdate;
 
 function print_cat_table(): string
 {
@@ -89,9 +89,7 @@ $projects = array_keys($projects_title_to_id);
 $y2 = makeDropdown($projects, $project, 'project', 'all');
 $projectDropdown = sprintf($d33, 'Translators', $y2);
 //---
-$m_years2 = fetch_query("SELECT DISTINCT YEAR(pupdate) AS year FROM pages WHERE pupdate <> ''");
-//---
-$mYears = array_map('current', $m_years2);
+$m_years2 = get_pages_with_pupdate();
 //---
 $y3 = makeDropdown($mYears, $year, 'year', 'all');
 $yearDropdown = sprintf($d33, 'Year', $y3);

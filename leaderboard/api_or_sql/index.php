@@ -12,6 +12,9 @@ use function Leaderboard\Get\get_user_langs;
 use function Leaderboard\Get\get_lang_views;
 use function Leaderboard\Get\get_lang_pages;
 use function Leaderboard\Get\get_graph_data;
+use function Leaderboard\Get\get_pages_with_pupdate;
+use function Leaderboard\Get\get_user_views;
+use function Leaderboard\Get\get_user_pages;
 
 */
 
@@ -20,36 +23,72 @@ use function Actions\TDApi\get_td_api;
 
 $from_api  = (isset($_GET['from_api'])) ? true : false;
 
-function gerr($mainlang)
+function get_user_pages($user_main, $year_y, $lang_y)
+{
+    // ---
+    global $from_api;
+    // ---
+    $api_params = ['get' => 'pages', 'user' => $user_main];
+    // ---
+    $query = "select * from pages where user = ?";
+    $sql_params = [$user_main];
+    // ---
+    if ($year_y != 'All' && !empty($year_y)) {
+        $query .= " and YEAR(date) = ?";
+        $sql_params[] = $year_y;
+        // ---
+        $api_params['YEAR(date)'] = $year_y;
+    };
+    // ---
+    if ($lang_y != 'All' && !empty($lang_y)) {
+        $query .= " and lang = ?";
+        $sql_params[] = $lang_y;
+        // ---
+        $api_params['lang'] = $lang_y;
+    };
+    //---
+    if ($from_api) {
+        $data = get_td_api($api_params);
+    } else {
+        $data = fetch_query($query, $sql_params);
+    }
+    // ---
+    return $data;
+}
+
+function get_user_views($user, $year_y, $lang_y)
 {
     // ---
     global $from_api;
     // ---
     if ($from_api) {
-        $data = get_td_api();
+        $data = get_td_api(['get' => 'user_views', 'user' => $user]);
     } else {
-        $query = "";
-        $params = [];
+        $query = "select p.target, v.countall from pages p, views v where p.user = ? and p.lang = v.lang and p.target = v.target";
+        $params = [$user];
         $data = fetch_query($query, $params);
     }
     // ---
     return $data;
 }
-function gerr1($mainlang)
+
+
+function get_pages_with_pupdate()
 {
     // ---
     global $from_api;
     // ---
     if ($from_api) {
-        $data = get_td_api();
+        $data = get_td_api(['get' => 'pages', 'distinct' => "1", 'select' => 'YEAR(pupdate) AS year', 'pupdate' => 'not_empty']);
     } else {
-        $query = "";
-        $params = [];
-        $data = fetch_query($query, $params);
+        $query = "SELECT DISTINCT YEAR(pupdate) AS year FROM pages WHERE pupdate <> ''";
+        $data = fetch_query($query);
     }
     // ---
-    return $data;
+    return array_map('current', $data);
 }
+
+
 function get_graph_data()
 {
     // ---

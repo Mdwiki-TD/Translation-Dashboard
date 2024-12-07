@@ -15,7 +15,7 @@ echo '
 <script src="/Translation_Dashboard/js/g.js"></script>
 ';
 //---
-use function Actions\MdwikiSql\fetch_query;
+use function Leaderboard\Get\get_graph_data;
 // ---
 function graph_html($keys, $values, $id = 'chart1', $no_card = false)
 {
@@ -56,19 +56,11 @@ function graph_html($keys, $values, $id = 'chart1', $no_card = false)
 }
 function print_graph_from_sql($id = 'chart1')
 {
-
-    $query = <<<SQL
-        SELECT LEFT(pupdate, 7) as m, COUNT(*) as c
-        FROM pages
-        WHERE target != ''
-        GROUP BY LEFT(pupdate, 7)
-        ORDER BY LEFT(pupdate, 7) ASC;
-    SQL;
+    //---
+    $data = get_graph_data();
     //---
     $ms = "";
     $cs = "";
-    //---
-    $data = fetch_query ($query);
     //---
     foreach ($data as $yhu => $Taab) {
         //---
