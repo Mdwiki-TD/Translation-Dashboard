@@ -75,8 +75,7 @@ function get_results($cat, $camp, $depth, $code)
     //---
     test_print("len_of_exists_pages: $len_of_exists_pages");
     //---
-    $missing = array();
-    foreach ($items_missing as $key => $cca) if (!in_array($cca, $missing)) $missing[] = $cca;
+    $missing = array_unique($items_missing);
     //---
     $in_process = get_in_process($missing, $code);
     //---

@@ -1,6 +1,8 @@
 <?PHP
 
-use function Actions\MdwikiSql\fetch_query;
+include_once __DIR__ . '/../api_or_sql/get_lead.php';
+
+use function SQLorAPI\GetLead\get_leaderboard_table;
 
 $year = $_REQUEST['year'] ?? 'all';
 $camp = $_REQUEST['camp'] ?? 'all';
@@ -17,47 +19,6 @@ if ($camp == 'all' && isset($_REQUEST['cat'])) {
 }
 $camp_cat = $camp_to_cat[$camp] ?? '';
 
-function makeSqlQuery()
-{
-    global $year, $camp, $project, $camp_cat;
-    $queryPart1Group = "SELECT p.title,
-        p.target, p.cat, p.lang, p.word, YEAR(p.pupdate) AS pup_y, p.user, u.user_group, LEFT(p.pupdate, 7) as m
-        FROM pages p, users u
-    ";
-
-    $queryPart1 = "SELECT p.title,
-        p.target, p.cat, p.lang, p.word, YEAR(p.pupdate) AS pup_y, LEFT(p.pupdate, 7) as m,
-        p.user,
-        (SELECT u.user_group FROM users u WHERE p.user = u.username) AS user_group
-        FROM pages p
-    ";
-
-    $queryPart2 = "
-        WHERE p.target != ''
-    ";
-    // 2023-08-22
-    // if ($camp != 'all' && !empty($camp_cat)) $queryPart2 .= "AND p.cat = '$camp_cat' \n";
-
-    if ($year != 'all') {
-        $queryPart2 .= "AND YEAR(p.pupdate) = '$year' \n";
-    }
-
-    if ($project != 'all') {
-        $queryPart1 = $queryPart1Group;
-        $queryPart2 .= "AND p.user = u.username \n";
-        $queryPart2 .= "AND u.user_group = '$project' \n";
-    }
-
-    $query = $queryPart1 . $queryPart2;
-
-    if (isset($_REQUEST['test'])) {
-        echo $query;
-    }
-    return $query;
-}
-//---
-$qua_all = makeSqlQuery();
-
 $Words_total = 0;
 $Articles_numbers = 0;
 $global_views = 0;
@@ -72,7 +33,11 @@ $Views_by_lang_target = make_views_by_lang_target();
 $tab_for_graph = [];
 // $articles_to_camps, $camps_to_articles
 
-foreach (fetch_query($qua_all) as $Key => $teb) {
+$ddde1 = get_leaderboard_table($year, $project);
+// ---
+// compare_it($ddde, $ddde1);
+// ---
+foreach ($ddde1 as $Key => $teb) {
     $title  = $teb['title'] ?? "";
     //---
     // 2023-08-22

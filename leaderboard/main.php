@@ -21,13 +21,13 @@ include_once __DIR__ . '/graph_api.php';
 //---
 use function Actions\Html\makeDropdown;
 use function Actions\Html\makeColSm4;
-use function Actions\MdwikiSql\fetch_query;
 use function Leaderboard\Graph\print_graph_for_table;
 use function Leaderboard\Graph2\print_graph_api;
 use function Leaderboard\LeaderTables\createNumbersTable;
 use function Leaderboard\LeaderTables\makeLangTable;
 use function Leaderboard\LeaderTabUsers\makeUsersTable;
 use function Leaderboard\LeaderTabUsers\module_copy;
+use function SQLorAPI\Get\get_pages_with_pupdate;
 
 function print_cat_table(): string
 {
@@ -89,9 +89,12 @@ $projects = array_keys($projects_title_to_id);
 $y2 = makeDropdown($projects, $project, 'project', 'all');
 $projectDropdown = sprintf($d33, 'Translators', $y2);
 //---
-$mYears = array_map('current', fetch_query("SELECT DISTINCT LEFT(pupdate, 4) AS year FROM pages WHERE pupdate <> ''"));
+$m_years2 = get_pages_with_pupdate();
 //---
-$y3 = makeDropdown($mYears, $year, 'year', 'all');
+// sort $m_years2 from biggest to smallest
+rsort($m_years2);
+//---
+$y3 = makeDropdown($m_years2, $year, 'year', 'all');
 $yearDropdown = sprintf($d33, 'Year', $y3);
 //---
 $uux = print_cat_table();

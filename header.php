@@ -45,40 +45,6 @@ if (in_array(global_username, $coordinators)) {
 //---
 define('user_in_coord', $user_in_coord);
 //---
-$testsline = '';
-//---
-if (user_in_coord == true) {
-	$testsline = <<<HTML
-	<li class="nav-item col-4 col-lg-auto" id="tests">
-		<a class="nav-link py-2 px-0 px-lg-2" href="tests.php"><span class="navtitles"></span>Tests</a>
-	</li>
-	HTML;
-};
-//---
-$li_user = <<<HTML
-	<li class="nav-item col-4 col-lg-auto">
-		<a role="button" class="nav-link py-2 px-0 px-lg-2" onclick="login()">
-			<i class="fas fa-sign-in-alt fa-sm fa-fw mr-2"></i> <span class="navtitles">Login</span>
-		</a>
-	</li>
-HTML;
-//---
-if (defined('global_username') && global_username != '') {
-	$u_name = global_username;
-	$li_user = <<<HTML
-	<li class="nav-item col-4 col-lg-auto">
-		<a href="leaderboard.php?user=$username" class="nav-link py-2 px-0 px-lg-2">
-			<i class="fas fa-user fa-sm fa-fw mr-2"></i> <span class="navtitles">$u_name</span>
-		</a>
-	</li>
-	<li class="nav-item col-4 col-lg-auto">
-		<a class="nav-link py-2 px-0 px-lg-2" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">
-			<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2"></i> <span class="d-lg-none navtitles">Logout</span>
-		</a>
-	</li>
-HTML;
-};
-//---
 $them_li = <<<HTML
 	<button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown"
 		data-bs-display="static" aria-label="Toggle theme (light)">
@@ -105,6 +71,31 @@ $them_li = <<<HTML
 		</li>
 	</ul>
 HTML;
+//---
+
+$li_user = <<<HTML
+	<li class="nav-item col-4 col-lg-auto">
+		<a role="button" class="nav-link py-2 px-0 px-lg-2" onclick="login()">
+			<i class="fas fa-sign-in-alt fa-sm fa-fw mr-2"></i> <span class="navtitles">Login</span>
+		</a>
+	</li>
+HTML;
+//---
+if (defined('global_username') && global_username != '') {
+	$u_name = global_username;
+	$li_user = <<<HTML
+	<li class="nav-item col-4 col-lg-auto">
+		<a href="leaderboard.php?user=$username" class="nav-link py-2 px-0 px-lg-2">
+			<i class="fas fa-user fa-sm fa-fw mr-2"></i> <span class="navtitles">$u_name</span>
+		</a>
+	</li>
+	<li class="nav-item col-4 col-lg-auto">
+		<a class="nav-link py-2 px-0 px-lg-2" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">
+			<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2"></i> <span class="d-lg-none navtitles">Logout</span>
+		</a>
+	</li>
+HTML;
+};
 //---
 echo <<<HTML
 <body>
@@ -137,7 +128,7 @@ echo <<<HTML
 							</a>
 						</li>
 						<li class="nav-item col-4 col-lg-auto" id="coord">$coord_tools</li>
-						
+
 						<li class="nav-item col-4 col-lg-auto">
 							<a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/MrIbrahem/Translation-Dashboard" target="_blank">
 								<span class="navtitles">Github</span>

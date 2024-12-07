@@ -27,33 +27,26 @@ include_once __DIR__ . '/../Tables/langcode.php';
 include_once __DIR__ . '/../actions/functions.php';
 //---
 use function Actions\Functions\test_print;
-use function Actions\MdwikiSql\fetch_query;
 use function Actions\MdwikiApi\get_mdwiki_url_with_params;
+use function SQLorAPI\Get\get_in_process_tdapi;
 //---
 function start_with($haystack, $needle)
 {
     return strpos($haystack, $needle) === 0;
 };
-//---
+
 function get_in_process($missing, $code)
 {
-    $qua = "select * from pages where target = '' and lang = '$code';";
     //---
-    $res = fetch_query($qua);
+    $res = get_in_process_tdapi($code);
     //---
-    // echo "<br>";
-    // var_export(json_encode($res));
-    //--
     $titles = array();
     //---
     foreach ($res as $t) {
         if (in_array($t['title'], $missing)) $titles[$t['title']] = $t;
     }
     //---
-    // var_export(json_encode($titles));
-    //--
     return $titles;
-    //---
 }
 
 function open_json_file($file_path)

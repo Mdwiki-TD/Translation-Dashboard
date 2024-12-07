@@ -8,33 +8,8 @@ use function Leaderboard\SubLangs\get_langs_tables;
 
 */
 
-use function Actions\MdwikiSql\fetch_query;
-
-function views_tables($mainlang)
-{
-    //---
-    $table_of_views = array();
-    //---
-    $qua_views = <<<SQL
-    select
-        #p.title, p.user, p.date, p.word, p.lang, p.cat, p.pupdate,
-        p.target, v.countall
-
-        from pages p, views v
-        where p.lang = '$mainlang'
-        and p.lang = v.lang
-        and p.target = v.target
-        ;
-    SQL;
-    //---
-    $views_quary = fetch_query($qua_views);
-    //---
-    foreach ($views_quary as $Key => $t) {
-        $table_of_views[$t['target']] = $t['countall'] ?? "";
-    };
-    //---
-    return $table_of_views;
-}
+use function SQLorAPI\Get\get_lang_views;
+use function SQLorAPI\Get\get_lang_pages;
 
 function pages_tables($mainlang, $year_y)
 {
@@ -42,15 +17,9 @@ function pages_tables($mainlang, $year_y)
     $dd = array();
     $dd_Pending = array();
     //---
-    $pages_qua = <<<SQL
-        select * from pages where lang = '$mainlang'
-    SQL;
+    $rrr2 = get_lang_pages($mainlang, $year_y);
     //---
-    if ($year_y != 'All') {
-        $pages_qua .= " and YEAR(date) = '$year_y'";
-    };
-    //---
-    foreach (fetch_query($pages_qua) as $yhu => $Taab) {
+    foreach ($rrr2 as $yhu => $Taab) {
         //---
         $dat1 = $Taab['pupdate'] ?? '';
         $dat2 = $Taab['date'] ?? '';
@@ -75,7 +44,14 @@ function pages_tables($mainlang, $year_y)
 function get_langs_tables($mainlang, $year_y)
 {
     //---
-    $table_of_views = views_tables($mainlang);
+    $uux = get_lang_views($mainlang);
+    //---
+    $table_of_views = [];
+    // ---
+    foreach ($uux as $Key => $table) {
+        $targ = $table['target'] ?? "";
+        $table_of_views[$targ] = $table['countall'] ?? "";
+    };
     //---
     $p_tables = pages_tables($mainlang, $year_y);
     //---
