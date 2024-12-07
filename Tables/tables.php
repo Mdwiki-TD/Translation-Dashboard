@@ -27,7 +27,6 @@ $tables = array(
 	'assessments' => &$Assessments_table
 );
 //---
-//---
 if (!getenv('tables_dir')) {
 	// set env
 	$tables_dir = __DIR__ . '/../../td/Tables';

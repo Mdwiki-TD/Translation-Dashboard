@@ -88,9 +88,15 @@ function get_cat_from_cache($cat)
 {
     // Initialize an empty array for the list
     $empty_list = array();
-
+    //---
+    $tables_dir = getenv('tables_dir') ?? __DIR__ . '/../../td/Tables';
+    //---
+    if (substr($tables_dir, 0, 2) == 'I:') {
+        $tables_dir = 'I:/mdwiki/mdwiki/public_html/td/Tables';
+    }
+    //---
     // Construct the file path
-    $file_path = getenv('tables_dir') . "/cats_cash/$cat.json";
+    $file_path = $tables_dir . "/cats_cash/$cat.json";
 
     $new_list = open_json_file($file_path);
 

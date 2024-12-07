@@ -24,7 +24,14 @@ function get_cat_exists_and_missing($cat, $camp, $depth, $code, $use_cache = tru
         $members[] = $mr;
     };
     test_print("members size:" . count($members));
-    $json_file = getenv('tables_dir') . "/cash_exists/$code.json";
+    // ---
+    $tables_dir = getenv('tables_dir') ?? __DIR__ . '/../../td/Tables';
+    //---
+    if (substr($tables_dir, 0, 2) == 'I:') {
+        $tables_dir = 'I:/mdwiki/mdwiki/public_html/td/Tables';
+    }
+    //---
+    $json_file = $tables_dir . "/cash_exists/$code.json";
 
     $exists = open_json_file($json_file);
 

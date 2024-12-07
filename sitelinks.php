@@ -24,7 +24,15 @@ echo <<<HTML
             <th>mdtitle</th>
 HTML;
 
-$file2 = getenv('tables_dir') . "/jsons/sitelinks.json";
+//---
+$tables_dir = getenv('tables_dir') ?? __DIR__ . '/../../td/Tables';
+//---
+if (substr($tables_dir, 0, 2) == 'I:') {
+    $tables_dir = 'I:/mdwiki/mdwiki/public_html/td/Tables';
+}
+//---
+$file2 = $tables_dir . "/jsons/sitelinks.json";
+//---
 $json2 = file_get_contents($file2);
 $data2 = json_decode($json2, true);
 
