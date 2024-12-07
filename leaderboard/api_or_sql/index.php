@@ -23,6 +23,11 @@ use function Actions\TDApi\get_td_api;
 
 $from_api  = (isset($_GET['from_api'])) ? true : false;
 
+function isvalid($str)
+{
+    return !empty($str) && $str != 'All' && $str != 'all';
+}
+
 function get_user_pages($user_main, $year_y, $lang_y)
 {
     // ---
@@ -33,14 +38,14 @@ function get_user_pages($user_main, $year_y, $lang_y)
     $query = "select * from pages where user = ?";
     $sql_params = [$user_main];
     // ---
-    if ($year_y != 'All' && !empty($year_y)) {
+    if (isvalid($year_y)) {
         $query .= " and YEAR(date) = ?";
         $sql_params[] = $year_y;
         // ---
         $api_params['YEAR(date)'] = $year_y;
     };
     // ---
-    if ($lang_y != 'All' && !empty($lang_y)) {
+    if (isvalid($lang_y)) {
         $query .= " and lang = ?";
         $sql_params[] = $lang_y;
         // ---
@@ -120,7 +125,7 @@ function get_lang_pages($lang, $year_y)
     $query = "select target, lang, title, date, pupdate from pages where lang = ?";
     $params = [$lang];
     // ---
-    if ($year_y != 'All' && !empty($year_y)) {
+    if (isvalid($year_y)) {
         $query .= " and YEAR(date) = ?";
         $params[] = $year_y;
         // ---
