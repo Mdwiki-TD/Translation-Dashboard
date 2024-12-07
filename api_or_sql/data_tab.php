@@ -1,33 +1,136 @@
 <?php
 
-namespace Leaderboard\Get;
+namespace SQLorAPI\GetDataTab;
 
 /*
 
 Usage:
 
-use function Leaderboard\Get\get_lang_years;
-use function Leaderboard\Get\get_user_years;
-use function Leaderboard\Get\get_user_langs;
-use function Leaderboard\Get\get_lang_views;
-use function Leaderboard\Get\get_lang_pages;
-use function Leaderboard\Get\get_graph_data;
-use function Leaderboard\Get\get_pages_with_pupdate;
-use function Leaderboard\Get\get_user_views;
-use function Leaderboard\Get\get_user_pages;
+use function SQLorAPI\GetDataTab\get_td_or_sql_translate_type;
+use function SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
+use function SQLorAPI\GetDataTab\get_td_or_sql_qids;
+use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
+use function SQLorAPI\GetDataTab\get_td_or_sql_projects;
+use function SQLorAPI\GetDataTab\get_td_or_sql_settings;
+use function SQLorAPI\GetDataTab\get_td_or_sql_views;
 
 */
 
 use function Actions\MdwikiSql\fetch_query;
 use function Actions\TDApi\get_td_api;
 
-$from_api  = (isset($_GET['from_api'])) ? true : true;
+$from_api  = (isset($_GET['from_api'])) ? true : false;
 
 function isvalid($str)
 {
     return !empty($str) && $str != 'All' && $str != 'all';
 }
 
+function get_td_or_sql_views()
+{
+    // ---
+    global $from_api;
+    // ---
+    if ($from_api) {
+        $data = get_td_api(['get' => 'views']);
+    } else {
+        $query = "SELECT target, lang, countall, count2021, count2022, count2023, count2024, count2025, count2026 FROM views";
+        //---
+        $data = fetch_query($query);
+    }
+    // ---
+    return $data;
+}
+function get_td_or_sql_settings()
+{
+    // ---
+    global $from_api;
+    // ---
+    if ($from_api) {
+        $data = get_td_api(['get' => 'settings']);
+    } else {
+        $query = "select id, title, displayed, value, Type from settings";
+        //---
+        $data = fetch_query($query);
+    }
+    // ---
+    return $data;
+}
+function get_td_or_sql_projects()
+{
+    // ---
+    global $from_api;
+    // ---
+    if ($from_api) {
+        $data = get_td_api(['get' => 'projects']);
+    } else {
+        $query = "select g_id, g_title from projects";
+        //---
+        $data = fetch_query($query);
+    }
+    // ---
+    return $data;
+}
+function get_td_or_sql_categories()
+{
+    // ---
+    global $from_api;
+    // ---
+    if ($from_api) {
+        $data = get_td_api(['get' => 'categories']);
+    } else {
+        $query = "select id, category, category2, campaign, depth, def from categories";
+        //---
+        $data = fetch_query($query);
+    }
+    // ---
+    return $data;
+}
+function get_td_or_sql_qids()
+{
+    // ---
+    global $from_api;
+    // ---
+    if ($from_api) {
+        $data = get_td_api(['get' => 'qids']);
+    } else {
+        $query = "SELECT title, qid FROM qids";
+        //---
+        $data = fetch_query($query);
+    }
+    // ---
+    return $data;
+}
+function get_td_or_sql_full_translators()
+{
+    // ---
+    global $from_api;
+    // ---
+    if ($from_api) {
+        $data = get_td_api(['get' => 'full_translators']);
+    } else {
+        $query = "SELECT * FROM full_translators";
+        //---
+        $data = fetch_query($query);
+    }
+    // ---
+    return $data;
+}
+function get_td_or_sql_translate_type()
+{
+    // ---
+    global $from_api;
+    // ---
+    if ($from_api) {
+        $data = get_td_api(['get' => 'translate_type']);
+    } else {
+        $query = "SELECT tt_title, tt_lead, tt_full FROM translate_type";
+        //---
+        $data = fetch_query($query);
+    }
+    // ---
+    return $data;
+}
 function get_user_pages($user_main, $year_y, $lang_y)
 {
     // ---

@@ -5,17 +5,21 @@ include_once __DIR__ . '/Tables/sql_tables.php'; // $sql_qids $cat_titles $cat_t
 */
 //---
 include_once __DIR__ . '/../actions/functions.php';
+include_once __DIR__ . '/../api_or_sql/data_tab.php';
 //---
-use function Actions\MdwikiSql\fetch_query;
-use function Actions\TDApi\get_td_api;
+use function SQLorAPI\GetDataTab\get_td_or_sql_translate_type;
+use function SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
+use function SQLorAPI\GetDataTab\get_td_or_sql_qids;
+use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
+use function SQLorAPI\GetDataTab\get_td_or_sql_projects;
+use function SQLorAPI\GetDataTab\get_td_or_sql_settings;
+use function SQLorAPI\GetDataTab\get_td_or_sql_views;
+
 //---
 $full_translates = [];
 $no_lead_translates = [];
 //---
-$translate_type_sql = "SELECT tt_title, tt_lead, tt_full FROM translate_type";
-//---
-// $rere = fetch_query ($translate_type_sql);
-$rere = get_td_api(array('get' => 'translate_type'));
+$rere = get_td_or_sql_translate_type();
 //---
 foreach ($rere as $k => $tab) {
     // if tt_full == 1 then add tt_title to $full_translates
@@ -27,8 +31,7 @@ foreach ($rere as $k => $tab) {
     }
 }
 //---
-// $full_t = fetch_query ("SELECT * FROM full_translators");
-$full_t = get_td_api(array('get' => 'full_translators'));
+$full_t = get_td_or_sql_full_translators();
 //---
 $full_translators = array_map(function ($row) {
     return $row['user'];
@@ -36,8 +39,7 @@ $full_translators = array_map(function ($row) {
 //---
 $sql_qids = array();
 //---
-// $qids_t = fetch_query ('select title, qid from qids;');
-$qids_t = get_td_api(array('get' => 'qids'));
+$qids_t = get_td_or_sql_qids();
 //---
 foreach ($qids_t as $k => $tab) $sql_qids[$tab['title']] = $tab['qid'];
 //---
@@ -55,8 +57,7 @@ $camp_input_depth = array();
 $campaign_input_list = array();
 $catinput_list = array();
 //---
-// $categories_tab = fetch_query ('select id, category, category2, campaign, depth, def from categories;');
-$categories_tab = get_td_api(array('get' => 'categories'));
+$categories_tab = get_td_or_sql_categories();
 //---
 foreach ($categories_tab as $k => $tab) {
     if (!empty($tab['category']) && !empty($tab['campaign'])) {
@@ -83,15 +84,13 @@ foreach ($categories_tab as $k => $tab) {
 //---
 $projects_title_to_id = array();
 //---
-// $projects_tab = fetch_query ('select g_id, g_title from projects;');
-$projects_tab = get_td_api(array('get' => 'projects'));
+$projects_tab = get_td_or_sql_projects();
 //---
 foreach ($projects_tab as $Key => $table) $projects_title_to_id[$table['g_title']] = $table['g_id'];
 //---
 $settings = array();
 //---
-// $settings_tab = fetch_query ('select id, title, displayed, value, Type from settings;');
-$settings_tab = get_td_api(array('get' => 'settings'));
+$settings_tab = get_td_or_sql_settings();
 //---
 foreach ($settings_tab as $Key => $table) {
     $settings[$table['title']] = $table;
@@ -101,14 +100,8 @@ foreach ($settings_tab as $Key => $table) {
 function make_views_by_lang_target()
 {
     $vta = array();
-
-    $qua_vi = "
-    SELECT target, lang, countall, count2021, count2022, count2023, count2024, count2025, count2026
-    FROM views;
-    ";
     // ---
-    // $tat = fetch_query ($qua_vi);
-    $tat = get_td_api(array('get' => 'views'));
+    $tat = get_td_or_sql_views();
     // ---
     foreach ($tat as $k => $tab) {
         // check if lang already in array array_key_exists

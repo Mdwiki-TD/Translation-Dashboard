@@ -1,8 +1,8 @@
 <?PHP
 
-include_once __DIR__ . '/api_or_sql/get_lead.php';
+include_once __DIR__ . '/../api_or_sql/get_lead.php';
 
-use function Leaderboard\GetLead\get_leaderboard_table;
+use function SQLorAPI\GetLead\get_leaderboard_table;
 
 $year = $_REQUEST['year'] ?? 'all';
 $camp = $_REQUEST['camp'] ?? 'all';

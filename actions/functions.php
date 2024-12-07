@@ -26,9 +26,9 @@ include_once __DIR__ . '/wiki_api.php';
 include_once __DIR__ . '/mdwiki_api.php';
 include_once __DIR__ . '/td_api.php';
 include_once __DIR__ . '/mdwiki_sql.php';
+include_once __DIR__ . '/../api_or_sql/index.php';
 
-use function Actions\MdwikiSql\fetch_query;
-use function Actions\TDApi\get_td_api;
+use function SQLorAPI\Get\get_coordinator;
 
 function load_request()
 {
@@ -102,9 +102,7 @@ function test_print($s)
     }
 }
 
-// $coordinators = fetch_query ("SELECT user FROM coordinator;");
-// ---
-$coordinators = get_td_api(array('get' => 'coordinator', 'select' => 'user'));
+$coordinators = get_coordinator();
 // ---
 $coordinators = array_map('current', $coordinators);
 

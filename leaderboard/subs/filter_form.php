@@ -12,9 +12,9 @@ use function Leaderboard\FilterForm\make_filter_form_users;
 //---
 use function Actions\Html\makeDropdown;
 
-use function Leaderboard\Get\get_lang_years;
-use function Leaderboard\Get\get_user_years;
-use function Leaderboard\Get\get_user_langs;
+use function SQLorAPI\Get\get_lang_years;
+use function SQLorAPI\Get\get_user_years;
+use function SQLorAPI\Get\get_user_langs;
 
 function make_filter_form_langs($mainlang, $year_y)
 {

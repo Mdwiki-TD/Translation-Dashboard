@@ -6,7 +6,7 @@ namespace Results\GetCats;
 Usage:
 
 use function Results\GetCats\start_with;
-use function Results\GetCats\get_in_process_api;
+use function Results\GetCats\get_in_process;
 use function Results\GetCats\open_json_file;
 use function Results\GetCats\get_cat_from_cache;
 use function Results\GetCats\get_categorymembers;
@@ -28,29 +28,17 @@ include_once __DIR__ . '/../actions/functions.php';
 //---
 use function Actions\Functions\test_print;
 use function Actions\MdwikiApi\get_mdwiki_url_with_params;
-use function Actions\TDApi\get_td_api;
+use function SQLorAPI\Get\get_in_process_tdapi;
 //---
 function start_with($haystack, $needle)
 {
     return strpos($haystack, $needle) === 0;
 };
 
-function get_in_process_api($missing, $code)
+function get_in_process($missing, $code)
 {
     //---
-    $params = array(
-        "get" => "pages",
-        "lang" => $code,
-        'target' => 'empty'
-    );
-    //---
-    $res = get_td_api($params);
-    //---
-    echo "<br>";
-    // ---
-    // [ { "id": 3161, "title": "Phentermine", "word": 205, "translate_type": "lead", "cat": "RTT", "lang": "fa", "date": "2024-02-17", "user": "Aryagolparvar", "pupdate": "2024-02-17", "target": "فن‌ترمین", "add_date": "2024-02-17", "deleted": 0 } ]
-    //---
-    // var_export(json_encode($res, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+    $res = get_in_process_tdapi($code);
     //---
     $titles = array();
     //---
@@ -58,10 +46,7 @@ function get_in_process_api($missing, $code)
         if (in_array($t['title'], $missing)) $titles[$t['title']] = $t;
     }
     //---
-    // var_export(json_encode($titles));
-    //--
     return $titles;
-    //---
 }
 
 function open_json_file($file_path)

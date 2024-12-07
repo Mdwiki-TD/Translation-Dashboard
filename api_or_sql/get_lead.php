@@ -1,12 +1,12 @@
 <?php
 
-namespace Leaderboard\GetLead;
+namespace SQLorAPI\GetLead;
 
 /*
 
 Usage:
 
-use function Leaderboard\GetLead\get_leaderboard_table;
+use function SQLorAPI\GetLead\get_leaderboard_table;
 
 */
 
