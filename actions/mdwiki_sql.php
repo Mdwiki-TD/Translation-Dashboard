@@ -52,18 +52,6 @@ class Database
         }
     }
 
-    public function execute_query_old($sql_query)
-    {
-        try {
-            $q = $this->db->prepare($sql_query);
-            $q->execute();
-            $result = $q->fetchAll(PDO::FETCH_ASSOC);
-            return $result;
-        } catch (PDOException $e) {
-            echo "sql error:" . $e->getMessage() . "<br>" . $sql_query;
-            return array();
-        }
-    }
     public function execute_query($sql_query, $params = null)
     {
         try {

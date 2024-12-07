@@ -13,7 +13,7 @@ use function Actions\Functions\test_print;
 
 function compare_it($t1, $t2)
 {
-    echo "<br>fetch_query:<br>";
+    echo "<br>fetch _query:<br>";
     // //---
     var_dump(json_encode($t1, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
     // //---

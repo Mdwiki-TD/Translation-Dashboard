@@ -18,13 +18,7 @@ use function SQLorAPI\GetDataTab\get_td_or_sql_views;
 
 use function Actions\MdwikiSql\fetch_query;
 use function Actions\TDApi\get_td_api;
-
-$from_api  = (isset($_GET['from_api'])) ? true : false;
-
-function isvalid($str)
-{
-    return !empty($str) && $str != 'All' && $str != 'all';
-}
+use function SQLorAPI\Get\isvalid;
 
 function get_td_or_sql_views()
 {
