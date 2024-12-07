@@ -5,7 +5,8 @@ include_once __DIR__ . '/Tables/sql_tables.php'; // $sql_qids $cat_titles $cat_t
 */
 //---
 include_once __DIR__ . '/../actions/functions.php';
-include_once __DIR__ . '/../api_or_sql/data_tab.php';
+// ---
+include_once __DIR__ . '/../api_or_sql/index.php';
 //---
 use function SQLorAPI\GetDataTab\get_td_or_sql_translate_type;
 use function SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
@@ -88,15 +89,6 @@ $projects_tab = get_td_or_sql_projects();
 //---
 foreach ($projects_tab as $Key => $table) $projects_title_to_id[$table['g_title']] = $table['g_id'];
 //---
-$settings = array();
-//---
-$settings_tab = get_td_or_sql_settings();
-//---
-foreach ($settings_tab as $Key => $table) {
-    $settings[$table['title']] = $table;
-}
-//---
-
 function make_views_by_lang_target()
 {
     $vta = array();
@@ -124,3 +116,11 @@ function make_views_by_lang_target()
     return $vta;
 }
 //---
+$settings = array();
+//---
+$settings_tab = get_td_or_sql_settings();
+//---
+foreach ($settings_tab as $Key => $table) {
+    $settings[$table['title']] = $table;
+}
+// ---
