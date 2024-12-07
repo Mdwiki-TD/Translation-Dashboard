@@ -6,16 +6,6 @@ include_once __DIR__ . '/Tables/sql_tables.php'; // $sql_qids $cat_titles $cat_t
 //---
 include_once __DIR__ . '/../actions/functions.php';
 // ---
-$settings = array();
-//---
-use function Actions\MdwikiSql\fetch_query;
-// $settings_tab = get_td_or_sql_settings();
-$settings_tab = fetch_query("select id, title, displayed, value, Type from settings");
-//---
-foreach ($settings_tab as $Key => $table) {
-    $settings[$table['title']] = $table;
-}
-// ---
 include_once __DIR__ . '/../api_or_sql/index.php';
 //---
 use function SQLorAPI\GetDataTab\get_td_or_sql_translate_type;
@@ -23,7 +13,7 @@ use function SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
 use function SQLorAPI\GetDataTab\get_td_or_sql_qids;
 use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
 use function SQLorAPI\GetDataTab\get_td_or_sql_projects;
-// use function SQLorAPI\GetDataTab\get_td_or_sql_settings;
+use function SQLorAPI\GetDataTab\get_td_or_sql_settings;
 use function SQLorAPI\GetDataTab\get_td_or_sql_views;
 
 //---
@@ -126,3 +116,11 @@ function make_views_by_lang_target()
     return $vta;
 }
 //---
+$settings = array();
+//---
+$settings_tab = get_td_or_sql_settings();
+//---
+foreach ($settings_tab as $Key => $table) {
+    $settings[$table['title']] = $table;
+}
+// ---

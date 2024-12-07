@@ -4,7 +4,6 @@ namespace Leaderboard\Langs;
 
 //---
 //---
-use function Actions\MdwikiSql\execute_query;
 use function Leaderboard\LeadHelp\make_table_lead;
 use function Leaderboard\FilterForm\make_filter_form_langs;
 use function Leaderboard\SubLangs\get_langs_tables;

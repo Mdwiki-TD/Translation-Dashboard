@@ -20,9 +20,6 @@ use function Actions\MdwikiSql\fetch_query;
 use function Actions\TDApi\get_td_api;
 use function SQLorAPI\Get\isvalid;
 
-$use_td_api = $settings['use_td_api']['value'] ?? false;
-$from_api  = ($use_td_api == true) ? true : false;
-
 function get_td_or_sql_views()
 {
     // ---

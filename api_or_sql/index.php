@@ -21,16 +21,15 @@ use function SQLorAPI\Get\get_in_process_tdapi;
 
 */
 
-include_once __DIR__ . '/get_lead.php';
-include_once __DIR__ . '/data_tab.php';
-
 use function Actions\MdwikiSql\fetch_query;
 use function Actions\TDApi\get_td_api;
 
-$use_td_api = $settings['use_td_api']['value'] ?? false;
-$from_api  = ($use_td_api == true) ? true : false;
+$settings_tabe = array_column(get_td_api(['get' => 'settings']), 'value', 'title');
+//---
+$from_api  = ($settings_tabe['use_td_api'] ?? "" == "1") ? true : false;
 
-echo "<br>use_td_api: $use_td_api<br>";
+include_once __DIR__ . '/get_lead.php';
+include_once __DIR__ . '/data_tab.php';
 
 function isvalid($str)
 {
