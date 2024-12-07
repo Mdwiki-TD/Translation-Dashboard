@@ -1,22 +1,22 @@
 <?php
 
-namespace Leaderboard\Get;
+namespace SQLorAPI\Get;
 
 /*
 
 Usage:
 
-use function Leaderboard\Get\get_lang_years;
-use function Leaderboard\Get\get_user_years;
-use function Leaderboard\Get\get_user_langs;
-use function Leaderboard\Get\get_lang_views;
-use function Leaderboard\Get\get_lang_pages;
-use function Leaderboard\Get\get_graph_data;
-use function Leaderboard\Get\get_pages_with_pupdate;
-use function Leaderboard\Get\get_user_views;
-use function Leaderboard\Get\get_user_pages;
-use function Leaderboard\Get\get_coordinator;
-use function Leaderboard\Get\get_in_process_tdapi;
+use function SQLorAPI\Get\get_lang_years;
+use function SQLorAPI\Get\get_user_years;
+use function SQLorAPI\Get\get_user_langs;
+use function SQLorAPI\Get\get_lang_views;
+use function SQLorAPI\Get\get_lang_pages;
+use function SQLorAPI\Get\get_graph_data;
+use function SQLorAPI\Get\get_pages_with_pupdate;
+use function SQLorAPI\Get\get_user_views;
+use function SQLorAPI\Get\get_user_pages;
+use function SQLorAPI\Get\get_coordinator;
+use function SQLorAPI\Get\get_in_process_tdapi;
 
 */
 

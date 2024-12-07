@@ -8,8 +8,8 @@ use function Leaderboard\SubLangs\get_langs_tables;
 
 */
 
-use function Leaderboard\Get\get_lang_views;
-use function Leaderboard\Get\get_lang_pages;
+use function SQLorAPI\Get\get_lang_views;
+use function SQLorAPI\Get\get_lang_pages;
 
 function pages_tables($mainlang, $year_y)
 {

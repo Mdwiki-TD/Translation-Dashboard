@@ -27,7 +27,7 @@ include_once __DIR__ . '/mdwiki_api.php';
 include_once __DIR__ . '/td_api.php';
 include_once __DIR__ . '/mdwiki_sql.php';
 
-use function Leaderboard\Get\get_coordinator;
+use function SQLorAPI\Get\get_coordinator;
 
 function load_request()
 {

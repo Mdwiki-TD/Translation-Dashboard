@@ -1,18 +1,18 @@
 <?php
 
-namespace Leaderboard\GetDataTab;
+namespace SQLorAPI\GetDataTab;
 
 /*
 
 Usage:
 
-use function Leaderboard\GetDataTab\get_td_or_sql_translate_type;
-use function Leaderboard\GetDataTab\get_td_or_sql_full_translators;
-use function Leaderboard\GetDataTab\get_td_or_sql_qids;
-use function Leaderboard\GetDataTab\get_td_or_sql_categories;
-use function Leaderboard\GetDataTab\get_td_or_sql_projects;
-use function Leaderboard\GetDataTab\get_td_or_sql_settings;
-use function Leaderboard\GetDataTab\get_td_or_sql_views;
+use function SQLorAPI\GetDataTab\get_td_or_sql_translate_type;
+use function SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
+use function SQLorAPI\GetDataTab\get_td_or_sql_qids;
+use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
+use function SQLorAPI\GetDataTab\get_td_or_sql_projects;
+use function SQLorAPI\GetDataTab\get_td_or_sql_settings;
+use function SQLorAPI\GetDataTab\get_td_or_sql_views;
 
 */
 

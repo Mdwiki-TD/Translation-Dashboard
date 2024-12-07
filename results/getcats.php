@@ -28,7 +28,7 @@ include_once __DIR__ . '/../actions/functions.php';
 //---
 use function Actions\Functions\test_print;
 use function Actions\MdwikiApi\get_mdwiki_url_with_params;
-use function Leaderboard\Get\get_in_process_tdapi;
+use function SQLorAPI\Get\get_in_process_tdapi;
 //---
 function start_with($haystack, $needle)
 {

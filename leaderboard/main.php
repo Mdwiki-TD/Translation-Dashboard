@@ -27,7 +27,7 @@ use function Leaderboard\LeaderTables\createNumbersTable;
 use function Leaderboard\LeaderTables\makeLangTable;
 use function Leaderboard\LeaderTabUsers\makeUsersTable;
 use function Leaderboard\LeaderTabUsers\module_copy;
-use function Leaderboard\Get\get_pages_with_pupdate;
+use function SQLorAPI\Get\get_pages_with_pupdate;
 
 function print_cat_table(): string
 {

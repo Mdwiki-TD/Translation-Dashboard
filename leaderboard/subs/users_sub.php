@@ -8,8 +8,8 @@ use function Leaderboard\SubUsers\get_users_tables;
 
 */
 
-use function Leaderboard\Get\get_user_views;
-use function Leaderboard\Get\get_user_pages;
+use function SQLorAPI\Get\get_user_views;
+use function SQLorAPI\Get\get_user_pages;
 
 function pages_tables($user_main, $year_y, $lang_y, $test = '')
 {

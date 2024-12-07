@@ -5,15 +5,15 @@ include_once __DIR__ . '/Tables/sql_tables.php'; // $sql_qids $cat_titles $cat_t
 */
 //---
 include_once __DIR__ . '/../actions/functions.php';
-include_once __DIR__ . '/../leaderboard/data_tab.php';
+include_once __DIR__ . '/../api_or_sql/data_tab.php';
 //---
-use function Leaderboard\GetDataTab\get_td_or_sql_translate_type;
-use function Leaderboard\GetDataTab\get_td_or_sql_full_translators;
-use function Leaderboard\GetDataTab\get_td_or_sql_qids;
-use function Leaderboard\GetDataTab\get_td_or_sql_categories;
-use function Leaderboard\GetDataTab\get_td_or_sql_projects;
-use function Leaderboard\GetDataTab\get_td_or_sql_settings;
-use function Leaderboard\GetDataTab\get_td_or_sql_views;
+use function SQLorAPI\GetDataTab\get_td_or_sql_translate_type;
+use function SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
+use function SQLorAPI\GetDataTab\get_td_or_sql_qids;
+use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
+use function SQLorAPI\GetDataTab\get_td_or_sql_projects;
+use function SQLorAPI\GetDataTab\get_td_or_sql_settings;
+use function SQLorAPI\GetDataTab\get_td_or_sql_views;
 
 //---
 $full_translates = [];
