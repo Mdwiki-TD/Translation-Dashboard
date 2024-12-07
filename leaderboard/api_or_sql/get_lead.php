@@ -13,7 +13,12 @@ use function Leaderboard\GetLead\get_leaderboard_table;
 use function Actions\MdwikiSql\fetch_query;
 use function Actions\TDApi\get_td_api;
 
-$from_api  = (isset($_GET['from_api'])) ? true : false;
+$from_api  = (isset($_GET['from_api'])) ? true : true;
+
+function isvalid($str)
+{
+    return !empty($str) && $str != 'All' && $str != 'all';
+}
 
 function makeSqlQuery($year, $project)
 {
@@ -32,14 +37,14 @@ function makeSqlQuery($year, $project)
 
     $params = [];
 
-    if ($project != 'all' && !empty($project)) {
+    if (isvalid($project)) {
         $query = $query_project;
         $query .= "AND p.user = u.username \n";
         $query .= "AND u.user_group = ? \n";
         $params[] = $project;
     }
 
-    if ($year != 'all' && !empty($year)) {
+    if (isvalid($year)) {
         $query .= "AND YEAR(p.pupdate) = ? \n";
         $params[] = $year;
     }
@@ -69,11 +74,11 @@ function le_td_api($year, $project)
     // ---
     $api_params = ['get' => 'leaderboard_table'];
     // ----
-    if ($year != 'all' && !empty($year)) {
+    if (isvalid($year)) {
         $api_params['year'] = $year;
     }
     // ---
-    if ($project != 'all' && !empty($project)) {
+    if (isvalid($project)) {
         $api_params['user_group'] = $project;
     }
     // ---
