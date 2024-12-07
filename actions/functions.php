@@ -24,6 +24,7 @@ define('print_te', $print_t);
 include_once __DIR__ . '/html.php';
 include_once __DIR__ . '/wiki_api.php';
 include_once __DIR__ . '/mdwiki_api.php';
+include_once __DIR__ . '/td_api.php';
 include_once __DIR__ . '/mdwiki_sql.php';
 
 

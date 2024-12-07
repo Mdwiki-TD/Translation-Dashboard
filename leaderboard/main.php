@@ -91,7 +91,10 @@ $projectDropdown = sprintf($d33, 'Translators', $y2);
 //---
 $m_years2 = get_pages_with_pupdate();
 //---
-$y3 = makeDropdown($mYears, $year, 'year', 'all');
+// sort $m_years2 from biggest to smallest
+rsort($m_years2);
+//---
+$y3 = makeDropdown($m_years2, $year, 'year', 'all');
 $yearDropdown = sprintf($d33, 'Year', $y3);
 //---
 $uux = print_cat_table();
