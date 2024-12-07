@@ -35,4 +35,5 @@ td.sql
 /Tables/jsons/*.json
 !Tables/jsons/langs_tables.json
 coordinator.zip
+/coordinator
 /files

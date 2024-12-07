@@ -6,7 +6,7 @@ include_once __DIR__ . '/Tables/sql_tables.php'; // $sql_qids $cat_titles $cat_t
 //---
 include_once __DIR__ . '/../actions/functions.php';
 //---
-// use function Actions\MdwikiSql\fetch_query;
+use function Actions\MdwikiSql\fetch_query;
 use function Actions\TDApi\get_td_api;
 //---
 $full_translates = [];

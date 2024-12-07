@@ -1,5 +1,5 @@
 <?PHP
 //---
-HEADER('Location: /tdc/index.php');
+$stats = http_build_query($_GET);
 //---
-?>
+HEADER("Location: /tdc/index.php?$stats");

@@ -72,18 +72,19 @@ $them_li = <<<HTML
 	</ul>
 HTML;
 //---
+
 $li_user = <<<HTML
 	<li class="nav-item col-4 col-lg-auto">
 		<a role="button" class="nav-link py-2 px-0 px-lg-2" onclick="login()">
 			<i class="fas fa-sign-in-alt fa-sm fa-fw mr-2"></i> <span class="navtitles">Login</span>
 		</a>
+		</li>
 HTML;
 //---
 if (defined('global_username') && global_username != '') {
 	$u_name = global_username;
 	$li_user = <<<HTML
-		</li>
-		<li class="nav-item col-4 col-lg-auto" id="">
+	<li class="nav-item col-4 col-lg-auto">
 			<a href="leaderboard.php?user=$username" class="nav-link py-2 px-0 px-lg-2">
 				<i class="fas fa-user fa-sm fa-fw mr-2"></i> <span class="navtitles">$u_name</span>
 			</a>
@@ -94,7 +95,7 @@ if (defined('global_username') && global_username != '') {
 			</a>
 		</li>
 	HTML;
-}
+};
 //---
 echo <<<HTML
 <body>
@@ -127,6 +128,7 @@ echo <<<HTML
 							</a>
 						</li>
 						<li class="nav-item col-4 col-lg-auto" id="coord">$coord_tools</li>
+
 						<li class="nav-item col-4 col-lg-auto">
 							<a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/MrIbrahem/Translation-Dashboard" target="_blank">
 								<span class="navtitles">Github</span>
