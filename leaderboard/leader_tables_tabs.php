@@ -1,8 +1,8 @@
 <?PHP
 
-// use function Actions\MdwikiSql\fetch_query;
-use function Actions\TDApi\get_td_api;
-use function Actions\TDApi\compare_it;
+include_once __DIR__ . '/api_or_sql/get_lead.php';
+
+use function Leaderboard\GetLead\get_leaderboard_table;
 
 $year = $_REQUEST['year'] ?? 'all';
 $camp = $_REQUEST['camp'] ?? 'all';
@@ -19,51 +19,6 @@ if ($camp == 'all' && isset($_REQUEST['cat'])) {
 }
 $camp_cat = $camp_to_cat[$camp] ?? '';
 
-function makeSqlQuery()
-{
-    // global $camp, $camp_cat;
-    // ---
-    global $year, $project;
-    // ---
-    $queryPart1Group = "SELECT p.title,
-        p.target, p.cat, p.lang, p.word, YEAR(p.pupdate) AS pup_y, p.user, u.user_group, LEFT(p.pupdate, 7) as m
-        FROM pages p, users u
-    ";
-
-    $queryPart1 = "SELECT p.title,
-        p.target, p.cat, p.lang, p.word, YEAR(p.pupdate) AS pup_y, LEFT(p.pupdate, 7) as m,
-        p.user,
-        (SELECT u.user_group FROM users u WHERE p.user = u.username) AS user_group
-        FROM pages p
-    ";
-
-    $queryPart2 = "
-        WHERE p.target != ''
-    ";
-    // 2023-08-22
-    // if ($camp != 'all' && !empty($camp_cat)) $queryPart2 .= "AND p.cat = '$camp_cat' \n";
-
-    if ($year != 'all') {
-        $queryPart2 .= "AND YEAR(p.pupdate) = '$year' \n";
-    }
-
-    if ($project != 'all') {
-        $queryPart1 = $queryPart1Group;
-        $queryPart2 .= "AND p.user = u.username \n";
-        $queryPart2 .= "AND u.user_group = '$project' \n";
-    }
-
-    $query = $queryPart1 . $queryPart2;
-
-    if (isset($_REQUEST['test'])) {
-        echo $query;
-    }
-    return $query;
-}
-//---
-$qua_all = makeSqlQuery();
-// echo $qua_all;
-//---
 $Words_total = 0;
 $Articles_numbers = 0;
 $global_views = 0;
@@ -78,18 +33,7 @@ $Views_by_lang_target = make_views_by_lang_target();
 $tab_for_graph = [];
 // $articles_to_camps, $camps_to_articles
 
-// $ddde = fetch_query ($qua_all);
-$api_params = ['get' => 'leaderboard_table'];
-// ----
-if ($year != 'all') {
-    $api_params['year'] = $year;
-}
-// ---
-if ($project != 'all') {
-    $api_params['user_group'] = $project;
-}
-// ---
-$ddde1 = get_td_api($api_params);
+$ddde1 = get_leaderboard_table($year, $project);
 // ---
 // compare_it($ddde, $ddde1);
 // ---

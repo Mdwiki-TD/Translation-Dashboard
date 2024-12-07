@@ -10,27 +10,12 @@ use function Leaderboard\FilterForm\make_filter_form_users;
 */
 
 //---
-//---
 use function Actions\Html\makeDropdown;
-use function Actions\MdwikiSql\fetch_query;
-//---
-function get_lang_years($mainlang)
-{
-    $years_q = "SELECT DISTINCT LEFT(pupdate, 4) AS year FROM pages WHERE lang = '$mainlang' AND pupdate <> ''";
-    return array_map('current', fetch_query($years_q));
-}
 
-function get_user_years($user)
-{
-    $qua = "SELECT DISTINCT LEFT(date, 4) AS year FROM pages WHERE user = '$user'";
-    return array_map('current', fetch_query($qua));
-}
+use function Leaderboard\Get\get_lang_years;
+use function Leaderboard\Get\get_user_years;
+use function Leaderboard\Get\get_user_langs;
 
-function get_user_langs($user)
-{
-    $qua = "SELECT DISTINCT lang FROM pages WHERE user = '$user'";
-    return array_map('current', fetch_query($qua));
-}
 function make_filter_form_langs($mainlang, $year_y)
 {
     //---
@@ -42,7 +27,9 @@ function make_filter_form_langs($mainlang, $year_y)
     HTML;
 
     $years = get_lang_years($mainlang);
+    //---
     $y3 = makeDropdown($years, $year_y, 'year', 'All');
+    //---
     $yearDropdown = sprintf($d33, 'Year', $y3);
     //---
     return <<<HTML
@@ -77,9 +64,11 @@ function make_filter_form_users($user, $lang_y, $year_y)
     $langs = get_user_langs($user);
     //---
     $y2 = makeDropdown($langs, $lang_y, 'lang', 'All');
+    //---
     $langsDropdown = sprintf($d33, 'Lang', $y2);
     //---
     $y3 = makeDropdown($years, $year_y, 'year', 'All');
+    //---
     $yearDropdown = sprintf($d33, 'Year', $y3);
     //---
     return <<<HTML
