@@ -160,7 +160,7 @@ function get_lang_pages($lang, $year_y)
     // ---
     $api_params = ['get' => 'pages', 'lang' => $lang];
     // ---
-    $query = "select target, lang, title, date, pupdate from pages where lang = ?";
+    $query = "select target, user, lang, title, date, pupdate from pages where lang = ?";
     $params = [$lang];
     // ---
     if (isvalid($year_y)) {
