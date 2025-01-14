@@ -18,6 +18,7 @@ use function Actions\Html\make_cat_url;
 use function Actions\Html\make_mdwiki_title;
 use function Actions\Html\make_translation_url;
 use function Actions\Html\make_target_url;
+use function Actions\Html\make_translate_link_medwiki;
 
 function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'users', $tab_ty = 'a', $_user_ = '')
 {
@@ -87,7 +88,8 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
         $target_link = 'Pending';
         $td_views = '';
         //---
-        $tralink = make_translation_url($mdtitle, $lang, $tran_type);
+        // $tralink = make_translation_url($mdtitle, $lang, $tran_type);
+        $tralink = make_translate_link_medwiki($mdtitle, $lang, $cat, "", $tran_type);
         $complate   = (global_username === $_user_) ? "<td data-content='complete'><a target='_blank' href='$tralink'>complete</a></td>" : '';
     } else {
         $target  = trim($tabb['target']);
