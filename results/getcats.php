@@ -37,7 +37,10 @@ function titles_filter($titles, $with_Category = false)
 function get_in_process($missing, $code)
 {
     $res = get_in_process_tdapi($code);
-    $titles = array_filter($res, fn ($t) => in_array($t['title'], $missing));
+    $titles = [];
+    foreach ($res as $t) {
+        if (in_array($t['title'], $missing)) $titles[$t['title']] = $t;
+    }
     return $titles;
 }
 
