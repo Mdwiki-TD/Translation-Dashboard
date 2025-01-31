@@ -115,7 +115,8 @@ function get_categorymembers($cat)
 
 function get_mmbrs($cat, $use_cache = true)
 {
-    $all = $use_cache || $_SERVER['SERVER_NAME'] == 'localhost' ? get_cat_from_cache($cat) : get_categorymembers($cat);
+    // $all = $use_cache || $_SERVER['SERVER_NAME'] == 'localhost' ? get_cat_from_cache($cat) : get_categorymembers($cat);
+    $all = $use_cache ? get_cat_from_cache($cat) : get_categorymembers($cat);
     return empty($all) ? get_categorymembers($cat) : $all;
 }
 

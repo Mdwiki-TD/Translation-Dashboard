@@ -13,18 +13,34 @@ use function Results\GetCats\get_mdwiki_cat_members;
 use function Results\GetCats\open_json_file;
 use function Actions\Functions\test_print;
 
+$test11 = $_GET['test11'] ?? '';
+
+function print_r_it($data, $title)
+{
+    if (empty($test11)) return;
+
+    echo "$title:" . count($data) . "<br>";
+    echo "<pre>";
+    // print(json_encode($data));
+    echo "</pre>";
+}
+
 function get_cat_exists_and_missing($cat, $camp, $depth, $code, $use_cache = true): array
 {
     // Fetch category members
     $members_to = get_mdwiki_cat_members($cat, $use_cache = $use_cache, $depth = $depth, $camp = $camp);
+
+    print_r_it($members_to, 'members_to');
+
     $members = array_values($members_to); // Flatten the array
+
+    print_r_it($members, 'members');
 
     test_print("Members size: " . count($members));
 
     // Determine the directory for JSON files
     $tables_dir = getenv('tables_dir') ?: __DIR__ . '/../../td/Tables';
-    // if (substr($tables_dir, 0, 2) === 'I:') {
-    if (str_starts_with($tables_dir, 'I:')) {
+    if (substr($tables_dir, 0, 2) === 'I:') {
         $tables_dir = 'I:/mdwiki/mdwiki/public_html/td/Tables';
     }
 
