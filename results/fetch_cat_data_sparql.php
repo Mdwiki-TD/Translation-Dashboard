@@ -14,6 +14,7 @@ use function Actions\Functions\test_print;
 use function SQLorAPI\GetDataTab\get_td_or_sql_qids;
 use function Results\ResultsHelps\print_r_it;
 use function Results\ResultsHelps\get_lang_exists_pages;
+use function Results\SparqlBot\get_sparql_data;
 
 function get_qids($list)
 {
@@ -52,6 +53,8 @@ function get_cat_exists_and_missing($cat, $camp, $depth, $code, $use_cache = tru
     //---
     $with_qids = $qids_tab['with_qids'];
     $no_qids = $qids_tab['no_qids'];
+    //---
+    $sparql_data = get_sparql_data($with_qids, $code);
     //---
     $exists = get_lang_exists_pages($code);
 
