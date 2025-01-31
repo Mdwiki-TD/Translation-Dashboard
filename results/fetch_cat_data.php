@@ -10,20 +10,9 @@ use function Results\FetchCatData\get_cat_exists_and_missing;
 */
 
 use function Results\GetCats\get_mdwiki_cat_members;
-use function Results\GetCats\open_json_file;
 use function Actions\Functions\test_print;
-
-$test11 = $_GET['test11'] ?? '';
-
-function print_r_it($data, $title)
-{
-    if (empty($test11)) return;
-
-    echo "$title:" . count($data) . "<br>";
-    echo "<pre>";
-    // print(json_encode($data));
-    echo "</pre>";
-}
+use function Results\ResultsHelps\print_r_it;
+use function Results\ResultsHelps\get_lang_exists_pages;
 
 function get_cat_exists_and_missing($cat, $camp, $depth, $code, $use_cache = true): array
 {
@@ -38,16 +27,7 @@ function get_cat_exists_and_missing($cat, $camp, $depth, $code, $use_cache = tru
 
     test_print("Members size: " . count($members));
 
-    // Determine the directory for JSON files
-    $tables_dir = getenv('tables_dir') ?: __DIR__ . '/../../td/Tables';
-    if (substr($tables_dir, 0, 2) === 'I:') {
-        $tables_dir = 'I:/mdwiki/mdwiki/public_html/td/Tables';
-    }
-
-    // Load existing pages from JSON file
-    $json_file = "$tables_dir/cash_exists/$code.json";
-    $exists = open_json_file($json_file);
-    test_print("$json_file: Exists size: " . count($exists));
+    $exists = get_lang_exists_pages($code);
 
     // Find missing members
     $missing = array_diff($members, $exists);

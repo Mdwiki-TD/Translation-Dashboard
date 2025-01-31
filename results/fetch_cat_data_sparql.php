@@ -10,56 +10,50 @@ use function Results\FetchCatDataSparql\get_cat_exists_and_missing;
 */
 
 use function Results\GetCats\get_mdwiki_cat_members;
-use function Results\GetCats\open_json_file;
 use function Actions\Functions\test_print;
 use function SQLorAPI\GetDataTab\get_td_or_sql_qids;
+use function Results\ResultsHelps\print_r_it;
+use function Results\ResultsHelps\get_lang_exists_pages;
 
-$test11 = $_GET['test11'] ?? '';
-
-function print_r_it($data, $title, $d = false)
+function get_qids($list)
 {
-    if (empty($test11)) return;
-
-    echo "$title:" . count($data) . "<br>";
-    echo "<pre>";
-    if ($d) {
-        print(json_encode($data));
+    //---
+    $sql_qids = get_td_or_sql_qids();
+    //---
+    $with_qids = [];
+    $no_qids = [];
+    // ---
+    foreach ($list as $member) {
+        $qid = $sql_qids[$member] ?? 0;
+        if ($qid) {
+            $with_qids[$member] = $qid;
+        } else {
+            $no_qids[] = $member;
+        }
     }
-    echo "</pre>";
+    // ---
+    print_r_it($with_qids, "with_qids", 1);
+    print_r_it($no_qids, "no_qids", 1);
+    // ---
+    return [
+        "with_qids" => $with_qids,
+        "no_qids" => $no_qids,
+    ];
 }
-
 function get_cat_exists_and_missing($cat, $camp, $depth, $code, $use_cache = true): array
 {
     //---
-    $sql_qids = array();
+    $members = get_mdwiki_cat_members($cat, $use_cache = $use_cache, $depth = $depth, $camp = $camp);
     //---
-    print_r_it($sql_qids, "sql_qids", 1);
-    //---
-    $qids_t = get_td_or_sql_qids();
-    //---
-    foreach ($qids_t as $k => $tab) $sql_qids[$tab['title']] = $tab['qid'];
-    //---
-    // Fetch category members
-    $members_to = get_mdwiki_cat_members($cat, $use_cache = $use_cache, $depth = $depth, $camp = $camp);
-
-    print_r_it($members_to, 'members_to');
-
-    $members = array_values($members_to); // Flatten the array
-
-    print_r_it($members, 'members');
-
+    print_r_it($members, 'members', $d = 1);
     test_print("Members size: " . count($members));
-
-    // Determine the directory for JSON files
-    $tables_dir = getenv('tables_dir') ?: __DIR__ . '/../../td/Tables';
-    if (substr($tables_dir, 0, 2) === 'I:') {
-        $tables_dir = 'I:/mdwiki/mdwiki/public_html/td/Tables';
-    }
-
-    // Load existing pages from JSON file
-    $json_file = "$tables_dir/cash_exists/$code.json";
-    $exists = open_json_file($json_file);
-    test_print("$json_file: Exists size: " . count($exists));
+    // ---
+    $qids_tab = get_qids($members);
+    //---
+    $with_qids = $qids_tab['with_qids'];
+    $no_qids = $qids_tab['no_qids'];
+    //---
+    $exists = get_lang_exists_pages($code);
 
     // Find missing members
     $missing = array_diff($members, $exists);
@@ -71,6 +65,11 @@ function get_cat_exists_and_missing($cat, $camp, $depth, $code, $use_cache = tru
 
     test_print("End of get_cat_exists_and_missing <br>===============================");
 
+    // ---
+    echo "len_of_exists: " . $exs_len . "<br>";
+    // ---
+    print_r_it($missing, 'missing', $r = 1);
+    // ---
     return [
         "len_of_exists" => $exs_len,
         "missing" => $missing,

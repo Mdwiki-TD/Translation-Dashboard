@@ -93,7 +93,9 @@ function get_td_or_sql_qids()
         $data = fetch_query($query);
     }
     // ---
-    return $data;
+    $sql_qids = array_column($data, 'qid', 'title');
+    //---
+    return $sql_qids;
 }
 function get_td_or_sql_full_translators()
 {

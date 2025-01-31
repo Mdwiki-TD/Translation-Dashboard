@@ -34,15 +34,10 @@ foreach ($rere as $k => $tab) {
 //---
 $full_t = get_td_or_sql_full_translators();
 //---
-$full_translators = array_map(function ($row) {
-    return $row['user'];
-}, $full_t);
+// $full_translators = array_map(function ($row) {return $row['user']; }, $full_t);
+$full_translators = array_column($full_t, 'user');
 //---
-$sql_qids = array();
-//---
-$qids_t = get_td_or_sql_qids();
-//---
-foreach ($qids_t as $k => $tab) $sql_qids[$tab['title']] = $tab['qid'];
+$sql_qids = get_td_or_sql_qids();
 //---
 $cat_titles = array();
 $cat_to_camp = array();

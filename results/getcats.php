@@ -25,6 +25,15 @@ function start_with($haystack, $needle)
     return strpos($haystack, $needle) === 0;
 }
 
+function titles_filter($titles, $with_Category = false)
+{
+    $regline = ($with_Category) ? '/^(Category|File|Template|User):/' : '/^(File|Template|User):/';
+    return array_filter($titles, function ($title) use ($regline) {
+        return !preg_match($regline, $title) &&
+            !preg_match('/\(disambiguation\)$/', $title);
+    });
+}
+
 function get_in_process($missing, $code)
 {
     $res = get_in_process_tdapi($code);
@@ -69,12 +78,7 @@ function get_cat_from_cache($cat)
         return [];
     }
 
-    return array_filter(
-        $new_list['list'],
-        fn ($value) =>
-        !preg_match('/^(Category|File|Template|User):/', $value) &&
-            !preg_match('/\(disambiguation\)$/', $value)
-    );
+    return titles_filter($new_list['list'], $with_Category = true);
 }
 
 function get_categorymembers($cat)
@@ -145,13 +149,8 @@ function get_mdwiki_cat_members($cat, $use_cache = true, $depth = 0, $camp = '')
     }
 
     $titles = array_unique($titles);
-    $newtitles = array_filter(
-        $titles,
-        fn ($title) =>
-        !preg_match('/^(File|Template|User):/', $title) &&
-            !preg_match('/\(disambiguation\)$/', $title)
-    );
 
+    $newtitles = titles_filter($titles);
     test_print("newtitles size:" . count($newtitles));
     test_print("end of get_mdwiki_cat_members <br>===============================");
 
