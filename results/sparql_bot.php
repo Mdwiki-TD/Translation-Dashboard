@@ -149,10 +149,10 @@ function get_sparql_data_not_exists($with_qids, $code): array
     $no_article = [];
     $missing = [];
     //---
-    $chunks = array_chunk(array_values($with_qids), 100);
+    $chunks = array_chunk($with_qids, 100);
 
     foreach ($chunks as $chunk) {
-        $wd_values = "wd:" . implode(' wd:', $chunk);
+        $wd_values = "wd:" . implode(' wd:', array_values($chunk));
         //---
         $sparql = "
             SELECT ?item WHERE {
@@ -166,6 +166,11 @@ function get_sparql_data_not_exists($with_qids, $code): array
         ";
         //---
         $result = get_query_result($sparql);
+        //---
+        if (count($result) == 0) {
+            $missing = array_merge($missing, array_keys($chunk));
+            continue;
+        }
         //---
         foreach ($result as $item) {
             $article = $qids_to_title[$item['item']] ?? 0;
@@ -237,7 +242,7 @@ function check_missing($missing, $code): array
     print_r_it($sparql_missing, 'sparql_missing', $r = 1);
     print_r_it($diff, 'diff', $r = 1);
     // ---
-    test_print("check_missing diff" . count($diff));
+    test_print("check_missing diff: " . count($diff));
     test_print($diff);
     // ---
     return $sparql_missing;
