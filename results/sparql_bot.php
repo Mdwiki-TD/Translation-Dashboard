@@ -13,129 +13,66 @@ use function Results\SparqlBot\get_sparql_data_exists;
 use function Results\ResultsHelps\print_r_it;
 use function Actions\Functions\test_print;
 use function SQLorAPI\GetDataTab\get_td_or_sql_qids;
+use function Results\SPARQL_Dispatcher\get_query_result;
 
-
-class SPARQLQueryDispatcher
-{
-    public $endpointUrl;
-    public $user_agent;
-
-    public function __construct()
-    {
-        $this->endpointUrl = 'https://query.wikidata.org/sparql';
-        $this->user_agent = "User-Agent: WikiProjectMed Translation Dashboard/1.0 (https://mdwiki.toolforge.org/; tools.mdwiki@toolforge.org) PHP/" . PHP_VERSION;
-    }
-
-    function get_url(string $url): string
-    {
-        $ch = curl_init();
-
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_USERAGENT, $this->user_agent);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-
-        $output = curl_exec($ch);
-
-        curl_close($ch);
-        return $output;
-    }
-    public function query_old($sparqlQuery): array
-    {
-
-        $opts = [
-            'http' => [
-                'method' => 'GET',
-                'header' => [
-                    'Accept: application/sparql-results+json',
-                    $this->user_agent,
-                ],
-            ],
-        ];
-        $context = stream_context_create($opts);
-
-        $url = $this->endpointUrl . '?query=' . urlencode($sparqlQuery) . '&format=json';
-        $response = file_get_contents($url, false, $context);
-        return json_decode($response, true) ?? [];
-    }
-
-    public function query($sparqlQuery): array
-    {
-        $url = $this->endpointUrl . '?query=' . urlencode($sparqlQuery) . '&format=json';
-        $response = $this->get_url($url);
-
-        // print_r($response);
-
-        return json_decode($response, true) ?? [];
-    }
-}
-
-function get_query_result($query)
-{
-    $queryDispatcher = new SPARQLQueryDispatcher();
-    $queryResult = $queryDispatcher->query($query);
-    $result = $queryResult['results']['bindings'];
-    // ---
-    $vars = $queryResult['head']['vars'];
-    // ---
-    $list = [];
-    // ---
-    foreach ($result as $item) {
-        $d = [];
-        // $d = array_map(function ($x) {return $x['value'];}, $item);
-        foreach ($vars as $var) {
-            $d[$var] = $item[$var]['value'] ?? "";
-        }
-        $d["item"] = str_replace("http://www.wikidata.org/entity/", "", $d["item"]);
-        $list[] = $d;
-    }
-    // ---
-    return $list;
-}
-function get_sparql_data_exists($with_qids, $code): array
+function sparql_query_result($with_qids, $code): array
 {
     //---
-    $qids_to_title = [];
+    $table = [];
     //---
-    foreach ($with_qids as $title => $qid) {
-        $qids_to_title[$qid] = $title;
-    };
+    $chunks = array_chunk($with_qids, 150);
     //---
-    $no_article = [];
-    $EXISTS = [];
+    $time_start = microtime(true);
     //---
-    $chunks = array_chunk($with_qids, 100);
-
     foreach ($chunks as $chunk) {
         $wd_values = "wd:" . implode(' wd:', array_values($chunk));
         //---
         $sparql = "
-            SELECT ?item WHERE {
-                VALUES ?item { $wd_values }
-                FILTER EXISTS {
-                    ?sitelink schema:about ?item;
-                        schema:isPartOf <https://$code.wikipedia.org/>;
-                        schema:name ?article.
+            SELECT ?item ?article WHERE {
+                VALUES ?item {
+                    $wd_values
                 }
-            }
+                ?sitelink schema:about ?item;
+                    schema:isPartOf <https://$code.wikipedia.org/>;
+                    schema:name ?article.
+                }
         ";
+        //---
+        // test_print("<br>" . htmlspecialchars($sparql) . "<br>");
         //---
         $result = get_query_result($sparql);
         //---
         foreach ($result as $item) {
-            $article = $qids_to_title[$item['item']] ?? 0;
-            if ($article != 0) {
-                $EXISTS[] = $article;
-            } else {
-                $no_article[] = $item['item'];
-            }
+            $table[] = $item['item'];
         }
     }
     //---
-    print_r_it($result, 'sparql result');
+    print_r_it($table, 'sparql_query_result', $d = 1);
+    // ---
+    $execution_time = (microtime(true) - $time_start);
+    test_print("<br> >>>>> sparql_query_result Total Execution Time: " . $execution_time . " Seconds<br>");
+    // ---
+    return $table;
+}
+
+function get_sparql_data_exists($with_qids, $code): array
+{
+    //---
+    print_r_it($with_qids, 'with_qids', $r = 1);
+    // ---
+    $no_article = [];
+    $EXISTS = [];
+    //---
+    $qids_exists = sparql_query_result($with_qids, $code);
+    //---
+    foreach ($with_qids as $title => $qid) {
+        if (in_array($qid, $qids_exists)) {
+            $EXISTS[] = $title;
+        }
+    }
+    //---
     print_r_it($EXISTS, 'sparql EXISTS');
-    print_r_it($no_article, 'no_article');
+    print_r_it($no_article, 'no_article', $d = 1);
     // ---
     return $EXISTS;
 }
@@ -171,13 +108,11 @@ function filter_existing_out($missing, $code): array
     //---
     $missing2 = [];
     //---
-    foreach ($missing as $_ => $title) {
-        $missing2[] = $title;
-    }
+    foreach ($missing as $_ => $title) $missing2[] = $title;
     //---
     $missing = $missing2;
     //---
-    print_r_it($missing2, 'missing2');
+    print_r_it($missing2, '<br>missing2');
     //---
     $qids_tab = get_qids($missing);
     //---

@@ -85,5 +85,5 @@ foreach ($qids_o as $qid => $tab) {
 }
 
 echo "</tbody></table></div><div>";
-include_once __DIR__ . '/foter.php';
+include_once __DIR__ . '/footer.php';
 ?>

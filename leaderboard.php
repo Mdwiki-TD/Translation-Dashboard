@@ -16,5 +16,5 @@ require __DIR__ . '/leaderboard/index.php';
 
 echo '<!-- <script src="/Translation_Dashboard/js/leadtable.js"></script> -->';
 
-include_once __DIR__ . '/foter.php';
+include_once __DIR__ . '/footer.php';
 ?>
