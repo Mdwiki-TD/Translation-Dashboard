@@ -10,6 +10,7 @@ use function Results\GetResults\get_results;
 */
 
 use function Results\FetchCatData\get_cat_exists_and_missing;
+// use function Results\FetchCatDataSparql\get_cat_exists_and_missing;
 use function Results\GetCats\get_in_process;
 use function Results\GetCats\get_mdwiki_cat_members;
 use function Actions\Functions\test_print;
