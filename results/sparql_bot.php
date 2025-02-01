@@ -140,21 +140,6 @@ function get_sparql_data($with_qids, $code): array
 function get_sparql_data_not_exists($with_qids, $code): array
 {
     //---
-    $wd_values = "wd:" . implode(' wd:', array_values($with_qids));
-    //---
-    $sparql = "
-        SELECT ?item WHERE {
-            VALUES ?item { $wd_values }
-            FILTER NOT EXISTS {
-                ?sitelink schema:about ?item;
-                    schema:isPartOf <https://$code.wikipedia.org/>;
-                    schema:name ?article.
-            }
-        }
-    ";
-    //---
-    $result = get_query_result($sparql);
-    //---
     $qids_to_title = [];
     //---
     foreach ($with_qids as $title => $qid) {
@@ -164,12 +149,31 @@ function get_sparql_data_not_exists($with_qids, $code): array
     $no_article = [];
     $missing = [];
     //---
-    foreach ($result as $item) {
-        $article = $qids_to_title[$item['item']] ?? 0;
-        if ($article != 0) {
-            $missing[] = $article;
-        } else {
-            $no_article[] = $item['item'];
+    $chunks = array_chunk(array_values($with_qids), 100);
+
+    foreach ($chunks as $chunk) {
+        $wd_values = "wd:" . implode(' wd:', $chunk);
+        //---
+        $sparql = "
+            SELECT ?item WHERE {
+                VALUES ?item { $wd_values }
+                FILTER NOT EXISTS {
+                    ?sitelink schema:about ?item;
+                        schema:isPartOf <https://$code.wikipedia.org/>;
+                        schema:name ?article.
+                }
+            }
+        ";
+        //---
+        $result = get_query_result($sparql);
+        //---
+        foreach ($result as $item) {
+            $article = $qids_to_title[$item['item']] ?? 0;
+            if ($article != 0) {
+                $missing[] = $article;
+            } else {
+                $no_article[] = $item['item'];
+            }
         }
     }
     //---
@@ -217,6 +221,9 @@ function check_missing($missing, $code): array
     // print_r($no_qids);
     //---
     $sparql_missing = get_sparql_data_not_exists($with_qids, $code) ?? [];
+    //---
+    // if (count($sparql_missing) == 0) { return $missing; }
+    //---
     $sparql_missing = array_merge($sparql_missing, $no_qids);
     //---
     if (count($sparql_missing) == count($missing)) {
@@ -229,6 +236,9 @@ function check_missing($missing, $code): array
     // ---
     print_r_it($sparql_missing, 'sparql_missing', $r = 1);
     print_r_it($diff, 'diff', $r = 1);
+    // ---
+    test_print("check_missing diff" . count($diff));
+    test_print($diff);
     // ---
     return $sparql_missing;
 }
