@@ -166,7 +166,7 @@ function get_qids($list)
     ];
 }
 
-function check_exists($missing, $code): array
+function filter_existing_out($missing, $code): array
 {
     //---
     $missing2 = [];
@@ -202,7 +202,7 @@ function check_exists($missing, $code): array
     // ---
     print_r_it($new_missings, 'new_missings', $d = 1);
     // ---
-    test_print("check_exists sparql_exists count: " . count($sparql_exists));
+    test_print("filter_existing_out sparql_exists count: " . count($sparql_exists));
     // ---
     return $new_missings;
 }
