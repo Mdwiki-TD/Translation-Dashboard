@@ -155,7 +155,7 @@ function get_mdwiki_cat_members($cat, $use_cache = true, $depth = 0, $camp = '')
 
     $newtitles = titles_filter($titles);
     test_print("newtitles size:" . count($newtitles));
-    test_print("end of get_mdwiki_cat_members <br>===============================");
+    // test_print("end of get_mdwiki_cat_members <br>===============================");
 
     return $newtitles;
 }

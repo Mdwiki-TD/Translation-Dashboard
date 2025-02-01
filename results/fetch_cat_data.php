@@ -34,7 +34,7 @@ function get_cat_exists_and_missing($cat, $camp, $depth, $code, $use_cache = tru
     // Calculate the length of existing pages
     $exs_len = count($members) - count($missing);
 
-    test_print("End of get_cat_exists_and_missing <br>===============================");
+    // test_print("End of get_cat_exists_and_missing <br>===============================");
 
     return [
         "len_of_exists" => $exs_len,
