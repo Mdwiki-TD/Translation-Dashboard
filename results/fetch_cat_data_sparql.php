@@ -14,10 +14,11 @@ use function Actions\Functions\test_print;
 use function Results\ResultsHelps\get_lang_exists_pages;
 use function Results\SparqlBot\filter_existing_out;
 
-function get_cat_exists_and_missing($cat, $camp, $depth, $code, $use_cache = true): array
+function get_cat_exists_and_missing($cat, $depth, $code, $use_cache = true): array
 {
     // Fetch category members
-    $members = get_mdwiki_cat_members($cat, $use_cache = $use_cache, $depth = $depth, $camp = $camp);
+    // $members = get_mdwiki_cat_members($cat, $use_cache = $use_cache, $depth = $depth, $camp = $camp);
+    $members = get_mdwiki_cat_members($cat, $depth, $use_cache);
 
     test_print("Members size: " . count($members));
 

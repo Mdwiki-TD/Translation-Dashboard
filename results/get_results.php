@@ -28,7 +28,7 @@ use function Actions\Functions\test_print;
 function get_results($cat, $camp, $depth, $code): array
 {
     // Get existing and missing pages
-    $items = get_cat_exists_and_missing($cat, $camp, $depth, $code) ?: [];
+    $items = get_cat_exists_and_missing($cat, $depth, $code, true) ?: [];
     $len_of_exists_pages = $items['len_of_exists'];
     $items_missing = $items['missing'];
 
@@ -37,7 +37,8 @@ function get_results($cat, $camp, $depth, $code): array
     // Check for a secondary category
     $cat2 = $camps_cat2[$camp] ?? '';
     if (!empty($cat2) && $cat2 !== $cat) {
-        $cat2_members = get_mdwiki_cat_members($cat2, $use_cache = true, $depth = $depth, $camp = $camp);
+        // $cat2_members = get_mdwiki_cat_members($cat2, $use_cache = true, $depth = $depth, $camp = $camp);
+        $cat2_members = get_mdwiki_cat_members($cat2, $depth, true);
         $items_missing = array_intersect($items_missing, $cat2_members);
         test_print("Items missing after intersecting with cat2: " . count($items_missing));
     }

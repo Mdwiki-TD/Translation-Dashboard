@@ -70,9 +70,9 @@ function get_query_result($query)
 {
     $queryDispatcher = new SPARQLQueryDispatcher();
     $queryResult = $queryDispatcher->query($query);
-    $result = $queryResult['results']['bindings'];
+    $result = $queryResult['results']['bindings'] ?? [];
     // ---
-    $vars = $queryResult['head']['vars'];
+    $vars = $queryResult['head']['vars'] ?? [];
     // ---
     $list = [];
     // ---

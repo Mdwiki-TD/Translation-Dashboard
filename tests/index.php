@@ -31,4 +31,4 @@ echo <<<HTML
     <br>
     HTML;
 //---
-include_once __DIR__ . '/../foter.php';
+include_once __DIR__ . '/../footer.php';

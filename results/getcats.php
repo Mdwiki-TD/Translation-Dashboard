@@ -127,7 +127,8 @@ function get_mmbrs($cat, $use_cache = true)
     return empty($all) ? get_categorymembers($cat) : $all;
 }
 
-function get_mdwiki_cat_members($cat, $use_cache = true, $depth = 0, $camp = '')
+// function get_mdwiki_cat_members($cat, $use_cache = true, $depth = 0, $camp = '')
+function get_mdwiki_cat_members($cat, $depth, $use_cache)
 {
     $titles = [];
     $cats = [$cat];

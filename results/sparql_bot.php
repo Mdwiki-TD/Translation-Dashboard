@@ -38,7 +38,7 @@ function sparql_query_result($with_qids, $code): array
                 }
         ";
         //---
-        test_print("<br>" . htmlspecialchars($sparql) . "<br>");
+        // test_print("<br>" . htmlspecialchars($sparql) . "<br>");
         //---
         $result = get_query_result($sparql);
         //---
