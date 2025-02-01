@@ -6,106 +6,70 @@ namespace Results\GetResults;
 Usage:
 
 use function Results\GetResults\get_results;
-use function Results\GetResults\get_cat_exists_and_missing;
 
 */
 
+// use function Results\FetchCatData\get_cat_exists_and_missing;
+use function Results\FetchCatDataSparql\get_cat_exists_and_missing;
 use function Results\GetCats\get_in_process;
 use function Results\GetCats\get_mdwiki_cat_members;
-use function Results\GetCats\open_json_file;
 use function Actions\Functions\test_print;
 
-function get_cat_exists_and_missing($cat, $camp, $depth, $code, $use_cache = true)
+/**
+ * Get results for a category, including missing pages and in-process items.
+ *
+ * @param string $cat   Category name.
+ * @param string $camp  Campaign name.
+ * @param int    $depth Depth of category traversal.
+ * @param string $code  Language code.
+ * @return array        Array containing in-process items, missing pages, and summary info.
+ */
+
+function get_results($cat, $camp, $depth, $code): array
 {
-    $members_to = get_mdwiki_cat_members($cat, $use_cache = $use_cache, $depth = $depth, $camp = $camp);
-    // z("<br>members_to size:" . count($members_to));
-    $members = array();
-    foreach ($members_to as $mr) {
-        $members[] = $mr;
-    };
-    test_print("members size:" . count($members));
-    // ---
-    $tables_dir = getenv('tables_dir') ?? __DIR__ . '/../../td/Tables';
-    //---
-    if (substr($tables_dir, 0, 2) == 'I:') {
-        $tables_dir = 'I:/mdwiki/mdwiki/public_html/td/Tables';
-    }
-    //---
-    $json_file = $tables_dir . "/cash_exists/$code.json";
-
-    $exists = open_json_file($json_file);
-
-    test_print("$json_file: exists size:" . count($exists));
-
-    // Find missing elements
-    // $missing = array_diff($members, $exists);
-    $missing = array();
-    foreach ($members as $mem) {
-        if (!in_array($mem, $exists)) $missing[] = $mem;
-    };
-
-    // Remove duplicates from $missing
-    $missing = array_unique($missing);
-
-    // Calculate length of exists
-    $exs_len = count($members) - count($missing);
-
-    $results = array(
-        "len_of_exists" => $exs_len,
-        "missing" => $missing
-    );
-    test_print("end of get_cat_exists_and_missing <br>===============================");
-    return $results;
-}
-
-
-function get_results($cat, $camp, $depth, $code)
-{
-    //---
-    $items = get_cat_exists_and_missing($cat, $camp, $depth, $code); # mdwiki pages in the cat
-    //---
-    if ($items == null) $items = array();
-    //---
+    // Get existing and missing pages
+    $items = get_cat_exists_and_missing($cat, $camp, $depth, $code) ?: [];
     $len_of_exists_pages = $items['len_of_exists'];
-    $items_missing       = $items['missing'];
-    //---
+    $items_missing = $items['missing'];
+
+    test_print("Items missing: " . count($items_missing));
+
+    // Check for a secondary category
     $cat2 = $camps_cat2[$camp] ?? '';
-    //---
-    test_print("items_missing:" . count($items_missing) . "");
-    //---
-    if (!empty($cat2) && $cat2 != $cat) {
+    if (!empty($cat2) && $cat2 !== $cat) {
         $cat2_members = get_mdwiki_cat_members($cat2, $use_cache = true, $depth = $depth, $camp = $camp);
-        $items_missing2 = array_intersect($items_missing, $cat2_members);
-        test_print("items_missing2:" . count($items_missing2) . "");
-        $items_missing = $items_missing2;
+        $items_missing = array_intersect($items_missing, $cat2_members);
+        test_print("Items missing after intersecting with cat2: " . count($items_missing));
     }
-    //---
-    test_print("len_of_exists_pages: $len_of_exists_pages");
-    //---
+
+    test_print("Length of existing pages: $len_of_exists_pages");
+
+    // Remove duplicates from missing items
     $missing = array_unique($items_missing);
-    //---
+
+    // Get in-process items
     $in_process = get_in_process($missing, $code);
-    //---
     $len_in_process = count($in_process);
-    //---
+
+    // Calculate totals
     $len_of_missing_pages = count($missing);
-    $len_of_all           = $len_of_exists_pages + $len_of_missing_pages;
-    //---
+    $len_of_all = $len_of_exists_pages + $len_of_missing_pages;
+
+    // Prepare category URL
     $cat2 = "Category:" . str_replace('Category:', '', $cat);
     $caturl = "<a href='https://mdwiki.org/wiki/$cat2'>category</a>";
-    //---
-    $ix =  "Found $len_of_all pages in $caturl, $len_of_exists_pages exists, and $len_of_missing_pages missing in (<a href='https://$code.wikipedia.org'>$code</a>), $len_in_process In process.";
-    //---s
-    // delete $in_process keys from $missing
+
+    // Generate summary message
+    $ix = "Found $len_of_all pages in $caturl, $len_of_exists_pages exists, and $len_of_missing_pages missing in (<a href='https://$code.wikipedia.org'>$code</a>), $len_in_process In process.";
+
+    // Remove in-process items from missing list
     if ($len_in_process > 0) {
         $missing = array_diff($missing, array_keys($in_process));
-    };
-    //---
-    $tab = array(
+    }
+
+    return [
         "in_process" => $in_process,
         "missing" => $missing,
         "ix" => $ix,
-    );
-    //---
-    return $tab;
+    ];
 }
