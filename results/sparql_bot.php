@@ -239,6 +239,10 @@ function check_missing($missing, $code): array
     // find the difference
     $diff = array_diff($missing, $sparql_missing);
     // ---
+    if (count($diff) > 10) {
+        return $missing;
+    };
+    // ---
     print_r_it($sparql_missing, 'sparql_missing', $r = 1);
     print_r_it($diff, 'diff', $r = 1);
     // ---
