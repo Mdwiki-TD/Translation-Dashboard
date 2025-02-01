@@ -6,7 +6,7 @@ namespace Results\SparqlBot;
 Usage:
 
 use function Results\SparqlBot\get_sparql_data;
-use function Results\SparqlBot\get_sparql_data_not_exists;
+use function Results\SparqlBot\get_sparql_data_exists;
 
 */
 
@@ -93,51 +93,7 @@ function get_query_result($query)
     // ---
     return $list;
 }
-function get_sparql_data($with_qids, $code): array
-{
-    //---
-    $wd_values = "wd:" . implode(' wd:', array_values($with_qids));
-    //---
-    $sparql = "
-        SELECT ?item ?article WHERE {
-            VALUES ?item { $wd_values }
-            OPTIONAL {
-                ?sitelink schema:about ?item;
-                    schema:isPartOf <https://$code.wikipedia.org/>;
-                    schema:name ?article.
-            }
-        }
-    ";
-    //---
-    $result = get_query_result($sparql);
-    //---
-    print_r_it($result, 'sparql result');
-    // ---
-    $exists = [];
-    $missing = [];
-    //---
-    $qids_to_title = [];
-    //---
-    foreach ($with_qids as $title => $qid) {
-        $qids_to_title[$qid] = $title;
-    };
-    //---
-    foreach ($result as $item) {
-        if ($item['article'] != "") {
-            $exists[] = $item['article'];
-        } else {
-            $article = $qids_to_title[$item['item']];
-            $missing[] = $article;
-        }
-    }
-    //---
-    return [
-        "exists" => $exists,
-        "missing" => $missing
-    ];
-}
-
-function get_sparql_data_not_exists($with_qids, $code): array
+function get_sparql_data_exists($with_qids, $code): array
 {
     //---
     $qids_to_title = [];
@@ -147,7 +103,7 @@ function get_sparql_data_not_exists($with_qids, $code): array
     };
     //---
     $no_article = [];
-    $missing = [];
+    $EXISTS = [];
     //---
     $chunks = array_chunk($with_qids, 100);
 
@@ -157,7 +113,7 @@ function get_sparql_data_not_exists($with_qids, $code): array
         $sparql = "
             SELECT ?item WHERE {
                 VALUES ?item { $wd_values }
-                FILTER NOT EXISTS {
+                FILTER EXISTS {
                     ?sitelink schema:about ?item;
                         schema:isPartOf <https://$code.wikipedia.org/>;
                         schema:name ?article.
@@ -167,15 +123,10 @@ function get_sparql_data_not_exists($with_qids, $code): array
         //---
         $result = get_query_result($sparql);
         //---
-        if (count($result) == 0) {
-            $missing = array_merge($missing, array_keys($chunk));
-            continue;
-        }
-        //---
         foreach ($result as $item) {
             $article = $qids_to_title[$item['item']] ?? 0;
             if ($article != 0) {
-                $missing[] = $article;
+                $EXISTS[] = $article;
             } else {
                 $no_article[] = $item['item'];
             }
@@ -183,10 +134,10 @@ function get_sparql_data_not_exists($with_qids, $code): array
     }
     //---
     print_r_it($result, 'sparql result');
-    print_r_it($missing, 'sparql missing');
+    print_r_it($EXISTS, 'sparql EXISTS');
     print_r_it($no_article, 'no_article');
     // ---
-    return $missing;
+    return $EXISTS;
 }
 
 function get_qids($list)
@@ -215,39 +166,43 @@ function get_qids($list)
     ];
 }
 
-function check_missing($missing, $code): array
+function check_exists($missing, $code): array
 {
+    //---
+    $missing2 = [];
+    //---
+    foreach ($missing as $_ => $title) {
+        $missing2[] = $title;
+    }
+    //---
+    $missing = $missing2;
+    //---
+    print_r_it($missing2, 'missing2');
     //---
     $qids_tab = get_qids($missing);
     //---
     $with_qids = $qids_tab['with_qids'];
-    $no_qids = $qids_tab['no_qids'];
     //---
-    // print_r($no_qids);
+    $sparql_exists = get_sparql_data_exists($with_qids, $code) ?? [];
     //---
-    $sparql_missing = get_sparql_data_not_exists($with_qids, $code) ?? [];
-    //---
-    // if (count($sparql_missing) == 0) { return $missing; }
-    //---
-    $sparql_missing = array_merge($sparql_missing, $no_qids);
-    //---
-    if (count($sparql_missing) == count($missing)) {
-        test_print("sparql_missing == missing");
-        return $sparql_missing;
-    }
+    print_r_it($sparql_exists, 'sparql_exists', $r = 1);
     // ---
-    // find the difference
-    $diff = array_diff($missing, $sparql_missing);
-    // ---
-    if (count($diff) > 10) {
+    if (count($sparql_exists) == 0) {
         return $missing;
+    }
+    //---
+    $new_missings = [];
+    //---
+    // Filter out titles that exist in $sparql_exists from $missing
+    foreach ($missing as $title) {
+        if (!in_array($title, $sparql_exists)) {
+            $new_missings[] = $title;
+        }
     };
     // ---
-    print_r_it($sparql_missing, 'sparql_missing', $r = 1);
-    print_r_it($diff, 'diff', $r = 1);
+    print_r_it($new_missings, 'new_missings', $d = 1);
     // ---
-    test_print("check_missing diff: " . count($diff));
-    test_print($diff);
+    test_print("check_exists sparql_exists count: " . count($sparql_exists));
     // ---
-    return $sparql_missing;
+    return $new_missings;
 }
