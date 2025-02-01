@@ -39,14 +39,14 @@ if ($doit) {
     //---
     $tab = get_results($cat, $camp, $depth, $code);
     //---
-    $res_line = " Results ";
-    //---
-    if (isset($_GET['test'])) $res_line .= 'test:';
-    //---
     $in_process = $tab['in_process'];
     $missing    = $tab['missing'];
     $ix         = $tab['ix'];
     $len_in_process = count($in_process);
+    //---
+    $res_line = " Results (" . count($tab['missing']) . ")";
+    //---
+    if (isset($_GET['test'])) $res_line .= 'test:';
     //---
     $table = make_results_table($missing, $code, $cat, $camp, $tra_type, $translation_button);
     //---
