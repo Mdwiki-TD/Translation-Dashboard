@@ -134,6 +134,14 @@ function make_one_row($title, $tra_type, $cnt, $cod, $cat, $camp, $inprocess, $i
     //---
     $_translate_type_ = $in_process['translate_type'] ?? '';
     //---
+    $is_video = false;
+    //---
+    // if lower $title startswith video
+    if (strtolower(substr($title, 0, 6)) == 'video:') {
+        $is_video = true;
+        $tra_type = 'all';
+    };
+    //---
     if ($inprocess) {
         $tra_type = $_translate_type_;
     };
@@ -165,7 +173,7 @@ function make_one_row($title, $tra_type, $cnt, $cod, $cat, $camp, $inprocess, $i
     //---
     $tab = "<a href='$translate_url' class='btn btn-outline-primary btn-sm' target='_blank'>Translate</a>";
     //---
-    if ($full_tr_user) {
+    if ($full_tr_user && !$is_video) {
         $tab = <<<HTML
             <div class='inline'>
                 <a href='$translate_url' class='btn btn-outline-primary btn-sm' target='_blank'>Lead</a>
