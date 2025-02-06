@@ -110,7 +110,7 @@ function get_categorymembers($cat)
 
         $categorymembers = $resa["query"]["categorymembers"] ?? [];
         foreach ($categorymembers as $pages) {
-            if ($pages["ns"] == 0 || $pages["ns"] == 14) {
+            if ($pages["ns"] == 0 || $pages["ns"] == 14 || $pages["ns"] == 3000) {
                 $items[] = $pages["title"];
             }
         }
@@ -123,8 +123,21 @@ function get_categorymembers($cat)
 function get_mmbrs($cat, $use_cache = true)
 {
     // $all = $use_cache || $_SERVER['SERVER_NAME'] == 'localhost' ? get_cat_from_cache($cat) : get_categorymembers($cat);
-    $all = $use_cache ? get_cat_from_cache($cat) : get_categorymembers($cat);
-    return empty($all) ? get_categorymembers($cat) : $all;
+    // ---
+    // $all = $use_cache ? get_cat_from_cache($cat) : get_categorymembers($cat);
+    // return empty($all) ? get_categorymembers($cat) : $all;
+    // ---
+    $all = [];
+    // ---
+    if ($use_cache) {
+        $all = get_cat_from_cache($cat);
+    }
+    // ---
+    if (empty($all)) {
+        $all = get_categorymembers($cat);
+    }
+    // ---
+    return $all;
 }
 
 // function get_mdwiki_cat_members($cat, $use_cache = true, $depth = 0, $camp = '')
