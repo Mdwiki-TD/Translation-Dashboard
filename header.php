@@ -41,6 +41,8 @@ echo "
 //---
 $hoste = '';
 //---
+$coord_tools = "";
+//---
 if (in_array(global_username, $coordinators)) {
 	$coord_tools = '<a href="/tdc/index.php" class="nav-link py-2 px-0 px-lg-2"><span class="navtitles"></span>Coordinator Tools</a>';
 };
