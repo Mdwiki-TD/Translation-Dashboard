@@ -12,8 +12,7 @@ use function Results\GetCats\get_mmbrs;
 use function Results\GetCats\get_mdwiki_cat_members;
 */
 
-include_once __DIR__ . '/../Tables/tables.php';
-include_once __DIR__ . '/../Tables/langcode.php';
+include_once __DIR__ . '/../Tables/include.php';
 include_once __DIR__ . '/../actions/functions.php';
 
 use function Actions\Functions\test_print;

@@ -1,8 +1,7 @@
 <?PHP
 //---
 include_once __DIR__ . '/header.php';
-include_once __DIR__ . '/Tables/langcode.php';
-include_once __DIR__ . '/Tables/tables.php';
+include_once __DIR__ . '/Tables/include.php';
 //---
 echo '<script>$("#missing").addClass("active");</script>';
 //---

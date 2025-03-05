@@ -8,9 +8,7 @@ if (isset($_REQUEST['test'])) {
 
 include_once __DIR__ . '/header.php';
 include_once __DIR__ . '/actions/functions.php';
-include_once __DIR__ . '/Tables/langcode.php';
-include_once __DIR__ . '/Tables/tables.php';
-include_once __DIR__ . '/Tables/sql_tables.php'; // $sql_qids $cat_titles $cat_to_camp $camp_to_cat
+include_once __DIR__ . '/Tables/include.php'; // $sql_qids $cat_titles $cat_to_camp $camp_to_cat
 
 require __DIR__ . '/leaderboard/index.php';
 

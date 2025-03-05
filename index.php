@@ -17,10 +17,8 @@ if (isset($_REQUEST['test'])) {
 };
 //---
 include_once __DIR__ . '/header.php';
-include_once __DIR__ . '/Tables/tables.php';
-include_once __DIR__ . '/Tables/langcode.php';
 include_once __DIR__ . '/actions/functions.php';
-include_once __DIR__ . '/Tables/sql_tables.php';
+include_once __DIR__ . '/Tables/include.php';
 //---
 use function Actions\Functions\load_request;
 use function Infos\TdConfig\get_configs;
@@ -108,7 +106,7 @@ function print_form_start1($allow_whole_translate, $Langs_table, $catinput_list,
             </a>
     HTML;
     //---
-    if ( global_username != '' ) {
+    if (global_username != '') {
         $uiu = '<input type="submit" name="doit" class="btn btn-outline-primary" value="Do it"/>';
     }
     //---
