@@ -5,7 +5,6 @@ include_once __DIR__ . '/Tables/sql_tables.php'; // $sql_qids $cat_titles $cat_t
 */
 //---
 include_once __DIR__ . '/../actions/functions.php';
-// ---
 include_once __DIR__ . '/../api_or_sql/index.php';
 //---
 use function SQLorAPI\GetDataTab\get_td_or_sql_translate_type;
