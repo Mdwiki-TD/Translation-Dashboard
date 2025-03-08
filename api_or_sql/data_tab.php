@@ -13,12 +13,44 @@ use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
 use function SQLorAPI\GetDataTab\get_td_or_sql_projects;
 use function SQLorAPI\GetDataTab\get_td_or_sql_settings;
 use function SQLorAPI\GetDataTab\get_td_or_sql_views;
+use function SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
 
 */
 
 use function Actions\MdwikiSql\fetch_query;
 use function Actions\TDApi\get_td_api;
 use function SQLorAPI\Get\isvalid;
+
+function get_td_or_sql_titles_infos()
+{
+    // ---
+    global $from_api;
+    // ---
+    if ($from_api) {
+        $data = get_td_api(['get' => 'titles']);
+    } else {
+        $qua = <<<SQL
+            SELECT
+                ase.title,
+                ase.importance,
+                rc.r_lead_refs,
+                rc.r_all_refs,
+                ep.en_views,
+                w.w_lead_words,
+                w.w_all_words,
+                q.qid
+            FROM assessments ase
+            JOIN enwiki_pageviews ep ON ase.title = ep.title
+            JOIN qids q ON q.title = ase.title
+            JOIN refs_counts rc ON rc.r_title = ase.title
+            JOIN words w ON w.w_title = ase.title
+        SQL;
+        // ---
+        $data = fetch_query($qua);
+    }
+    // ---
+    return $data;
+}
 
 function get_td_or_sql_views()
 {
