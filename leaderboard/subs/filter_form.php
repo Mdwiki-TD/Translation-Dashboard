@@ -32,6 +32,8 @@ function make_filter_form_langs($mainlang, $year_y)
     //---
     $yearDropdown = sprintf($d33, 'Year', $y3);
     //---
+    $test = isset($_REQUEST['test']) ? 1 : "";
+    //---
     return <<<HTML
         <form method="get" action="leaderboard.php">
             <input type="hidden" name="langcode" value="$mainlang" />
@@ -41,6 +43,7 @@ function make_filter_form_langs($mainlang, $year_y)
                         $yearDropdown
                     </div>
                     <div class="aligncenter col-md-6">
+                        <input type='text' name='test' value='$test' hidden/>
                         <input class='btn btn-outline-primary' type='submit' name='start' value='Filter' />
                     </div>
                 </div>
@@ -71,6 +74,8 @@ function make_filter_form_users($user, $lang_y, $year_y)
     //---
     $yearDropdown = sprintf($d33, 'Year', $y3);
     //---
+    $test = isset($_REQUEST['test']) ? 1 : "";
+    //---
     return <<<HTML
         <form method="get" action="leaderboard.php">
             <input type="hidden" name="user" value="$user" />
@@ -83,6 +88,7 @@ function make_filter_form_users($user, $lang_y, $year_y)
                         $yearDropdown
                     </div>
                     <div class="aligncenter col-md-4">
+                        <input type='text' name='test' value='$test' hidden/>
                         <input class='btn btn-outline-primary' type='submit' name='start' value='Filter' />
                     </div>
                 </div>

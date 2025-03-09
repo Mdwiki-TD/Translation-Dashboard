@@ -12,11 +12,12 @@ use function Results\GetCats\get_mmbrs;
 use function Results\GetCats\get_mdwiki_cat_members;
 */
 
+include_once __DIR__ . '/../actions/test_print.php';
 include_once __DIR__ . '/../Tables/tables.php';
 include_once __DIR__ . '/../Tables/langcode.php';
 include_once __DIR__ . '/../actions/functions.php';
 
-use function Actions\Functions\test_print;
+use function Actions\TestPrint\test_print;
 use function Actions\MdwikiApi\get_mdwiki_url_with_params;
 use function SQLorAPI\Get\get_in_process_tdapi;
 
@@ -74,7 +75,12 @@ function get_cat_from_cache($cat)
     }
 
     $file_path = "$tables_dir/cats_cash/$cat.json";
-    $new_list = open_json_file($file_path);
+    $new_list = open_json_file($file_path) ?? [];
+
+    if (empty($new_list)) {
+        test_print("File: $file_path empty or not exists");
+        return [];
+    }
 
     if (!isset($new_list['list']) || !is_array($new_list['list'])) {
         test_print("Invalid format in JSON file $file_path");

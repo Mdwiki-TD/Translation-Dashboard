@@ -13,7 +13,7 @@ use function Results\GetResults\get_results;
 use function Results\FetchCatDataSparql\get_cat_exists_and_missing;
 use function Results\GetCats\get_in_process;
 use function Results\GetCats\get_mdwiki_cat_members;
-use function Actions\Functions\test_print;
+use function Actions\TestPrint\test_print;
 
 /**
  * Get results for a category, including missing pages and in-process items.

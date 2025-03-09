@@ -1,17 +1,20 @@
 <?PHP
 //---
+namespace Tables\SqlTables;
+//---
 /*
-include_once __DIR__ . '/Tables/sql_tables.php'; // $sql_qids $cat_titles $cat_to_camp $camp_to_cat
+use function Tables\SqlTables\load_translate_type;
+use function Tables\SqlTables\make_views_by_lang_target;
+
+include_once __DIR__ . '/Tables/sql_tables.php'; // $cat_titles $cat_to_camp $camp_to_cat
 */
 //---
+include_once __DIR__ . '/../actions/test_print.php';
 include_once __DIR__ . '/../actions/functions.php';
 include_once __DIR__ . '/../api_or_sql/index.php';
 //---
 use function SQLorAPI\GetDataTab\get_td_or_sql_translate_type;
-use function SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
-use function SQLorAPI\GetDataTab\get_td_or_sql_qids;
 use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
-use function SQLorAPI\GetDataTab\get_td_or_sql_projects;
 use function SQLorAPI\GetDataTab\get_td_or_sql_settings;
 use function SQLorAPI\GetDataTab\get_td_or_sql_views;
 
@@ -19,24 +22,28 @@ use function SQLorAPI\GetDataTab\get_td_or_sql_views;
 $full_translates = [];
 $no_lead_translates = [];
 //---
-$rere = get_td_or_sql_translate_type();
-//---
-foreach ($rere as $k => $tab) {
-    // if tt_full == 1 then add tt_title to $full_translates
-    if ($tab['tt_full'] == 1) {
-        $full_translates[] = $tab['tt_title'];
+function load_translate_type($ty)
+{
+    global $full_translates, $no_lead_translates;
+    // ---
+    if (empty($full_translates)) {
+        $rere = get_td_or_sql_translate_type();
+        //---
+        foreach ($rere as $k => $tab) {
+            // if tt_full == 1 then add tt_title to $full_translates
+            if ($tab['tt_full'] == 1) {
+                $full_translates[] = $tab['tt_title'];
+            }
+            if ($tab['tt_lead'] == 0) {
+                $no_lead_translates[] = $tab['tt_title'];
+            }
+        }
     }
-    if ($tab['tt_lead'] == 0) {
-        $no_lead_translates[] = $tab['tt_title'];
-    }
+    // ---
+    $tab = ($ty == 'full') ? $full_translates : $no_lead_translates;
+    return $tab;
 }
 //---
-$full_t = get_td_or_sql_full_translators();
-//---
-// $full_translators = array_map(function ($row) {return $row['user']; }, $full_t);
-$full_translators = array_column($full_t, 'user');
-//---
-$sql_qids = get_td_or_sql_qids();
 //---
 $cat_titles = array();
 $cat_to_camp = array();
@@ -76,12 +83,6 @@ foreach ($categories_tab as $k => $tab) {
         //---
     };
 };
-//---
-$projects_title_to_id = array();
-//---
-$projects_tab = get_td_or_sql_projects();
-//---
-foreach ($projects_tab as $Key => $table) $projects_title_to_id[$table['g_title']] = $table['g_id'];
 //---
 function make_views_by_lang_target()
 {

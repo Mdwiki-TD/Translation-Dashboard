@@ -32,18 +32,19 @@ $tables = array(
 	'langs_tables' => &$Langs_table,
 );
 //---
+$tables_dir = __DIR__ . '/../../td/Tables';
+//---
+if (substr($tables_dir, 0, 2) == 'I:') {
+	$tables_dir = 'I:/mdwiki/mdwiki/public_html/td/Tables';
+}
+//---
 if (!getenv('tables_dir')) {
 	// set env
-	$tables_dir = __DIR__ . '/../../td/Tables';
-
-	if (substr($tables_dir, 0, 2) == 'I:') {
-		$tables_dir = 'I:/mdwiki/mdwiki/public_html/td/Tables';
-	}
 	putenv('tables_dir=' . $tables_dir);
 }
 //---
 foreach ($tables as $key => &$value) {
-	$file = file_get_contents(getenv('tables_dir') . "/jsons/{$key}.json");
+	$file = file_get_contents($tables_dir . "/jsons/{$key}.json");
 	$value = json_decode($file, true);
 }
 //---

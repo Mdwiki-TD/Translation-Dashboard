@@ -20,7 +20,7 @@ $code_lang_name = $req['code_lang_name'] ?? "";
 //---
 $translation_button = $settings['translation_button_in_progress_table']['value'] ?? '0';
 //---
-if (global_username != 'James Heilman' && global_username != 'Mr. Ibrahem') $translation_button = '0';
+if ($translation_button != "0" && $GLOBALS['user_in_coord'] === true) $translation_button = '1';
 //---
 $depth  = $_REQUEST['depth'] ?? 1;
 $depth  = $depth * 1;

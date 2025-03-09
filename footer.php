@@ -1,3 +1,23 @@
+<?php
+
+if (isset($GLOBALS['time_start'])) {
+	$time_start = $GLOBALS['time_start'];
+	$time_end = microtime(true);
+	$time_diff = $time_end - $time_start;
+	$time_diff = round($time_diff, 3);
+	//---
+	$line = "Load Time: " . $time_diff . " seconds";
+	//---
+	$script = "$('.tool_title').attr('title', '$line');";
+	//---
+	if (isset($_REQUEST['test']) || isset($_COOKIE['test']) || $_SERVER["SERVER_NAME"] == "localhost") {
+		$script .= "\n\t$('#load_time').html('$line');";
+	}
+	//---
+	echo "\n<script>\n\t $script</script>";
+}
+?>
+
 </div>
 </main>
 

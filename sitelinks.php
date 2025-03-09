@@ -1,89 +1,140 @@
 <?php
 include_once __DIR__ . '/header.php';
 
-$site = isset($_REQUEST["site"]) ? $_REQUEST["site"] : "all";
-$title_limit = isset($_REQUEST["title_limit"]) ? number_format($_REQUEST["title_limit"]) : 150;
+use function Actions\TestPrint\test_print;
 
-echo <<<HTML
-</div>
-<div style='box-sizing:border-box;'>
-    <form action='sitelinks.php' method='get'>
-        <label>Site:</label>
-        <input type='text' name='site' value='$site' />
-        <label>Title Limit:</label>
-        <input type='text' name='title_limit' value="$title_limit" />
-        <input type='submit' value='Submit' />
-    </form>
-</div>
-<div style='box-sizing:border-box;'>
-<table class='table table-striped compact sortable' id='table-1'>
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>qid</th>
-            <th>mdtitle</th>
-HTML;
+// Get request parameters with defaults
+$site = $_REQUEST["site"] ?? "all";
+$heads_limit = $_REQUEST["heads_limit"] ?? 50;
+$title_limit = $_REQUEST["title_limit"] ?? 150;
+$items_with_no_links = isset($_REQUEST["items_with_no_links"]) ? "checked" : "";
 
-//---
-$tables_dir = getenv('tables_dir') ?? __DIR__ . '/../../td/Tables';
-//---
-if (substr($tables_dir, 0, 2) == 'I:') {
-    $tables_dir = 'I:/mdwiki/mdwiki/public_html/td/Tables';
+// Generate form inputs
+function generateFormInputs(array $params, string $items_with_no_links): string
+{
+	$html = <<<HTML
+		<div style='box-sizing:border-box;'>
+			<form class='form-inline' action='sitelinks.php' method='get'>
+				<div class="row">
+		HTML;
+
+	foreach ($params as $key => $tab) {
+		$value = $tab['value'];
+		$type = $tab['type'];
+		$html .= <<<HTML
+        <div class="col-md-3">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">$key</span>
+                </div>
+                <input class="form-control w-50" type="$type" id="$key" name="$key" value="$value">
+            </div>
+        </div>
+        HTML;
+	}
+	$html .= <<<HTML
+				<div class="col-md-3">
+					<div class="form-check form-switch">
+						<input class="form-check-input" type="checkbox" id="switch2" name="items_with_no_links" role="switch" value="1" $items_with_no_links>
+						<label class="check-label" for="switch2">&nbsp;Items with no links</label>
+					</div>
+				</div>
+			</div>
+			<input type='submit' value='Submit' class='btn btn-outline-primary' />
+		</form>
+	</div>
+	HTML;
+
+	return $html;
 }
-//---
-$file2 = $tables_dir . "/jsons/sitelinks.json";
-//---
-$json2 = file_get_contents($file2);
-$data2 = json_decode($json2, true);
 
-$heads = array_diff($data2["heads"], array("commons"));
-$qids_o = $data2['qids'] ?? [];
+// Form parameters
+$params = [
+	'site' => ["type" => "text", "value" => $site],
+	'heads_limit' => ["type" => "number", "value" => $heads_limit],
+	'title_limit' => ["type" => "number", "value" => $title_limit],
+];
 
-$heads = array_slice($heads, 0, 50);
-$qids_o = array_slice($qids_o, 0, $title_limit);
+echo generateFormInputs($params, $items_with_no_links);
 
+// Load data
+$tables_dir = getenv('tables_dir') ?? __DIR__ . '/../../td/Tables';
+if (str_starts_with($tables_dir, 'I:')) {
+	$tables_dir = 'I:/mdwiki/mdwiki/public_html/td/Tables';
+}
+
+$file2 = "$tables_dir/jsons/sitelinks.json";
+$data2 = json_decode(file_get_contents($file2), true);
+$heads_all = array_diff($data2["heads"], ["commons"]);
+$qids_all = $data2['qids'] ?? [];
+
+// Sort QIDs by sitelinks count
+uasort($qids_all, fn ($a, $b) => count($b['sitelinks']) <=> count($a['sitelinks']));
+
+test_print("$file2: qids_all: " . count($qids_all));
+test_print("$file2: heads_all: " . count($heads_all));
+
+$heads = array_slice($heads_all, 0, $heads_limit);
+$qids_o = array_slice($qids_all, 0, $title_limit);
+
+$len_heads_all = count($heads_all);
+$len_qids_all = count($qids_all);
+$len_items_with_site = 0;
+$with_site_note = "";
 $notitle = true;
 
-if (!empty($site) && $site != "all") {
-    $notitle = false;
-    $heads = array($site);
-    $qids_o = $data2['qids'] ?? [];
+// Filter QIDs based on user selection
+if ($items_with_no_links) {
+	$heads = [];
+	$qids_o = array_filter($qids_all, fn ($tab) => count($tab['sitelinks']) == 0);
+} elseif (!empty($site) && $site != "all") {
+	$notitle = false;
+	$heads = [$site];
+	$len_items_with_site = count(array_filter($qids_all, fn ($tab) => $tab['sitelinks'][$site] ?? false));
+	$no_site_link = $len_qids_all - $len_items_with_site;
+	$with_site_note = " (with site: $len_items_with_site, no site link: $no_site_link)";
 }
 
+echo <<<HTML
+    <div style='box-sizing:border-box;'>
+        <h3>Heads: $len_heads_all, Qids: $len_qids_all $with_site_note</h3>
+    </div>
+	<div style='box-sizing:border-box;'>
+	<table class='table table-striped compact sortable' id='table-1'>
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>qid</th>
+				<th>links</th>
+				<th>mdtitle</th>
+HTML;
+
 foreach ($heads as $head) {
-    echo "<th>$head</th>";
+	echo "<th>$head</th>";
 }
 
 echo "</tr></thead><tbody>";
 
 $i = 0;
 foreach ($qids_o as $qid => $tab) {
-    $i++;
-    echo "<tr>";
-    $mdtitle = $tab['mdtitle'] ?? "";
+	$i++;
+	$mdtitle = $tab['mdtitle'] ?? "";
+	$count_links = count($tab['sitelinks']);
+	echo <<<HTML
+    <tr>
+        <td>$i</td>
+        <td><a href='https://wikidata.org/wiki/$qid'>$qid</a></td>
+        <td>$count_links</td>
+        <td><a href='https://mdwiki.org/wiki/$mdtitle'>$mdtitle</a></td>
+    HTML;
 
-    echo "<td>$i</td>";
-    echo "<td><a href='https://wikidata.org/wiki/$qid'>$qid</a></td>";
-    echo "<td><a href='https://mdwiki.org/wiki/$mdtitle'>$mdtitle</a></td>";
-
-    foreach ($heads as $head) {
-        $value = $tab['sitelinks'][$head] ?? '';
-        $link = "";
-
-        if (!empty($value)) {
-            $link = "<a href='https://$head.wikipedia.org/wiki/$value'>$value</a>";
-
-            if ($notitle) {
-                $link = "<a href='https://$head.wikipedia.org/wiki/$value'>O</a>";
-            }
-        }
-
-        echo "<td>$link</td>";
-    }
-
-    echo "</tr>";
+	foreach ($heads as $head) {
+		$value = $tab['sitelinks'][$head] ?? '';
+		$link = $value ? "<a href='https://$head.wikipedia.org/wiki/$value'>" . ($notitle ? 'O' : $value) . "</a>" : '';
+		echo "<td>$link</td>";
+	}
+	echo "</tr>";
 }
 
-echo "</tbody></table></div><div>";
+echo "</tbody></table>";
 include_once __DIR__ . '/footer.php';
-?>

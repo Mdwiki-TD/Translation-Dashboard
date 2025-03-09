@@ -3,6 +3,7 @@
 include_once __DIR__ . '/../api_or_sql/index.php';
 
 use function SQLorAPI\GetLead\get_leaderboard_table;
+use function Tables\SqlTables\make_views_by_lang_target;
 
 $year = $_REQUEST['year'] ?? 'all';
 $camp = $_REQUEST['camp'] ?? 'all';
@@ -22,7 +23,6 @@ $camp_cat = $camp_to_cat[$camp] ?? '';
 $Words_total = 0;
 $Articles_numbers = 0;
 $global_views = 0;
-$sql_users_tab_to_lang = array();
 $sql_users_tab = array();
 $Users_word_table = array();
 $sql_Languages_tab = array();
@@ -36,6 +36,8 @@ $tab_for_graph = [];
 $ddde1 = get_leaderboard_table($year, $project);
 // ---
 // compare_it($ddde, $ddde1);
+// ---
+$sql_users_tab_to_lang = array();
 // ---
 foreach ($ddde1 as $Key => $teb) {
     $title  = $teb['title'] ?? "";
@@ -80,6 +82,8 @@ foreach ($ddde1 as $Key => $teb) {
     $sql_users_tab[$user] += 1;
 
     if (!isset($sql_users_tab_to_lang[$user])) $sql_users_tab_to_lang[$user] = [];
+
     if (!isset($sql_users_tab_to_lang[$user][$lang])) $sql_users_tab_to_lang[$user][$lang] = 0;
+
     $sql_users_tab_to_lang[$user][$lang] += 1;
 }
