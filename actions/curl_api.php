@@ -7,7 +7,7 @@ require_once __DIR__ . '/../actions/curl_api.php';
 use function Actions\CurlApi\post_url_params_result;
 */
 
-use function Actions\Functions\test_print;
+use function Actions\TestPrint\test_print;
 
 function post_url_params_result(string $endPoint, array $params = []): string
 {

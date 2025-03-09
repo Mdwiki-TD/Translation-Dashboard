@@ -26,7 +26,7 @@ use function Actions\TDApi\get_td_api;
 
 $settings_tabe = array_column(get_td_api(['get' => 'settings']), 'value', 'title');
 //---
-$from_api  = ($settings_tabe['use_td_api'] ?? "" == "1") ? true : false;
+$from_api  = (($settings_tabe['use_td_api'] ?? "") == "1") ? true : false;
 
 include_once __DIR__ . '/get_lead.php';
 include_once __DIR__ . '/data_tab.php';
@@ -80,7 +80,7 @@ function get_user_pages($user_main, $year_y, $lang_y)
         $query .= " and YEAR(date) = ?";
         $sql_params[] = $year_y;
         // ---
-        $api_params['YEAR(date)'] = $year_y;
+        $api_params['year'] = $year_y;
     };
     // ---
     if (isvalid($lang_y)) {
@@ -105,7 +105,7 @@ function get_user_views($user, $year_y, $lang_y)
     global $from_api;
     // ---
     if ($from_api) {
-        $data = get_td_api(['get' => 'user_views', 'user' => $user]);
+        $data = get_td_api(['get' => 'user_views', 'user' => $user, 'year' => $year_y, 'lang' => $lang_y]);
     } else {
         $query = "select p.target, v.countall from pages p, views v where p.user = ? and p.lang = v.lang and p.target = v.target";
         $params = [$user];
@@ -167,7 +167,7 @@ function get_lang_pages($lang, $year_y)
         $query .= " and YEAR(date) = ?";
         $params[] = $year_y;
         // ---
-        $api_params['YEAR(date)'] = $year_y;
+        $api_params['year'] = $year_y;
     };
     // ---
     if ($from_api) {
@@ -178,17 +178,30 @@ function get_lang_pages($lang, $year_y)
     // ---
     return $data;
 }
-function get_lang_views($mainlang)
+function get_lang_views($mainlang, $year_y)
 {
     // ---
     global $from_api;
     // ---
     if ($from_api) {
-        $data = get_td_api(['get' => 'lang_views', 'lang' => $mainlang]);
+        $data = get_td_api(['get' => 'lang_views', 'lang' => $mainlang, 'year' => $year_y]);
     } else {
-        $query = "select p.target, v.countall from pages p, views v where p.lang = ? and p.lang = v.lang and p.target = v.target";
-        $params = [$mainlang];
-        $data = fetch_query($query, $params);
+        $query = <<<SQL
+            select p.target, v.countall
+            from pages p, views v
+            WHERE p.target = v.target
+            and p.lang = v.lang
+            and p.lang = ?
+        SQL;
+        // ---
+        $sql_params = [$mainlang];
+        // ---
+        if (isvalid($year_y)) {
+            $query .= " and YEAR(pupdate) = ?";
+            $sql_params[] = $year_y;
+        };
+        // ---
+        $data = fetch_query($query, $sql_params);
     }
     // ---
     return $data;

@@ -10,7 +10,7 @@ use function Results\FetchCatDataSparql\get_cat_exists_and_missing;
 */
 
 use function Results\GetCats\get_mdwiki_cat_members;
-use function Actions\Functions\test_print;
+use function Actions\TestPrint\test_print;
 use function Results\ResultsHelps\get_lang_exists_pages;
 use function Results\SparqlBot\filter_existing_out;
 

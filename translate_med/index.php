@@ -13,7 +13,7 @@ use function TranslateMed\Inserter\insertPage;
 
 $coden = strtolower($_GET['code']);
 $title_o = $_GET['title'] ?? "";
-$useree = (global_username != '') ? global_username : '';
+$useree = ($GLOBALS['global_username'] != '') ? $GLOBALS['global_username'] : '';
 
 function go_to_translate_url($go, $title_o, $coden, $tr_type, $cat, $camp, $test)
 {

@@ -9,8 +9,17 @@ use function Actions\TDApi\compare_it;
 
 */
 
-use function Actions\Functions\test_print;
+function test_print_o($s)
+{
+    $print_t = (isset($_REQUEST['test'])) ? true : false;
 
+    if ($print_t && gettype($s) == 'string') {
+        echo "\n<br>\n$s";
+    } elseif ($print_t) {
+        echo "\n<br>\n";
+        print_r($s);
+    }
+}
 function compare_it($t1, $t2)
 {
     echo "<br>fetch _query:<br>";
@@ -49,17 +58,17 @@ function post_url(string $endPoint, array $params = []): string
     $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     //---
     if ($http_code !== 200) {
-        test_print('Error: API request failed with status code ' . $http_code);
+        test_print_o('Error: API request failed with status code ' . $http_code);
     }
     //---
-    test_print("post_url_params_result:(http_code: $http_code) $url2");
+    test_print_o("post_url_params_result:(http_code: $http_code) $url2");
     // ---
     if ($output === FALSE) {
-        test_print("cURL Error: " . curl_error($ch));
+        test_print_o("cURL Error: " . curl_error($ch));
     }
 
     if (curl_errno($ch)) {
-        test_print('Error:' . curl_error($ch));
+        test_print_o('Error:' . curl_error($ch));
     }
 
 

@@ -10,7 +10,7 @@ use function TranslateMed\Inserter\insertPage;
 
 */
 
-use function Actions\Functions\test_print;
+use function Actions\TestPrint\test_print;
 use function Actions\MdwikiSql\execute_query;
 
 function insertPage($title_o, $word, $tr_type, $cat, $coden, $useree)

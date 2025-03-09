@@ -11,7 +11,7 @@ use function Results\ResultsHelps\get_lang_exists_pages;
 */
 
 use function Results\GetCats\open_json_file;
-use function Actions\Functions\test_print;
+use function Actions\TestPrint\test_print;
 
 
 function print_r_it($data, $title, $d = false, $r = false)

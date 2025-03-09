@@ -1,10 +1,12 @@
 <?php
 //---
-if (isset($_REQUEST['test'])) {
+$time_start = microtime(true);
+//---
+if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 	ini_set('display_errors', 1);
 	ini_set('display_startup_errors', 1);
 	error_reporting(E_ALL);
-};
+}
 //---
 ini_set('session.use_strict_mode', '1');
 //---
@@ -20,30 +22,40 @@ if (!getenv('tables_dir')) {
 	putenv('tables_dir=' . $tables_dir);
 }
 //---
-include_once __DIR__ . '/actions/functions.php'; // $coordinators
-//---
+// include_once __DIR__ . '/actions/functions.php'; // $coordinators
 include_once __DIR__ . '/../auth/auth/user_infos.php';
 //---
-$user_in_coord = false;
+if (isset($GLOBALS['global_username']) && $GLOBALS['global_username'] != '') {
+	$global_username = $GLOBALS['global_username'];
+} else {
+	$GLOBALS['global_username'] = '';
+}
 //---
-if (in_array(global_username, $coordinators)) {
-	$user_in_coord = true;
-};
-//---
-define('user_in_coord', $user_in_coord);
-//---
+include_once __DIR__ . '/actions/test_print.php';
 include_once __DIR__ . '/head.php';
+include_once __DIR__ . '/actions/mdwiki_sql.php';
+include_once __DIR__ . '/actions/html.php';
+include_once __DIR__ . '/actions/td_api.php';
+include_once __DIR__ . '/api_or_sql/index.php';
 //---
 use function Actions\Html\banner_alert;
+use function SQLorAPI\Get\get_coordinator;
 //---
-echo "
-</head>";
+$coordinators = get_coordinator();
+$coordinators = array_map('current', $coordinators);
+
+$user_in_coord = false;
+if (in_array($GLOBALS['global_username'], $coordinators)) {
+	$user_in_coord = true;
+};
+$GLOBALS['user_in_coord'] = $user_in_coord;
+define('user_in_coord', $user_in_coord);
 //---
-$hoste = '';
+// var_dump(json_encode($coordinators2, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 //---
 $coord_tools = "";
 //---
-if (in_array(global_username, $coordinators)) {
+if (in_array($GLOBALS['global_username'], $coordinators)) {
 	$coord_tools = '<a href="/tdc/index.php" class="nav-link py-2 px-0 px-lg-2"><span class="navtitles"></span>Coordinator Tools</a>';
 };
 //---
@@ -83,8 +95,8 @@ $li_user = <<<HTML
 		</li>
 HTML;
 //---
-if (defined('global_username') && global_username != '') {
-	$u_name = global_username;
+if (isset($GLOBALS['global_username']) && $GLOBALS['global_username'] != '') {
+	$u_name = $GLOBALS['global_username'];
 	$li_user = <<<HTML
 	<li class="nav-item col-4 col-lg-auto">
 			<a href="leaderboard.php?user=$u_name" class="nav-link py-2 px-0 px-lg-2">
@@ -105,8 +117,8 @@ echo <<<HTML
 		<nav id="mainnav" class="navbar navbar-expand-lg shadow">
 			<div class="container-fluid" id="navbardiv">
 				<a class="navbar-brand mb-0 h1" href="index.php" style="color:#0d6efd;">
-					<span class='d-none d-sm-inline'>WikiProjectMed Translation Dashboard</span>
-					<span class='d-inline d-sm-none'>WikiProjectMed TD</span>
+					<span class='d-none d-sm-inline tool_title' title=''>WikiProjectMed Translation Dashboard</span>
+					<span class='d-inline d-sm-none tool_title'>WikiProjectMed TD</span>
 				</a>
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar"
 					aria-controls="collapsibleNavbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -135,6 +147,9 @@ echo <<<HTML
 							<a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/MrIbrahem/Translation-Dashboard" target="_blank">
 								<span class="navtitles">Github</span>
 							</a>
+						</li>
+						<li class="nav-item col-4 col-lg-auto">
+							<span class="nav-link py-2 px-0 px-lg-2" id="load_time"></span>
 						</li>
 					</ul>
 					<hr class="d-lg-none text-black-50">

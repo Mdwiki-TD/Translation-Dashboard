@@ -1,10 +1,11 @@
 <?PHP
 //---
 
+include_once __DIR__ . '/../actions/test_print.php';
 include_once __DIR__ . '/../results/getcats.php';
 include_once __DIR__ . '/../Tables/tables.php';
 include_once __DIR__ . '/../Tables/langcode.php';
-include_once __DIR__ . '/../Tables/sql_tables.php'; // $sql_qids $cat_titles $cat_to_camp $camp_to_cat
+include_once __DIR__ . '/../Tables/sql_tables.php'; // $cat_titles $cat_to_camp $camp_to_cat
 include_once __DIR__ . '/../actions/functions.php';
 include_once __DIR__ . '/../actions/html.php';
 
@@ -37,16 +38,16 @@ $graph_api = $_REQUEST['graph_api'] ?? '';
 $camps = $_REQUEST['camps'] ?? '';
 
 if (!empty($users)) {
-    require __DIR__ . '/users.php';
+    include_once __DIR__ . '/users.php';
 } elseif (!empty($langs)) {
-    require __DIR__ . '/langs.php';
+    include_once __DIR__ . '/langs.php';
 } elseif (!empty($camps)) {
-    require __DIR__ . '/camps.php';
+    include_once __DIR__ . '/camps.php';
     camps_list();
 } elseif (!empty($graph)) {
     print_graph_tab();
 } elseif (!empty($graph_api)) {
     print_graph_tab_2_new();
 } else {
-    require __DIR__ . '/main.php';
+    include_once __DIR__ . '/main.php';
 }

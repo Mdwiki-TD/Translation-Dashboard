@@ -6,7 +6,7 @@ Usage:
 use function Actions\MdwikiApi\get_mdwiki_url_with_params;
 */
 
-use function Actions\Functions\test_print;
+use function Actions\TestPrint\test_print;
 
 function post_url_mdwiki(string $endPoint, array $params = []): string
 {

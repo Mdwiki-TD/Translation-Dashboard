@@ -90,7 +90,7 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
         //---
         // $tralink = make_translation_url($mdtitle, $lang, $tran_type);
         $tralink = make_translate_link_medwiki($mdtitle, $lang, $cat, "", $tran_type);
-        $complete   = (global_username === $_user_) ? "<td data-content='complete'><a target='_blank' href='$tralink'>complete</a></td>" : '';
+        $complete   = ($GLOBALS['global_username'] === $_user_) ? "<td data-content='complete'><a target='_blank' href='$tralink'>complete</a></td>" : '';
     } else {
         $target  = trim($tabb['target']);
         //---
@@ -151,7 +151,7 @@ function make_table_lead($dd, $tab_type = 'a', $views_table = array(), $page_typ
     //---
     $tab_views  = ($tab_type == 'pending') ? '' : '<th>Views</th>';
     $th_Date    = ($tab_type == 'pending') ? 'Start date' : 'Date';
-    $complete   = ($tab_type == 'pending' && global_username === $user) ? '<th>complete!</th>' : '';
+    $complete   = ($tab_type == 'pending' && $GLOBALS['global_username'] === $user) ? '<th>complete!</th>' : '';
     //---
     $leadtable = ($tab_type == 'pending') ? 'leadtable2' : 'leadtable';
     //---

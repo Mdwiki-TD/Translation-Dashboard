@@ -28,6 +28,7 @@ use function Leaderboard\LeaderTables\makeLangTable;
 use function Leaderboard\LeaderTabUsers\makeUsersTable;
 use function Leaderboard\LeaderTabUsers\module_copy;
 use function SQLorAPI\Get\get_pages_with_pupdate;
+use function SQLorAPI\GetDataTab\get_td_or_sql_projects;
 
 function print_cat_table(): string
 {
@@ -84,6 +85,12 @@ HTML;
 $y1 = makeDropdown($cat_titles, $camp, 'camp', 'all');
 $campDropdown = sprintf($d33, 'Campaign', $y1);
 //---
+$projects_title_to_id = array();
+//---
+$projects_tab = get_td_or_sql_projects();
+//---
+foreach ($projects_tab as $Key => $table) $projects_title_to_id[$table['g_title']] = $table['g_id'];
+//---
 $projects = array_keys($projects_title_to_id);
 //---
 $y2 = makeDropdown($projects, $project, 'project', 'all');
@@ -113,6 +120,8 @@ echo <<<HTML
 </style>
 HTML;
 //---
+$test_line = (isset($_REQUEST['test']) != '') ? "<input type='text' name='test' value='1' hidden/>" : "";
+//---
 echo <<<HTML
 <form method="get" action="leaderboard.php">
     <div class="row g-3">
@@ -135,6 +144,7 @@ echo <<<HTML
             </div>
         </div>
         <div class="aligncenter col-md-1 col-sm-3">
+            $test_line
             <input class='btn btn-outline-primary' type='submit' name='start' value='Filter' />
         </div>
     </div>

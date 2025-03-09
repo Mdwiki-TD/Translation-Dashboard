@@ -9,7 +9,6 @@ use function TD\print_form_start1;
 
 */
 
-
 if (isset($_REQUEST['test'])) {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
@@ -108,7 +107,7 @@ function print_form_start1($allow_whole_translate, $Langs_table, $catinput_list,
             </a>
     HTML;
     //---
-    if ( global_username != '' ) {
+    if ($GLOBALS['global_username'] != '') {
         $uiu = '<input type="submit" name="doit" class="btn btn-outline-primary" value="Do it"/>';
     }
     //---

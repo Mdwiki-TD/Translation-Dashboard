@@ -16,8 +16,11 @@ use function SQLorAPI\Get\get_lang_years;
 use function SQLorAPI\Get\get_user_years;
 use function SQLorAPI\Get\get_user_langs;
 
+$test_line = (isset($_REQUEST['test']) != '') ? "<input type='text' name='test' value='1' hidden/>" : "";
+
 function make_filter_form_langs($mainlang, $year_y)
 {
+    global $test_line;
     //---
     $d33 = <<<HTML
         <div class="input-group">
@@ -41,6 +44,7 @@ function make_filter_form_langs($mainlang, $year_y)
                         $yearDropdown
                     </div>
                     <div class="aligncenter col-md-6">
+                        $test_line
                         <input class='btn btn-outline-primary' type='submit' name='start' value='Filter' />
                     </div>
                 </div>
@@ -52,6 +56,7 @@ function make_filter_form_langs($mainlang, $year_y)
 
 function make_filter_form_users($user, $lang_y, $year_y)
 {
+    global $test_line;
     //---
     $d33 = <<<HTML
         <div class="input-group">
@@ -83,6 +88,7 @@ function make_filter_form_users($user, $lang_y, $year_y)
                         $yearDropdown
                     </div>
                     <div class="aligncenter col-md-4">
+                        $test_line
                         <input class='btn btn-outline-primary' type='submit' name='start' value='Filter' />
                     </div>
                 </div>
