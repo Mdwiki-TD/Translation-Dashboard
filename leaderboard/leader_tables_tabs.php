@@ -8,6 +8,7 @@ use function Tables\SqlTables\make_views_by_lang_target;
 $year = $_REQUEST['year'] ?? 'all';
 $camp = $_REQUEST['camp'] ?? 'all';
 $project = $_REQUEST['project'] ?? 'all';
+$langcode = $_REQUEST['langcode'] ?? '';
 
 $tab_for_graph2 = [
     "year" => $year,
@@ -29,15 +30,13 @@ $sql_Languages_tab = array();
 $all_views_by_lang = array();
 $Views_by_users = array();
 
-$Views_by_lang_target = make_views_by_lang_target();
+$Views_by_lang_target = make_views_by_lang_target($year, $langcode);
 $tab_for_graph = [];
 // $articles_to_camps, $camps_to_articles
 
 $ddde1 = get_leaderboard_table($year, $project);
 // ---
 // compare_it($ddde, $ddde1);
-// ---
-$sql_users_tab_to_lang = array();
 // ---
 foreach ($ddde1 as $Key => $teb) {
     $title  = $teb['title'] ?? "";
@@ -80,10 +79,7 @@ foreach ($ddde1 as $Key => $teb) {
 
     if (!isset($sql_users_tab[$user])) $sql_users_tab[$user] = 0;
     $sql_users_tab[$user] += 1;
-
-    if (!isset($sql_users_tab_to_lang[$user])) $sql_users_tab_to_lang[$user] = [];
-
-    if (!isset($sql_users_tab_to_lang[$user][$lang])) $sql_users_tab_to_lang[$user][$lang] = 0;
-
-    $sql_users_tab_to_lang[$user][$lang] += 1;
 }
+
+
+arsort($sql_users_tab);

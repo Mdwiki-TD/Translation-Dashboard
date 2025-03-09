@@ -84,11 +84,11 @@ foreach ($categories_tab as $k => $tab) {
     };
 };
 //---
-function make_views_by_lang_target()
+function make_views_by_lang_target($year, $lang)
 {
     $vta = array();
     // ---
-    $tat = get_td_or_sql_views();
+    $tat = get_td_or_sql_views($year, $lang);
     // ---
     foreach ($tat as $k => $tab) {
         // check if lang already in array array_key_exists

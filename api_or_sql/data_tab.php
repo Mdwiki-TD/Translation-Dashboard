@@ -14,6 +14,8 @@ use function SQLorAPI\GetDataTab\get_td_or_sql_projects;
 use function SQLorAPI\GetDataTab\get_td_or_sql_settings;
 use function SQLorAPI\GetDataTab\get_td_or_sql_views;
 use function SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
+use function SQLorAPI\GetDataTab\get_td_or_sql_users_by_wiki;
+use function SQLorAPI\GetDataTab\get_td_or_sql_count_pages;
 
 */
 
@@ -60,17 +62,34 @@ function get_td_or_sql_titles_infos()
     return $data;
 }
 
-function get_td_or_sql_views()
+function get_td_or_sql_views($year, $lang)
 {
     // ---
     global $from_api;
     // ---
     if ($from_api) {
-        $data = get_td_api(['get' => 'views']);
+        $api_params = ['get' => 'views'];
+        // ---
+        if (isvalid($year)) {
+            $api_params['year'] = $year;
+        }
+        // ---
+        if (isvalid($lang)) {
+            $api_params['lang'] = $lang;
+        }
+        // ---
+        $data = get_td_api($api_params);
     } else {
         $query = "SELECT target, lang, countall, count2021, count2022, count2023, count2024, count2025, count2026 FROM views";
         //---
-        $data = fetch_query($query);
+        $params = [];
+        //---
+        if (isvalid($lang)) {
+            $query .= "AND lang = ? \n";
+            $params[] = $year;
+        }
+        //---
+        $data = fetch_query($query, $params);
     }
     // ---
     return $data;
@@ -164,6 +183,56 @@ function get_td_or_sql_translate_type()
         //---
         $data = fetch_query($query);
     }
+    // ---
+    return $data;
+}
+
+function get_td_or_sql_users_by_wiki()
+{
+    // ---
+    global $from_api;
+    // ---
+    if ($from_api) {
+        $data = get_td_api(['get' => 'users_by_wiki']);
+    } else {
+        $query = <<<SQL
+            SELECT user, lang, MAX(target_count) AS max_target, sum(target_count) AS sum_target
+                FROM (
+                    SELECT user, lang, COUNT(target) AS target_count
+                    FROM pages
+                    GROUP BY user, lang
+                    ORDER BY 1 DESC
+                ) AS subquery
+            GROUP BY user
+            ORDER BY 3 DESC
+        SQL;
+        //---
+        $data = fetch_query($query);
+    }
+    // ---
+    return $data;
+}
+
+function get_td_or_sql_count_pages()
+{
+    // ---
+    global $from_api;
+    // ---
+    if ($from_api) {
+        $data = get_td_api(['get' => 'count_pages']);
+    } else {
+        $query = <<<SQL
+            SELECT DISTINCT user, count(target) as count from pages group by user order by count desc
+        SQL;
+        //---
+        $data = fetch_query($query);
+    }
+    // ---
+    $data = array_column($data, 'count', 'user');
+    // ---
+    arsort($data);
+    // ---
+    // print_r($data);
     // ---
     return $data;
 }
