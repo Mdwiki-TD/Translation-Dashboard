@@ -24,7 +24,7 @@ use function Actions\TDApi\get_td_api;
 
 $settings_tabe = array_column(get_td_api(['get' => 'settings']), 'value', 'title');
 //---
-$from_api  = ($settings_tabe['use_td_api'] ?? "" == "1") ? true : false;
+$from_api  = (($settings_tabe['use_td_api'] ?? "") == "1") ? true : false;
 
 function isvalid($str)
 {
@@ -86,7 +86,7 @@ function get_td_or_sql_views($year, $lang)
         //---
         if (isvalid($lang)) {
             $query .= "AND lang = ? \n";
-            $params[] = $year;
+            $params[] = $lang;
         }
         //---
         $data = fetch_query($query, $params);
