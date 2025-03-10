@@ -36,10 +36,12 @@ function isvalid($str)
 function get_td_or_sql_titles_infos()
 {
     // ---
-    global $from_api, $data_tab;
+    global $from_api;
     // ---
-    if (!empty($data_tab['titles_infos'] ?? [])) {
-        return $data_tab['titles_infos'];
+    static $titles_infos = [];
+    // ---
+    if (!empty($titles_infos ?? [])) {
+        return $titles_infos;
     }
     // ---
     if ($from_api) {
@@ -70,7 +72,7 @@ function get_td_or_sql_titles_infos()
         $data = fetch_query($qua);
     }
     // ---
-    $data_tab['titles_infos'] = $data;
+    $titles_infos = $data;
     // ---
     return $data;
 }
@@ -116,31 +118,33 @@ function get_td_or_sql_views($year, $lang)
 function get_td_or_sql_settings()
 {
     // ---
-    global $from_api, $data_tab;
+    global $from_api;
     // ---
-    if (!empty($data_tab['settings'] ?? [])) {
-        return $data_tab['settings'];
+    static $settings = [];
+    // ---
+    if (!empty($settings)) {
+        return $settings;
     }
     // ---
     if ($from_api) {
-        $data = get_td_api(['get' => 'settings']);
+        $settings = get_td_api(['get' => 'settings']);
     } else {
         $query = "select id, title, displayed, value, Type from settings";
         //---
-        $data = fetch_query($query);
+        $settings = fetch_query($query);
     }
     // ---
-    $data_tab['settings'] = $data;
-    // ---
-    return $data;
+    return $settings;
 }
 function get_td_or_sql_projects()
 {
     // ---
-    global $from_api, $data_tab;
+    global $from_api;
     // ---
-    if (!empty($data_tab['projects'] ?? [])) {
-        return $data_tab['projects'];
+    static $projects = [];
+    // ---
+    if (!empty($projects ?? [])) {
+        return $projects;
     }
     // ---
     if ($from_api) {
@@ -151,17 +155,19 @@ function get_td_or_sql_projects()
         $data = fetch_query($query);
     }
     // ---
-    $data_tab['projects'] = $data;
+    $projects = $data;
     // ---
     return $data;
 }
 function get_td_or_sql_categories()
 {
     // ---
-    global $from_api, $data_tab;
+    global $from_api;
     // ---
-    if (!empty($data_tab['categories'] ?? [])) {
-        return $data_tab['categories'];
+    static $categories = [];
+    // ---
+    if (!empty($categories ?? [])) {
+        return $categories;
     }
     // ---
     if ($from_api) {
@@ -172,18 +178,18 @@ function get_td_or_sql_categories()
         $data = fetch_query($query);
     }
     // ---
-    $data_tab['categories'] = $data;
+    $categories = $data;
     // ---
     return $data;
 }
 function get_td_or_sql_qids()
 {
     // ---
-    global $from_api, $data_tab;
+    global $from_api;
     // ---
-    if (!empty($data_tab['qids'] ?? [])) {
-        return $data_tab['qids'];
-    }
+    static $sql_td_qids = [];
+    // ---
+    if (!empty($sql_td_qids)) return $sql_td_qids;
     // ---
     if ($from_api) {
         $data = get_td_api(['get' => 'qids']);
@@ -193,18 +199,18 @@ function get_td_or_sql_qids()
         $data = fetch_query($query);
     }
     // ---
-    $data_tab['qids'] = array_column($data, 'qid', 'title');
-    //---
-    return $data_tab['qids'];
+    $sql_td_qids = array_column($data, 'qid', 'title');
+    // ---
+    return $sql_td_qids;
 }
 function get_td_or_sql_full_translators()
 {
     // ---
-    global $from_api, $data_tab;
+    global $from_api;
     // ---
-    if (!empty($data_tab['full_translators'] ?? [])) {
-        return $data_tab['full_translators'];
-    }
+    static $full_translators = [];
+    // ---
+    if (!empty($full_translators)) return $full_translators;
     // ---
     if ($from_api) {
         $data = get_td_api(['get' => 'full_translators']);
@@ -214,17 +220,19 @@ function get_td_or_sql_full_translators()
         $data = fetch_query($query);
     }
     // ---
-    $data_tab['full_translators'] = $data;
+    $full_translators = $data;
     // ---
     return $data;
 }
 function get_td_or_sql_translate_type()
 {
     // ---
-    global $from_api, $data_tab;
+    global $from_api;
     // ---
-    if (!empty($data_tab['translate_type'] ?? [])) {
-        return $data_tab['translate_type'];
+    static $translate_type = [];
+    // ---
+    if (!empty($translate_type ?? [])) {
+        return $translate_type;
     }
     // ---
     if ($from_api) {
@@ -235,7 +243,7 @@ function get_td_or_sql_translate_type()
         $data = fetch_query($query);
     }
     // ---
-    $data_tab['translate_type'] = $data;
+    $translate_type = $data;
     // ---
     return $data;
 }
@@ -243,10 +251,12 @@ function get_td_or_sql_translate_type()
 function get_td_or_sql_users_by_wiki()
 {
     // ---
-    global $from_api, $data_tab;
+    global $from_api;
     // ---
-    if (!empty($data_tab['users_by_wiki'] ?? [])) {
-        return $data_tab['users_by_wiki'];
+    static $users_by_wiki = [];
+    // ---
+    if (!empty($users_by_wiki ?? [])) {
+        return $users_by_wiki;
     }
     // ---
     if ($from_api) {
@@ -267,7 +277,7 @@ function get_td_or_sql_users_by_wiki()
         $data = fetch_query($query);
     }
     // ---
-    $data_tab['users_by_wiki'] = $data;
+    $users_by_wiki = $data;
     // ---
     return $data;
 }
@@ -275,10 +285,12 @@ function get_td_or_sql_users_by_wiki()
 function get_td_or_sql_count_pages()
 {
     // ---
-    global $from_api, $data_tab;
+    global $from_api;
     // ---
-    if (!empty($data_tab['count_pages'] ?? [])) {
-        return $data_tab['count_pages'];
+    static $count_pages = [];
+    // ---
+    if (!empty($count_pages ?? [])) {
+        return $count_pages;
     }
     // ---
     if ($from_api) {
@@ -297,7 +309,7 @@ function get_td_or_sql_count_pages()
     // ---
     // print_r($data);
     // ---
-    $data_tab['count_pages'] = $data;
+    $count_pages = $data;
     // ---
     return $data;
 }

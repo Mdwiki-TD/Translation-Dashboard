@@ -62,10 +62,12 @@ function get_in_process_tdapi($code)
 function get_coordinator()
 {
     // ---
-    global $from_api, $data_index;
+    global $from_api;
     // ---
-    if (!empty($data_index['coordinator'] ?? [])) {
-        return $data_index['coordinator'];
+    static $coordinator = [];
+    // ---
+    if (!empty($coordinator ?? [])) {
+        return $coordinator;
     }
     // ---
     if ($from_api) {
@@ -76,7 +78,7 @@ function get_coordinator()
         $data = fetch_query($query);
     }
     // ---
-    $data_index['coordinator'] = $data;
+    $coordinator = $data;
     // ---
     return $data;
 }
@@ -149,10 +151,12 @@ function get_user_views($user, $year_y, $lang_y)
 function get_pages_with_pupdate()
 {
     // ---
-    global $from_api, $data_index;
+    global $from_api;
     // ---
-    if (!empty($data_index['pages_with_pupdate'] ?? [])) {
-        return $data_index['pages_with_pupdate'];
+    static $pages_with_pupdate = [];
+    // ---
+    if (!empty($pages_with_pupdate ?? [])) {
+        return $pages_with_pupdate;
     }
     // ---
     if ($from_api) {
@@ -164,7 +168,7 @@ function get_pages_with_pupdate()
     // ---
     $data = array_map('current', $data);
     // ---
-    $data_index['pages_with_pupdate'] = $data;
+    $pages_with_pupdate = $data;
     // ---
     return $data;
 }
@@ -173,10 +177,12 @@ function get_pages_with_pupdate()
 function get_graph_data()
 {
     // ---
-    global $from_api, $data_index;
+    global $from_api;
     // ---
-    if (!empty($data_index['graph_data'] ?? [])) {
-        return $data_index['graph_data'];
+    static $graph_data = [];
+    // ---
+    if (!empty($graph_data ?? [])) {
+        return $graph_data;
     }
     // ---
     if ($from_api) {
@@ -193,7 +199,7 @@ function get_graph_data()
         $data = fetch_query($query);
     }
     // ---
-    $data_index['graph_data'] = $data;
+    $graph_data = $data;
     // ---
     return $data;
 }
