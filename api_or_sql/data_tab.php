@@ -26,6 +26,8 @@ $settings_tabe = array_column(get_td_api(['get' => 'settings']), 'value', 'title
 //---
 $from_api  = (($settings_tabe['use_td_api'] ?? "") == "1") ? true : false;
 
+$data_tab = [];
+
 function isvalid($str)
 {
     return !empty($str) && $str != 'All' && $str != 'all';
@@ -34,7 +36,11 @@ function isvalid($str)
 function get_td_or_sql_titles_infos()
 {
     // ---
-    global $from_api;
+    global $from_api, $data_tab;
+    // ---
+    if (!empty($data_tab['titles_infos'] ?? [])) {
+        return $data_tab['titles_infos'];
+    }
     // ---
     if ($from_api) {
         $data = get_td_api(['get' => 'titles']);
@@ -50,14 +56,21 @@ function get_td_or_sql_titles_infos()
                 w.w_all_words,
                 q.qid
             FROM assessments ase
-            JOIN enwiki_pageviews ep ON ase.title = ep.title
-            JOIN qids q ON q.title = ase.title
-            JOIN refs_counts rc ON rc.r_title = ase.title
-            JOIN words w ON w.w_title = ase.title
+            LEFT JOIN enwiki_pageviews ep ON ase.title = ep.title
+            LEFT JOIN qids q ON q.title = ase.title
+            LEFT JOIN refs_counts rc ON rc.r_title = ase.title
+            LEFT JOIN words w ON w.w_title = ase.title
+        SQL;
+        // ---
+        $qua = <<<SQL
+            SELECT *
+            FROM titles_infos
         SQL;
         // ---
         $data = fetch_query($qua);
     }
+    // ---
+    $data_tab['titles_infos'] = $data;
     // ---
     return $data;
 }
@@ -65,7 +78,11 @@ function get_td_or_sql_titles_infos()
 function get_td_or_sql_views($year, $lang)
 {
     // ---
-    global $from_api;
+    global $from_api, $data_tab;
+    // ---
+    if (!empty($data_tab['sql_views' . $year . $lang] ?? [])) {
+        return $data_tab['sql_views' . $year . $lang];
+    }
     // ---
     if ($from_api) {
         $api_params = ['get' => 'views'];
@@ -92,12 +109,18 @@ function get_td_or_sql_views($year, $lang)
         $data = fetch_query($query, $params);
     }
     // ---
+    $data_tab['sql_views' . $year . $lang] = $data;
+    // ---
     return $data;
 }
 function get_td_or_sql_settings()
 {
     // ---
-    global $from_api;
+    global $from_api, $data_tab;
+    // ---
+    if (!empty($data_tab['settings'] ?? [])) {
+        return $data_tab['settings'];
+    }
     // ---
     if ($from_api) {
         $data = get_td_api(['get' => 'settings']);
@@ -107,12 +130,18 @@ function get_td_or_sql_settings()
         $data = fetch_query($query);
     }
     // ---
+    $data_tab['settings'] = $data;
+    // ---
     return $data;
 }
 function get_td_or_sql_projects()
 {
     // ---
-    global $from_api;
+    global $from_api, $data_tab;
+    // ---
+    if (!empty($data_tab['projects'] ?? [])) {
+        return $data_tab['projects'];
+    }
     // ---
     if ($from_api) {
         $data = get_td_api(['get' => 'projects']);
@@ -122,12 +151,18 @@ function get_td_or_sql_projects()
         $data = fetch_query($query);
     }
     // ---
+    $data_tab['projects'] = $data;
+    // ---
     return $data;
 }
 function get_td_or_sql_categories()
 {
     // ---
-    global $from_api;
+    global $from_api, $data_tab;
+    // ---
+    if (!empty($data_tab['categories'] ?? [])) {
+        return $data_tab['categories'];
+    }
     // ---
     if ($from_api) {
         $data = get_td_api(['get' => 'categories']);
@@ -137,12 +172,18 @@ function get_td_or_sql_categories()
         $data = fetch_query($query);
     }
     // ---
+    $data_tab['categories'] = $data;
+    // ---
     return $data;
 }
 function get_td_or_sql_qids()
 {
     // ---
-    global $from_api;
+    global $from_api, $data_tab;
+    // ---
+    if (!empty($data_tab['qids'] ?? [])) {
+        return $data_tab['qids'];
+    }
     // ---
     if ($from_api) {
         $data = get_td_api(['get' => 'qids']);
@@ -152,14 +193,18 @@ function get_td_or_sql_qids()
         $data = fetch_query($query);
     }
     // ---
-    $t_qids = array_column($data, 'qid', 'title');
+    $data_tab['qids'] = array_column($data, 'qid', 'title');
     //---
-    return $t_qids;
+    return $data_tab['qids'];
 }
 function get_td_or_sql_full_translators()
 {
     // ---
-    global $from_api;
+    global $from_api, $data_tab;
+    // ---
+    if (!empty($data_tab['full_translators'] ?? [])) {
+        return $data_tab['full_translators'];
+    }
     // ---
     if ($from_api) {
         $data = get_td_api(['get' => 'full_translators']);
@@ -169,12 +214,18 @@ function get_td_or_sql_full_translators()
         $data = fetch_query($query);
     }
     // ---
+    $data_tab['full_translators'] = $data;
+    // ---
     return $data;
 }
 function get_td_or_sql_translate_type()
 {
     // ---
-    global $from_api;
+    global $from_api, $data_tab;
+    // ---
+    if (!empty($data_tab['translate_type'] ?? [])) {
+        return $data_tab['translate_type'];
+    }
     // ---
     if ($from_api) {
         $data = get_td_api(['get' => 'translate_type']);
@@ -184,13 +235,19 @@ function get_td_or_sql_translate_type()
         $data = fetch_query($query);
     }
     // ---
+    $data_tab['translate_type'] = $data;
+    // ---
     return $data;
 }
 
 function get_td_or_sql_users_by_wiki()
 {
     // ---
-    global $from_api;
+    global $from_api, $data_tab;
+    // ---
+    if (!empty($data_tab['users_by_wiki'] ?? [])) {
+        return $data_tab['users_by_wiki'];
+    }
     // ---
     if ($from_api) {
         $data = get_td_api(['get' => 'users_by_wiki']);
@@ -210,13 +267,19 @@ function get_td_or_sql_users_by_wiki()
         $data = fetch_query($query);
     }
     // ---
+    $data_tab['users_by_wiki'] = $data;
+    // ---
     return $data;
 }
 
 function get_td_or_sql_count_pages()
 {
     // ---
-    global $from_api;
+    global $from_api, $data_tab;
+    // ---
+    if (!empty($data_tab['count_pages'] ?? [])) {
+        return $data_tab['count_pages'];
+    }
     // ---
     if ($from_api) {
         $data = get_td_api(['get' => 'count_pages']);
@@ -233,6 +296,8 @@ function get_td_or_sql_count_pages()
     arsort($data);
     // ---
     // print_r($data);
+    // ---
+    $data_tab['count_pages'] = $data;
     // ---
     return $data;
 }
