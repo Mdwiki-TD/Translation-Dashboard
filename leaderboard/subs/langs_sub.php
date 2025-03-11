@@ -44,14 +44,7 @@ function pages_tables($mainlang, $year_y)
 function get_langs_tables($mainlang, $year_y)
 {
     //---
-    $uux = get_lang_views($mainlang, $year_y);
-    //---
-    $table_of_views = [];
-    // ---
-    foreach ($uux as $Key => $table) {
-        $targ = $table['target'] ?? "";
-        $table_of_views[$targ] = $table['countall'] ?? "";
-    };
+    $table_of_views = get_lang_views($mainlang, $year_y);
     //---
     $p_tables = pages_tables($mainlang, $year_y);
     //---

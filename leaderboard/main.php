@@ -22,7 +22,6 @@ include_once __DIR__ . '/graph_api.php';
 use function Actions\Html\makeDropdown;
 use function Actions\Html\makeColSm4;
 use function Leaderboard\Graph\print_graph_for_table;
-use function Leaderboard\Graph2\print_graph_api;
 use function Leaderboard\LeaderTables\createNumbersTable;
 use function Leaderboard\LeaderTables\makeLangTable;
 use function Leaderboard\LeaderTabUsers\makeUsersTable;

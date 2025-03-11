@@ -123,31 +123,6 @@ function get_user_pages($user_main, $year_y, $lang_y)
     return $data;
 }
 
-function get_user_views($user, $year_y, $lang_y)
-{
-    // ---
-    global $from_api, $data_index;
-    // ---
-    $key = 'user_views_' . $user . '_' . $year_y . '_' . $lang_y;
-    // ---
-    if (!empty($data_index[$key] ?? [])) {
-        return $data_index[$key];
-    }
-    // ---
-    if ($from_api) {
-        $data = get_td_api(['get' => 'user_views', 'user' => $user, 'year' => $year_y, 'lang' => $lang_y]);
-    } else {
-        $query = "select p.target, v.countall from pages p, views v where p.user = ? and p.lang = v.lang and p.target = v.target";
-        $params = [$user];
-        $data = fetch_query($query, $params);
-    }
-    // ---
-    $data_index[$key] = $data;
-    // ---
-    return $data;
-}
-
-
 function get_pages_with_pupdate()
 {
     // ---
@@ -234,13 +209,75 @@ function get_lang_pages($lang, $year_y)
     // ---
     return $data;
 }
+
+function get_user_views($user, $year_y, $lang_y)
+{
+    // ---
+    global $from_api, $data_index;
+    // ---
+    $key = 'user_views_' . $user . '_' . $year_y . '_' . $lang_y;
+    // ---
+    if (!empty($data_index[$key] ?? [])) {
+        return $data_index[$key];
+    }
+    // ---
+    if ($from_api) {
+        $data = get_td_api(['get' => 'user_views', 'lang' => $lang_y, 'user' => $user, 'year' => $year_y]);
+    } else {
+        $query = <<<SQL
+            select p.target, v.countall
+            from pages p, views v
+            WHERE p.target = v.target
+            and p.lang = v.lang
+            and p.user = ?
+        SQL;
+        // ---
+        $query2 = <<<SQL
+            SELECT v.target, sum(v.views) as views
+            FROM views_new v
+            JOIN pages p
+                ON p.target = v.target
+                AND p.lang = v.lang
+            WHERE p.user = ?
+        SQL;
+        // ---
+        $sql_params = [$user];
+        // ---
+        if (isvalid($year_y)) {
+            $query .= " and YEAR(p.pupdate) = ?";
+            $query2 .= " and YEAR(p.pupdate) = ?";
+            $sql_params[] = $year_y;
+        }
+        // ---
+        $query2 .= " GROUP BY v.target";
+        // ---
+        $data = fetch_query($query, $sql_params);
+    }
+    // ---
+    $table_of_views = [];
+    // ---
+    foreach ($data as $Key => $table) {
+        $targ = $table['target'] ?? "";
+        // ---
+        $views = isset($table['countall']) ? $table['countall'] : $table['views'];
+        // ---
+        $table_of_views[$targ] = $views ?? 0;
+    };
+    // ---
+    $data_index[$key] = $table_of_views;
+    // ---
+    return $table_of_views;
+}
+
 function get_lang_views($mainlang, $year_y)
 {
     // ---
     global $from_api, $data_index;
     // ---
-    if (!empty($data_index['lang_views' . $mainlang . $year_y] ?? [])) {
-        return $data_index['lang_views' . $mainlang . $year_y];
+    $key = 'lang_views_' . $mainlang . '_' . $year_y;
+    // ---
+    if (!empty($data_index[$key] ?? [])) {
+        return $data_index[$key];
     }
     // ---
     if ($from_api) {
@@ -254,19 +291,41 @@ function get_lang_views($mainlang, $year_y)
             and p.lang = ?
         SQL;
         // ---
+        $query2 = <<<SQL
+            SELECT v.target, sum(v.views) as views
+            FROM views_new v
+            JOIN pages p
+                ON p.target = v.target
+                AND p.lang = v.lang
+            WHERE p.lang = ?
+        SQL;
+        // ---
         $sql_params = [$mainlang];
         // ---
         if (isvalid($year_y)) {
-            $query .= " and YEAR(pupdate) = ?";
+            $query .= " and YEAR(p.pupdate) = ?";
+            $query2 .= " and YEAR(p.pupdate) = ?";
             $sql_params[] = $year_y;
         };
+        // ---
+        $query2 .= " GROUP BY v.target";
         // ---
         $data = fetch_query($query, $sql_params);
     }
     // ---
-    $data_index['lang_views' . $mainlang . $year_y] = $data;
+    $table_of_views = [];
     // ---
-    return $data;
+    foreach ($data as $Key => $table) {
+        $targ = $table['target'] ?? "";
+        // ---
+        $views = isset($table['countall']) ? $table['countall'] : $table['views'];
+        // ---
+        $table_of_views[$targ] = $views ?? 0;
+    };
+    //---
+    $data_index[$key] = $table_of_views;
+    // ---
+    return $table_of_views;
 }
 
 function get_lang_years($mainlang)

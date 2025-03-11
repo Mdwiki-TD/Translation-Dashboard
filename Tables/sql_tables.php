@@ -44,7 +44,6 @@ function load_translate_type($ty)
     return $tab;
 }
 //---
-//---
 $cat_titles = array();
 $cat_to_camp = array();
 $camp_to_cat = array();
@@ -98,15 +97,7 @@ function make_views_by_lang_target($year, $lang)
             $vta[$langcode] = [];
         };
         // add to array
-        $vta[$langcode][$target] = array(
-            'all'  => $tab['countall'],
-            '2021' => $tab['count2021'],
-            '2022' => $tab['count2022'],
-            '2023' => $tab['count2023'],
-            '2024' => $tab['count2024'],
-            '2025' => $tab['count2025'],
-            '2026' => $tab['count2026'],
-        );
+        $vta[$langcode][$target] = $tab['countall'];
     }
     return $vta;
 }

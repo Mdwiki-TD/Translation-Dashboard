@@ -1,4 +1,5 @@
 <?PHP
+
 namespace Leaderboard\Camps;
 
 /*
@@ -13,22 +14,39 @@ use function Results\GetCats\get_cat_from_cache;
 $articles_to_camps = [];
 $camps_to_articles = [];
 //---
-foreach ($cat_to_camp as $cat => $camp) {
+// sort $cat_to_camp make RTT last item
+$cat_to_camp2 = $cat_to_camp;
+//---
+if (isset($cat_to_camp2['RTT'])) {
+    unset($cat_to_camp2['RTT']);
+    $cat_to_camp2['RTT'] = 'Main';
+}
+//---
+$members_done = [];
+//---
+foreach ($cat_to_camp2 as $cat => $camp) {
     $camps_to_articles[$camp] = [];
+    //---
     $members = get_cat_from_cache($cat);
     //---
     foreach ($members as $member) {
-        if (!in_array($member, $camps_to_articles[$camp])) {
-            $camps_to_articles[$camp][] = $member;
-        }
         //---
         if (!isset($articles_to_camps[$member])) $articles_to_camps[$member] = [];
         //---
         $articles_to_camps[$member][] = $camp;
+        //---
+        if (in_array($member, $members_done)) continue;
+        $members_done[] = $member;
+        //---
+        if (!in_array($member, $camps_to_articles[$camp])) {
+            $camps_to_articles[$camp][] = $member;
+        }
+        //---
     }
 };
 //---
-function camps_list() {
+function camps_list()
+{
     global $articles_to_camps;
     $table = <<<HTML
         <table class='table table-striped sortable'>
@@ -69,5 +87,5 @@ function camps_list() {
     HTML;
     //---
     echo $table;
-//---
+    //---
 }

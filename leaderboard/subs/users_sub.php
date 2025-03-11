@@ -42,20 +42,12 @@ function get_users_tables($mainuser, $year_y, $lang_y, $test = '')
         return array('dd' => [], 'dd_Pending' => [], 'table_of_views' => []);
     };
     //---
-    $uux = get_user_views($user_main, $year_y, $lang_y);
-    $uux2 = [];
-    // ---
-    foreach ($uux as $Key => $table) {
-        $targ = $table['target'] ?? "";
-        $uux2[$targ] = $table['countall'] ?? "";
-    };
-    //---
-    // compare_it($table_of_views, $uux2);
+    $table_of_views = get_user_views($user_main, $year_y, $lang_y);
     //---
     $pages_table = pages_tables($user_main, $year_y, $lang_y, $test = '');
     //---
     $dd = $pages_table['dd'];
     $dd_Pending = $pages_table['dd_Pending'];
     //---
-    return array('dd' => $dd, 'dd_Pending' => $dd_Pending, 'table_of_views' => $uux2);
+    return array('dd' => $dd, 'dd_Pending' => $dd_Pending, 'table_of_views' => $table_of_views);
 }

@@ -99,14 +99,89 @@ function get_td_or_sql_views($year, $lang)
         // ---
         $data = get_td_api($api_params);
     } else {
-        $query = "SELECT target, lang, countall, count2021, count2022, count2023, count2024, count2025, count2026 FROM views";
+        //---
+        $query = <<<SQL
+            SELECT p.title, v.target, v.lang, v.countall
+            FROM views v
+            LEFT JOIN pages p
+                ON p.target = v.target
+                AND p.lang = v.lang
+        SQL;
+        //---
+        $query2 = <<<SQL
+            SELECT p.title, v.target, v.lang, sum(v.views) as views
+            FROM views_new v
+            LEFT JOIN pages p
+                ON p.target = v.target
+                AND p.lang = v.lang
+        SQL;
         //---
         $params = [];
         //---
         if (isvalid($lang)) {
-            $query .= "AND lang = ? \n";
+            $query .= "WHERE v.lang = ? \n";
+            $query2 .= "WHERE v.lang = ? \n";
             $params[] = $lang;
         }
+        //---
+        if (isvalid($year)) {
+            $query .= "AND YEAR(p.pupdate) = ? \n";
+            $query2 .= "AND YEAR(p.pupdate) = ? \n";
+            $params[] = $year;
+        }
+        //---
+        $query2 .= "group by v.target, v.lang";
+        //---
+        $data = fetch_query($query, $params);
+    }
+    // ---
+    $data_tab['sql_views' . $year . $lang] = $data;
+    // ---
+    return $data;
+}
+function get_td_or_sql_views_new($year, $lang)
+{
+    // ---
+    global $from_api, $data_tab;
+    // ---
+    if (!empty($data_tab['sql_views' . $year . $lang] ?? [])) {
+        return $data_tab['sql_views' . $year . $lang];
+    }
+    // ---
+    if ($from_api) {
+        $api_params = ['get' => 'views_new'];
+        // ---
+        if (isvalid($year)) {
+            $api_params['year'] = $year;
+        }
+        // ---
+        if (isvalid($lang)) {
+            $api_params['lang'] = $lang;
+        }
+        // ---
+        $data = get_td_api($api_params);
+    } else {
+        $query = <<<SQL
+            SELECT p.title, v.target, v.lang, sum(v.views) as views
+            FROM views_new v
+            LEFT JOIN pages p
+                ON p.target = v.target
+                AND p.lang = v.lang
+        SQL;
+        //---
+        $params = [];
+        //---
+        if (isvalid($lang)) {
+            $query .= "WHERE v.lang = ? \n";
+            $params[] = $lang;
+        }
+        //---
+        if (isvalid($year)) {
+            $query .= "AND YEAR(p.pupdate) = ? \n";
+            $params[] = $year;
+        }
+        //---
+        $query .= "group by v.target, v.lang";
         //---
         $data = fetch_query($query, $params);
     }
