@@ -222,9 +222,10 @@ function get_user_views($user, $year_y, $lang_y)
     }
     // ---
     if ($from_api) {
-        $data = get_td_api(['get' => 'user_views', 'lang' => $lang_y, 'user' => $user, 'year' => $year_y]);
+        // $data = get_td_api(['get' => 'user_views', 'lang' => $lang_y, 'user' => $user, 'year' => $year_y]);
+        $data = get_td_api(['get' => 'user_views2', 'lang' => $lang_y, 'user' => $user, 'year' => $year_y]);
     } else {
-        $query = <<<SQL
+        $query1 = <<<SQL
             select p.target, v.countall
             from pages p, views v
             WHERE p.target = v.target
@@ -244,14 +245,14 @@ function get_user_views($user, $year_y, $lang_y)
         $sql_params = [$user];
         // ---
         if (isvalid($year_y)) {
-            $query .= " and YEAR(p.pupdate) = ?";
+            $query1 .= " and YEAR(p.pupdate) = ?";
             $query2 .= " and YEAR(p.pupdate) = ?";
             $sql_params[] = $year_y;
         }
         // ---
         $query2 .= " GROUP BY v.target";
         // ---
-        $data = fetch_query($query, $sql_params);
+        $data = fetch_query($query2, $sql_params);
     }
     // ---
     $table_of_views = [];
@@ -281,9 +282,10 @@ function get_lang_views($mainlang, $year_y)
     }
     // ---
     if ($from_api) {
-        $data = get_td_api(['get' => 'lang_views', 'lang' => $mainlang, 'year' => $year_y]);
+        // $data = get_td_api(['get' => 'lang_views', 'lang' => $mainlang, 'year' => $year_y]);
+        $data = get_td_api(['get' => 'lang_views2', 'lang' => $mainlang, 'year' => $year_y]);
     } else {
-        $query = <<<SQL
+        $query1 = <<<SQL
             select p.target, v.countall
             from pages p, views v
             WHERE p.target = v.target
@@ -303,14 +305,14 @@ function get_lang_views($mainlang, $year_y)
         $sql_params = [$mainlang];
         // ---
         if (isvalid($year_y)) {
-            $query .= " and YEAR(p.pupdate) = ?";
+            $query1 .= " and YEAR(p.pupdate) = ?";
             $query2 .= " and YEAR(p.pupdate) = ?";
             $sql_params[] = $year_y;
         };
         // ---
         $query2 .= " GROUP BY v.target";
         // ---
-        $data = fetch_query($query, $sql_params);
+        $data = fetch_query($query2, $sql_params);
     }
     // ---
     $table_of_views = [];

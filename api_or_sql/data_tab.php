@@ -100,7 +100,7 @@ function get_td_or_sql_views($year, $lang)
         $data = get_td_api($api_params);
     } else {
         //---
-        $query = <<<SQL
+        $query1 = <<<SQL
             SELECT p.title, v.target, v.lang, v.countall
             FROM views v
             LEFT JOIN pages p
@@ -119,20 +119,20 @@ function get_td_or_sql_views($year, $lang)
         $params = [];
         //---
         if (isvalid($lang)) {
-            $query .= "WHERE v.lang = ? \n";
-            $query2 .= "WHERE v.lang = ? \n";
+            $query1 .= " WHERE v.lang = ? \n";
+            $query2 .= " WHERE v.lang = ? \n";
             $params[] = $lang;
         }
         //---
         if (isvalid($year)) {
-            $query .= "AND YEAR(p.pupdate) = ? \n";
-            $query2 .= "AND YEAR(p.pupdate) = ? \n";
+            $query1 .= " AND YEAR(p.pupdate) = ? \n";
+            $query2 .= " AND YEAR(p.pupdate) = ? \n";
             $params[] = $year;
         }
         //---
-        $query2 .= "group by v.target, v.lang";
+        $query2 .= " \n group by v.target";
         //---
-        $data = fetch_query($query, $params);
+        $data = fetch_query($query2, $params);
     }
     // ---
     $data_tab['sql_views' . $year . $lang] = $data;

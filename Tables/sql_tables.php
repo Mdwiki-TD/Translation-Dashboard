@@ -82,7 +82,7 @@ foreach ($categories_tab as $k => $tab) {
         //---
     };
 };
-//---
+
 function make_views_by_lang_target($year, $lang)
 {
     $vta = array();
@@ -96,8 +96,11 @@ function make_views_by_lang_target($year, $lang)
         if (!array_key_exists($langcode, $vta)) {
             $vta[$langcode] = [];
         };
+        // ---
+        $views = isset($tab['countall']) ? $tab['countall'] : $tab['views'];
+        // ---
         // add to array
-        $vta[$langcode][$target] = $tab['countall'];
+        $vta[$langcode][$target] = $views ?? 0;
     }
     return $vta;
 }
@@ -109,4 +112,3 @@ $settings_tab = get_td_or_sql_settings();
 foreach ($settings_tab as $Key => $table) {
     $settings[$table['title']] = $table;
 }
-// ---
