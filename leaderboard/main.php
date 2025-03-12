@@ -16,7 +16,6 @@ if (isset($_REQUEST['test'])) {
     error_reporting(E_ALL);
 };
 //---
-include_once __DIR__ . '/leader_tables_tabs.php';
 include_once __DIR__ . '/graph.php';
 include_once __DIR__ . '/graph_api.php';
 //---
