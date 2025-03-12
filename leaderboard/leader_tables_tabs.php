@@ -34,16 +34,19 @@ $Views_by_lang_target = make_views_by_lang_target($year, $langcode);
 $tab_for_graph = [];
 // $articles_to_camps, $camps_to_articles
 
-$ddde1 = get_leaderboard_table($year, $project);
+$ddde1 = get_leaderboard_table($year, $project, $camp_cat);
 // ---
 // compare_it($ddde, $ddde1);
 // ---
 foreach ($ddde1 as $Key => $teb) {
     $title  = $teb['title'] ?? "";
+    $cat    = $teb['cat'] ?? "";
+    //---
+    if (!empty($camp_cat) && !empty($cat) && $cat != $camp_cat) continue;
     //---
     // 2023-08-22
-    if ($camp != 'all' && !empty($camp_cat)) {
-        if (!in_array($title, $camps_to_articles[$camp])) continue;
+    if ($camp != 'all' && !empty($camp_cat) && $cat == "") {
+        if (!empty($camps_to_articles[$camp]) && !in_array($title, $camps_to_articles[$camp])) continue;
     }
     //---
     $month  = $teb['m'] ?? ""; // 2021-05
@@ -51,7 +54,6 @@ foreach ($ddde1 as $Key => $teb) {
     if (!isset($tab_for_graph[$month])) $tab_for_graph[$month] = 0;
     $tab_for_graph[$month] += 1;
     //---
-    $cat    = $teb['cat'] ?? "";
     $lang   = $teb['lang'] ?? "";
     $user   = $teb['user'] ?? "";
     $target = $teb['target'] ?? "";
@@ -59,7 +61,8 @@ foreach ($ddde1 as $Key => $teb) {
     if ($word == 0) {
         $word = $Words_table[$title] ?? 0;
     }
-    $coco = $Views_by_lang_target[$lang][$target][$year] ?? 0;
+    // $coco = $Views_by_lang_target[$lang][$target][$year] ?? 0;
+    $coco = $Views_by_lang_target[$lang][$target] ?? 0;
 
     $Words_total += $word;
     $Articles_numbers += 1;
