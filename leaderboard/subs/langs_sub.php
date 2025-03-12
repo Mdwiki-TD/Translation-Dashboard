@@ -44,7 +44,7 @@ function pages_tables($mainlang, $year_y)
 function get_langs_tables($mainlang, $year_y)
 {
     //---
-    $table_of_views = get_lang_views($mainlang, $year_y);
+    $table_of_views = []; //get_lang_views($mainlang, $year_y);
     //---
     $p_tables = pages_tables($mainlang, $year_y);
     //---

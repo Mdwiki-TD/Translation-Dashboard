@@ -101,8 +101,8 @@ function get_td_or_sql_views($year, $lang)
     } else {
         //---
         $query2 = <<<SQL
-            SELECT p.title, v.target, v.lang, sum(v.views) as views
-            FROM views_new v
+            SELECT p.title, v.target, v.lang, v.views
+            FROM views_new_all v
             LEFT JOIN pages p
                 ON p.target = v.target
                 AND p.lang = v.lang
@@ -119,8 +119,6 @@ function get_td_or_sql_views($year, $lang)
             $query2 .= " AND YEAR(p.pupdate) = ? \n";
             $params[] = $year;
         }
-        //---
-        $query2 .= " \n group by v.target";
         //---
         $data = fetch_query($query2, $params);
     }
