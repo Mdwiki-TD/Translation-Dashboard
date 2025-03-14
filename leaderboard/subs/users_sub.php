@@ -42,7 +42,7 @@ function get_users_tables($mainuser, $year_y, $lang_y, $test = '')
         return array('dd' => [], 'dd_Pending' => [], 'table_of_views' => []);
     };
     //---
-    $table_of_views = get_user_views($user_main, $year_y, $lang_y);
+    $table_of_views = []; //get_user_views($user_main, $year_y, $lang_y);
     //---
     $pages_table = pages_tables($user_main, $year_y, $lang_y, $test = '');
     //---

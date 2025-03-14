@@ -30,9 +30,8 @@ $sql_Languages_tab = array();
 $all_views_by_lang = array();
 $Views_by_users = array();
 
-$Views_by_lang_target = make_views_by_lang_target($year, $langcode);
+// $Views_by_lang_target = make_views_by_lang_target($year, $langcode);
 $tab_for_graph = [];
-// $articles_to_camps, $camps_to_articles
 
 $ddde1 = get_leaderboard_table($year, $project, $camp_cat);
 // ---
@@ -61,15 +60,18 @@ foreach ($ddde1 as $Key => $teb) {
     if ($word == 0) {
         $word = $Words_table[$title] ?? 0;
     }
-    // $coco = $Views_by_lang_target[$lang][$target][$year] ?? 0;
-    $coco = $Views_by_lang_target[$lang][$target] ?? 0;
-
+    // ---
+    $views = $teb['views'] ?? 0;
+    // ---
+    // $coco = $Views_by_lang_target[$lang][$target] ?? 0;
+    // if ($views != $coco) echo "Views ($target): tab views: $views  coco: $coco<br>";
+    // ---
     $Words_total += $word;
     $Articles_numbers += 1;
-    $global_views += $coco;
+    $global_views += $views;
 
     if (!isset($all_views_by_lang[$lang])) $all_views_by_lang[$lang] = 0;
-    $all_views_by_lang[$lang] += $coco;
+    $all_views_by_lang[$lang] += $views;
 
     if (!isset($sql_Languages_tab[$lang])) $sql_Languages_tab[$lang] = 0;
     $sql_Languages_tab[$lang] += 1;
@@ -78,7 +80,7 @@ foreach ($ddde1 as $Key => $teb) {
     $Users_word_table[$user] += $word;
 
     if (!isset($Views_by_users[$user])) $Views_by_users[$user] = 0;
-    $Views_by_users[$user] += $coco;
+    $Views_by_users[$user] += $views;
 
     if (!isset($sql_users_tab[$user])) $sql_users_tab[$user] = 0;
     $sql_users_tab[$user] += 1;

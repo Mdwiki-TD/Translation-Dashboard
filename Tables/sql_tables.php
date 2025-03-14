@@ -93,15 +93,18 @@ function make_views_by_lang_target($year, $lang)
         // check if lang already in array array_key_exists
         $langcode = $tab['lang'];
         $target   = $tab['target'];
+        // ---
         if (!array_key_exists($langcode, $vta)) {
             $vta[$langcode] = [];
         };
         // ---
-        $views = isset($tab['countall']) ? $tab['countall'] : $tab['views'];
+        $views = isset($tab['views']) ? $tab['views'] : 0;
         // ---
         // add to array
-        $vta[$langcode][$target] = $views ?? 0;
+        // ---
+        $vta[$langcode][$target] = $views;
     }
+    // ---
     return $vta;
 }
 //---

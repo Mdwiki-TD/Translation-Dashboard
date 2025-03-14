@@ -59,7 +59,8 @@ echo generateFormInputs($params, $items_with_no_links);
 
 // Load data
 $tables_dir = getenv('tables_dir') ?? __DIR__ . '/../../td/Tables';
-if (str_starts_with($tables_dir, 'I:')) {
+// if (str_starts_with($tables_dir, 'I:')) {
+if (strpos($tables_dir, 'I:') === 0) {
 	$tables_dir = 'I:/mdwiki/mdwiki/public_html/td/Tables';
 }
 

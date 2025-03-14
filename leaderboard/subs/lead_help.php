@@ -184,7 +184,11 @@ function make_table_lead($dd, $tab_type = 'a', $views_table = array(), $page_typ
         $deleted = $tabe['deleted'] ?? 0;
         //---
         $target  = $tabe['target'] ?? "";
-        $view_number = $views_table[$target] ?? 0;
+        $lang    = $tabe['lang'] ?? "";
+        //---
+        $view_number  = $tabe['views'] ?? 0;
+        // ---
+        if ($view_number == 0) $view_number = $views_table[$lang][$target] ?? 0;
         //---
         if ($deleted == 1) {
             $view_number = 0;
