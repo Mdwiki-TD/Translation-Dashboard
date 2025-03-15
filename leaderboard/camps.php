@@ -8,7 +8,7 @@ use function Leaderboard\Camps\camps_list;
 
 */
 
-use function Results\GetCats\get_cat_from_cache;
+use function Results\GetCats\get_category_from_cache;
 
 // $cat_to_camp
 $articles_to_camps = [];
@@ -27,7 +27,7 @@ $members_done = [];
 foreach ($cat_to_camp2 as $cat => $camp) {
     $camps_to_articles[$camp] = [];
     //---
-    $members = get_cat_from_cache($cat);
+    $members = get_category_from_cache($cat);
     //---
     foreach ($members as $member) {
         //---

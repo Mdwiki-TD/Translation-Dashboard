@@ -38,6 +38,38 @@ function isvalid($str)
     return !empty($str) && $str != 'All' && $str != 'all';
 }
 
+function get_in_process_new_tdapi($code)
+{
+    // ---
+    global $from_api, $data_index;
+    // ---
+    if (!empty($data_index['in_process_tdapi' . $code] ?? [])) {
+        return $data_index['in_process_tdapi' . $code];
+    }
+    // ---
+    /*
+    SELECT * from in_process ip
+        WHERE NOT EXISTS (
+        SELECT p.user FROM pages p
+        where p.title = ip.title
+        and p.lang = ip.lang
+        and p.target != ""
+        )
+    */
+    // ---
+    if ($from_api) {
+        $data = get_td_api(['get' => 'in_process', 'lang' => $code]);
+    } else {
+        $query = "select * from in_process where lang = ?";
+        $params = [$code];
+        $data = fetch_query($query, $params);
+    }
+    // ---
+    $data_index['in_process_tdapi' . $code] = $data;
+    // ---
+    return $data;
+}
+
 function get_in_process_tdapi($code)
 {
     // ---
