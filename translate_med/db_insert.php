@@ -43,7 +43,7 @@ function insertPage_in_process($title, $word, $tr_type, $cat, $lang, $user)
     // ---
     $quae_new = <<<SQL
         INSERT INTO in_process (title, user, lang, cat, translate_type, word, add_date)
-        SELECT ?, ?, ?, ?, ?, ?, '', '', now()
+        SELECT ?, ?, ?, ?, ?, ?, now()
         WHERE NOT EXISTS
             (SELECT 1
             FROM in_process
