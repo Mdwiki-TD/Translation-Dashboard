@@ -10,6 +10,7 @@ include_once __DIR__ . '/db_insert.php';
 use function Actions\Html\login_card;
 use function Results\TrLink\make_translate_link_medwiki;
 use function TranslateMed\Inserter\insertPage;
+use function TranslateMed\Inserter\insertPage_in_process;
 
 $coden = strtolower($_GET['code']);
 $title_o = $_GET['title'] ?? "";
@@ -71,6 +72,8 @@ if (!empty($title_o) && !empty($coden) && $user_valid) {
     }
     // ---
     insertPage($title_o, $word, $tr_type, $cat, $coden, $useree);
+    // ---
+    insertPage_in_process($title_o, $word, $tr_type, $cat, $coden, $useree);
     // ---
     go_to_translate_url($go, $title_o, $coden, $tr_type, $cat, $camp, $test);
 }
