@@ -6,9 +6,9 @@ Usage:
 use function Results\GetCats\start_with;
 use function Results\GetCats\get_in_process;
 use function Results\GetCats\open_json_file;
-use function Results\GetCats\get_cat_from_cache;
-use function Results\GetCats\get_categorymembers;
-use function Results\GetCats\get_mmbrs;
+use function Results\GetCats\get_category_from_cache;
+use function Results\GetCats\fetch_category_members;
+use function Results\GetCats\get_category_members;
 use function Results\GetCats\get_mdwiki_cat_members;
 */
 
@@ -67,7 +67,7 @@ function open_json_file($file_path)
     return $data;
 }
 
-function get_cat_from_cache($cat)
+function get_category_from_cache($cat)
 {
     $tables_dir = getenv('tables_dir') ?? __DIR__ . '/../../td/Tables';
     if (substr($tables_dir, 0, 2) == 'I:') {
@@ -90,7 +90,7 @@ function get_cat_from_cache($cat)
     return titles_filter($new_list['list'], $with_Category = true);
 }
 
-function get_categorymembers($cat)
+function fetch_category_members($cat)
 {
     if (!start_with($cat, 'Category:')) {
         $cat = "Category:$cat";
@@ -122,25 +122,25 @@ function get_categorymembers($cat)
         }
     }
 
-    test_print("get_categorymembers() items size:" . count($items));
+    test_print("fetch_category_members() items size:" . count($items));
     return $items;
 }
 
-function get_mmbrs($cat, $use_cache = true)
+function get_category_members($cat, $use_cache = true)
 {
-    // $all = $use_cache || $_SERVER['SERVER_NAME'] == 'localhost' ? get_cat_from_cache($cat) : get_categorymembers($cat);
+    // $all = $use_cache || $_SERVER['SERVER_NAME'] == 'localhost' ? get_category_from_cache($cat) : fetch_category_members($cat);
     // ---
-    // $all = $use_cache ? get_cat_from_cache($cat) : get_categorymembers($cat);
-    // return empty($all) ? get_categorymembers($cat) : $all;
+    // $all = $use_cache ? get_category_from_cache($cat) : fetch_category_members($cat);
+    // return empty($all) ? fetch_category_members($cat) : $all;
     // ---
     $all = [];
     // ---
     if ($use_cache) {
-        $all = get_cat_from_cache($cat);
+        $all = get_category_from_cache($cat);
     }
     // ---
     if (empty($all)) {
-        $all = get_categorymembers($cat);
+        $all = fetch_category_members($cat);
     }
     // ---
     return $all;
@@ -157,7 +157,7 @@ function get_mdwiki_cat_members($cat, $depth, $use_cache)
         $cats2 = [];
 
         foreach ($cats as $cat1) {
-            $all = get_mmbrs($cat1, $use_cache);
+            $all = get_category_members($cat1, $use_cache);
             foreach ($all as $title) {
                 if (start_with($title, 'Category:')) {
                     $cats2[] = $title;

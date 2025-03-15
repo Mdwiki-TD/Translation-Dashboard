@@ -20,7 +20,7 @@ function insertPage($title_o, $word, $tr_type, $cat, $coden, $useree)
     // ---
     $quae_new = <<<SQL
         INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target, add_date)
-        SELECT ?, ?, ?, ?, ?, now(), ?, '', '', now()
+        SELECT ?, ?, ?, ?, ?, DATE(NOW()), ?, '', '', now()
         WHERE NOT EXISTS
             (SELECT 1
             FROM pages
