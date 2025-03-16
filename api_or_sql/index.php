@@ -82,7 +82,7 @@ function get_in_process_tdapi($code)
     if ($from_api) {
         $data = get_td_api(['get' => 'pages', 'lang' => $code, 'target' => 'empty']);
     } else {
-        $query = "select * from pages where target = '' and lang = ?;";
+        $query = "select * from pages where (target = '' OR target IS NULL) and lang = ?;";
         $params = [$code];
         $data = fetch_query($query, $params);
     }
