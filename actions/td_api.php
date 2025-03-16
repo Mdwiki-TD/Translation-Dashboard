@@ -83,15 +83,20 @@ function get_td_api(array $params): array
     //---
     $out = post_url($endPoint, $params);
     //---
-    $result = json_decode($out, true);
+    $results = json_decode($out, true);
     //---
-    if (!is_array($result)) {
-        $result = array();
+    if (!is_array($results)) {
+        $results = [];
     }
     //---
-    $result = $result['results'] ?? array();
+    $result = $results['results'] ?? [];
     //---
-    // var_dump(json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+    if (isset($result['error'])) {
+        test_print_o('Error:' . json_encode($result['error'], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        $result = [];
+    }
+    //---
+    // var_dump(json_encode(, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
     //---
     return $result;
 }
