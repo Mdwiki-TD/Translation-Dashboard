@@ -3,12 +3,7 @@
 namespace Results\GetCats;
 /*
 Usage:
-use function Results\GetCats\start_with;
-use function Results\GetCats\get_inprocess;
-use function Results\GetCats\open_json_file;
 use function Results\GetCats\get_category_from_cache;
-use function Results\GetCats\fetch_category_members;
-use function Results\GetCats\get_category_members;
 use function Results\GetCats\get_mdwiki_cat_members;
 */
 
@@ -19,7 +14,7 @@ include_once __DIR__ . '/../actions/functions.php';
 
 use function Actions\TestPrint\test_print;
 use function Actions\MdwikiApi\get_mdwiki_url_with_params;
-use function SQLorAPI\Get\get_inprocess_tdapi;
+use function Results\ResultsHelps\open_json_file;
 
 function start_with($haystack, $needle)
 {
@@ -33,38 +28,6 @@ function titles_filter($titles, $with_Category = false)
         return !preg_match($regline, $title) &&
             !preg_match('/\(disambiguation\)$/', $title);
     });
-}
-
-function get_inprocess($missing, $code)
-{
-    $res = get_inprocess_tdapi($code);
-    $titles = [];
-    foreach ($res as $t) {
-        if (in_array($t['title'], $missing)) $titles[$t['title']] = $t;
-    }
-    return $titles;
-}
-
-function open_json_file($file_path)
-{
-    if (!is_file($file_path)) {
-        test_print("file $file_path does not exist");
-        return [];
-    }
-
-    $text = file_get_contents($file_path);
-    if ($text === false) {
-        test_print("Failed to read file contents from $file_path");
-        return [];
-    }
-
-    $data = json_decode($text, true);
-    if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
-        test_print("Failed to decode JSON from $file_path");
-        return [];
-    }
-
-    return $data;
 }
 
 function get_category_from_cache($cat)

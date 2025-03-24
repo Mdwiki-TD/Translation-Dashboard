@@ -11,19 +11,19 @@ use function Results\GetResults\get_results;
 
 // use function Results\FetchCatData\get_cat_exists_and_missing;
 use function Results\FetchCatDataSparql\get_cat_exists_and_missing;
-use function Results\GetCats\get_inprocess;
 use function Results\GetCats\get_mdwiki_cat_members;
 use function Actions\TestPrint\test_print;
+use function SQLorAPI\Get\get_inprocess_tdapi;
 
-/**
- * Get results for a category, including missing pages and in-process items.
- *
- * @param string $cat   Category name.
- * @param string $camp  Campaign name.
- * @param int    $depth Depth of category traversal.
- * @param string $code  Language code.
- * @return array        Array containing in-process items, missing pages, and summary info.
- */
+function get_inprocess($missing, $code)
+{
+    $res = get_inprocess_tdapi($code);
+    $titles = [];
+    foreach ($res as $t) {
+        if (in_array($t['title'], $missing)) $titles[$t['title']] = $t;
+    }
+    return $titles;
+}
 
 function get_results($cat, $camp, $depth, $code): array
 {
