@@ -129,7 +129,7 @@ function one_item_props($title, $tra_type)
     //---
     return $tab;
 }
-function make_one_row($title, $tra_type, $cnt, $cod, $cat, $camp, $inprocess, $in_process, $tra_btn, $full, $full_tr_user)
+function make_one_row($title, $tra_type, $cnt, $cod, $cat, $camp, $inprocess, $inprocess_table, $tra_btn, $full, $full_tr_user)
 {
     global $use_medwiki;
     //---
@@ -137,7 +137,7 @@ function make_one_row($title, $tra_type, $cnt, $cod, $cat, $camp, $inprocess, $i
     //---
     $div_id = "t_$cnt";
     //---
-    $_translate_type_ = $in_process['translate_type'] ?? '';
+    $_translate_type_ = $inprocess_table['translate_type'] ?? '';
     //---
     $is_video = false;
     //---
@@ -197,8 +197,8 @@ function make_one_row($title, $tra_type, $cnt, $cod, $cat, $camp, $inprocess, $i
         $translate_url = $mdwiki_url;
     }
     //---
-    $_user_ = $in_process['user'] ?? '';
-    $_date_ = $in_process['date'] ?? '';
+    $_user_ = $inprocess_table['user'] ?? '';
+    $_date_ = $inprocess_table['date'] ?? '';
     //---
     if ($inprocess) {
         if ($tra_btn != '1' && $_user_ != $GLOBALS['global_username']) {
@@ -259,7 +259,7 @@ function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inp
     //---
     $Translate_th = "<th>Translate</th>";
     //---
-    $in_process = ($inprocess) ? $items : array();
+    $inprocess_table = ($inprocess) ? $items : array();
     $inprocess_first = '';
     //---
     if ($inprocess) {
@@ -314,9 +314,9 @@ function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inp
         //---
         $cnt2 = $cnt;
         //---
-        $in_process_v = $in_process[$v] ?? [];
+        $inprocess_v = $inprocess_table[$v] ?? [];
         //---
-        $row = make_one_row($title, $tra_type, $cnt2, $cod, $cat, $camp, $inprocess, $in_process_v, $tra_btn, false, $full_tr_user);
+        $row = make_one_row($title, $tra_type, $cnt2, $cod, $cat, $camp, $inprocess, $inprocess_v, $tra_btn, false, $full_tr_user);
         //---
         // if in process or full translates not allowed
         if ($inprocess || !$do_full || $full_tr_user) {
@@ -340,7 +340,7 @@ function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inp
         }
         //---
         if ($full) {
-            $list .= make_one_row($title, 'all', $cnt2, $cod, $cat, $camp, $inprocess, $in_process_v, $tra_btn, true, $full_tr_user);
+            $list .= make_one_row($title, 'all', $cnt2, $cod, $cat, $camp, $inprocess, $inprocess_v, $tra_btn, true, $full_tr_user);
         }
         //---
         $cnt++;

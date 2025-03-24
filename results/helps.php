@@ -20,7 +20,7 @@ function print_r_it($data, $title, $d = false, $r = false)
     // ---
     if (empty($test11)) return;
     // ---
-    echo "$title:" . count($data) . "<br>";
+    echo "   -  $title: " . count($data) . "<br>";
     echo "<pre>";
     // ---
     if ($r !== false) {

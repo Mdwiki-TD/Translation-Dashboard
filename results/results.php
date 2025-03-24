@@ -39,10 +39,10 @@ if ($doit) {
     //---
     $tab = get_results($cat, $camp, $depth, $code);
     //---
-    $in_process = $tab['in_process'];
+    $p_inprocess = $tab['inprocess'];
     $missing    = $tab['missing'];
     $ix         = $tab['ix'];
-    $len_in_process = count($in_process);
+    $len_inprocess = count($p_inprocess);
     //---
     $res_line = " Results (" . count($tab['missing']) . ")";
     //---
@@ -63,15 +63,15 @@ if ($doit) {
     </div>
     HTML;
     //---
-    if ($len_in_process > 0) {
+    if ($len_inprocess > 0) {
         //---
-        $table_2 = make_results_table($in_process, $code, $cat, $camp, $tra_type, $translation_button, $inprocess = true);
+        $table_2 = make_results_table($p_inprocess, $code, $cat, $camp, $tra_type, $translation_button, $inprocess = true);
         //---
         echo <<<HTML
         <br>
         <div class='card'>
             <div class='card-header'>
-                <h5>In process ($len_in_process):</h5>
+                <h5>In process ($len_inprocess):</h5>
             </div>
             <div class='card-body1 card2'>
                 $table_2

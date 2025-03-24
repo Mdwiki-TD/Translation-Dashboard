@@ -18,7 +18,9 @@ $use_cache = $_GET['use_cache'] ?? '';
 if (!empty($Category)) {
     $time_start = microtime(true);
     // ---
-    $items = get_cat_exists_and_missing($Category, "", $depth, $lang, $use_cache = $use_cache);
+    echo "  - Category:" . $Category . "<br>";
+    // ---
+    $items = get_cat_exists_and_missing($Category, $depth, $lang, $use_cache = $use_cache);
     // ---
     $execution_time = (microtime(true) - $time_start);
     echo "<br> >>>>> Total Execution Time: " . $execution_time . " Seconds<br>";

@@ -4,7 +4,7 @@ namespace Results\GetCats;
 /*
 Usage:
 use function Results\GetCats\start_with;
-use function Results\GetCats\get_in_process;
+use function Results\GetCats\get_inprocess;
 use function Results\GetCats\open_json_file;
 use function Results\GetCats\get_category_from_cache;
 use function Results\GetCats\fetch_category_members;
@@ -19,7 +19,7 @@ include_once __DIR__ . '/../actions/functions.php';
 
 use function Actions\TestPrint\test_print;
 use function Actions\MdwikiApi\get_mdwiki_url_with_params;
-use function SQLorAPI\Get\get_in_process_tdapi;
+use function SQLorAPI\Get\get_inprocess_tdapi;
 
 function start_with($haystack, $needle)
 {
@@ -35,9 +35,9 @@ function titles_filter($titles, $with_Category = false)
     });
 }
 
-function get_in_process($missing, $code)
+function get_inprocess($missing, $code)
 {
-    $res = get_in_process_tdapi($code);
+    $res = get_inprocess_tdapi($code);
     $titles = [];
     foreach ($res as $t) {
         if (in_array($t['title'], $missing)) $titles[$t['title']] = $t;
@@ -48,7 +48,7 @@ function get_in_process($missing, $code)
 function open_json_file($file_path)
 {
     if (!is_file($file_path)) {
-        test_print("$file_path does not exist");
+        test_print("file $file_path does not exist");
         return [];
     }
 
@@ -144,6 +144,8 @@ function get_category_members($cat, $use_cache = true)
         $all = fetch_category_members($cat);
     }
     // ---
+    test_print("get_category_members all size: " . count($all));
+    // ---
     return $all;
 }
 
@@ -151,7 +153,8 @@ function get_category_members($cat, $use_cache = true)
 function get_mdwiki_cat_members($cat, $depth, $use_cache)
 {
     $titles = [];
-    $cats = [$cat];
+    $cats = [];
+    $cats[] = $cat;
     $depth_done = -1;
 
     while (count($cats) > 0 && $depth > $depth_done) {
@@ -175,7 +178,7 @@ function get_mdwiki_cat_members($cat, $depth, $use_cache)
     $titles = array_unique($titles);
 
     $newtitles = titles_filter($titles);
-    test_print("newtitles size:" . count($newtitles));
+    test_print("get_mdwiki_cat_members newtitles size:" . count($newtitles));
     // test_print("end of get_mdwiki_cat_members <br>===============================");
 
     return $newtitles;
