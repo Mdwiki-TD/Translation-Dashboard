@@ -7,10 +7,8 @@ use function Results\GetCats\get_category_from_cache;
 use function Results\GetCats\get_mdwiki_cat_members;
 */
 
-include_once __DIR__ . '/../actions/test_print.php';
-include_once __DIR__ . '/../Tables/tables.php';
-include_once __DIR__ . '/../Tables/langcode.php';
-include_once __DIR__ . '/../actions/functions.php';
+include_once __DIR__ . '/../Tables/include.php';
+include_once __DIR__ . '/../actions/load_request.php';
 
 use function Actions\TestPrint\test_print;
 use function Actions\MdwikiApi\get_mdwiki_url_with_params;

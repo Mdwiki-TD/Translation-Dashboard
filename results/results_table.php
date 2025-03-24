@@ -12,8 +12,7 @@ use function Results\ResultsTable\make_results_table;
 
 */
 
-include_once __DIR__ . '/../Tables/tables.php';
-include_once __DIR__ . '/../Tables/sql_tables.php';
+include_once __DIR__ . '/../Tables/include.php';
 
 use function Results\TrLink\make_tr_link_medwiki;
 use function Tables\SqlTables\load_translate_type;

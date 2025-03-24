@@ -22,7 +22,7 @@ if (!getenv('tables_dir')) {
 	putenv('tables_dir=' . $tables_dir);
 }
 //---
-// include_once __DIR__ . '/actions/functions.php'; // $coordinators
+// include_once __DIR__ . '/actions/load_request.php';
 include_once __DIR__ . '/../auth/auth/user_infos.php';
 //---
 if (isset($GLOBALS['global_username']) && $GLOBALS['global_username'] != '') {
@@ -31,8 +31,8 @@ if (isset($GLOBALS['global_username']) && $GLOBALS['global_username'] != '') {
 	$GLOBALS['global_username'] = '';
 }
 //---
-include_once __DIR__ . '/actions/test_print.php';
 include_once __DIR__ . '/head.php';
+include_once __DIR__ . '/actions/test_print.php';
 include_once __DIR__ . '/actions/mdwiki_sql.php';
 include_once __DIR__ . '/actions/html.php';
 include_once __DIR__ . '/actions/td_api.php';

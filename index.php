@@ -16,12 +16,10 @@ if (isset($_REQUEST['test'])) {
 };
 //---
 include_once __DIR__ . '/header.php';
-include_once __DIR__ . '/Tables/tables.php';
-include_once __DIR__ . '/Tables/langcode.php';
-include_once __DIR__ . '/actions/functions.php';
-include_once __DIR__ . '/Tables/sql_tables.php';
+include_once __DIR__ . '/actions/load_request.php';
+include_once __DIR__ . '/Tables/include.php';
 //---
-use function Actions\Functions\load_request;
+use function Actions\LoadRequest\load_request;
 use function Infos\TdConfig\get_configs;
 use function Actions\Html\make_drop;
 //---

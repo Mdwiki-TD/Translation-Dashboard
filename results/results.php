@@ -6,7 +6,7 @@ include_once __DIR__ . '/include.php';
 //---
 use function Results\GetResults\get_results;
 use function Results\ResultsTable\make_results_table;
-use function Actions\Functions\load_request;
+use function Actions\LoadRequest\load_request;
 //---
 $doit = isset($_REQUEST['doit']);
 //---

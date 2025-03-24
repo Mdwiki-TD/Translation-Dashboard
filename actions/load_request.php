@@ -1,9 +1,9 @@
 <?php
 
-namespace Actions\Functions;
+namespace Actions\LoadRequest;
 /*
 Usage:
-use function Actions\Functions\load_request;
+use function Actions\LoadRequest\load_request;
 */
 
 if (isset($_REQUEST['test'])) {

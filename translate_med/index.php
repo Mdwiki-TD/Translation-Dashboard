@@ -1,7 +1,7 @@
 <?php
 // Define root path
 include_once __DIR__ . '/../header.php';
-include_once __DIR__ . '/../actions/functions.php';
+include_once __DIR__ . '/../actions/load_request.php';
 include_once __DIR__ . '/../actions/html.php';
 include_once __DIR__ . '/../actions/mdwiki_sql.php';
 include_once __DIR__ . '/../results/tr_link.php';
