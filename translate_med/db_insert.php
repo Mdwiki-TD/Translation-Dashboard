@@ -20,7 +20,7 @@ function insertPage($title_o, $word, $tr_type, $cat, $coden, $useree)
     // ---
     $quae_new = <<<SQL
         INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target, add_date)
-        SELECT ?, ?, ?, ?, ?, DATE(NOW()), ?, '', '', now()
+        SELECT ?, ?, ?, ?, ?, DATE(NOW()), ?, '', '', DATE(NOW())
         WHERE NOT EXISTS
             (SELECT 1
             FROM pages
@@ -43,7 +43,7 @@ function insertPage_inprocess($title, $word, $tr_type, $cat, $lang, $user)
     // ---
     $quae_new = <<<SQL
         INSERT INTO in_process (title, user, lang, cat, translate_type, word, add_date)
-        SELECT ?, ?, ?, ?, ?, ?, now()
+        SELECT ?, ?, ?, ?, ?, ?, DATE(NOW())
         WHERE NOT EXISTS
             (SELECT 1
             FROM in_process
