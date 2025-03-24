@@ -9,7 +9,7 @@ use function TD\print_form_start1;
 
 */
 
-if (isset($_REQUEST['test'])) {
+if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);

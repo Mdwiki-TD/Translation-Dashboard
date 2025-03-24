@@ -7,7 +7,7 @@ use function Actions\MdwikiSql\fetch_query;
 use function Actions\MdwikiSql\execute_query;
 */
 
-if (isset($_REQUEST['test'])) {
+if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);

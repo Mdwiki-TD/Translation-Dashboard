@@ -33,7 +33,7 @@ function pages_tables($user_main, $year_y, $lang_y, $test = '')
     return array('dd' => $dd, 'dd_Pending' => $dd_Pending);
 }
 
-function get_users_tables($mainuser, $year_y, $lang_y, $test = '')
+function get_users_tables($mainuser, $year_y, $lang_y)
 {
     $user_main = $mainuser;
     $user_main = rawurldecode(str_replace('_', ' ', $user_main));
@@ -44,7 +44,7 @@ function get_users_tables($mainuser, $year_y, $lang_y, $test = '')
     //---
     $table_of_views = []; //get_user_views($user_main, $year_y, $lang_y);
     //---
-    $pages_table = pages_tables($user_main, $year_y, $lang_y, $test = '');
+    $pages_table = pages_tables($user_main, $year_y, $lang_y);
     //---
     $dd = $pages_table['dd'];
     $dd_Pending = $pages_table['dd_Pending'];
