@@ -58,19 +58,18 @@ function post_url(string $endPoint, array $params = []): string
     $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     //---
     if ($http_code !== 200) {
-        test_print_o('Error: API request failed with status code ' . $http_code);
+        test_print_o('post_url: Error: API request failed with status code ' . $http_code);
     }
     //---
-    test_print_o("post_url_params_result:(http_code: $http_code) $url2");
+    test_print_o("post_url: (http_code: $http_code) $url2");
     // ---
     if ($output === FALSE) {
-        test_print_o("cURL Error: " . curl_error($ch));
+        test_print_o("post_url: cURL Error: " . curl_error($ch));
     }
 
     if (curl_errno($ch)) {
-        test_print_o('Error:' . curl_error($ch));
+        test_print_o('post_url: Error:' . curl_error($ch));
     }
-
 
     curl_close($ch);
     return $output;

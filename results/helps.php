@@ -13,7 +13,6 @@ use function Results\ResultsHelps\open_json_file;
 
 use function Actions\TestPrint\test_print;
 
-
 function open_json_file($file_path)
 {
     if (!is_file($file_path)) {
@@ -64,6 +63,8 @@ function get_lang_exists_pages($code)
     // Load existing pages from JSON file
     $json_file = "$tables_dir/cash_exists/$code.json";
     $exists = open_json_file($json_file);
-    test_print("$json_file: Exists size: " . count($exists));
+
+    test_print("File: cash_exists/$code.json: Exists size: " . count($exists));
+
     return $exists;
 }

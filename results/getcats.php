@@ -7,8 +7,7 @@ use function Results\GetCats\get_category_from_cache;
 use function Results\GetCats\get_mdwiki_cat_members;
 */
 
-include_once __DIR__ . '/../Tables/include.php';
-include_once __DIR__ . '/../actions/load_request.php';
+include_once __DIR__ . '/include.php';
 
 use function Actions\TestPrint\test_print;
 use function Actions\MdwikiApi\get_mdwiki_url_with_params;
@@ -39,7 +38,7 @@ function get_category_from_cache($cat)
     $new_list = open_json_file($file_path) ?? [];
 
     if (empty($new_list)) {
-        test_print("File: $file_path empty or not exists");
+        // test_print("File: $file_path empty or not exists");
         return [];
     }
 
@@ -47,7 +46,7 @@ function get_category_from_cache($cat)
         test_print("Invalid format in JSON file $file_path");
         return [];
     }
-    test_print("$file_path: Exists size: " . count($new_list['list']));
+    test_print("File: cats_cash/$cat.json: Exists size: " . count($new_list['list']));
 
     return titles_filter($new_list['list'], $with_Category = true);
 }
