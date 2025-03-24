@@ -15,8 +15,13 @@ use function Results\ResultsTable\make_results_table;
 include_once __DIR__ . '/../Tables/include.php';
 
 use function Results\TrLink\make_tr_link_medwiki;
+use function Tables\SqlTables\load_translate_type;
+use function SQLorAPI\GetDataTab\get_td_or_sql_qids;
+use function SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
+
 
 $use_medwiki = $settings['use_medwiki']['value'] ?? false;
+$full_translators = array_column(get_td_or_sql_full_translators(), 'user');
 
 function sort_py_PageViews($items, $en_views_tab)
 {
@@ -103,7 +108,7 @@ function one_item_props($title, $tra_type)
     $words_tab = ($tra_type == 'all') ? $All_Words_table : $Words_table;
     $ref_tab   = ($tra_type == 'all') ? $All_Refs_table  : $Lead_Refs_table;
     //---
-    global $sql_qids;
+    $sql_qids = get_td_or_sql_qids();
     //---
     $word  = $words_tab[$title] ?? 0;
     $refs  = $ref_tab[$title] ?? 0;
@@ -123,7 +128,7 @@ function one_item_props($title, $tra_type)
     //---
     return $tab;
 }
-function make_one_row($title, $tra_type, $cnt, $cod, $cat, $camp, $inprocess, $in_process, $tra_btn, $full, $full_tr_user)
+function make_one_row($title, $tra_type, $cnt, $cod, $cat, $camp, $inprocess, $inprocess_table, $tra_btn, $full, $full_tr_user)
 {
     global $use_medwiki;
     //---
@@ -131,7 +136,7 @@ function make_one_row($title, $tra_type, $cnt, $cod, $cat, $camp, $inprocess, $i
     //---
     $div_id = "t_$cnt";
     //---
-    $_translate_type_ = $in_process['translate_type'] ?? '';
+    $_translate_type_ = $inprocess_table['translate_type'] ?? '';
     //---
     $is_video = false;
     //---
@@ -160,8 +165,15 @@ function make_one_row($title, $tra_type, $cnt, $cod, $cat, $camp, $inprocess, $i
     $mdwiki_url = "//mdwiki.org/wiki/" . str_replace('+', '_', $title2);
     $qid = (!empty($qid)) ? "<a class='inline' target='_blank' href='https://wikidata.org/wiki/$qid'>$qid</a>" : '&nbsp;';
     //---
+    // if ($use_medwiki) {
+    //---
     $full_translate_url = make_tr_link_medwiki($title, $cod, $cat, $camp, "all");
     $translate_url = make_tr_link_medwiki($title, $cod, $cat, $camp, $tra_type);
+    //---
+    // } else {
+    // $full_translate_url = make_translate_link($title, $cod, $cat, $camp, "all");
+    // $translate_url = make_translate_link($title, $cod, $cat, $camp, $tra_type);
+    // }
     //---
     $tab = "<a href='$translate_url' class='btn btn-outline-primary btn-sm' target='_blank'>Translate</a>";
     //---
@@ -174,7 +186,7 @@ function make_one_row($title, $tra_type, $cnt, $cod, $cat, $camp, $inprocess, $i
             HTML;
     }
     //---
-    if (global_username == '') {
+    if ($GLOBALS['global_username'] == '') {
         $tab = <<<HTML
             <a role='button' class='btn btn-outline-primary' onclick='login()'>
                 <i class='fas fa-sign-in-alt fa-sm fa-fw mr-1'></i><span class='navtitles'>Login</span>
@@ -184,11 +196,11 @@ function make_one_row($title, $tra_type, $cnt, $cod, $cat, $camp, $inprocess, $i
         $translate_url = $mdwiki_url;
     }
     //---
-    $_user_ = $in_process['user'] ?? '';
-    $_date_ = $in_process['date'] ?? '';
+    $_user_ = $inprocess_table['user'] ?? '';
+    $_date_ = $inprocess_table['date'] ?? '';
     //---
     if ($inprocess) {
-        if ($tra_btn != '1') {
+        if ($tra_btn != '1' && $_user_ != $GLOBALS['global_username']) {
             $tab = '';
             $translate_url = $mdwiki_url;
             $full_translate_url = $mdwiki_url;
@@ -234,26 +246,25 @@ function make_one_row($title, $tra_type, $cnt, $cod, $cat, $camp, $inprocess, $i
 function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inprocess = false)
 {
     //---
-    global $enwiki_pageviews_table;
-    global $no_lead_translates, $full_translates;
+    global $enwiki_pageviews_table, $full_translators;
+    // global $no_lead_translates, $full_translates;
     //---
-    global $full_translators;
+    $no_lead_translates = load_translate_type('no');
+    $full_translates = load_translate_type('full');
     //---
-    $full_tr_user = in_array(global_username, $full_translators);
+    $full_tr_user = in_array($GLOBALS['global_username'], $full_translators);
     //---
     $do_full   = ($tra_type == 'all') ? false : true;
     //---
     $Translate_th = "<th>Translate</th>";
     //---
-    $in_process = ($inprocess) ? $items : array();
+    $inprocess_table = ($inprocess) ? $items : array();
     $inprocess_first = '';
     //---
     if ($inprocess) {
         $inprocess_first = '<th>user</th><th>date</th>';
         $items = array_keys($items);
-        if ($tra_btn != '1') {
-            $Translate_th = '<th></th>';
-        }
+        // if ($tra_btn != '1') $Translate_th = '<th></th>';
     };
     //---
     $frist = <<<HTML
@@ -302,9 +313,9 @@ function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inp
         //---
         $cnt2 = $cnt;
         //---
-        $in_process_v = $in_process[$v] ?? [];
+        $inprocess_v = $inprocess_table[$v] ?? [];
         //---
-        $row = make_one_row($title, $tra_type, $cnt2, $cod, $cat, $camp, $inprocess, $in_process_v, $tra_btn, false, $full_tr_user);
+        $row = make_one_row($title, $tra_type, $cnt2, $cod, $cat, $camp, $inprocess, $inprocess_v, $tra_btn, false, $full_tr_user);
         //---
         // if in process or full translates not allowed
         if ($inprocess || !$do_full || $full_tr_user) {
@@ -328,7 +339,7 @@ function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inp
         }
         //---
         if ($full) {
-            $list .= make_one_row($title, 'all', $cnt2, $cod, $cat, $camp, $inprocess, $in_process_v, $tra_btn, true, $full_tr_user);
+            $list .= make_one_row($title, 'all', $cnt2, $cod, $cat, $camp, $inprocess, $inprocess_v, $tra_btn, true, $full_tr_user);
         }
         //---
         $cnt++;

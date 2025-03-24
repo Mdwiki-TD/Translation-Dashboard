@@ -387,15 +387,6 @@ $lang_to_code = []; // "(simple) Simple English"	=>	"simple",
 //---
 $code_to_lang = [];
 //---
-/*
-foreach ($code_to_wikiname as $code => $name) {
-    // ---
-    $lang_title = "($code) $name";
-    // ---
-    $code_to_lang[$code] = $lang_title;
-    $lang_to_code[$lang_title] = $code;
-};*/
-//---
 foreach ($Langs_table as $_ => $lang_tab) {
     $lang_code = $lang_tab['code'] ?? "";
     $lang_name = $lang_tab['autonym'] ?? "";

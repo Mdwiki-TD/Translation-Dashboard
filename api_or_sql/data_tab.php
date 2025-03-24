@@ -13,47 +13,152 @@ use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
 use function SQLorAPI\GetDataTab\get_td_or_sql_projects;
 use function SQLorAPI\GetDataTab\get_td_or_sql_settings;
 use function SQLorAPI\GetDataTab\get_td_or_sql_views;
+use function SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
+use function SQLorAPI\GetDataTab\get_td_or_sql_users_by_wiki;
+use function SQLorAPI\GetDataTab\get_td_or_sql_count_pages;
 
 */
 
 use function Actions\MdwikiSql\fetch_query;
 use function Actions\TDApi\get_td_api;
-use function SQLorAPI\Get\isvalid;
 
-function get_td_or_sql_views()
+$settings_tabe = array_column(get_td_api(['get' => 'settings']), 'value', 'title');
+//---
+$from_api  = (($settings_tabe['use_td_api'] ?? "") == "1") ? true : false;
+
+$data_tab = [];
+
+function isvalid($str)
+{
+    return !empty($str) && $str != 'All' && $str != 'all';
+}
+
+function get_td_or_sql_titles_infos()
 {
     // ---
     global $from_api;
     // ---
-    if ($from_api) {
-        $data = get_td_api(['get' => 'views']);
-    } else {
-        $query = "SELECT target, lang, countall, count2021, count2022, count2023, count2024, count2025, count2026 FROM views";
-        //---
-        $data = fetch_query($query);
+    static $titles_infos = [];
+    // ---
+    if (!empty($titles_infos ?? [])) {
+        return $titles_infos;
     }
+    // ---
+    if ($from_api) {
+        $data = get_td_api(['get' => 'titles']);
+    } else {
+        $qua = <<<SQL
+            SELECT
+                ase.title,
+                ase.importance,
+                rc.r_lead_refs,
+                rc.r_all_refs,
+                ep.en_views,
+                w.w_lead_words,
+                w.w_all_words,
+                q.qid
+            FROM assessments ase
+            LEFT JOIN enwiki_pageviews ep ON ase.title = ep.title
+            LEFT JOIN qids q ON q.title = ase.title
+            LEFT JOIN refs_counts rc ON rc.r_title = ase.title
+            LEFT JOIN words w ON w.w_title = ase.title
+        SQL;
+        // ---
+        $qua = <<<SQL
+            SELECT *
+            FROM titles_infos
+        SQL;
+        // ---
+        $data = fetch_query($qua);
+    }
+    // ---
+    $titles_infos = $data;
     // ---
     return $data;
 }
+
+function get_td_or_sql_views($year, $lang)
+{
+    // ---
+    global $from_api, $data_tab;
+    // ---
+    if (!empty($data_tab['sql_views' . $year . $lang] ?? [])) {
+        return $data_tab['sql_views' . $year . $lang];
+    }
+    // ---
+    if ($from_api) {
+        $api_params = ['get' => 'views_new'];
+        // ---
+        if (isvalid($year)) {
+            $api_params['year'] = $year;
+        }
+        // ---
+        if (isvalid($lang)) {
+            $api_params['lang'] = $lang;
+        }
+        // ---
+        $data = get_td_api($api_params);
+    } else {
+        //---
+        $query2 = <<<SQL
+            SELECT p.title, v.target, v.lang, v.views
+            FROM views_new_all v
+            LEFT JOIN pages p
+                ON p.target = v.target
+                AND p.lang = v.lang
+        SQL;
+        //---
+        $params = [];
+        //---
+        if (isvalid($lang)) {
+            $query2 .= " WHERE v.lang = ? \n";
+            $params[] = $lang;
+        }
+        //---
+        if (isvalid($year)) {
+            $query2 .= " AND YEAR(p.pupdate) = ? \n";
+            $params[] = $year;
+        }
+        //---
+        $data = fetch_query($query2, $params);
+    }
+    // ---
+    $data_tab['sql_views' . $year . $lang] = $data;
+    // ---
+    return $data;
+}
+
 function get_td_or_sql_settings()
 {
     // ---
     global $from_api;
     // ---
+    static $settings = [];
+    // ---
+    if (!empty($settings)) {
+        return $settings;
+    }
+    // ---
     if ($from_api) {
-        $data = get_td_api(['get' => 'settings']);
+        $settings = get_td_api(['get' => 'settings']);
     } else {
         $query = "select id, title, displayed, value, Type from settings";
         //---
-        $data = fetch_query($query);
+        $settings = fetch_query($query);
     }
     // ---
-    return $data;
+    return $settings;
 }
 function get_td_or_sql_projects()
 {
     // ---
     global $from_api;
+    // ---
+    static $projects = [];
+    // ---
+    if (!empty($projects ?? [])) {
+        return $projects;
+    }
     // ---
     if ($from_api) {
         $data = get_td_api(['get' => 'projects']);
@@ -63,12 +168,20 @@ function get_td_or_sql_projects()
         $data = fetch_query($query);
     }
     // ---
+    $projects = $data;
+    // ---
     return $data;
 }
 function get_td_or_sql_categories()
 {
     // ---
     global $from_api;
+    // ---
+    static $categories = [];
+    // ---
+    if (!empty($categories ?? [])) {
+        return $categories;
+    }
     // ---
     if ($from_api) {
         $data = get_td_api(['get' => 'categories']);
@@ -78,12 +191,18 @@ function get_td_or_sql_categories()
         $data = fetch_query($query);
     }
     // ---
+    $categories = $data;
+    // ---
     return $data;
 }
 function get_td_or_sql_qids()
 {
     // ---
     global $from_api;
+    // ---
+    static $sql_td_qids = [];
+    // ---
+    if (!empty($sql_td_qids)) return $sql_td_qids;
     // ---
     if ($from_api) {
         $data = get_td_api(['get' => 'qids']);
@@ -93,14 +212,18 @@ function get_td_or_sql_qids()
         $data = fetch_query($query);
     }
     // ---
-    $sql_qids = array_column($data, 'qid', 'title');
-    //---
-    return $sql_qids;
+    $sql_td_qids = array_column($data, 'qid', 'title');
+    // ---
+    return $sql_td_qids;
 }
 function get_td_or_sql_full_translators()
 {
     // ---
     global $from_api;
+    // ---
+    static $full_translators = [];
+    // ---
+    if (!empty($full_translators)) return $full_translators;
     // ---
     if ($from_api) {
         $data = get_td_api(['get' => 'full_translators']);
@@ -110,12 +233,20 @@ function get_td_or_sql_full_translators()
         $data = fetch_query($query);
     }
     // ---
+    $full_translators = $data;
+    // ---
     return $data;
 }
 function get_td_or_sql_translate_type()
 {
     // ---
     global $from_api;
+    // ---
+    static $translate_type = [];
+    // ---
+    if (!empty($translate_type ?? [])) {
+        return $translate_type;
+    }
     // ---
     if ($from_api) {
         $data = get_td_api(['get' => 'translate_type']);
@@ -125,180 +256,73 @@ function get_td_or_sql_translate_type()
         $data = fetch_query($query);
     }
     // ---
-    return $data;
-}
-function get_user_pages($user_main, $year_y, $lang_y)
-{
-    // ---
-    global $from_api;
-    // ---
-    $api_params = ['get' => 'pages', 'user' => $user_main];
-    // ---
-    $query = "select * from pages where user = ?";
-    $sql_params = [$user_main];
-    // ---
-    if (isvalid($year_y)) {
-        $query .= " and YEAR(date) = ?";
-        $sql_params[] = $year_y;
-        // ---
-        $api_params['YEAR(date)'] = $year_y;
-    };
-    // ---
-    if (isvalid($lang_y)) {
-        $query .= " and lang = ?";
-        $sql_params[] = $lang_y;
-        // ---
-        $api_params['lang'] = $lang_y;
-    };
-    //---
-    if ($from_api) {
-        $data = get_td_api($api_params);
-    } else {
-        $data = fetch_query($query, $sql_params);
-    }
+    $translate_type = $data;
     // ---
     return $data;
 }
 
-function get_user_views($user, $year_y, $lang_y)
+function get_td_or_sql_users_by_wiki()
 {
     // ---
     global $from_api;
     // ---
-    if ($from_api) {
-        $data = get_td_api(['get' => 'user_views', 'user' => $user]);
-    } else {
-        $query = "select p.target, v.countall from pages p, views v where p.user = ? and p.lang = v.lang and p.target = v.target";
-        $params = [$user];
-        $data = fetch_query($query, $params);
+    static $users_by_wiki = [];
+    // ---
+    if (!empty($users_by_wiki ?? [])) {
+        return $users_by_wiki;
     }
     // ---
-    return $data;
-}
-
-
-function get_pages_with_pupdate()
-{
-    // ---
-    global $from_api;
-    // ---
     if ($from_api) {
-        $data = get_td_api(['get' => 'pages', 'distinct' => "1", 'select' => 'YEAR(pupdate) AS year', 'pupdate' => 'not_empty']);
-    } else {
-        $query = "SELECT DISTINCT YEAR(pupdate) AS year FROM pages WHERE pupdate <> ''";
-        $data = fetch_query($query);
-    }
-    // ---
-    return array_map('current', $data);
-}
-
-
-function get_graph_data()
-{
-    // ---
-    global $from_api;
-    // ---
-    if ($from_api) {
-        $data = get_td_api(['get' => 'graph_data']);
+        $data = get_td_api(['get' => 'users_by_wiki']);
     } else {
         $query = <<<SQL
-            SELECT LEFT(pupdate, 7) as m, COUNT(*) as c
-            FROM pages
-            WHERE target != ''
-            GROUP BY LEFT(pupdate, 7)
-            ORDER BY LEFT(pupdate, 7) ASC;
+            SELECT user, lang, MAX(target_count) AS max_target, sum(target_count) AS sum_target
+                FROM (
+                    SELECT user, lang, COUNT(target) AS target_count
+                    FROM pages
+                    GROUP BY user, lang
+                    ORDER BY 1 DESC
+                ) AS subquery
+            GROUP BY user
+            ORDER BY 3 DESC
         SQL;
         //---
         $data = fetch_query($query);
     }
     // ---
-    return $data;
-}
-function get_lang_pages($lang, $year_y)
-{
-    // ---
-    global $from_api;
-    // ---
-    $api_params = ['get' => 'pages', 'lang' => $lang];
-    // ---
-    $query = "select target, lang, title, date, pupdate from pages where lang = ?";
-    $params = [$lang];
-    // ---
-    if (isvalid($year_y)) {
-        $query .= " and YEAR(date) = ?";
-        $params[] = $year_y;
-        // ---
-        $api_params['YEAR(date)'] = $year_y;
-    };
-    // ---
-    if ($from_api) {
-        $data = get_td_api($api_params);
-    } else {
-        $data = fetch_query($query, $params);
-    }
-    // ---
-    return $data;
-}
-function get_lang_views($mainlang)
-{
-    // ---
-    global $from_api;
-    // ---
-    if ($from_api) {
-        $data = get_td_api(['get' => 'lang_views', 'lang' => $mainlang]);
-    } else {
-        $query = "select p.target, v.countall from pages p, views v where p.lang = ? and p.lang = v.lang and p.target = v.target";
-        $params = [$mainlang];
-        $data = fetch_query($query, $params);
-    }
+    $users_by_wiki = $data;
     // ---
     return $data;
 }
 
-function get_lang_years($mainlang)
+function get_td_or_sql_count_pages()
 {
     // ---
     global $from_api;
     // ---
-    if ($from_api) {
-        $data = get_td_api(['get' => 'pages', 'distinct' => "1", 'select' => 'YEAR(pupdate) AS year', 'pupdate' => 'not_empty', 'lang' => $mainlang]);
-    } else {
-        $query = "SELECT DISTINCT YEAR(pupdate) AS year FROM pages WHERE lang = ? AND pupdate <> ''";
-        $params = [$mainlang];
-        $data = fetch_query($query, $params);
+    static $count_pages = [];
+    // ---
+    if (!empty($count_pages ?? [])) {
+        return $count_pages;
     }
     // ---
-    return array_map('current', $data);
-}
-
-function get_user_years($user)
-{
-    // ---
-    global $from_api;
-    // ---
     if ($from_api) {
-        $data = get_td_api(['get' => 'pages', 'distinct' => "1", 'select' => 'YEAR(date) AS year', 'user' => $user]);
+        $data = get_td_api(['get' => 'count_pages']);
     } else {
-        $query = "SELECT DISTINCT YEAR(date) AS year FROM pages WHERE user = ?";
-        $params = [$user];
-        $data = fetch_query($query, $params);
+        $query = <<<SQL
+            SELECT DISTINCT user, count(target) as count from pages group by user order by count desc
+        SQL;
+        //---
+        $data = fetch_query($query);
     }
     // ---
-    return array_map('current', $data);
-}
-
-function get_user_langs($user)
-{
+    $data = array_column($data, 'count', 'user');
     // ---
-    global $from_api;
+    arsort($data);
     // ---
-    if ($from_api) {
-        $data = get_td_api(['get' => 'pages', 'distinct' => "1", 'select' => 'lang', 'user' => $user]);
-    } else {
-        $query = "SELECT DISTINCT lang FROM pages WHERE user = ?";
-        $params = [$user];
-        $data = fetch_query($query, $params);
-    }
+    // print_r($data);
     // ---
-    return array_map('current', $data);
+    $count_pages = $data;
+    // ---
+    return $data;
 }

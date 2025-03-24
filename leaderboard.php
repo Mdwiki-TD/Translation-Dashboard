@@ -7,12 +7,13 @@ if (isset($_REQUEST['test'])) {
 };
 
 include_once __DIR__ . '/header.php';
-include_once __DIR__ . '/actions/functions.php';
-include_once __DIR__ . '/Tables/include.php'; // $sql_qids $cat_titles $cat_to_camp $camp_to_cat
+include_once __DIR__ . '/actions/load_request.php';
+include_once __DIR__ . '/Tables/include.php';
 
-require __DIR__ . '/leaderboard/index.php';
+include_once __DIR__ . '/leaderboard/index.php';
+
+// use function Actions\TestPrint\test_print;
 
 echo '<!-- <script src="/Translation_Dashboard/js/leadtable.js"></script> -->';
 
 include_once __DIR__ . '/footer.php';
-?>

@@ -3,21 +3,16 @@
 namespace Results\GetCats;
 /*
 Usage:
-use function Results\GetCats\start_with;
-use function Results\GetCats\get_in_process;
-use function Results\GetCats\open_json_file;
-use function Results\GetCats\get_cat_from_cache;
-use function Results\GetCats\get_categorymembers;
-use function Results\GetCats\get_mmbrs;
+use function Results\GetCats\get_category_from_cache;
 use function Results\GetCats\get_mdwiki_cat_members;
 */
 
 include_once __DIR__ . '/../Tables/include.php';
-include_once __DIR__ . '/../actions/functions.php';
+include_once __DIR__ . '/../actions/load_request.php';
 
-use function Actions\Functions\test_print;
+use function Actions\TestPrint\test_print;
 use function Actions\MdwikiApi\get_mdwiki_url_with_params;
-use function SQLorAPI\Get\get_in_process_tdapi;
+use function Results\ResultsHelps\open_json_file;
 
 function start_with($haystack, $needle)
 {
@@ -33,39 +28,7 @@ function titles_filter($titles, $with_Category = false)
     });
 }
 
-function get_in_process($missing, $code)
-{
-    $res = get_in_process_tdapi($code);
-    $titles = [];
-    foreach ($res as $t) {
-        if (in_array($t['title'], $missing)) $titles[$t['title']] = $t;
-    }
-    return $titles;
-}
-
-function open_json_file($file_path)
-{
-    if (!is_file($file_path)) {
-        test_print("$file_path does not exist");
-        return [];
-    }
-
-    $text = file_get_contents($file_path);
-    if ($text === false) {
-        test_print("Failed to read file contents from $file_path");
-        return [];
-    }
-
-    $data = json_decode($text, true);
-    if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
-        test_print("Failed to decode JSON from $file_path");
-        return [];
-    }
-
-    return $data;
-}
-
-function get_cat_from_cache($cat)
+function get_category_from_cache($cat)
 {
     $tables_dir = getenv('tables_dir') ?? __DIR__ . '/../../td/Tables';
     if (substr($tables_dir, 0, 2) == 'I:') {
@@ -73,17 +36,23 @@ function get_cat_from_cache($cat)
     }
 
     $file_path = "$tables_dir/cats_cash/$cat.json";
-    $new_list = open_json_file($file_path);
+    $new_list = open_json_file($file_path) ?? [];
+
+    if (empty($new_list)) {
+        test_print("File: $file_path empty or not exists");
+        return [];
+    }
 
     if (!isset($new_list['list']) || !is_array($new_list['list'])) {
         test_print("Invalid format in JSON file $file_path");
         return [];
     }
+    test_print("$file_path: Exists size: " . count($new_list['list']));
 
     return titles_filter($new_list['list'], $with_Category = true);
 }
 
-function get_categorymembers($cat)
+function fetch_category_members($cat)
 {
     if (!start_with($cat, 'Category:')) {
         $cat = "Category:$cat";
@@ -115,26 +84,28 @@ function get_categorymembers($cat)
         }
     }
 
-    test_print("get_categorymembers() items size:" . count($items));
+    test_print("fetch_category_members() items size:" . count($items));
     return $items;
 }
 
-function get_mmbrs($cat, $use_cache = true)
+function get_category_members($cat, $use_cache = true)
 {
-    // $all = $use_cache || $_SERVER['SERVER_NAME'] == 'localhost' ? get_cat_from_cache($cat) : get_categorymembers($cat);
+    // $all = $use_cache || $_SERVER['SERVER_NAME'] == 'localhost' ? get_category_from_cache($cat) : fetch_category_members($cat);
     // ---
-    // $all = $use_cache ? get_cat_from_cache($cat) : get_categorymembers($cat);
-    // return empty($all) ? get_categorymembers($cat) : $all;
+    // $all = $use_cache ? get_category_from_cache($cat) : fetch_category_members($cat);
+    // return empty($all) ? fetch_category_members($cat) : $all;
     // ---
     $all = [];
     // ---
     if ($use_cache) {
-        $all = get_cat_from_cache($cat);
+        $all = get_category_from_cache($cat);
     }
     // ---
     if (empty($all)) {
-        $all = get_categorymembers($cat);
+        $all = fetch_category_members($cat);
     }
+    // ---
+    test_print("get_category_members all size: " . count($all));
     // ---
     return $all;
 }
@@ -143,14 +114,15 @@ function get_mmbrs($cat, $use_cache = true)
 function get_mdwiki_cat_members($cat, $depth, $use_cache)
 {
     $titles = [];
-    $cats = [$cat];
+    $cats = [];
+    $cats[] = $cat;
     $depth_done = -1;
 
     while (count($cats) > 0 && $depth > $depth_done) {
         $cats2 = [];
 
         foreach ($cats as $cat1) {
-            $all = get_mmbrs($cat1, $use_cache);
+            $all = get_category_members($cat1, $use_cache);
             foreach ($all as $title) {
                 if (start_with($title, 'Category:')) {
                     $cats2[] = $title;
@@ -167,7 +139,7 @@ function get_mdwiki_cat_members($cat, $depth, $use_cache)
     $titles = array_unique($titles);
 
     $newtitles = titles_filter($titles);
-    test_print("newtitles size:" . count($newtitles));
+    test_print("get_mdwiki_cat_members newtitles size:" . count($newtitles));
     // test_print("end of get_mdwiki_cat_members <br>===============================");
 
     return $newtitles;

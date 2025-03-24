@@ -13,7 +13,7 @@ $test = $_REQUEST['test'] ?? '';
 $year_y = $_REQUEST['year'] ?? 'All';
 $lang_y = $_REQUEST['lang'] ?? 'All';
 //---
-if ($mainuser == global_username) {
+if ($mainuser == $GLOBALS['global_username']) {
     echo '<script>
         $(".navbar-nav").find("li.active").removeClass("active");
         $("#myboard").addClass("active");

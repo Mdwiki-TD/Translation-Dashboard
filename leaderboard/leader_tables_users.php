@@ -13,27 +13,20 @@ use function Leaderboard\LeaderTabUsers\module_copy;
 // include_once __DIR__ . '/leader_tables_tabs.php';
 
 use function Actions\Html\make_modal_fade;
+use function SQLorAPI\GetDataTab\get_td_or_sql_users_by_wiki;
 
 function module_copy()
 {
 
-    global $sql_users_tab, $sql_users_tab_to_lang;
-    arsort($sql_users_tab);
-
-    $usrse = [];
-
-    foreach ($sql_users_tab as $user => $usercount) {
-        $usrse[$user] = isset($sql_users_tab_to_lang[$user]) ? $sql_users_tab_to_lang[$user] : [];
-    };
+    $users_tab = get_td_or_sql_users_by_wiki();
 
     $lal = "<textarea cols='55' rows='10' id='users_targets' name='users_targets'>";
 
-    foreach ($usrse as $user => $langs) {
-        // sort $langs by numbers
-        arsort($langs);
+    foreach ($users_tab as $tab) {
         // get first item in $langs
-        $lan = array_keys($langs)[0];
-        $lal .= "#{{#target:User:$user|$lan.wikipedia.org}}\n";
+        $user = $tab['user'];
+        $lang = $tab['lang'];
+        $lal .= "#{{#target:User:$user|$lang.wikipedia.org}}\n";
     }
     //---
     $lal .= '</textarea>';
@@ -57,10 +50,7 @@ function makeUsersTable($min = 2)
 
     global $sql_users_tab, $Users_word_table, $Views_by_users;
     //---
-
-    arsort($sql_users_tab);
     $numb = 0;
-
     $trs = "";
     foreach ($sql_users_tab as $user => $usercount) {
         // if ($usercount < $min && $numb > 15) continue;

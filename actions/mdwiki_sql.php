@@ -13,7 +13,7 @@ if (isset($_REQUEST['test'])) {
     error_reporting(E_ALL);
 };
 //---
-// use function Actions\Functions\test_print;
+// use function Actions\TestPrint\test_print;
 use PDO;
 use PDOException;
 //---

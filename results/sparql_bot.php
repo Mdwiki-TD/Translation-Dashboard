@@ -11,7 +11,7 @@ use function Results\SparqlBot\get_sparql_data_exists;
 */
 
 use function Results\ResultsHelps\print_r_it;
-use function Actions\Functions\test_print;
+use function Actions\TestPrint\test_print;
 use function SQLorAPI\GetDataTab\get_td_or_sql_qids;
 use function Results\SPARQL_Dispatcher\get_query_result;
 
@@ -80,13 +80,13 @@ function get_sparql_data_exists($with_qids, $code): array
 function get_qids($list)
 {
     //---
-    $sql_qids = get_td_or_sql_qids();
+    $sq_qids = get_td_or_sql_qids();
     //---
     $with_qids = [];
     $no_qids = [];
     // ---
     foreach ($list as $member) {
-        $qid = $sql_qids[$member] ?? 0;
+        $qid = $sq_qids[$member] ?? 0;
         if ($qid) {
             $with_qids[$member] = $qid;
         } else {

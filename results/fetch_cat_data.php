@@ -10,7 +10,7 @@ use function Results\FetchCatData\get_cat_exists_and_missing;
 */
 
 use function Results\GetCats\get_mdwiki_cat_members;
-use function Actions\Functions\test_print;
+use function Actions\TestPrint\test_print;
 use function Results\ResultsHelps\get_lang_exists_pages;
 
 function get_cat_exists_and_missing($cat, $depth, $code, $use_cache = true): array
@@ -19,7 +19,7 @@ function get_cat_exists_and_missing($cat, $depth, $code, $use_cache = true): arr
     // $members = get_mdwiki_cat_members($cat, $use_cache = $use_cache, $depth = $depth, $camp = $camp);
     $members = get_mdwiki_cat_members($cat, $depth, $use_cache);
 
-    test_print("Members size: " . count($members));
+    test_print("get_cat_exists_and_missing Members size: " . count($members));
 
     $exists = get_lang_exists_pages($code);
     // ---
