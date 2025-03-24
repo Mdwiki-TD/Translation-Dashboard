@@ -86,6 +86,7 @@ function get_category_from_cache($cat)
         test_print("Invalid format in JSON file $file_path");
         return [];
     }
+    test_print("$file_path: Exists size: " . count($new_list['list']));
 
     return titles_filter($new_list['list'], $with_Category = true);
 }
