@@ -11,7 +11,7 @@ use function Leaderboard\SubUsers\get_users_tables;
 use function SQLorAPI\Get\get_user_views;
 use function SQLorAPI\Get\get_user_pages;
 
-function pages_tables($user_main, $year_y, $lang_y, $test = '')
+function pages_tables($user_main, $year_y, $lang_y)
 {
     //---
     $sql_result = get_user_pages($user_main, $year_y, $lang_y);

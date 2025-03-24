@@ -9,7 +9,6 @@ use function Leaderboard\SubUsers\get_users_tables;
 //---
 $mainuser = $_REQUEST['user'] ?? "";
 //---
-$test = $_REQUEST['test'] ?? '';
 $year_y = $_REQUEST['year'] ?? 'All';
 $lang_y = $_REQUEST['lang'] ?? 'All';
 //---
@@ -21,7 +20,7 @@ if ($mainuser == $GLOBALS['global_username']) {
     ';
 };
 //---
-$u_tables = get_users_tables($mainuser, $year_y, $lang_y, $test = $test);
+$u_tables = get_users_tables($mainuser, $year_y, $lang_y);
 //---
 $dd = $u_tables['dd'];
 $dd_Pending = $u_tables['dd_Pending'];
