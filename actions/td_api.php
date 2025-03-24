@@ -11,7 +11,7 @@ use function Actions\TDApi\compare_it;
 
 function test_print_o($s)
 {
-    $print_t = (isset($_REQUEST['test'])) ? true : false;
+    $print_t = (isset($_REQUEST['test']) || isset($_COOKIE['test'])) ? true : false;
 
     if ($print_t && gettype($s) == 'string') {
         echo "\n<br>\n$s";
