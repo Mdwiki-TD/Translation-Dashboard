@@ -29,6 +29,11 @@ function titles_filter($titles, $with_Category = false)
 
 function get_category_from_cache($cat)
 {
+    // ---
+    if (isset($_REQUEST['nocahe'])) {
+        return [];
+    }
+    // ---
     $tables_dir = getenv('tables_dir') ?? __DIR__ . '/../../td/Tables';
     if (substr($tables_dir, 0, 2) == 'I:') {
         $tables_dir = 'I:/mdwiki/mdwiki/public_html/td/Tables';
@@ -48,7 +53,7 @@ function get_category_from_cache($cat)
     }
     test_print("File: cats_cash/$cat.json: Exists size: " . count($new_list['list']));
 
-    return titles_filter($new_list['list'], $with_Category = true);
+    return titles_filter($new_list['list'], true);
 }
 
 function get_category_members($cat, $use_cache = true)
