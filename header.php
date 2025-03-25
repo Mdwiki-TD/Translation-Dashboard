@@ -60,10 +60,10 @@ if (in_array($GLOBALS['global_username'], $coordinators)) {
 };
 //---
 $them_li = <<<HTML
-	<button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown"
+	<button class="btn btn-link nav-link px-2 d-flex align-items-center " id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown"
 		data-bs-display="static" aria-label="Toggle theme (light)">
 		<span class="theme-icon-active my-1">
-			<i class="bi bi-sun-fill"></i>
+			<i class="bi bi-circle-half"></i>
 		</span>
 		<span class="d-lg-none ms-2" id="bd-theme-text"></span>
 	</button>
@@ -86,7 +86,6 @@ $them_li = <<<HTML
 	</ul>
 HTML;
 //---
-
 $li_user = <<<HTML
 	<li class="nav-item col-4 col-lg-auto">
 		<a role="button" class="nav-link py-2 px-0 px-lg-2" onclick="login()">
@@ -120,7 +119,7 @@ echo <<<HTML
 					<span class='d-none d-sm-inline tool_title' title=''>WikiProjectMed Translation Dashboard</span>
 					<span class='d-inline d-sm-none tool_title'>WikiProjectMed TD</span>
 				</a>
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar"
+				<button class="navbar-toggler me_ms_by_dir" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar"
 					aria-controls="collapsibleNavbar" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
@@ -154,11 +153,16 @@ echo <<<HTML
 					</ul>
 					<hr class="d-lg-none text-black-50">
 					<ul class="navbar-nav flex-row flex-wrap bd-navbar-nav ms-lg-auto">
-						<li class="nav-item col-4 col-lg-auto dropdown">
-							$them_li
-						</li>
 						$li_user
 					</ul>
+				</div>
+				<div class="d-flex ms-2">
+					<span class="nav-item col-4 col-lg-auto dropdown">
+						$them_li
+					</span>
+					<!-- <button class="theme-toggle btn btn-link me-ms-auto" aria-label="Toggle theme">
+						<i class="bi bi-moon-stars-fill"></i>
+					</button> -->
 				</div>
 			</div>
 		</nav>

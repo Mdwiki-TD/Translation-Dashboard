@@ -11,14 +11,13 @@ $hoste = ($_SERVER["SERVER_NAME"] == "localhost")
     : "https://tools-static.wmflabs.org/cdnjs";
 
 $stylesheets = [
-    // "/Translation_Dashboard/css/theme.css",
     // "$hoste/ajax/libs/datatables.net-responsive-bs5/3.0.3/responsive.bootstrap5.min.css",
     "/Translation_Dashboard/css/styles.css",
     "/Translation_Dashboard/css/Responsive_Table.css",
     "/Translation_Dashboard/css/dashboard_new1.css",
     "/Translation_Dashboard/css/sidebars.css",
     "$hoste/ajax/libs/font-awesome/5.15.3/css/all.min.css",
-    "$hoste/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css",
+    "$hoste/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css",
     "$hoste/ajax/libs/datatables.net-bs5/1.13.5/dataTables.bootstrap5.css",
     "$hoste/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css",
     "$hoste/ajax/libs/bootstrap-select/1.14.0-beta3/css/bootstrap-select.css",
@@ -28,7 +27,7 @@ $stylesheets = [
 $scripts = [
     "$hoste/ajax/libs/jquery/3.7.0/jquery.min.js",
     "$hoste/ajax/libs/popper.js/2.11.8/umd/popper.min.js",
-    "$hoste/ajax/libs/bootstrap/5.3.0/js/bootstrap.min.js",
+    "$hoste/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js",
     "$hoste/ajax/libs/datatables.net/2.1.1/jquery.dataTables.min.js",
     "$hoste/ajax/libs/datatables.net-fixedheader/3.4.0/dataTables.fixedHeader.min.js",
     "$hoste/ajax/libs/datatables.net-bs5/1.13.5/dataTables.bootstrap5.min.js",
@@ -42,7 +41,6 @@ $scripts = [
     // "$hoste/ajax/libs/datatables.net/2.1.6/dataTables.min.js",
     // "https://cdn.datatables.net/responsive/3.0.3/js/dataTables.responsive.min.js",
     // "/Translation_Dashboard/js/sorttable.js",
-    // "/Translation_Dashboard/js/theme.js",
 ];
 
 $scripts_module = [
@@ -87,6 +85,20 @@ function head()
     <style>
         a {
             text-decoration: none;
+        }
+
+        .me-ms-auto {
+            margin-inline-start: auto !important;
+        }
+
+        [dir="ltr"] .me_ms_by_dir {
+            margin-left: auto !important;
+            margin-right: 0px !important;
+        }
+
+        [dir="rtl"] .me_ms_by_dir {
+            margin-right: auto !important;
+            margin-left: 0px !important;
         }
     </style>
 
