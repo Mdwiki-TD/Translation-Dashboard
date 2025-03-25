@@ -36,6 +36,10 @@ function fetch_category_members_api($cat)
         if ($cmcontinue != 'x') $params['cmcontinue'] = $cmcontinue;
 
         $resa = get_mdwiki_url_with_params($params);
+        if (!isset($resa["query"]) || !isset($resa["query"]["categorymembers"])) {
+            test_print("Error fetching category members for '$cat'");
+            return $items; // Return whatever we've collected so far
+        }
         $cmcontinue = $resa["continue"]["cmcontinue"] ?? '';
 
         $categorymembers = $resa["query"]["categorymembers"] ?? [];
@@ -66,7 +70,7 @@ function fetch_category_members($cat)
 
     $items = apcu_fetch($cache_key);
 
-    if (($cat === "RTT" && count($items) < 3000) || empty($items)) {
+    if (empty($items) || ($cat === "RTT" && is_array($items) && count($items) < 3000)) {
         apcu_delete($cache_key);
         $items = false;
     }
