@@ -10,8 +10,8 @@ use function Results\GetCats\get_mdwiki_cat_members;
 include_once __DIR__ . '/include.php';
 
 use function Actions\TestPrint\test_print;
-use function Actions\MdwikiApi\get_mdwiki_url_with_params;
 use function Results\ResultsHelps\open_json_file;
+use function Results\CatsAPI\fetch_category_members;
 
 function start_with($haystack, $needle)
 {
@@ -49,42 +49,6 @@ function get_category_from_cache($cat)
     test_print("File: cats_cash/$cat.json: Exists size: " . count($new_list['list']));
 
     return titles_filter($new_list['list'], $with_Category = true);
-}
-
-function fetch_category_members($cat)
-{
-    if (!start_with($cat, 'Category:')) {
-        $cat = "Category:$cat";
-    }
-
-    $params = [
-        "action" => "query",
-        "list" => "categorymembers",
-        "cmtitle" => $cat,
-        "cmlimit" => "max",
-        "cmtype" => "page|subcat",
-        "format" => "json"
-    ];
-
-    $items = [];
-    $cmcontinue = 'x';
-
-    while (!empty($cmcontinue)) {
-        if ($cmcontinue != 'x') $params['cmcontinue'] = $cmcontinue;
-
-        $resa = get_mdwiki_url_with_params($params);
-        $cmcontinue = $resa["continue"]["cmcontinue"] ?? '';
-
-        $categorymembers = $resa["query"]["categorymembers"] ?? [];
-        foreach ($categorymembers as $pages) {
-            if ($pages["ns"] == 0 || $pages["ns"] == 14 || $pages["ns"] == 3000) {
-                $items[] = $pages["title"];
-            }
-        }
-    }
-
-    test_print("fetch_category_members() items size:" . count($items));
-    return $items;
 }
 
 function get_category_members($cat, $use_cache = true)
