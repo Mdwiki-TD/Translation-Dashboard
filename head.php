@@ -46,7 +46,7 @@ $scripts = [
 ];
 
 $scripts_module = [
-    // "/Translation_Dashboard/js/color-modes.js",
+    "/Translation_Dashboard/js/color-modes.js",
 ];
 
 
