@@ -46,7 +46,7 @@ $scripts = [
 ];
 
 $scripts_module = [
-    "/Translation_Dashboard/js/color-modes.js",
+    // "/Translation_Dashboard/js/color-modes.js",
 ];
 
 
@@ -63,6 +63,7 @@ function head()
     foreach ($scripts_module as $js) {
         echo "\n\t<script type='module' src='" . $js . "'></script>";
     }
+    echo "\n";
 }
 ?>
 
