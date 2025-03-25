@@ -86,20 +86,6 @@ function head()
         a {
             text-decoration: none;
         }
-
-        .me-ms-auto {
-            margin-inline-start: auto !important;
-        }
-
-        [dir="ltr"] .me_ms_by_dir {
-            margin-left: auto !important;
-            margin-right: 0px !important;
-        }
-
-        [dir="rtl"] .me_ms_by_dir {
-            margin-right: auto !important;
-            margin-left: 0px !important;
-        }
     </style>
 
 </head>
