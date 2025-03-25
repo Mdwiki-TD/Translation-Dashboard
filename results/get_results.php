@@ -11,19 +11,19 @@ use function Results\GetResults\get_results;
 
 // use function Results\FetchCatData\get_cat_exists_and_missing;
 use function Results\FetchCatDataSparql\get_cat_exists_and_missing;
-use function Results\GetCats\get_in_process;
 use function Results\GetCats\get_mdwiki_cat_members;
 use function Actions\TestPrint\test_print;
+use function SQLorAPI\Get\get_inprocess_tdapi;
 
-/**
- * Get results for a category, including missing pages and in-process items.
- *
- * @param string $cat   Category name.
- * @param string $camp  Campaign name.
- * @param int    $depth Depth of category traversal.
- * @param string $code  Language code.
- * @return array        Array containing in-process items, missing pages, and summary info.
- */
+function get_inprocess($missing, $code)
+{
+    $res = get_inprocess_tdapi($code);
+    $titles = [];
+    foreach ($res as $t) {
+        if (in_array($t['title'], $missing)) $titles[$t['title']] = $t;
+    }
+    return $titles;
+}
 
 function get_results($cat, $camp, $depth, $code): array
 {
@@ -49,8 +49,8 @@ function get_results($cat, $camp, $depth, $code): array
     $missing = array_unique($items_missing);
 
     // Get in-process items
-    $in_process = get_in_process($missing, $code);
-    $len_in_process = count($in_process);
+    $inprocess = get_inprocess($missing, $code);
+    $len_inprocess = count($inprocess);
 
     // Calculate totals
     $len_of_missing_pages = count($missing);
@@ -61,15 +61,16 @@ function get_results($cat, $camp, $depth, $code): array
     $caturl = "<a href='https://mdwiki.org/wiki/$cat2'>category</a>";
 
     // Generate summary message
-    $ix = "Found $len_of_all pages in $caturl, $len_of_exists_pages exists, and $len_of_missing_pages missing in (<a href='https://$code.wikipedia.org'>$code</a>), $len_in_process In process.";
+    $ix = "Found $len_of_all pages in $caturl, $len_of_exists_pages exists, and $len_of_missing_pages missing in (<a href='https://$code.wikipedia.org'>$code</a>), $len_inprocess In process.";
 
     // Remove in-process items from missing list
-    if ($len_in_process > 0) {
-        $missing = array_diff($missing, array_keys($in_process));
+    if ($len_inprocess > 0) {
+        $missing = array_diff($missing, array_keys($inprocess));
     }
 
     return [
-        "in_process" => $in_process,
+        "in_process" => $inprocess,
+        "inprocess" => $inprocess,
         "missing" => $missing,
         "ix" => $ix,
     ];

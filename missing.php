@@ -1,12 +1,11 @@
 <?PHP
 //---
 include_once __DIR__ . '/header.php';
-include_once __DIR__ . '/Tables/langcode.php';
-include_once __DIR__ . '/Tables/tables.php';
+include_once __DIR__ . '/Tables/include.php';
 //---
 echo '<script>$("#missing").addClass("active");</script>';
 //---
-if (isset($_REQUEST['test'])) {
+if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);

@@ -20,7 +20,6 @@ if (isset($GLOBALS['time_start'])) {
 
 </div>
 </main>
-
 <script src="/Translation_Dashboard/js/c.js"></script>
 <script>
 	function pupwindow(url) {

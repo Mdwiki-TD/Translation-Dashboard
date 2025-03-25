@@ -1,10 +1,8 @@
 <?php
 
 include_once __DIR__ . '/../actions/test_print.php';
-include_once __DIR__ . '/../Tables/langcode.php';
-include_once __DIR__ . '/../Tables/tables.php';
-include_once __DIR__ . '/../Tables/sql_tables.php';
-include_once __DIR__ . '/../actions/functions.php';
+include_once __DIR__ . '/../Tables/include.php';
+include_once __DIR__ . '/../actions/load_request.php';
 
 include_once __DIR__ . '/SPARQLDispatcher.php';
 include_once __DIR__ . '/sparql_bot.php';

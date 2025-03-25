@@ -7,12 +7,33 @@ Usage:
 
 use function Results\ResultsHelps\print_r_it;
 use function Results\ResultsHelps\get_lang_exists_pages;
+use function Results\ResultsHelps\open_json_file;
 
 */
 
-use function Results\GetCats\open_json_file;
 use function Actions\TestPrint\test_print;
 
+function open_json_file($file_path)
+{
+    if (!is_file($file_path)) {
+        test_print("file $file_path does not exist");
+        return [];
+    }
+
+    $text = file_get_contents($file_path);
+    if ($text === false) {
+        test_print("Failed to read file contents from $file_path");
+        return [];
+    }
+
+    $data = json_decode($text, true);
+    if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
+        test_print("Failed to decode JSON from $file_path");
+        return [];
+    }
+
+    return $data;
+}
 
 function print_r_it($data, $title, $d = false, $r = false)
 {
@@ -20,7 +41,7 @@ function print_r_it($data, $title, $d = false, $r = false)
     // ---
     if (empty($test11)) return;
     // ---
-    echo "$title:" . count($data) . "<br>";
+    echo "   -  $title: " . count($data) . "<br>";
     echo "<pre>";
     // ---
     if ($r !== false) {
@@ -42,6 +63,8 @@ function get_lang_exists_pages($code)
     // Load existing pages from JSON file
     $json_file = "$tables_dir/cash_exists/$code.json";
     $exists = open_json_file($json_file);
-    test_print("$json_file: Exists size: " . count($exists));
+
+    test_print("File: cash_exists/$code.json: Exists size: " . count($exists));
+
     return $exists;
 }

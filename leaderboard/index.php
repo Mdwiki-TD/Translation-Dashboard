@@ -3,18 +3,13 @@
 
 include_once __DIR__ . '/../actions/test_print.php';
 include_once __DIR__ . '/../results/getcats.php';
-include_once __DIR__ . '/../Tables/tables.php';
-include_once __DIR__ . '/../Tables/langcode.php';
-include_once __DIR__ . '/../Tables/sql_tables.php'; // $cat_titles $cat_to_camp $camp_to_cat
-include_once __DIR__ . '/../actions/functions.php';
+include_once __DIR__ . '/../Tables/include.php';
+include_once __DIR__ . '/../actions/load_request.php';
 include_once __DIR__ . '/../actions/html.php';
 
 //---
-include_once __DIR__ . '/subs/filter_form.php';
+include_once __DIR__ . '/subs/include.php';
 include_once __DIR__ . '/../api_or_sql/index.php';
-include_once __DIR__ . '/subs/users_sub.php';
-include_once __DIR__ . '/subs/langs_sub.php';
-include_once __DIR__ . '/subs/lead_help.php';
 
 include_once __DIR__ . '/camps.php';
 

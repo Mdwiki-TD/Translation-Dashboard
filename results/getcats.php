@@ -3,23 +3,15 @@
 namespace Results\GetCats;
 /*
 Usage:
-use function Results\GetCats\start_with;
-use function Results\GetCats\get_in_process;
-use function Results\GetCats\open_json_file;
 use function Results\GetCats\get_category_from_cache;
-use function Results\GetCats\fetch_category_members;
-use function Results\GetCats\get_category_members;
 use function Results\GetCats\get_mdwiki_cat_members;
 */
 
-include_once __DIR__ . '/../actions/test_print.php';
-include_once __DIR__ . '/../Tables/tables.php';
-include_once __DIR__ . '/../Tables/langcode.php';
-include_once __DIR__ . '/../actions/functions.php';
+include_once __DIR__ . '/include.php';
 
 use function Actions\TestPrint\test_print;
 use function Actions\MdwikiApi\get_mdwiki_url_with_params;
-use function SQLorAPI\Get\get_in_process_tdapi;
+use function Results\ResultsHelps\open_json_file;
 
 function start_with($haystack, $needle)
 {
@@ -35,38 +27,6 @@ function titles_filter($titles, $with_Category = false)
     });
 }
 
-function get_in_process($missing, $code)
-{
-    $res = get_in_process_tdapi($code);
-    $titles = [];
-    foreach ($res as $t) {
-        if (in_array($t['title'], $missing)) $titles[$t['title']] = $t;
-    }
-    return $titles;
-}
-
-function open_json_file($file_path)
-{
-    if (!is_file($file_path)) {
-        test_print("$file_path does not exist");
-        return [];
-    }
-
-    $text = file_get_contents($file_path);
-    if ($text === false) {
-        test_print("Failed to read file contents from $file_path");
-        return [];
-    }
-
-    $data = json_decode($text, true);
-    if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
-        test_print("Failed to decode JSON from $file_path");
-        return [];
-    }
-
-    return $data;
-}
-
 function get_category_from_cache($cat)
 {
     $tables_dir = getenv('tables_dir') ?? __DIR__ . '/../../td/Tables';
@@ -78,7 +38,7 @@ function get_category_from_cache($cat)
     $new_list = open_json_file($file_path) ?? [];
 
     if (empty($new_list)) {
-        test_print("File: $file_path empty or not exists");
+        // test_print("File: $file_path empty or not exists");
         return [];
     }
 
@@ -86,6 +46,7 @@ function get_category_from_cache($cat)
         test_print("Invalid format in JSON file $file_path");
         return [];
     }
+    test_print("File: cats_cash/$cat.json: Exists size: " . count($new_list['list']));
 
     return titles_filter($new_list['list'], $with_Category = true);
 }
@@ -143,6 +104,8 @@ function get_category_members($cat, $use_cache = true)
         $all = fetch_category_members($cat);
     }
     // ---
+    test_print("get_category_members all size: " . count($all));
+    // ---
     return $all;
 }
 
@@ -150,7 +113,8 @@ function get_category_members($cat, $use_cache = true)
 function get_mdwiki_cat_members($cat, $depth, $use_cache)
 {
     $titles = [];
-    $cats = [$cat];
+    $cats = [];
+    $cats[] = $cat;
     $depth_done = -1;
 
     while (count($cats) > 0 && $depth > $depth_done) {
@@ -174,7 +138,7 @@ function get_mdwiki_cat_members($cat, $depth, $use_cache)
     $titles = array_unique($titles);
 
     $newtitles = titles_filter($titles);
-    test_print("newtitles size:" . count($newtitles));
+    test_print("get_mdwiki_cat_members newtitles size:" . count($newtitles));
     // test_print("end of get_mdwiki_cat_members <br>===============================");
 
     return $newtitles;

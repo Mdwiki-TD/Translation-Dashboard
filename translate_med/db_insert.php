@@ -7,7 +7,7 @@ Usage:
 include_once __DIR__ . '/db_insert.php';
 
 use function TranslateMed\Inserter\insertPage;
-use function TranslateMed\Inserter\insertPage_in_process;
+use function TranslateMed\Inserter\insertPage_inprocess;
 
 */
 
@@ -20,7 +20,7 @@ function insertPage($title_o, $word, $tr_type, $cat, $coden, $useree)
     // ---
     $quae_new = <<<SQL
         INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target, add_date)
-        SELECT ?, ?, ?, ?, ?, DATE(NOW()), ?, '', '', now()
+        SELECT ?, ?, ?, ?, ?, DATE(NOW()), ?, '', '', DATE(NOW())
         WHERE NOT EXISTS
             (SELECT 1
             FROM pages
@@ -36,14 +36,14 @@ function insertPage($title_o, $word, $tr_type, $cat, $coden, $useree)
     execute_query($quae_new, $params = $params);
 };
 
-function insertPage_in_process($title, $word, $tr_type, $cat, $lang, $user)
+function insertPage_inprocess($title, $word, $tr_type, $cat, $lang, $user)
 {
     // ---
     // title, user, lang, cat, translate_type, word, add_date
     // ---
     $quae_new = <<<SQL
         INSERT INTO in_process (title, user, lang, cat, translate_type, word, add_date)
-        SELECT ?, ?, ?, ?, ?, ?, now()
+        SELECT ?, ?, ?, ?, ?, ?, DATE(NOW())
         WHERE NOT EXISTS
             (SELECT 1
             FROM in_process

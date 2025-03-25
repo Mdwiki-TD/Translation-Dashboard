@@ -1,12 +1,12 @@
 <?php
 
-namespace Actions\Functions;
+namespace Actions\LoadRequest;
 /*
 Usage:
-use function Actions\Functions\load_request;
+use function Actions\LoadRequest\load_request;
 */
 
-if (isset($_REQUEST['test'])) {
+if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);

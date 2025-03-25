@@ -11,7 +11,6 @@ use function Leaderboard\SubLangs\get_langs_tables;
 $mainlang = $_REQUEST['langcode'] ?? "";
 $mainlang = rawurldecode(str_replace('_', ' ', $mainlang));
 //---
-$test = $_REQUEST['test'] ?? '';
 $year_y = $_REQUEST['year'] ?? 'All';
 //---
 $langname = $code_to_lang[$mainlang] ?? $mainlang;
@@ -40,7 +39,7 @@ $table2 = $tat['table2'];
 //---
 $man = $langname;
 //---
-if ($_SERVER['SERVER_NAME'] == 'localhost' || !empty($test)) {
+if ($_SERVER['SERVER_NAME'] == 'localhost' || (isset($_REQUEST['test']) || isset($_COOKIE['test']))) {
     $man .= ' <a target="_blank" href="http://' . $mainlang . '.wikipedia.org/wiki/Category:Translated_from_MDWiki">(cat)</a>';
 };
 //---

@@ -1,7 +1,7 @@
 <?php
 // Define root path
 include_once __DIR__ . '/../header.php';
-include_once __DIR__ . '/../actions/functions.php';
+include_once __DIR__ . '/../actions/load_request.php';
 include_once __DIR__ . '/../actions/html.php';
 include_once __DIR__ . '/../actions/mdwiki_sql.php';
 include_once __DIR__ . '/../results/tr_link.php';
@@ -10,14 +10,16 @@ include_once __DIR__ . '/db_insert.php';
 use function Actions\Html\login_card;
 use function Results\TrLink\make_translate_link_medwiki;
 use function TranslateMed\Inserter\insertPage;
-use function TranslateMed\Inserter\insertPage_in_process;
+use function TranslateMed\Inserter\insertPage_inprocess;
 
 $coden = strtolower($_GET['code']);
 $title_o = $_GET['title'] ?? "";
 $useree = ($GLOBALS['global_username'] != '') ? $GLOBALS['global_username'] : '';
 
-function go_to_translate_url($go, $title_o, $coden, $tr_type, $cat, $camp, $test)
+function go_to_translate_url($go, $title_o, $coden, $tr_type, $cat, $camp)
 {
+    // ---
+    $test    = $_GET['test'] ?? '';
     // ---
     $url = make_translate_link_medwiki($title_o, $coden, $cat, $camp, $tr_type);
     // ---
@@ -55,7 +57,6 @@ if (!empty($title_o) && !empty($coden) && $user_valid) {
     $coden   = trim($coden);
     $useree  = trim($useree);
     //  title=COVID-19&code=ady&cat=RTTCovid&camp=COVID&type=lead
-    $test    = $_GET['test'] ?? '';
     $cat     = $_GET['cat'] ?? '';
     $camp    = $_GET['camp'] ?? '';
     $tr_type = $_GET['type'] ?? 'lead';
@@ -73,9 +74,9 @@ if (!empty($title_o) && !empty($coden) && $user_valid) {
     // ---
     insertPage($title_o, $word, $tr_type, $cat, $coden, $useree);
     // ---
-    insertPage_in_process($title_o, $word, $tr_type, $cat, $coden, $useree);
+    insertPage_inprocess($title_o, $word, $tr_type, $cat, $coden, $useree);
     // ---
-    go_to_translate_url($go, $title_o, $coden, $tr_type, $cat, $camp, $test);
+    go_to_translate_url($go, $title_o, $coden, $tr_type, $cat, $camp);
 }
 
 echo '</div>';

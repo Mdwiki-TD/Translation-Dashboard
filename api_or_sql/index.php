@@ -17,7 +17,7 @@ use function SQLorAPI\Get\get_pages_with_pupdate;
 use function SQLorAPI\Get\get_user_views;
 use function SQLorAPI\Get\get_user_pages;
 use function SQLorAPI\Get\get_coordinator;
-use function SQLorAPI\Get\get_in_process_tdapi;
+use function SQLorAPI\Get\get_inprocess_tdapi;
 
 */
 
@@ -38,13 +38,13 @@ function isvalid($str)
     return !empty($str) && $str != 'All' && $str != 'all';
 }
 
-function get_in_process_new_tdapi($code)
+function get_inprocess_new_tdapi($code)
 {
     // ---
     global $from_api, $data_index;
     // ---
-    if (!empty($data_index['in_process_tdapi' . $code] ?? [])) {
-        return $data_index['in_process_tdapi' . $code];
+    if (!empty($data_index['inprocess_tdapi' . $code] ?? [])) {
+        return $data_index['inprocess_tdapi' . $code];
     }
     // ---
     /*
@@ -65,18 +65,18 @@ function get_in_process_new_tdapi($code)
         $data = fetch_query($query, $params);
     }
     // ---
-    $data_index['in_process_tdapi' . $code] = $data;
+    $data_index['inprocess_tdapi' . $code] = $data;
     // ---
     return $data;
 }
 
-function get_in_process_tdapi($code)
+function get_inprocess_tdapi($code)
 {
     // ---
     global $from_api, $data_index;
     // ---
-    if (!empty($data_index['in_process_tdapi' . $code] ?? [])) {
-        return $data_index['in_process_tdapi' . $code];
+    if (!empty($data_index['inprocess_tdapi' . $code] ?? [])) {
+        return $data_index['inprocess_tdapi' . $code];
     }
     // ---
     if ($from_api) {
@@ -87,7 +87,7 @@ function get_in_process_tdapi($code)
         $data = fetch_query($query, $params);
     }
     // ---
-    $data_index['in_process_tdapi' . $code] = $data;
+    $data_index['inprocess_tdapi' . $code] = $data;
     // ---
     return $data;
 }
