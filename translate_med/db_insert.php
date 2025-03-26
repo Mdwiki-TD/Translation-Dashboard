@@ -11,6 +11,9 @@ use function TranslateMed\Inserter\insertPage_inprocess;
 
 */
 
+include_once __DIR__ . '/../actions/test_print.php';
+include_once __DIR__ . '/../actions/mdwiki_sql.php';
+
 use function Actions\TestPrint\test_print;
 use function Actions\MdwikiSql\execute_query;
 
