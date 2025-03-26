@@ -17,7 +17,8 @@ function make_translate_link_medwiki($title, $cod, $cat, $camp, $tra_type)
     // ---
     $campain = $cat_to_camp[$cat] ?? $cat;
     // ---
-    $endpoint = "https://medwiki.toolforge.org/w/index.php";
+    // $endpoint = "https://medwiki.toolforge.org/w/index.php";
+    $endpoint = "https://mdwikicx.toolforge.org/w/index.php";
     // ---
     // ?title=Special:ContentTranslation&from=mdwiki&to=ary&campaign=contributionsmenu&page=Dracunculiasis&targettitle=Dracunculiasis
     // ---

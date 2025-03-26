@@ -16,9 +16,9 @@ include_once __DIR__ . '/../camps.php';
 use function Actions\WikiApi\make_view_by_number;
 use function Actions\Html\make_cat_url;
 use function Actions\Html\make_mdwiki_title;
-use function Actions\Html\make_translation_url;
+// use function Actions\Html\make_translation_url;
 use function Actions\Html\make_target_url;
-use function Actions\Html\make_translate_link_medwiki;
+use function Results\TrLink\make_translate_link_medwiki;
 
 function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'users', $tab_ty = 'a', $_user_ = '')
 {
@@ -184,11 +184,11 @@ function make_table_lead($dd, $tab_type = 'a', $views_table = array(), $page_typ
         $deleted = $tabe['deleted'] ?? 0;
         //---
         $target  = $tabe['target'] ?? "";
-        $lang    = $tabe['lang'] ?? "";
+        $lange    = $tabe['lang'] ?? "";
         //---
         $view_number  = $tabe['views'] ?? 0;
         // ---
-        if ($view_number == 0) $view_number = $views_table[$lang][$target] ?? 0;
+        if ($view_number == 0) $view_number = $views_table[$lange][$target] ?? 0;
         //---
         if ($deleted == 1) {
             $view_number = 0;
