@@ -18,7 +18,7 @@ use function SQLorAPI\GetDataTab\get_td_or_sql_settings;
 
 $settings1 = get_td_or_sql_settings();
 $settings1 = array_column($settings1, 'value', 'title');
-var_export($settings1);
+// var_export($settings1);
 $use_mdwikicx = $settings1['use_mdwikicx'] ?? '0';
 
 function make_translate_link_medwiki($title, $cod, $cat, $camp, $tra_type)
