@@ -10,15 +10,29 @@ use function Results\TrLink\make_translate_link_medwiki;
 use function Results\TrLink\make_tr_link_medwiki;
 
 */
+
+include_once __DIR__ . '/../actions/td_api.php';
+include_once __DIR__ . '/../api_or_sql/index.php';
+
+use function SQLorAPI\GetDataTab\get_td_or_sql_settings;
+
+$settings1 = get_td_or_sql_settings();
+$settings1 = array_column($settings1, 'value', 'title');
+var_export($settings1);
+$use_mdwikicx = $settings1['use_mdwikicx'] ?? '0';
+
 function make_translate_link_medwiki($title, $cod, $cat, $camp, $tra_type)
 {
     // ---
-    global $cat_to_camp;
+    global $cat_to_camp, $use_mdwikicx;
     // ---
     $campain = $cat_to_camp[$cat] ?? $cat;
     // ---
-    // $endpoint = "https://medwiki.toolforge.org/w/index.php";
-    $endpoint = "https://mdwikicx.toolforge.org/w/index.php";
+    $endpoint = "https://medwiki.toolforge.org/w/index.php";
+    // ---
+    if ($use_mdwikicx != '0') {
+        $endpoint = "https://mdwikicx.toolforge.org/w/index.php";
+    };
     // ---
     // ?title=Special:ContentTranslation&from=mdwiki&to=ary&campaign=contributionsmenu&page=Dracunculiasis&targettitle=Dracunculiasis
     // ---
