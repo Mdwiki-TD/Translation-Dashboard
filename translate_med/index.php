@@ -1,9 +1,9 @@
 <?php
 // Define root path
-include_once __DIR__ . '/../header.php';
-include_once __DIR__ . '/../actions/load_request.php';
+include_once __DIR__ . '/../../auth/auth/user_infos.php';
+// include_once __DIR__ . '/../header.php';
+// include_once __DIR__ . '/../actions/load_request.php';
 include_once __DIR__ . '/../actions/html.php';
-include_once __DIR__ . '/../actions/mdwiki_sql.php';
 include_once __DIR__ . '/../results/tr_link.php';
 include_once __DIR__ . '/db_insert.php';
 
@@ -16,17 +16,17 @@ $coden = strtolower($_GET['code']);
 $title_o = $_GET['title'] ?? "";
 $useree = ($GLOBALS['global_username'] != '') ? $GLOBALS['global_username'] : '';
 
-function go_to_translate_url($go, $title_o, $coden, $tr_type, $cat, $camp)
+function go_to_translate_url($title_o, $coden, $tr_type, $cat, $camp)
 {
     // ---
-    $test    = $_GET['test'] ?? '';
+    $test = $_GET['test'] ?? '';
     // ---
     $url = make_translate_link_medwiki($title_o, $coden, $cat, $camp, $tr_type);
     // ---
     echo <<<HTML
         <br>
         <h2>
-            <a href='$url'>Click here to go to ContentTranslation in medwiki</a>
+            <a target="_blank" href='$url'>Click here to go to ContentTranslation in medwiki</a>
         </h2>
     HTML;
     // ---
@@ -35,6 +35,7 @@ function go_to_translate_url($go, $title_o, $coden, $tr_type, $cat, $camp)
             <script type='text/javascript'>
             window.open('$url', '_self');
             </script>
+            <meta http-equiv='refresh' content='0; url=$url'>
             <noscript>
                 <meta http-equiv='refresh' content='0; url=$url'>
             </noscript>
@@ -48,9 +49,6 @@ if (empty($useree)) {
 }
 
 $user_valid = (!empty($useree)) ? true : false;
-$go = $_GET['go'] ?? '';
-$go = (!empty($go)) ? true : false;
-
 
 if (!empty($title_o) && !empty($coden) && $user_valid) {
     $title_o = trim($title_o);
@@ -76,8 +74,16 @@ if (!empty($title_o) && !empty($coden) && $user_valid) {
     // ---
     insertPage_inprocess($title_o, $word, $tr_type, $cat, $coden, $useree);
     // ---
-    go_to_translate_url($go, $title_o, $coden, $tr_type, $cat, $camp);
+    go_to_translate_url($title_o, $coden, $tr_type, $cat, $camp);
 }
+// ---
+echo <<<HTML
+    </div>
 
-echo '</div>';
-include_once __DIR__ . '/../footer.php';
+    </div>
+    </main>
+</body>
+
+</html>
+HTML;
+// include_once __DIR__ . '/../footer.php';
