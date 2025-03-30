@@ -10,6 +10,25 @@ use function Leaderboard\SubUsers\get_users_tables;
 
 use function SQLorAPI\Get\get_user_views;
 use function SQLorAPI\Get\get_user_pages;
+use function SQLorAPI\Get\get_inprocess_user_new;
+use function Leaderboard\LeadHelp\make_key;
+
+function add_inp($dd_Pending, $user)
+{
+    // ---
+    $to_add = get_inprocess_user_new($user);
+    // ---
+    foreach ($to_add as $_ => $Taab) {
+        //---
+        $kry = make_key($Taab);
+        //---
+        if (!in_array($kry, array_keys($dd_Pending))) {
+            $dd_Pending[$kry] = $Taab;
+        };
+    };
+    //---
+    return $dd_Pending;
+}
 
 function pages_tables($user_main, $year_y, $lang_y)
 {
@@ -21,7 +40,7 @@ function pages_tables($user_main, $year_y, $lang_y)
     //---
     foreach ($sql_result as $tait => $tabb) {
         //---
-        $kry = str_replace('-', '', $tabb['pupdate']) . ':' . $tabb['lang'] . ':' . $tabb['title'];
+        $kry = make_key($tabb);
         //---
         if (!empty($tabb['target'])) {
             $dd[$kry] = $tabb;
@@ -48,6 +67,8 @@ function get_users_tables($mainuser, $year_y, $lang_y)
     //---
     $dd = $pages_table['dd'];
     $dd_Pending = $pages_table['dd_Pending'];
+    //---
+    $dd_Pending = add_inp($dd_Pending, $user_main);
     //---
     return array('dd' => $dd, 'dd_Pending' => $dd_Pending, 'table_of_views' => $table_of_views);
 }

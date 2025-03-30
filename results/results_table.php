@@ -197,7 +197,12 @@ function make_one_row($title, $tra_type, $cnt, $cod, $cat, $camp, $inprocess, $i
     }
     //---
     $_user_ = $inprocess_table['user'] ?? '';
-    $_date_ = $inprocess_table['date'] ?? '';
+    $_date_ = $inprocess_table['date'] ?? $inprocess_table['add_date'] ?? '';
+    //---
+    // if $_date_ has : then split before first space
+    if (strpos($_date_, ':') !== false) {
+        $_date_ = explode(' ', $_date_)[0];
+    };
     //---
     if ($inprocess) {
         if ($tra_btn != '1' && $_user_ != $GLOBALS['global_username']) {

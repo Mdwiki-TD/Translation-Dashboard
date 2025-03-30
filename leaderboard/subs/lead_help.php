@@ -7,6 +7,7 @@ Usage:
 
 use function Leaderboard\LeadHelp\make_td_fo_user;
 use function Leaderboard\LeadHelp\make_table_lead;
+use function Leaderboard\LeadHelp\make_key;
 
 */
 
@@ -20,17 +21,50 @@ use function Actions\Html\make_mdwiki_title;
 use function Actions\Html\make_target_url;
 use function Results\TrLink\make_translate_link_medwiki;
 
+function make_key($Taab)
+{
+    $dat = '';
+    //---
+    foreach (['pupdate', 'date', 'add_date'] as $key) {
+        if (!empty($Taab[$key])) {
+            $dat = $Taab[$key];
+            break;
+        }
+    }
+    //---
+    // if $_date_ has : then split before first space
+    if (strpos($dat, ':') !== false) {
+        $dat = explode(' ', $dat)[0];
+    };
+    //---
+    $urt = '';
+    //---
+    if (!empty($dat)) {
+        $urt = str_replace('-', '', $dat) . ':';
+    };
+    //---
+    $kry = $urt . $Taab['lang'] . ':' . $Taab['title'];
+    //---
+    return $kry;
+}
+
 function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'users', $tab_ty = 'a', $_user_ = '')
 {
     global $cat_to_camp, $articles_to_camps, $camps_to_articles;
     //---
     $mdtitle = trim($tabb['title']);
     $user    = $tabb['user'] ?? "";
-    $date    = $tabb['date'] ?? "";
     $lang    = $tabb['lang'] ?? "";
     $cat     = $tabb['cat'] ?? "";
     $deleted = $tabb['deleted'] ?? "";
     $pupdate = $tabb['pupdate'] ?? "";
+    //---
+    $date    = $tabb['date'] ?? $tabb['add_date'] ?? "";
+    //---
+    // if $_date_ has : then split before first space
+    if (strpos($date, ':') !== false) {
+        $date = explode(' ', $date)[0];
+    };
     //---
     $word = number_format($word);
     //---
