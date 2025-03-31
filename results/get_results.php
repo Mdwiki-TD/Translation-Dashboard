@@ -14,10 +14,11 @@ use function Results\FetchCatDataSparql\get_cat_exists_and_missing;
 use function Results\GetCats\get_mdwiki_cat_members;
 use function Actions\TestPrint\test_print;
 use function SQLorAPI\Get\get_inprocess_tdapi;
+use function SQLorAPI\Get\get_inprocess_lang_new;
 
-function get_inprocess($missing, $code)
+function getinprocess($missing, $code)
 {
-    $res = get_inprocess_tdapi($code);
+    $res = get_inprocess_lang_new($code);
     $titles = [];
     foreach ($res as $t) {
         if (in_array($t['title'], $missing)) $titles[$t['title']] = $t;
@@ -49,7 +50,7 @@ function get_results($cat, $camp, $depth, $code): array
     $missing = array_unique($items_missing);
 
     // Get in-process items
-    $inprocess = get_inprocess($missing, $code);
+    $inprocess = getinprocess($missing, $code);
     $len_inprocess = count($inprocess);
 
     // Calculate totals
@@ -65,11 +66,11 @@ function get_results($cat, $camp, $depth, $code): array
 
     // Remove in-process items from missing list
     if ($len_inprocess > 0) {
-        $missing = array_diff($missing, array_keys($inprocess));
+        $inprocess_2 = array_column($inprocess, 'title');
+        $missing = array_diff($missing, $inprocess_2);
     }
 
     return [
-        "in_process" => $inprocess,
         "inprocess" => $inprocess,
         "missing" => $missing,
         "ix" => $ix,

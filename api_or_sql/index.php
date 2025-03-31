@@ -18,6 +18,8 @@ use function SQLorAPI\Get\get_user_views;
 use function SQLorAPI\Get\get_user_pages;
 use function SQLorAPI\Get\get_coordinator;
 use function SQLorAPI\Get\get_inprocess_tdapi;
+use function SQLorAPI\Get\get_inprocess_lang_new;
+use function SQLorAPI\Get\get_inprocess_user_new;
 
 */
 
@@ -38,7 +40,29 @@ function isvalid($str)
     return !empty($str) && $str != 'All' && $str != 'all';
 }
 
-function get_inprocess_new_tdapi($code)
+function get_inprocess_user_new($user)
+{
+    // ---
+    global $from_api, $data_index;
+    // ---
+    if (!empty($data_index['inprocess_tdapi' . $user] ?? [])) {
+        return $data_index['inprocess_tdapi' . $user];
+    }
+    // ---
+    if ($from_api) {
+        $data = get_td_api(['get' => 'in_process', 'user' => $user]);
+    } else {
+        $query = "select * from in_process where user = ?";
+        $params = [$user];
+        $data = fetch_query($query, $params);
+    }
+    // ---
+    $data_index['inprocess_tdapi' . $user] = $data;
+    // ---
+    return $data;
+}
+
+function get_inprocess_lang_new($code)
 {
     // ---
     global $from_api, $data_index;

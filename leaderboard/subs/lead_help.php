@@ -7,6 +7,7 @@ Usage:
 
 use function Leaderboard\LeadHelp\make_td_fo_user;
 use function Leaderboard\LeadHelp\make_table_lead;
+use function Leaderboard\LeadHelp\make_key;
 
 */
 
@@ -16,9 +17,36 @@ include_once __DIR__ . '/../camps.php';
 use function Actions\WikiApi\make_view_by_number;
 use function Actions\Html\make_cat_url;
 use function Actions\Html\make_mdwiki_title;
-use function Actions\Html\make_translation_url;
+// use function Actions\Html\make_translation_url;
 use function Actions\Html\make_target_url;
-use function Actions\Html\make_translate_link_medwiki;
+use function Results\TrLink\make_translate_link_medwiki;
+
+function make_key($Taab)
+{
+    $dat = '';
+    //---
+    foreach (['pupdate', 'date', 'add_date'] as $key) {
+        if (!empty($Taab[$key])) {
+            $dat = $Taab[$key];
+            break;
+        }
+    }
+    //---
+    // if $_date_ has : then split before first space
+    if (strpos($dat, ':') !== false) {
+        $dat = explode(' ', $dat)[0];
+    };
+    //---
+    $urt = '';
+    //---
+    if (!empty($dat)) {
+        $urt = str_replace('-', '', $dat) . ':';
+    };
+    //---
+    $kry = $urt . $Taab['lang'] . ':' . $Taab['title'];
+    //---
+    return $kry;
+}
 
 function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'users', $tab_ty = 'a', $_user_ = '')
 {
@@ -26,11 +54,17 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
     //---
     $mdtitle = trim($tabb['title']);
     $user    = $tabb['user'] ?? "";
-    $date    = $tabb['date'] ?? "";
     $lang    = $tabb['lang'] ?? "";
     $cat     = $tabb['cat'] ?? "";
     $deleted = $tabb['deleted'] ?? "";
     $pupdate = $tabb['pupdate'] ?? "";
+    //---
+    $date    = $tabb['date'] ?? $tabb['add_date'] ?? "";
+    //---
+    // if $_date_ has : then split before first space
+    if (strpos($date, ':') !== false) {
+        $date = explode(' ', $date)[0];
+    };
     //---
     $word = number_format($word);
     //---
@@ -184,11 +218,11 @@ function make_table_lead($dd, $tab_type = 'a', $views_table = array(), $page_typ
         $deleted = $tabe['deleted'] ?? 0;
         //---
         $target  = $tabe['target'] ?? "";
-        $lang    = $tabe['lang'] ?? "";
+        $lange    = $tabe['lang'] ?? "";
         //---
         $view_number  = $tabe['views'] ?? 0;
         // ---
-        if ($view_number == 0) $view_number = $views_table[$lang][$target] ?? 0;
+        if ($view_number == 0) $view_number = $views_table[$lange][$target] ?? 0;
         //---
         if ($deleted == 1) {
             $view_number = 0;

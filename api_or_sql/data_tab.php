@@ -133,14 +133,12 @@ function get_td_or_sql_settings()
     // ---
     global $from_api;
     // ---
-    static $settings = [];
+    $settings = [];
     // ---
-    if (!empty($settings)) {
-        return $settings;
-    }
+    // if (!empty($settings)) { return $settings; }
     // ---
     if ($from_api) {
-        $settings = get_td_api(['get' => 'settings']);
+        $settings = get_td_api(['get' => 'settings', '1' => 1]);
     } else {
         $query = "select id, title, displayed, value, Type from settings";
         //---
