@@ -1,17 +1,17 @@
 <?php
 
-namespace Leaderboard\SubUsers;
+namespace Leaderboard\Subs\SubUsers;
 
 /*
 Usage:
-use function Leaderboard\SubUsers\get_users_tables;
+use function Leaderboard\Subs\SubUsers\get_users_tables;
 
 */
 
 use function SQLorAPI\Get\get_user_views;
 use function SQLorAPI\Get\get_user_pages;
 use function SQLorAPI\Get\get_inprocess_user_new;
-use function Leaderboard\LeadHelp\make_key;
+use function Leaderboard\Subs\LeadHelp\make_key;
 
 function add_inp($dd_Pending, $user)
 {
@@ -35,8 +35,8 @@ function pages_tables($user_main, $year_y, $lang_y)
     //---
     $sql_result = get_user_pages($user_main, $year_y, $lang_y);
     //---
-    $dd = array();
-    $dd_Pending = array();
+    $dd = [];
+    $dd_Pending = [];
     //---
     foreach ($sql_result as $tait => $tabb) {
         //---

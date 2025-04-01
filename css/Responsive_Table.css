@@ -1,4 +1,4 @@
-/* 
+/*
     https://github.com/benjamin-Keller/bootstrap-mobile-tables
 */
 :root {
@@ -12,24 +12,14 @@
 /*-- ==============================================================
  Screen smaller than 760px and iPads.
  ============================================================== */
- .hide_on_mobile {
-	display: inline !important;
-}
-.hide_on_mobile_bl {
-   display: block !important;
-}
- .only_on_mobile, .only_on_mobile_bl, .only_on_mobile_cell {
-    display: none !important;
- }
- .hide_on_mobile_cell {
-    display: table-cell !important;
- }
+
+
 @media only screen and (max-width: 760px),
 (min-device-width: 768px) and (max-device-width: 1024px) {
     [data-content]:before {
         content: attr(data-content);
     }
-    
+
     /* Force table to not be like tables anymore */
     .table-mobile-responsive,
     .table-mobile-responsive thead,
@@ -43,6 +33,7 @@
     .table-mobile-responsive.text-center {
         text-align: left !important;
     }
+
     .table-mobile-responsive caption {
         width: max-content;
     }
@@ -88,7 +79,7 @@
         font-weight: bold;
         color: var(--tmr-table-header);
     }
-    
+
     /* Sided layout */
     .table-mobile-responsive.table-mobile-sided> :not(:first-child) {
         border-top: none;
@@ -97,8 +88,9 @@
     .table-mobile-responsive.table-mobile-sided>:not(caption)>*>* {
         border-color: var(--bs-table-border-color);
     }
+
     .table-mobile-responsive.table-mobile-sided td {
-          /* Behave  like a "row" */
+        /* Behave  like a "row" */
         border: none;
         border-bottom: 1px solid var(--tmr-white);
         position: relative;
@@ -107,6 +99,7 @@
         /* display: flex; */
         /* justify-content: flex-end; */
     }
+
     .table-mobile-responsive.table-mobile-sided td:before {
         /* Now like a table header */
         position: absolute;
@@ -128,19 +121,5 @@
     /* Stripped rows */
     .table-mobile-responsive.table-mobile-striped>tbody>tr:nth-of-type(odd)>* {
         background-color: var(--tmr-stripped-row-background-color) !important;
-    }
-
-    
-    .hide_on_mobile, .hide_on_mobile_bl, .hide_on_mobile_cell {
-        display: none !important;
-    }
-    .only_on_mobile {
-        display: inline !important;
-    }
-    .only_on_mobile_bl {
-        display: block !important;
-    }
-    .only_on_mobile_cell {
-        display: table-cell !important;
     }
 }

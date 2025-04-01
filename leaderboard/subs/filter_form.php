@@ -1,11 +1,11 @@
 <?PHP
 
-namespace Leaderboard\FilterForm;
+namespace Leaderboard\Subs\FilterForm;
 /*
 Usage:
 
-use function Leaderboard\FilterForm\make_filter_form_langs;
-use function Leaderboard\FilterForm\make_filter_form_users;
+use function Leaderboard\Subs\FilterForm\make_filter_form_langs;
+use function Leaderboard\Subs\FilterForm\make_filter_form_users;
 
 */
 

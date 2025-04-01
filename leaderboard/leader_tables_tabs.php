@@ -1,41 +1,60 @@
 <?PHP
 
-include_once __DIR__ . '/../api_or_sql/index.php';
+namespace Leaderboard\Tabs;
 
+include_once __DIR__ . '/../api_or_sql/index.php';
+/*
+(\$)(tab_for_graph2|tab_for_graph|Words_total|Articles_numbers|global_views|sql_users_tab|Users_word_table|sql_Languages_tab|all_views_by_lang|Views_by_users)\b
+
+LeaderBoardTabs::$1u_$2
+
+Usage:
+use Leaderboard\Tabs\LeaderBoardTabs;
+
+*/
+use Tables\Main\MainTables;
+use Leaderboard\Camps\CampsTabs;
+use Tables\SqlTables\TablesSql;
 use function SQLorAPI\GetLead\get_leaderboard_table;
-use function Tables\SqlTables\make_views_by_lang_target;
+// use function Tables\SqlTables\make_views_by_lang_target;
+
+class LeaderBoardTabs
+{
+    public static $u_tab_for_graph = [];
+    public static $u_tab_for_graph2 = [];
+    public static $u_Words_total = 0;
+    public static $u_Articles_numbers = 0;
+    public static $u_global_views = 0;
+    public static $u_sql_users_tab = [];
+    public static $u_Users_word_table = [];
+    public static $u_sql_Languages_tab = [];
+    public static $u_all_views_by_lang = [];
+    public static $u_Views_by_users = [];
+}
 
 $year = $_REQUEST['year'] ?? 'all';
 $camp = $_REQUEST['camp'] ?? 'all';
 $project = $_REQUEST['project'] ?? 'all';
 $langcode = $_REQUEST['langcode'] ?? '';
 
-$tab_for_graph2 = [
+LeaderBoardTabs::$u_tab_for_graph2 = [
     "year" => $year,
     "campaign" => $camp,
     "user_group" => $project
 ];
 
 if ($camp == 'all' && isset($_REQUEST['cat'])) {
-    $camp = $cat_to_camp[$_REQUEST['cat']] ?? 'all';
+    $camp = TablesSql::$s_cat_to_camp[$_REQUEST['cat']] ?? 'all';
 }
-$camp_cat = $camp_to_cat[$camp] ?? '';
-
-$Words_total = 0;
-$Articles_numbers = 0;
-$global_views = 0;
-$sql_users_tab = array();
-$Users_word_table = array();
-$sql_Languages_tab = array();
-$all_views_by_lang = array();
-$Views_by_users = array();
+$camp_cat = TablesSql::$s_camp_to_cat[$camp] ?? '';
 
 // $Views_by_lang_target = make_views_by_lang_target($year, $langcode);
-$tab_for_graph = [];
 
 $ddde1 = get_leaderboard_table($year, $project, $camp_cat);
 // ---
 // compare_it($ddde, $ddde1);
+// ---
+$campsto_articles = CampsTabs::$camps_to_articles;
 // ---
 foreach ($ddde1 as $Key => $teb) {
     $title  = $teb['title'] ?? "";
@@ -45,20 +64,20 @@ foreach ($ddde1 as $Key => $teb) {
     //---
     // 2023-08-22
     if ($camp != 'all' && !empty($camp_cat) && $cat == "") {
-        if (!empty($camps_to_articles[$camp]) && !in_array($title, $camps_to_articles[$camp])) continue;
+        if (!empty($campsto_articles[$camp]) && !in_array($title, $campsto_articles[$camp])) continue;
     }
     //---
     $month  = $teb['m'] ?? ""; // 2021-05
     //---
-    if (!isset($tab_for_graph[$month])) $tab_for_graph[$month] = 0;
-    $tab_for_graph[$month] += 1;
+    if (!isset(LeaderBoardTabs::$u_tab_for_graph[$month])) LeaderBoardTabs::$u_tab_for_graph[$month] = 0;
+    LeaderBoardTabs::$u_tab_for_graph[$month] += 1;
     //---
     $lang   = $teb['lang'] ?? "";
     $user   = $teb['user'] ?? "";
     $target = $teb['target'] ?? "";
     $word   = $teb['word'] ?? "";
     if ($word == 0) {
-        $word = $Words_table[$title] ?? 0;
+        $word = MainTables::$x_Words_table[$title] ?? 0;
     }
     // ---
     $views = $teb['views'] ?? 0;
@@ -66,25 +85,25 @@ foreach ($ddde1 as $Key => $teb) {
     // $coco = $Views_by_lang_target[$lang][$target] ?? 0;
     // if ($views != $coco) echo "Views ($target): tab views: $views  coco: $coco<br>";
     // ---
-    $Words_total += $word;
-    $Articles_numbers += 1;
-    $global_views += $views;
+    LeaderBoardTabs::$u_Words_total += $word;
+    LeaderBoardTabs::$u_Articles_numbers += 1;
+    LeaderBoardTabs::$u_global_views += $views;
 
-    if (!isset($all_views_by_lang[$lang])) $all_views_by_lang[$lang] = 0;
-    $all_views_by_lang[$lang] += $views;
+    if (!isset(LeaderBoardTabs::$u_all_views_by_lang[$lang])) LeaderBoardTabs::$u_all_views_by_lang[$lang] = 0;
+    LeaderBoardTabs::$u_all_views_by_lang[$lang] += $views;
 
-    if (!isset($sql_Languages_tab[$lang])) $sql_Languages_tab[$lang] = 0;
-    $sql_Languages_tab[$lang] += 1;
+    if (!isset(LeaderBoardTabs::$u_sql_Languages_tab[$lang])) LeaderBoardTabs::$u_sql_Languages_tab[$lang] = 0;
+    LeaderBoardTabs::$u_sql_Languages_tab[$lang] += 1;
 
-    if (!isset($Users_word_table[$user])) $Users_word_table[$user] = 0;
-    $Users_word_table[$user] += $word;
+    if (!isset(LeaderBoardTabs::$u_Users_word_table[$user])) LeaderBoardTabs::$u_Users_word_table[$user] = 0;
+    LeaderBoardTabs::$u_Users_word_table[$user] += $word;
 
-    if (!isset($Views_by_users[$user])) $Views_by_users[$user] = 0;
-    $Views_by_users[$user] += $views;
+    if (!isset(LeaderBoardTabs::$u_Views_by_users[$user])) LeaderBoardTabs::$u_Views_by_users[$user] = 0;
+    LeaderBoardTabs::$u_Views_by_users[$user] += $views;
 
-    if (!isset($sql_users_tab[$user])) $sql_users_tab[$user] = 0;
-    $sql_users_tab[$user] += 1;
+    if (!isset(LeaderBoardTabs::$u_sql_users_tab[$user])) LeaderBoardTabs::$u_sql_users_tab[$user] = 0;
+    LeaderBoardTabs::$u_sql_users_tab[$user] += 1;
 }
 
 
-arsort($sql_users_tab);
+arsort(LeaderBoardTabs::$u_sql_users_tab);

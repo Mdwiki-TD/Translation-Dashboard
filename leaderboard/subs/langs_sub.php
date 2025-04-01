@@ -1,17 +1,17 @@
 <?php
 
-namespace Leaderboard\SubLangs;
+namespace Leaderboard\Subs\SubLangs;
 
 /*
 Usage:
-use function Leaderboard\SubLangs\get_langs_tables;
+use function Leaderboard\Subs\SubLangs\get_langs_tables;
 
 */
 
 use function SQLorAPI\Get\get_lang_views;
 use function SQLorAPI\Get\get_lang_pages;
 use function SQLorAPI\Get\get_inprocess_lang_new;
-use function Leaderboard\LeadHelp\make_key;
+use function Leaderboard\Subs\LeadHelp\make_key;
 
 function add_inp($dd_Pending, $mainlang)
 {
@@ -33,8 +33,8 @@ function add_inp($dd_Pending, $mainlang)
 function pages_tables($mainlang, $year_y)
 {
     //---
-    $dd = array();
-    $dd_Pending = array();
+    $dd = [];
+    $dd_Pending = [];
     //---
     $rrr2 = get_lang_pages($mainlang, $year_y);
     //---
