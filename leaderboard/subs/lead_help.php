@@ -194,16 +194,16 @@ function make_table_lead($dd, $tab_type = 'a', $views_table = [], $page_type = '
 
     //---
     $sato = <<<HTML
-        <table class='table table-striped compact soro table-mobile-responsive table-mobile-sided' id='$leadtable'>
+        <table class='table table-striped compact table_responsive' id='$leadtable'>
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>$user_or_lang</th>
-                    <th>Title</th>
+                    <th data-priority="1">$user_or_lang</th>
+                    <th data-priority="2">Title</th>
                     <th>Campaign</th>
                     <th>Words</th>
                     <!-- <th>Type</th> -->
-                    <th>Translated</th>
+                    <th data-priority="3">Translated</th>
                     <th>$th_Date</th>
                     $tab_views
                     $complete
