@@ -74,7 +74,7 @@ function get_td_or_sql_titles_infos()
     // ---
     $titlesinfos = $data;
     // ---
-    return $data;
+    return $titlesinfos;
 }
 
 function get_td_or_sql_views($year, $lang)

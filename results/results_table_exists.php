@@ -65,7 +65,7 @@ function d_one_row($title, $cnt, $cod)
     $mdwiki_url = "//mdwiki.org/wiki/" . str_replace('+', '_', $title2);
     $qid = (!empty($qid)) ? "<a class='inline' target='_blank' href='https://wikidata.org/wiki/$qid'>$qid</a>" : '&nbsp;';
     //---
-    $target = $props['target'] ?? 'x';
+    $target = $props['target'] ?? '';
     //---
     $target_tab = "";
     $target_url = "";
