@@ -173,7 +173,7 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
     //---
 };
 
-function make_table_lead($dd, $tab_type = 'a', $views_table = array(), $page_type = 'users', $user = '', $lang = '')
+function make_table_lead($dd, $tab_type = 'a', $views_table = [], $page_type = 'users', $user = '', $lang = '')
 {
     //---
     global $Words_table;

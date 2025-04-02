@@ -263,7 +263,7 @@ function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inp
     //---
     $Translate_th = "<th>Translate</th>";
     //---
-    $inprocess_table = ($inprocess) ? $items : array();
+    $inprocess_table = ($inprocess) ? $items : [];
     $inprocess_first = '';
     //---
     if ($inprocess) {
@@ -305,7 +305,7 @@ function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inp
         <tbody>
     HTML;
     //---
-    $dd = array();
+    $dd = [];
     $dd = sort_py_PageViews($items, $enwiki_pageviews_table);
     // $dd = sort_py_importance($items, $Assessments_table, $Assessments_fff);
     //---

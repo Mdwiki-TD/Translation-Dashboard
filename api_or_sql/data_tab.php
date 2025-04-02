@@ -38,10 +38,10 @@ function get_td_or_sql_titles_infos()
     // ---
     global $from_api;
     // ---
-    static $titles_infos = [];
+    static $titlesinfos = [];
     // ---
-    if (!empty($titles_infos ?? [])) {
-        return $titles_infos;
+    if (!empty($titlesinfos ?? [])) {
+        return $titlesinfos;
     }
     // ---
     if ($from_api) {
@@ -72,9 +72,9 @@ function get_td_or_sql_titles_infos()
         $data = fetch_query($qua);
     }
     // ---
-    $titles_infos = $data;
+    $titlesinfos = $data;
     // ---
-    return $data;
+    return $titlesinfos;
 }
 
 function get_td_or_sql_views($year, $lang)
@@ -133,19 +133,19 @@ function get_td_or_sql_settings()
     // ---
     global $from_api;
     // ---
-    $settings = [];
+    $settingsx = [];
     // ---
-    // if (!empty($settings)) { return $settings; }
+    // if (!empty($settingsx)) { return $settingsx; }
     // ---
     if ($from_api) {
-        $settings = get_td_api(['get' => 'settings', '1' => 1]);
+        $settingsx = get_td_api(['get' => 'settings']);
     } else {
         $query = "select id, title, displayed, value, Type from settings";
         //---
-        $settings = fetch_query($query);
+        $settingsx = fetch_query($query);
     }
     // ---
-    return $settings;
+    return $settingsx;
 }
 function get_td_or_sql_projects()
 {
@@ -219,21 +219,19 @@ function get_td_or_sql_full_translators()
     // ---
     global $from_api;
     // ---
-    static $full_translators = [];
+    static $full_tr = [];
     // ---
-    if (!empty($full_translators)) return $full_translators;
+    if (!empty($full_tr)) return $full_tr;
     // ---
     if ($from_api) {
-        $data = get_td_api(['get' => 'full_translators']);
+        $full_tr = get_td_api(['get' => 'full_translators']);
     } else {
         $query = "SELECT * FROM full_translators";
         //---
-        $data = fetch_query($query);
+        $full_tr = fetch_query($query);
     }
     // ---
-    $full_translators = $data;
-    // ---
-    return $data;
+    return $full_tr;
 }
 function get_td_or_sql_translate_type()
 {

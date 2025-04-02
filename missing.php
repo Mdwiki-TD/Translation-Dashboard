@@ -30,7 +30,7 @@ $lenth2 = number_format($lenth);
 //$date = '15-05-2021';
 $date = $MIS['date'] ?? "";
 //---
-$Table = array();
+$Table = [];
 $langs = $MIS['langs'] ?? [];
 //---
 foreach ($langs as $code => $tabe) {

@@ -33,8 +33,8 @@ function add_inp($dd_Pending, $mainlang)
 function pages_tables($mainlang, $year_y)
 {
     //---
-    $dd = array();
-    $dd_Pending = array();
+    $dd = [];
+    $dd_Pending = [];
     //---
     $rrr2 = get_lang_pages($mainlang, $year_y);
     //---

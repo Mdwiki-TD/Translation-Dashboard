@@ -35,8 +35,8 @@ function pages_tables($user_main, $year_y, $lang_y)
     //---
     $sql_result = get_user_pages($user_main, $year_y, $lang_y);
     //---
-    $dd = array();
-    $dd_Pending = array();
+    $dd = [];
+    $dd_Pending = [];
     //---
     foreach ($sql_result as $tait => $tabb) {
         //---

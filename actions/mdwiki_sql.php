@@ -70,11 +70,11 @@ class Database
                 return $result;
             } else {
                 // Otherwise, return null
-                return array();
+                return [];
             }
         } catch (PDOException $e) {
             echo "sql error:" . $e->getMessage() . "<br>" . $sql_query;
-            return array();
+            return [];
         }
     }
 
@@ -94,7 +94,7 @@ class Database
 
         } catch (PDOException $e) {
             echo "sql error:" . $e->getMessage() . "<br>" . $sql_query;
-            return array();
+            return [];
         }
     }
 

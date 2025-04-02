@@ -44,19 +44,19 @@ function load_translate_type($ty)
     return $tab;
 }
 //---
-$cat_titles = array();
-$cat_to_camp = array();
-$camp_to_cat = array();
+$cat_titles = [];
+$cat_to_camp = [];
+$camp_to_cat = [];
 //---
 $main_cat = ''; # RTT
 $main_camp = ''; # Main
 //---
-$camps_cat2 = array();
-$camp_input_depth = array();
-// $catinput_depth = array();
+$camps_cat2 = [];
+$camp_input_depth = [];
+// $catinput_depth = [];
 //---
-$campaign_input_list = array();
-$catinput_list = array();
+$campaign_input_list = [];
+$catinput_list = [];
 //---
 $categories_tab = get_td_or_sql_categories();
 //---
@@ -85,7 +85,7 @@ foreach ($categories_tab as $k => $tab) {
 
 function make_views_by_lang_target($year, $lang)
 {
-    $vta = array();
+    $vta = [];
     // ---
     $tat = get_td_or_sql_views($year, $lang);
     // ---
@@ -108,7 +108,7 @@ function make_views_by_lang_target($year, $lang)
     return $vta;
 }
 //---
-$settings = array();
+$settings = [];
 //---
 $settings_tab = get_td_or_sql_settings();
 //---

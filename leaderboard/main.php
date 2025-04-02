@@ -84,7 +84,7 @@ HTML;
 $y1 = makeDropdown($cat_titles, $camp, 'camp', 'all');
 $campDropdown = sprintf($d33, 'Campaign', $y1);
 //---
-$projects_title_to_id = array();
+$projects_title_to_id = [];
 //---
 $projects_tab = get_td_or_sql_projects();
 //---

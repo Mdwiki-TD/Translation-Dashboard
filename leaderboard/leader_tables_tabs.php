@@ -24,11 +24,11 @@ $camp_cat = $camp_to_cat[$camp] ?? '';
 $Words_total = 0;
 $Articles_numbers = 0;
 $global_views = 0;
-$sql_users_tab = array();
-$Users_word_table = array();
-$sql_Languages_tab = array();
-$all_views_by_lang = array();
-$Views_by_users = array();
+$sql_users_tab = [];
+$Users_word_table = [];
+$sql_Languages_tab = [];
+$all_views_by_lang = [];
+$Views_by_users = [];
 
 // $Views_by_lang_target = make_views_by_lang_target($year, $langcode);
 $tab_for_graph = [];

@@ -30,7 +30,6 @@ if (isset($GLOBALS['time_start'])) {
 		window.open(url, 'popupWindow', 'width=500,height=400, left=100, top=100, location=no');
 	};
 
-
 	$('.sortable').DataTable({
 		paging: false,
 		info: false,
@@ -59,7 +58,7 @@ if (isset($GLOBALS['time_start'])) {
 					[25, 50, 100, 200]
 				],
 			});
-		}, 3000);
+		}, 1500);
 	});
 </script>
 </body>

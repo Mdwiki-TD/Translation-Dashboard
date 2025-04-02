@@ -61,7 +61,7 @@ function get_mdwiki_url_with_params(array $params): array
     $result = json_decode($out, true);
     //---
     if (!is_array($result)) {
-        $result = array();
+        $result = [];
     }
     //---
     return $result;

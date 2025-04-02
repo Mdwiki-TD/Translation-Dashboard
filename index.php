@@ -43,7 +43,7 @@ $camp_ch = htmlspecialchars($camp, ENT_QUOTES);
 //---
 // echo $_SERVER['SERVER_NAME'];
 //---
-function print_form_start1($allow_whole_translate, $Langs_table, $catinput_list, $campaign_input_list, $cat_ch, $camp_ch, $code_lang_name, $code, $tra_type)
+function print_form_start1($allow_whole_translate, $Langs_list, $cat_input_list, $campaigninput_list, $cat_ch, $camp_ch, $code_lang_name, $code, $tra_type)
 {
     //---
     $lead_checked = "checked";
@@ -61,8 +61,7 @@ function print_form_start1($allow_whole_translate, $Langs_table, $catinput_list,
     //---
     $lang_list = '';
     //---
-    // foreach ($lang_to_code as $lang_title => $lang_code) {
-    foreach ($Langs_table as $_ => $lang_tab) {
+    foreach ($Langs_list as $_ => $lang_tab) {
         $lang_code = $lang_tab['code'] ?? "";
         $lang_name = $lang_tab['autonym'] ?? "";
         $lang_title = "($lang_code) $lang_name";
@@ -109,8 +108,8 @@ function print_form_start1($allow_whole_translate, $Langs_table, $catinput_list,
         $uiu = '<input type="submit" name="doit" class="btn btn-outline-primary" value="Do it"/>';
     }
     //---
-    $cat_input = make_drop($catinput_list, $cat_ch);
-    $camp_input = make_drop($campaign_input_list, $camp_ch);
+    $cat_input = make_drop($cat_input_list, $cat_ch);
+    $camp_input = make_drop($campaigninput_list, $camp_ch);
     //---
     $cat_input = <<<HTML
         <select dir='ltr' name='cat' id='cat' class='form-select' data-bs-theme="auto">
