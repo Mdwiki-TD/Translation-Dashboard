@@ -117,9 +117,17 @@ thead {
 	white-space: nowrap;
 }
 
+.link_container {
+	width: 25% !important;
+}
+
 @media (max-width:768px) {
 	.spannowrap {
 		white-space: normal;
+	}
+
+	.link_container {
+		width: 100% !important;
 	}
 
 	.mainindex {
