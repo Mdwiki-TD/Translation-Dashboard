@@ -1,22 +1,19 @@
 <?PHP
 
-namespace Leaderboard\Subs\LeadHelp;
+namespace Leaderboard\LeadHelp;
 
 /*
 Usage:
 
-use function Leaderboard\Subs\LeadHelp\make_td_fo_user;
-use function Leaderboard\Subs\LeadHelp\make_table_lead;
-use function Leaderboard\Subs\LeadHelp\make_key;
+use function Leaderboard\LeadHelp\make_td_fo_user;
+use function Leaderboard\LeadHelp\make_table_lead;
+use function Leaderboard\LeadHelp\make_key;
 
 */
 
 //---
 include_once __DIR__ . '/../camps.php';
 
-use Tables\Main\MainTables;
-use Leaderboard\Camps\CampsTabs;
-use Tables\SqlTables\TablesSql;
 use function Actions\WikiApi\make_view_by_number;
 use function Actions\Html\make_cat_url;
 use function Actions\Html\make_mdwiki_title;
@@ -53,9 +50,7 @@ function make_key($Taab)
 
 function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'users', $tab_ty = 'a', $_user_ = '')
 {
-    //---
-    $catto_camp_new = TablesSql::$s_cat_to_camp;
-    $articlesto_camps = CampsTabs::$articles_to_camps;
+    global $cat_to_camp, $articles_to_camps, $camps_to_articles;
     //---
     $mdtitle = trim($tabb['title']);
     $user    = $tabb['user'] ?? "";
@@ -77,9 +72,9 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
     //---
     $ccat = make_cat_url($cat);
     //---
-    $new_camps = $articlesto_camps[$mdtitle] ?? [];
+    $new_camps = $articles_to_camps[$mdtitle] ?? [];
     //---
-    $campaign = $catto_camp_new[$cat] ?? '';
+    $campaign = $cat_to_camp[$cat] ?? '';
     $campaign_data = $campaign;
     //---
     // 2023-08-22
@@ -180,6 +175,9 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
 
 function make_table_lead($dd, $tab_type = 'a', $views_table = [], $page_type = 'users', $user = '', $lang = '')
 {
+    //---
+    global $Words_table;
+    //---
     $total_words = 0;
     $total_views = 0;
     //---
@@ -194,16 +192,16 @@ function make_table_lead($dd, $tab_type = 'a', $views_table = [], $page_type = '
 
     //---
     $sato = <<<HTML
-        <table class='table table-striped compact table_responsive' id='$leadtable'>
+        <table class='table table-striped compact soro table-mobile-responsive' id='$leadtable'>
             <thead>
                 <tr>
                     <th>#</th>
-                    <th data-priority="1">$user_or_lang</th>
-                    <th data-priority="2">Title</th>
+                    <th>$user_or_lang</th>
+                    <th>Title</th>
                     <th>Campaign</th>
                     <th>Words</th>
                     <!-- <th>Type</th> -->
-                    <th data-priority="3">Translated</th>
+                    <th>Translated</th>
                     <th>$th_Date</th>
                     $tab_views
                     $complete
@@ -233,7 +231,7 @@ function make_table_lead($dd, $tab_type = 'a', $views_table = [], $page_type = '
         $total_views += $view_number;
         //---
         $mdtitle = $tabe['title'] ?? "";
-        $word2 = MainTables::$x_Words_table[$mdtitle] ?? 0;
+        $word2 = $Words_table[$mdtitle] ?? 0;
         $word = $tabe['word'] ?? 0;
         //---
         if ($word < 1) $word = $word2;

@@ -1,17 +1,17 @@
 <?php
 
-namespace Leaderboard\Subs\SubLangs;
+namespace Leaderboard\SubLangs;
 
 /*
 Usage:
-use function Leaderboard\Subs\SubLangs\get_langs_tables;
+use function Leaderboard\SubLangs\get_langs_tables;
 
 */
 
 use function SQLorAPI\Get\get_lang_views;
 use function SQLorAPI\Get\get_lang_pages;
 use function SQLorAPI\Get\get_inprocess_lang_new;
-use function Leaderboard\Subs\LeadHelp\make_key;
+use function Leaderboard\LeadHelp\make_key;
 
 function add_inp($dd_Pending, $mainlang)
 {

@@ -2,10 +2,6 @@
 //---
 include_once __DIR__ . '/header.php';
 include_once __DIR__ . '/Tables/include.php';
-
-use Tables\Langs\LangsTables;
-use Tables\Main\MainTables;
-
 //---
 echo '<script>$("#missing").addClass("active");</script>';
 //---
@@ -44,7 +40,7 @@ foreach ($langs as $code => $tabe) {
     $Table[$code] = $aaa;
 };
 //---
-// foreach (MainTables::$x_Langs_table as $_ => $lang_tab) {
+// foreach ($Langs_table as $_ => $lang_tab) {
 //     $lang_code = $lang_tab['code'] ?? "";
 //     if (!isset($Table[$lang_code])) {
 //         $Table[$lang_code] = 0;
@@ -53,22 +49,22 @@ foreach ($langs as $code => $tabe) {
 //---
 $lang_codes = array_map(function ($lang_tab) {
     return $lang_tab['code'] ?? "";
-}, MainTables::$x_Langs_table);
+}, $Langs_table);
 
 $Table += array_fill_keys(array_filter($lang_codes), $lenth);
 //---
 arsort($Table);
 //---
 $text = <<<HTML
-<table class="table table-striped compact table_responsive">
+<table class="table table-striped compact soro table-mobile-responsive">
     <thead>
         <tr>
         <th class="spannowrap">#</th>
-        <th class="spannowrap" data-priority="1">Language code</th>
+        <th class="spannowrap">Language code</th>
         <th class="spannowrap">Language name</th>
         <th class="spannowrap">Autonym</th>
         <th>Exists Articles</th>
-        <th data-priority="2">Missing Articles</th>
+        <th>Missing Articles</th>
         </tr>
     </thead>
     <tbody>
@@ -83,18 +79,18 @@ foreach ($Table as $langcode2 => $missing) {
     //---
     $langcode = $langcode2;
     //---
-    $langcode = LangsTables::$L_change_codes[$langcode] ?? $langcode;
+    $langcode = $change_codes[$langcode] ?? $langcode;
     //---
-    // skip langcode in LangsTables::$L_skip_codes
-    // if (array_intersect([$langcode, $langcode2], LangsTables::$L_skip_codes)) {
-    if (!empty(array_intersect([$langcode, $langcode2], LangsTables::$L_skip_codes))) {
+    // skip langcode in $skip_codes
+    // if (in_array($langcode, $skip_codes) || in_array($langcode2, $skip_codes)) {
+    if (array_intersect([$langcode, $langcode2], $skip_codes)) {
         continue;
     };
     //---
     if (isset($tab_done[$langcode])) continue;
     $tab_done[$langcode] = true;
     //---
-    $lang_info = MainTables::$x_Langs_table[$langcode] ?? MainTables::$x_Langs_table[$langcode2] ?? [];
+    $lang_info = $Langs_table[$langcode] ?? $Langs_table[$langcode2] ?? [];
     //---
     $num += 1;
     //---

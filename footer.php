@@ -52,15 +52,6 @@ if (isset($GLOBALS['time_start'])) {
 		// $('.card').CardWidget('toggle')
 
 		setTimeout(function() {
-			$('.table_responsive').DataTable({
-				paging: false,
-				info: false,
-				searching: false,
-				responsive: {
-					details: true
-					// display: $.fn.dataTable.Responsive.display.modal()
-				}
-			});
 			$('.soro').DataTable({
 				lengthMenu: [
 					[25, 50, 100, 200],

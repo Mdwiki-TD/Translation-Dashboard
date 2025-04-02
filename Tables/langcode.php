@@ -1,15 +1,4 @@
 <?PHP
-
-namespace Tables\Langs;
-
-/*
-Usage:
-use Tables\Langs\LangsTables;
-
-(\$)(skip_codes|change_codes|code_to_wikiname|lang_to_code|code_to_lang)\b
-LangsTables::$1L_$2
-
-*/
 //---
 /*
 "gsw": "als",
@@ -44,20 +33,10 @@ https://db-names.toolforge.org/
 */
 // ---
 require_once __DIR__ . '/tables.php';
-
-use Tables\Main\MainTables;
-
-class LangsTables
-{
-    public static $L_skip_codes = [];
-    public static $L_change_codes = [];
-    public static $L_code_to_wikiname = [];
-    public static $L_lang_to_code = [];
-    public static $L_code_to_lang = [];
-}
-LangsTables::$L_skip_codes = ["commons", "species", "ary", "arz", "meta", "en", "simple"];
+// ---
+$skip_codes = ["commons", "species", "ary", "arz", "meta", "en", "simple"];
 //---
-LangsTables::$L_change_codes = [
+$change_codes = [
     "nb"    =>    "no",
     "bat_smg"    =>    "bat-smg",
     "be-x-old"    =>    "be-tarask",
@@ -72,7 +51,7 @@ LangsTables::$L_change_codes = [
     "zh_yue"    =>    "zh-yue",
 ];
 #---
-LangsTables::$L_code_to_wikiname = [
+$code_to_wikiname = [
     "aa"    =>    "Afar",
     "ab"    =>    "Аԥсуа",
     "ace"    =>    "Basa Acèh",
@@ -404,16 +383,20 @@ LangsTables::$L_code_to_wikiname = [
     "zu"    =>    "isiZulu",
 ];
 //---
-foreach (MainTables::$x_Langs_table as $_ => $lang_tab) {
+$lang_to_code = []; // "(simple) Simple English"	=>	"simple",
+//---
+$code_to_lang = [];
+//---
+foreach ($Langs_table as $_ => $lang_tab) {
     $lang_code = $lang_tab['code'] ?? "";
     $lang_name = $lang_tab['autonym'] ?? "";
     // ---
-    if (isset(LangsTables::$L_change_codes[$lang_code]) && isset(LangsTables::$L_code_to_lang[LangsTables::$L_change_codes[$lang_code]])) {
+    if (isset($change_codes[$lang_code]) && isset($code_to_lang[$change_codes[$lang_code]])) {
         continue;
     }
     // ---
     $lang_title = "($lang_code) $lang_name";
     // ---
-    LangsTables::$L_code_to_lang[$lang_code] = $lang_title;
-    LangsTables::$L_lang_to_code[$lang_title] = $lang_code;
+    $code_to_lang[$lang_code] = $lang_title;
+    $lang_to_code[$lang_title] = $lang_code;
 };

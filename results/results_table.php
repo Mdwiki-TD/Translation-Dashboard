@@ -14,15 +14,14 @@ use function Results\ResultsTable\make_results_table;
 
 include_once __DIR__ . '/../Tables/include.php';
 
-use Tables\Main\MainTables;
-use Tables\SqlTables\TablesSql;
-
 use function Results\TrLink\make_tr_link_medwiki;
 use function Tables\SqlTables\load_translate_type;
 use function SQLorAPI\GetDataTab\get_td_or_sql_qids;
 use function SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
 
-$use_medwiki = TablesSql::$s_settings['use_medwiki']['value'] ?? false;
+
+$use_medwiki = $settings['use_medwiki']['value'] ?? false;
+$full_translators = array_column(get_td_or_sql_full_translators(), 'user');
 
 function sort_py_PageViews($items, $en_views_tab)
 {
@@ -36,15 +35,15 @@ function sort_py_PageViews($items, $en_views_tab)
     return $dd;
 }
 
-function sort_py_importance($items, $Assessment_table, $Assessment_fff)
+function sort_py_importance($items, $Assessments_table, $Assessments_fff)
 {
-    $empty = $Assessment_fff['Unknown'] ?? '';
+    $empty = $Assessments_fff['Unknown'] ?? '';
     $dd = [];
     foreach ($items as $t) {
         $t = str_replace('_', ' ', $t);
-        $aa = $Assessment_table[$t] ?? null;
+        $aa = $Assessments_table[$t] ?? null;
         if (isset($aa)) {
-            $kry = $Assessment_fff[$aa] ?? $empty;
+            $kry = $Assessments_fff[$aa] ?? $empty;
         }
         $dd[$t] = $kry;
     }
@@ -52,18 +51,69 @@ function sort_py_importance($items, $Assessment_table, $Assessment_fff)
     return $dd;
 }
 
+function make_mobile_table($words, $refs, $asse, $pageviews, $qid, $inprocess, $_user_, $_date_, $full_translate_url, $full_tr_user)
+{
+    // Define an array to store the values
+    $data = array(
+        array("Views", $pageviews),
+        array("Importance", $asse),
+        array("Words", $words),
+        array("Refs.", $refs),
+        array("Qid", $qid)
+    );
+    if ($inprocess) {
+        // add User : $_user_ and Date : $_date_
+        $data[] = array("User", $_user_);
+        $data[] = array("Date", $_date_);
+    };
+
+    // Initialize an empty string to store the generated HTML
+    $nq_ths = '';
+
+    // if ($full_tr_user && !$inprocess) {
+    if ($full_tr_user && !$inprocess) {
+        $nq_ths = <<<HTML
+                <div class="d-table-row">
+                    <span class="d-table-cell px-2" style="color:#54667a;">Full Translate</span>
+                    <span class="d-table-cell px-2" style='font-weight: normal;'><a class='inline' target='_blank' href='$full_translate_url'>Translate</a></span>
+                </div>
+            HTML;
+    }
+
+    // Loop through the array and generate the HTML
+    foreach ($data as $item) {
+        $nq_ths .= <<<HTML
+                <div class="d-table-row">
+                    <span class="d-table-cell px-2" style="color:#54667a;">{$item[0]}</span>
+                    <span class="d-table-cell px-2" style='font-weight: normal;'>{$item[1]}</span>
+                </div>
+            HTML;
+    }
+    //---
+    $nxqe = <<<HTML
+            <div class="d-table table-striped">
+                $nq_ths
+            </div>
+        HTML;
+    //---
+    return $nxqe;
+}
+
 function one_item_props($title, $tra_type)
 {
 
-    $words_tab = ($tra_type == 'all') ? MainTables::$x_All_Words_table : MainTables::$x_Words_table;
-    $ref_tab   = ($tra_type == 'all') ? MainTables::$x_All_Refs_table  : MainTables::$x_Lead_Refs_table;
+    global $Words_table, $All_Words_table, $Assessments_table;
+    global $Lead_Refs_table, $All_Refs_table, $enwiki_pageviews_table;
+    //---
+    $words_tab = ($tra_type == 'all') ? $All_Words_table : $Words_table;
+    $ref_tab   = ($tra_type == 'all') ? $All_Refs_table  : $Lead_Refs_table;
     //---
     $sql_qids = get_td_or_sql_qids();
     //---
     $word  = $words_tab[$title] ?? 0;
     $refs  = $ref_tab[$title] ?? 0;
-    $asse  = MainTables::$x_Assessments_table[$title] ?? '';
-    $views = MainTables::$x_enwiki_pageviews_table[$title] ?? 0;
+    $asse  = $Assessments_table[$title] ?? '';
+    $views = $enwiki_pageviews_table[$title] ?? 0;
     $qid   = $sql_qids[$title] ?? "";
     //---
     if (empty($asse)) $asse = 'Unknown';
@@ -78,8 +128,9 @@ function one_item_props($title, $tra_type)
     //---
     return $tab;
 }
-function make_one_row_new($title, $tra_type, $cnt, $cod, $cat, $camp, $inprocess, $inprocess_table, $tra_btn, $full, $full_tr_user)
+function make_one_row($title, $tra_type, $cnt, $cod, $cat, $camp, $inprocess, $inprocess_table, $tra_btn, $full, $full_tr_user)
 {
+    global $use_medwiki;
     //---
     $cnt2 = $full ? "Full" : $cnt;
     //---
@@ -114,8 +165,15 @@ function make_one_row_new($title, $tra_type, $cnt, $cod, $cat, $camp, $inprocess
     $mdwiki_url = "//mdwiki.org/wiki/" . str_replace('+', '_', $title2);
     $qid = (!empty($qid)) ? "<a class='inline' target='_blank' href='https://wikidata.org/wiki/$qid'>$qid</a>" : '&nbsp;';
     //---
-    $full_translate_url = make_tr_link_medwiki($title, $cod, $cat, $camp, "all", $words);
-    $translate_url = make_tr_link_medwiki($title, $cod, $cat, $camp, $tra_type, $words);
+    // if ($use_medwiki) {
+    //---
+    $full_translate_url = make_tr_link_medwiki($title, $cod, $cat, $camp, "all");
+    $translate_url = make_tr_link_medwiki($title, $cod, $cat, $camp, $tra_type);
+    //---
+    // } else {
+    // $full_translate_url = make_translate_link($title, $cod, $cat, $camp, "all");
+    // $translate_url = make_translate_link($title, $cod, $cat, $camp, $tra_type);
+    // }
     //---
     $tab = "<a href='$translate_url' class='btn btn-outline-primary btn-sm' target='_blank'>Translate</a>";
     //---
@@ -154,85 +212,91 @@ function make_one_row_new($title, $tra_type, $cnt, $cod, $cat, $camp, $inprocess
         };
     };
     //---
+    $mobile_table = make_mobile_table($words, $refs, $asse, $pageviews, $qid, $inprocess, $_user_, $_date_, $full_translate_url, $full_tr_user);
+    //---
     $td_rows = <<<HTML
-        <th class='' scope="row" data-sort="$cnt" style="text-align: left">$cnt2</th>
-        <th class='link_container spannowrap' style="font-weight: normal;">
+        <th class='num hide_on_mobile_cell' scope="row" data-content="$cnt2" data-sort="$cnt">$cnt2</th>
+        <td class='link_container spannowrap' data-content="$cnt2">
             <a target='_blank' href='$mdwiki_url' class='hide_on_mobile'>$title</a>
             <a target='_blank' href='$translate_url' class="only_on_mobile"><b>$title</b></a>
+            <a class="only_on_mobile" style="float:right" data-bs-toggle="collapse" href="#$div_id" role="button" aria-expanded="false" aria-controls="$div_id">+</a>
+        </td>
+
+        <th class=''>
+            <span class='hide_on_mobile'>$tab</span>
+            <div class='collapse' id="$div_id">
+                <div class='only_on_mobile'>$mobile_table</div>
+            </div>
         </th>
 
-        <th>
-            <span class=''>$tab</span>
-        </th>
-
-        <td class='num' style="text-align: left">$pageviews</td>
-        <td class='num' style="text-align: left">$asse</td>
-        <td class='num' style="text-align: left">$words</td>
-        <td class='num' style="text-align: left">$refs</td>
-        <td>$qid</td>
+        <td class='num hide_on_mobile_cell' data-content="Views">$pageviews</td>
+        <td class='num hide_on_mobile_cell' data-content="Importance">$asse</td>
+        <td class='num hide_on_mobile_cell' data-content="Words">$words</td>
+        <td class='num hide_on_mobile_cell' data-content="Refs.">$refs</td>
+        <td class='hide_on_mobile_cell' data-content="Qid">$qid</td>
     HTML;
     //---
     if ($inprocess) {
         $td_rows .= <<<HTML
-            <td>$_user_</td>
-            <td>$_date_</td>
+            <td class='hide_on_mobile_cell' data-content="user">$_user_</td>
+            <td class='hide_on_mobile_cell' data-content="Date">$_date_</td>
         HTML;
     };
     //---
-    $td_rows = "<tr>$td_rows</tr>";
+    $td_rows = "<tr class=''>$td_rows</tr>";
     //---
     return $td_rows;
 }
+
 function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inprocess = false)
 {
     //---
-    $full_translators = array_column(get_td_or_sql_full_translators(), 'user');
+    global $enwiki_pageviews_table, $full_translators;
+    // global $no_lead_translates, $full_translates;
     //---
-    $nolead_translates = load_translate_type('no');
-    $translates_full = load_translate_type('full');
+    $no_lead_translates = load_translate_type('no');
+    $full_translates = load_translate_type('full');
     //---
     $full_tr_user = in_array($GLOBALS['global_username'], $full_translators);
     //---
     $do_full   = ($tra_type == 'all') ? false : true;
     //---
-    // $Translate_th = "<th>Translate</th>";
+    $Translate_th = "<th>Translate</th>";
     //---
     $inprocess_table = ($inprocess) ? $items : [];
     $inprocess_first = '';
     //---
     if ($inprocess) {
-        $inprocess_first = '<th class="not-mobile">user</th><th class="not-mobile">date</th>';
+        $inprocess_first = '<th>user</th><th>date</th>';
         $items = array_keys($items);
         // if ($tra_btn != '1') $Translate_th = '<th></th>';
     };
     //---
     $frist = <<<HTML
     <!-- <div class="table-responsive"> -->
-    <table class="table display table-striped table_responsive">
+    <table class="table compact sortable table-striped table-mobile-responsive" id="main_table">
         <thead>
             <tr>
-                <th class="all">
+                <th class="num">
                     #
                 </th>
-                <th class="spannowrap all" data-priority="1">
+                <th class="spannowrap">
                     Title
                 </th>
-                <th class="not-mobile">
-                    <span class=''>Translate</span>
-                </th>
-                <th class="spannowrap not-mobile"  style="text-align: center">
+                $Translate_th
+                <th class="spannowrap">
                     <span data-bs-toggle="tooltip" data-bs-title="Page views in last month in English Wikipedia">Views</span>
                 </th>
-                <th class="spannowrap not-mobile" style="text-align: center">
+                <th class="spannowrap">
                     <span data-bs-toggle="tooltip" data-bs-title="Page important from medicine project in English Wikipedia">Importance</span>
                 </th>
-                <th class="spannowrap not-mobile" style="text-align: center">
+                <th class="spannowrap">
                     <span data-bs-toggle="tooltip" data-bs-title="number of words of the article in mdwiki.org">Words</span>
                 </th>
-                <th class="spannowrap not-mobile" style="text-align: center">
+                <th class="spannowrap">
                     <span data-bs-toggle="tooltip" data-bs-title="number of references of the article in mdwiki.org">Refs.</span>
                 </th>
-                <th class="spannowrap not-mobile" style="text-align: center">
+                <th class="spannowrap">
                     <span data-bs-toggle="tooltip" data-bs-title="Wikidata identifier">Qid</span>
                 </th>
                 $inprocess_first
@@ -242,8 +306,8 @@ function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inp
     HTML;
     //---
     $dd = [];
-    $dd = sort_py_PageViews($items, MainTables::$x_enwiki_pageviews_table);
-    // $dd = sort_py_importance($items, MainTables::$x_Assessments_table, MainTables::$x_Assessments_fff);
+    $dd = sort_py_PageViews($items, $enwiki_pageviews_table);
+    // $dd = sort_py_importance($items, $Assessments_table, $Assessments_fff);
     //---
     $list = "";
     $cnt = 1;
@@ -256,7 +320,7 @@ function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inp
         //---
         $inprocess_v = $inprocess_table[$v] ?? [];
         //---
-        $row = make_one_row_new($title, $tra_type, $cnt2, $cod, $cat, $camp, $inprocess, $inprocess_v, $tra_btn, false, $full_tr_user);
+        $row = make_one_row($title, $tra_type, $cnt2, $cod, $cat, $camp, $inprocess, $inprocess_v, $tra_btn, false, $full_tr_user);
         //---
         // if in process or full translates not allowed
         if ($inprocess || !$do_full || $full_tr_user) {
@@ -266,10 +330,10 @@ function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inp
         }
         //---
         // if title in no_lead_translates array then $no_lead = true
-        $no_lead = (in_array($title, $nolead_translates)) ? true : false;
+        $no_lead = (in_array($title, $no_lead_translates)) ? true : false;
         //---
         // if title in full_translates array then $full = true
-        $full = (in_array($title, $translates_full)) ? true : false;
+        $full = (in_array($title, $full_translates)) ? true : false;
         //---
         if ($no_lead && !$full) {
             continue;
@@ -280,14 +344,15 @@ function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inp
         }
         //---
         if ($full) {
-            $list .= make_one_row_new($title, 'all', $cnt2, $cod, $cat, $camp, $inprocess, $inprocess_v, $tra_btn, true, $full_tr_user);
+            $list .= make_one_row($title, 'all', $cnt2, $cod, $cat, $camp, $inprocess, $inprocess_v, $tra_btn, true, $full_tr_user);
         }
         //---
         $cnt++;
     };
     $last = <<<HTML
-            </tbody>
-        </table>
+        </tbody>
+    </table>
+    <!-- </div> -->
     HTML;
     return $frist . $list . $last;
 }

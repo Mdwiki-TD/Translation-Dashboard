@@ -4,7 +4,6 @@ include_once __DIR__ . '/../../auth/auth/user_infos.php';
 // include_once __DIR__ . '/../header.php';
 // include_once __DIR__ . '/../actions/load_request.php';
 include_once __DIR__ . '/../actions/html.php';
-include_once __DIR__ . '/../Tables/sql_tables.php';
 include_once __DIR__ . '/../results/tr_link.php';
 include_once __DIR__ . '/db_insert.php';
 
@@ -59,12 +58,17 @@ if (!empty($title_o) && !empty($coden) && $user_valid) {
     $cat     = $_GET['cat'] ?? '';
     $camp    = $_GET['camp'] ?? '';
     $tr_type = $_GET['type'] ?? 'lead';
-    $word    = $_GET['word'] ?? 0;
     // ---
     $useree  = rawurldecode($useree);
     $cat     = rawurldecode($cat);
     $camp    = rawurldecode($camp);
     $title_o = rawurldecode($title_o);
+    // ---
+    $word = $Words_table[$title_o] ?? 0;
+    // ---
+    if ($tr_type == 'all') {
+        $word = $All_Words_table[$title_o] ?? 0;
+    }
     // ---
     insertPage($title_o, $word, $tr_type, $cat, $coden, $useree);
     // ---

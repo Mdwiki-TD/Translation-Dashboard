@@ -14,7 +14,6 @@ use function Results\TrLink\make_tr_link_medwiki;
 include_once __DIR__ . '/../actions/td_api.php';
 include_once __DIR__ . '/../api_or_sql/index.php';
 
-use Tables\SqlTables\TablesSql;
 use function SQLorAPI\GetDataTab\get_td_or_sql_settings;
 
 $settings1 = get_td_or_sql_settings();
@@ -25,9 +24,9 @@ $use_mdwikicx = $settings1['use_mdwikicx'] ?? '0';
 function make_translate_link_medwiki($title, $cod, $cat, $camp, $tra_type)
 {
     // ---
-    global $use_mdwikicx;
+    global $cat_to_camp, $use_mdwikicx;
     // ---
-    $campain = TablesSql::$s_cat_to_camp[$cat] ?? $cat;
+    $campain = $cat_to_camp[$cat] ?? $cat;
     // ---
     $endpoint = "https://medwiki.toolforge.org/w/index.php";
     // ---
@@ -73,7 +72,7 @@ function make_translate_link($title, $cod, $cat, $camp, $tra_type)
     return $url;
 }
 
-function make_tr_link_medwiki($title, $cod, $cat, $camp, $tra_type, $word)
+function make_tr_link_medwiki($title, $cod, $cat, $camp, $tra_type)
 {
     // ---
     $cat2   = rawurlEncode($cat);
@@ -85,7 +84,6 @@ function make_tr_link_medwiki($title, $cod, $cat, $camp, $tra_type, $word)
         "code" => $cod,
         "cat" => $cat2,
         "camp" => $camp2,
-        "word" => $word,
         "type" => $tra_type
     );
     //---

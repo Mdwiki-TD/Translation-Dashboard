@@ -12,8 +12,6 @@ use function Leaderboard\LeaderTables\makeLangTable;
 
 include_once __DIR__ . '/camps.php';
 // include_once __DIR__ . '/leader_tables_tabs.php';
-use Tables\Main\MainTables;
-use Leaderboard\Tabs\LeaderBoardTabs;
 
 function createNumbersTable($c_user, $c_articles, $c_words, $c_langs, $c_views)
 {
@@ -41,7 +39,9 @@ function createNumbersTable($c_user, $c_articles, $c_words, $c_langs, $c_views)
 function makeLangTable()
 {
 
-    arsort(LeaderBoardTabs::$u_sql_Languages_tab);
+    global $sql_Languages_tab, $all_views_by_lang, $Langs_table;
+
+    arsort($sql_Languages_tab);
 
     $addcat = $_SERVER['SERVER_NAME'] == 'localhost' && (isset($_REQUEST['nocat']));
 
@@ -63,7 +63,7 @@ function makeLangTable()
 
     $numb = 0;
 
-    foreach (LeaderBoardTabs::$u_sql_Languages_tab as $langcode => $comp) {
+    foreach ($sql_Languages_tab as $langcode => $comp) {
 
         # Get the Articles numbers
 
@@ -71,11 +71,11 @@ function makeLangTable()
         $comp = number_format($comp);
         $numb++;
         // ---
-        $na = MainTables::$x_Langs_table[$langcode]['name'] ?? "";
+        $na = $Langs_table[$langcode]['name'] ?? "";
         // ---
         $langname = ($na != "") ? "<span data-toggle='tooltip' title='$langcode'>$na</span>" : $langcode;
         // ---
-        $view = number_format(LeaderBoardTabs::$u_all_views_by_lang[$langcode]) ?? 0;
+        $view = number_format($all_views_by_lang[$langcode]) ?? 0;
         $cach = <<<HTML
             <td><a target="_blank" href="https://$langcode.wikipedia.org/wiki/Category:Translated_from_MDWiki">cat</a></td>
         HTML;

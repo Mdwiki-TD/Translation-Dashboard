@@ -11,7 +11,7 @@ use function Leaderboard\LeaderTabUsers\module_copy;
 */
 
 // include_once __DIR__ . '/leader_tables_tabs.php';
-use Leaderboard\Tabs\LeaderBoardTabs;
+
 use function Actions\Html\make_modal_fade;
 use function SQLorAPI\GetDataTab\get_td_or_sql_users_by_wiki;
 
@@ -47,15 +47,17 @@ function module_copy()
 
 function makeUsersTable($min = 2)
 {
+
+    global $sql_users_tab, $Users_word_table, $Views_by_users;
     //---
     $numb = 0;
     $trs = "";
-    foreach (LeaderBoardTabs::$u_sql_users_tab as $user => $usercount) {
+    foreach ($sql_users_tab as $user => $usercount) {
         // if ($usercount < $min && $numb > 15) continue;
         $numb += 1;
         $usercount = number_format($usercount);
-        $views = isset(LeaderBoardTabs::$u_Views_by_users[$user]) ? number_format(LeaderBoardTabs::$u_Views_by_users[$user]) : 0;
-        $words = isset(LeaderBoardTabs::$u_Users_word_table[$user]) ? number_format(LeaderBoardTabs::$u_Users_word_table[$user]) : 0;
+        $views = isset($Views_by_users[$user]) ? number_format($Views_by_users[$user]) : 0;
+        $words = isset($Users_word_table[$user]) ? number_format($Users_word_table[$user]) : 0;
 
         $use = rawurlEncode($user);
         $use = str_replace('+', '_', $use);

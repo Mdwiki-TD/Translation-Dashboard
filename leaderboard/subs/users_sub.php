@@ -1,17 +1,17 @@
 <?php
 
-namespace Leaderboard\Subs\SubUsers;
+namespace Leaderboard\SubUsers;
 
 /*
 Usage:
-use function Leaderboard\Subs\SubUsers\get_users_tables;
+use function Leaderboard\SubUsers\get_users_tables;
 
 */
 
 use function SQLorAPI\Get\get_user_views;
 use function SQLorAPI\Get\get_user_pages;
 use function SQLorAPI\Get\get_inprocess_user_new;
-use function Leaderboard\Subs\LeadHelp\make_key;
+use function Leaderboard\LeadHelp\make_key;
 
 function add_inp($dd_Pending, $user)
 {
