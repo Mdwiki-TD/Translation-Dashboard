@@ -81,15 +81,15 @@
     }
 
     /* Sided layout */
-    .table-mobile-responsive> :not(:first-child) {
+    .table-mobile-responsive.table-mobile-sided> :not(:first-child) {
         border-top: none;
     }
 
-    .table-mobile-responsive>:not(caption)>*>* {
+    .table-mobile-responsive.table-mobile-sided>:not(caption)>*>* {
         border-color: var(--bs-table-border-color);
     }
 
-    .table-mobile-responsive td {
+    .table-mobile-responsive.table-mobile-sided td {
         /* Behave  like a "row" */
         border: none;
         border-bottom: 1px solid var(--tmr-white);
@@ -100,8 +100,7 @@
         /* justify-content: flex-end; */
     }
 
-    /* .table-mobile-responsive.table-mobile-sided td:before { */
-    .table-mobile-responsive td:before {
+    .table-mobile-responsive.table-mobile-sided td:before {
         /* Now like a table header */
         position: absolute;
         /* Top/left values mimic padding */
