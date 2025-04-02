@@ -24,7 +24,7 @@ $stylesheets = [
 
     "$hoste/ajax/libs/datatables.net-responsive-bs5/3.0.4/responsive.bootstrap5.min.css",
     "/Translation_Dashboard/css/mobile_format.css",
-    // "/Translation_Dashboard/css/Responsive_Table.css",
+    "/Translation_Dashboard/css/Responsive_Table.css",
 ];
 
 $scripts = [
@@ -85,6 +85,7 @@ function head()
     <style>
         a {
             text-decoration: none;
+            word-break: break-all !important;
         }
     </style>
 

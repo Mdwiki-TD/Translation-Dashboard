@@ -16,7 +16,7 @@
 
 @media only screen and (max-width: 760px),
 (min-device-width: 768px) and (max-device-width: 1024px) {
-    [data-content]:before {
+    .table-mobile-responsive [data-content]:before {
         content: attr(data-content);
     }
 
@@ -81,15 +81,15 @@
     }
 
     /* Sided layout */
-    .table-mobile-responsive.table-mobile-sided> :not(:first-child) {
+    .table-mobile-responsive> :not(:first-child) {
         border-top: none;
     }
 
-    .table-mobile-responsive.table-mobile-sided>:not(caption)>*>* {
+    .table-mobile-responsive>:not(caption)>*>* {
         border-color: var(--bs-table-border-color);
     }
 
-    .table-mobile-responsive.table-mobile-sided td {
+    .table-mobile-responsive td {
         /* Behave  like a "row" */
         border: none;
         border-bottom: 1px solid var(--tmr-white);
@@ -100,7 +100,8 @@
         /* justify-content: flex-end; */
     }
 
-    .table-mobile-responsive.table-mobile-sided td:before {
+    /* .table-mobile-responsive.table-mobile-sided td:before { */
+    .table-mobile-responsive td:before {
         /* Now like a table header */
         position: absolute;
         /* Top/left values mimic padding */
