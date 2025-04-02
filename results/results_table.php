@@ -52,6 +52,54 @@ function sort_py_importance($items, $Assessment_table, $Assessment_fff)
     return $dd;
 }
 
+function make_mobile_table($words, $refs, $asse, $pageviews, $qid, $inprocess, $_user_, $_date_, $full_translate_url, $full_tr_user)
+{
+    // Define an array to store the values
+    $data = array(
+        array("Views", $pageviews),
+        array("Importance", $asse),
+        array("Words", $words),
+        array("Refs.", $refs),
+        array("Qid", $qid)
+    );
+    if ($inprocess) {
+        // add User : $_user_ and Date : $_date_
+        $data[] = array("User", $_user_);
+        $data[] = array("Date", $_date_);
+    };
+
+    // Initialize an empty string to store the generated HTML
+    $nq_ths = '';
+
+    // if ($full_tr_user && !$inprocess) {
+    if ($full_tr_user && !$inprocess) {
+        $nq_ths = <<<HTML
+                <div class="d-table-row">
+                    <span class="d-table-cell px-2" style="color:#54667a;">Full Translate</span>
+                    <span class="d-table-cell px-2" style='font-weight: normal;'><a class='inline' target='_blank' href='$full_translate_url'>Translate</a></span>
+                </div>
+            HTML;
+    }
+
+    // Loop through the array and generate the HTML
+    foreach ($data as $item) {
+        $nq_ths .= <<<HTML
+                <div class="d-table-row">
+                    <span class="d-table-cell px-2" style="color:#54667a;">{$item[0]}</span>
+                    <span class="d-table-cell px-2" style='font-weight: normal;'>{$item[1]}</span>
+                </div>
+            HTML;
+    }
+    //---
+    $nxqe = <<<HTML
+            <div class="d-table table-striped">
+                $nq_ths
+            </div>
+        HTML;
+    //---
+    return $nxqe;
+}
+
 function one_item_props($title, $tra_type)
 {
 
@@ -154,35 +202,42 @@ function make_one_row_new($title, $tra_type, $cnt, $cod, $cat, $camp, $inprocess
         };
     };
     //---
+    $mobile_table = make_mobile_table($words, $refs, $asse, $pageviews, $qid, $inprocess, $_user_, $_date_, $full_translate_url, $full_tr_user);
+    //---
     $td_rows = <<<HTML
-        <th class='' scope="row" data-sort="$cnt" style="text-align: left">$cnt2</th>
-        <th class='link_container spannowrap' style="font-weight: normal;">
+        <th class='num hide_on_mobile_cell' scope="row" data-content="$cnt2" data-sort="$cnt">$cnt2</th>
+        <td class='link_container spannowrap' data-content="$cnt2">
             <a target='_blank' href='$mdwiki_url' class='hide_on_mobile'>$title</a>
             <a target='_blank' href='$translate_url' class="only_on_mobile"><b>$title</b></a>
+            <a class="only_on_mobile" style="float:right" data-bs-toggle="collapse" href="#$div_id" role="button" aria-expanded="false" aria-controls="$div_id">+</a>
+        </td>
+
+        <th class=''>
+            <span class='hide_on_mobile'>$tab</span>
+            <div class='collapse' id="$div_id">
+                <div class='only_on_mobile'>$mobile_table</div>
+            </div>
         </th>
 
-        <th>
-            <span class=''>$tab</span>
-        </th>
-
-        <td class='num' style="text-align: left">$pageviews</td>
-        <td class='num' style="text-align: left">$asse</td>
-        <td class='num' style="text-align: left">$words</td>
-        <td class='num' style="text-align: left">$refs</td>
-        <td>$qid</td>
+        <td class='num hide_on_mobile_cell' data-content="Views">$pageviews</td>
+        <td class='num hide_on_mobile_cell' data-content="Importance">$asse</td>
+        <td class='num hide_on_mobile_cell' data-content="Words">$words</td>
+        <td class='num hide_on_mobile_cell' data-content="Refs.">$refs</td>
+        <td class='hide_on_mobile_cell' data-content="Qid">$qid</td>
     HTML;
     //---
     if ($inprocess) {
         $td_rows .= <<<HTML
-            <td>$_user_</td>
-            <td>$_date_</td>
+            <td class='hide_on_mobile_cell' data-content="user">$_user_</td>
+            <td class='hide_on_mobile_cell' data-content="Date">$_date_</td>
         HTML;
     };
     //---
-    $td_rows = "<tr>$td_rows</tr>";
+    $td_rows = "<tr class=''>$td_rows</tr>";
     //---
     return $td_rows;
 }
+
 function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inprocess = false)
 {
     //---
@@ -201,38 +256,38 @@ function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inp
     $inprocess_first = '';
     //---
     if ($inprocess) {
-        $inprocess_first = '<th class="not-mobile">user</th><th class="not-mobile">date</th>';
+        $inprocess_first = '<th>user</th><th>date</th>';
         $items = array_keys($items);
         // if ($tra_btn != '1') $Translate_th = '<th></th>';
     };
     //---
     $frist = <<<HTML
     <!-- <div class="table-responsive"> -->
-    <table class="table display table-striped table_responsive">
+    <table class="table compact sortable table-striped table-mobile-responsive" id="main_table">
         <thead>
             <tr>
-                <th class="all">
+                <th class="num">
                     #
                 </th>
-                <th class="spannowrap all" data-priority="1">
+                <th class="spannowrap" style="text-align: center">
                     Title
                 </th>
-                <th class="not-mobile">
+                <th class="">
                     <span class=''>Translate</span>
                 </th>
-                <th class="spannowrap not-mobile"  style="text-align: center">
+                <th class="spannowrap" style="text-align: center">
                     <span data-bs-toggle="tooltip" data-bs-title="Page views in last month in English Wikipedia">Views</span>
                 </th>
-                <th class="spannowrap not-mobile" style="text-align: center">
+                <th class="spannowrap" style="text-align: center">
                     <span data-bs-toggle="tooltip" data-bs-title="Page important from medicine project in English Wikipedia">Importance</span>
                 </th>
-                <th class="spannowrap not-mobile" style="text-align: center">
+                <th class="spannowrap" style="text-align: center">
                     <span data-bs-toggle="tooltip" data-bs-title="number of words of the article in mdwiki.org">Words</span>
                 </th>
-                <th class="spannowrap not-mobile" style="text-align: center">
+                <th class="spannowrap" style="text-align: center">
                     <span data-bs-toggle="tooltip" data-bs-title="number of references of the article in mdwiki.org">Refs.</span>
                 </th>
-                <th class="spannowrap not-mobile" style="text-align: center">
+                <th class="spannowrap" style="text-align: center">
                     <span data-bs-toggle="tooltip" data-bs-title="Wikidata identifier">Qid</span>
                 </th>
                 $inprocess_first

@@ -60,15 +60,15 @@ $Table += array_fill_keys(array_filter($lang_codes), $lenth);
 arsort($Table);
 //---
 $text = <<<HTML
-<table class="table table-striped compact table_responsive">
+<table class="table table-striped compact soro table-mobile-responsive">
     <thead>
         <tr>
         <th class="spannowrap">#</th>
-        <th class="spannowrap" data-priority="1">Language code</th>
+        <th class="spannowrap">Language code</th>
         <th class="spannowrap">Language name</th>
         <th class="spannowrap">Autonym</th>
         <th>Exists Articles</th>
-        <th data-priority="2">Missing Articles</th>
+        <th>Missing Articles</th>
         </tr>
     </thead>
     <tbody>
