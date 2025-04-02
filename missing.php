@@ -56,7 +56,7 @@ $Table += array_fill_keys(array_filter($lang_codes), $lenth);
 arsort($Table);
 //---
 $text = <<<HTML
-<table class="table table-striped compact soro table-mobile-responsive table-mobile-sided">
+<table class="table table-striped compact soro table-mobile-responsive">
     <thead>
         <tr>
         <th class="spannowrap">#</th>

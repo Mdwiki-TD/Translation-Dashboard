@@ -13,6 +13,7 @@ $hoste = ($_SERVER["SERVER_NAME"] == "localhost")
 $stylesheets = [
     // "$hoste/ajax/libs/datatables.net-responsive-bs5/3.0.3/responsive.bootstrap5.min.css",
     "/Translation_Dashboard/css/styles.css",
+    "/Translation_Dashboard/css/mobile_format.css",
     "/Translation_Dashboard/css/Responsive_Table.css",
     "/Translation_Dashboard/css/dashboard_new1.css",
     "/Translation_Dashboard/css/sidebars.css",

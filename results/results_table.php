@@ -274,7 +274,7 @@ function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inp
     //---
     $frist = <<<HTML
     <!-- <div class="table-responsive"> -->
-    <table class="table compact sortable table-striped table-mobile-responsive table-mobile-sided" id="main_table">
+    <table class="table compact sortable table-striped table-mobile-responsive" id="main_table">
         <thead>
             <tr>
                 <th class="num">
