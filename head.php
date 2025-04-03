@@ -20,7 +20,8 @@ $stylesheets = [
     "$hoste/ajax/libs/bootstrap-select/1.14.0-beta3/css/bootstrap-select.css",
     "$hoste/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css",
 
-    "$hoste/ajax/libs/datatables.net-bs5/1.13.5/dataTables.bootstrap5.css",
+    // "$hoste/ajax/libs/datatables.net-bs5/1.13.5/dataTables.bootstrap5.css",
+    "$hoste/ajax/libs/datatables.net-bs5/2.2.2/dataTables.bootstrap5.css",
     // "$hoste/ajax/libs/datatables.net-responsive-bs5/3.0.4/responsive.bootstrap5.min.css",
 
     "/Translation_Dashboard/css/mobile_format.css",
@@ -34,9 +35,12 @@ $scripts = [
     "$hoste/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js",
     "$hoste/ajax/libs/bootstrap-select/1.14.0-beta3/js/bootstrap-select.min.js",
 
-    "$hoste/ajax/libs/datatables.net/2.1.1/jquery.dataTables.min.js",
+    // "$hoste/ajax/libs/datatables.net/2.1.1/jquery.dataTables.min.js",
+    // "$hoste/ajax/libs/datatables.net-bs5/1.13.5/dataTables.bootstrap5.min.js",
+    "$hoste/ajax/libs/datatables.net/2.2.2/dataTables.js",
+    "$hoste/ajax/libs/datatables.net-bs5/2.2.2/dataTables.bootstrap5.min.js",
+
     // "$hoste/ajax/libs/datatables.net-fixedheader/3.4.0/dataTables.fixedHeader.min.js",
-    "$hoste/ajax/libs/datatables.net-bs5/1.13.5/dataTables.bootstrap5.min.js",
     // "$hoste/ajax/libs/datatables-responsive/3.0.4/dataTables.responsive.js",
 
     "/Translation_Dashboard/js/to.js",
