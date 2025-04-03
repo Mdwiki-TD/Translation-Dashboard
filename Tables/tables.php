@@ -4,7 +4,7 @@ namespace Tables\Main;
 
 //---
 /*
-(\$)(Assessments_fff|enwiki_pageviews_table|Words_table|All_Words_table|All_Refs_table|Lead_Refs_table|Assessments_table|Langs_table)\b
+(\$)(enwiki_pageviews_table|Words_table|All_Words_table|All_Refs_table|Lead_Refs_table|Assessments_table|Langs_table)\b
 
 MainTables::$1x_$2
 
@@ -24,7 +24,6 @@ use function SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
 
 class MainTables
 {
-	public static $x_Assessments_fff = [];
 	public static $x_enwiki_pageviews_table = [];
 	public static $x_Words_table = [];
 	public static $x_All_Words_table = [];
@@ -33,16 +32,18 @@ class MainTables
 	public static $x_Assessments_table = [];
 	public static $x_Langs_table = [];
 }
-
-MainTables::$x_Assessments_fff = array(
-	'Top' => 1,
-	'High' => 2,
-	'Mid' => 3,
-	'Low' => 4,
-	'Unknown' => 5,
-	'' => 5
-);
 // ---
+$tables_dir = __DIR__ . '/../../td/Tables';
+//---
+if (substr($tables_dir, 0, 2) == 'I:') {
+	$tables_dir = 'I:/mdwiki/mdwiki/public_html/td/Tables';
+}
+//---
+if (!getenv('tables_dir')) {
+	// set env
+	putenv('tables_dir=' . $tables_dir);
+}
+//---
 // 'lang_code_to_en' => &$lang_code_to_en,
 // 'medwiki_to_enwiki' => &$medwiki_to_enwiki,
 //---
@@ -55,17 +56,6 @@ $tables_d = array(
 	// 'assessments' => &MainTables::$x_Assessments_table,
 	'langs_tables' => &MainTables::$x_Langs_table,
 );
-//---
-$tables_dir = __DIR__ . '/../../td/Tables';
-//---
-if (substr($tables_dir, 0, 2) == 'I:') {
-	$tables_dir = 'I:/mdwiki/mdwiki/public_html/td/Tables';
-}
-//---
-if (!getenv('tables_dir')) {
-	// set env
-	putenv('tables_dir=' . $tables_dir);
-}
 //---
 foreach ($tables_d as $key => &$value) {
 	$file = file_get_contents($tables_dir . "/jsons/{$key}.json");

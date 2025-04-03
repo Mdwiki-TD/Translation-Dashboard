@@ -63,6 +63,7 @@ function load_translate_type($ty)
     }
     // ---
     $tab = ($ty == 'full') ? TablesSql::$s_full_translates : TablesSql::$s_no_lead_translates;
+    // ---
     return $tab;
 }
 //---

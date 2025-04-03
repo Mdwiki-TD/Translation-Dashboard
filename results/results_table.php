@@ -36,8 +36,18 @@ function sort_py_PageViews($items, $en_views_tab)
     return $dd;
 }
 
-function sort_py_importance($items, $Assessment_table, $Assessment_fff)
+function sort_py_importance($items, $Assessment_table)
 {
+    // ---
+    $Assessment_fff = [
+        'Top' => 1,
+        'High' => 2,
+        'Mid' => 3,
+        'Low' => 4,
+        'Unknown' => 5,
+        '' => 5
+    ];
+    // ---
     $empty = $Assessment_fff['Unknown'] ?? '';
     $dd = [];
     foreach ($items as $t) {
@@ -209,7 +219,7 @@ function make_one_row_new($title, $tra_type, $cnt, $cod, $cat, $camp, $inprocess
         <td class='link_container spannowrap' data-content="$cnt2">
             <a target='_blank' href='$mdwiki_url' class='hide_on_mobile'>$title</a>
             <a target='_blank' href='$translate_url' class="only_on_mobile"><b>$title</b></a>
-            <a class="only_on_mobile" style="float:right" data-bs-toggle="collapse" href="#$div_id" role="button" aria-expanded="false" aria-controls="$div_id">+</a>
+            <a class="only_on_mobile" style="float:right" data-bs-toggle="collapse" href="#$div_id" role="button" aria-expanded="false" aria-controls="$div_id"><i class="fas fa-plus"></i></a>
         </td>
 
         <th class=''>
@@ -298,7 +308,7 @@ function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inp
     //---
     $dd = [];
     $dd = sort_py_PageViews($items, MainTables::$x_enwiki_pageviews_table);
-    // $dd = sort_py_importance($items, MainTables::$x_Assessments_table, MainTables::$x_Assessments_fff);
+    // $dd = sort_py_importance($items, MainTables::$x_Assessments_table);
     //---
     $list = "";
     $cnt = 1;
