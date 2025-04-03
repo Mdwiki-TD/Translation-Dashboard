@@ -59,6 +59,7 @@ This full-stack web application is built using PHP, HTML, CSS, and JavaScript.
 ## License
 ## Contact
 
+## Diagram 
 ```mermaid
 graph TD
     %% User Browser
