@@ -216,7 +216,7 @@ function make_one_row_new($title, $tra_type, $cnt, $cod, $cat, $camp, $inprocess
     //---
     $td_rows = <<<HTML
         <th class='num hide_on_mobile_cell' scope="row" data-content="$cnt2" data-sort="$cnt">$cnt2</th>
-        <td class='link_container spannowrap' data-content="$cnt2">
+        <td class='link_container' data-content="$cnt2">
             <a target='_blank' href='$mdwiki_url' class='hide_on_mobile'>$title</a>
             <a target='_blank' href='$translate_url' class="only_on_mobile"><b>$title</b></a>
             <a class="only_on_mobile" style="float:right" data-bs-toggle="collapse" href="#$div_id" role="button" aria-expanded="false" aria-controls="$div_id"><i class="fas fa-plus"></i></a>
@@ -273,7 +273,7 @@ function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inp
     //---
     $frist = <<<HTML
     <!-- <div class="table-responsive"> -->
-    <table class="table compact sortable table-striped table-mobile-responsive" id="main_table">
+    <table class="table compact sortable table-striped table-mobile-responsive table_100" id="main_table">
         <thead>
             <tr>
                 <th class="num">

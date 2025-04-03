@@ -194,7 +194,7 @@ function make_table_lead($dd, $tab_type = 'a', $views_table = [], $page_type = '
 
     //---
     $sato = <<<HTML
-        <table class='table table-striped compact soro table-mobile-responsive' id='$leadtable'>
+        <table class='table table-striped compact soro table-mobile-responsive table_100' id='$leadtable'>
             <thead>
                 <tr>
                     <th>#</th>
