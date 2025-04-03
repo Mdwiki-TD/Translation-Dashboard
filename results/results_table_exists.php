@@ -96,31 +96,31 @@ function make_results_table_exists($items, $cod, $cat, $camp)
 {
     //---
     $frist = <<<HTML
-        <table class="table display compact table-striped table_responsive">
+        <table class="table display compact table-striped table-mobile-responsive table_100">
             <thead>
                 <tr>
-                    <th class="all">
+                    <th class="">
                         #
                     </th>
-                    <th class="spannowrap all" data-priority="1">
+                    <th class="spannowrap">
                         Title
                     </th>
-                    <th class="not-mobile" data-priority="2">
+                    <th class="">
                         Translated
                     </th>
-                    <th class="spannowrap not-mobile" style="text-align: center">
+                    <th class="spannowrap" style="text-align: center">
                         <span data-bs-toggle="tooltip" data-bs-title="Page views in last month in English Wikipedia">Views</span>
                     </th>
-                    <th class="spannowrap not-mobile" style="text-align: center">
+                    <th class="spannowrap" style="text-align: center">
                         <span data-bs-toggle="tooltip" data-bs-title="Page important from medicine project in English Wikipedia">Importance</span>
                     </th>
-                    <th class="spannowrap not-mobile" style="text-align: center">
+                    <th class="spannowrap" style="text-align: center">
                         <span data-bs-toggle="tooltip" data-bs-title="number of words of the article in mdwiki.org">Words</span>
                     </th>
-                    <th class="spannowrap not-mobile" style="text-align: center">
+                    <th class="spannowrap" style="text-align: center">
                         <span data-bs-toggle="tooltip" data-bs-title="number of references of the article in mdwiki.org">Refs.</span>
                     </th>
-                    <th class="spannowrap not-mobile" style="text-align: center">
+                    <th class="spannowrap" style="text-align: center">
                         <span data-bs-toggle="tooltip" data-bs-title="Wikidata identifier">Qid</span>
                     </th>
                 </tr>

@@ -16,9 +16,14 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     error_reporting(E_ALL);
 };
 //---
+include_once __DIR__ . '/leader_tables.php'; // namespace Leaderboard\LeaderTables;
+include_once __DIR__ . '/leader_tables_tabs.php';
+include_once __DIR__ . '/leader_tables_users.php';
 include_once __DIR__ . '/graph.php';
 include_once __DIR__ . '/graph_api.php';
 //---
+use Leaderboard\Tabs\LeaderBoardTabs;
+use Tables\SqlTables\TablesSql;
 use function Actions\Html\makeDropdown;
 use function Actions\Html\makeColSm4;
 use function Leaderboard\Graph\print_graph_for_table;
@@ -31,18 +36,16 @@ use function SQLorAPI\GetDataTab\get_td_or_sql_projects;
 
 function print_cat_table(): string
 {
-    global $sql_users_tab, $Articles_numbers, $Words_total, $sql_Languages_tab, $global_views, $tab_for_graph, $tab_for_graph2;
-
     $numbersTable = createNumbersTable(
-        count($sql_users_tab),
-        number_format($Articles_numbers),
-        number_format($Words_total),
-        count($sql_Languages_tab),
-        number_format($global_views)
+        count(LeaderBoardTabs::$u_sql_users_tab),
+        number_format(LeaderBoardTabs::$u_Articles_numbers),
+        number_format(LeaderBoardTabs::$u_Words_total),
+        count(LeaderBoardTabs::$u_sql_Languages_tab),
+        number_format(LeaderBoardTabs::$u_global_views)
     );
     //---
-    // $gg = print_graph_api($tab_for_graph2, $id = "chart09", $no_card = false);
-    $gg = print_graph_for_table($tab_for_graph, $id = 'chart09', $no_card = false);
+    // $gg = print_graph_api(LeaderBoardTabs::$u_tab_for_graph2, $id = "chart09", $no_card = false);
+    $gg = print_graph_for_table(LeaderBoardTabs::$u_tab_for_graph, $id = 'chart09', $no_card = false);
     //---
 
     $numbersCol = makeColSm4('Numbers', $numbersTable, 3, $gg);
@@ -81,7 +84,7 @@ $d33 = <<<HTML
 </div>
 HTML;
 //---
-$y1 = makeDropdown($cat_titles, $camp, 'camp', 'all');
+$y1 = makeDropdown(TablesSql::$s_cat_titles, $camp, 'camp', 'all');
 $campDropdown = sprintf($d33, 'Campaign', $y1);
 //---
 $projects_title_to_id = [];

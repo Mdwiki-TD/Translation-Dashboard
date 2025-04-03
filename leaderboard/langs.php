@@ -4,16 +4,17 @@ namespace Leaderboard\Langs;
 
 //---
 //---
-use function Leaderboard\LeadHelp\make_table_lead;
-use function Leaderboard\FilterForm\make_filter_form_langs;
-use function Leaderboard\SubLangs\get_langs_tables;
+use Tables\Langs\LangsTables;
+use function Leaderboard\Subs\LeadHelp\make_table_lead;
+use function Leaderboard\Subs\FilterForm\make_filter_form_langs;
+use function Leaderboard\Subs\SubLangs\get_langs_tables;
 //---
 $mainlang = $_REQUEST['langcode'] ?? "";
 $mainlang = rawurldecode(str_replace('_', ' ', $mainlang));
 //---
 $year_y = $_REQUEST['year'] ?? 'All';
 //---
-$langname = $code_to_lang[$mainlang] ?? $mainlang;
+$langname = LangsTables::$L_code_to_lang[$mainlang] ?? $mainlang;
 //---
 $u_tables = get_langs_tables($mainlang, $year_y);
 //---
