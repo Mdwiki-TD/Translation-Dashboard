@@ -41,7 +41,7 @@ This full-stack web application is built using PHP, HTML, CSS, and JavaScript.
 * **API/SQL Endpoints:** (`api_or_sql/data_tab.php`, `api_or_sql/get_lead.php`, `api_or_sql/index.php`).
 * **Table Generation & Management:** (`Tables/include.php`, `Tables/sql_tables.php`, `Tables/tables.php`, `Tables/langcode.php`).
 * **Controllers/Coordination & Authentication:** (`coordinator.php`, `auth.php`, `index.php`).
-* **Translation Modules:** (`translate.php`, `translate/medwiki.php`, `translate_med/index.php`, `translate_med/db_insert.php`, `translate_med/medwiki.php`).
+* **Translation Modules:** (`translate_med/index.php`, `translate_med/db_insert.php`).
 
 **External Integrations:**
 
