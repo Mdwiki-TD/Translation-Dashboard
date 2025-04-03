@@ -19,13 +19,15 @@ include_once __DIR__ . '/header.php';
 include_once __DIR__ . '/actions/load_request.php';
 include_once __DIR__ . '/Tables/include.php';
 //---
+use Tables\Main\MainTables;
+use Tables\SqlTables\TablesSql;
 use function Actions\LoadRequest\load_request;
 use function Infos\TdConfig\get_configs;
 use function Actions\Html\make_drop;
 //---
 // $conf = get_configs('conf.json');
 //---
-$allow_whole_translate = $settings['allow_type_of_translate']['value'] ?? '1';
+$allow_whole_translate = TablesSql::$s_settings['allow_type_of_translate']['value'] ?? '1';
 //---
 $req  = load_request();
 $code = $req['code'] ?? "";
@@ -43,7 +45,7 @@ $camp_ch = htmlspecialchars($camp, ENT_QUOTES);
 //---
 // echo $_SERVER['SERVER_NAME'];
 //---
-function print_form_start1($allow_whole_translate, $Langs_list, $cat_input_list, $campaigninput_list, $cat_ch, $camp_ch, $code_lang_name, $code, $tra_type)
+function print_form_start1($allow_whole_translate, $Lang_tables, $cat_input_list, $campaigninput_list, $cat_ch, $camp_ch, $code_lang_name, $code, $tra_type)
 {
     //---
     $lead_checked = "checked";
@@ -61,7 +63,7 @@ function print_form_start1($allow_whole_translate, $Langs_list, $cat_input_list,
     //---
     $lang_list = '';
     //---
-    foreach ($Langs_list as $_ => $lang_tab) {
+    foreach ($Lang_tables as $_ => $lang_tab) {
         $lang_code = $lang_tab['code'] ?? "";
         $lang_name = $lang_tab['autonym'] ?? "";
         $lang_title = "($lang_code) $lang_name";

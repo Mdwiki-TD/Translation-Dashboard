@@ -3,9 +3,9 @@
 namespace Leaderboard\Users;
 
 use function Actions\Html\make_mdwiki_user_url;
-use function Leaderboard\LeadHelp\make_table_lead;
-use function Leaderboard\FilterForm\make_filter_form_users;
-use function Leaderboard\SubUsers\get_users_tables;
+use function Leaderboard\Subs\LeadHelp\make_table_lead;
+use function Leaderboard\Subs\FilterForm\make_filter_form_users;
+use function Leaderboard\Subs\SubUsers\get_users_tables;
 //---
 $mainuser = $_REQUEST['user'] ?? "";
 //---

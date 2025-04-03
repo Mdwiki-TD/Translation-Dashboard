@@ -2,6 +2,10 @@
 //---
 include_once __DIR__ . '/header.php';
 include_once __DIR__ . '/Tables/include.php';
+
+use Tables\Langs\LangsTables;
+use Tables\Main\MainTables;
+
 //---
 echo '<script>$("#missing").addClass("active");</script>';
 //---
@@ -82,8 +86,8 @@ foreach ($Table as $langcode2 => $missing) {
     $langcode = LangsTables::$L_change_codes[$langcode] ?? $langcode;
     //---
     // skip langcode in LangsTables::$L_skip_codes
-    // if (in_array($langcode, LangsTables::$L_skip_codes) || in_array($langcode2, LangsTables::$L_skip_codes)) {
-    if (array_intersect([$langcode, $langcode2], LangsTables::$L_skip_codes)) {
+    // if (array_intersect([$langcode, $langcode2], LangsTables::$L_skip_codes)) {
+    if (!empty(array_intersect([$langcode, $langcode2], LangsTables::$L_skip_codes))) {
         continue;
     };
     //---

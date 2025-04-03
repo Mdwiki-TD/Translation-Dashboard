@@ -19,9 +19,11 @@ include_once __DIR__ . '/td_api.php';
 include_once __DIR__ . '/mdwiki_sql.php';
 include_once __DIR__ . '/../api_or_sql/index.php';
 
+use Tables\SqlTables\TablesSql;
+use Tables\Langs\LangsTables;
+
 function load_request()
 {
-    global LangsTables::$L_lang_to_code, LangsTables::$L_code_to_lang, TablesSql::$s_camp_to_cat, TablesSql::$s_cat_to_camp;
     //---
     $code = $_REQUEST['code'] ?? '';
     //---

@@ -9,6 +9,7 @@ use function Results\GetResults\get_results;
 
 */
 
+use Tables\SqlTables\TablesSql;
 // use function Results\FetchCatData\get_cat_exists_and_missing;
 use function Results\FetchCatDataSparql\get_cat_exists_and_missing;
 use function Results\GetCats\get_mdwiki_cat_members;
@@ -32,6 +33,8 @@ function get_results($cat, $camp, $depth, $code): array
     $items = get_cat_exists_and_missing($cat, $depth, $code, true) ?: [];
     $len_of_exists_pages = $items['len_of_exists'];
     $items_missing = $items['missing'];
+
+    $items_exists = $items['exists'];
 
     test_print("Items missing: " . count($items_missing));
 
@@ -72,6 +75,7 @@ function get_results($cat, $camp, $depth, $code): array
 
     return [
         "inprocess" => $inprocess,
+        "exists" => $items_exists,
         "missing" => $missing,
         "ix" => $ix,
     ];
