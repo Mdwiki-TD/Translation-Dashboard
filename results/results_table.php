@@ -35,15 +35,15 @@ function sort_py_PageViews($items, $en_views_tab)
     return $dd;
 }
 
-function sort_py_importance($items, $Assessments_table, $Assessments_fff)
+function sort_py_importance($items, MainTables::$x_Assessments_table, MainTables::$x_Assessments_fff)
 {
-    $empty = $Assessments_fff['Unknown'] ?? '';
+    $empty = MainTables::$x_Assessments_fff['Unknown'] ?? '';
     $dd = [];
     foreach ($items as $t) {
         $t = str_replace('_', ' ', $t);
-        $aa = $Assessments_table[$t] ?? null;
+        $aa = MainTables::$x_Assessments_table[$t] ?? null;
         if (isset($aa)) {
-            $kry = $Assessments_fff[$aa] ?? $empty;
+            $kry = MainTables::$x_Assessments_fff[$aa] ?? $empty;
         }
         $dd[$t] = $kry;
     }
@@ -102,18 +102,18 @@ function make_mobile_table($words, $refs, $asse, $pageviews, $qid, $inprocess, $
 function one_item_props($title, $tra_type)
 {
 
-    global $Words_table, $All_Words_table, $Assessments_table;
-    global $Lead_Refs_table, $All_Refs_table, $enwiki_pageviews_table;
+    global MainTables::$x_Words_table, MainTables::$x_All_Words_table, MainTables::$x_Assessments_table;
+    global MainTables::$x_Lead_Refs_table, MainTables::$x_All_Refs_table, MainTables::$x_enwiki_pageviews_table;
     //---
-    $words_tab = ($tra_type == 'all') ? $All_Words_table : $Words_table;
-    $ref_tab   = ($tra_type == 'all') ? $All_Refs_table  : $Lead_Refs_table;
+    $words_tab = ($tra_type == 'all') ? MainTables::$x_All_Words_table : MainTables::$x_Words_table;
+    $ref_tab   = ($tra_type == 'all') ? MainTables::$x_All_Refs_table  : MainTables::$x_Lead_Refs_table;
     //---
     $sql_qids = get_td_or_sql_qids();
     //---
     $word  = $words_tab[$title] ?? 0;
     $refs  = $ref_tab[$title] ?? 0;
-    $asse  = $Assessments_table[$title] ?? '';
-    $views = $enwiki_pageviews_table[$title] ?? 0;
+    $asse  = MainTables::$x_Assessments_table[$title] ?? '';
+    $views = MainTables::$x_enwiki_pageviews_table[$title] ?? 0;
     $qid   = $sql_qids[$title] ?? "";
     //---
     if (empty($asse)) $asse = 'Unknown';
@@ -251,11 +251,11 @@ function make_one_row($title, $tra_type, $cnt, $cod, $cat, $camp, $inprocess, $i
 function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inprocess = false)
 {
     //---
-    global $enwiki_pageviews_table, $full_translators;
-    // global $no_lead_translates, $full_translates;
+    global MainTables::$x_enwiki_pageviews_table, $full_translators;
+    // global TablesSql::$s_no_lead_translates, TablesSql::$s_full_translates;
     //---
-    $no_lead_translates = load_translate_type('no');
-    $full_translates = load_translate_type('full');
+    TablesSql::$s_no_lead_translates = load_translate_type('no');
+    TablesSql::$s_full_translates = load_translate_type('full');
     //---
     $full_tr_user = in_array($GLOBALS['global_username'], $full_translators);
     //---
@@ -306,8 +306,8 @@ function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inp
     HTML;
     //---
     $dd = [];
-    $dd = sort_py_PageViews($items, $enwiki_pageviews_table);
-    // $dd = sort_py_importance($items, $Assessments_table, $Assessments_fff);
+    $dd = sort_py_PageViews($items, MainTables::$x_enwiki_pageviews_table);
+    // $dd = sort_py_importance($items, MainTables::$x_Assessments_table, MainTables::$x_Assessments_fff);
     //---
     $list = "";
     $cnt = 1;
@@ -330,10 +330,10 @@ function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inp
         }
         //---
         // if title in no_lead_translates array then $no_lead = true
-        $no_lead = (in_array($title, $no_lead_translates)) ? true : false;
+        $no_lead = (in_array($title, TablesSql::$s_no_lead_translates)) ? true : false;
         //---
         // if title in full_translates array then $full = true
-        $full = (in_array($title, $full_translates)) ? true : false;
+        $full = (in_array($title, TablesSql::$s_full_translates)) ? true : false;
         //---
         if ($no_lead && !$full) {
             continue;

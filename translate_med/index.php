@@ -64,10 +64,10 @@ if (!empty($title_o) && !empty($coden) && $user_valid) {
     $camp    = rawurldecode($camp);
     $title_o = rawurldecode($title_o);
     // ---
-    $word = $Words_table[$title_o] ?? 0;
+    $word = MainTables::$x_Words_table[$title_o] ?? 0;
     // ---
     if ($tr_type == 'all') {
-        $word = $All_Words_table[$title_o] ?? 0;
+        $word = MainTables::$x_All_Words_table[$title_o] ?? 0;
     }
     // ---
     insertPage($title_o, $word, $tr_type, $cat, $coden, $useree);

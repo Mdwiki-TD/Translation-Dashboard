@@ -24,9 +24,9 @@ $use_mdwikicx = $settings1['use_mdwikicx'] ?? '0';
 function make_translate_link_medwiki($title, $cod, $cat, $camp, $tra_type)
 {
     // ---
-    global $cat_to_camp, $use_mdwikicx;
+    global TablesSql::$s_cat_to_camp, $use_mdwikicx;
     // ---
-    $campain = $cat_to_camp[$cat] ?? $cat;
+    $campain = TablesSql::$s_cat_to_camp[$cat] ?? $cat;
     // ---
     $endpoint = "https://medwiki.toolforge.org/w/index.php";
     // ---

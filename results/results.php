@@ -25,7 +25,7 @@ if ($translation_button != "0" && $GLOBALS['user_in_coord'] === true) $translati
 $depth  = $_REQUEST['depth'] ?? 1;
 $depth  = $depth * 1;
 //---
-$depth  = $camp_input_depth[$camp] ?? 1;
+$depth  = TablesSql::$s_camp_input_depth[$camp] ?? 1;
 //---
 if (empty($code_lang_name)) $doit = false;
 //---

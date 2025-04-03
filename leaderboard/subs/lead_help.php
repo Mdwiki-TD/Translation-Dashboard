@@ -50,7 +50,7 @@ function make_key($Taab)
 
 function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'users', $tab_ty = 'a', $_user_ = '')
 {
-    global $cat_to_camp, $articles_to_camps, $camps_to_articles;
+    global TablesSql::$s_cat_to_camp, $articles_to_camps, $camps_to_articles;
     //---
     $mdtitle = trim($tabb['title']);
     $user    = $tabb['user'] ?? "";
@@ -74,7 +74,7 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
     //---
     $new_camps = $articles_to_camps[$mdtitle] ?? [];
     //---
-    $campaign = $cat_to_camp[$cat] ?? '';
+    $campaign = TablesSql::$s_cat_to_camp[$cat] ?? '';
     $campaign_data = $campaign;
     //---
     // 2023-08-22
@@ -176,7 +176,7 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
 function make_table_lead($dd, $tab_type = 'a', $views_table = [], $page_type = 'users', $user = '', $lang = '')
 {
     //---
-    global $Words_table;
+    global MainTables::$x_Words_table;
     //---
     $total_words = 0;
     $total_views = 0;
@@ -231,7 +231,7 @@ function make_table_lead($dd, $tab_type = 'a', $views_table = [], $page_type = '
         $total_views += $view_number;
         //---
         $mdtitle = $tabe['title'] ?? "";
-        $word2 = $Words_table[$mdtitle] ?? 0;
+        $word2 = MainTables::$x_Words_table[$mdtitle] ?? 0;
         $word = $tabe['word'] ?? 0;
         //---
         if ($word < 1) $word = $word2;

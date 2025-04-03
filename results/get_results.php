@@ -36,7 +36,7 @@ function get_results($cat, $camp, $depth, $code): array
     test_print("Items missing: " . count($items_missing));
 
     // Check for a secondary category
-    $cat2 = $camps_cat2[$camp] ?? '';
+    $cat2 = TablesSql::$s_camps_cat2[$camp] ?? '';
     if (!empty($cat2) && $cat2 !== $cat) {
         // $cat2_members = get_mdwiki_cat_members($cat2, $use_cache = true, $depth = $depth, $camp = $camp);
         $cat2_members = get_mdwiki_cat_members($cat2, $depth, true);

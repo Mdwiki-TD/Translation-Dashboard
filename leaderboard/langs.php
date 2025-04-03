@@ -13,7 +13,7 @@ $mainlang = rawurldecode(str_replace('_', ' ', $mainlang));
 //---
 $year_y = $_REQUEST['year'] ?? 'All';
 //---
-$langname = $code_to_lang[$mainlang] ?? $mainlang;
+$langname = LangsTables::$L_code_to_lang[$mainlang] ?? $mainlang;
 //---
 $u_tables = get_langs_tables($mainlang, $year_y);
 //---

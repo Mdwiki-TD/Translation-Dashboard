@@ -30,8 +30,8 @@ $allow_whole_translate = $settings['allow_type_of_translate']['value'] ?? '1';
 $req  = load_request();
 $code = $req['code'] ?? "";
 //---
-$cat  = (!empty($req['cat'])) ? $req['cat'] : $main_cat;
-$camp  = (!empty($req['camp'])) ? $req['camp'] : $main_camp;
+$cat  = (!empty($req['cat'])) ? $req['cat'] : TablesSql::$s_main_cat;
+$camp  = (!empty($req['camp'])) ? $req['camp'] : TablesSql::$s_main_camp;
 //---
 $code_lang_name  = $req['code_lang_name'];
 //---
@@ -188,7 +188,7 @@ function print_form_start1($allow_whole_translate, $Langs_list, $cat_input_list,
 //---
 $img_src = '//upload.wikimedia.org/wikipedia/commons/thumb/5/58/Wiki_Project_Med_Foundation_logo.svg/400px-Wiki_Project_Med_Foundation_logo.svg.png';
 //---
-$form_start1  = print_form_start1($allow_whole_translate, $Langs_table, $catinput_list, $campaign_input_list, $cat_ch, $camp_ch, $code_lang_name, $code, $tra_type);
+$form_start1  = print_form_start1($allow_whole_translate, MainTables::$x_Langs_table, TablesSql::$s_catinput_list, TablesSql::$s_campaign_input_list, $cat_ch, $camp_ch, $code_lang_name, $code, $tra_type);
 //---
 $intro = <<<HTML
     This tool looks for Wikidata items that have a page on mdwiki.org but not in another wikipedia language <a href='?cat=RTT&depth=1&code=ceb&doit=Do+it'>(Example)</a>. <a href='//mdwiki.org/wiki/WikiProjectMed:Translation_task_force'><b>How to use.</b></a>

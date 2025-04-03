@@ -39,7 +39,7 @@ function createNumbersTable($c_user, $c_articles, $c_words, $c_langs, $c_views)
 function makeLangTable()
 {
 
-    global $sql_Languages_tab, $all_views_by_lang, $Langs_table;
+    global $sql_Languages_tab, $all_views_by_lang, MainTables::$x_Langs_table;
 
     arsort($sql_Languages_tab);
 
@@ -71,7 +71,7 @@ function makeLangTable()
         $comp = number_format($comp);
         $numb++;
         // ---
-        $na = $Langs_table[$langcode]['name'] ?? "";
+        $na = MainTables::$x_Langs_table[$langcode]['name'] ?? "";
         // ---
         $langname = ($na != "") ? "<span data-toggle='tooltip' title='$langcode'>$na</span>" : $langcode;
         // ---

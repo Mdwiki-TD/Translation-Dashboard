@@ -81,7 +81,7 @@ $d33 = <<<HTML
 </div>
 HTML;
 //---
-$y1 = makeDropdown($cat_titles, $camp, 'camp', 'all');
+$y1 = makeDropdown(TablesSql::$s_cat_titles, $camp, 'camp', 'all');
 $campDropdown = sprintf($d33, 'Campaign', $y1);
 //---
 $projects_title_to_id = [];

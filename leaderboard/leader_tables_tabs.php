@@ -17,9 +17,9 @@ $tab_for_graph2 = [
 ];
 
 if ($camp == 'all' && isset($_REQUEST['cat'])) {
-    $camp = $cat_to_camp[$_REQUEST['cat']] ?? 'all';
+    $camp = TablesSql::$s_cat_to_camp[$_REQUEST['cat']] ?? 'all';
 }
-$camp_cat = $camp_to_cat[$camp] ?? '';
+$camp_cat = TablesSql::$s_camp_to_cat[$camp] ?? '';
 
 $Words_total = 0;
 $Articles_numbers = 0;
@@ -58,7 +58,7 @@ foreach ($ddde1 as $Key => $teb) {
     $target = $teb['target'] ?? "";
     $word   = $teb['word'] ?? "";
     if ($word == 0) {
-        $word = $Words_table[$title] ?? 0;
+        $word = MainTables::$x_Words_table[$title] ?? 0;
     }
     // ---
     $views = $teb['views'] ?? 0;
