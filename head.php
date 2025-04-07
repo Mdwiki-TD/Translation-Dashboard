@@ -93,6 +93,30 @@ function head()
             text-decoration: none;
             word-break: break-all !important;
         }
+
+        .Dropdown_menu_toggle {
+            display: none;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .Dropdown_menu_toggle {
+                display: block;
+            }
+
+            .div_menu {
+                display: none;
+                flex-direction: column;
+                /* width: 100%; */
+                /* background: #ddddff; */
+                padding: 0;
+                border-radius: 5px;
+            }
+
+            .div_menu.mactive {
+                display: block;
+            }
+        }
     </style>
 
 </head>

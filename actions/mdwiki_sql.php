@@ -13,7 +13,6 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     error_reporting(E_ALL);
 };
 //---
-// use function Actions\TestPrint\test_print;
 use PDO;
 use PDOException;
 //---
@@ -91,7 +90,6 @@ class Database
             // Fetch the results if it's a SELECT query
             $result = $q->fetchAll(PDO::FETCH_ASSOC);
             return $result;
-
         } catch (PDOException $e) {
             echo "sql error:" . $e->getMessage() . "<br>" . $sql_query;
             return [];

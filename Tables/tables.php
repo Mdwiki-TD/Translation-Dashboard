@@ -22,6 +22,7 @@ include_once __DIR__ . '/../api_or_sql/index.php';
 
 use function SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
 
+//---
 class MainTables
 {
 	public static $x_enwiki_pageviews_table = [];

@@ -30,6 +30,10 @@ if (isset($GLOBALS['time_start'])) {
 		window.open(url, 'popupWindow', 'width=500,height=400, left=100, top=100, location=no');
 	};
 
+	$(".Dropdown_menu_toggle").on("click", function() {
+		$(".div_menu").toggleClass("mactive");
+	});
+
 	$('.sortable').DataTable({
 		paging: false,
 		info: false,
