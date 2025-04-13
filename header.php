@@ -20,7 +20,7 @@ if (isset($GLOBALS['global_username']) && $GLOBALS['global_username'] != '') {
 }
 //---
 include_once __DIR__ . '/head.php';
-include_once __DIR__ . '/tables/tables_dir.php';
+include_once __DIR__ . '/Tables/tables_dir.php';
 include_once __DIR__ . '/actions/test_print.php';
 include_once __DIR__ . '/actions/mdwiki_sql.php';
 include_once __DIR__ . '/actions/html.php';
