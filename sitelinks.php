@@ -2,6 +2,7 @@
 include_once __DIR__ . '/header.php';
 
 use function Actions\TestPrint\test_print;
+use function Tables\TablesDir\open_td_Tables_file;
 
 // Get request parameters with defaults
 $site = $_REQUEST["site"] ?? "all";
@@ -57,15 +58,9 @@ $params = [
 
 echo generateFormInputs($params, $items_with_no_links);
 
-// Load data
-$tables_dir = getenv('tables_dir') ?? __DIR__ . '/../../td/Tables';
-// if (str_starts_with($tables_dir, 'I:')) {
-if (strpos($tables_dir, 'I:') === 0) {
-	$tables_dir = 'I:/mdwiki/mdwiki/public_html/td/Tables';
-}
+$file2 = "jsons/sitelinks.json";
+$data2 = open_td_Tables_file($file2);
 
-$file2 = "$tables_dir/jsons/sitelinks.json";
-$data2 = json_decode(file_get_contents($file2), true);
 $heads_all = array_diff($data2["heads"], ["commons"]);
 $qids_all = $data2['qids'] ?? [];
 

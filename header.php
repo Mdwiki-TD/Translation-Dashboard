@@ -10,18 +10,6 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 //---
 ini_set('session.use_strict_mode', '1');
 //---
-// set env
-$tables_dir = __DIR__ . '/../td/Tables';
-
-if (substr($tables_dir, 0, 2) == 'I:') {
-	// $tables_dir = __DIR__ . '/../mdwiki/public_html/td/Tables';
-	$tables_dir = 'I:/mdwiki/mdwiki/public_html/td/Tables';
-}
-//---
-if (!getenv('tables_dir')) {
-	putenv('tables_dir=' . $tables_dir);
-}
-//---
 // include_once __DIR__ . '/actions/load_request.php';
 include_once __DIR__ . '/../auth/auth/user_infos.php';
 //---
@@ -32,6 +20,7 @@ if (isset($GLOBALS['global_username']) && $GLOBALS['global_username'] != '') {
 }
 //---
 include_once __DIR__ . '/head.php';
+include_once __DIR__ . '/tables/tables_dir.php';
 include_once __DIR__ . '/actions/test_print.php';
 include_once __DIR__ . '/actions/mdwiki_sql.php';
 include_once __DIR__ . '/actions/html.php';

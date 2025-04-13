@@ -12,6 +12,7 @@ use function Results\ResultsHelps\open_json_file;
 */
 
 use function Actions\TestPrint\test_print;
+use function Tables\TablesDir\open_td_Tables_file;
 
 function open_json_file($file_path)
 {
@@ -55,16 +56,8 @@ function print_r_it($data, $title, $d = false, $r = false)
 
 function get_lang_exists_pages($code)
 {
-    // Determine the directory for JSON files
-    $tables_dir = getenv('tables_dir') ?: __DIR__ . '/../../td/Tables';
-    if (substr($tables_dir, 0, 2) === 'I:') {
-        $tables_dir = 'I:/mdwiki/mdwiki/public_html/td/Tables';
-    }
-    // Load existing pages from JSON file
-    $json_file = "$tables_dir/cash_exists/$code.json";
-    $exists = open_json_file($json_file);
-
-    test_print("File: cash_exists/$code.json: Exists size: " . count($exists));
+    $json_file = "cash_exists/$code.json";
+    $exists = open_td_Tables_file($json_file);
 
     return $exists;
 }
