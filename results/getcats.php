@@ -10,8 +10,8 @@ use function Results\GetCats\get_mdwiki_cat_members;
 include_once __DIR__ . '/include.php';
 
 use function Actions\TestPrint\test_print;
-use function Results\ResultsHelps\open_json_file;
 use function Results\CatsAPI\fetch_category_members;
+use function Tables\TablesDir\open_td_Tables_file;
 
 function start_with($haystack, $needle)
 {
@@ -34,13 +34,8 @@ function get_category_from_cache($cat)
         return [];
     }
     // ---
-    $tables_dir = getenv('tables_dir') ?? __DIR__ . '/../../td/Tables';
-    if (substr($tables_dir, 0, 2) == 'I:') {
-        $tables_dir = 'I:/mdwiki/mdwiki/public_html/td/Tables';
-    }
-
-    $file_path = "$tables_dir/cats_cash/$cat.json";
-    $new_list = open_json_file($file_path) ?? [];
+    $file_path = "cats_cash/$cat.json";
+    $new_list = open_td_Tables_file($file_path) ?? [];
 
     if (empty($new_list)) {
         // test_print("File: $file_path empty or not exists");
@@ -51,7 +46,7 @@ function get_category_from_cache($cat)
         test_print("Invalid format in JSON file $file_path");
         return [];
     }
-    test_print("File: cats_cash/$cat.json: Exists size: " . count($new_list['list']));
+    // test_print("File: cats_cash/$cat.json: Exists size: " . count($new_list['list']));
 
     return titles_filter($new_list['list'], true);
 }

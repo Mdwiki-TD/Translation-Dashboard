@@ -21,6 +21,7 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 include_once __DIR__ . '/../api_or_sql/index.php';
 
 use function SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
+use function Tables\TablesDir\open_td_Tables_file;
 
 //---
 class MainTables
@@ -34,17 +35,6 @@ class MainTables
 	public static $x_Langs_table = [];
 }
 // ---
-$tables_dir = __DIR__ . '/../../td/Tables';
-//---
-if (substr($tables_dir, 0, 2) == 'I:') {
-	$tables_dir = 'I:/mdwiki/mdwiki/public_html/td/Tables';
-}
-//---
-if (!getenv('tables_dir')) {
-	// set env
-	putenv('tables_dir=' . $tables_dir);
-}
-//---
 // 'lang_code_to_en' => &$lang_code_to_en,
 // 'medwiki_to_enwiki' => &$medwiki_to_enwiki,
 //---
@@ -59,8 +49,7 @@ $tables_d = array(
 );
 //---
 foreach ($tables_d as $key => &$value) {
-	$file = file_get_contents($tables_dir . "/jsons/{$key}.json");
-	$value = json_decode($file, true);
+	$value = open_td_Tables_file("jsons/{$key}.json");
 }
 //---
 $titles_infos = get_td_or_sql_titles_infos();
