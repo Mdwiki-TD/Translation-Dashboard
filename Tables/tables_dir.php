@@ -45,7 +45,7 @@ function open_td_Tables_file($path)
 
 	$result = json_decode($contents, true);
 
-	if ($result === false) {
+	if ($result === null || $result === false) {
 		test_print("---- Failed to decode JSON from $file_path");
 		$result = [];
 	} else {
