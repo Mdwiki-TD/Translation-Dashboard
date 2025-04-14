@@ -20,7 +20,7 @@ if (isset($GLOBALS['global_username']) && $GLOBALS['global_username'] != '') {
 }
 //---
 include_once __DIR__ . '/head.php';
-include_once __DIR__ . '/tables/tables_dir.php';
+include_once __DIR__ . '/Tables/tables_dir.php';
 include_once __DIR__ . '/actions/test_print.php';
 include_once __DIR__ . '/actions/mdwiki_sql.php';
 include_once __DIR__ . '/actions/html.php';
@@ -102,7 +102,7 @@ if (isset($GLOBALS['global_username']) && $GLOBALS['global_username'] != '') {
 echo <<<HTML
 <body>
 	<header class="mb-3 border-bottom">
-		<nav id="mainnav" class="navbar navbar-expand-lg shadow">
+		<nav class="navbar navbar-expand-lg bg-body-tertiary shadow" id="mainnav">
 			<div class="container-fluid" id="navbardiv">
 				<a class="navbar-brand mb-0 h1" href="index.php" style="color:#0d6efd;">
 					<span class='d-none d-sm-inline tool_title' title=''>WikiProjectMed Translation Dashboard</span>
