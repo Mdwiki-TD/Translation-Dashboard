@@ -11,7 +11,7 @@
 	text-transform: capitalize;
 }
 
-.navbar-nav li.active {
+.navbar-nav .nav-item.active {
 	/* border-radius: 4px; */
 	/* display: block; */
 	background-color: #c2c5c8;

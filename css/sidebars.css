@@ -97,14 +97,37 @@
     line-height: 1.25;
 }
 
-@media (max-width: 750px) {
+.Dropdown_menu_toggle {
+    display: none;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .Dropdown_menu_toggle {
+        display: block;
+        padding: 0.5rem;
+        margin: 0.5rem;
+        border-width: 0.5px;
+        border-style: solid;
+        border-color: rgba(44, 62, 80, 0.98);
+    }
+
+    .div_menu {
+        display: none;
+    }
+
     .div_menu {
         margin: 1rem;
+        padding: 0.5rem;
         border-radius: 10px;
         border-width: 1px;
         border-style: solid;
         border-color: rgba(44, 62, 80, 0.98);
         border-image: initial;
-        padding: 1rem;
+        flex-direction: column;
+    }
+
+    .div_menu.mactive {
+        display: block;
     }
 }
