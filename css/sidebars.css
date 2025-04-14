@@ -1,13 +1,26 @@
 :root {
     --btn-toggle-color: #000000A6;
     --btn-toggle-hover-color: #000000;
-    --btn-toggle-hover-bg: #d2f4ea;
+    /* --btn-toggle-hover-bg: #d2f4ea; */
     --btn-toggle-active-color: #000000;
     --btn-toggle-nav-active-bg: #dee2e6;
     --btn-toggle-nav-hover-bg: #d2f4ea;
 }
 
-:root[data-bs-theme="dark"] {}
+:root[data-bs-theme="dark"] {
+    --btn-toggle-color: #A0A0A0;
+    /* رمادي فاتح للوضع الداكن */
+    --btn-toggle-hover-color: #FFFFFF;
+    /* أبيض للوضع الداكن */
+    --btn-toggle-hover-bg: #3A3A3A;
+    /* رمادي داكن للوضع الداكن */
+    --btn-toggle-active-color: #FFFFFF;
+    /* أبيض للوضع الداكن */
+    --btn-toggle-nav-active-bg: #505050;
+    /* رمادي داكن للوضع الداكن */
+    --btn-toggle-nav-hover-bg: #3A3A3A;
+    /* رمادي داكن للوضع الداكن */
+}
 
 .bi {
     vertical-align: -.125em;
@@ -17,10 +30,6 @@
 
 .dropdown-toggle {
     outline: 0;
-}
-
-.nav-flush .nav-link {
-    border-radius: 0;
 }
 
 .btn-toggle {
@@ -42,8 +51,9 @@
 .btn-toggle::before {
     width: 1.25em;
     line-height: 0;
-    /* content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%280,0,0,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e"); */
-    content: ">";
+    content: "\f285";
+    /* \f285: <i class="bi bi-chevron-right"></i> */
+    font-family: "bootstrap-icons";
     transition: transform .35s ease;
     transform-origin: .5em 50%;
 }
@@ -54,7 +64,8 @@
 }
 
 .btn-toggle[aria-expanded="true"]::before {
-    transform: rotate(90deg);
+    content: "\f282";
+    /* \f282: <i class="bi bi-chevron-down"></i> */
 }
 
 .btn-toggle-nav a {
