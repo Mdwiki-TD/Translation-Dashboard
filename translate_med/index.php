@@ -12,10 +12,13 @@ use function Actions\Html\login_card;
 use function Results\TrLink\make_translate_link_medwiki;
 use function TranslateMed\Inserter\insertPage;
 use function TranslateMed\Inserter\insertPage_inprocess;
+use function SQLorAPI\GetDataTab\get_td_or_sql_users_no_inprocess;
 
 $coden = strtolower($_GET['code']);
 $title_o = $_GET['title'] ?? "";
 $useree = ($GLOBALS['global_username'] != '') ? $GLOBALS['global_username'] : '';
+
+$users_no_inprocess = get_td_or_sql_users_no_inprocess();
 
 function go_to_translate_url($title_o, $coden, $tr_type, $cat, $camp)
 {
@@ -66,9 +69,12 @@ if (!empty($title_o) && !empty($coden) && $user_valid) {
     $camp    = rawurldecode($camp);
     $title_o = rawurldecode($title_o);
     // ---
-    insertPage($title_o, $word, $tr_type, $cat, $coden, $useree);
-    // ---
-    insertPage_inprocess($title_o, $word, $tr_type, $cat, $coden, $useree);
+    // if not user in $users_no_inprocess
+    if (!in_array($useree, $users_no_inprocess)) {
+        insertPage($title_o, $word, $tr_type, $cat, $coden, $useree);
+        // ---
+        insertPage_inprocess($title_o, $word, $tr_type, $cat, $coden, $useree);
+    }
     // ---
     go_to_translate_url($title_o, $coden, $tr_type, $cat, $camp);
 }
