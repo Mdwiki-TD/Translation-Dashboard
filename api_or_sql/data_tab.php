@@ -8,6 +8,7 @@ Usage:
 
 use function SQLorAPI\GetDataTab\get_td_or_sql_translate_type;
 use function SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
+use function SQLorAPI\GetDataTab\get_td_or_sql_users_no_inprocess;
 use function SQLorAPI\GetDataTab\get_td_or_sql_qids;
 use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
 use function SQLorAPI\GetDataTab\get_td_or_sql_projects;
@@ -214,6 +215,27 @@ function get_td_or_sql_qids()
     // ---
     return $sql_td_qids;
 }
+
+function get_td_or_sql_users_no_inprocess()
+{
+    // ---
+    global $from_api;
+    // ---
+    static $users = [];
+    // ---
+    if (!empty($users)) return $users;
+    // ---
+    if ($from_api) {
+        $users = get_td_api(['get' => 'users_no_inprocess']);
+    } else {
+        $query = "SELECT * FROM users_no_inprocess order by id";
+        //---
+        $users = fetch_query($query);
+    }
+    // ---
+    return $users;
+}
+
 function get_td_or_sql_full_translators()
 {
     // ---

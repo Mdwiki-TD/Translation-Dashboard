@@ -22,8 +22,6 @@ use function Tables\SqlTables\load_translate_type;
 use function SQLorAPI\GetDataTab\get_td_or_sql_qids;
 use function SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
 
-$use_medwiki = TablesSql::$s_settings['use_medwiki']['value'] ?? false;
-
 function sort_py_PageViews($items, $en_views_tab)
 {
     $dd = [];
