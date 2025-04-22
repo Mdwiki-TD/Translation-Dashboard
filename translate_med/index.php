@@ -65,16 +65,16 @@ if (!empty($title_o) && !empty($coden) && $user_valid) {
     $tr_type = $_GET['type'] ?? 'lead';
     $word    = $_GET['word'] ?? 0;
     // ---
-    $useree  = rawurldecode($useree);
+    $user_decoded  = rawurldecode($useree);
     $cat     = rawurldecode($cat);
     $camp    = rawurldecode($camp);
     $title_o = rawurldecode($title_o);
     // ---
     // if not user in $users_no_inprocess
     if (!in_array($useree, $users_no_inprocess)) {
-        insertPage($title_o, $word, $tr_type, $cat, $coden, $useree);
+        insertPage($title_o, $word, $tr_type, $cat, $coden, $user_decoded);
         // ---
-        insertPage_inprocess($title_o, $word, $tr_type, $cat, $coden, $useree);
+        insertPage_inprocess($title_o, $word, $tr_type, $cat, $coden, $user_decoded);
     }
     // ---
     go_to_translate_url($title_o, $coden, $tr_type, $cat, $camp);
