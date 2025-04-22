@@ -20,6 +20,8 @@ $title_o = $_GET['title'] ?? "";
 $useree = ($GLOBALS['global_username'] != '') ? $GLOBALS['global_username'] : '';
 
 $users_no_inprocess = get_td_or_sql_users_no_inprocess();
+$users_no_inprocess = array_column($users_no_inprocess, 'user');
+// var_export($users_no_inprocess);
 
 function go_to_translate_url($title_o, $coden, $tr_type, $cat, $camp)
 {
