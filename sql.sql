@@ -189,6 +189,7 @@ CREATE TABLE `pages_users_to_main` (
   `id` int(6) unsigned NOT NULL,
   `new_target` varchar(255) NOT NULL DEFAULT '',
   `new_user` varchar(255) NOT NULL DEFAULT '',
+  `new_qid` varchar(255) NOT NULL DEFAULT '',
   KEY `id` (`id`),
   CONSTRAINT `pages_users_to_main_ibfk_1` FOREIGN KEY (`id`) REFERENCES `pages_users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
