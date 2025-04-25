@@ -12,6 +12,7 @@ Usage:
 use Leaderboard\Tabs\LeaderBoardTabs;
 
 */
+
 use Tables\Main\MainTables;
 use Leaderboard\Camps\CampsTabs;
 use Tables\SqlTables\TablesSql;
@@ -75,7 +76,11 @@ foreach ($ddde1 as $Key => $teb) {
     $lang   = $teb['lang'] ?? "";
     $user   = $teb['user'] ?? "";
     $target = $teb['target'] ?? "";
-    $word   = $teb['word'] ?? "";
+    $word   = $teb['word'] ?? 0;
+    // ---
+    // if $word is number and not int do (int)$word; else 0
+    $word = (int)$word ?? 0;
+    // ---
     if ($word == 0) {
         $word = MainTables::$x_Words_table[$title] ?? 0;
     }

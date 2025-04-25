@@ -156,7 +156,7 @@ CREATE TABLE `pages` (
   `target` varchar(120) DEFAULT NULL,
   `date` date DEFAULT NULL,
   `pupdate` varchar(120) DEFAULT NULL,
-  `add_date` date NOT NULL DEFAULT curdate(),
+  `add_date` timestamp NOT NULL DEFAULT current_timestamp(),
   `deleted` int(11) DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `idx_title` (`title`),
@@ -349,4 +349,4 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `views_new_all` AS select `
 DROP TABLE IF EXISTS `__all_articles_view`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `__all_articles_view` AS select distinct `a`.`article_id` AS `article_id`,`a`.`category` AS `category`,`q`.`qid` AS `qid` from (`all_articles` `a` join `qids` `q` on(`a`.`article_id` = `q`.`title`));
 
--- 2025-04-24 22:54:52 UTC
+-- 2025-04-25 21:46:20 UTC
