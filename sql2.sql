@@ -9,6 +9,9 @@ SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
 SET NAMES utf8mb4;
 
+DROP TABLE IF EXISTS `qids`;
+-- CREATE VIEW mdwiki_new.qids1 AS SELECT * FROM mdwiki.qids;
+
 DROP TABLE IF EXISTS `all_articles`;
 CREATE TABLE `all_articles` (
   `article_id` varchar(255) NOT NULL,
@@ -41,13 +44,13 @@ CREATE TABLE `all_qids` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
-DROP TABLE IF EXISTS `all_qidsexists`;
-CREATE TABLE `all_qidsexists` (
+DROP TABLE IF EXISTS `all_qids_exists`;
+CREATE TABLE `all_qids_exists` (
   `qid` varchar(255) NOT NULL,
   `code` varchar(25) NOT NULL,
   PRIMARY KEY (`qid`,`code`),
   UNIQUE KEY `qid_code` (`qid`,`code`),
-  CONSTRAINT `all_qidsexists_ibfk_1` FOREIGN KEY (`qid`) REFERENCES `all_qids` (`qid`)
+  CONSTRAINT `all_qids_exists_ibfk_1` FOREIGN KEY (`qid`) REFERENCES `all_qids` (`qid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
