@@ -18,52 +18,6 @@ CREATE TABLE `access_keys` (
   UNIQUE KEY `user_name` (`user_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-DROP TABLE IF EXISTS `all_articles`;
-CREATE TABLE `all_articles` (
-  `article_id` varchar(255) NOT NULL,
-  `category` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`article_id`),
-  UNIQUE KEY `article_id` (`article_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
-DROP VIEW IF EXISTS `all_articles_titles`;
-CREATE TABLE `all_articles_titles` (`qid` varchar(120), `title` varchar(255), `category` varchar(255));
-
-
-DROP TABLE IF EXISTS `all_exists`;
-CREATE TABLE `all_exists` (
-  `article_id` varchar(255) NOT NULL,
-  `code` varchar(25) NOT NULL,
-  PRIMARY KEY (`article_id`,`code`),
-  UNIQUE KEY `article_id_code` (`article_id`,`code`),
-  CONSTRAINT `all_exists_ibfk_1` FOREIGN KEY (`article_id`) REFERENCES `all_articles` (`article_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
-DROP TABLE IF EXISTS `all_qids`;
-CREATE TABLE `all_qids` (
-  `qid` varchar(255) NOT NULL,
-  `category` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`qid`),
-  UNIQUE KEY `qid` (`qid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
-DROP TABLE IF EXISTS `all_qidsexists`;
-CREATE TABLE `all_qidsexists` (
-  `qid` varchar(255) NOT NULL,
-  `code` varchar(25) NOT NULL,
-  PRIMARY KEY (`qid`,`code`),
-  UNIQUE KEY `qid_code` (`qid`,`code`),
-  CONSTRAINT `all_qidsexists_ibfk_1` FOREIGN KEY (`qid`) REFERENCES `all_qids` (`qid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
-DROP VIEW IF EXISTS `all_qids_titles`;
-CREATE TABLE `all_qids_titles` (`qid` varchar(255), `title` varchar(120), `category` varchar(255));
-
-
 DROP TABLE IF EXISTS `assessments`;
 CREATE TABLE `assessments` (
   `id` int(6) unsigned NOT NULL AUTO_INCREMENT,
@@ -156,7 +110,7 @@ CREATE TABLE `pages` (
   `target` varchar(120) DEFAULT NULL,
   `date` date DEFAULT NULL,
   `pupdate` varchar(120) DEFAULT NULL,
-  `add_date` date NOT NULL DEFAULT curdate(),
+  `add_date` timestamp NOT NULL DEFAULT current_timestamp(),
   `deleted` int(11) DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `idx_title` (`title`),
@@ -330,23 +284,10 @@ CREATE TABLE `words` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
-DROP VIEW IF EXISTS `__all_articles_view`;
-CREATE TABLE `__all_articles_view` (`article_id` varchar(255), `category` varchar(255), `qid` varchar(120));
-
-
-DROP TABLE IF EXISTS `all_articles_titles`;
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `all_articles_titles` AS select `q`.`qid` AS `qid`,`aa`.`article_id` AS `title`,`aa`.`category` AS `category` from (`all_articles` `aa` left join `qids` `q` on(`aa`.`article_id` = `q`.`title`));
-
-DROP TABLE IF EXISTS `all_qids_titles`;
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `all_qids_titles` AS select `qq`.`qid` AS `qid`,`q`.`title` AS `title`,`aa`.`category` AS `category` from ((`all_qids` `qq` left join `qids` `q` on(`qq`.`qid` = `q`.`qid`)) left join `all_articles` `aa` on(`aa`.`article_id` = `q`.`title`));
-
 DROP TABLE IF EXISTS `titles_infos`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `titles_infos` AS select `ase`.`title` AS `title`,`ase`.`importance` AS `importance`,`rc`.`r_lead_refs` AS `r_lead_refs`,`rc`.`r_all_refs` AS `r_all_refs`,`ep`.`en_views` AS `en_views`,`w`.`w_lead_words` AS `w_lead_words`,`w`.`w_all_words` AS `w_all_words`,`q`.`qid` AS `qid` from ((((`assessments` `ase` left join `enwiki_pageviews` `ep` on(`ase`.`title` = `ep`.`title`)) left join `qids` `q` on(`q`.`title` = `ase`.`title`)) left join `refs_counts` `rc` on(`rc`.`r_title` = `ase`.`title`)) left join `words` `w` on(`w`.`w_title` = `ase`.`title`));
 
 DROP TABLE IF EXISTS `views_new_all`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `views_new_all` AS select `v`.`target` AS `target`,`v`.`lang` AS `lang`,sum(`v`.`views`) AS `views` from `views_new` `v` group by `v`.`target`,`v`.`lang`;
 
-DROP TABLE IF EXISTS `__all_articles_view`;
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `__all_articles_view` AS select distinct `a`.`article_id` AS `article_id`,`a`.`category` AS `category`,`q`.`qid` AS `qid` from (`all_articles` `a` join `qids` `q` on(`a`.`article_id` = `q`.`title`));
-
--- 2025-04-24 22:54:52 UTC
+-- 2025-04-25 22:11:49 UTC
