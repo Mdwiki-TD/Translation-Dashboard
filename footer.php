@@ -35,11 +35,13 @@ if (isset($GLOBALS['time_start'])) {
 	});
 
 	$('.sortable').DataTable({
+        stateSave: true,
 		paging: false,
 		info: false,
 		searching: false
 	});
 	$('.sortable2').DataTable({
+        stateSave: true,
 		lengthMenu: [
 			[25, 50, 100, 200],
 			[25, 50, 100, 200]
@@ -57,6 +59,7 @@ if (isset($GLOBALS['time_start'])) {
 
 		setTimeout(function() {
 			$('.soro').DataTable({
+				stateSave: true,
 				lengthMenu: [
 					[25, 50, 100, 200],
 					[25, 50, 100, 200]

@@ -6,6 +6,7 @@ function leadtable() {
         .appendTo('#leadtable tfoot');
 
     var table = $('#leadtable').DataTable({
+        // stateSave: true,
         "oLanguage": {
             "sInfo": "Showing _START_ to _END_ of _TOTAL_ items."
         }
