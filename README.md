@@ -81,7 +81,7 @@ The dashboard employs a modular architecture, ensuring a clear separation betwee
 
 5. **Authentication Setup**:
 
-   * Ensure the `/auth/` directory exists with the necessary files.
+   * Ensure the [`/auth/`](https://github.com/Mdwiki-TD/auth-repo) directory exists with the necessary files. 
    * Set up user credentials in the authentication database.
 
 ---
@@ -169,7 +169,7 @@ Both entry points implement an identical redirection mechanism:
 
 * They capture all GET parameters from the URL.
 * Preserve these parameters in the redirection URL.
-* Redirect the user to the `/tdc/index.php` endpoint, which hosts the main coordinator interface.
+* Redirect the user to the [`/tdc/index.php`](https://github.com/Mdwiki-TD/tdc) endpoint, which hosts the main coordinator interface.
 
 ### 🧩 System Integration
 
