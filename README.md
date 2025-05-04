@@ -6,16 +6,16 @@ The **WikiProjectMed Translation Dashboard** is a web-based platform designed to
 
 ## 📋 Table of Contents
 
-* [Features](#Features)
-* [System Architecture](#System_Architecture)
-* [Installation and Configuration](#Installation_and_Configuration)
-* [Core Components](#Core_Components)
-* [Translation Workflow](#Translation_Workflow)
-* [Data Layer](#Data_Layer)
-* [Leaderboard System](#Leaderboard_System)
-* [Coordinator Tools](#Coordinator_Tools)
-* [License](#License)
-* [Diagram](#Diagram)
+* [Features](#features)
+* [System Architecture](#system-architecture)
+* [Installation and Configuration](#installation-and-configuration)
+* [Core Components](#core-components)
+* [Translation Workflow](#translation-workflow)
+* [Data Layer](#data-layer)
+* [Leaderboard System](#leaderboard-system)
+* [Coordinator Tools](#coordinator-tools)
+* [Diagram](#diagram)
+
 ---
 
 ## Features
