@@ -15,10 +15,10 @@ The **WikiProjectMed Translation Dashboard** is a web-based platform designed to
 * [Leaderboard System](#Leaderboard_System)
 * [Coordinator Tools](#Coordinator_Tools)
 * [License](#License)
-
+* [Diagram](#Diagram)
 ---
 
-## 🚀 Features
+## Features
 
 * **Article Identification**: Detects medical articles present on mdwiki.org but missing in target languages.
 * **Translation Facilitation**: Integrates with MediaWiki's Content Translation tool for seamless translation.
@@ -27,7 +27,7 @@ The **WikiProjectMed Translation Dashboard** is a web-based platform designed to
 
 ---
 
-## 🏗️ System Architecture
+## System Architecture
 
 The dashboard employs a modular architecture, ensuring a clear separation between presentation, business logic, and data access layers. Built primarily using PHP, it interacts with MediaWiki APIs, SPARQL queries, and a custom database to perform its functions.
 
@@ -40,7 +40,7 @@ The dashboard employs a modular architecture, ensuring a clear separation betwee
 
 ---
 
-## ⚙️ Installation and Configuration
+## Installation and Configuration
 
 ### Prerequisites
 
@@ -86,7 +86,7 @@ The dashboard employs a modular architecture, ensuring a clear separation betwee
 
 ---
 
-## 🧩 Core Components
+## Core Components
 
 ### Entry Points
 
@@ -110,7 +110,7 @@ The dashboard uses Bootstrap 5 combined with custom CSS for responsive and acces
 
 ---
 
-## 🔄 Translation Workflow
+## Translation Workflow
 
 1. **Initiation**:
 
@@ -128,7 +128,7 @@ The dashboard uses Bootstrap 5 combined with custom CSS for responsive and acces
 
 ---
 
-## 🗃️ Data Layer
+## Data Layer
 
 The dashboard's data layer supports retrieving data from both the database and MediaWiki APIs, ensuring flexibility and continued operation even if one source is unavailable.
 
@@ -141,7 +141,7 @@ The dashboard's data layer supports retrieving data from both the database and M
 
 ---
 
-## 📊 Leaderboard System
+## Leaderboard System
 
 The leaderboard tracks and displays translation statistics, offering insights into:
 
@@ -152,7 +152,7 @@ The leaderboard tracks and displays translation statistics, offering insights in
 Visual representations help in monitoring translation progress and recognizing active contributors.
 
 ---
-## 🛠️ Coordinator Tools
+## Coordinator Tools
 
 The **Coordinator Tools** module is a specialized component within the WikiProjectMed Translation Dashboard, designed to empower translation coordinators with administrative capabilities for managing translation projects, monitoring activities, and performing maintenance tasks.
 
