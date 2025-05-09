@@ -34,7 +34,7 @@ use function Leaderboard\LeaderTabUsers\module_copy;
 use function SQLorAPI\Get\get_pages_with_pupdate;
 use function SQLorAPI\GetDataTab\get_td_or_sql_projects;
 
-function print_cat_table(): string
+function print_cat_table($year, $user_group, $cat): string
 {
     $numbersTable = createNumbersTable(
         count(LeaderBoardTabs::$u_sql_users_tab),
@@ -51,7 +51,8 @@ function print_cat_table(): string
     $numbersCol = makeColSm4('Numbers', $numbersTable, 3, $gg);
 
     $usersTable = makeUsersTable();
-    $copy_module = module_copy();
+
+    $copy_module = module_copy($year, $user_group, $cat);
 
     $modal_a = <<<HTML
         <button type="button" class="btn-tool" href="#" data-bs-toggle="modal" data-bs-target="#targets">
@@ -73,9 +74,9 @@ function print_cat_table(): string
     HTML;
 }
 //---
-$year       = $_REQUEST['year'] ?? 'all';
-$camp       = $_REQUEST['camp'] ?? 'all';
-$project    = $_REQUEST['project'] ?? 'all';
+$year       = $_GET['year'] ?? 'all';
+$camp       = $_GET['camp'] ?? 'all';
+$project    = $_GET['project'] ?? 'all';
 //---
 $d33 = <<<HTML
 <div class="input-group">
@@ -106,7 +107,9 @@ rsort($m_years2);
 $y3 = makeDropdown($m_years2, $year, 'year', 'all');
 $yearDropdown = sprintf($d33, 'Year', $y3);
 //---
-$uux = print_cat_table();
+$cat = TablesSql::$s_camp_to_cat[$camp] ?? '';
+//---
+$uux = print_cat_table($year, $project, $cat);
 //---
 echo <<<HTML
 <style>

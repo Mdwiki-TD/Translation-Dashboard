@@ -15,10 +15,9 @@ use Leaderboard\Tabs\LeaderBoardTabs;
 use function Actions\Html\make_modal_fade;
 use function SQLorAPI\GetDataTab\get_td_or_sql_users_by_wiki;
 
-function module_copy()
+function module_copy($year, $user_group, $cat)
 {
-
-    $users_tab = get_td_or_sql_users_by_wiki();
+    $users_tab = get_td_or_sql_users_by_wiki($year, $user_group, $cat);
 
     $lal = "<textarea cols='55' rows='10' id='users_targets' name='users_targets'>";
 
@@ -30,17 +29,8 @@ function module_copy()
     }
     //---
     $lal .= '</textarea>';
-    $lal .= <<<HTML
-        <script>
-            function copy_targets() {
-                let textarea = document.getElementById("users_targets");
-                textarea.select();
-                document.execCommand("copy");
-            }
-        </script>
-    HTML;
     //---
-    $modal = make_modal_fade('', $lal, 'targets', '<a class="btn btn-outline-primary" onclick="copy_targets()">Copy</a>');
+    $modal = make_modal_fade('', $lal, 'targets', '<a class="btn btn-outline-primary" onclick="copy_target_text(\'users_targets\')">Copy</a>');
     //---
     return $modal;
 }

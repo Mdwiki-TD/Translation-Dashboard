@@ -5,10 +5,10 @@ use function Actions\TestPrint\test_print;
 use function Tables\TablesDir\open_td_Tables_file;
 
 // Get request parameters with defaults
-$site = $_REQUEST["site"] ?? "all";
-$heads_limit = $_REQUEST["heads_limit"] ?? 50;
-$title_limit = $_REQUEST["title_limit"] ?? 150;
-$items_with_no_links = isset($_REQUEST["items_with_no_links"]) ? "checked" : "";
+$site = $_GET["site"] ?? "all";
+$heads_limit = $_GET["heads_limit"] ?? 50;
+$title_limit = $_GET["title_limit"] ?? 150;
+$items_with_no_links = isset($_GET["items_with_no_links"]) ? "checked" : "";
 
 // Generate form inputs
 function generateFormInputs(array $params, string $items_with_no_links): string

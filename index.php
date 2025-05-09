@@ -37,7 +37,7 @@ $camp  = (!empty($req['camp'])) ? $req['camp'] : TablesSql::$s_main_camp;
 //---
 $code_lang_name  = $req['code_lang_name'];
 //---
-$tra_type  = $_REQUEST['type'] ?? '';
+$tra_type  = $_GET['type'] ?? '';
 if ($allow_whole_translate == '0') $tra_type = 'lead';
 //---
 $cat_ch = htmlspecialchars($cat, ENT_QUOTES);

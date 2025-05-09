@@ -24,11 +24,11 @@ use function Leaderboard\Camps\camps_list;
 
 echo '<script>$("#leaderboard").addClass("active");</script>';
 
-$users = $_REQUEST['user'] ?? '';
-$langs = $_REQUEST['langcode'] ?? '';
-$graph = $_REQUEST['graph'] ?? '';
-$graph_api = $_REQUEST['graph_api'] ?? '';
-$camps = $_REQUEST['camps'] ?? '';
+$users = $_GET['user'] ?? '';
+$langs = $_GET['langcode'] ?? '';
+$graph = $_GET['graph'] ?? '';
+$graph_api = $_GET['graph_api'] ?? '';
+$camps = $_GET['camps'] ?? '';
 
 if (!empty($users)) {
     include_once __DIR__ . '/users.php';

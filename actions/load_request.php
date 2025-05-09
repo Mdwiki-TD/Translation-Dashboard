@@ -25,17 +25,17 @@ use Tables\Langs\LangsTables;
 function load_request()
 {
     //---
-    $code = $_REQUEST['code'] ?? '';
+    $code = $_GET['code'] ?? '';
     //---
     if ($code == 'undefined') $code = "";
     //---
     $code = LangsTables::$L_lang_to_code[$code] ?? $code;
     $code_lang_name = LangsTables::$L_code_to_lang[$code] ?? '';
     //---
-    $cat  = $_REQUEST['cat'] ?? '';
+    $cat  = $_GET['cat'] ?? '';
     if ($cat == 'undefined') $cat = "";
     //---
-    $camp = $_REQUEST['camp'] ?? '';
+    $camp = $_GET['camp'] ?? '';
     //---
     if (empty($cat) && !empty($camp)) {
         $cat = TablesSql::$s_camp_to_cat[$camp] ?? $cat;

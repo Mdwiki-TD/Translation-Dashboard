@@ -9,10 +9,10 @@ use function Leaderboard\Subs\LeadHelp\make_table_lead;
 use function Leaderboard\Subs\FilterForm\make_filter_form_langs;
 use function Leaderboard\Subs\SubLangs\get_langs_tables;
 //---
-$mainlang = $_REQUEST['langcode'] ?? "";
+$mainlang = $_GET['langcode'] ?? "";
 $mainlang = rawurldecode(str_replace('_', ' ', $mainlang));
 //---
-$year_y = $_REQUEST['year'] ?? 'All';
+$year_y = $_GET['year'] ?? 'All';
 //---
 $langname = LangsTables::$L_code_to_lang[$mainlang] ?? $mainlang;
 //---
