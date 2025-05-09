@@ -7,10 +7,10 @@ use function Leaderboard\Subs\LeadHelp\make_table_lead;
 use function Leaderboard\Subs\FilterForm\make_filter_form_users;
 use function Leaderboard\Subs\SubUsers\get_users_tables;
 //---
-$mainuser = $_REQUEST['user'] ?? "";
+$mainuser = $_GET['user'] ?? "";
 //---
-$year_y = $_REQUEST['year'] ?? 'All';
-$lang_y = $_REQUEST['lang'] ?? 'All';
+$year_y = $_GET['year'] ?? 'All';
+$lang_y = $_GET['lang'] ?? 'All';
 //---
 if ($mainuser == $GLOBALS['global_username']) {
     echo '<script>

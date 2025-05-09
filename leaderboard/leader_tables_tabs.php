@@ -33,10 +33,10 @@ class LeaderBoardTabs
     public static $u_Views_by_users = [];
 }
 
-$year = $_REQUEST['year'] ?? 'all';
-$camp = $_REQUEST['camp'] ?? 'all';
-$project = $_REQUEST['project'] ?? 'all';
-$langcode = $_REQUEST['langcode'] ?? '';
+$year = $_GET['year'] ?? 'all';
+$camp = $_GET['camp'] ?? 'all';
+$project = $_GET['project'] ?? 'all';
+$langcode = $_GET['langcode'] ?? '';
 
 LeaderBoardTabs::$u_tab_for_graph2 = [
     "year" => $year,
@@ -44,8 +44,8 @@ LeaderBoardTabs::$u_tab_for_graph2 = [
     "user_group" => $project
 ];
 
-if ($camp == 'all' && isset($_REQUEST['cat'])) {
-    $camp = TablesSql::$s_cat_to_camp[$_REQUEST['cat']] ?? 'all';
+if ($camp == 'all' && isset($_GET['cat'])) {
+    $camp = TablesSql::$s_cat_to_camp[$_GET['cat']] ?? 'all';
 }
 $camp_cat = TablesSql::$s_camp_to_cat[$camp] ?? '';
 

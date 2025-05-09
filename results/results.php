@@ -10,9 +10,9 @@ use function Results\ResultsTable\make_results_table;
 use function Results\ResultsTableExists\make_results_table_exists;
 use function Actions\LoadRequest\load_request;
 //---
-$doit = isset($_REQUEST['doit']);
+$doit = isset($_GET['doit']);
 //---
-$tra_type  = $_REQUEST['type'] ?? '';
+$tra_type  = $_GET['type'] ?? '';
 //---
 $req  = load_request();
 $code = $req['code'] ?? "";
@@ -26,7 +26,7 @@ if ($translation_button != "0") {
     $translation_button = ($GLOBALS['user_in_coord'] === true) ? '1' : '0';
 };
 //---
-$depth  = $_REQUEST['depth'] ?? 1;
+$depth  = $_GET['depth'] ?? 1;
 $depth  = $depth * 1;
 //---
 $depth  = TablesSql::$s_camp_input_depth[$camp] ?? 1;

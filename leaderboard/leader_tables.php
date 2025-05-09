@@ -43,7 +43,7 @@ function makeLangTable()
 
     arsort(LeaderBoardTabs::$u_sql_Languages_tab);
 
-    $addcat = $_SERVER['SERVER_NAME'] == 'localhost' && (isset($_REQUEST['nocat']));
+    $addcat = $_SERVER['SERVER_NAME'] == 'localhost' && (isset($_GET['nocat']));
 
     $cac = ($addcat == true) ? '<th>cat</th>' : '';
 

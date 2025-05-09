@@ -30,7 +30,7 @@ function titles_filter($titles, $with_Category = false)
 function get_category_from_cache($cat)
 {
     // ---
-    if (isset($_REQUEST['nocache'])) {
+    if (isset($_GET['nocache'])) {
         return [];
     }
     // ---

@@ -73,9 +73,9 @@ function print_cat_table(): string
     HTML;
 }
 //---
-$year       = $_REQUEST['year'] ?? 'all';
-$camp       = $_REQUEST['camp'] ?? 'all';
-$project    = $_REQUEST['project'] ?? 'all';
+$year       = $_GET['year'] ?? 'all';
+$camp       = $_GET['camp'] ?? 'all';
+$project    = $_GET['project'] ?? 'all';
 //---
 $d33 = <<<HTML
 <div class="input-group">
