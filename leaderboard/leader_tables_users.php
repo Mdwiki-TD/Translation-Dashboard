@@ -17,8 +17,11 @@ use function SQLorAPI\GetDataTab\get_td_or_sql_users_by_wiki;
 
 function module_copy()
 {
+    $year = $_GET['year'] ?? 'all';
+    $camp = $_GET['camp'] ?? 'all';
+    $project = $_GET['project'] ?? 'all';
 
-    $users_tab = get_td_or_sql_users_by_wiki();
+    $users_tab = get_td_or_sql_users_by_wiki($year, $project, $camp);
 
     $lal = "<textarea cols='55' rows='10' id='users_targets' name='users_targets'>";
 

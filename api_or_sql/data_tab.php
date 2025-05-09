@@ -279,7 +279,7 @@ function get_td_or_sql_translate_type()
     return $data;
 }
 
-function get_td_or_sql_users_by_wiki()
+function get_td_or_sql_users_by_wiki($year, $project, $camp)
 {
     // ---
     global $from_api;
@@ -290,14 +290,28 @@ function get_td_or_sql_users_by_wiki()
         return $users_by_wiki;
     }
     // ---
+    $query_complate = "";
+    if (!empty($year)) {
+        $query_complate .= " WHERE YEAR(date) = $year";
+    }
+    // ---
+    if (!empty($project)) {
+        $query_complate .= " AND project = $project";
+    }
+    // ---
+    if (!empty($camp)) {
+        $query_complate .= " AND campaign = $camp";
+    }
+    // ---
     if ($from_api) {
-        $data = get_td_api(['get' => 'users_by_wiki']);
+        $data = get_td_api(['get' => 'users_by_wiki', 'year' => $year, 'project' => $project, 'camp' => $camp]);
     } else {
         $query = <<<SQL
             SELECT user, lang, MAX(target_count) AS max_target, sum(target_count) AS sum_target
                 FROM (
                     SELECT user, lang, COUNT(target) AS target_count
                     FROM pages
+                    $query_complate
                     GROUP BY user, lang
                     ORDER BY 1 DESC
                 ) AS subquery
