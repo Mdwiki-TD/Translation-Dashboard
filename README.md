@@ -1,3 +1,5 @@
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Mdwiki-TD/Translation-Dashboard)
+
 # WikiProjectMed Translation Dashboard
 
 The **WikiProjectMed Translation Dashboard** is a web-based platform designed to facilitate the translation of medical articles from [mdwiki.org](https://mdwiki.org) into various Wikipedia languages. It streamlines the identification of untranslated articles, integrates with MediaWiki's Content Translation tool, and tracks translation progress through a leaderboard system.
