@@ -27,6 +27,9 @@ $settings_tabe = array_column(get_td_api(['get' => 'settings']), 'value', 'title
 //---
 $from_api  = (($settings_tabe['use_td_api'] ?? "") == "1") ? true : false;
 
+if (isset($_GET['use_td_api']) && $_GET['use_td_api'] == "x") {
+    $from_api  = false;
+}
 $data_tab = [];
 
 function isvalid($str)
@@ -296,17 +299,17 @@ function get_td_or_sql_users_by_wiki($year, $user_group, $cat)
         $query_params = [];
         $query_complate = [];
         // ---
-        if (!empty($year)) {
-            $query_complate[] = " YEAR(p.pupdate) = ?";
+        if (isvalid($year)) {
+            $query_complate[] = " YEAR(pupdate) = ?";
             $query_params[] = $year;
         }
         // ---
-        if (!empty($user_group)) {
+        if (isvalid($user_group)) {
             $query_complate[] = " u.user_group = ?";
             $query_params[] = $user_group;
         }
         // ---
-        if (!empty($cat)) {
+        if (isvalid($cat)) {
             $query_complate[] = " cat = ?";
             $query_params[] = $cat;
         }
@@ -317,7 +320,7 @@ function get_td_or_sql_users_by_wiki($year, $user_group, $cat)
             $query_complate_text = " WHERE " . implode(" AND ", $query_complate);
         }
         // ---
-        $query = <<<SQL
+        $query_o = <<<SQL
             SELECT user, lang, YEAR(pupdate) AS year, COUNT(target) AS target_count
             FROM pages
             LEFT JOIN users u
@@ -330,11 +333,14 @@ function get_td_or_sql_users_by_wiki($year, $user_group, $cat)
         $query = <<<SQL
             SELECT user, lang, year, MAX(target_count) AS max_target, sum(target_count) AS sum_target
                 FROM (
-                    $query
+                    $query_o
                 ) AS subquery
             GROUP BY user
             ORDER BY 4 DESC
         SQL;
+        //---
+        echo($query);
+        print_r($query_params);
         //---
         $data = fetch_query($query, $query_params);
     }
