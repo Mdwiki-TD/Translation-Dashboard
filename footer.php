@@ -22,26 +22,23 @@ if (isset($GLOBALS['time_start'])) {
 </main>
 <script src="/Translation_Dashboard/js/c.js"></script>
 <script>
-	function pupwindow(url) {
-		window.open(url, 'popupWindow', 'width=850,height=550,left=50,top=50,scrollbars=yes');
-	};
-
-	function pupwindow1(url) {
-		window.open(url, 'popupWindow', 'width=500,height=400, left=100, top=100, location=no');
-	};
-
+	function copy_target_text(id) {
+		let textarea = document.getElementById(id);
+		textarea.select();
+		document.execCommand("copy");
+	}
 	$(".Dropdown_menu_toggle").on("click", function() {
 		$(".div_menu").toggleClass("mactive");
 	});
 
 	$('.sortable').DataTable({
-        stateSave: true,
+		stateSave: true,
 		paging: false,
 		info: false,
 		searching: false
 	});
 	$('.sortable2').DataTable({
-        stateSave: true,
+		stateSave: true,
 		lengthMenu: [
 			[25, 50, 100, 200],
 			[25, 50, 100, 200]

@@ -30,17 +30,8 @@ function module_copy()
     }
     //---
     $lal .= '</textarea>';
-    $lal .= <<<HTML
-        <script>
-            function copy_targets() {
-                let textarea = document.getElementById("users_targets");
-                textarea.select();
-                document.execCommand("copy");
-            }
-        </script>
-    HTML;
     //---
-    $modal = make_modal_fade('', $lal, 'targets', '<a class="btn btn-outline-primary" onclick="copy_targets()">Copy</a>');
+    $modal = make_modal_fade('', $lal, 'targets', '<a class="btn btn-outline-primary" onclick="copy_target_text(\'users_targets\')">Copy</a>');
     //---
     return $modal;
 }
