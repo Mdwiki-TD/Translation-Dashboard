@@ -282,6 +282,55 @@ function get_td_or_sql_translate_type()
     return $data;
 }
 
+function make_users_by_wiki_query($year, $user_group, $cat)
+{
+    // ---
+    $query_params = [];
+    $query_complate = [];
+    // ---
+    if (isvalid($year)) {
+        $query_complate[] = " YEAR(pupdate) = ?";
+        $query_params[] = $year;
+    }
+    // ---
+    if (isvalid($user_group)) {
+        $query_complate[] = " u.user_group = ?";
+        $query_params[] = $user_group;
+    }
+    // ---
+    if (isvalid($cat)) {
+        $query_complate[] = " cat = ?";
+        $query_params[] = $cat;
+    }
+    // ---
+    $query_complate_text = "";
+    // ---
+    if (!empty($query_complate)) {
+        $query_complate_text = " WHERE " . implode(" AND ", $query_complate);
+    }
+    // ---
+    $query_o = <<<SQL
+        SELECT user, lang, YEAR(pupdate) AS year, COUNT(target) AS target_count
+        FROM pages
+        LEFT JOIN users u
+            ON user = u.username
+        $query_complate_text
+        GROUP BY user, lang
+        ORDER BY 1 DESC
+    SQL;
+    //---
+    $query = <<<SQL
+        SELECT user, lang, year, MAX(target_count) AS max_target, sum(target_count) AS sum_target
+            FROM (
+                $query_o
+            ) AS subquery
+        GROUP BY user
+        ORDER BY 4 DESC
+    SQL;
+    //---
+    return ['query' => $query, 'query_params' => $query_params];
+}
+
 function get_td_or_sql_users_by_wiki($year, $user_group, $cat)
 {
     // ---
@@ -296,52 +345,12 @@ function get_td_or_sql_users_by_wiki($year, $user_group, $cat)
     if ($from_api) {
         $data = get_td_api(['get' => 'users_by_wiki', 'year' => $year, 'user_group' => $user_group, 'cat' => $cat]);
     } else {
-        $query_params = [];
-        $query_complate = [];
         // ---
-        if (isvalid($year)) {
-            $query_complate[] = " YEAR(pupdate) = ?";
-            $query_params[] = $year;
-        }
+        $tata = make_users_by_wiki_query($year, $user_group, $cat);
         // ---
-        if (isvalid($user_group)) {
-            $query_complate[] = " u.user_group = ?";
-            $query_params[] = $user_group;
-        }
+        $query = $tata['query'];
+        $query_params = $tata['query_params'];
         // ---
-        if (isvalid($cat)) {
-            $query_complate[] = " cat = ?";
-            $query_params[] = $cat;
-        }
-        // ---
-        $query_complate_text = "";
-        // ---
-        if (!empty($query_complate)) {
-            $query_complate_text = " WHERE " . implode(" AND ", $query_complate);
-        }
-        // ---
-        $query_o = <<<SQL
-            SELECT user, lang, YEAR(pupdate) AS year, COUNT(target) AS target_count
-            FROM pages
-            LEFT JOIN users u
-                ON user = u.username
-            $query_complate_text
-            GROUP BY user, lang
-            ORDER BY 1 DESC
-        SQL;
-        //---
-        $query = <<<SQL
-            SELECT user, lang, year, MAX(target_count) AS max_target, sum(target_count) AS sum_target
-                FROM (
-                    $query_o
-                ) AS subquery
-            GROUP BY user
-            ORDER BY 4 DESC
-        SQL;
-        //---
-        echo($query);
-        print_r($query_params);
-        //---
         $data = fetch_query($query, $query_params);
     }
     // ---
