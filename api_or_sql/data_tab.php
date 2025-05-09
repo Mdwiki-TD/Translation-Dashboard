@@ -279,7 +279,7 @@ function get_td_or_sql_translate_type()
     return $data;
 }
 
-function get_td_or_sql_users_by_wiki($year, $project, $camp)
+function get_td_or_sql_users_by_wiki($year, $user_group, $cat)
 {
     // ---
     global $from_api;
@@ -290,36 +290,53 @@ function get_td_or_sql_users_by_wiki($year, $project, $camp)
         return $users_by_wiki;
     }
     // ---
-    $query_complate = "";
-    if (!empty($year)) {
-        $query_complate .= " WHERE YEAR(date) = $year";
-    }
-    // ---
-    if (!empty($project)) {
-        $query_complate .= " AND project = $project";
-    }
-    // ---
-    if (!empty($camp)) {
-        $query_complate .= " AND campaign = $camp";
-    }
-    // ---
     if ($from_api) {
-        $data = get_td_api(['get' => 'users_by_wiki', 'year' => $year, 'project' => $project, 'camp' => $camp]);
+        $data = get_td_api(['get' => 'users_by_wiki', 'year' => $year, 'user_group' => $user_group, 'cat' => $cat]);
     } else {
+        $query_params = [];
+        $query_complate = [];
+        // ---
+        if (!empty($year)) {
+            $query_complate[] = " YEAR(p.pupdate) = ?";
+            $query_params[] = $year;
+        }
+        // ---
+        if (!empty($user_group)) {
+            $query_complate[] = " u.user_group = ?";
+            $query_params[] = $user_group;
+        }
+        // ---
+        if (!empty($cat)) {
+            $query_complate[] = " cat = ?";
+            $query_params[] = $cat;
+        }
+        // ---
+        $query_complate_text = "";
+        // ---
+        if (!empty($query_complate)) {
+            $query_complate_text = " WHERE " . implode(" AND ", $query_complate);
+        }
+        // ---
         $query = <<<SQL
-            SELECT user, lang, MAX(target_count) AS max_target, sum(target_count) AS sum_target
-                FROM (
-                    SELECT user, lang, COUNT(target) AS target_count
-                    FROM pages
-                    $query_complate
-                    GROUP BY user, lang
-                    ORDER BY 1 DESC
-                ) AS subquery
-            GROUP BY user
-            ORDER BY 3 DESC
+            SELECT user, lang, YEAR(pupdate) AS year, COUNT(target) AS target_count
+            FROM pages
+            LEFT JOIN users u
+                ON user = u.username
+            $query_complate_text
+            GROUP BY user, lang
+            ORDER BY 1 DESC
         SQL;
         //---
-        $data = fetch_query($query);
+        $query = <<<SQL
+            SELECT user, lang, year, MAX(target_count) AS max_target, sum(target_count) AS sum_target
+                FROM (
+                    $query
+                ) AS subquery
+            GROUP BY user
+            ORDER BY 4 DESC
+        SQL;
+        //---
+        $data = fetch_query($query, $query_params);
     }
     // ---
     $users_by_wiki = $data;
