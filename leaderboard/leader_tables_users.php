@@ -15,9 +15,9 @@ use Leaderboard\Tabs\LeaderBoardTabs;
 use function Actions\Html\make_modal_fade;
 use function SQLorAPI\GetDataTab\get_td_or_sql_users_by_wiki;
 
-function module_copy($year, $project, $cat)
+function module_copy($year, $user_group, $cat)
 {
-    $users_tab = get_td_or_sql_users_by_wiki($year, $project, $cat);
+    $users_tab = get_td_or_sql_users_by_wiki($year, $user_group, $cat);
 
     $lal = "<textarea cols='55' rows='10' id='users_targets' name='users_targets'>";
 

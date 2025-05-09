@@ -34,7 +34,7 @@ use function Leaderboard\LeaderTabUsers\module_copy;
 use function SQLorAPI\Get\get_pages_with_pupdate;
 use function SQLorAPI\GetDataTab\get_td_or_sql_projects;
 
-function print_cat_table($year, $project, $cat): string
+function print_cat_table($year, $user_group, $cat): string
 {
     $numbersTable = createNumbersTable(
         count(LeaderBoardTabs::$u_sql_users_tab),
@@ -52,7 +52,7 @@ function print_cat_table($year, $project, $cat): string
 
     $usersTable = makeUsersTable();
 
-    $copy_module = module_copy($year, $project, $cat);
+    $copy_module = module_copy($year, $user_group, $cat);
 
     $modal_a = <<<HTML
         <button type="button" class="btn-tool" href="#" data-bs-toggle="modal" data-bs-target="#targets">
