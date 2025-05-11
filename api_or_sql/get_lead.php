@@ -57,47 +57,6 @@ function makeSqlQuery($year, $user_group, $cat)
     ];
 }
 
-function makeSqlQuery_old($year, $user_group, $cat)
-{
-    $query_project = "SELECT p.title,
-        p.target, p.cat, p.lang, p.word, YEAR(p.pupdate) AS pup_y, p.user, LEFT(p.pupdate, 7) as m, u.user_group
-        FROM pages p, users u
-        WHERE p.target != ''
-    ";
-
-    $query = "SELECT p.title,
-        p.target, p.cat, p.lang, p.word, YEAR(p.pupdate) AS pup_y, p.user, LEFT(p.pupdate, 7) as m,
-        (SELECT u.user_group FROM users u WHERE p.user = u.username) AS user_group
-        FROM pages p
-        WHERE p.target != ''
-    ";
-
-    $params = [];
-
-    if (isvalid($user_group)) {
-        $query = $query_project;
-        $query .= "AND p.user = u.username \n";
-        $query .= "AND u.user_group = ? \n";
-        $params[] = $user_group;
-    }
-
-    if (isvalid($year)) {
-        $query .= "AND YEAR(p.pupdate) = ? \n";
-        $params[] = $year;
-    }
-
-
-    if (isvalid($cat)) {
-        $query .= "AND p.cat = ? \n";
-        $params[] = $year;
-    }
-
-    return [
-        'query' => $query,
-        'params' => $params
-    ];
-}
-
 function le_from_sql($year, $user_group, $cat)
 {
     // ---

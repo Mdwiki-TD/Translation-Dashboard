@@ -17,7 +17,6 @@ use function SQLorAPI\Get\get_pages_with_pupdate;
 use function SQLorAPI\Get\get_user_views;
 use function SQLorAPI\Get\get_user_pages;
 use function SQLorAPI\Get\get_coordinator;
-use function SQLorAPI\Get\get_inprocess_tdapi;
 use function SQLorAPI\Get\get_inprocess_lang_new;
 use function SQLorAPI\Get\get_inprocess_user_new;
 
@@ -98,27 +97,6 @@ function get_inprocess_lang_new($code)
     return $data;
 }
 
-function get_inprocess_tdapi($code)
-{
-    // ---
-    global $from_api, $data_index;
-    // ---
-    if (!empty($data_index['inprocess_tdapi' . $code] ?? [])) {
-        return $data_index['inprocess_tdapi' . $code];
-    }
-    // ---
-    if ($from_api) {
-        $data = get_td_api(['get' => 'pages', 'lang' => $code, 'target' => 'empty']);
-    } else {
-        $query = "select * from pages where (target = '' OR target IS NULL) and lang = ?;";
-        $params = [$code];
-        $data = fetch_query($query, $params);
-    }
-    // ---
-    $data_index['inprocess_tdapi' . $code] = $data;
-    // ---
-    return $data;
-}
 function get_coordinator()
 {
     // ---
