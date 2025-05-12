@@ -11,7 +11,7 @@ include_once __DIR__ . '/../api_or_sql/index.php';
 
 use function Actions\Html\login_card;
 use function Results\TrLink\make_translate_link_medwiki;
-use function TranslateMed\Inserter\insertPage;
+// use function TranslateMed\Inserter\insertPage;
 use function TranslateMed\Inserter\insertPage_inprocess;
 use function SQLorAPI\GetDataTab\get_td_or_sql_users_no_inprocess;
 
@@ -74,7 +74,8 @@ if (!empty($title_o) && !empty($coden) && $user_valid) {
     // ---
     // if not user in $users_no_inprocess
     if (!in_array($useree, $users_no_inprocess)) {
-        insertPage($title_o, $word, $tr_type, $cat, $coden, $user_decoded);
+        // ---
+        // insertPage($title_o, $word, $tr_type, $cat, $coden, $user_decoded);
         // ---
         insertPage_inprocess($title_o, $word, $tr_type, $cat, $coden, $user_decoded);
     }

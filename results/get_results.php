@@ -14,7 +14,6 @@ use Tables\SqlTables\TablesSql;
 use function Results\FetchCatDataSparql\get_cat_exists_and_missing;
 use function Results\GetCats\get_mdwiki_cat_members;
 use function Actions\TestPrint\test_print;
-use function SQLorAPI\Get\get_inprocess_tdapi;
 use function SQLorAPI\Get\get_inprocess_lang_new;
 
 function getinprocess($missing, $code)
