@@ -23,13 +23,6 @@ use function SQLorAPI\GetDataTab\get_td_or_sql_count_pages;
 use function Actions\MdwikiSql\fetch_query;
 use function Actions\TDApi\get_td_api;
 
-$settings_tabe = array_column(get_td_api(['get' => 'settings']), 'value', 'title');
-//---
-$from_api  = (($settings_tabe['use_td_api'] ?? "") == "1") ? true : false;
-
-if (isset($_GET['use_td_api']) && $_GET['use_td_api'] == "x") {
-    $from_api  = false;
-}
 $data_tab = [];
 
 function isvalid($str)
