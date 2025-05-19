@@ -18,8 +18,6 @@ use function SQLorAPI\Get\get_pages_with_pupdate;
 use function SQLorAPI\Get\get_user_views;
 use function SQLorAPI\Get\get_user_pages;
 use function SQLorAPI\Get\get_coordinator;
-use function SQLorAPI\Get\get_inprocess_lang_new;
-use function SQLorAPI\Get\get_inprocess_user_new;
 
 */
 
@@ -29,7 +27,7 @@ use function Actions\TDApi\get_td_api;
 $settings_tabe = array_column(get_td_api(['get' => 'settings']), 'value', 'title');
 //---
 $use_td_api  = (($settings_tabe['use_td_api'] ?? "") == "1") ? true : false;
-
+// ---
 if (isset($_GET['use_td_api'])) {
     $use_td_api  = $_GET['use_td_api'] != "x";
 }
@@ -41,7 +39,7 @@ $data_index = [];
 
 function isvalid($str)
 {
-    return !empty($str) && $str != 'All' && $str != 'all';
+    return !empty($str) && strtolower($str) != "all";
 }
 
 function super_function($api_params, $sql_params, $sql_query)
@@ -57,54 +55,6 @@ function super_function($api_params, $sql_params, $sql_query)
     return $data;
 }
 
-function get_inprocess_user_new($user)
-{
-    // ---
-    global $data_index;
-    // ---
-    if (!empty($data_index['inprocess_tdapi' . $user] ?? [])) {
-        return $data_index['inprocess_tdapi' . $user];
-    }
-    // ---
-    $api_params = ['get' => 'in_process', 'user' => $user];
-    $query = "select * from in_process where user = ?";
-    $params = [$user];
-    $data = super_function($api_params, $params, $query);
-    // ---
-    $data_index['inprocess_tdapi' . $user] = $data;
-    // ---
-    return $data;
-}
-
-function get_inprocess_lang_new($code)
-{
-    // ---
-    global $data_index;
-    // ---
-    if (!empty($data_index['inprocess_tdapi' . $code] ?? [])) {
-        return $data_index['inprocess_tdapi' . $code];
-    }
-    // ---
-    /*
-    SELECT * from in_process ip
-        WHERE NOT EXISTS (
-        SELECT p.user FROM pages p
-        where p.title = ip.title
-        and p.lang = ip.lang
-        and p.target != ""
-        )
-    */
-    // ---
-    $api_params = ['get' => 'in_process', 'lang' => $code];
-    $query = "select * from in_process where lang = ?";
-    $params = [$code];
-    $data = super_function($api_params, $params, $query);
-    // ---
-    $data_index['inprocess_tdapi' . $code] = $data;
-    // ---
-    return $data;
-}
-
 function get_coordinator()
 {
     // ---
@@ -114,14 +64,16 @@ function get_coordinator()
         return $coordinator;
     }
     // ---
-    $api_params = ['get' => 'coordinator', 'select' => 'user'];
-    $query = "SELECT user FROM coordinator;";
+    $api_params = ['get' => 'coordinator'];
+    $query = "SELECT id, user FROM coordinator order by id";
+    //---
     $data = super_function($api_params, [], $query);
     // ---
     $coordinator = $data;
     // ---
     return $data;
 }
+
 function get_user_pages($user_main, $year_y, $lang_y)
 {
     // ---

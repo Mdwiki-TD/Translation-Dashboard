@@ -30,8 +30,7 @@ include_once __DIR__ . '/api_or_sql/index.php';
 use function Actions\Html\banner_alert;
 use function SQLorAPI\Get\get_coordinator;
 //---
-$coordinators = get_coordinator();
-$coordinators = array_map('current', $coordinators);
+$coordinators = array_column(get_coordinator(), 'user');
 
 $user_in_coord = false;
 if (in_array($GLOBALS['global_username'], $coordinators)) {
