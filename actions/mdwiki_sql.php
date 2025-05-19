@@ -15,7 +15,7 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 //---
 use PDO;
 use PDOException;
-//---
+
 class Database
 {
 
@@ -51,11 +51,32 @@ class Database
         }
     }
 
+    public function test_print($s)
+    {
+        if (isset($_COOKIE['test']) && $_COOKIE['test'] == 'x') {
+            return;
+        }
+
+        $print_t = (isset($_REQUEST['test']) || isset($_COOKIE['test'])) ? true : false;
+
+        if ($print_t && gettype($s) == 'string') {
+            echo "\n<br>\n$s";
+        } elseif ($print_t) {
+            echo "\n<br>\n";
+            print_r($s);
+        }
+    }
+
+    public function disableFullGroupByMode()
+    {
+        // إزالة ONLY_FULL_GROUP_BY مرة واحدة لكل جلسة
+        $this->db->exec("SET SESSION sql_mode=(SELECT REPLACE(@@SESSION.sql_mode,'ONLY_FULL_GROUP_BY',''))");
+    }
+
     public function execute_query($sql_query, $params = null)
     {
         try {
-            // إزالة ONLY_FULL_GROUP_BY مرة واحدة لكل جلسة
-            $this->db->exec("SET SESSION sql_mode=(SELECT REPLACE(@@SESSION.sql_mode,'ONLY_FULL_GROUP_BY',''))");
+            $this->disableFullGroupByMode();
 
             $q = $this->db->prepare($sql_query);
             if ($params) {
@@ -83,8 +104,9 @@ class Database
     public function fetch_query($sql_query, $params = null)
     {
         try {
-            // إزالة ONLY_FULL_GROUP_BY مرة واحدة لكل جلسة
-            $this->db->exec("SET SESSION sql_mode=(SELECT REPLACE(@@SESSION.sql_mode,'ONLY_FULL_GROUP_BY',''))");
+            // $this->test_print($sql_query);
+
+            $this->disableFullGroupByMode();
 
             $q = $this->db->prepare($sql_query);
             if ($params) {
