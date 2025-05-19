@@ -8,8 +8,8 @@ use function Leaderboard\Subs\SubLangs\get_langs_tables;
 
 */
 
-use function SQLorAPI\Get\get_lang_views;
-use function SQLorAPI\Get\get_lang_pages;
+use function SQLorAPI\Funcs\get_lang_views;
+use function SQLorAPI\Funcs\get_lang_pages;
 use function SQLorAPI\Process\get_lang_in_process_new;
 use function Leaderboard\Subs\LeadHelp\make_key;
 

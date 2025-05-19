@@ -28,7 +28,7 @@ include_once __DIR__ . '/actions/td_api.php';
 include_once __DIR__ . '/api_or_sql/index.php';
 //---
 use function Actions\Html\banner_alert;
-use function SQLorAPI\Get\get_coordinator;
+use function SQLorAPI\Funcs\get_coordinator;
 //---
 $coordinators = array_column(get_coordinator(), 'user');
 

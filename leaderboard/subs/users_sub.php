@@ -8,8 +8,8 @@ use function Leaderboard\Subs\SubUsers\get_users_tables;
 
 */
 
-use function SQLorAPI\Get\get_user_views;
-use function SQLorAPI\Get\get_user_pages;
+use function SQLorAPI\Funcs\get_user_views;
+use function SQLorAPI\Funcs\get_user_pages;
 use function SQLorAPI\Process\get_user_process_new;
 use function Leaderboard\Subs\LeadHelp\make_key;
 

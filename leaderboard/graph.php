@@ -15,7 +15,7 @@ echo '
 <script src="/Translation_Dashboard/js/g.js"></script>
 ';
 //---
-use function SQLorAPI\Get\get_graph_data;
+use function SQLorAPI\Funcs\get_graph_data;
 // ---
 function graph_html($keys, $values, $id = 'chart1', $no_card = false)
 {
