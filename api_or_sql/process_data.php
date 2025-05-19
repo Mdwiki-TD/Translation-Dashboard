@@ -14,8 +14,6 @@ use function SQLorAPI\Process\get_lang_in_process_new;
 
 use function SQLorAPI\Get\super_function;
 
-$data_index = [];
-
 function get_process_all_new()
 {
     // ---
@@ -36,10 +34,10 @@ function get_process_all_new()
 function get_user_process_new($user)
 {
     // ---
-    global $data_index;
+    static $cache = [];
     // ---
-    if (!empty($data_index['inprocess_tdapi' . $user] ?? [])) {
-        return $data_index['inprocess_tdapi' . $user];
+    if (!empty($cache[$user] ?? [])) {
+        return $cache[$user];
     }
     // ---
     $api_params = ['get' => 'in_process', 'user' => $user];
@@ -50,7 +48,7 @@ function get_user_process_new($user)
     // ---
     $data = super_function($api_params, $params, $query);
     // ---
-    $data_index['inprocess_tdapi' . $user] = $data;
+    $cache[$user] = $data;
     // ---
     return $data;
 }
@@ -80,12 +78,10 @@ function get_users_process_new()
 function get_lang_in_process_new($code)
 {
     // ---
-    global $data_index;
+    static $cache = [];
     // ---
-    $key = 'inprocess_tdapi' . $code;
-    // ---
-    if (!empty($data_index[$key] ?? [])) {
-        return $data_index[$key];
+    if (!empty($cache[$code] ?? [])) {
+        return $cache[$code];
     }
     // ---
     /*
@@ -104,8 +100,8 @@ function get_lang_in_process_new($code)
     // ---
     $data = super_function($api_params, [$code], $query);
     // ---
-    // $data_index[$key] = array_column($data, 'title');
-    $data_index[$key] = $data;
+    // $cache[$code] = array_column($data, 'title');
+    $cache[$code] = $data;
     //---
-    return $data_index[$key];
+    return $cache[$code];
 }

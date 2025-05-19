@@ -23,8 +23,6 @@ use function SQLorAPI\GetDataTab\get_td_or_sql_count_pages;
 use function SQLorAPI\Get\super_function;
 use function SQLorAPI\Get\isvalid;
 
-$data_tab = [];
-
 function get_td_or_sql_titles_infos()
 {
     // ---
@@ -68,10 +66,10 @@ function get_td_or_sql_titles_infos()
 function get_td_or_sql_views($year, $lang)
 {
     // ---
-    global $data_tab;
+    static $cache = [];
     // ---
-    if (!empty($data_tab['sql_views' . $year . $lang] ?? [])) {
-        return $data_tab['sql_views' . $year . $lang];
+    if (!empty($cache[$year . $lang] ?? [])) {
+        return $cache[$year . $lang];
     }
     // ---
     $api_params = ['get' => 'views_new'];
@@ -108,7 +106,7 @@ function get_td_or_sql_views($year, $lang)
     // ---
     $data = super_function($api_params, $sql_params, $query2);
     // ---
-    $data_tab['sql_views' . $year . $lang] = $data;
+    $cache[$year . $lang] = $data;
     // ---
     return $data;
 }
