@@ -59,7 +59,6 @@ function get_td_or_sql_titles_infos()
     SQL;
     // ---
     $data = super_function($api_params, [], $qua);
-    }
     // ---
     $titlesinfos = $data;
     // ---
@@ -123,7 +122,7 @@ function get_td_or_sql_settings()
     // ---
     $api_params = ['get' => 'settings'];
     // ---
-    $settingsx = super_function($api_params, $params, $query);
+    $settingsx = super_function($api_params, [], $query);
     // ---
     return $settingsx;
 }
@@ -139,9 +138,9 @@ function get_td_or_sql_projects()
     $api_params = ['get' => 'projects'];
     $query = "select g_id, g_title from projects";
     //---
-    $projects = super_function($api_params, $params, $query);
+    $projects = super_function($api_params, [], $query);
     // ---
-    return $data;
+    return $projects;
 }
 function get_td_or_sql_categories()
 {
@@ -157,7 +156,7 @@ function get_td_or_sql_categories()
     // ---
     $categories = super_function($api_params, [], $query);
     // ---
-    return $data;
+    return $categories;
 }
 
 function get_td_or_sql_qids()
@@ -167,13 +166,9 @@ function get_td_or_sql_qids()
     // ---
     if (!empty($sql_td_qids)) return $sql_td_qids;
     // ---
-    if ($from_api) {
-        $api_params = ['get' => 'qids'];
-    } else {
-        $query = "SELECT title, qid FROM qids";
-        //---
-        $data = fetch_query($query);
-    }
+    $api_params = ['get' => 'qids'];
+    $query = "SELECT title, qid FROM qids";
+    $data = super_function($api_params, [], $query);
     // ---
     $sql_td_qids = array_column($data, 'qid', 'title');
     // ---
@@ -187,13 +182,9 @@ function get_td_or_sql_users_no_inprocess()
     // ---
     if (!empty($users)) return $users;
     // ---
-    if ($from_api) {
-        $users = get_td_api(['get' => 'users_no_inprocess']);
-    } else {
-        $query = "SELECT * FROM users_no_inprocess order by id";
-        //---
-        $users = fetch_query($query);
-    }
+    $api_params = ['get' => 'users_no_inprocess'];
+    $query = "SELECT * FROM users_no_inprocess order by id";
+    $users = super_function($api_params, [], $query);
     // ---
     return $users;
 }
@@ -205,13 +196,9 @@ function get_td_or_sql_full_translators()
     // ---
     if (!empty($full_tr)) return $full_tr;
     // ---
-    if ($from_api) {
-        $full_tr = get_td_api(['get' => 'full_translators']);
-    } else {
-        $query = "SELECT * FROM full_translators";
-        //---
-        $full_tr = fetch_query($query);
-    }
+    $api_params = ['get' => 'full_translators'];
+    $query = "SELECT * FROM full_translators";
+    $full_tr = super_function($api_params, [], $query);
     // ---
     return $full_tr;
 }
@@ -224,13 +211,10 @@ function get_td_or_sql_translate_type()
         return $translate_type;
     }
     // ---
-    if ($from_api) {
-        $api_params = ['get' => 'translate_type'];
-    } else {
-        $query = "SELECT tt_title, tt_lead, tt_full FROM translate_type";
-        //---
-        $data = fetch_query($query);
-    }
+    $api_params = ['get' => 'translate_type'];
+    $query = "SELECT tt_title, tt_lead, tt_full FROM translate_type";
+    //---
+    $data = super_function($api_params, [], $query);
     // ---
     $translate_type = $data;
     // ---
@@ -295,17 +279,14 @@ function get_td_or_sql_users_by_wiki($year, $user_group, $cat)
         return $users_by_wiki;
     }
     // ---
-    if ($from_api) {
-        $api_params = ['get' => 'users_by_wiki', 'year' => $year, 'user_group' => $user_group, 'cat' => $cat];
-    } else {
-        // ---
-        $tata = make_users_by_wiki_query($year, $user_group, $cat);
-        // ---
-        $query = $tata['query'];
-        $query_params = $tata['query_params'];
-        // ---
-        $data = fetch_query($query, $query_params);
-    }
+    $api_params = ['get' => 'users_by_wiki', 'year' => $year, 'user_group' => $user_group, 'cat' => $cat];
+    // ---
+    $tata = make_users_by_wiki_query($year, $user_group, $cat);
+    // ---
+    $query = $tata['query'];
+    $query_params = $tata['query_params'];
+    // ---
+    $data = super_function($api_params, $query_params, $query);
     // ---
     $users_by_wiki = $data;
     // ---
@@ -321,15 +302,12 @@ function get_td_or_sql_count_pages()
         return $count_pages;
     }
     // ---
-    if ($from_api) {
-        $api_params = ['get' => 'count_pages'];
-    } else {
-        $query = <<<SQL
-            SELECT DISTINCT user, count(target) as count from pages group by user order by count desc
-        SQL;
-        //---
-        $data = fetch_query($query);
-    }
+    $api_params = ['get' => 'count_pages'];
+    $query = <<<SQL
+        SELECT DISTINCT user, count(target) as count from pages group by user order by count desc
+    SQL;
+    //---
+    $data = super_function($api_params, [], $query);
     // ---
     $data = array_column($data, 'count', 'user');
     // ---
