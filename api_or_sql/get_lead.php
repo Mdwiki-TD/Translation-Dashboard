@@ -10,14 +10,8 @@ use function SQLorAPI\GetLead\get_leaderboard_table;
 
 */
 
-use function Actions\MdwikiSql\fetch_query;
-use function Actions\TDApi\get_td_api;
-
-
-function isvalid($str)
-{
-    return !empty($str) && strtolower($str) != 'all';
-}
+use function SQLorAPI\Get\super_function;
+use function SQLorAPI\Get\isvalid;
 
 function makeSqlQuery($year, $user_group, $cat)
 {
@@ -51,27 +45,14 @@ function makeSqlQuery($year, $user_group, $cat)
 
     $query .= " \n group by v.target, v.lang \n";
     $query .= " ORDER BY 1 DESC";
+    // ---
     return [
         'query' => $query,
         'params' => $params
     ];
 }
 
-function le_from_sql($year, $user_group, $cat)
-{
-    // ---
-    $qua_data = makeSqlQuery($year, $user_group, $cat);
-    // ---
-    $qua_query = $qua_data['query'];
-    $qua_params = $qua_data['params'];
-    // ---
-    $data = fetch_query($qua_query, $qua_params);
-    // ---
-    return $data;
-}
-
-
-function le_td_api($year, $user_group, $cat)
+function makeApiParams($year, $user_group, $cat)
 {
     // ---
     $api_params = ['get' => 'leaderboard_table'];
@@ -87,21 +68,21 @@ function le_td_api($year, $user_group, $cat)
     if (isvalid($cat)) {
         $api_params['cat'] = $cat;
     }
-    $data = get_td_api($api_params);
     // ---
-    return $data;
+    return $api_params;
 }
 
 function get_leaderboard_table($year, $user_group, $cat)
 {
     // ---
-    global $from_api;
+    $api_params = makeApiParams($year, $user_group, $cat);
     // ---
-    if ($from_api) {
-        $data = le_td_api($year, $user_group, $cat);
-    } else {
-        $data = le_from_sql($year, $user_group, $cat);
-    }
+    $qua_data = makeSqlQuery($year, $user_group, $cat);
+    // ---
+    $qua_query = $qua_data['query'];
+    $qua_params = $qua_data['params'];
+    // ---
+    $data = super_function($api_params, $qua_params, $qua_query);
     // ---
     return $data;
 }

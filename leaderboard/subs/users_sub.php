@@ -8,15 +8,15 @@ use function Leaderboard\Subs\SubUsers\get_users_tables;
 
 */
 
-use function SQLorAPI\Get\get_user_views;
-use function SQLorAPI\Get\get_user_pages;
-use function SQLorAPI\Get\get_inprocess_user_new;
+use function SQLorAPI\Funcs\get_user_views;
+use function SQLorAPI\Funcs\get_user_pages;
+use function SQLorAPI\Process\get_user_process_new;
 use function Leaderboard\Subs\LeadHelp\make_key;
 
 function add_inp($dd_Pending, $user)
 {
     // ---
-    $to_add = get_inprocess_user_new($user);
+    $to_add = get_user_process_new($user);
     // ---
     foreach ($to_add as $_ => $Taab) {
         //---

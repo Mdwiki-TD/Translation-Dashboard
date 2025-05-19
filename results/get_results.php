@@ -14,11 +14,11 @@ use Tables\SqlTables\TablesSql;
 use function Results\FetchCatDataSparql\get_cat_exists_and_missing;
 use function Results\GetCats\get_mdwiki_cat_members;
 use function Actions\TestPrint\test_print;
-use function SQLorAPI\Get\get_inprocess_lang_new;
+use function SQLorAPI\Process\get_lang_in_process_new;
 
 function getinprocess($missing, $code)
 {
-    $res = get_inprocess_lang_new($code);
+    $res = get_lang_in_process_new($code);
     $titles = [];
     foreach ($res as $t) {
         if (in_array($t['title'], $missing)) $titles[$t['title']] = $t;

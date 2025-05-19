@@ -8,15 +8,15 @@ use function Leaderboard\Subs\SubLangs\get_langs_tables;
 
 */
 
-use function SQLorAPI\Get\get_lang_views;
-use function SQLorAPI\Get\get_lang_pages;
-use function SQLorAPI\Get\get_inprocess_lang_new;
+use function SQLorAPI\Funcs\get_lang_views;
+use function SQLorAPI\Funcs\get_lang_pages;
+use function SQLorAPI\Process\get_lang_in_process_new;
 use function Leaderboard\Subs\LeadHelp\make_key;
 
 function add_inp($dd_Pending, $mainlang)
 {
     // ---
-    $to_add = get_inprocess_lang_new($mainlang);
+    $to_add = get_lang_in_process_new($mainlang);
     // ---
     foreach ($to_add as $_ => $Taab) {
         //---

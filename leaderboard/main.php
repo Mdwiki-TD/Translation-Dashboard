@@ -31,7 +31,7 @@ use function Leaderboard\LeaderTables\createNumbersTable;
 use function Leaderboard\LeaderTables\makeLangTable;
 use function Leaderboard\LeaderTabUsers\makeUsersTable;
 use function Leaderboard\LeaderTabUsers\module_copy;
-use function SQLorAPI\Get\get_pages_with_pupdate;
+use function SQLorAPI\Funcs\get_pages_with_pupdate;
 use function SQLorAPI\GetDataTab\get_td_or_sql_projects;
 
 function print_cat_table($year, $user_group, $cat): string

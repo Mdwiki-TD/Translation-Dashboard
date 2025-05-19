@@ -12,9 +12,9 @@ use function Leaderboard\Subs\FilterForm\make_filter_form_users;
 //---
 use function Actions\Html\makeDropdown;
 
-use function SQLorAPI\Get\get_lang_years;
-use function SQLorAPI\Get\get_user_years;
-use function SQLorAPI\Get\get_user_langs;
+use function SQLorAPI\Funcs\get_lang_years;
+use function SQLorAPI\Funcs\get_user_years;
+use function SQLorAPI\Funcs\get_user_langs;
 
 $test_line = (isset($_REQUEST['test']) != '') ? "<input type='text' name='test' value='1' hidden/>" : "";
 
