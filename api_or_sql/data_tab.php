@@ -68,21 +68,13 @@ function get_td_or_sql_titles_infos()
 function get_td_or_sql_views($year, $lang)
 {
     // ---
-    global $use_td_api, $data_tab;
+    global $data_tab;
     // ---
     if (!empty($data_tab['sql_views' . $year . $lang] ?? [])) {
         return $data_tab['sql_views' . $year . $lang];
     }
     // ---
     $api_params = ['get' => 'views_new'];
-    // ---
-    if (isvalid($year)) {
-        $api_params['year'] = $year;
-    }
-    // ---
-    if (isvalid($lang)) {
-        $api_params['lang'] = $lang;
-    }
     // ---
     $query2 = <<<SQL
         SELECT p.title, v.target, v.lang, v.views
@@ -92,19 +84,29 @@ function get_td_or_sql_views($year, $lang)
             AND p.lang = v.lang
     SQL;
     //---
-    $params = [];
+    $query_complate = [];
+    //---
+    $sql_params = [];
     //---
     if (isvalid($lang)) {
-        $query2 .= " WHERE v.lang = ? \n";
-        $params[] = $lang;
+        $api_params['lang'] = $lang;
+        $sql_params[] = $lang;
+        // ---
+        $query_complate[] = " v.lang = ? ";
     }
     //---
     if (isvalid($year)) {
-        $query2 .= " AND YEAR(p.pupdate) = ? \n";
-        $params[] = $year;
+        $api_params['year'] = $year;
+        $sql_params[] = $year;
+        // ---
+        $query_complate[] = " YEAR(p.pupdate) = ? ";
     }
     //---
-    $data = super_function($api_params, $params, $query2);
+    if (!empty($query_complate)) {
+        $query2 .= " WHERE " . implode(" AND ", $query_complate);
+    }
+    // ---
+    $data = super_function($api_params, $sql_params, $query2);
     // ---
     $data_tab['sql_views' . $year . $lang] = $data;
     // ---
