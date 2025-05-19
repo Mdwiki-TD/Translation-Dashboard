@@ -38,9 +38,9 @@ function super_function($api_params, $sql_params, $sql_query)
 {
     global $use_td_api;
     // ---
-    if ($use_td_api) {
-        $data = get_td_api($api_params);
-    } else {
+    $data = ($use_td_api) ? get_td_api($api_params) : [];
+    // ---
+    if (empty($data)) {
         $data = fetch_query($sql_query, $sql_params);
     }
     // ---

@@ -49,8 +49,8 @@ function post_url(string $endPoint, array $params = []): string
     // curl_setopt($ch, CURLOPT_COOKIEJAR, "cookie.txt");
     // curl_setopt($ch, CURLOPT_COOKIEFILE, "cookie.txt");
     curl_setopt($ch, CURLOPT_USERAGENT, $usr_agent);
-    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 4);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 4);
 
     $output = curl_exec($ch);
     // ---
@@ -81,6 +81,7 @@ function post_url(string $endPoint, array $params = []): string
 function get_td_api(array $params): array
 {
     $endPoint = ($_SERVER['SERVER_NAME'] == 'localhost') ? 'http://localhost:9001' : 'https://mdwiki.toolforge.org';
+    //---
     $endPoint .= '/api.php';
     //---
     $out = post_url($endPoint, $params);
