@@ -126,6 +126,7 @@ function get_td_or_sql_settings()
     // ---
     return $settingsx;
 }
+
 function get_td_or_sql_projects()
 {
     // ---
@@ -202,6 +203,7 @@ function get_td_or_sql_full_translators()
     // ---
     return $full_tr;
 }
+
 function get_td_or_sql_translate_type()
 {
     // ---
