@@ -6,6 +6,7 @@ namespace SQLorAPI\Get;
 
 Usage:
 
+use function SQLorAPI\Get\super_function;
 use function SQLorAPI\Get\isvalid;
 use function SQLorAPI\Get\get_lang_years;
 use function SQLorAPI\Get\get_user_years;
@@ -43,22 +44,32 @@ function isvalid($str)
     return !empty($str) && $str != 'All' && $str != 'all';
 }
 
+function super_function($api_params, $sql_params, $sql_query)
+{
+    global $from_api;
+    // ---
+    if ($from_api) {
+        $data = get_td_api($api_params);
+    } else {
+        $data = fetch_query($sql_query, $sql_params);
+    }
+    // ---
+    return $data;
+}
+
 function get_inprocess_user_new($user)
 {
     // ---
-    global $from_api, $data_index;
+    global $data_index;
     // ---
     if (!empty($data_index['inprocess_tdapi' . $user] ?? [])) {
         return $data_index['inprocess_tdapi' . $user];
     }
     // ---
-    if ($from_api) {
-        $data = get_td_api(['get' => 'in_process', 'user' => $user]);
-    } else {
-        $query = "select * from in_process where user = ?";
-        $params = [$user];
-        $data = fetch_query($query, $params);
-    }
+    $api_params = ['get' => 'in_process', 'user' => $user];
+    $query = "select * from in_process where user = ?";
+    $params = [$user];
+    $data = super_function($api_params, $params, $query);
     // ---
     $data_index['inprocess_tdapi' . $user] = $data;
     // ---
@@ -68,7 +79,7 @@ function get_inprocess_user_new($user)
 function get_inprocess_lang_new($code)
 {
     // ---
-    global $from_api, $data_index;
+    global $data_index;
     // ---
     if (!empty($data_index['inprocess_tdapi' . $code] ?? [])) {
         return $data_index['inprocess_tdapi' . $code];
@@ -84,13 +95,10 @@ function get_inprocess_lang_new($code)
         )
     */
     // ---
-    if ($from_api) {
-        $data = get_td_api(['get' => 'in_process', 'lang' => $code]);
-    } else {
-        $query = "select * from in_process where lang = ?";
-        $params = [$code];
-        $data = fetch_query($query, $params);
-    }
+    $api_params = ['get' => 'in_process', 'lang' => $code];
+    $query = "select * from in_process where lang = ?";
+    $params = [$code];
+    $data = super_function($api_params, $params, $query);
     // ---
     $data_index['inprocess_tdapi' . $code] = $data;
     // ---
@@ -100,21 +108,15 @@ function get_inprocess_lang_new($code)
 function get_coordinator()
 {
     // ---
-    global $from_api;
-    // ---
     static $coordinator = [];
     // ---
     if (!empty($coordinator ?? [])) {
         return $coordinator;
     }
     // ---
-    if ($from_api) {
-        $data = get_td_api(['get' => 'coordinator', 'select' => 'user']);
-    } else {
-        $query = "SELECT user FROM coordinator;";
-        //---
-        $data = fetch_query($query);
-    }
+    $api_params = ['get' => 'coordinator', 'select' => 'user'];
+    $query = "SELECT user FROM coordinator;";
+    $data = super_function($api_params, [], $query);
     // ---
     $coordinator = $data;
     // ---
@@ -123,7 +125,7 @@ function get_coordinator()
 function get_user_pages($user_main, $year_y, $lang_y)
 {
     // ---
-    global $from_api, $data_index;
+    global $data_index;
     // ---
     $key = 'user_pages_' . $user_main . '_' . $year_y . '_' . $lang_y;
     // ---
@@ -150,11 +152,7 @@ function get_user_pages($user_main, $year_y, $lang_y)
         $api_params['lang'] = $lang_y;
     };
     //---
-    if ($from_api) {
-        $data = get_td_api($api_params);
-    } else {
-        $data = fetch_query($query, $sql_params);
-    }
+    $data = super_function($api_params, $sql_params, $query);
     // ---
     $data_index[$key] = $data;
     // ---
@@ -164,20 +162,15 @@ function get_user_pages($user_main, $year_y, $lang_y)
 function get_pages_with_pupdate()
 {
     // ---
-    global $from_api;
-    // ---
     static $pages_with_pupdate = [];
     // ---
     if (!empty($pages_with_pupdate ?? [])) {
         return $pages_with_pupdate;
     }
     // ---
-    if ($from_api) {
-        $data = get_td_api(['get' => 'pages', 'distinct' => "1", 'select' => 'YEAR(pupdate) AS year', 'pupdate' => 'not_empty']);
-    } else {
-        $query = "SELECT DISTINCT YEAR(pupdate) AS year FROM pages WHERE pupdate <> ''";
-        $data = fetch_query($query);
-    }
+    $api_params = ['get' => 'pages', 'distinct' => "1", 'select' => 'YEAR(pupdate) AS year', 'pupdate' => 'not_empty'];
+    $query = "SELECT DISTINCT YEAR(pupdate) AS year FROM pages WHERE pupdate <> ''";
+    $data = super_function($api_params, [], $query);
     // ---
     $data = array_map('current', $data);
     // ---
@@ -190,27 +183,21 @@ function get_pages_with_pupdate()
 function get_graph_data()
 {
     // ---
-    global $from_api;
-    // ---
     static $graph_data = [];
     // ---
     if (!empty($graph_data ?? [])) {
         return $graph_data;
     }
     // ---
-    if ($from_api) {
-        $data = get_td_api(['get' => 'graph_data']);
-    } else {
-        $query = <<<SQL
-            SELECT LEFT(pupdate, 7) as m, COUNT(*) as c
-            FROM pages
-            WHERE target != ''
-            GROUP BY LEFT(pupdate, 7)
-            ORDER BY LEFT(pupdate, 7) ASC;
-        SQL;
-        //---
-        $data = fetch_query($query);
-    }
+    $api_params = ['get' => 'graph_data'];
+    $query = <<<SQL
+        SELECT LEFT(pupdate, 7) as m, COUNT(*) as c
+        FROM pages
+        WHERE target != ''
+        GROUP BY LEFT(pupdate, 7)
+        ORDER BY LEFT(pupdate, 7) ASC;
+    SQL;
+    $data = super_function($api_params, [], $query);
     // ---
     $graph_data = $data;
     // ---
@@ -219,7 +206,7 @@ function get_graph_data()
 function get_lang_pages($lang, $year_y)
 {
     // ---
-    global $from_api, $data_index;
+    global $data_index;
     // ---
     if (!empty($data_index['lang_pages' . $lang . $year_y] ?? [])) {
         return $data_index['lang_pages' . $lang . $year_y];
@@ -237,11 +224,7 @@ function get_lang_pages($lang, $year_y)
         $api_params['year'] = $year_y;
     };
     // ---
-    if ($from_api) {
-        $data = get_td_api($api_params);
-    } else {
-        $data = fetch_query($query, $params);
-    }
+    $data = super_function($api_params, $params, $query);
     // ---
     $data_index['lang_pages' . $lang . $year_y] = $data;
     // ---
@@ -251,7 +234,7 @@ function get_lang_pages($lang, $year_y)
 function get_user_views($user, $year_y, $lang_y)
 {
     // ---
-    global $from_api, $data_index;
+    global $data_index;
     // ---
     $key = 'user_views_' . $user . '_' . $year_y . '_' . $lang_y;
     // ---
@@ -259,28 +242,25 @@ function get_user_views($user, $year_y, $lang_y)
         return $data_index[$key];
     }
     // ---
-    if ($from_api) {
-        $data = get_td_api(['get' => 'user_views2', 'lang' => $lang_y, 'user' => $user, 'year' => $year_y]);
-    } else {
-        // ---
-        $query2 = <<<SQL
-            SELECT v.target, v.lang, v.views
-            FROM views_new_all v
-            JOIN pages p
-                ON p.target = v.target
-                AND p.lang = v.lang
-            WHERE p.user = ?
-        SQL;
-        // ---
-        $sql_params = [$user];
-        // ---
-        if (isvalid($year_y)) {
-            $query2 .= " and YEAR(p.pupdate) = ?";
-            $sql_params[] = $year_y;
-        }
-        // ---
-        $data = fetch_query($query2, $sql_params);
+    $api_params = ['get' => 'user_views2', 'lang' => $lang_y, 'user' => $user, 'year' => $year_y];
+    // ---
+    $query2 = <<<SQL
+        SELECT v.target, v.lang, v.views
+        FROM views_new_all v
+        JOIN pages p
+            ON p.target = v.target
+            AND p.lang = v.lang
+        WHERE p.user = ?
+    SQL;
+    // ---
+    $sql_params = [$user];
+    // ---
+    if (isvalid($year_y)) {
+        $query2 .= " and YEAR(p.pupdate) = ?";
+        $sql_params[] = $year_y;
     }
+    // ---
+    $data = super_function($api_params, $sql_params, $query2);
     // ---
     $table_of_views = [];
     // ---
@@ -305,7 +285,7 @@ function get_user_views($user, $year_y, $lang_y)
 function get_lang_views($mainlang, $year_y)
 {
     // ---
-    global $from_api, $data_index;
+    global $data_index;
     // ---
     $key = 'lang_views_' . $mainlang . '_' . $year_y;
     // ---
@@ -313,28 +293,25 @@ function get_lang_views($mainlang, $year_y)
         return $data_index[$key];
     }
     // ---
-    if ($from_api) {
-        $data = get_td_api(['get' => 'lang_views2', 'lang' => $mainlang, 'year' => $year_y]);
-    } else {
-        // ---
-        $query2 = <<<SQL
-            SELECT v.target, v.lang, v.views
-            FROM views_new_all v
-            JOIN pages p
-                ON p.target = v.target
-                AND p.lang = v.lang
-            WHERE p.lang = ?
-        SQL;
-        // ---
-        $sql_params = [$mainlang];
-        // ---
-        if (isvalid($year_y)) {
-            $query2 .= " and YEAR(p.pupdate) = ?";
-            $sql_params[] = $year_y;
-        };
-        // ---
-        $data = fetch_query($query2, $sql_params);
-    }
+    $api_params = ['get' => 'lang_views2', 'lang' => $mainlang, 'year' => $year_y];
+    // ---
+    $query2 = <<<SQL
+        SELECT v.target, v.lang, v.views
+        FROM views_new_all v
+        JOIN pages p
+            ON p.target = v.target
+            AND p.lang = v.lang
+        WHERE p.lang = ?
+    SQL;
+    // ---
+    $sql_params = [$mainlang];
+    // ---
+    if (isvalid($year_y)) {
+        $query2 .= " and YEAR(p.pupdate) = ?";
+        $sql_params[] = $year_y;
+    };
+    // ---
+    $data = super_function($api_params, $sql_params, $query2);
     // ---
     $table_of_views = [];
     // ---
@@ -354,19 +331,16 @@ function get_lang_views($mainlang, $year_y)
 function get_lang_years($mainlang)
 {
     // ---
-    global $from_api, $data_index;
+    global $data_index;
     // ---
     if (!empty($data_index['lang_years' . $mainlang] ?? [])) {
         return $data_index['lang_years' . $mainlang];
     }
     // ---
-    if ($from_api) {
-        $data = get_td_api(['get' => 'pages', 'distinct' => "1", 'select' => 'YEAR(pupdate) AS year', 'pupdate' => 'not_empty', 'lang' => $mainlang]);
-    } else {
-        $query = "SELECT DISTINCT YEAR(pupdate) AS year FROM pages WHERE lang = ? AND pupdate <> ''";
-        $params = [$mainlang];
-        $data = fetch_query($query, $params);
-    }
+    $api_params = ['get' => 'pages', 'distinct' => "1", 'select' => 'YEAR(pupdate) AS year', 'pupdate' => 'not_empty', 'lang' => $mainlang];
+    $query = "SELECT DISTINCT YEAR(pupdate) AS year FROM pages WHERE lang = ? AND pupdate <> ''";
+    $params = [$mainlang];
+    $data = super_function($api_params, $params, $query);
     // ---
     $data = array_map('current', $data);
     // ---
@@ -381,19 +355,18 @@ function get_lang_years($mainlang)
 function get_user_years($user)
 {
     // ---
-    global $from_api, $data_index;
+    global $data_index;
     // ---
     if (!empty($data_index['user_years' . $user] ?? [])) {
         return $data_index['user_years' . $user];
     }
     // ---
-    if ($from_api) {
-        $data = get_td_api(['get' => 'pages', 'distinct' => "1", 'select' => 'YEAR(date) AS year', 'user' => $user]);
-    } else {
-        $query = "SELECT DISTINCT YEAR(date) AS year FROM pages WHERE user = ?";
-        $params = [$user];
-        $data = fetch_query($query, $params);
-    }
+    $api_params = ['get' => 'pages', 'distinct' => "1", 'select' => 'YEAR(date) AS year', 'user' => $user];
+    $query = "SELECT DISTINCT YEAR(date) AS year FROM pages WHERE user = ?";
+    // ---
+    $params = [$user];
+    // ---
+    $data = super_function($api_params, $params, $query);
     // ---
     $data = array_map('current', $data);
     // ---
@@ -408,19 +381,16 @@ function get_user_years($user)
 function get_user_langs($user)
 {
     // ---
-    global $from_api, $data_index;
+    global $data_index;
     // ---
     if (!empty($data_index['user_langs' . $user] ?? [])) {
         return $data_index['user_langs' . $user];
     }
     // ---
-    if ($from_api) {
-        $data = get_td_api(['get' => 'pages', 'distinct' => "1", 'select' => 'lang', 'user' => $user]);
-    } else {
-        $query = "SELECT DISTINCT lang FROM pages WHERE user = ?";
-        $params = [$user];
-        $data = fetch_query($query, $params);
-    }
+    $api_params = ['get' => 'pages', 'distinct' => "1", 'select' => 'lang', 'user' => $user];
+    $query = "SELECT DISTINCT lang FROM pages WHERE user = ?";
+    $params = [$user];
+    $data = super_function($api_params, $params, $query);
     // ---
     $data = array_map('current', $data);
     // ---

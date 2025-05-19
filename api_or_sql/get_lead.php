@@ -12,12 +12,8 @@ use function SQLorAPI\GetLead\get_leaderboard_table;
 
 use function Actions\MdwikiSql\fetch_query;
 use function Actions\TDApi\get_td_api;
-
-
-function isvalid($str)
-{
-    return !empty($str) && strtolower($str) != 'all';
-}
+use function SQLorAPI\Get\super_function;
+use function SQLorAPI\Get\isvalid;
 
 function makeSqlQuery($year, $user_group, $cat)
 {
