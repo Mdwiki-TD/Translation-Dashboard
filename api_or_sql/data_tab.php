@@ -68,7 +68,7 @@ function get_td_or_sql_titles_infos()
 function get_td_or_sql_views($year, $lang)
 {
     // ---
-    global $from_api, $data_tab;
+    global $use_td_api, $data_tab;
     // ---
     if (!empty($data_tab['sql_views' . $year . $lang] ?? [])) {
         return $data_tab['sql_views' . $year . $lang];
