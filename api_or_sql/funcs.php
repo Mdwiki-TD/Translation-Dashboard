@@ -56,7 +56,16 @@ function get_user_pages($user_main, $year_y, $lang_y)
     // ---
     $api_params = ['get' => 'pages_by_user_or_lang', 'user' => $user_main];
     // ---
-    $query = "select * from pages_by_user_or_lang where user = ?";
+    $query = <<<SQL
+        SELECT DISTINCT p.title, p.word, p.translate_type, p.cat, p.lang, p.user, p.target, p.date,
+        p.pupdate, p.add_date, p.deleted, v.views
+        FROM pages p
+        LEFT JOIN views_new_all v
+            ON p.target = v.target
+            AND p.lang = v.lang
+        where user = ?
+    SQL;
+    // ---
     $sql_params = [$user_main];
     // ---
     if (isvalid($year_y)) {
@@ -123,6 +132,7 @@ function get_graph_data()
     // ---
     return $data;
 }
+
 function get_lang_pages($lang, $year_y)
 {
     // ---
