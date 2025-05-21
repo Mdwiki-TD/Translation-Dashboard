@@ -1,4 +1,4 @@
--- Adminer 5.0.5 MySQL 5.5.5-10.6.20-MariaDB-log dump
+-- Adminer 5.3.0 MariaDB 5.5.5-10.6.21-MariaDB-log dump
 
 SET NAMES utf8;
 SET time_zone = '+00:00';
@@ -89,13 +89,20 @@ CREATE TABLE `in_process` (
 DROP TABLE IF EXISTS `keys_new`;
 CREATE TABLE `keys_new` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `u_n` varchar(255) NOT NULL DEFAULT '',
-  `a_k` varchar(255) NOT NULL DEFAULT '',
-  `a_s` varchar(255) NOT NULL DEFAULT '',
-  `created_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `user_name` (`u_n`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `u_n` text NOT NULL,
+  `a_k` text NOT NULL,
+  `a_s` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+DROP TABLE IF EXISTS `mdwiki_revids`;
+CREATE TABLE `mdwiki_revids` (
+  `title` varchar(255) NOT NULL,
+  `revid` int(11) NOT NULL,
+  PRIMARY KEY (`title`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 DROP TABLE IF EXISTS `pages`;
@@ -228,7 +235,7 @@ CREATE TABLE `users` (
   `username` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL DEFAULT '',
   `wiki` varchar(255) NOT NULL DEFAULT '',
-  `user_group` varchar(120) NOT NULL DEFAULT '',
+  `user_group` varchar(120) NOT NULL DEFAULT 'Uncategorized',
   `reg_date` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -290,4 +297,4 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `titles_infos` AS select `a
 DROP TABLE IF EXISTS `views_new_all`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `views_new_all` AS select `v`.`target` AS `target`,`v`.`lang` AS `lang`,sum(`v`.`views`) AS `views` from `views_new` `v` group by `v`.`target`,`v`.`lang`;
 
--- 2025-04-25 22:11:49 UTC
+-- 2025-05-21 21:09:13 UTC
