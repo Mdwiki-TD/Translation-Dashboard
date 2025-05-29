@@ -110,7 +110,7 @@ class Database
         try {
             // $this->test_print($sql_query);
 
-            $this->disableFullGroupByMode();
+            $this->disableFullGroupByMode($sql_query);
 
             $q = $this->db->prepare($sql_query);
             if ($params) {
@@ -156,7 +156,7 @@ function execute_query($sql_query, $params = null)
     //---
     return $results;
 };
-function fetch_query($sql_query, $params = null)
+function fetch_query($sql_query, $params = null, $table_name = null)
 {
 
     // Create a new database object
