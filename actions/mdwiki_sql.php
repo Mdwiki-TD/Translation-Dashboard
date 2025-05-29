@@ -77,7 +77,7 @@ class Database
         }
     }
 
-    public function execute_query($sql_query, $params = null)
+    public function executequery($sql_query, $params = null)
     {
         try {
             $this->disableFullGroupByMode($sql_query);
@@ -105,7 +105,7 @@ class Database
         }
     }
 
-    public function fetch_query($sql_query, $params = null)
+    public function fetchquery($sql_query, $params = null)
     {
         try {
             // $this->test_print($sql_query);
@@ -142,9 +142,9 @@ function execute_query($sql_query, $params = null)
 
     // Execute a SQL query
     if ($params) {
-        $results = $db->execute_query($sql_query, $params);
+        $results = $db->executequery($sql_query, $params);
     } else {
-        $results = $db->execute_query($sql_query);
+        $results = $db->executequery($sql_query);
     }
 
     // Print the results
@@ -164,9 +164,9 @@ function fetch_query($sql_query, $params = null, $table_name = null)
 
     // Execute a SQL query
     if ($params) {
-        $results = $db->fetch_query($sql_query, $params);
+        $results = $db->fetchquery($sql_query, $params);
     } else {
-        $results = $db->fetch_query($sql_query);
+        $results = $db->fetchquery($sql_query);
     }
 
     // Print the results
