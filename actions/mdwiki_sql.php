@@ -24,6 +24,7 @@ class Database
     private $user;
     private $password;
     private $dbname;
+    private $groupByModeDisabled = false;
 
     public function __construct($server_name)
     {
@@ -67,16 +68,19 @@ class Database
         }
     }
 
-    public function disableFullGroupByMode()
+    public function disableFullGroupByMode($sql_query)
     {
-        // إزالة ONLY_FULL_GROUP_BY مرة واحدة لكل جلسة
-        $this->db->exec("SET SESSION sql_mode=(SELECT REPLACE(@@SESSION.sql_mode,'ONLY_FULL_GROUP_BY',''))");
+        // if the query contains "GROUP BY", disable ONLY_FULL_GROUP_BY, strtoupper() is for case insensitive
+        if (strpos(strtoupper($sql_query), 'GROUP BY') !== false && !$this->groupByModeDisabled) {
+            $this->db->exec("SET SESSION sql_mode=(SELECT REPLACE(@@SESSION.sql_mode,'ONLY_FULL_GROUP_BY',''))");
+            $this->groupByModeDisabled = true;
+        }
     }
 
     public function execute_query($sql_query, $params = null)
     {
         try {
-            $this->disableFullGroupByMode();
+            $this->disableFullGroupByMode($sql_query);
 
             $q = $this->db->prepare($sql_query);
             if ($params) {
@@ -106,7 +110,7 @@ class Database
         try {
             // $this->test_print($sql_query);
 
-            $this->disableFullGroupByMode();
+            $this->disableFullGroupByMode($sql_query);
 
             $q = $this->db->prepare($sql_query);
             if ($params) {
@@ -152,7 +156,7 @@ function execute_query($sql_query, $params = null)
     //---
     return $results;
 };
-function fetch_query($sql_query, $params = null)
+function fetch_query($sql_query, $params = null, $table_name = null)
 {
 
     // Create a new database object
