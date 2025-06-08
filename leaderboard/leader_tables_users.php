@@ -62,22 +62,22 @@ function makeUsersTable($min = 2)
     };
 
     $text = <<<HTML
-    <table class='table compact table-striped sortable' style='margin-top: 0px !important;margin-bottom: 0px !important'>
-        <thead>
-            <tr>
-                <th class="spannowrap">#</th>
-                <th class="spannowrap">User</th>
-                <th>Number</th>
-                <th>Words</th>
-                <th>Pageviews</th>
-            </tr>
-        </thead>
-        <tbody>
-            $trs
-        </tbody>
-        <tfoot>
-        </tfoot>
-    </table>
+        <table class='table compact table-striped sortable' style='margin-top: 0px !important;margin-bottom: 0px !important'>
+            <thead>
+                <tr>
+                    <th class="spannowrap">#</th>
+                    <th class="spannowrap">User</th>
+                    <th>Number</th>
+                    <th>Words</th>
+                    <th>Pageviews</th>
+                </tr>
+            </thead>
+            <tbody>
+                $trs
+            </tbody>
+            <tfoot>
+            </tfoot>
+        </table>
     HTML;
     //---
     // $text .= module_copy();
