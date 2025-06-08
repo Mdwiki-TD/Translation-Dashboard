@@ -11,7 +11,6 @@ use function Leaderboard\LeaderTables\makeLangTable;
 */
 
 include_once __DIR__ . '/camps.php';
-// include_once __DIR__ . '/leader_tables_tabs.php';
 use Tables\Main\MainTables;
 use Leaderboard\Tabs\LeaderBoardTabs;
 
@@ -48,7 +47,7 @@ function makeLangTable()
     $cac = ($addcat == true) ? '<th>cat</th>' : '';
 
     $text = <<<HTML
-    <table class='table compact table-striped sortable' style='margin-top: 0px !important;margin-bottom: 0px !important'>
+    <table class='table compact table-striped sortable leaderboard_tables' style='margin-top: 0px !important;margin-bottom: 0px !important'>
     <thead>
         <tr>
             <th>#</th>

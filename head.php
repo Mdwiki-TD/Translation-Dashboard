@@ -89,6 +89,16 @@ function head()
     };
     ?>
     <style>
+        .leaderboard_tables>tbody>tr>td,
+        .leaderboard_tables>tbody>tr>th,
+        .leaderboard_tables>thead>tr>td,
+        .leaderboard_tables>thead>tr>th {
+            padding: 6px;
+            line-height: 1.42857143;
+            vertical-align: top;
+            border-top: 1px solid #ddd;
+        }
+
         a {
             text-decoration: none;
             word-break: break-all !important;

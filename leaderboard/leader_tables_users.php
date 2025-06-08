@@ -10,7 +10,6 @@ use function Leaderboard\LeaderTabUsers\module_copy;
 
 */
 
-// include_once __DIR__ . '/leader_tables_tabs.php';
 use Leaderboard\Tabs\LeaderBoardTabs;
 use function Actions\Html\make_modal_fade;
 use function SQLorAPI\GetDataTab\get_td_or_sql_users_by_wiki;
@@ -62,7 +61,7 @@ function makeUsersTable($min = 2)
     };
 
     $text = <<<HTML
-        <table class='table compact table-striped sortable' style='margin-top: 0px !important;margin-bottom: 0px !important'>
+        <table class='table compact table-striped sortable leaderboard_tables' style='margin-top: 0px !important;margin-bottom: 0px !important'>
             <thead>
                 <tr>
                     <th class="spannowrap">#</th>

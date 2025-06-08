@@ -130,19 +130,20 @@ function get_td_or_sql_settings()
 function get_td_or_sql_projects()
 {
     // ---
-    static $projects = [];
+    static $user_groups = [];
     // ---
-    if (!empty($projects ?? [])) {
-        return $projects;
+    if (!empty($user_groups ?? [])) {
+        return $user_groups;
     }
     // ---
     $api_params = ['get' => 'projects'];
     $query = "select g_id, g_title from projects";
     //---
-    $projects = super_function($api_params, [], $query);
+    $user_groups = super_function($api_params, [], $query);
     // ---
-    return $projects;
+    return $user_groups;
 }
+
 function get_td_or_sql_categories()
 {
     // ---

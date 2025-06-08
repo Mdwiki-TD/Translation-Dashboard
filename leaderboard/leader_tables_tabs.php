@@ -2,7 +2,7 @@
 
 namespace Leaderboard\Tabs;
 
-include_once __DIR__ . '/../api_or_sql/index.php';
+// include_once __DIR__ . '/../api_or_sql/index.php';
 /*
 (\$)(tab_for_graph2|tab_for_graph|Words_total|Articles_numbers|global_views|sql_users_tab|Users_word_table|sql_Languages_tab|all_views_by_lang|Views_by_users)\b
 
@@ -33,15 +33,15 @@ class LeaderBoardTabs
     public static $u_Views_by_users = [];
 }
 
-$year = $_GET['year'] ?? 'all';
-$camp = $_GET['camp'] ?? 'all';
-$project = $_GET['project'] ?? 'all';
+$year     = $_GET['year'] ?? 'all';
+$camp     = $_GET['camp'] ?? 'all';
+$user_group  = $_GET['project'] ?? $_GET['user_group'] ?? 'all';
 $langcode = $_GET['langcode'] ?? '';
 
 LeaderBoardTabs::$u_tab_for_graph2 = [
     "year" => $year,
     "campaign" => $camp,
-    "user_group" => $project
+    "user_group" => $user_group
 ];
 
 if ($camp == 'all' && isset($_GET['cat'])) {
@@ -51,7 +51,7 @@ $camp_cat = TablesSql::$s_camp_to_cat[$camp] ?? '';
 
 // $Views_by_lang_target = make_views_by_lang_target($year, $langcode);
 
-$ddde1 = get_leaderboard_table($year, $project, $camp_cat);
+$ddde1 = get_leaderboard_table($year, $user_group, $camp_cat);
 // ---
 // compare_it($ddde, $ddde1);
 // ---
