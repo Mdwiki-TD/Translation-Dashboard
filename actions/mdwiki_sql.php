@@ -148,19 +148,21 @@ class Database
         $this->db = null;
     }
 }
-
 function get_dbname($table_name)
 {
-    // ---
-    $dbname = 'mdwiki';
-    // ---
-    $gets_new_db = ["missing", "missing_qids", "publish_reports", "login_attempts", "logins", "publish_reports_stats"];
-    // ---
-    if (in_array($table_name, $gets_new_db)) {
-        $dbname = 'mdwiki_new';
+    // Load from configuration file or define as class constant
+    $table_db_mapping = [
+        'mdwiki_new' => ["missing", "missing_qids", "publish_reports", "login_attempts", "logins", "publish_reports_stats"],
+        'mdwiki' => [] // default
+    ];
+
+    foreach ($table_db_mapping as $db => $tables) {
+        if (in_array($table_name, $tables)) {
+            return $db;
+        }
     }
-    // ---
-    return $dbname;
+
+    return 'mdwiki'; // default
 }
 
 function execute_query($sql_query, $params = null, $table_name = null)
