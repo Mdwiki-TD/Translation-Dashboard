@@ -29,11 +29,12 @@ use function Leaderboard\LeaderTabUsers\module_copy_data;
 use function Leaderboard\Filter\leaderboard_filter;
 use function SQLorAPI\TopData\get_td_or_sql_top_lang_of_users;
 use function SQLorAPI\TopData\get_td_or_sql_top_langs;
+use function SQLorAPI\TopData\get_td_or_sql_top_users;
 
 function print_cat_table($year, $user_group, $camp, $cat): string
 {
     // ---
-    $users_list = LeaderBoardTabs::$tab_users_new;
+    $users_list = get_td_or_sql_top_users($year, $user_group, $cat);
     // ---
     $lang_table = get_td_or_sql_top_langs($year, $user_group, $cat);
     // ---
@@ -52,7 +53,6 @@ function print_cat_table($year, $user_group, $camp, $cat): string
         $all_views
     );
     //---
-    // $gg = print_graph_api(LeaderBoardTabs::$u_tab_for_graph2, $id = "chart09", $no_card = false);
     $gg = print_graph_for_table(LeaderBoardTabs::$u_tab_for_graph, $id = 'chart09', $no_card = false);
     //---
 

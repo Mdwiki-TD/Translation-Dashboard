@@ -36,6 +36,11 @@ function module_copy_data($users_tab)
 function makeUsersTable($users, $min = 2)
 {
     //---
+    // sort new_data by [lang][count]
+    uasort($users, function ($a, $b) {
+        return $b["count"] <=> $a["count"];
+    });
+    // ---
     $numb = 0;
     $trs = "";
     //---

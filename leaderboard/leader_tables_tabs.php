@@ -23,8 +23,6 @@ class LeaderBoardTabs
 {
     public static $u_tab_for_graph = [];
     public static $u_tab_for_graph2 = [];
-
-    public static $tab_users_new = [];
 }
 
 $year     = $_GET['year'] ?? 'all';
@@ -65,33 +63,4 @@ foreach ($ddde1 as $Key => $teb) {
     } else {
         LeaderBoardTabs::$u_tab_for_graph[$month] += 1;
     }
-    //---
-    $lang   = $teb['lang'] ?? "";
-    $user   = $teb['user'] ?? "";
-    $target = $teb['target'] ?? "";
-    $word   = $teb['word'] ?? 0;
-    // ---
-    // if $word is number and not int do (int)$word; else 0
-    $word = (int)$word ?? 0;
-    // ---
-    if ($word == 0) {
-        $word = MainTables::$x_Words_table[$title] ?? 0;
-    }
-    // ---
-    $views = $teb['views'] ?? 0;
-    // ---
-    if (!isset(LeaderBoardTabs::$tab_users_new[$user])) {
-        LeaderBoardTabs::$tab_users_new[$user] = [
-            "count" => 1,
-            "views" => $views,
-            "words" => $word
-        ];
-    } else {
-        LeaderBoardTabs::$tab_users_new[$user]["count"] += 1;
-        LeaderBoardTabs::$tab_users_new[$user]["views"] += $views;
-        LeaderBoardTabs::$tab_users_new[$user]["words"] += $word;
-    }
 }
-
-// sort LeaderBoardTabs::$tab_users_new by count
-arsort(LeaderBoardTabs::$tab_users_new);

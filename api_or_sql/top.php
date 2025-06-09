@@ -136,7 +136,14 @@ function get_td_or_sql_top_users($year, $user_group, $cat)
     // ---
     $data = super_function($api_params, $params, $query);
     // ---
-    return $data;
+    $new_data = [];
+    // ---
+    foreach ($data as $item) {
+        $item["count"] = intval($item["targets"]);
+        $new_data[$item['user']] = $item;
+    }
+    // ---
+    return $new_data;
 }
 
 function get_td_or_sql_top_langs($year, $user_group, $cat)
