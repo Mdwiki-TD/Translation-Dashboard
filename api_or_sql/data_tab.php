@@ -16,6 +16,7 @@ use function SQLorAPI\GetDataTab\get_td_or_sql_settings;
 use function SQLorAPI\GetDataTab\get_td_or_sql_views;
 use function SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
 use function SQLorAPI\GetDataTab\get_td_or_sql_users_by_wiki;
+use function SQLorAPI\GetDataTab\get_td_or_sql_top_lang_of_users;
 use function SQLorAPI\GetDataTab\get_td_or_sql_count_pages;
 
 */
@@ -272,6 +273,53 @@ function make_users_by_wiki_query($year, $user_group, $cat)
     //---
     return ['query' => $query, 'query_params' => $query_params];
 }
+
+function get_td_or_sql_top_lang_of_users($users_orginal)
+{
+    // ---
+    $users = (count($users_orginal) > 50) ? [] : $users_orginal;
+    // ---
+    $api_params = ['get' => 'top_lang_of_users', 'users' => $users];
+    // ---
+    $query_params = [];
+    $query_line = "";
+    // ---
+    if (!empty($users) && is_array($users)) {
+        $placeholders = rtrim(str_repeat('?,', count($users)), ',');
+        $query_line = " AND p.user IN ($placeholders)";
+        $query_params = $users;
+    }
+    // ---
+    $query = <<<SQL
+        SELECT user, lang, cnt
+        FROM (
+            SELECT p.user, p.lang, COUNT(p.target) AS cnt,
+                ROW_NUMBER() OVER (PARTITION BY p.user ORDER BY COUNT(p.target) DESC) AS rn
+            FROM pages p
+            WHERE p.target != ''
+            AND p.target IS NOT NULL
+            $query_line
+            GROUP BY p.user, p.lang
+        ) AS ranked
+        WHERE rn = 1
+        ORDER BY cnt DESC;
+    SQL;
+    // ---
+    $data = super_function($api_params, $query_params, $query);
+    // ---
+    // [{"user":"Subas Chandra Rout","lang":"or","cnt":1906},{"user":"Pranayraj1985","lang":"te","cnt":401} ...
+    // var_export(json_encode($data));
+    // ---
+    if ($users != $users_orginal) {
+        $data = array_filter($data, function ($item) use ($users_orginal) {
+            return in_array($item['user'], $users_orginal);
+        });
+    }
+    // ---
+    return $data;
+}
+
+// deprecated
 
 function get_td_or_sql_users_by_wiki($year, $user_group, $cat)
 {

@@ -74,7 +74,7 @@ function leaderboard_filter($year, $user_group, $camp, $action = "leaderboard.ph
                 </div>
                 <div class="aligncenter col-md-1 col-sm-3">
                     $test_line
-                    <input class='btn btn-outline-primary' type='submit' name='start' value='Filter' />
+                    <input class='btn btn-outline-primary' type='submit' value='Filter' />
                 </div>
             </div>
         </form>

@@ -99,6 +99,9 @@ HTML;
                         Top users by number of translation
                     </span>
                     <div style='float: right'>
+                        <button type="button" class="btn-tool" href="#" data-bs-toggle="modal" data-bs-target="#targets">
+                            <i class="fas fa-copy"></i>
+                        </button>
                     </div>
                     <div class="card-tools">
                         <button type="button" class="btn-tool" data-card-widget="collapse"><i

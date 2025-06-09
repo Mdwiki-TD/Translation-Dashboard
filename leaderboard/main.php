@@ -25,17 +25,28 @@ use function Leaderboard\Graph\print_graph_for_table;
 use function Leaderboard\LeaderTables\createNumbersTable;
 use function Leaderboard\LeaderTables\makeLangTable;
 use function Leaderboard\LeaderTabUsers\makeUsersTable;
-use function Leaderboard\LeaderTabUsers\module_copy;
+use function Leaderboard\LeaderTabUsers\module_copy_data;
 use function Leaderboard\Filter\leaderboard_filter;
+use function SQLorAPI\GetDataTab\get_td_or_sql_top_lang_of_users;
 
 function print_cat_table($year, $user_group, $camp, $cat): string
 {
+    // ---
+    $users_list = LeaderBoardTabs::$tab_users_new;
+    // ---
+    $all_articles = number_format(array_sum(array_column($users_list, 'count')));
+    // ---
+    // sum all $users_list[user]["words"] values
+    $all_Words = number_format(array_sum(array_column($users_list, 'words')));
+    // ---
+    $all_views = number_format(array_sum(array_column($users_list, 'views')));
+    // ---
     $numbersTable = createNumbersTable(
-        count(LeaderBoardTabs::$u_sql_users_tab),
-        number_format(LeaderBoardTabs::$u_Articles_numbers),
-        number_format(LeaderBoardTabs::$u_Words_total),
+        count($users_list),
+        $all_articles,
+        $all_Words,
         count(LeaderBoardTabs::$u_sql_Languages_tab),
-        number_format(LeaderBoardTabs::$u_global_views)
+        $all_views
     );
     //---
     // $gg = print_graph_api(LeaderBoardTabs::$u_tab_for_graph2, $id = "chart09", $no_card = false);
@@ -44,9 +55,13 @@ function print_cat_table($year, $user_group, $camp, $cat): string
 
     $numbersCol = makeColSm4('Numbers', $numbersTable, 3, $gg);
 
-    $usersTable = makeUsersTable();
+    $usersTable = makeUsersTable($users_list);
 
-    $copy_module = module_copy($year, $user_group, $cat);
+    $users = array_keys($users_list);
+
+    $users_tab = get_td_or_sql_top_lang_of_users($users);
+
+    $copy_module = module_copy_data($users_tab);
 
     $modal_a = <<<HTML
         <button type="button" class="btn-tool" href="#" data-bs-toggle="modal" data-bs-target="#targets">
