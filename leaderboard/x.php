@@ -91,13 +91,6 @@ HTML;
                     </div>
                 </div>
             </div>
-            <script>
-                graph_js(
-                    ['2025-05', '2025-06'],
-                    [10, 100],
-                    "chart09"
-                )
-            </script>
         </div>
         <div class="col-md-5">
             <div class="card card2 mb-3">
@@ -147,26 +140,18 @@ HTML;
                     </div>
                 </div>
                 <div class="card-body1 card2">
-                    <table class='table compact table-striped sortable leaderboard_tables' id='Toplangs'
+                    <table class='table compact table-striped leaderboard_tables' id='Toplangs'
                         style='margin-top: 0px !important;margin-bottom: 0px !important'>
                         <thead>
                             <tr>
                                 <th>#</th>
                                 <th class='spannowrap'>Language</th>
                                 <th>Count</th>
+                                <!-- <th>Words</th> -->
                                 <th>Pageviews</th>
-
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td><a href='leaderboard.php?langcode=or'><span data-toggle='tooltip'
-                                            title='or'>Odia</span></a></td>
-                                <td>1,906</td>
-                                <td>1,536,353</td>
-
-                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -200,7 +185,7 @@ HTML;
         }
         // ---
         function getFormData(d) {
-            d['get'] = 'top_users';
+            // d['get'] = 'top_users';
             // ---
             // '/api.php?get=top_users&year=&user_group=&cat=';
             // ---
@@ -212,6 +197,8 @@ HTML;
             });
             // ---
             d["cat"] = campaign_to_categories[d["camp"]] ?? '';
+            // ---
+            return d;
         }
         // ---
         await get_categories();
@@ -222,7 +209,7 @@ HTML;
             info: false,
             searching: false,
             ajax: {
-                url: '/api.php',
+                url: '/api.php?get=top_users',
                 data: getFormData,
                 dataSrc: function(json) {
                     // احتساب الإجماليات
@@ -241,7 +228,6 @@ HTML;
                     $('#c_user').text(totalUsers.toLocaleString());
                     $('#c_articles').text(totalTargets.toLocaleString());
                     $('#c_words').text(totalWords.toLocaleString());
-                    $('#c_lang').text('-'); // لا توجد معلومات عن اللغات في البيانات
                     $('#c_pv').text(totalViews.toLocaleString());
 
                     return json.results;
@@ -276,6 +262,56 @@ HTML;
                         return Number(data).toLocaleString();
                     }
                 },
+                {
+                    data: 'views',
+                    title: 'Pageviews',
+                    render: function(data) {
+                        return Number(data).toLocaleString();
+                    }
+                }
+            ]
+        });
+        // ---
+        graph_js_params('chart09', getFormData({}))
+        // ---
+        $('#Toplangs').DataTable({
+            stateSave: true,
+            paging: false,
+            info: false,
+            searching: false,
+            ajax: {
+                url: '/api.php?get=top_langs',
+                data: getFormData,
+                dataSrc: function(json) {
+                    let total = json.results.length;
+                    $('#c_lang').text(total);
+
+                    return json.results;
+                }
+            },
+            columns: [{ // رقم تسلسلي تلقائي
+                    data: null,
+                    title: '#',
+                    render: function(data, type, row, meta) {
+                        return meta.row + 1;
+                    },
+                    className: 'dt-center'
+                },
+                {
+                    data: 'lang',
+                    title: 'Language',
+                    render: function(data, type, row, meta) {
+                        return `<a href="/Translation_Dashboard/leaderboard.php?langcode=${data}">${row.lang_name}</a>`;
+                    }
+                },
+                {
+                    data: 'targets',
+                    title: 'Count',
+                    render: function(data) {
+                        return Number(data).toLocaleString();
+                    }
+                },
+                // { data: 'words', visible: false },
                 {
                     data: 'views',
                     title: 'Pageviews',
