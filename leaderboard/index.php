@@ -13,7 +13,6 @@ include_once __DIR__ . '/../api_or_sql/index.php'; // namespace SQLorAPI\Get;
 
 // include_once __DIR__ . '/camps.php'; // namespace Leaderboard\Camps;
 
-// include_once __DIR__ . '/leader_tables_tabs.php';
 
 include_once __DIR__ . '/graph.php'; // namespace Leaderboard\Graph;
 include_once __DIR__ . '/graph_api.php'; // namespace Leaderboard\Graph2;
@@ -42,6 +41,5 @@ if (!empty($users)) {
 } elseif (!empty($graph_api)) {
     print_graph_tab_2_new();
 } else {
-    // include_once __DIR__ . '/leader_tables_tabs.php';
     include_once __DIR__ . '/main.php';
 }

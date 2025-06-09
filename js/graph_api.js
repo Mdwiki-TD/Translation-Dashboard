@@ -1,5 +1,12 @@
 
 function graph_js_params(id, params) {
+
+    // ---
+    // if not params.campaign and params.camp then params.campaign = params.camp
+    if (!params.campaign && params.camp) {
+        params.campaign = params.camp
+    }
+    // ---
     // https://mdwiki.toolforge.org/api.php
     var end_point = window.location.origin
     var url = end_point + "/api.php?get=status&" + $.param(params);

@@ -2,7 +2,7 @@
 
 namespace Leaderboard\Tabs;
 
-include_once __DIR__ . '/../api_or_sql/index.php';
+// include_once __DIR__ . '/../api_or_sql/index.php';
 /*
 (\$)(tab_for_graph2|tab_for_graph|Words_total|Articles_numbers|global_views|sql_users_tab|Users_word_table|sql_Languages_tab|all_views_by_lang|Views_by_users)\b
 
@@ -23,25 +23,17 @@ class LeaderBoardTabs
 {
     public static $u_tab_for_graph = [];
     public static $u_tab_for_graph2 = [];
-    public static $u_Words_total = 0;
-    public static $u_Articles_numbers = 0;
-    public static $u_global_views = 0;
-    public static $u_sql_users_tab = [];
-    public static $u_Users_word_table = [];
-    public static $u_sql_Languages_tab = [];
-    public static $u_all_views_by_lang = [];
-    public static $u_Views_by_users = [];
 }
 
-$year = $_GET['year'] ?? 'all';
-$camp = $_GET['camp'] ?? 'all';
-$project = $_GET['project'] ?? 'all';
+$year     = $_GET['year'] ?? 'all';
+$camp     = $_GET['camp'] ?? 'all';
+$user_group  = $_GET['project'] ?? $_GET['user_group'] ?? 'all';
 $langcode = $_GET['langcode'] ?? '';
 
 LeaderBoardTabs::$u_tab_for_graph2 = [
     "year" => $year,
     "campaign" => $camp,
-    "user_group" => $project
+    "user_group" => $user_group
 ];
 
 if ($camp == 'all' && isset($_GET['cat'])) {
@@ -49,11 +41,7 @@ if ($camp == 'all' && isset($_GET['cat'])) {
 }
 $camp_cat = TablesSql::$s_camp_to_cat[$camp] ?? '';
 
-// $Views_by_lang_target = make_views_by_lang_target($year, $langcode);
-
-$ddde1 = get_leaderboard_table($year, $project, $camp_cat);
-// ---
-// compare_it($ddde, $ddde1);
+$ddde1 = get_leaderboard_table($year, $user_group, $camp_cat);
 // ---
 $campsto_articles = CampsTabs::$camps_to_articles;
 // ---
@@ -70,45 +58,9 @@ foreach ($ddde1 as $Key => $teb) {
     //---
     $month  = $teb['m'] ?? ""; // 2021-05
     //---
-    if (!isset(LeaderBoardTabs::$u_tab_for_graph[$month])) LeaderBoardTabs::$u_tab_for_graph[$month] = 0;
-    LeaderBoardTabs::$u_tab_for_graph[$month] += 1;
-    //---
-    $lang   = $teb['lang'] ?? "";
-    $user   = $teb['user'] ?? "";
-    $target = $teb['target'] ?? "";
-    $word   = $teb['word'] ?? 0;
-    // ---
-    // if $word is number and not int do (int)$word; else 0
-    $word = (int)$word ?? 0;
-    // ---
-    if ($word == 0) {
-        $word = MainTables::$x_Words_table[$title] ?? 0;
+    if (!isset(LeaderBoardTabs::$u_tab_for_graph[$month])) {
+        LeaderBoardTabs::$u_tab_for_graph[$month] = 0;
+    } else {
+        LeaderBoardTabs::$u_tab_for_graph[$month] += 1;
     }
-    // ---
-    $views = $teb['views'] ?? 0;
-    // ---
-    // $coco = $Views_by_lang_target[$lang][$target] ?? 0;
-    // if ($views != $coco) echo "Views ($target): tab views: $views  coco: $coco<br>";
-    // ---
-    LeaderBoardTabs::$u_Words_total += $word;
-    LeaderBoardTabs::$u_Articles_numbers += 1;
-    LeaderBoardTabs::$u_global_views += $views;
-
-    if (!isset(LeaderBoardTabs::$u_all_views_by_lang[$lang])) LeaderBoardTabs::$u_all_views_by_lang[$lang] = 0;
-    LeaderBoardTabs::$u_all_views_by_lang[$lang] += $views;
-
-    if (!isset(LeaderBoardTabs::$u_sql_Languages_tab[$lang])) LeaderBoardTabs::$u_sql_Languages_tab[$lang] = 0;
-    LeaderBoardTabs::$u_sql_Languages_tab[$lang] += 1;
-
-    if (!isset(LeaderBoardTabs::$u_Users_word_table[$user])) LeaderBoardTabs::$u_Users_word_table[$user] = 0;
-    LeaderBoardTabs::$u_Users_word_table[$user] += $word;
-
-    if (!isset(LeaderBoardTabs::$u_Views_by_users[$user])) LeaderBoardTabs::$u_Views_by_users[$user] = 0;
-    LeaderBoardTabs::$u_Views_by_users[$user] += $views;
-
-    if (!isset(LeaderBoardTabs::$u_sql_users_tab[$user])) LeaderBoardTabs::$u_sql_users_tab[$user] = 0;
-    LeaderBoardTabs::$u_sql_users_tab[$user] += 1;
 }
-
-
-arsort(LeaderBoardTabs::$u_sql_users_tab);

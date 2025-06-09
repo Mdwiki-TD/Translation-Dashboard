@@ -11,9 +11,8 @@ use function Leaderboard\LeaderTables\makeLangTable;
 */
 
 include_once __DIR__ . '/camps.php';
-// include_once __DIR__ . '/leader_tables_tabs.php';
+
 use Tables\Main\MainTables;
-use Leaderboard\Tabs\LeaderBoardTabs;
 
 function createNumbersTable($c_user, $c_articles, $c_words, $c_langs, $c_views)
 {
@@ -38,17 +37,20 @@ function createNumbersTable($c_user, $c_articles, $c_words, $c_langs, $c_views)
     return $Numbers_table;
 };
 
-function makeLangTable()
+function makeLangTable($lang_table)
 {
-
-    arsort(LeaderBoardTabs::$u_sql_Languages_tab);
-
+    // ---
+    // sort new_data by [lang][count]
+    uasort($lang_table, function ($a, $b) {
+        return $b["count"] <=> $a["count"];
+    });
+    // ---
     $addcat = $_SERVER['SERVER_NAME'] == 'localhost' && (isset($_GET['nocat']));
 
     $cac = ($addcat == true) ? '<th>cat</th>' : '';
 
     $text = <<<HTML
-    <table class='table compact table-striped sortable' style='margin-top: 0px !important;margin-bottom: 0px !important'>
+    <table class='table compact table-striped sortable leaderboard_tables' style='margin-top: 0px !important;margin-bottom: 0px !important'>
     <thead>
         <tr>
             <th>#</th>
@@ -63,19 +65,18 @@ function makeLangTable()
 
     $numb = 0;
 
-    foreach (LeaderBoardTabs::$u_sql_Languages_tab as $langcode => $comp) {
-
+    foreach ($lang_table as $langcode => $tab) {
+        $comp = $tab['count'];
+        $views = $tab['views'];
+        $langname = $tab['lang_name'] ?? MainTables::$x_Langs_table[$langcode]['name'] ?? $langcode;
         # Get the Articles numbers
 
         if ($comp < 1) continue;
         $comp = number_format($comp);
         $numb++;
         // ---
-        $na = MainTables::$x_Langs_table[$langcode]['name'] ?? "";
+        $view = number_format($views);
         // ---
-        $langname = ($na != "") ? "<span data-toggle='tooltip' title='$langcode'>$na</span>" : $langcode;
-        // ---
-        $view = number_format(LeaderBoardTabs::$u_all_views_by_lang[$langcode]) ?? 0;
         $cach = <<<HTML
             <td><a target="_blank" href="https://$langcode.wikipedia.org/wiki/Category:Translated_from_MDWiki">cat</a></td>
         HTML;

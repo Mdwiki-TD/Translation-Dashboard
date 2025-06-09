@@ -24,20 +24,31 @@ class Database
     private $user;
     private $password;
     private $dbname;
+    private $db_suffix;
     private $groupByModeDisabled = false;
 
-    public function __construct($server_name)
+    public function __construct($server_name, $db_suffix = 'mdwiki')
+    {
+        if (empty($db_suffix)) {
+            $db_suffix = 'mdwiki';
+        }
+        // ---
+        $this->db_suffix = $db_suffix;
+        $this->set_db($server_name);
+    }
+
+    private function set_db($server_name)
     {
         if ($server_name === 'localhost' || !getenv('HOME')) {
             $this->host = 'localhost:3306';
-            $this->dbname = 'mdwiki';
+            $this->dbname = $this->db_suffix;
             $this->user = 'root';
             $this->password = 'root11';
         } else {
             $ts_pw = posix_getpwuid(posix_getuid());
             $ts_mycnf = parse_ini_file($ts_pw['dir'] . "/confs/db.ini");
             $this->host = 'tools.db.svc.wikimedia.cloud';
-            $this->dbname = $ts_mycnf['db'];
+            $this->dbname = $ts_mycnf['user'] . "__" . $this->db_suffix;
             $this->user = $ts_mycnf['user'];
             $this->password = $ts_mycnf['password'];
             unset($ts_mycnf, $ts_pw);
@@ -47,7 +58,10 @@ class Database
             $this->db = new PDO("mysql:host=$this->host;dbname=$this->dbname", $this->user, $this->password);
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            // Log the error message
+            error_log($e->getMessage());
+            // Display a generic message
+            echo "Unable to connect to the database. Please try again later.";
             exit();
         }
     }
@@ -77,7 +91,7 @@ class Database
         }
     }
 
-    public function execute_query($sql_query, $params = null)
+    public function executequery($sql_query, $params = null)
     {
         try {
             $this->disableFullGroupByMode($sql_query);
@@ -101,14 +115,14 @@ class Database
             }
         } catch (PDOException $e) {
             echo "sql error:" . $e->getMessage() . "<br>" . $sql_query;
-            return [];
+            return false;
         }
     }
 
-    public function fetch_query($sql_query, $params = null)
+    public function fetchquery($sql_query, $params = null)
     {
         try {
-            // $this->test_print($sql_query);
+            $this->test_print($sql_query);
 
             $this->disableFullGroupByMode($sql_query);
 
@@ -123,7 +137,8 @@ class Database
             $result = $q->fetchAll(PDO::FETCH_ASSOC);
             return $result;
         } catch (PDOException $e) {
-            echo "sql error:" . $e->getMessage() . "<br>" . $sql_query;
+            echo "SQL Error:" . $e->getMessage() . "<br>" . $sql_query;
+            // error_log("SQL Error: " . $e->getMessage() . " | Query: " . $sql_query);
             return [];
         }
     }
@@ -133,18 +148,36 @@ class Database
         $this->db = null;
     }
 }
+function get_dbname($table_name)
+{
+    // Load from configuration file or define as class constant
+    $table_db_mapping = [
+        'mdwiki_new' => ["missing", "missing_qids", "publish_reports", "login_attempts", "logins", "publish_reports_stats"],
+        'mdwiki' => [] // default
+    ];
 
-function execute_query($sql_query, $params = null)
+    foreach ($table_db_mapping as $db => $tables) {
+        if (in_array($table_name, $tables)) {
+            return $db;
+        }
+    }
+
+    return 'mdwiki'; // default
+}
+
+function execute_query($sql_query, $params = null, $table_name = null)
 {
 
+    $dbname = get_dbname($table_name);
+
     // Create a new database object
-    $db = new Database($_SERVER['SERVER_NAME'] ?? '');
+    $db = new Database($_SERVER['SERVER_NAME'] ?? '', $dbname);
 
     // Execute a SQL query
     if ($params) {
-        $results = $db->execute_query($sql_query, $params);
+        $results = $db->executequery($sql_query, $params);
     } else {
-        $results = $db->execute_query($sql_query);
+        $results = $db->executequery($sql_query);
     }
 
     // Print the results
@@ -159,14 +192,16 @@ function execute_query($sql_query, $params = null)
 function fetch_query($sql_query, $params = null, $table_name = null)
 {
 
+    $dbname = get_dbname($table_name);
+
     // Create a new database object
-    $db = new Database($_SERVER['SERVER_NAME'] ?? '');
+    $db = new Database($_SERVER['SERVER_NAME'] ?? '', $dbname);
 
     // Execute a SQL query
     if ($params) {
-        $results = $db->fetch_query($sql_query, $params);
+        $results = $db->fetchquery($sql_query, $params);
     } else {
-        $results = $db->fetch_query($sql_query);
+        $results = $db->fetchquery($sql_query);
     }
 
     // Print the results

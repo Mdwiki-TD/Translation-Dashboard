@@ -130,19 +130,20 @@ function get_td_or_sql_settings()
 function get_td_or_sql_projects()
 {
     // ---
-    static $projects = [];
+    static $user_groups = [];
     // ---
-    if (!empty($projects ?? [])) {
-        return $projects;
+    if (!empty($user_groups ?? [])) {
+        return $user_groups;
     }
     // ---
     $api_params = ['get' => 'projects'];
     $query = "select g_id, g_title from projects";
     //---
-    $projects = super_function($api_params, [], $query);
+    $user_groups = super_function($api_params, [], $query);
     // ---
-    return $projects;
+    return $user_groups;
 }
+
 function get_td_or_sql_categories()
 {
     // ---
@@ -223,54 +224,7 @@ function get_td_or_sql_translate_type()
     return $data;
 }
 
-function make_users_by_wiki_query($year, $user_group, $cat)
-{
-    // ---
-    $query_params = [];
-    $query_complate = [];
-    // ---
-    if (isvalid($year)) {
-        $query_complate[] = " YEAR(pupdate) = ?";
-        $query_params[] = $year;
-    }
-    // ---
-    if (isvalid($user_group)) {
-        $query_complate[] = " u.user_group = ?";
-        $query_params[] = $user_group;
-    }
-    // ---
-    if (isvalid($cat)) {
-        $query_complate[] = " cat = ?";
-        $query_params[] = $cat;
-    }
-    // ---
-    $query_complate_text = "";
-    // ---
-    if (!empty($query_complate)) {
-        $query_complate_text = " WHERE " . implode(" AND ", $query_complate);
-    }
-    // ---
-    $query_o = <<<SQL
-        SELECT user, lang, YEAR(pupdate) AS year, COUNT(target) AS target_count
-        FROM pages
-        LEFT JOIN users u
-            ON user = u.username
-        $query_complate_text
-        GROUP BY user, lang
-        ORDER BY 1 DESC
-    SQL;
-    //---
-    $query = <<<SQL
-        SELECT user, lang, year, MAX(target_count) AS max_target, sum(target_count) AS sum_target
-            FROM (
-                $query_o
-            ) AS subquery
-        GROUP BY user
-        ORDER BY 4 DESC
-    SQL;
-    //---
-    return ['query' => $query, 'query_params' => $query_params];
-}
+// deprecated
 
 function get_td_or_sql_users_by_wiki($year, $user_group, $cat)
 {
