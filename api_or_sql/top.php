@@ -15,10 +15,10 @@ use function SQLorAPI\TopData\get_td_or_sql_top_langs;
 use function SQLorAPI\Get\super_function;
 use function SQLorAPI\Get\isvalid;
 
-function get_td_or_sql_top_lang_of_users($users_orginal)
+function get_td_or_sql_top_lang_of_users($users_original)
 {
     // ---
-    $users = (count($users_orginal) > 50) ? [] : $users_orginal;
+    $users = (count($users_original) > 50) ? [] : $users_original;
     // ---
     $api_params = ['get' => 'top_lang_of_users', 'users' => $users];
     // ---
@@ -51,9 +51,9 @@ function get_td_or_sql_top_lang_of_users($users_orginal)
     // [{"user":"Subas Chandra Rout","lang":"or","cnt":1906},{"user":"Pranayraj1985","lang":"te","cnt":401} ...
     // var_export(json_encode($data));
     // ---
-    if ($users != $users_orginal) {
-        $data = array_filter($data, function ($item) use ($users_orginal) {
-            return in_array($item['user'], $users_orginal);
+    if ($users != $users_original) {
+        $data = array_filter($data, function ($item) use ($users_original) {
+            return in_array($item['user'], $users_original);
         });
     }
     // ---
@@ -78,67 +78,14 @@ function add_top_params($query, $params, $to_add)
     return ["qua" => $query, "params" => $params];
 }
 
-function get_td_or_sql_top_users($year, $user_group, $cat)
+function top_query($select)
 {
     // ---
-    $to_add = ["year" => $year, "user_group" => $user_group, "cat" => $cat];
-    // ---
-    $api_params = ['get' => 'top_users', 'year' => $year, 'user_group' => $user_group, 'cat' => $cat];
+    $select_field = ($select === 'user') ? 'p.user' : 'p.lang';
     // ---
     $query = <<<SQL
         SELECT
-            p.user,
-            COUNT(p.target) AS targets,
-            SUM(CASE
-                WHEN p.word IS NOT NULL AND p.word != 0 AND p.word != '' THEN p.word
-                WHEN translate_type = 'all' THEN w.w_all_words
-                ELSE w.w_lead_words
-            END) AS words,
-            SUM(
-                CASE
-                    WHEN v.views IS NULL OR v.views = '' THEN 0
-                    ELSE CAST(v.views AS UNSIGNED)
-                END
-                ) AS views
-
-
-        FROM pages p
-
-        LEFT JOIN users u
-            ON p.user = u.username
-
-        LEFT JOIN words w
-            ON w.w_title = p.title
-
-        LEFT JOIN views_new_all v
-            ON p.target = v.target AND p.lang = v.lang
-
-        WHERE p.target != '' AND p.target IS NOT NULL
-        AND p.user != '' AND p.user IS NOT NULL
-        SQL;
-    // ---
-    $tab = add_top_params($query, [], $to_add);
-    // ---
-    $params = $tab['params'];
-    $query = $tab['qua'];
-    // ---
-    $query .= " GROUP BY p.user ORDER BY 2 DESC";
-    // ---
-    $data = super_function($api_params, $params, $query);
-    // ---
-    return $data;
-}
-
-function get_td_or_sql_top_langs($year, $user_group, $cat)
-{
-    // ---
-    $to_add = ["year" => $year, "user_group" => $user_group, "cat" => $cat];
-    // ---
-    $api_params = ['get' => 'top_langs', 'year' => $year, 'user_group' => $user_group, 'cat' => $cat];
-    // ---
-    $query = <<<SQL
-        SELECT
-            p.lang,
+            $select_field,
             COUNT(p.target) AS targets,
             SUM(CASE
                 WHEN p.word IS NOT NULL AND p.word != 0 AND p.word != '' THEN p.word
@@ -167,6 +114,39 @@ function get_td_or_sql_top_langs($year, $user_group, $cat)
         AND p.user != '' AND p.user IS NOT NULL
         AND p.lang != '' AND p.lang IS NOT NULL
         SQL;
+    // ---
+    return $query;
+}
+
+function get_td_or_sql_top_users($year, $user_group, $cat)
+{
+    // ---
+    $to_add = ["year" => $year, "user_group" => $user_group, "cat" => $cat];
+    // ---
+    $api_params = ['get' => 'top_users', 'year' => $year, 'user_group' => $user_group, 'cat' => $cat];
+    // ---
+    $query = top_query('user');
+    // ---
+    $tab = add_top_params($query, [], $to_add);
+    // ---
+    $params = $tab['params'];
+    $query = $tab['qua'];
+    // ---
+    $query .= " GROUP BY p.user ORDER BY 2 DESC";
+    // ---
+    $data = super_function($api_params, $params, $query);
+    // ---
+    return $data;
+}
+
+function get_td_or_sql_top_langs($year, $user_group, $cat)
+{
+    // ---
+    $to_add = ["year" => $year, "user_group" => $user_group, "cat" => $cat];
+    // ---
+    $api_params = ['get' => 'top_langs', 'year' => $year, 'user_group' => $user_group, 'cat' => $cat];
+    // ---
+    $query = top_query('lang');
     // ---
     $tab = add_top_params($query, [], $to_add);
     // ---
