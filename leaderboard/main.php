@@ -18,7 +18,6 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 //---
 include_once __DIR__ . '/include.php';
 //---
-use Leaderboard\Tabs\LeaderBoardTabs;
 use Tables\SqlTables\TablesSql;
 use function Actions\Html\makeColSm4;
 use function Leaderboard\Graph\print_graph_for_table;
@@ -30,6 +29,7 @@ use function Leaderboard\Filter\leaderboard_filter;
 use function SQLorAPI\TopData\get_td_or_sql_top_lang_of_users;
 use function SQLorAPI\TopData\get_td_or_sql_top_langs;
 use function SQLorAPI\TopData\get_td_or_sql_top_users;
+use function SQLorAPI\TopData\get_td_or_sql_status;
 
 function print_cat_table($year, $user_group, $camp, $cat): string
 {
@@ -53,7 +53,9 @@ function print_cat_table($year, $user_group, $camp, $cat): string
         $all_views
     );
     //---
-    $gg = print_graph_for_table(LeaderBoardTabs::$u_tab_for_graph, $id = 'chart09', $no_card = false);
+    $graph_data = get_td_or_sql_status($year, $user_group, $cat);
+    //---
+    $gg = print_graph_for_table($graph_data, $id = 'chart09', $no_card = false);
     //---
 
     $numbersCol = makeColSm4('Numbers', $numbersTable, 3, $gg);

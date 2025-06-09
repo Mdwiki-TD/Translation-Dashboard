@@ -72,6 +72,7 @@ function makeApiParams($year, $user_group, $cat)
     return $api_params;
 }
 
+# @deprecated
 function get_leaderboard_table($year, $user_group, $cat)
 {
     // ---

@@ -9,6 +9,7 @@ Usage:
 use function SQLorAPI\TopData\get_td_or_sql_top_lang_of_users;
 use function SQLorAPI\TopData\get_td_or_sql_top_users;
 use function SQLorAPI\TopData\get_td_or_sql_top_langs;
+use function SQLorAPI\TopData\get_td_or_sql_status;
 
 */
 
@@ -169,6 +170,43 @@ function get_td_or_sql_top_langs($year, $user_group, $cat)
     foreach ($data as $item) {
         $item["count"] = intval($item["targets"]);
         $new_data[$item['lang']] = $item;
+    }
+    // ---
+    return $new_data;
+}
+
+function get_td_or_sql_status($year, $user_group, $cat)
+{
+    // ---
+    $to_add = ["year" => $year, "user_group" => $user_group, "cat" => $cat];
+    // ---
+    $api_params = ['get' => 'status', 'year' => $year, 'user_group' => $user_group, 'cat' => $cat];
+    // ---
+    $query = <<<SQL
+        SELECT LEFT(p.pupdate, 7) as date, COUNT(*) as count
+
+        FROM pages p
+
+        LEFT JOIN users u
+            ON p.user = u.username
+
+        WHERE p.target != ''
+        ;
+    SQL;
+    // ---
+    $tab = add_top_params($query, [], $to_add);
+    // ---
+    $params = $tab['params'];
+    $query = $tab['qua'];
+    // ---
+    $query .= " GROUP BY LEFT(p.pupdate, 7) ORDER BY LEFT(p.pupdate, 7) ASC";
+    // ---
+    $data = super_function($api_params, $params, $query);
+    // ---
+    $new_data = [];
+    // ---
+    foreach ($data as $item) {
+        $new_data[$item['date']] = intval($item["count"]);
     }
     // ---
     return $new_data;
