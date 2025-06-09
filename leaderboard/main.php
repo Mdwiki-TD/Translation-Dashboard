@@ -27,12 +27,15 @@ use function Leaderboard\LeaderTables\makeLangTable;
 use function Leaderboard\LeaderTabUsers\makeUsersTable;
 use function Leaderboard\LeaderTabUsers\module_copy_data;
 use function Leaderboard\Filter\leaderboard_filter;
-use function SQLorAPI\GetDataTab\get_td_or_sql_top_lang_of_users;
+use function SQLorAPI\TopData\get_td_or_sql_top_lang_of_users;
+use function SQLorAPI\TopData\get_td_or_sql_top_langs;
 
 function print_cat_table($year, $user_group, $camp, $cat): string
 {
     // ---
     $users_list = LeaderBoardTabs::$tab_users_new;
+    // ---
+    $lang_table = get_td_or_sql_top_langs($year, $user_group, $cat);
     // ---
     $all_articles = number_format(array_sum(array_column($users_list, 'count')));
     // ---
@@ -45,7 +48,7 @@ function print_cat_table($year, $user_group, $camp, $cat): string
         count($users_list),
         $all_articles,
         $all_Words,
-        count(LeaderBoardTabs::$u_sql_Languages_tab),
+        count($lang_table),
         $all_views
     );
     //---
@@ -71,7 +74,7 @@ function print_cat_table($year, $user_group, $camp, $cat): string
     //---
     $usersCol = makeColSm4('Top users by number of translation', $usersTable, 5, $table2 = $copy_module, $title2 = $modal_a);
     //---
-    $languagesTable = makeLangTable();
+    $languagesTable = makeLangTable($lang_table);
     $languagesCol = makeColSm4('Top languages by number of Articles', $languagesTable, 4);
 
     return <<<HTML

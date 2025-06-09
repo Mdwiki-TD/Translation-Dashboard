@@ -25,6 +25,7 @@ if (isset($_GET['use_td_api'])) {
 include_once __DIR__ . '/get_lead.php';
 include_once __DIR__ . '/data_tab.php';
 include_once __DIR__ . '/process_data.php';
+include_once __DIR__ . '/top.php';
 include_once __DIR__ . '/funcs.php';
 
 $data_index = [];

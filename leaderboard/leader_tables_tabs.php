@@ -23,8 +23,6 @@ class LeaderBoardTabs
 {
     public static $u_tab_for_graph = [];
     public static $u_tab_for_graph2 = [];
-    public static $u_sql_Languages_tab = [];
-    public static $u_all_views_by_lang = [];
 
     public static $tab_users_new = [];
 }
@@ -45,11 +43,7 @@ if ($camp == 'all' && isset($_GET['cat'])) {
 }
 $camp_cat = TablesSql::$s_camp_to_cat[$camp] ?? '';
 
-// $Views_by_lang_target = make_views_by_lang_target($year, $langcode);
-
 $ddde1 = get_leaderboard_table($year, $user_group, $camp_cat);
-// ---
-// compare_it($ddde, $ddde1);
 // ---
 $campsto_articles = CampsTabs::$camps_to_articles;
 // ---
@@ -85,17 +79,6 @@ foreach ($ddde1 as $Key => $teb) {
     }
     // ---
     $views = $teb['views'] ?? 0;
-    // ---
-    // $coco = $Views_by_lang_target[$lang][$target] ?? 0;
-    // if ($views != $coco) echo "Views ($target): tab views: $views  coco: $coco<br>";
-    // ---
-
-    if (!isset(LeaderBoardTabs::$u_all_views_by_lang[$lang])) LeaderBoardTabs::$u_all_views_by_lang[$lang] = 0;
-    LeaderBoardTabs::$u_all_views_by_lang[$lang] += $views;
-
-    if (!isset(LeaderBoardTabs::$u_sql_Languages_tab[$lang])) LeaderBoardTabs::$u_sql_Languages_tab[$lang] = 0;
-    LeaderBoardTabs::$u_sql_Languages_tab[$lang] += 1;
-
     // ---
     if (!isset(LeaderBoardTabs::$tab_users_new[$user])) {
         LeaderBoardTabs::$tab_users_new[$user] = [
