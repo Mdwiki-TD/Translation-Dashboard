@@ -55,23 +55,23 @@ HTML;
                         <tbody>
                             <tr>
                                 <td><b>Users</b></td>
-                                <td>0</td>
+                                <td><span id="c_user">0</span></td>
                             </tr>
                             <tr>
                                 <td><b>Articles</b></td>
-                                <td>0</td>
+                                <td><span id="c_articles">0</span></td>
                             </tr>
                             <tr>
                                 <td><b>Words</b></td>
-                                <td>0</td>
+                                <td><span id="c_words">0</span></td>
                             </tr>
                             <tr>
                                 <td><b>Languages</b></td>
-                                <td>0</td>
+                                <td><span id="c_lang">0</span></td>
                             </tr>
                             <tr>
                                 <td><b>Pageviews</b></td>
-                                <td>0</td>
+                                <td><span id="c_pv">0</span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -179,89 +179,114 @@ HTML;
 </main>
 <script src="/Translation_Dashboard/js/c.js"></script>
 <script>
-    $('.sortable').DataTable({
-        stateSave: true,
-        paging: false,
-        info: false,
-        searching: false
-    });
-    // ---
-    async function get_categories(camp) {
-        const response = await fetch('/api.php?get=categories');
-        const data = await response.json();
-
+    // when page ready
+    $(document).ready(async function() {
+        $('.sortable').DataTable({
+            stateSave: true,
+            paging: false,
+            info: false,
+            searching: false
+        });
+        // ---
         const campaign_to_categories = {};
-        data.results.forEach(item => {
-            campaign_to_categories[item.campaign] = item.category;
-        });
+        // ---
+        async function get_categories() {
+            const response = await fetch('/api.php?get=categories');
+            const data = await response.json();
 
-        return campaign_to_categories[camp] ?? '';
-    }
-    // ---
-    function getFormData(d) {
-        d['get'] = 'top_users';
+            data.results.forEach(item => {
+                campaign_to_categories[item.campaign] = item.category;
+            });
+        }
         // ---
-        // '/api.php?get=top_users&year=&user_group=&cat=';
+        function getFormData(d) {
+            d['get'] = 'top_users';
+            // ---
+            // '/api.php?get=top_users&year=&user_group=&cat=';
+            // ---
+            const formData = $('#leaderboard_filter').serializeArray();
+            formData.forEach(field => {
+                if (field.value.trim()) {
+                    d[field.name] = field.value;
+                }
+            });
+            // ---
+            d["cat"] = campaign_to_categories[d["camp"]] ?? '';
+        }
         // ---
-        const formData = $('#leaderboard_filter').serializeArray();
-        formData.forEach(field => {
-            if (field.value.trim()) {
-                d[field.name] = field.value;
-            }
+        await get_categories();
+        // ---
+        $('#Topusers').DataTable({
+            stateSave: true,
+            paging: false,
+            info: false,
+            searching: false,
+            ajax: {
+                url: '/api.php',
+                data: getFormData,
+                dataSrc: function(json) {
+                    // احتساب الإجماليات
+                    let totalUsers = json.results.length;
+                    let totalTargets = 0;
+                    let totalWords = 0;
+                    let totalViews = 0;
+
+                    json.results.forEach(function(row) {
+                        totalTargets += Number(row.targets) || 0;
+                        totalWords += Number(row.words) || 0;
+                        totalViews += Number(row.views) || 0;
+                    });
+
+                    // تحديث عناصر HTML
+                    $('#c_user').text(totalUsers.toLocaleString());
+                    $('#c_articles').text(totalTargets.toLocaleString());
+                    $('#c_words').text(totalWords.toLocaleString());
+                    $('#c_lang').text('-'); // لا توجد معلومات عن اللغات في البيانات
+                    $('#c_pv').text(totalViews.toLocaleString());
+
+                    return json.results;
+                }
+            },
+            columns: [{ // رقم تسلسلي تلقائي
+                    data: null,
+                    title: '#',
+                    render: function(data, type, row, meta) {
+                        return meta.row + 1;
+                    },
+                    className: 'dt-center'
+                },
+                {
+                    data: 'user',
+                    title: 'User',
+                    render: function(data, type) {
+                        return `<a href="/Translation_Dashboard/leaderboard.php?user=${data}">${data}</a>`;
+                    }
+                },
+                {
+                    data: 'targets',
+                    title: 'Number',
+                    render: function(data) {
+                        return Number(data).toLocaleString();
+                    }
+                },
+                {
+                    data: 'words',
+                    title: 'Words',
+                    render: function(data) {
+                        return Number(data).toLocaleString();
+                    }
+                },
+                {
+                    data: 'views',
+                    title: 'Pageviews',
+                    render: function(data) {
+                        return Number(data).toLocaleString();
+                    }
+                }
+            ]
         });
         // ---
-        d["cat"] = get_categories(d["camp"]);
-    }
-    // ---
-    $('#Topusers').DataTable({
-        stateSave: true,
-        paging: false,
-        info: false,
-        searching: false,
-        ajax: {
-            url: '/api.php',
-            data: getFormData,
-            dataSrc: 'results' // المسار داخل JSON الذي يحتوي على الصفوف
-        },
-        columns: [{ // رقم تسلسلي تلقائي
-                data: null,
-                title: '#',
-                render: function(data, type, row, meta) {
-                    return meta.row + 1;
-                },
-                className: 'dt-center'
-            },
-            {
-                data: 'user',
-                title: 'User',
-                render: function(data, type) {
-                    return `<a href="/Translation_Dashboard/leaderboard.php?user=${data}">${data}</a>`;
-                }
-            },
-            {
-                data: 'targets',
-                title: 'Number',
-                render: function(data) {
-                    return Number(data).toLocaleString();
-                }
-            },
-            {
-                data: 'words',
-                title: 'Words',
-                render: function(data) {
-                    return Number(data).toLocaleString();
-                }
-            },
-            {
-                data: 'views',
-                title: 'Pageviews',
-                render: function(data) {
-                    return Number(data).toLocaleString();
-                }
-            }
-        ]
-    });
-    // ---
+    })
 </script>
 </body>
 
