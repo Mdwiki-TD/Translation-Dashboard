@@ -13,6 +13,7 @@ use function SQLorAPI\Get\isvalid;
 
 use function Actions\MdwikiSql\fetch_query;
 use function Actions\TDApi\get_td_api;
+use function Actions\TestPrint\test_print;
 
 $settings_tabe = array_column(get_td_api(['get' => 'settings']), 'value', 'title');
 //---
@@ -42,6 +43,7 @@ function super_function($api_params, $sql_params, $sql_query)
     $data = ($use_td_api) ? get_td_api($api_params) : [];
     // ---
     if (empty($data)) {
+        test_print("<br> >>>>> Query:");
         $data = fetch_query($sql_query, $sql_params);
     }
     // ---

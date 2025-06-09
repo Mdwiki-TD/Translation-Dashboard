@@ -191,7 +191,7 @@ function get_td_or_sql_status($year, $user_group, $cat)
             ON p.user = u.username
 
         WHERE p.target != ''
-        ;
+
     SQL;
     // ---
     $tab = add_top_params($query, [], $to_add);
@@ -199,9 +199,13 @@ function get_td_or_sql_status($year, $user_group, $cat)
     $params = $tab['params'];
     $query = $tab['qua'];
     // ---
-    $query .= " GROUP BY LEFT(p.pupdate, 7) ORDER BY LEFT(p.pupdate, 7) ASC";
+    $query .= " GROUP BY 1 ORDER BY 1 ASC";
     // ---
     $data = super_function($api_params, $params, $query);
+    // ---
+    // var_export(json_encode($params));
+    // echo $query . "<br>";
+    // var_export(json_encode($data));
     // ---
     $new_data = [];
     // ---

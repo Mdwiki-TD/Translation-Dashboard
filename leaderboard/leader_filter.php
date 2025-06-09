@@ -50,6 +50,7 @@ function leaderboard_filter($year, $user_group, $camp, $action = "leaderboard.ph
     $yearDropdown = sprintf($d33, 'Year', $y3);
     //---
     $test_line = (isset($_REQUEST['test']) != '') ? "<input type='text' name='test' value='1' hidden/>" : "";
+    $test_line .= (isset($_GET['use_td_api']) != '') ? "<input type='text' name='use_td_api' value='" . $_GET['use_td_api'] . "' hidden/>" : "";
     //---
     return <<<HTML
         <form method="get" action="$action" id="leaderboard_filter">
