@@ -12,7 +12,7 @@ function camps_list()
             <thead>
                 <tr>
                     <th>Member</th>
-                    <th>lenth</th>
+                    <th>Length</th>
                     <th>Campaigns</th>
                 </tr>
             </thead>
@@ -188,9 +188,9 @@ function campaigns_with_articles_table()
     echo $table;
 }
 
-echo camps_list2();
+camps_list2();
 // ---
-echo campaigns_with_articles_table();
+campaigns_with_articles_table();
 
 echo <<<HTML
 <script>

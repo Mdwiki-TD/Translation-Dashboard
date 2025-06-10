@@ -46,7 +46,7 @@ HTML;
                     </div>
                 </div>
                 <div class="card-body1 card2">
-                    <table class='table compact table-striped leaderboard_tables'>
+                    <table class='table compact table-striped table_text_left leaderboard_tables'>
                         <thead>
                             <tr>
                                 <th class="spannowrap">Type</th>
@@ -110,7 +110,7 @@ HTML;
                     </div>
                 </div>
                 <div class="card-body1 card2">
-                    <table class='table compact table-striped leaderboard_tables' id='Topusers'
+                    <table class='table compact table-striped table_text_left leaderboard_tables' id='Topusers'
                         style='margin-top: 0px !important;margin-bottom: 0px !important'>
                         <thead>
                             <tr>
@@ -144,7 +144,7 @@ HTML;
                     </div>
                 </div>
                 <div class="card-body1 card2">
-                    <table class='table compact table-striped leaderboard_tables' id='Toplangs'
+                    <table class='table compact table-striped table_text_left leaderboard_tables' id='Toplangs'
                         style='margin-top: 0px !important;margin-bottom: 0px !important'>
                         <thead>
                             <tr>

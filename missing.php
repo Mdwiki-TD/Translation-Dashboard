@@ -17,8 +17,8 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 //---
 $MIS = open_td_Tables_file("/jsons/missing.json"); //{'all' : len(listenew), 'date' : Day_History, 'langs' : {} }
 //---
-//$lenth = file_get_contents("len.csv");
-$lenth = $MIS['all'] ?? 0;
+//$length = file_get_contents("len.csv");
+$length = $MIS['all'] ?? 0;
 //---
 //$date = '15-05-2021';
 $date = $MIS['date'] ?? "";
@@ -44,12 +44,12 @@ $lang_codes = array_map(function ($lang_tab) {
     return $lang_tab['code'] ?? "";
 }, MainTables::$x_Langs_table);
 
-$Table += array_fill_keys(array_filter($lang_codes), $lenth);
+$Table += array_fill_keys(array_filter($lang_codes), $length);
 //---
 arsort($Table);
 //---
 $text = <<<HTML
-<table class="table table-striped compact soro table-mobile-responsive table_100">
+<table class="table table-striped compact soro table-mobile-responsive table_100 table_text_left">
     <thead>
         <tr>
         <th class="spannowrap">#</th>
@@ -95,7 +95,7 @@ foreach ($Table as $langcode2 => $missing) {
     //---
     if (empty($langname)) $langname = "! langname";
     // ---
-    $exists_1 = bcsub($lenth, $missing);
+    $exists_1 = bcsub($length, $missing);
     $exists = $langs[$langcode]['exists'] ?? '';
     #---
     if (empty($exists)) $exists = $langs[$langcode2]['exists'] ?? $exists_1;
@@ -134,7 +134,7 @@ $text .= <<<HTML
 echo <<<HTML
         <div align=center>
         <h4>Top languages by missing Articles ($date)</h4>
-        <h5>Number of pages in Category:RTT : $lenth</h5>
+        <h5>Number of pages in Category:RTT : $length</h5>
     </div>
     <div class='card'>
         <div class='card-body' style='padding:5px 0px 5px 5px;'>
