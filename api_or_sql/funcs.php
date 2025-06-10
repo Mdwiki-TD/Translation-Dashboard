@@ -22,8 +22,6 @@ use function SQLorAPI\Funcs\get_coordinator;
 use function SQLorAPI\Get\super_function;
 use function SQLorAPI\Get\isvalid;
 
-$data_index = [];
-
 function get_coordinator()
 {
     // ---
@@ -46,12 +44,12 @@ function get_coordinator()
 function get_user_pages($user_main, $year_y, $lang_y)
 {
     // ---
-    global $data_index;
+    static $data = [];
     // ---
-    $key = 'user_pages_' . $user_main . '_' . $year_y . '_' . $lang_y;
+    $key = $user_main . '_' . $year_y . '_' . $lang_y;
     // ---
-    if (!empty($data_index[$key] ?? [])) {
-        return $data_index[$key];
+    if (!empty($data[$key] ?? [])) {
+        return $data[$key];
     }
     // ---
     $api_params = ['get' => 'pages_by_user_or_lang', 'user' => $user_main];
@@ -84,7 +82,7 @@ function get_user_pages($user_main, $year_y, $lang_y)
     //---
     $data = super_function($api_params, $sql_params, $query);
     // ---
-    $data_index[$key] = $data;
+    $data[$key] = $data;
     // ---
     return $data;
 }
@@ -136,10 +134,10 @@ function get_graph_data()
 function get_lang_pages($lang, $year_y)
 {
     // ---
-    global $data_index;
+    static $data = [];
     // ---
-    if (!empty($data_index['lang_pages' . $lang . $year_y] ?? [])) {
-        return $data_index['lang_pages' . $lang . $year_y];
+    if (!empty($data[$lang . $year_y] ?? [])) {
+        return $data[$lang . $year_y];
     }
     // ---
     $api_params = ['get' => 'pages_by_user_or_lang', 'lang' => $lang];
@@ -156,7 +154,7 @@ function get_lang_pages($lang, $year_y)
     // ---
     $data = super_function($api_params, $params, $query);
     // ---
-    $data_index['lang_pages' . $lang . $year_y] = $data;
+    $data[$lang . $year_y] = $data;
     // ---
     return $data;
 }
@@ -164,12 +162,12 @@ function get_lang_pages($lang, $year_y)
 function get_user_views($user, $year_y, $lang_y)
 {
     // ---
-    global $data_index;
+    static $data = [];
     // ---
     $key = 'user_views_' . $user . '_' . $year_y . '_' . $lang_y;
     // ---
-    if (!empty($data_index[$key] ?? [])) {
-        return $data_index[$key];
+    if (!empty($data[$key] ?? [])) {
+        return $data[$key];
     }
     // ---
     $api_params = ['get' => 'user_views2', 'lang' => $lang_y, 'user' => $user, 'year' => $year_y];
@@ -207,7 +205,7 @@ function get_user_views($user, $year_y, $lang_y)
         $table_of_views[$lang][$targ] = $views;
     };
     // ---
-    $data_index[$key] = $data;
+    $data[$key] = $data;
     // ---
     return $table_of_views;
 }
@@ -215,12 +213,12 @@ function get_user_views($user, $year_y, $lang_y)
 function get_lang_views($mainlang, $year_y)
 {
     // ---
-    global $data_index;
+    static $data = [];
     // ---
     $key = 'lang_views_' . $mainlang . '_' . $year_y;
     // ---
-    if (!empty($data_index[$key] ?? [])) {
-        return $data_index[$key];
+    if (!empty($data[$key] ?? [])) {
+        return $data[$key];
     }
     // ---
     $api_params = ['get' => 'lang_views2', 'lang' => $mainlang, 'year' => $year_y];
@@ -253,7 +251,7 @@ function get_lang_views($mainlang, $year_y)
         $table_of_views[$targ] = $views;
     };
     //---
-    $data_index[$key] = $table_of_views;
+    $data[$key] = $table_of_views;
     // ---
     return $table_of_views;
 }
@@ -261,10 +259,10 @@ function get_lang_views($mainlang, $year_y)
 function get_lang_years($mainlang)
 {
     // ---
-    global $data_index;
+    static $data = [];
     // ---
-    if (!empty($data_index['lang_years' . $mainlang] ?? [])) {
-        return $data_index['lang_years' . $mainlang];
+    if (!empty($data[$mainlang] ?? [])) {
+        return $data[$mainlang];
     }
     // ---
     $api_params = ['get' => 'pages', 'distinct' => "1", 'select' => 'YEAR(pupdate) AS year', 'pupdate' => 'not_empty', 'lang' => $mainlang];
@@ -277,7 +275,7 @@ function get_lang_years($mainlang)
     // sort years
     rsort($data);
     // ---
-    $data_index['lang_years' . $mainlang] = $data;
+    $data[$mainlang] = $data;
     // ---
     return $data;
 }
@@ -285,10 +283,10 @@ function get_lang_years($mainlang)
 function get_user_years($user)
 {
     // ---
-    global $data_index;
+    static $data = [];
     // ---
-    if (!empty($data_index['user_years' . $user] ?? [])) {
-        return $data_index['user_years' . $user];
+    if (!empty($data[$user] ?? [])) {
+        return $data[$user];
     }
     // ---
     $api_params = ['get' => 'pages', 'distinct' => "1", 'select' => 'YEAR(date) AS year', 'user' => $user];
@@ -303,7 +301,7 @@ function get_user_years($user)
     // sort years
     rsort($data);
     // ---
-    $data_index['user_years' . $user] = $data;
+    $data[$user] = $data;
     // ---
     return $data;
 }
@@ -311,10 +309,10 @@ function get_user_years($user)
 function get_user_langs($user)
 {
     // ---
-    global $data_index;
+    static $data = [];
     // ---
-    if (!empty($data_index['user_langs' . $user] ?? [])) {
-        return $data_index['user_langs' . $user];
+    if (!empty($data[$user] ?? [])) {
+        return $data[$user];
     }
     // ---
     $api_params = ['get' => 'pages', 'distinct' => "1", 'select' => 'lang', 'user' => $user];
@@ -324,7 +322,7 @@ function get_user_langs($user)
     // ---
     $data = array_map('current', $data);
     // ---
-    $data_index['user_langs' . $user] = $data;
+    $data[$user] = $data;
     // ---
     return $data;
 }

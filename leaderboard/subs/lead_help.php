@@ -191,8 +191,6 @@ function make_table_lead($dd, $tab_type = 'a', $views_table = [], $page_type = '
     //---
     $leadtable = ($tab_type == 'pending') ? 'leadtable2' : 'leadtable';
     //---
-
-    //---
     $sato = <<<HTML
         <table class='table table-striped compact soro table-mobile-responsive table_100' id='$leadtable'>
             <thead>
@@ -202,7 +200,6 @@ function make_table_lead($dd, $tab_type = 'a', $views_table = [], $page_type = '
                     <th>Title</th>
                     <th>Campaign</th>
                     <th>Words</th>
-                    <!-- <th>Type</th> -->
                     <th>Translated</th>
                     <th>$th_Date</th>
                     $tab_views
@@ -252,10 +249,10 @@ function make_table_lead($dd, $tab_type = 'a', $views_table = [], $page_type = '
     HTML;
     //---
     $table1 = <<<HTML
-            <table class='table table-sm table-striped' style='width:70%;'>
+        <table class='table table-sm table-striped' style='width:70%;'>
             <tr><td>Words: </td><td>$total_words</td></tr>
             <tr><td>Pageviews: </td><td><span id='hrefjsontoadd'>$total_views</span></td></tr>
-            </table>
+        </table>
         HTML;
     //---
     $arra = array('table1' => $table1, 'table2' => $sato);

@@ -29,8 +29,6 @@ include_once __DIR__ . '/process_data.php';
 include_once __DIR__ . '/top.php';
 include_once __DIR__ . '/funcs.php';
 
-$data_index = [];
-
 function isvalid($str)
 {
     return !empty($str) && strtolower($str) != "all";

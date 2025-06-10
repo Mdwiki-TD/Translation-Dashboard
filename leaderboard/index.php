@@ -19,7 +19,6 @@ include_once __DIR__ . '/graph_api.php'; // namespace Leaderboard\Graph2;
 
 use function Leaderboard\Graph2\print_graph_tab_2_new;
 use function Leaderboard\Graph\print_graph_tab;
-use function Leaderboard\Camps\camps_list2;
 
 echo '<script>$("#leaderboard").addClass("active");</script>';
 
@@ -31,15 +30,19 @@ $camps = $_GET['camps'] ?? '';
 
 if (!empty($users)) {
     include_once __DIR__ . '/users.php';
+    // ---
 } elseif (!empty($langs)) {
     include_once __DIR__ . '/langs.php';
+    // ---
 } elseif (!empty($camps)) {
-    include_once __DIR__ . '/camps.php';
-    camps_list2();
+    include_once __DIR__ . '/camps_text.php';
+    // ---
 } elseif (!empty($graph)) {
     print_graph_tab();
+    // ---
 } elseif (!empty($graph_api)) {
     print_graph_tab_2_new();
+    // ---
 } else {
     include_once __DIR__ . '/main.php';
 }
