@@ -6,6 +6,7 @@ use function Actions\Html\make_mdwiki_user_url;
 use function Leaderboard\Subs\LeadHelp\make_table_lead;
 use function Leaderboard\Subs\FilterForm\make_filter_form_users;
 use function Leaderboard\Subs\SubUsers\get_users_tables;
+use function Leaderboard\SubGraph\graph_data_new;
 //---
 $mainuser = $_GET['user'] ?? "";
 //---
@@ -46,11 +47,24 @@ $man = make_mdwiki_user_url($mainuser);
 //---
 $filter_form = make_filter_form_users($mainuser, $lang_y, $year_y);
 //---
+$graph = graph_data_new($dd, "user_chart");
+//---
 echo <<<HTML
     <div class='row content'>
-        <div class='col-md-3'>$table1</div>
-        <div class='col-md-4'><h2 class='text-center'>$man ($count_new)</h2></div>
-        <div class='col-md-5'>$filter_form</div>
+        <div class='col-md-2'>
+            $table1
+        </div>
+        <div class='col-md-4'>
+            <div class="position-relative">
+                $graph
+            </div>
+        </div>
+        <div class='col-md-3'>
+            <h3 class='text-center'>$man ($count_new)</h3>
+        </div>
+        <div class='col-md-3'>
+            $filter_form
+        </div>
     </div>
     <div class='card'>
         <div class='card-body' style='padding:5px 0px 5px 5px;'>

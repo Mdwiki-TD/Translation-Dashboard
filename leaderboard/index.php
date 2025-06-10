@@ -15,6 +15,7 @@ include_once __DIR__ . '/../api_or_sql/index.php'; // namespace SQLorAPI\Get;
 
 
 include_once __DIR__ . '/graph.php'; // namespace Leaderboard\Graph;
+include_once __DIR__ . '/lang_user_graph.php'; // namespace Leaderboard\Graph;
 include_once __DIR__ . '/graph_api.php'; // namespace Leaderboard\Graph2;
 
 use function Leaderboard\Graph2\print_graph_tab_2_new;
