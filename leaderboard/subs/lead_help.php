@@ -191,7 +191,7 @@ function make_table_lead($dd, $tab_type = 'a', $views_table = [], $page_type = '
     //---
     $leadtable = ($tab_type == 'pending') ? 'leadtable2' : 'leadtable';
     //---
-    $sato = <<<HTML
+    $table2 = <<<HTML
         <table class='table table-striped compact soro table-mobile-responsive table_100' id='$leadtable'>
             <thead>
                 <tr>
@@ -237,16 +237,18 @@ function make_table_lead($dd, $tab_type = 'a', $views_table = [], $page_type = '
         //---
         $total_words += $word;
         //---
-        $sato .= make_td_fo_user($tabe, $noo, $view_number, $word, $page_type = $page_type, $tab_ty = $tab_type, $_user_ = $user);
-        //---
+        $table2 .= make_td_fo_user($tabe, $noo, $view_number, $word, $page_type = $page_type, $tab_ty = $tab_type, $_user_ = $user);
     };
     //---
-    $sato .= <<<HTML
+    $table2 .= <<<HTML
         </tbody>
         <tfoot>
         </tfoot>
     </table>
     HTML;
+    //---
+    $total_words = number_format($total_words);
+    $total_views = number_format($total_views);
     //---
     $table1 = <<<HTML
         <table class='table table-sm table-striped' style='width:70%;'>
@@ -255,7 +257,7 @@ function make_table_lead($dd, $tab_type = 'a', $views_table = [], $page_type = '
         </table>
         HTML;
     //---
-    $arra = array('table1' => $table1, 'table2' => $sato);
+    $arra = array('table1' => $table1, 'table2' => $table2);
     //---
     return $arra;
     //---

@@ -113,9 +113,11 @@ function get_td_or_sql_views($year, $lang)
 function get_td_or_sql_settings()
 {
     // ---
-    $settingsx = [];
+    static $settingsx = [];
     // ---
-    // if (!empty($settingsx)) { return $settingsx; }
+    if (!empty($settingsx)) {
+        return $settingsx;
+    }
     // ---
     $query = "select id, title, displayed, value, Type from settings";
     // ---

@@ -35,7 +35,7 @@ function get_category_from_cache($cat)
     }
     // ---
     $file_path = "cats_cash/$cat.json";
-    $new_list = open_td_Tables_file($file_path) ?? [];
+    $new_list = open_td_Tables_file($file_path, false) ?? [];
 
     if (empty($new_list)) {
         // test_print("File: $file_path empty or not exists");

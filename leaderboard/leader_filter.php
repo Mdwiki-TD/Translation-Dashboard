@@ -13,23 +13,39 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     error_reporting(E_ALL);
 };
 
-use Tables\SqlTables\TablesSql;
 use function Actions\Html\makeDropdown;
 use function SQLorAPI\Funcs\get_pages_with_pupdate;
 use function SQLorAPI\GetDataTab\get_td_or_sql_projects;
+use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
 
-function leaderboard_filter($year, $user_group, $camp, $action = "leaderboard.php"): string
+function input_group($title, $rows): string
 {
-    //---
+
     $d33 = <<<HTML
         <div class="input-group">
             <span class="input-group-text">%s</span>
             %s
         </div>
-        HTML;
+    HTML;
     //---
-    $y1 = makeDropdown(TablesSql::$s_cat_titles, $camp, 'camp', 'all');
-    $campDropdown = sprintf($d33, 'Campaign', $y1);
+    return sprintf($d33, $title, $rows);
+}
+
+function make_camp_dropdown($camp): string
+{
+    //---
+    $categories_tab = get_td_or_sql_categories();
+    $categories_tab = array_column($categories_tab, 'campaign');
+    //---
+    $y1 = makeDropdown($categories_tab, $camp, 'camp', 'all');
+    // ---
+    $campDropdown = input_group('Campaign', $y1);
+    // ---
+    return $campDropdown;
+}
+
+function make_project_dropdown($user_group): string
+{
     //---
     $projects_tab = get_td_or_sql_projects();
     //---
@@ -39,7 +55,14 @@ function leaderboard_filter($year, $user_group, $camp, $action = "leaderboard.ph
     // var_export(json_encode($user_groups));
     //---
     $y2 = makeDropdown($user_groups, $user_group, 'user_group', 'all');
-    $projectDropdown = sprintf($d33, 'Translators', $y2);
+    // ---
+    $projectDropdown = input_group('Translators', $y2);
+    // ---
+    return $projectDropdown;
+}
+
+function make_year_dropdown($year): string
+{
     //---
     $m_years2 = get_pages_with_pupdate();
     //---
@@ -47,7 +70,19 @@ function leaderboard_filter($year, $user_group, $camp, $action = "leaderboard.ph
     rsort($m_years2);
     //---
     $y3 = makeDropdown($m_years2, $year, 'year', 'all');
-    $yearDropdown = sprintf($d33, 'Year', $y3);
+    $yearDropdown = input_group('Year', $y3);
+    // ---
+    return $yearDropdown;
+}
+
+function leaderboard_filter($year, $user_group, $camp, $action = "leaderboard.php"): string
+{
+    //---
+    $campDropdown = make_camp_dropdown($camp);
+    //---
+    $projectDropdown = make_project_dropdown($user_group);
+    //---
+    $yearDropdown = make_year_dropdown($year);
     //---
     $test_line = (isset($_REQUEST['test']) != '') ? "<input type='text' name='test' value='1' hidden/>" : "";
     $test_line .= (isset($_GET['use_td_api']) != '') ? "<input type='text' name='use_td_api' value='" . $_GET['use_td_api'] . "' hidden/>" : "";

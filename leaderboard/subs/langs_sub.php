@@ -40,9 +40,15 @@ function pages_tables($mainlang, $year_y)
     //---
     foreach ($rrr2 as $yhu => $Taab) {
         //---
+        if (empty($Taab["lang"] ?? '')) {
+            echo $yhu;
+            // var_export(json_encode($Taab, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+            continue;
+        };
+        //---
         $kry = make_key($Taab);
         //---
-        if (!empty($Taab['target'])) {
+        if (!empty($Taab['target'] ?? '')) {
             $dd[$kry] = $Taab;
         } else {
             $dd_Pending[$kry] = $Taab;

@@ -20,7 +20,7 @@ function to_get() {
 	if (window.location.hostname === 'localhost') {
 		// log to console
 		console.log('dont load to_get() in localhost');
-		// return;
+		return;
 	}
 	var ele = $("[hrefjson]");
 	ele.each(function () {
