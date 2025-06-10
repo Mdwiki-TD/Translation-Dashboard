@@ -62,7 +62,7 @@ if (isset($GLOBALS['time_start'])) {
 					[25, 50, 100, 200]
 				],
 			});
-		}, 1500);
+		}, 200);
 	});
 </script>
 </body>
