@@ -76,7 +76,7 @@ function add_top_params($query, $params, $to_add)
         }
     }
     // ---
-    return ["qua" => $query, "params" => $params];
+    return [$query, $params];
 }
 
 function top_query($select)
@@ -128,10 +128,7 @@ function get_td_or_sql_top_users($year, $user_group, $cat)
     // ---
     $query = top_query('user');
     // ---
-    $tab = add_top_params($query, [], $to_add);
-    // ---
-    $params = $tab['params'];
-    $query = $tab['qua'];
+    [$query, $params] = add_top_params($query, [], $to_add);
     // ---
     $query .= " GROUP BY p.user ORDER BY 2 DESC";
     // ---
@@ -156,10 +153,7 @@ function get_td_or_sql_top_langs($year, $user_group, $cat)
     // ---
     $query = top_query('lang');
     // ---
-    $tab = add_top_params($query, [], $to_add);
-    // ---
-    $params = $tab['params'];
-    $query = $tab['qua'];
+    [$query, $params] = add_top_params($query, [], $to_add);
     // ---
     $query .= " GROUP BY p.lang ORDER BY 2 DESC";
     // ---
@@ -194,10 +188,7 @@ function get_td_or_sql_status($year, $user_group, $cat)
 
     SQL;
     // ---
-    $tab = add_top_params($query, [], $to_add);
-    // ---
-    $params = $tab['params'];
-    $query = $tab['qua'];
+    [$query, $params] = add_top_params($query, [], $to_add);
     // ---
     $query .= " GROUP BY 1 ORDER BY 1 ASC";
     // ---
