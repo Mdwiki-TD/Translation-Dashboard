@@ -15,7 +15,6 @@ use function Leaderboard\Subs\LeadHelp\make_key;
 include_once __DIR__ . '/../camps.php';
 
 use Tables\Main\MainTables;
-use Leaderboard\Camps\CampsTabs;
 use Tables\SqlTables\TablesSql;
 use function Actions\WikiApi\make_view_by_number;
 use function Actions\Html\make_cat_url;
@@ -23,6 +22,7 @@ use function Actions\Html\make_mdwiki_title;
 // use function Actions\Html\make_translation_url;
 use function Actions\Html\make_target_url;
 use function Results\TrLink\make_translate_link_medwiki;
+use function Leaderboard\Camps\get_articles_to_camps;
 
 function make_key($Taab)
 {
@@ -55,7 +55,7 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
 {
     //---
     $catto_camp_new = TablesSql::$s_cat_to_camp;
-    $articlesto_camps = CampsTabs::$articles_to_camps;
+    $articlesto_camps = get_articles_to_camps();
     //---
     $mdtitle = trim($tabb['title']);
     $user    = $tabb['user'] ?? "";

@@ -7,7 +7,7 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 };
 
 include_once __DIR__ . '/../header.php';
-include_once __DIR__ . '/../results/getcats.php';
+// include_once __DIR__ . '/../results/getcats.php';
 include_once __DIR__ . '/../Tables/include.php';
 include_once __DIR__ . '/include.php';
 
@@ -18,6 +18,7 @@ $camp       = $_GET['camp'] ?? 'all';
 $user_group = $_GET['project'] ?? $_GET['user_group'] ?? 'all';
 //---
 $filter_form = leaderboard_filter($year, $user_group, $camp, 'x.php');
+
 echo <<<HTML
     <main id="body">
         <div id="maindiv" class="container-fluid">
