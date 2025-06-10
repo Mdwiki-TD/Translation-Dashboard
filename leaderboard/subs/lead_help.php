@@ -15,7 +15,6 @@ use function Leaderboard\Subs\LeadHelp\make_key;
 include_once __DIR__ . '/../camps.php';
 
 use Tables\Main\MainTables;
-use Leaderboard\Camps\CampsTabs;
 use Tables\SqlTables\TablesSql;
 use function Actions\WikiApi\make_view_by_number;
 use function Actions\Html\make_cat_url;
@@ -23,6 +22,7 @@ use function Actions\Html\make_mdwiki_title;
 // use function Actions\Html\make_translation_url;
 use function Actions\Html\make_target_url;
 use function Results\TrLink\make_translate_link_medwiki;
+use function Leaderboard\Camps\get_articles_to_camps;
 
 function make_key($Taab)
 {
@@ -55,7 +55,7 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
 {
     //---
     $catto_camp_new = TablesSql::$s_cat_to_camp;
-    $articlesto_camps = CampsTabs::$articles_to_camps;
+    $articlesto_camps = get_articles_to_camps();
     //---
     $mdtitle = trim($tabb['title']);
     $user    = $tabb['user'] ?? "";
@@ -191,19 +191,17 @@ function make_table_lead($dd, $tab_type = 'a', $views_table = [], $page_type = '
     //---
     $leadtable = ($tab_type == 'pending') ? 'leadtable2' : 'leadtable';
     //---
-
-    //---
-    $sato = <<<HTML
-        <table class='table table-striped compact soro table-mobile-responsive table_100' id='$leadtable'>
+    // table-mobile-responsive
+    $table2 = <<<HTML
+        <table class='table table-striped compact table_text_left table_responsive' id='$leadtable'>
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>$user_or_lang</th>
-                    <th>Title</th>
+                    <th data-priority="1">$user_or_lang</th>
+                    <th data-priority="2">Title</th>
                     <th>Campaign</th>
                     <th>Words</th>
-                    <!-- <th>Type</th> -->
-                    <th>Translated</th>
+                    <th data-priority="3">Translated</th>
                     <th>$th_Date</th>
                     $tab_views
                     $complete
@@ -240,25 +238,27 @@ function make_table_lead($dd, $tab_type = 'a', $views_table = [], $page_type = '
         //---
         $total_words += $word;
         //---
-        $sato .= make_td_fo_user($tabe, $noo, $view_number, $word, $page_type = $page_type, $tab_ty = $tab_type, $_user_ = $user);
-        //---
+        $table2 .= make_td_fo_user($tabe, $noo, $view_number, $word, $page_type = $page_type, $tab_ty = $tab_type, $_user_ = $user);
     };
     //---
-    $sato .= <<<HTML
+    $table2 .= <<<HTML
         </tbody>
         <tfoot>
         </tfoot>
     </table>
     HTML;
     //---
+    $total_words = number_format($total_words);
+    $total_views = number_format($total_views);
+    //---
     $table1 = <<<HTML
-            <table class='table table-sm table-striped' style='width:70%;'>
+        <table class='table table-sm table-striped' style='width:70%;'>
             <tr><td>Words: </td><td>$total_words</td></tr>
             <tr><td>Pageviews: </td><td><span id='hrefjsontoadd'>$total_views</span></td></tr>
-            </table>
+        </table>
         HTML;
     //---
-    $arra = array('table1' => $table1, 'table2' => $sato);
+    $arra = array('table1' => $table1, 'table2' => $table2);
     //---
     return $arra;
     //---

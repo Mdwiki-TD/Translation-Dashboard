@@ -7,7 +7,7 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 };
 
 include_once __DIR__ . '/../header.php';
-include_once __DIR__ . '/../results/getcats.php';
+// include_once __DIR__ . '/../results/getcats.php';
 include_once __DIR__ . '/../Tables/include.php';
 include_once __DIR__ . '/include.php';
 
@@ -18,6 +18,7 @@ $camp       = $_GET['camp'] ?? 'all';
 $user_group = $_GET['project'] ?? $_GET['user_group'] ?? 'all';
 //---
 $filter_form = leaderboard_filter($year, $user_group, $camp, 'x.php');
+
 echo <<<HTML
     <main id="body">
         <div id="maindiv" class="container-fluid">
@@ -45,7 +46,7 @@ HTML;
                     </div>
                 </div>
                 <div class="card-body1 card2">
-                    <table class='table compact table-striped leaderboard_tables'>
+                    <table class='table compact table-striped table_text_left leaderboard_tables'>
                         <thead>
                             <tr>
                                 <th class="spannowrap">Type</th>
@@ -109,7 +110,7 @@ HTML;
                     </div>
                 </div>
                 <div class="card-body1 card2">
-                    <table class='table compact table-striped leaderboard_tables' id='Topusers'
+                    <table class='table compact table-striped table_text_left leaderboard_tables' id='Topusers'
                         style='margin-top: 0px !important;margin-bottom: 0px !important'>
                         <thead>
                             <tr>
@@ -143,7 +144,7 @@ HTML;
                     </div>
                 </div>
                 <div class="card-body1 card2">
-                    <table class='table compact table-striped leaderboard_tables' id='Toplangs'
+                    <table class='table compact table-striped table_text_left leaderboard_tables' id='Toplangs'
                         style='margin-top: 0px !important;margin-bottom: 0px !important'>
                         <thead>
                             <tr>

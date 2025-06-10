@@ -35,28 +35,16 @@ class MainTables
 	public static $x_Langs_table = [];
 }
 // ---
-// 'lang_code_to_en' => &$lang_code_to_en,
-// 'medwiki_to_enwiki' => &$medwiki_to_enwiki,
-//---
 $tables_d = array(
-	// 'enwiki_pageviews' => &MainTables::$x_enwiki_pageviews_table,
-	// 'words' => &MainTables::$x_Words_table,
-	// 'allwords' => &MainTables::$x_All_Words_table,
-	// 'all_refcount' => &MainTables::$x_All_Refs_table,
-	// 'lead_refcount' => &MainTables::$x_Lead_Refs_table,
-	// 'assessments' => &MainTables::$x_Assessments_table,
 	'langs_tables' => &MainTables::$x_Langs_table,
 );
 //---
 foreach ($tables_d as $key => &$value) {
 	$value = open_td_Tables_file("jsons/{$key}.json");
 }
-//---
+
 $titles_infos = get_td_or_sql_titles_infos();
 
-// var_dump(json_encode($titles_infos, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
-// [{ "title": "11p deletion syndrome", "importance": "", "r_lead_refs": 5, "r_all_refs": 14, "en_views": 1592, "w_lead_words": 221, "w_all_words": 547, "qid": "Q1892153" }, ...]
-// ---
 foreach ($titles_infos as $k => $tab) {
 	$title = $tab['title'];
 	// ---

@@ -15,7 +15,6 @@ use function SQLorAPI\GetDataTab\get_td_or_sql_projects;
 use function SQLorAPI\GetDataTab\get_td_or_sql_settings;
 use function SQLorAPI\GetDataTab\get_td_or_sql_views;
 use function SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
-use function SQLorAPI\GetDataTab\get_td_or_sql_users_by_wiki;
 use function SQLorAPI\GetDataTab\get_td_or_sql_count_pages;
 
 */
@@ -114,9 +113,11 @@ function get_td_or_sql_views($year, $lang)
 function get_td_or_sql_settings()
 {
     // ---
-    $settingsx = [];
+    static $settingsx = [];
     // ---
-    // if (!empty($settingsx)) { return $settingsx; }
+    if (!empty($settingsx)) {
+        return $settingsx;
+    }
     // ---
     $query = "select id, title, displayed, value, Type from settings";
     // ---
@@ -220,31 +221,6 @@ function get_td_or_sql_translate_type()
     $data = super_function($api_params, [], $query);
     // ---
     $translate_type = $data;
-    // ---
-    return $data;
-}
-
-// deprecated
-
-function get_td_or_sql_users_by_wiki($year, $user_group, $cat)
-{
-    // ---
-    static $users_by_wiki = [];
-    // ---
-    if (!empty($users_by_wiki ?? [])) {
-        return $users_by_wiki;
-    }
-    // ---
-    $api_params = ['get' => 'users_by_wiki', 'year' => $year, 'user_group' => $user_group, 'cat' => $cat];
-    // ---
-    $tata = make_users_by_wiki_query($year, $user_group, $cat);
-    // ---
-    $query = $tata['query'];
-    $query_params = $tata['query_params'];
-    // ---
-    $data = super_function($api_params, $query_params, $query);
-    // ---
-    $users_by_wiki = $data;
     // ---
     return $data;
 }

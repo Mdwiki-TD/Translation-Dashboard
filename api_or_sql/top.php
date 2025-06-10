@@ -9,6 +9,7 @@ Usage:
 use function SQLorAPI\TopData\get_td_or_sql_top_lang_of_users;
 use function SQLorAPI\TopData\get_td_or_sql_top_users;
 use function SQLorAPI\TopData\get_td_or_sql_top_langs;
+use function SQLorAPI\TopData\get_td_or_sql_status;
 
 */
 
@@ -75,7 +76,7 @@ function add_top_params($query, $params, $to_add)
         }
     }
     // ---
-    return ["qua" => $query, "params" => $params];
+    return [$query, $params];
 }
 
 function top_query($select)
@@ -127,10 +128,7 @@ function get_td_or_sql_top_users($year, $user_group, $cat)
     // ---
     $query = top_query('user');
     // ---
-    $tab = add_top_params($query, [], $to_add);
-    // ---
-    $params = $tab['params'];
-    $query = $tab['qua'];
+    [$query, $params] = add_top_params($query, [], $to_add);
     // ---
     $query .= " GROUP BY p.user ORDER BY 2 DESC";
     // ---
@@ -155,10 +153,7 @@ function get_td_or_sql_top_langs($year, $user_group, $cat)
     // ---
     $query = top_query('lang');
     // ---
-    $tab = add_top_params($query, [], $to_add);
-    // ---
-    $params = $tab['params'];
-    $query = $tab['qua'];
+    [$query, $params] = add_top_params($query, [], $to_add);
     // ---
     $query .= " GROUP BY p.lang ORDER BY 2 DESC";
     // ---
@@ -169,6 +164,44 @@ function get_td_or_sql_top_langs($year, $user_group, $cat)
     foreach ($data as $item) {
         $item["count"] = intval($item["targets"]);
         $new_data[$item['lang']] = $item;
+    }
+    // ---
+    return $new_data;
+}
+
+function get_td_or_sql_status($year, $user_group, $cat)
+{
+    // ---
+    $to_add = ["year" => $year, "user_group" => $user_group, "cat" => $cat];
+    // ---
+    $api_params = ['get' => 'status', 'year' => $year, 'user_group' => $user_group, 'cat' => $cat];
+    // ---
+    $query = <<<SQL
+        SELECT LEFT(p.pupdate, 7) as date, COUNT(*) as count
+
+        FROM pages p
+
+        LEFT JOIN users u
+            ON p.user = u.username
+
+        WHERE p.target != ''
+
+    SQL;
+    // ---
+    [$query, $params] = add_top_params($query, [], $to_add);
+    // ---
+    $query .= " GROUP BY 1 ORDER BY 1 ASC";
+    // ---
+    $data = super_function($api_params, $params, $query);
+    // ---
+    // var_export(json_encode($params));
+    // echo $query . "<br>";
+    // var_export(json_encode($data));
+    // ---
+    $new_data = [];
+    // ---
+    foreach ($data as $item) {
+        $new_data[$item['date']] = intval($item["count"]);
     }
     // ---
     return $new_data;

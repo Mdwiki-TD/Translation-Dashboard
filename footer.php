@@ -45,14 +45,23 @@ if (isset($GLOBALS['time_start'])) {
 		],
 	});
 	$(document).ready(function() {
-		// Call to_get() function
-		to_get();
+		// Call get_views() function
+		get_views();
 
 		// $('[data-toggle="tooltip"]').tooltip();
 		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 		const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
 		// $('.card').CardWidget('toggle')
+		$('.table_responsive').DataTable({
+			paging: false,
+			info: false,
+			searching: false,
+			responsive: {
+				details: true
+				// display: $.fn.dataTable.Responsive.display.modal()
+			}
+		});
 
 		setTimeout(function() {
 			$('.soro').DataTable({
@@ -62,7 +71,7 @@ if (isset($GLOBALS['time_start'])) {
 					[25, 50, 100, 200]
 				],
 			});
-		}, 1500);
+		}, 200);
 	});
 </script>
 </body>

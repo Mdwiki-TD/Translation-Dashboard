@@ -26,7 +26,7 @@ if (!getenv('tables_dir')) {
 	putenv('tables_dir=' . $tables_dir);
 }
 
-function open_td_Tables_file($path)
+function open_td_Tables_file($path, $echo = true)
 {
 	global $tables_dir;
 	//---
@@ -48,7 +48,7 @@ function open_td_Tables_file($path)
 	if ($result === null || $result === false) {
 		test_print("---- Failed to decode JSON from $file_path");
 		$result = [];
-	} else {
+	} elseif ($echo) {
 		$len = count($result);
 		if (isset($result['list'])) $len = count($result['list']);
 		// ---

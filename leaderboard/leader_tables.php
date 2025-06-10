@@ -50,7 +50,7 @@ function makeLangTable($lang_table)
     $cac = ($addcat == true) ? '<th>cat</th>' : '';
 
     $text = <<<HTML
-    <table class='table compact table-striped sortable leaderboard_tables' style='margin-top: 0px !important;margin-bottom: 0px !important'>
+    <table class='table compact table-striped sortable table_text_left leaderboard_tables' style='margin-top: 0px !important;margin-bottom: 0px !important'>
     <thead>
         <tr>
             <th>#</th>

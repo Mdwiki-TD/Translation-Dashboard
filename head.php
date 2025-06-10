@@ -22,7 +22,7 @@ $stylesheets = [
 
     // "$hoste/ajax/libs/datatables.net-bs5/1.13.5/dataTables.bootstrap5.css",
     "$hoste/ajax/libs/datatables.net-bs5/2.2.2/dataTables.bootstrap5.css",
-    // "$hoste/ajax/libs/datatables.net-responsive-bs5/3.0.4/responsive.bootstrap5.min.css",
+    "$hoste/ajax/libs/datatables.net-responsive-bs5/3.0.4/responsive.bootstrap5.min.css",
 
     "/Translation_Dashboard/css/mobile_format.css",
     "/Translation_Dashboard/css/Responsive_Table.css",
@@ -41,7 +41,7 @@ $scripts = [
     "$hoste/ajax/libs/datatables.net-bs5/2.2.2/dataTables.bootstrap5.min.js",
 
     // "$hoste/ajax/libs/datatables.net-fixedheader/3.4.0/dataTables.fixedHeader.min.js",
-    // "$hoste/ajax/libs/datatables-responsive/3.0.4/dataTables.responsive.js",
+    "$hoste/ajax/libs/datatables-responsive/3.0.4/dataTables.responsive.js",
 
     "/Translation_Dashboard/js/to.js",
     "/Translation_Dashboard/js/login.js",
@@ -89,6 +89,13 @@ function head()
     };
     ?>
     <style>
+        .table_text_left>tbody>tr>th,
+        .table_text_left>tbody>tr>td,
+        .table_text_left>thead>tr>td,
+        .table_text_left>thead>tr>th {
+            text-align: left !important;
+        }
+
         .leaderboard_tables>tbody>tr>td,
         .leaderboard_tables>tbody>tr>th,
         .leaderboard_tables>thead>tr>td,
