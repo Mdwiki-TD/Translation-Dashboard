@@ -60,7 +60,8 @@ echo <<<HTML
             </div>
         </div>
         <div class='col-md-3'>
-            <h3 class='text-center'>$man ($count_new)</h3>
+            <h4 class='text-center'>User: $man</h4>
+            <h4 class='text-center'>Articles: $count_new</h4>
         </div>
         <div class='col-md-3'>
             $filter_form

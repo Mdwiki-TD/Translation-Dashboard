@@ -15,7 +15,7 @@ $mainlang = rawurldecode(str_replace('_', ' ', $mainlang));
 //---
 $year_y = $_GET['year'] ?? 'All';
 //---
-$langname = LangsTables::$L_code_to_lang[$mainlang] ?? $mainlang;
+$langname = LangsTables::$L_code_to_lang_name[$mainlang] ?? $mainlang;
 //---
 $u_tables = get_langs_tables($mainlang, $year_y);
 //---
@@ -41,8 +41,10 @@ $table2 = $tat['table2'];
 //---
 $man = $langname;
 //---
+$cat_link = "";
+//---
 if ($_SERVER['SERVER_NAME'] == 'localhost' || (isset($_REQUEST['test']) || isset($_COOKIE['test']))) {
-    $man .= ' <a target="_blank" href="http://' . $mainlang . '.wikipedia.org/wiki/Category:Translated_from_MDWiki">(cat)</a>';
+    $cat_link = ' <a target="_blank" href="http://' . $mainlang . '.wikipedia.org/wiki/Category:Translated_from_MDWiki">(cat)</a>';
 };
 //---
 $filter_form = make_filter_form_langs($mainlang, $year_y);
@@ -60,7 +62,8 @@ echo <<<HTML
             </div>
         </div>
         <div class='col-md-3'>
-            <h3 class='text-center'>$man ($count_new)</h3>
+            <h4 class='text-center'>Language: $man ($mainlang)</h4>
+            <h4 class='text-center'>Articles: $count_new $cat_link</h4>
         </div>
         <div class='col-md-3'>
             $filter_form
