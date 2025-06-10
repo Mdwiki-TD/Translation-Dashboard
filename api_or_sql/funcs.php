@@ -80,11 +80,11 @@ function get_user_pages($user_main, $year_y, $lang_y)
         $api_params['lang'] = $lang_y;
     };
     //---
-    $data = super_function($api_params, $sql_params, $query);
+    $u_data = super_function($api_params, $sql_params, $query);
     // ---
-    $data[$key] = $data;
+    $data[$key] = $u_data;
     // ---
-    return $data;
+    return $u_data;
 }
 
 function get_pages_with_pupdate()
@@ -98,13 +98,14 @@ function get_pages_with_pupdate()
     // ---
     $api_params = ['get' => 'pages', 'distinct' => "1", 'select' => 'YEAR(pupdate) AS year', 'pupdate' => 'not_empty'];
     $query = "SELECT DISTINCT YEAR(pupdate) AS year FROM pages WHERE pupdate <> ''";
-    $data = super_function($api_params, [], $query);
     // ---
-    $data = array_map('current', $data);
+    $u_data = super_function($api_params, [], $query);
     // ---
-    $pages_with_pupdate = $data;
+    $u_data = array_map('current', $u_data);
     // ---
-    return $data;
+    $pages_with_pupdate = $u_data;
+    // ---
+    return $u_data;
 }
 
 function get_graph_data()
@@ -124,11 +125,11 @@ function get_graph_data()
         GROUP BY LEFT(pupdate, 7)
         ORDER BY LEFT(pupdate, 7) ASC;
     SQL;
-    $data = super_function($api_params, [], $query);
+    $u_data = super_function($api_params, [], $query);
     // ---
-    $graph_data = $data;
+    $graph_data = $u_data;
     // ---
-    return $data;
+    return $u_data;
 }
 
 function get_lang_pages($lang, $year_y)
@@ -152,9 +153,9 @@ function get_lang_pages($lang, $year_y)
         $api_params['year'] = $year_y;
     };
     // ---
-    $data = super_function($api_params, $params, $query);
+    $u_data = super_function($api_params, $params, $query);
     // ---
-    $data[$lang . $year_y] = $data;
+    $data[$lang . $year_y] = $u_data;
     // ---
     return $data;
 }
@@ -188,11 +189,11 @@ function get_user_views($user, $year_y, $lang_y)
         $sql_params[] = $year_y;
     }
     // ---
-    $data = super_function($api_params, $sql_params, $query2);
+    $u_data = super_function($api_params, $sql_params, $query2);
     // ---
     $table_of_views = [];
     // ---
-    foreach ($data as $Key => $table) {
+    foreach ($u_data as $Key => $table) {
         $targ = $table['target'] ?? "";
         $lang = $table['lang'] ?? "";
         // ---
@@ -205,7 +206,7 @@ function get_user_views($user, $year_y, $lang_y)
         $table_of_views[$lang][$targ] = $views;
     };
     // ---
-    $data[$key] = $data;
+    $data[$key] = $table_of_views;
     // ---
     return $table_of_views;
 }
@@ -239,11 +240,11 @@ function get_lang_views($mainlang, $year_y)
         $sql_params[] = $year_y;
     };
     // ---
-    $data = super_function($api_params, $sql_params, $query2);
+    $u_data = super_function($api_params, $sql_params, $query2);
     // ---
     $table_of_views = [];
     // ---
-    foreach ($data as $Key => $table) {
+    foreach ($u_data as $Key => $table) {
         $targ = $table['target'] ?? "";
         // ---
         $views = isset($table['views']) ? $table['views'] : 0;
@@ -268,16 +269,17 @@ function get_lang_years($mainlang)
     $api_params = ['get' => 'pages', 'distinct' => "1", 'select' => 'YEAR(pupdate) AS year', 'pupdate' => 'not_empty', 'lang' => $mainlang];
     $query = "SELECT DISTINCT YEAR(pupdate) AS year FROM pages WHERE lang = ? AND pupdate <> ''";
     $params = [$mainlang];
-    $data = super_function($api_params, $params, $query);
     // ---
-    $data = array_map('current', $data);
+    $u_data = super_function($api_params, $params, $query);
+    // ---
+    $u_data = array_map('current', $u_data);
     // ---
     // sort years
-    rsort($data);
+    rsort($u_data);
     // ---
-    $data[$mainlang] = $data;
+    $data[$mainlang] = $u_data;
     // ---
-    return $data;
+    return $u_data;
 }
 
 function get_user_years($user)
@@ -294,16 +296,21 @@ function get_user_years($user)
     // ---
     $params = [$user];
     // ---
-    $data = super_function($api_params, $params, $query);
+    $u_data = super_function($api_params, $params, $query);
     // ---
-    $data = array_map('current', $data);
+    $u_data = array_map('current', $u_data);
+    // ---
+    // remove empty or null years
+    $u_data = array_filter($u_data, function ($value) {
+        return !empty($value);
+    });
     // ---
     // sort years
-    rsort($data);
+    rsort($u_data);
     // ---
-    $data[$user] = $data;
+    $data[$user] = $u_data;
     // ---
-    return $data;
+    return $u_data;
 }
 
 function get_user_langs($user)
@@ -318,11 +325,17 @@ function get_user_langs($user)
     $api_params = ['get' => 'pages', 'distinct' => "1", 'select' => 'lang', 'user' => $user];
     $query = "SELECT DISTINCT lang FROM pages WHERE user = ?";
     $params = [$user];
-    $data = super_function($api_params, $params, $query);
     // ---
-    $data = array_map('current', $data);
+    $u_data = super_function($api_params, $params, $query);
     // ---
-    $data[$user] = $data;
+    $u_data = array_map('current', $u_data);
     // ---
-    return $data;
+    // remove empty or null years
+    $u_data = array_filter($u_data, function ($value) {
+        return !empty($value);
+    });
+    // ---
+    $data[$user] = $u_data;
+    // ---
+    return $u_data;
 }
