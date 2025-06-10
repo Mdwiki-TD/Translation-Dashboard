@@ -122,7 +122,7 @@ function makeDropdown($tab, $cat, $id, $add)
 function makeColSm4($title, $table, $numb = 4, $table2 = '', $title2 = '')
 {
     return <<<HTML
-    <div class="col-md-$numb">
+    <div class="col-lg-$numb col-md-6 col-sm-12">
         <div class="card card2 mb-3">
             <div class="card-header">
                 <span class="card-title" style="font-weight:bold;">
