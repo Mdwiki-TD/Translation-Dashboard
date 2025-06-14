@@ -210,7 +210,9 @@ function make_table_lead($dd, $tab_type = 'a', $views_table = [], $page_type = '
             <tbody>
         HTML;
     //---
+    $total_articles = count($dd);
     $noo = 0;
+    //---
     foreach ($dd as $tat => $tabe) {
         //---
         $noo += 1;
@@ -248,18 +250,7 @@ function make_table_lead($dd, $tab_type = 'a', $views_table = [], $page_type = '
     </table>
     HTML;
     //---
-    $total_words = number_format($total_words);
-    $total_views = number_format($total_views);
+    $table1 = ['total_articles' => $total_articles, 'total_words' => $total_words, 'total_views' => $total_views];
     //---
-    $table1 = <<<HTML
-        <table class='table table-sm table-striped' style='width:70%;'>
-            <tr><td>Words: </td><td>$total_words</td></tr>
-            <tr><td>Pageviews: </td><td><span id='hrefjsontoadd'>$total_views</span></td></tr>
-        </table>
-        HTML;
-    //---
-    $arra = array('table1' => $table1, 'table2' => $table2);
-    //---
-    return $arra;
-    //---
+    return [$table1, $table2];
 };

@@ -3,12 +3,12 @@
 namespace Leaderboard\Langs;
 
 //---
-//---
 use Tables\Langs\LangsTables;
 use function Leaderboard\Subs\LeadHelp\make_table_lead;
 use function Leaderboard\Subs\FilterForm\make_filter_form_langs;
 use function Leaderboard\Subs\SubLangs\get_langs_tables;
 use function Leaderboard\SubGraph\graph_data_new;
+use function Leaderboard\Subs\FilterForm\lead_row;
 //---
 $mainlang = $_GET['langcode'] ?? "";
 $mainlang = rawurldecode(str_replace('_', ' ', $mainlang));
@@ -27,7 +27,7 @@ krsort($dd);
 //---
 $count_new = count($dd);
 //---
-$tat = make_table_lead(
+[$table1, $main_table] = make_table_lead(
     $dd,
     $tab_type = 'translations',
     $views_table = $table_of_views,
@@ -35,9 +35,6 @@ $tat = make_table_lead(
     $user = '',
     $lang = $mainlang
 );
-//---
-$table1 = $tat['table1'];
-$table2 = $tat['table2'];
 //---
 $man = $langname;
 //---
@@ -51,36 +48,19 @@ $filter_form = make_filter_form_langs($mainlang, $year_y);
 //---
 $graph = graph_data_new($dd, "lang_chart");
 //---
+echo lead_row($table1, $graph, "<h4 class='text-center'>Language: $man ($mainlang) $cat_link</h4>", $filter_form);
+//---
 echo <<<HTML
-    <div class='row content'>
-        <div class='col-md-2'>
-            $table1
-        </div>
-        <div class='col-md-4'>
-            <div class="position-relative">
-                $graph
-            </div>
-        </div>
-        <div class='col-md-3'>
-            <h4 class='text-center'>Language: $man ($mainlang)</h4>
-            <h4 class='text-center'>Articles: $count_new $cat_link</h4>
-        </div>
-        <div class='col-md-3'>
-            $filter_form
-        </div>
-    </div>
-    <div class='card'>
-        <div class='card-body' style='padding:5px 0px 5px 5px;'>
-            $table2
+    <div class='card mt-1'>
+        <div class='card-body p-1'>
+            $main_table
         </div>
     </div>
 HTML;
 //---
 krsort($dd_Pending);
 //---
-$table_pnd = make_table_lead($dd_Pending, $tab_type = 'pending', $page_type = 'langs', $user = '', $lang = $mainlang);
-//---
-$tab_pnd = $table_pnd['table2'];
+[$_, $tab_pnd] = make_table_lead($dd_Pending, $tab_type = 'pending', $page_type = 'langs', $user = '', $lang = $mainlang);
 //---
 echo <<<HTML
 <br>

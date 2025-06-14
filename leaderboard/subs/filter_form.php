@@ -6,6 +6,7 @@ Usage:
 
 use function Leaderboard\Subs\FilterForm\make_filter_form_langs;
 use function Leaderboard\Subs\FilterForm\make_filter_form_users;
+use function Leaderboard\Subs\FilterForm\lead_row;
 
 */
 
@@ -28,13 +29,13 @@ function form_result($hidden, $Dropdowns)
         <form method="get" action="leaderboard.php">
             $test_line
             $hidden
-            <div class='container g-0'>
+            <div class='container g-0 mt-3'>
                 <div class='row'>
-                    <div class="col">
+                    <div class="col-md-8">
                         $Dropdowns
                     </div>
-                    <div class="col">
-                        <input class='btn btn-outline-primary' type='submit' name='start' value='Filter' />
+                    <div class="col-md-4">
+                        <input class='btn btn-outline-primary' type='submit' value='Filter' />
                     </div>
                 </div>
             </div>
@@ -84,4 +85,48 @@ function make_filter_form_users($user, $lang_y, $year_y)
     //---
     return form_result("<input type='hidden' name='user' value='$user' />", $Dropdown);
     //---
+}
+
+function lead_row($table1, $graph, $main_title, $filter_form)
+{
+    //---
+    // $table1 = ['total_articles' => $total_articles, 'total_words' => $total_words, 'total_views' => $total_views];
+    $total_articles = number_format($table1['total_articles']);
+    $total_words = number_format($table1['total_words']);
+    $total_views = number_format($table1['total_views']);
+    //---
+    $table1_html = <<<HTML
+        <table class='table table-sm table-striped'>
+            <tr><td>Articles: </td><td>$total_articles</td>
+            <td>Words: </td><td>$total_words</td>
+            <td>Pageviews: </td><td><span id='hrefjsontoadd'>$total_views</span></td></tr>
+        </table>
+        HTML;
+    //---
+    return <<<HTML
+        <div class='container-fluid'>
+            <div class='row lead_forms'>
+                <div class='col-lg-4 col-md-6 border_debug border rounded'>
+                    <div class="d-flex align-items-center justify-content-center " style="height: 100%">
+                        <div class="list-group">
+                            <div>
+                            $main_title
+                            </div>
+                            <div>
+                            $table1_html
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class='col-lg-5 col-md-6'>
+                    <div class="position-relative py-1 border rounded">
+                        $graph
+                    </div>
+                </div>
+                <div class='col-lg-3 col-md-6 border_debug'>
+                    $filter_form
+                </div>
+            </div>
+        </div>
+    HTML;
 }

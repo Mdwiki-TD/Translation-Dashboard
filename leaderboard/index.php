@@ -21,7 +21,19 @@ include_once __DIR__ . '/graph_api.php'; // namespace Leaderboard\Graph2;
 use function Leaderboard\Graph2\print_graph_tab_2_new;
 use function Leaderboard\Graph\print_graph_tab;
 
-echo '<script>$("#leaderboard").addClass("active");</script>';
+echo <<<HTML
+    <style>
+    .lead_forms > div {
+        /* padding: .1rem;
+        margin: .1rem; */
+    }
+    .border_debugx {
+        border: 1px solid;
+        border-radius: 5px;
+    }
+    </style>
+    <script>$("#leaderboard").addClass("active");</script>
+HTML;
 
 $users = $_GET['user'] ?? '';
 $langs = $_GET['langcode'] ?? '';

@@ -7,6 +7,7 @@ use function Leaderboard\Subs\LeadHelp\make_table_lead;
 use function Leaderboard\Subs\FilterForm\make_filter_form_users;
 use function Leaderboard\Subs\SubUsers\get_users_tables;
 use function Leaderboard\SubGraph\graph_data_new;
+use function Leaderboard\Subs\FilterForm\lead_row;
 //---
 $mainuser = $_GET['user'] ?? "";
 //---
@@ -31,7 +32,7 @@ krsort($dd);
 //---
 $count_new = count($dd);
 //---
-$tat = make_table_lead(
+[$table1, $main_table] = make_table_lead(
     $dd,
     $tab_type = 'translations',
     $views_table = $table_of_views,
@@ -40,45 +41,25 @@ $tat = make_table_lead(
     $lang = ''
 );
 //---
-$table1 = $tat['table1'];
-$table2 = $tat['table2'];
-//---
 $man = make_mdwiki_user_url($mainuser);
 //---
 $filter_form = make_filter_form_users($mainuser, $lang_y, $year_y);
 //---
 $graph = graph_data_new($dd, "user_chart");
 //---
+echo lead_row($table1, $graph, "<h4 class='text-center'>User: $man</h4>", $filter_form);
+//---
 echo <<<HTML
-    <div class='row content'>
-        <div class='col-md-2'>
-            $table1
-        </div>
-        <div class='col-md-4'>
-            <div class="position-relative">
-                $graph
-            </div>
-        </div>
-        <div class='col-md-3'>
-            <h4 class='text-center'>User: $man</h4>
-            <h4 class='text-center'>Articles: $count_new</h4>
-        </div>
-        <div class='col-md-3'>
-            $filter_form
-        </div>
-    </div>
-    <div class='card'>
-        <div class='card-body' style='padding:5px 0px 5px 5px;'>
-            $table2
+    <div class='card mt-1'>
+        <div class='card-body p-1'>
+            $main_table
         </div>
     </div>
 HTML;
 //---
 krsort($dd_Pending);
 //---
-$table_pnd = make_table_lead($dd_Pending, $tab_type = 'pending', $views_table = $table_of_views, $page_type = 'users', $user = $mainuser, $lang = '');
-//---
-$tab_pnd = $table_pnd['table2'];
+[$_, $table_pnd] = make_table_lead($dd_Pending, $tab_type = 'pending', $views_table = $table_of_views, $page_type = 'users', $user = $mainuser, $lang = '');
 //---
 echo <<<HTML
     <br>
