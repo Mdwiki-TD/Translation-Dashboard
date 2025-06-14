@@ -13,10 +13,10 @@ use function SQLorAPI\Funcs\get_user_pages;
 use function SQLorAPI\Process\get_user_process_new;
 use function Leaderboard\Subs\LeadHelp\make_key;
 
-function add_inp($dd_Pending, $user)
+function add_inp($dd_Pending, $user, $year_y)
 {
     // ---
-    $to_add = get_user_process_new($user);
+    $to_add = get_user_process_new($user, $year_y);
     // ---
     foreach ($to_add as $_ => $Taab) {
         //---
@@ -68,7 +68,7 @@ function get_users_tables($mainuser, $year_y, $lang_y)
     $dd = $pages_table['dd'];
     $dd_Pending = $pages_table['dd_Pending'];
     //---
-    $dd_Pending = add_inp($dd_Pending, $user_main);
+    $dd_Pending = add_inp($dd_Pending, $user_main, $year_y);
     //---
     krsort($dd);
     //---

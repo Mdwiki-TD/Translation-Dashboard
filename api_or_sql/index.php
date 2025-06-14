@@ -34,13 +34,13 @@ function isvalid($str)
     return !empty($str) && strtolower($str) != "all";
 }
 
-function super_function($api_params, $sql_params, $sql_query)
+function super_function($api_params, $sql_params, $sql_query, $no_refind = false)
 {
     global $use_td_api;
     // ---
     $data = ($use_td_api) ? get_td_api($api_params) : [];
     // ---
-    if (empty($data)) {
+    if (empty($data) && !$no_refind) {
         test_print("<br> >>>>> Query:");
         $data = fetch_query($sql_query, $sql_params);
     }

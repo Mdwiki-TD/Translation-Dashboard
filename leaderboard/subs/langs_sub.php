@@ -13,10 +13,10 @@ use function SQLorAPI\Funcs\get_lang_pages;
 use function SQLorAPI\Process\get_lang_in_process_new;
 use function Leaderboard\Subs\LeadHelp\make_key;
 
-function add_inp($dd_Pending, $mainlang)
+function add_inp($dd_Pending, $mainlang, $year_y)
 {
     // ---
-    $to_add = get_lang_in_process_new($mainlang);
+    $to_add = get_lang_in_process_new($mainlang, $year_y);
     // ---
     foreach ($to_add as $_ => $Taab) {
         //---
@@ -68,7 +68,7 @@ function get_langs_tables($mainlang, $year_y)
     $dd = $p_tables['dd'];
     $dd_Pending = $p_tables['dd_Pending'];
     //---
-    $dd_Pending = add_inp($dd_Pending, $mainlang);
+    $dd_Pending = add_inp($dd_Pending, $mainlang, $year_y);
     //---
     return array('dd' => $dd, 'dd_Pending' => $dd_Pending, 'table_of_views' => $table_of_views);
 }

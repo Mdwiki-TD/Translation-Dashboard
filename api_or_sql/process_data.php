@@ -13,6 +13,7 @@ use function SQLorAPI\Process\get_lang_in_process_new;
 */
 
 use function SQLorAPI\Get\super_function;
+use function SQLorAPI\Get\isvalid;
 
 function get_process_all_new()
 {
@@ -31,7 +32,7 @@ function get_process_all_new()
     return $process_all;
 }
 
-function get_user_process_new($user)
+function get_user_process_new($user, $year_y = "all")
 {
     // ---
     static $cache = [];
@@ -46,7 +47,13 @@ function get_user_process_new($user)
     // ---
     $params = [$user];
     // ---
-    $data = super_function($api_params, $params, $query);
+    if (isvalid($year_y)) {
+        $query .= " AND YEAR(add_date) = ?";
+        $params[] = $year_y;
+        $api_params['year'] = $year_y;
+    }
+    // ---
+    $data = super_function($api_params, $params, $query, true);
     // ---
     $cache[$user] = $data;
     // ---
@@ -75,7 +82,7 @@ function get_users_process_new()
     return $process_new;
 }
 
-function get_lang_in_process_new($code)
+function get_lang_in_process_new($code, $year_y = "all")
 {
     // ---
     static $cache = [];
@@ -98,7 +105,15 @@ function get_lang_in_process_new($code)
     // ---
     $api_params = ['get' => 'in_process', 'lang' => $code];
     // ---
-    $data = super_function($api_params, [$code], $query);
+    $params = [$code];
+    // ---
+    if (isvalid($year_y)) {
+        $query .= " AND YEAR(add_date) = ?";
+        $params[] = $year_y;
+        $api_params['year'] = $year_y;
+    }
+    // ---
+    $data = super_function($api_params, $params, $query, true);
     // ---
     // $cache[$code] = array_column($data, 'title');
     $cache[$code] = $data;
