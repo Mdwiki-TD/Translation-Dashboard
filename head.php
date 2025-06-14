@@ -46,7 +46,7 @@ $scripts = [
     "/Translation_Dashboard/js/to.js",
     "/Translation_Dashboard/js/login.js",
     "/td/plugins/chart.js/Chart.min.js",
-
+    "/Translation_Dashboard/js/g.js",
 ];
 
 $scripts_module = [

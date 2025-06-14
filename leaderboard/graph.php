@@ -10,18 +10,17 @@ use function Leaderboard\Graph\print_graph_for_table;
 use function Leaderboard\Graph\print_graph_tab;
 
 */
-
-echo '
-<script src="/Translation_Dashboard/js/g.js"></script>
-';
 //---
 use function SQLorAPI\Funcs\get_graph_data;
 // ---
-function graph_html($keys, $values, $id = 'chart1', $no_card = false)
+function graph_html($keys, $values, $no_card = false)
 {
+    // ---
+    $graph_id = 'chart_' . uniqid();
+    // ---
     $canvas = <<<HTML
         <div class="position-relative">
-            <canvas id="$id" height="200"></canvas>
+            <canvas id="$graph_id" height="200"></canvas>
         </div>
     HTML;
     //---
@@ -48,13 +47,13 @@ function graph_html($keys, $values, $id = 'chart1', $no_card = false)
             graph_js(
                 [$keys],
                 [$values],
-                "$id"
+                "$graph_id"
             )
         </script>
     HTML;
     return $graph;
 }
-function print_graph_for_table($table, $id = 'chart1', $no_card = false)
+function print_graph_for_table($table, $no_card = false)
 {
     //---
     // sort $table by keys
@@ -71,11 +70,12 @@ function print_graph_for_table($table, $id = 'chart1', $no_card = false)
     $ms = substr($ms, 0, -1);
     $cs = substr($cs, 0, -1);
     //---
-    $graph =  graph_html($ms, $cs, $id = $id, $no_card = $no_card);
+    $graph = graph_html($ms, $cs, $no_card = $no_card);
     //---
     return $graph;
 }
-function print_graph_from_sql($id = 'chart1')
+
+function print_graph_from_sql()
 {
     //---
     $data = get_graph_data();
@@ -94,7 +94,7 @@ function print_graph_from_sql($id = 'chart1')
     $ms = substr($ms, 0, -1);
     $cs = substr($cs, 0, -1);
     //---
-    $graph =  graph_html($ms, $cs, $id = $id);
+    $graph =  graph_html($ms, $cs);
     //---
     return $graph;
 }

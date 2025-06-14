@@ -13,6 +13,10 @@ function make_table($data, $len)
     //---
     $table = [];
     //---
+    if (count($data) == 0) {
+        return ["" => 0, " " => 0];
+    }
+    //---
     foreach ($data as $tat => $row) {
         //---
         $pupdate = $row['pupdate'] ?? "";
@@ -25,8 +29,14 @@ function make_table($data, $len)
         }
     }
     //---
+    if (count($table) == 1) {
+        $table[""] = 0;
+    }
+    //---
     // sort $table by keys
     ksort($table);
+    //---
+    // var_export($table);
     //---
     return $table;
 }
@@ -36,11 +46,9 @@ function make_graph_data($data)
     //---
     $table = make_table($data, -3);
     //---
-    if (count($table) > 12) {
+    if (count($table) > 15 && (!isset($_GET['g']))) {
         $table = make_table($data, 4);
     }
-    //---
-    // var_export(json_encode($table));
     //---
     $ms = "";
     $cs = "";
@@ -50,25 +58,36 @@ function make_graph_data($data)
         $ms .= "'$key',";
         $cs .= "$value,";
     }
+    //---
     $ms = substr($ms, 0, -1);
     $cs = substr($cs, 0, -1);
     //---
-    return [$ms, $cs];
+    return [$ms, $cs, count($table)];
 }
 
-function graph_data_new($dd, $id)
+function graph_data_new($dd)
 {
     // ---
-    [$keys, $values] = make_graph_data($dd);
+    $graph_id = 'chart_' . uniqid();
+    // ---
+    [$keys, $values, $count] = make_graph_data($dd);
     //---
-    return <<<HTML
-        <canvas id="$id" height="100" width="200"></canvas>
+    $text = <<<HTML
+        <canvas id="$graph_id" height="100" width="200"></canvas>
+    HTML;
+    //---
+    if ($count > 0) {
+        //---
+        $text .= <<<HTML
         <script>
             graph_js(
                 [$keys],
                 [$values],
-                "$id"
+                "$graph_id"
             )
         </script>
     HTML;
+    }
+    // ---
+    return $text;
 }

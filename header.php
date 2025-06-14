@@ -86,7 +86,7 @@ if (isset($GLOBALS['global_username']) && $GLOBALS['global_username'] != '') {
 	$u_name = $GLOBALS['global_username'];
 	$li_user = <<<HTML
 	<li class="nav-item col-4 col-lg-auto">
-			<a href="leaderboard.php?user=$u_name" class="nav-link py-2 px-0 px-lg-2">
+			<a href="leaderboard.php?get=users&user=$u_name" class="nav-link py-2 px-0 px-lg-2">
 				<i class="fas fa-user fa-sm fa-fw mr-2"></i> <span class="navtitles">$u_name</span>
 			</a>
 		</li>
@@ -98,7 +98,21 @@ if (isset($GLOBALS['global_username']) && $GLOBALS['global_username'] != '') {
 	HTML;
 };
 //---
-echo <<<HTML
+// get php file name from url http://localhost:9001/Translation_Dashboard/leaderboard.php?get=langs&langcode=zh
+function is_active($url)
+{
+	$file_name = basename($_SERVER['PHP_SELF']);
+	// echo "file_name: $file_name <br>";
+	//---
+	if ($file_name == $url) {
+		return 'active';
+	}
+	//---
+	return '';
+}
+//---
+?>
+
 <body>
 	<header class="mb-3 border-bottom">
 		<nav class="navbar navbar-expand-lg bg-body-tertiary shadow" id="mainnav">
@@ -113,22 +127,24 @@ echo <<<HTML
 				</button>
 				<div class="collapse navbar-collapse" id="collapsibleNavbar">
 					<ul class="navbar-nav flex-row flex-wrap bd-navbar-nav">
-						<li class="nav-item col-4 col-lg-auto" id="leaderboard">
+						<li class="nav-item col-4 col-lg-auto <?php echo is_active('leaderboard.php'); ?>" id="leaderboard">
 							<a class="nav-link py-2 px-0 px-lg-2" href="leaderboard.php">
 								<span class="navtitles">Leaderboard</span>
 							</a>
 						</li>
 						<li class="nav-item col-4 col-lg-auto" id="Prior">
-							<a class="nav-link py-2 px-0 px-lg-2" target="_blank"  href="/prior">
+							<a class="nav-link py-2 px-0 px-lg-2" target="_blank" href="/prior">
 								<span class="navtitles">Prior</span>
 							</a>
 						</li>
-						<li class="nav-item col-4 col-lg-auto" id="missing">
+						<li class="nav-item col-4 col-lg-auto <?php echo is_active('missing.php'); ?>" id="missing">
 							<a class="nav-link py-2 px-0 px-lg-2" href="missing.php">
 								<span class="navtitles">Missing</span>
 							</a>
 						</li>
-						<li class="nav-item col-4 col-lg-auto" id="coord">$coord_tools</li>
+						<li class="nav-item col-4 col-lg-auto" id="coord">
+							<?php echo $coord_tools; ?>
+						</li>
 
 						<li class="nav-item col-4 col-lg-auto">
 							<a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/MrIbrahem/Translation-Dashboard" target="_blank">
@@ -141,12 +157,12 @@ echo <<<HTML
 					</ul>
 					<hr class="d-lg-none text-black-50">
 					<ul class="navbar-nav flex-row flex-wrap bd-navbar-nav ms-lg-auto">
-						$li_user
+						<?php echo $li_user; ?>
 					</ul>
 				</div>
 				<div class="d-flex ms-2">
 					<span class="nav-item col-4 col-lg-auto dropdown">
-						$them_li
+						<?php echo $them_li; ?>
 					</span>
 					<!-- <button class="theme-toggle btn btn-link me-ms-auto" aria-label="Toggle theme">
 						<i class="bi bi-moon-stars-fill"></i>
@@ -171,14 +187,15 @@ echo <<<HTML
 			</div>
 		</div>
 	</header>
-HTML;
 
-$aal = banner_alert("Tool is down due to cultural and technical reasons since Aug 3 2024. Work is ongoing to get it functional again");
-// ---
-?>
-<main id="body">
-	<!-- <div id="maindiv" class="container-fluid"> -->
-	<div id="maindiv" class="container-fluid">
+	<?php
 
-		<!-- <br> -->
-		<!-- <hr/> -->
+	$aal = banner_alert("Tool is down due to cultural and technical reasons since Aug 3 2024. Work is ongoing to get it functional again");
+	// ---
+	?>
+	<main id="body">
+		<!-- <div id="maindiv" class="container-fluid"> -->
+		<div id="maindiv" class="container-fluid">
+
+			<!-- <br> -->
+			<!-- <hr/> -->

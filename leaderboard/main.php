@@ -20,6 +20,7 @@ include_once __DIR__ . '/include.php';
 //---
 use Tables\SqlTables\TablesSql;
 use function Actions\Html\makeColSm4;
+use function Actions\Html\makeCol;
 use function Leaderboard\Graph\print_graph_for_table;
 use function Leaderboard\LeaderTables\createNumbersTable;
 use function Leaderboard\LeaderTables\makeLangTable;
@@ -55,10 +56,10 @@ function print_cat_table($year, $user_group, $camp, $cat): string
     //---
     $graph_data = get_td_or_sql_status($year, $user_group, $cat);
     //---
-    $gg = print_graph_for_table($graph_data, $id = 'chart09', $no_card = false);
+    $graph_html = print_graph_for_table($graph_data, $no_card = false);
     //---
 
-    $numbersCol = makeColSm4('Numbers', $numbersTable, 3, $gg);
+    $numbersCol = makeCol('Numbers', $numbersTable, $graph_html);
 
     $usersTable = makeUsersTable($users_list);
 
@@ -74,7 +75,7 @@ function print_cat_table($year, $user_group, $camp, $cat): string
         </button>
     HTML;
     //---
-    $usersCol = makeColSm4('Top users by number of translation', $usersTable, 5, $table2 = $copy_module, $title2 = $modal_a);
+    $usersCol = makeColSm4('Top users by number of translation', $usersTable, 5, $copy_module, $modal_a);
     //---
     $languagesTable = makeLangTable($lang_table);
     $languagesCol = makeColSm4('Top languages by number of Articles', $languagesTable, 4);

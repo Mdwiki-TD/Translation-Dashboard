@@ -85,7 +85,7 @@ function makeLangTable($lang_table)
         $text .= <<<HTML
             <tr>
                 <td>$numb</td>
-                <td><a href='leaderboard.php?langcode=$langcode'>$langname</a></td>
+                <td><a href='leaderboard.php?get=langs&langcode=$langcode'>$langname</a></td>
                 <td>$comp</td>
                 <td>$view</td>
                 $cach

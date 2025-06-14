@@ -5,6 +5,7 @@ namespace Leaderboard\Filter;
 /*
 Usage:
 use function Leaderboard\Filter\leaderboard_filter;
+use function Leaderboard\Filter\input_group;
 */
 
 if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
@@ -20,7 +21,6 @@ use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
 
 function input_group($title, $rows): string
 {
-
     $d33 = <<<HTML
         <div class="input-group">
             <span class="input-group-text">%s</span>
@@ -84,8 +84,8 @@ function leaderboard_filter($year, $user_group, $camp, $action = "leaderboard.ph
     //---
     $yearDropdown = make_year_dropdown($year);
     //---
-    $test_line = (isset($_REQUEST['test']) != '') ? "<input type='text' name='test' value='1' hidden/>" : "";
-    $test_line .= (isset($_GET['use_td_api']) != '') ? "<input type='text' name='use_td_api' value='" . htmlspecialchars($_GET['use_td_api'], ENT_QUOTES, 'UTF-8') . "' hidden/>" : "";
+    $test_line = (isset($_REQUEST['test']) != '') ? '<input type="hidden" name="test" value="1" />' : "";
+    $test_line .= (isset($_GET['use_td_api']) != '') ? "<input type='hidden' name='use_td_api' value='" . htmlspecialchars($_GET['use_td_api'], ENT_QUOTES, 'UTF-8') . "'/>" : "";
     //---
     return <<<HTML
         <form method="get" action="$action" id="leaderboard_filter">

@@ -91,15 +91,11 @@ function makeDropdown($tab, $cat, $id, $add)
     $options = "";
     //---
     foreach ($tab as $dd) {
-        //---
-        $se = '';
-        //---
-        if ($cat == $dd) $se = 'selected';
+        $se = ($cat == $dd) ? 'selected' : '';
         //---
         $options .= <<<HTML
             <option value='$dd' $se>$dd</option>
         HTML;
-        //---
     };
     //---
     $sel_line = "";
@@ -107,7 +103,7 @@ function makeDropdown($tab, $cat, $id, $add)
     if (!empty($add)) {
         $add2 = ($add == 'all') ? 'All' : $add;
         $sel = "";
-        if ($cat == $add) $sel = "celected";
+        if ($cat == $add) $sel = "selected";
         $sel_line = "<option value='$add' $sel>$add2</option>";
     }
     //---
@@ -122,28 +118,56 @@ function makeDropdown($tab, $cat, $id, $add)
 function makeColSm4($title, $table, $numb = 4, $table2 = '', $title2 = '')
 {
     return <<<HTML
-    <div class="col-lg-$numb col-md-6 col-sm-12">
-        <div class="card card2 mb-3">
-            <div class="card-header">
-                <span class="card-title" style="font-weight:bold;">
-                    $title
-                </span>
-                <div style='float: right'>
-                    $title2
+        <div class="col-lg-$numb col-md-6 col-sm-12">
+            <div class="card card2 mb-3">
+                <div class="card-header">
+                    <span class="card-title" style="font-weight:bold;">
+                        $title
+                    </span>
+                    <div style='float: right'>
+                        $title2
+                    </div>
+                    <div class="card-tools">
+                        <button type="button" class="btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                    </div>
                 </div>
-                <div class="card-tools">
-                    <button type="button" class="btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                <div class="card-body1 card2">
+                    $table
                 </div>
+                <!-- <div class="card-footer"></div> -->
             </div>
-            <div class="card-body1 card2">
-                $table
-            </div>
-            <!-- <div class="card-footer"></div> -->
+            $table2
         </div>
-        $table2
-    </div>
     HTML;
-};
+}
+function makeCol($title, $table, $table2)
+{
+    return <<<HTML
+        <div class="col-lg-3 col-md-12 col-sm-12">
+            <div class="row">
+                <div class="col-lg-12 col-md-6">
+                    <div class="card card2 mb-3">
+                        <div class="card-header">
+                            <span class="card-title" style="font-weight:bold;">
+                                $title
+                            </span>
+                            <div class="card-tools">
+                                <button type="button" class="btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                            </div>
+                        </div>
+                        <div class="card-body1 card2">
+                            $table
+                        </div>
+                        <!-- <div class="card-footer"></div> -->
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-6">
+                    $table2
+                </div>
+            </div>
+        </div>
+    HTML;
+}
 
 function make_drop($uxutable, $code)
 {
@@ -168,7 +192,7 @@ function make_mdwiki_title($title)
     }
     return $title;
 }
-//---
+
 function make_cat_url($category)
 {
     if (!empty($category)) {
@@ -201,16 +225,16 @@ function make_translation_url($title, $lang, $tr_type)
     //---
     return $url;
 }
-//---
+
 function make_mdwiki_user_url($user)
 {
     if (!empty($user)) {
         $encoded_user = rawurlencode(str_replace(' ', '_', $user));
-        return "<a href='https://mdwiki.org/wiki/User:$encoded_user'>$user</a>";
+        return "<a href='https://mdwiki.org/wiki/User:$encoded_user' taget='_blank'>$user</a>";
     }
     return $user;
 }
-//---
+
 function make_target_url($target, $lang, $name = '', $deleted = false)
 {
     $display_name = (!empty($name)) ? $name : $target;
@@ -225,4 +249,3 @@ function make_target_url($target, $lang, $name = '', $deleted = false)
     }
     return $target;
 }
-//---

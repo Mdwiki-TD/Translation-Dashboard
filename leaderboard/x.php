@@ -249,7 +249,7 @@ HTML;
                     data: 'user',
                     title: 'User',
                     render: function(data, type) {
-                        return `<a href="/Translation_Dashboard/leaderboard.php?user=${data}">${data}</a>`;
+                        return `<a href="/Translation_Dashboard/leaderboard.php?get=users&user=${data}">${data}</a>`;
                     }
                 },
                 {
@@ -305,7 +305,7 @@ HTML;
                     data: 'lang',
                     title: 'Language',
                     render: function(data, type, row, meta) {
-                        return `<a href="/Translation_Dashboard/leaderboard.php?langcode=${data}">${row.lang_name}</a>`;
+                        return `<a href="/Translation_Dashboard/leaderboard.php?get=langs&langcode=${data}">${row.lang_name}</a>`;
                     }
                 },
                 {

@@ -6,8 +6,8 @@ include_once __DIR__ . '/Tables/include.php';
 use Tables\Langs\LangsTables;
 use Tables\Main\MainTables;
 use function Tables\TablesDir\open_td_Tables_file;
-//---
-echo '<script>$("#missing").addClass("active");</script>';
+use function SQLorAPI\TopData\get_td_or_sql_top_langs;
+
 //---
 if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     ini_set('display_errors', 1);
@@ -53,9 +53,10 @@ $text = <<<HTML
     <thead>
         <tr>
         <th class="spannowrap">#</th>
-        <th class="spannowrap">Language code</th>
-        <th class="spannowrap">Language name</th>
+        <th class="spannowrap">Language Name</th>
+        <th class="spannowrap">Code</th>
         <th class="spannowrap">Autonym</th>
+        <th>Translated Articles</th>
         <th>Exists Articles</th>
         <th>Missing Articles</th>
         </tr>
@@ -68,6 +69,10 @@ $num = 0;
 //---
 $tab_done = [];
 //---
+$translated_data = get_td_or_sql_top_langs("", "", "");
+//---
+$translated_data = array_column($translated_data, 'targets', 'lang');
+//---
 foreach ($Table as $langcode2 => $missing) {
     //---
     $langcode = $langcode2;
@@ -79,6 +84,9 @@ foreach ($Table as $langcode2 => $missing) {
     if (!empty(array_intersect([$langcode, $langcode2], LangsTables::$L_skip_codes))) {
         continue;
     };
+    //---
+    $translated = $translated_data[$langcode] ?? 0;
+    $translated = ($translated > 0) ? "<a href='leaderboard.php?get=langs&langcode=$langcode'>$translated</a>" : 0;
     //---
     if (isset($tab_done[$langcode])) continue;
     $tab_done[$langcode] = true;
@@ -107,18 +115,17 @@ foreach ($Table as $langcode2 => $missing) {
             <th data-content="#">
                 $num
             </th>
-            <td data-content="Language code">
-                <a target="_blank" href="leaderboard.php?langcode=$langcode">$langcode</a>
-            </td>
             <td data-content="Language name">
                 <a target="_blank" href="https://$langcode.wikipedia.org">$langname</a>
+            </td>
+            <td data-content="Language code">
+                $langcode
             </td>
             <td data-content="Autonym">
                 $autonym
             </td>
-            <td data-content="Exists Articles">
-                $exists
-            </td>
+            <td data-content="Translated Articles">$translated</td>
+            <td data-content="Exists Articles">$exists</td>
             <td data-content="Missing Articles">
                 <a target="" href="index.php?cat=RTT&depth=1&doit=Do+it&code=$langcode&type=lead">$numb</a>
             </td>

@@ -166,7 +166,7 @@ function print_form_start1($allow_whole_translate, $Lang_tables, $cat_input_list
     if ($allow_whole_translate == '1') {
         $in_typ = sprintf($d22, 'type', 'Type', "<div class='form-control'>$ttype</div>");
     } else {
-        $in_typ = "<input name='type' value='lead' hidden/>";
+        $in_typ = '<input type="hidden" name="type" value="lead" />';
     };
     //---
     $d = <<<HTML
