@@ -67,7 +67,7 @@ function makeUsersTable($users, $min = 2)
         $trs .= <<<HTML
             <tr>
                 <td>$numb</td>
-                <td><a href='leaderboard.php?user=$use'>$user</a></td>
+                <td><a href='leaderboard.php?get=users&user=$use'>$user</a></td>
                 <td>$usercount</td>
                 <td>$words</td>
                 <td>$views</td>

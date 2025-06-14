@@ -108,7 +108,7 @@ foreach ($Table as $langcode2 => $missing) {
                 $num
             </th>
             <td data-content="Language code">
-                <a target="_blank" href="leaderboard.php?langcode=$langcode">$langcode</a>
+                <a target="_blank" href="leaderboard.php?get=langs&langcode=$langcode">$langcode</a>
             </td>
             <td data-content="Language name">
                 <a target="_blank" href="https://$langcode.wikipedia.org">$langname</a>

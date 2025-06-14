@@ -86,7 +86,7 @@ if (isset($GLOBALS['global_username']) && $GLOBALS['global_username'] != '') {
 	$u_name = $GLOBALS['global_username'];
 	$li_user = <<<HTML
 	<li class="nav-item col-4 col-lg-auto">
-			<a href="leaderboard.php?user=$u_name" class="nav-link py-2 px-0 px-lg-2">
+			<a href="leaderboard.php?get=users&user=$u_name" class="nav-link py-2 px-0 px-lg-2">
 				<i class="fas fa-user fa-sm fa-fw mr-2"></i> <span class="navtitles">$u_name</span>
 			</a>
 		</li>

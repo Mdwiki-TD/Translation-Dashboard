@@ -106,13 +106,13 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
     $urll_data = '';
     //---
     if ($page_type == 'users') {
-        $urll = "<a href='leaderboard.php?langcode=$lang'><span style='white-space: nowrap;'>$lang</span></a>";
+        $urll = "<a href='leaderboard.php?get=langs&langcode=$lang'><span style='white-space: nowrap;'>$lang</span></a>";
         $urll_data = $lang;
     } else {
         $use = rawurlEncode($user);
         $use = str_replace('+', '_', $use);
         //---
-        $urll = "<a href='leaderboard.php?user=$use'><span style='white-space: nowrap;'>$user</span></a>";
+        $urll = "<a href='leaderboard.php?get=users&user=$use'><span style='white-space: nowrap;'>$user</span></a>";
         $urll_data = $user;
         //---
     };

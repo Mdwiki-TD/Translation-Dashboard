@@ -58,7 +58,7 @@ function make_filter_html($data, $filter_page)
             </div>
         HTML;
         //---
-        $hidden = "<input type='hidden' name='user' value='$user' />";
+        $hidden = "<input type='hidden' name='get' value='users' /><input type='hidden' name='user' value='$user' />";
         //---
     } else {
         $years = get_lang_years($lang);
@@ -71,7 +71,7 @@ function make_filter_html($data, $filter_page)
             </div>
         HTML;
         //---
-        $hidden = "<input type='hidden' name='langcode' value='$lang' />";
+        $hidden = "<input type='hidden' name='get' value='langs' /><input type='hidden' name='langcode' value='$lang' />";
     }
     //---
     $test_line = (isset($_REQUEST['test']) != '') ? '<input type="hidden" name="test" value="1" />' : "";
