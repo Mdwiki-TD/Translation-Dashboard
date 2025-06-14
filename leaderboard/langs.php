@@ -41,7 +41,7 @@ $man = $langname;
 $cat_link = "";
 //---
 if ($_SERVER['SERVER_NAME'] == 'localhost' || (isset($_REQUEST['test']) || isset($_COOKIE['test']))) {
-    $cat_link = ' <a target="_blank" href="http://' . $mainlang . '.wikipedia.org/wiki/Category:Translated_from_MDWiki">(cat)</a>';
+    $cat_link = '<br><a target="_blank" href="http://' . $mainlang . '.wikipedia.org/wiki/Category:Translated_from_MDWiki">(cat)</a>';
 };
 //---
 $filter_form = make_filter_form_langs($mainlang, $year_y);

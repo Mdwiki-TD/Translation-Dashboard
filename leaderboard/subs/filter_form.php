@@ -95,12 +95,22 @@ function lead_row($table1, $graph, $main_title, $filter_form)
     $total_words = number_format($table1['total_words']);
     $total_views = number_format($table1['total_views']);
     //---
-    $table1_html = <<<HTML
+    $table2_html = <<<HTML
         <table class='table table-sm table-striped'>
             <tr><td>Articles: </td><td>$total_articles</td>
             <td>Words: </td><td>$total_words</td>
             <td>Pageviews: </td><td><span id='hrefjsontoadd'>$total_views</span></td></tr>
         </table>
+        HTML;
+    //---
+    $table1_html = <<<HTML
+        <div class="d-flex align-items-center justify-content-center " style="height: 100%">
+            <div class="text-muted">
+                Articles: <strong>$total_articles</strong> &nbsp;
+                Words: <strong>$total_words</strong> &nbsp;
+                Pageviews: <strong><span id="hrefjsontoadd">$total_views</span></strong>
+            </div>
+        </div>
         HTML;
     //---
     return <<<HTML
@@ -112,9 +122,7 @@ function lead_row($table1, $graph, $main_title, $filter_form)
                             <div>
                             $main_title
                             </div>
-                            <div>
                             $table1_html
-                            </div>
                         </div>
                     </div>
                 </div>
