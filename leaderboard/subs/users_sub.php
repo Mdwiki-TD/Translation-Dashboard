@@ -70,5 +70,9 @@ function get_users_tables($mainuser, $year_y, $lang_y)
     //---
     $dd_Pending = add_inp($dd_Pending, $user_main);
     //---
+    krsort($dd);
+    //---
+    krsort($dd_Pending);
+    //---
     return array('dd' => $dd, 'dd_Pending' => $dd_Pending, 'table_of_views' => $table_of_views);
 }

@@ -4,90 +4,95 @@ namespace Leaderboard\Subs\FilterForm;
 /*
 Usage:
 
-use function Leaderboard\Subs\FilterForm\make_filter_form_langs;
-use function Leaderboard\Subs\FilterForm\make_filter_form_users;
 use function Leaderboard\Subs\FilterForm\lead_row;
 
 */
 
 //---
-use function Actions\Html\makeDropdown;
-
 use function SQLorAPI\Funcs\get_lang_years;
 use function SQLorAPI\Funcs\get_user_years;
 use function SQLorAPI\Funcs\get_user_langs;
 
-$test_line = (isset($_REQUEST['test']) != '') ? "<input type='text' name='test' value='1' hidden/>" : "";
-
-
-
-function form_result($hidden, $Dropdowns)
+function makeDropdown($title, $tab, $cat, $id)
 {
-    global $test_line;
+    //---
+    $options = "";
+    //---
+    foreach ($tab as $dd) {
+        $se = ($cat == $dd) ? 'selected' : '';
+        //---
+        $options .= <<<HTML
+            <option value='$dd' $se>$dd</option>
+        HTML;
+    };
     //---
     return <<<HTML
-        <form method="get" action="leaderboard.php">
+        <select dir="ltr" id="$id" name="$id" class="form-select" data-bs-theme="auto">
+            <option value='all'>$title: All</option>
+            $options
+        </select>
+    HTML;
+}
+function make_filter_html($data, $filter_page)
+{
+    //---
+    // $filter_data = ["user" => "", "lang" => $mainlang, "year" => $year_y];
+    //---
+    $lang     = $data['lang'];
+    $year     = $data['year'];
+    $user     = $data['user'];
+    //---
+    if ($filter_page == 'user') {
+        $years = get_user_years($user);
+        $langs = get_user_langs($user);
+        //---
+        $langsDropdown = makeDropdown('Lang', $langs, $lang, 'lang');
+        $yearDropdown  = makeDropdown('Year', $years, $year, 'year');
+        //---
+        $Dropdown = <<<HTML
+            <div class="col-6">
+                $langsDropdown
+            </div>
+            <div class="col-6">
+                $yearDropdown
+            </div>
+        HTML;
+        //---
+        $hidden = "<input type='hidden' name='user' value='$user' />";
+        //---
+    } else {
+        $years = get_lang_years($lang);
+        //---
+        $yearDropdown = makeDropdown('Year', $years, $year, 'year');
+        //---
+        $Dropdown = <<<HTML
+            <div class="col-12">
+                $yearDropdown
+            </div>
+        HTML;
+        //---
+        $hidden = "<input type='hidden' name='langcode' value='$lang' />";
+    }
+    //---
+    $test_line = (isset($_REQUEST['test']) != '') ? "<input type='text' name='test' value='1' hidden/>" : "";
+    //---
+    return <<<HTML
+        <form method="get" action="leaderboard.php" class="border rounded">
             $test_line
             $hidden
-            <div class='container g-0 mt-3'>
-                <div class='row'>
-                    <div class="col-md-8">
-                        $Dropdowns
-                    </div>
-                    <div class="col-md-4">
-                        <input class='btn btn-outline-primary' type='submit' value='Filter' />
+            <div class='container mt-3'>
+                <div class='row g-1'>
+                    $Dropdown
+                    <div class="col-12 mt-1">
+                        <button type="submit" class="btn btn-sm btn-outline-primary w-100">Filter</button>
                     </div>
                 </div>
             </div>
         </form>
     HTML;
 }
-function make_filter_form_langs($mainlang, $year_y)
-{
-    $d33 = <<<HTML
-        <div class="input-group">
-            <span class="input-group-text">%s</span>
-            %s
-        </div>
-    HTML;
 
-    $years = get_lang_years($mainlang);
-    //---
-    $y3 = makeDropdown($years, $year_y, 'year', 'All');
-    //---
-    $yearDropdown = sprintf($d33, 'Year', $y3);
-    //---
-    return form_result("<input type='hidden' name='langcode' value='$mainlang' />", $yearDropdown);
-}
-
-
-function make_filter_form_users($user, $lang_y, $year_y)
-{
-    $d33 = <<<HTML
-        <div class="input-group">
-            <span class="input-group-text">%s</span>
-            %s
-        </div>
-    HTML;
-    //---
-    $years = get_user_years($user);
-    $langs = get_user_langs($user);
-    //---
-    $y2 = makeDropdown($langs, $lang_y, 'lang', 'All');
-    //---
-    $langsDropdown = sprintf($d33, 'Lang', $y2);
-    //---
-    $y3 = makeDropdown($years, $year_y, 'year', 'All');
-    //---
-    $yearDropdown = sprintf($d33, 'Year', $y3);
-    //---
-    $Dropdown = $langsDropdown . $yearDropdown;
-    //---
-    return form_result("<input type='hidden' name='user' value='$user' />", $Dropdown);
-    //---
-}
-
-function lead_row($table1, $graph, $main_title, $filter_form)
+function make_table1_html($table1)
 {
     //---
     // $table1 = ['total_articles' => $total_articles, 'total_words' => $total_words, 'total_views' => $total_views];
@@ -95,34 +100,34 @@ function lead_row($table1, $graph, $main_title, $filter_form)
     $total_words = number_format($table1['total_words']);
     $total_views = number_format($table1['total_views']);
     //---
-    $table2_html = <<<HTML
-        <table class='table table-sm table-striped'>
-            <tr><td>Articles: </td><td>$total_articles</td>
-            <td>Words: </td><td>$total_words</td>
-            <td>Pageviews: </td><td><span id='hrefjsontoadd'>$total_views</span></td></tr>
-        </table>
-        HTML;
-    //---
     $table1_html = <<<HTML
-        <div class="d-flex align-items-center justify-content-center " style="height: 100%">
-            <div class="text-muted">
-                Articles: <strong>$total_articles</strong> &nbsp;
-                Words: <strong>$total_words</strong> &nbsp;
-                Pageviews: <strong><span id="hrefjsontoadd">$total_views</span></strong>
-            </div>
+        <div class="text-muted">
+            Articles: <strong>$total_articles</strong> &nbsp;
+            Words: <strong>$total_words</strong> &nbsp;
+            Pageviews: <strong><span id="hrefjsontoadd">$total_views</span></strong>
         </div>
         HTML;
     //---
+    return $table1_html;
+}
+
+function lead_row($table1, $graph, $main_title, $filter_data, $filter_page)
+{
+    //---
+    $table1_html = make_table1_html($table1);
+    //---
+    $filter_form = make_filter_html($filter_data, $filter_page);
+    //---
     return <<<HTML
         <div class='container-fluid'>
-            <div class='row lead_forms'>
-                <div class='col-lg-4 col-md-6 border_debug border rounded'>
-                    <div class="d-flex align-items-center justify-content-center " style="height: 100%">
+            <div class='row g-1'>
+                <div class='col-lg-4 col-md-12 border_debug border rounded'>
+                    <div class="d-flex align-items-center justify-content-center" style="height: 100%">
                         <div class="list-group">
-                            <div>
                             $main_title
+                            <div class="d-flex align-items-center justify-content-center " style="height: 100%">
+                                $table1_html
                             </div>
-                            $table1_html
                         </div>
                     </div>
                 </div>

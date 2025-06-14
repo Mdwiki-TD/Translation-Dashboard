@@ -8,6 +8,7 @@ include_once __DIR__ . '/../actions/load_request.php';
 include_once __DIR__ . '/../actions/html.php';
 
 //---
+include_once __DIR__ . '/leader_filter.php';
 include_once __DIR__ . '/subs/include.php';
 include_once __DIR__ . '/../api_or_sql/index.php'; // namespace SQLorAPI\Get;
 
@@ -23,10 +24,6 @@ use function Leaderboard\Graph\print_graph_tab;
 
 echo <<<HTML
     <style>
-    .lead_forms > div {
-        /* padding: .1rem;
-        margin: .1rem; */
-    }
     .border_debugx {
         border: 1px solid;
         border-radius: 5px;

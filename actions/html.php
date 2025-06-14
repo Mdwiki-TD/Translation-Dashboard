@@ -91,15 +91,11 @@ function makeDropdown($tab, $cat, $id, $add)
     $options = "";
     //---
     foreach ($tab as $dd) {
-        //---
-        $se = '';
-        //---
-        if ($cat == $dd) $se = 'selected';
+        $se = ($cat == $dd) ? 'selected' : '';
         //---
         $options .= <<<HTML
             <option value='$dd' $se>$dd</option>
         HTML;
-        //---
     };
     //---
     $sel_line = "";
@@ -107,7 +103,7 @@ function makeDropdown($tab, $cat, $id, $add)
     if (!empty($add)) {
         $add2 = ($add == 'all') ? 'All' : $add;
         $sel = "";
-        if ($cat == $add) $sel = "celected";
+        if ($cat == $add) $sel = "selected";
         $sel_line = "<option value='$add' $sel>$add2</option>";
     }
     //---

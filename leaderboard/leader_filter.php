@@ -5,6 +5,7 @@ namespace Leaderboard\Filter;
 /*
 Usage:
 use function Leaderboard\Filter\leaderboard_filter;
+use function Leaderboard\Filter\input_group;
 */
 
 if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
@@ -20,7 +21,6 @@ use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
 
 function input_group($title, $rows): string
 {
-
     $d33 = <<<HTML
         <div class="input-group">
             <span class="input-group-text">%s</span>
