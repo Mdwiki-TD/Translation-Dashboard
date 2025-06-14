@@ -65,13 +65,15 @@ function make_graph_data($data)
     return [$ms, $cs, count($table)];
 }
 
-function graph_data_new($dd, $id)
+function graph_data_new($dd)
 {
+    // ---
+    $graph_id = 'chart_' . uniqid();
     // ---
     [$keys, $values, $count] = make_graph_data($dd);
     //---
     $text = <<<HTML
-        <canvas id="$id" height="100" width="200"></canvas>
+        <canvas id="$graph_id" height="100" width="200"></canvas>
     HTML;
     //---
     if ($count > 0) {
@@ -81,7 +83,7 @@ function graph_data_new($dd, $id)
             graph_js(
                 [$keys],
                 [$values],
-                "$id"
+                "$graph_id"
             )
         </script>
     HTML;

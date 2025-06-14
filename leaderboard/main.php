@@ -56,7 +56,7 @@ function print_cat_table($year, $user_group, $camp, $cat): string
     //---
     $graph_data = get_td_or_sql_status($year, $user_group, $cat);
     //---
-    $graph_html = print_graph_for_table($graph_data, $id = 'chart09', $no_card = false);
+    $graph_html = print_graph_for_table($graph_data, $no_card = false);
     //---
 
     $numbersCol = makeCol('Numbers', $numbersTable, $graph_html);

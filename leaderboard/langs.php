@@ -42,7 +42,7 @@ if ($_SERVER['SERVER_NAME'] == 'localhost' || (isset($_REQUEST['test']) || isset
     $cat_link = '<br><a target="_blank" href="http://' . $mainlang . '.wikipedia.org/wiki/Category:Translated_from_MDWiki">(cat)</a>';
 };
 //---
-$graph = graph_data_new($dd, "lang_chart");
+$graph = graph_data_new($dd);
 //---
 $filter_data = ["user" => "", "lang" => $mainlang, "year" => $year_y];
 //---

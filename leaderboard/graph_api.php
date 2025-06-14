@@ -12,11 +12,14 @@ use function Leaderboard\Graph2\print_graph_api;
 
 */
 
-function graph_new_html($params, $id = 'chart1', $no_card = false)
+function graph_new_html($params, $no_card = false)
 {
+    // ---
+    $graph_id = 'chart_' . uniqid();
+    // ---
     $canvas = <<<HTML
         <div class="position-relative">
-            <canvas id="$id" height="200"></canvas>
+            <canvas id="$graph_id" height="200"></canvas>
         </div>
     HTML;
     //---
@@ -38,23 +41,23 @@ function graph_new_html($params, $id = 'chart1', $no_card = false)
     //---
     $graph .= '<script src="/Translation_Dashboard/js/graph_api.js"></script>';
     //---
-    $graph .= "<script>graph_js_params('$id', " . json_encode($params) . ")</script>";
+    $graph .= "<script>graph_js_params('$graph_id', " . json_encode($params) . ")</script>";
     //---
     return "\n" . $graph . "\n";
 }
 
-function print_graph_api($tab, $id = "", $no_card = false)
+function print_graph_api($tab, $no_card = false)
 {
     // &year=&user_group=&campaign=COVID
 
-    return graph_new_html($tab, $id = $id, $no_card = $no_card);
+    return graph_new_html($tab, $no_card = $no_card);
 }
 
 function print_graph_tab_2_new()
 {
     // &year=&user_group=&campaign=COVID
 
-    $g = graph_new_html([], $id = "chart09");
+    $g = graph_new_html([]);
 
     echo <<<HTML
         <div class="container">

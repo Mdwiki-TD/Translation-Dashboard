@@ -34,7 +34,7 @@ $count_new = count($dd);
 //---
 $man = make_mdwiki_user_url($mainuser);
 //---
-$graph = graph_data_new($dd, "user_chart");
+$graph = graph_data_new($dd);
 //---
 $filter_data = ["user" => $mainuser, "lang" => $mainlang, "year" => $year_y];
 //---
