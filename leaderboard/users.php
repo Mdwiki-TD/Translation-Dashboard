@@ -14,6 +14,7 @@ $mainlang = rawurldecode(str_replace('_', ' ', $mainlang));
 $mainuser = $_GET['user'] ?? "";
 //---
 $year_y = $_GET['year'] ?? 'All';
+$camp   = $_GET['camp'] ?? 'All';
 //---
 $u_tables = get_users_tables($mainuser, $year_y, $mainlang);
 //---
@@ -36,7 +37,7 @@ $man = make_mdwiki_user_url($mainuser);
 //---
 $graph = graph_data_new($dd);
 //---
-$filter_data = ["user" => $mainuser, "lang" => $mainlang, "year" => $year_y];
+$filter_data = ["user" => $mainuser, "lang" => $mainlang, "year" => $year_y, "camp" => $camp];
 //---
 echo lead_row($table1, $graph, "<h4 class='text-center'>User: $man</h4>", $filter_data, "user");
 //---

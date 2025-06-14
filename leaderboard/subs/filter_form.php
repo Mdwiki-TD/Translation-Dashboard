@@ -12,6 +12,7 @@ use function Leaderboard\Subs\FilterForm\lead_row;
 use function SQLorAPI\Funcs\get_lang_years;
 use function SQLorAPI\Funcs\get_user_years;
 use function SQLorAPI\Funcs\get_user_langs;
+use function SQLorAPI\Funcs\get_user_camps;
 
 function DropdownNew($title, $tab, $cat, $id)
 {
@@ -41,20 +42,26 @@ function make_filter_html($data, $filter_page)
     $lang     = $data['lang'];
     $year     = $data['year'];
     $user     = $data['user'];
+    $camp     = $data['camp'];
     //---
     if ($filter_page == 'user') {
         $years = get_user_years($user);
         $langs = get_user_langs($user);
+        $camps = get_user_camps($user);
         //---
         $langsDropdown = DropdownNew('Lang', $langs, $lang, 'lang');
         $yearDropdown  = DropdownNew('Year', $years, $year, 'year');
+        $campDropdown  = DropdownNew('Camp', $camps, $camp, 'camp');
         //---
         $Dropdown = <<<HTML
-            <div class="col-6">
+            <div class="col-4">
                 $langsDropdown
             </div>
-            <div class="col-6">
+            <div class="col-4">
                 $yearDropdown
+            </div>
+            <div class="col-4">
+                $campDropdown
             </div>
         HTML;
         //---

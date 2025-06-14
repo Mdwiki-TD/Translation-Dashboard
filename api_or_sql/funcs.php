@@ -9,6 +9,7 @@ Usage:
 use function SQLorAPI\Funcs\get_lang_years;
 use function SQLorAPI\Funcs\get_user_years;
 use function SQLorAPI\Funcs\get_user_langs;
+use function SQLorAPI\Funcs\get_user_camps;
 use function SQLorAPI\Funcs\get_lang_views;
 use function SQLorAPI\Funcs\get_lang_pages;
 use function SQLorAPI\Funcs\get_graph_data;
@@ -267,8 +268,10 @@ function get_lang_years($mainlang)
         return $data[$mainlang];
     }
     // ---
-    $api_params = ['get' => 'pages', 'distinct' => "1", 'select' => 'YEAR(pupdate) AS year', 'pupdate' => 'not_empty', 'lang' => $mainlang];
-    $query = "SELECT DISTINCT YEAR(p.pupdate) AS year FROM pages p WHERE p.lang = ? AND p.pupdate <> ''";
+    // $api_params = ['get' => 'pages', 'distinct' => "1", 'select' => 'YEAR(pupdate) AS year', 'pupdate' => 'not_empty', 'lang' => $mainlang];
+    $api_params = ['get' => 'user_lang_status', 'select' => 'year', 'lang' => $mainlang];
+    // ---
+    $query = "SELECT DISTINCT YEAR(p.pupdate) AS year FROM pages p WHERE p.lang = ?";
     $params = [$mainlang];
     // ---
     $u_data = super_function($api_params, $params, $query);
@@ -292,7 +295,9 @@ function get_user_years($user)
         return $data[$user];
     }
     // ---
-    $api_params = ['get' => 'pages', 'distinct' => "1", 'select' => 'YEAR(date) AS year', 'user' => $user];
+    // $api_params = ['get' => 'pages', 'distinct' => "1", 'select' => 'YEAR(date) AS year', 'user' => $user];
+    $api_params = ['get' => 'user_status', 'select' => 'year', 'user' => $user];
+    // ---
     $query = "SELECT DISTINCT YEAR(p.date) AS year FROM pages p WHERE p.user = ?";
     // ---
     $params = [$user];
@@ -323,8 +328,44 @@ function get_user_langs($user)
         return $data[$user];
     }
     // ---
-    $api_params = ['get' => 'pages', 'distinct' => "1", 'select' => 'lang', 'user' => $user];
+    // $api_params = ['get' => 'pages', 'distinct' => "1", 'select' => 'lang', 'user' => $user];
+    $api_params = ['get' => 'user_status', 'select' => 'lang', 'user' => $user];
+    // ---
     $query = "SELECT DISTINCT p.lang FROM pages p WHERE p.user = ?";
+    $params = [$user];
+    // ---
+    $u_data = super_function($api_params, $params, $query);
+    // ---
+    $u_data = array_map('current', $u_data);
+    // ---
+    // remove empty or null years
+    $u_data = array_filter($u_data, function ($value) {
+        return !empty($value);
+    });
+    // ---
+    $data[$user] = $u_data;
+    // ---
+    return $u_data;
+}
+
+
+function get_user_camps($user)
+{
+    // ---
+    static $data = [];
+    // ---
+    if (!empty($data[$user] ?? [])) {
+        return $data[$user];
+    }
+    // ---
+    $api_params = ['get' => 'user_status', 'select' => 'campaign', 'user' => $user];
+    // ---
+    $query = "SELECT DISTINCT ca.campaign
+        FROM pages p
+        LEFT JOIN categories ca
+        ON p.cat = ca.category
+        WHERE p.user = ?
+    ";
     $params = [$user];
     // ---
     $u_data = super_function($api_params, $params, $query);

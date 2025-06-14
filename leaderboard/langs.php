@@ -12,8 +12,8 @@ use function Leaderboard\Subs\FilterForm\lead_row;
 $mainlang = $_GET['langcode'] ?? "";
 $mainlang = rawurldecode(str_replace('_', ' ', $mainlang));
 //---
-//---
 $year_y = $_GET['year'] ?? 'All';
+$camp   = $_GET['camp'] ?? 'All';
 //---
 $langname = LangsTables::$L_code_to_lang_name[$mainlang] ?? $mainlang;
 //---
@@ -44,7 +44,7 @@ if ($_SERVER['SERVER_NAME'] == 'localhost' || (isset($_REQUEST['test']) || isset
 //---
 $graph = graph_data_new($dd);
 //---
-$filter_data = ["user" => "", "lang" => $mainlang, "year" => $year_y];
+$filter_data = ["user" => "", "lang" => $mainlang, "year" => $year_y, "camp" => $camp];
 //---
 echo lead_row($table1, $graph, "<h4 class='text-center'>Language: $man ($mainlang) $cat_link</h4>", $filter_data, "lang");
 //---
