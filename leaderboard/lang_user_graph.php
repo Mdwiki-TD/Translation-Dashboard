@@ -46,7 +46,7 @@ function make_graph_data($data)
     //---
     $table = make_table($data, -3);
     //---
-    if (count($table) > 12) {
+    if (count($table) > 15 && (!isset($_GET['g']))) {
         $table = make_table($data, 4);
     }
     //---

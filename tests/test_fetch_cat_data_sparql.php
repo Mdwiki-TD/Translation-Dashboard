@@ -39,7 +39,7 @@ if (!empty($Category)) {
             <div class='card-body mb-0'>
             <div class='mainindex'>
                 <form action="test_fetch_cat_data_sparql.php" method="GET">
-                    <input id="test" name="test11" value="1" hidden/>
+                    <input id="test" name="test11" value="1" type='hidden'/>
                     <div class="container">
                         <div class="row">
                             <div class="col-md-7">

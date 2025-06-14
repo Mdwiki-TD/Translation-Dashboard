@@ -12,10 +12,6 @@ use function Leaderboard\Graph2\print_graph_api;
 
 */
 
-echo '
-<script src="/Translation_Dashboard/js/graph_api.js"></script>
-';
-
 function graph_new_html($params, $id = 'chart1', $no_card = false)
 {
     $canvas = <<<HTML
@@ -39,6 +35,8 @@ function graph_new_html($params, $id = 'chart1', $no_card = false)
     if ($no_card) {
         $graph = $canvas;
     }
+    //---
+    $graph .= '<script src="/Translation_Dashboard/js/graph_api.js"></script>';
     //---
     $graph .= "<script>graph_js_params('$id', " . json_encode($params) . ")</script>";
     //---

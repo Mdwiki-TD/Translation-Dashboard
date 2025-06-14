@@ -46,12 +46,21 @@ function makeUsersTable($users, $min = 2)
     //---
     foreach ($users as $user => $tab) {
         // if ($usercount < $min && $numb > 15) continue;
-        $usercount = $tab['count'];
         $numb += 1;
-        $usercount = number_format($usercount);
-        $views = number_format($tab['views']);
-        $words = number_format($tab['words']);
-
+        // ---
+        // type of $usercount // integer
+        // ---
+        $usercount = number_format($tab['count'] ?? 0);
+        $views = number_format($tab['views'] ?? 0);
+        // ---
+        $words = $tab['words'] ?? 0;
+        // ---
+        // type of $words // string
+        // echo gettype($words) . "<br>";
+        // ---
+        // make words str from float
+        $words = number_format($words);
+        // ---
         $use = rawurlEncode($user);
         $use = str_replace('+', '_', $use);
 

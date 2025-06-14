@@ -13,7 +13,7 @@ use function SQLorAPI\Funcs\get_lang_years;
 use function SQLorAPI\Funcs\get_user_years;
 use function SQLorAPI\Funcs\get_user_langs;
 
-function makeDropdown($title, $tab, $cat, $id)
+function DropdownNew($title, $tab, $cat, $id)
 {
     //---
     $options = "";
@@ -46,8 +46,8 @@ function make_filter_html($data, $filter_page)
         $years = get_user_years($user);
         $langs = get_user_langs($user);
         //---
-        $langsDropdown = makeDropdown('Lang', $langs, $lang, 'lang');
-        $yearDropdown  = makeDropdown('Year', $years, $year, 'year');
+        $langsDropdown = DropdownNew('Lang', $langs, $lang, 'lang');
+        $yearDropdown  = DropdownNew('Year', $years, $year, 'year');
         //---
         $Dropdown = <<<HTML
             <div class="col-6">
@@ -63,7 +63,7 @@ function make_filter_html($data, $filter_page)
     } else {
         $years = get_lang_years($lang);
         //---
-        $yearDropdown = makeDropdown('Year', $years, $year, 'year');
+        $yearDropdown = DropdownNew('Year', $years, $year, 'year');
         //---
         $Dropdown = <<<HTML
             <div class="col-12">
@@ -74,7 +74,7 @@ function make_filter_html($data, $filter_page)
         $hidden = "<input type='hidden' name='langcode' value='$lang' />";
     }
     //---
-    $test_line = (isset($_REQUEST['test']) != '') ? "<input type='text' name='test' value='1' hidden/>" : "";
+    $test_line = (isset($_REQUEST['test']) != '') ? '<input type="hidden" name="test" value="1" />' : "";
     //---
     return <<<HTML
         <form method="get" action="leaderboard.php" class="border rounded">

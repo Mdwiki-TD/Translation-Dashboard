@@ -164,7 +164,7 @@ function make_mdwiki_title($title)
     }
     return $title;
 }
-//---
+
 function make_cat_url($category)
 {
     if (!empty($category)) {
@@ -197,16 +197,16 @@ function make_translation_url($title, $lang, $tr_type)
     //---
     return $url;
 }
-//---
+
 function make_mdwiki_user_url($user)
 {
     if (!empty($user)) {
         $encoded_user = rawurlencode(str_replace(' ', '_', $user));
-        return "<a href='https://mdwiki.org/wiki/User:$encoded_user'>$user</a>";
+        return "<a href='https://mdwiki.org/wiki/User:$encoded_user' taget='_blank'>$user</a>";
     }
     return $user;
 }
-//---
+
 function make_target_url($target, $lang, $name = '', $deleted = false)
 {
     $display_name = (!empty($name)) ? $name : $target;
@@ -221,4 +221,3 @@ function make_target_url($target, $lang, $name = '', $deleted = false)
     }
     return $target;
 }
-//---

@@ -17,10 +17,9 @@ include_once __DIR__ . '/../api_or_sql/index.php'; // namespace SQLorAPI\Get;
 
 include_once __DIR__ . '/graph.php'; // namespace Leaderboard\Graph;
 include_once __DIR__ . '/lang_user_graph.php'; // namespace Leaderboard\Graph;
-include_once __DIR__ . '/graph_api.php'; // namespace Leaderboard\Graph2;
 
-use function Leaderboard\Graph2\print_graph_tab_2_new;
 use function Leaderboard\Graph\print_graph_tab;
+use function Leaderboard\Graph2\print_graph_tab_2_new;
 
 echo <<<HTML
     <style>
@@ -35,7 +34,6 @@ HTML;
 $users = $_GET['user'] ?? '';
 $langs = $_GET['langcode'] ?? '';
 $graph = $_GET['graph'] ?? '';
-$graph_api = $_GET['graph_api'] ?? '';
 $camps = $_GET['camps'] ?? '';
 
 if (!empty($users)) {
@@ -50,7 +48,8 @@ if (!empty($users)) {
 } elseif (!empty($graph)) {
     print_graph_tab();
     // ---
-} elseif (!empty($graph_api)) {
+} elseif (!empty($_GET['graph_api'] ?? '')) {
+    include_once __DIR__ . '/graph_api.php'; // namespace Leaderboard\Graph2;
     print_graph_tab_2_new();
     // ---
 } else {
