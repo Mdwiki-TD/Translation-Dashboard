@@ -51,17 +51,16 @@ function make_filter_html($data, $filter_page)
         //---
         $langsDropdown = DropdownNew('Lang', $langs, $lang, 'lang');
         $yearDropdown  = DropdownNew('Year', $years, $year, 'year');
-        $campDropdown  = DropdownNew('Camp', $camps, $camp, 'camp');
+        //---
+        // $campDropdown  = DropdownNew('Camp', $camps, $camp, 'camp');
+        // <!-- <div class="col-4"> $campDropdown </div> -->
         //---
         $Dropdown = <<<HTML
-            <div class="col-4">
+            <div class="col-6">
                 $langsDropdown
             </div>
-            <div class="col-4">
+            <div class="col-6">
                 $yearDropdown
-            </div>
-            <div class="col-4">
-                $campDropdown
             </div>
         HTML;
         //---
