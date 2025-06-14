@@ -67,10 +67,11 @@ function print_graph_for_table($table, $id = 'chart1', $no_card = false)
     $ms = substr($ms, 0, -1);
     $cs = substr($cs, 0, -1);
     //---
-    $graph =  graph_html($ms, $cs, $id = $id, $no_card = $no_card);
+    $graph = graph_html($ms, $cs, $id = $id, $no_card = $no_card);
     //---
     return $graph;
 }
+
 function print_graph_from_sql($id = 'chart1')
 {
     //---

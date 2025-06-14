@@ -118,28 +118,56 @@ function makeDropdown($tab, $cat, $id, $add)
 function makeColSm4($title, $table, $numb = 4, $table2 = '', $title2 = '')
 {
     return <<<HTML
-    <div class="col-lg-$numb col-md-6 col-sm-12">
-        <div class="card card2 mb-3">
-            <div class="card-header">
-                <span class="card-title" style="font-weight:bold;">
-                    $title
-                </span>
-                <div style='float: right'>
-                    $title2
+        <div class="col-lg-$numb col-md-6 col-sm-12">
+            <div class="card card2 mb-3">
+                <div class="card-header">
+                    <span class="card-title" style="font-weight:bold;">
+                        $title
+                    </span>
+                    <div style='float: right'>
+                        $title2
+                    </div>
+                    <div class="card-tools">
+                        <button type="button" class="btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                    </div>
                 </div>
-                <div class="card-tools">
-                    <button type="button" class="btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                <div class="card-body1 card2">
+                    $table
                 </div>
+                <!-- <div class="card-footer"></div> -->
             </div>
-            <div class="card-body1 card2">
-                $table
-            </div>
-            <!-- <div class="card-footer"></div> -->
+            $table2
         </div>
-        $table2
-    </div>
     HTML;
-};
+}
+function makeCol($title, $table, $table2)
+{
+    return <<<HTML
+        <div class="col-lg-3 col-md-12 col-sm-12">
+            <div class="row">
+                <div class="col-lg-12 col-md-6">
+                    <div class="card card2 mb-3">
+                        <div class="card-header">
+                            <span class="card-title" style="font-weight:bold;">
+                                $title
+                            </span>
+                            <div class="card-tools">
+                                <button type="button" class="btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                            </div>
+                        </div>
+                        <div class="card-body1 card2">
+                            $table
+                        </div>
+                        <!-- <div class="card-footer"></div> -->
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-6">
+                    $table2
+                </div>
+            </div>
+        </div>
+    HTML;
+}
 
 function make_drop($uxutable, $code)
 {
