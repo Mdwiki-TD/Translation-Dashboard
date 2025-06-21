@@ -8,13 +8,13 @@ if (isset($_REQUEST["test"])) {
 
 function get_host()
 {
+    // $hoste = get_host();
     //---
     static $cached_host = null;
-
+    //---
     if ($cached_host !== null) {
         return $cached_host; // استخدم القيمة المحفوظة
     }
-
     //---
     $hoste = ($_SERVER["SERVER_NAME"] == "localhost")
         ? "https://cdnjs.cloudflare.com"
@@ -26,14 +26,22 @@ function get_host()
         curl_setopt($ch, CURLOPT_HEADER, true);
         curl_setopt($ch, CURLOPT_NOBODY, true); // لا نريد تحميل الجسم
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // لمنع الطباعة
+
         curl_setopt($ch, CURLOPT_TIMEOUT, 3); // المهلة القصوى للاتصال
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (compatible; CDN-Checker)');
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
 
         $result = curl_exec($ch);
+        $curlError = curl_error($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
         curl_close($ch);
 
         // إذا فشل الاتصال أو لم تكن الاستجابة ضمن 200–399، نستخدم cdnjs
-        if ($result === false || $httpCode < 200 || $httpCode >= 400) {
+        if ($result === false || !empty($curlError) || $httpCode < 200 || $httpCode >= 400) {
             $hoste = "https://cdnjs.cloudflare.com";
         }
     }
