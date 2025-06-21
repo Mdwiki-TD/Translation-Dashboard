@@ -96,7 +96,7 @@ function make_results_table_exists($items, $cod, $cat, $camp)
 {
     //---
     $frist = <<<HTML
-        <table class="table display compact table-striped table-mobile-responsive table_100">
+        <table class="table display compact table-striped table-mobile-responsive table_100 table_text_left">
             <thead>
                 <tr>
                     <th class="">

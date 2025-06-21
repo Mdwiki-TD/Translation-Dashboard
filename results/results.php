@@ -35,7 +35,7 @@ if (empty($code_lang_name)) $doit = false;
 //---
 echo "<div class='container-fluid'>";
 //---
-function card_result($title, $text)
+function card_result($title, $text, $title2 = "")
 {
     return <<<HTML
     <br>
@@ -44,6 +44,7 @@ function card_result($title, $text)
             <span class="card-title h5">
                 $title
             </span>
+            $title2
             <div class="card-tools">
                 <button type="button" class="btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
             </div>
@@ -69,18 +70,18 @@ if ($doit) {
     //---
     $exists     = $tab['exists'];
     //---
-    $res_line = " Results (" . count($tab['missing']) . ")";
+    $res_line = " Results: (" . count($tab['missing']) . ")";
     //---
     if (isset($_GET['test'])) $res_line .= 'test:';
     //---
     $table = make_results_table($missing, $code, $cat, $camp, $tra_type, $translation_button);
     //---
     $title_x = <<<HTML
-        $res_line: </span> <span class='only_on_mobile'><b>Click the article name to translate</b>
+        <span class='only_on_mobile'><b>Click the article name to translate</b></span>
         <!-- $ix -->
     HTML;
     //---
-    echo card_result($title_x, $table);
+    echo card_result($res_line, $table, $title_x);
     //---
     $len_inprocess = count($p_inprocess);
     //---
@@ -88,7 +89,7 @@ if ($doit) {
         //---
         $table_2 = make_results_table($p_inprocess, $code, $cat, $camp, $tra_type, $translation_button, $inprocess = true);
         //---
-        echo card_result("In process ($len_inprocess):", $table_2);
+        echo card_result("In process: ($len_inprocess)", $table_2);
     };
     //---
     $len_exists = count($exists);
@@ -97,7 +98,7 @@ if ($doit) {
         //---
         $table_3 = make_results_table_exists($exists, $code, $cat, $camp);
         //---
-        echo card_result("Exists ($len_exists):", $table_3);
+        echo card_result("Exists: ($len_exists)", $table_3);
     };
     //---
     echo '</div>';
