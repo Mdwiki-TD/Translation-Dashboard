@@ -53,7 +53,7 @@ function users_html()
         </div>
     HTML;
     //---
-    [$_, $table_pnd] = make_users_lead($dd, 'pending', $table_of_views, $mainuser);
+    [$_, $table_pnd] = make_users_lead($dd_Pending, 'pending', $table_of_views, $mainuser);
     //---
     $output .= <<<HTML
         <br>
