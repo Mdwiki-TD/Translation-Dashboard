@@ -17,6 +17,7 @@ use function Leaderboard\Subs\FilterForm\lead_row;
 
 function langs_html()
 {
+    $output = '';
     //---
     $mainlang = $_GET['langcode'] ?? "";
     $mainlang = rawurldecode(str_replace('_', ' ', $mainlang));
@@ -48,9 +49,9 @@ function langs_html()
     //---
     $filter_data = ["user" => "", "lang" => $mainlang, "year" => $year_y, "camp" => $camp];
     //---
-    echo lead_row($table1, $graph, "<h4 class='text-center'>Language: $man ($mainlang) $cat_link</h4>", $filter_data, "lang");
+    $output .= lead_row($table1, $graph, "<h4 class='text-center'>Language: $man ($mainlang) $cat_link</h4>", $filter_data, "lang");
     //---
-    echo <<<HTML
+    $output .= <<<HTML
         <div class='card mt-1'>
             <div class='card-body p-1'>
                 $main_table
@@ -60,7 +61,7 @@ function langs_html()
     //---
     [$_, $table_pnd] = make_langs_lead($dd_Pending, 'pending', $table_of_views, $mainlang);
     //---
-    echo <<<HTML
+    $output .= <<<HTML
         <br>
         <div class='card'>
             <div class='card-body' style='padding:5px 0px 5px 5px;'>
@@ -69,4 +70,6 @@ function langs_html()
             </div>
         </div>
     HTML;
+    // ---
+    return $output;
 }

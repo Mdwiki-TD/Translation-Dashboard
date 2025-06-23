@@ -17,6 +17,7 @@ use function Leaderboard\Subs\FilterForm\lead_row;
 
 function users_html()
 {
+    $output = '';
     //---
     $mainlang = $_GET['lang'] ?? 'All';
     $mainlang = rawurldecode(str_replace('_', ' ', $mainlang));
@@ -42,9 +43,9 @@ function users_html()
     //---
     $filter_data = ["user" => $mainuser, "lang" => $mainlang, "year" => $year_y, "camp" => $camp];
     //---
-    echo lead_row($table1, $graph, "<h4 class='text-center'>User: $man</h4>", $filter_data, "user");
+    $output .= lead_row($table1, $graph, "<h4 class='text-center'>User: $man</h4>", $filter_data, "user");
     //---
-    echo <<<HTML
+    $output .= <<<HTML
         <div class='card mt-1'>
             <div class='card-body p-1'>
                 $main_table
@@ -54,7 +55,7 @@ function users_html()
     //---
     [$_, $table_pnd] = make_users_lead($dd, 'pending', $table_of_views, $mainuser);
     //---
-    echo <<<HTML
+    $output .= <<<HTML
         <br>
         <div class='card'>
             <div class='card-body' style='padding:5px 0px 5px 5px;'>
@@ -63,4 +64,6 @@ function users_html()
             </div>
         </div>
     HTML;
+    // ---
+    return $output;
 }
