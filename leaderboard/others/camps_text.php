@@ -204,7 +204,7 @@ function echo_html()
 
     echo <<<HTML
         <script>
-            $('.ttx').DataTable({
+            $('.ttxx').DataTable({
                 stateSave: false,
                 paging: false,
                 info: false,
