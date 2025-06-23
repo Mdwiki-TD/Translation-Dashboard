@@ -10,7 +10,7 @@ use function Leaderboard\Langs\langs_html;
 */
 
 use Tables\Langs\LangsTables;
-use function Leaderboard\Subs\LeadHelp\make_table_lead;
+use function Leaderboard\Subs\LeadHelp\make_langs_lead;
 use function Leaderboard\Subs\SubLangs\get_langs_tables;
 use function Leaderboard\SubGraph\graph_data_new;
 use function Leaderboard\Subs\FilterForm\lead_row;
@@ -34,14 +34,7 @@ function langs_html()
     //---
     $count_new = count($dd);
     //---
-    [$table1, $main_table] = make_table_lead(
-        $dd,
-        $tab_type = 'translations',
-        $views_table = $table_of_views,
-        $page_type = 'langs',
-        $user = '',
-        $lang = $mainlang
-    );
+    [$table1, $main_table] = make_langs_lead($dd, 'translations', $table_of_views, $mainlang);
     //---
     $man = $langname;
     //---
@@ -65,7 +58,7 @@ function langs_html()
         </div>
     HTML;
     //---
-    [$_, $table_pnd] = make_table_lead($dd_Pending, $tab_type = 'pending', $page_type = 'langs', $user = '', $lang = $mainlang);
+    [$_, $table_pnd] = make_langs_lead($dd_Pending, 'pending', $table_of_views, $mainlang);
     //---
     echo <<<HTML
         <br>

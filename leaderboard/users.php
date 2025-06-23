@@ -9,8 +9,8 @@ use function Leaderboard\Users\users_html;
 
 */
 
+use function Leaderboard\Subs\LeadHelp\make_users_lead;
 use function Actions\Html\make_mdwiki_user_url;
-use function Leaderboard\Subs\LeadHelp\make_table_lead;
 use function Leaderboard\Subs\SubUsers\get_users_tables;
 use function Leaderboard\SubGraph\graph_data_new;
 use function Leaderboard\Subs\FilterForm\lead_row;
@@ -34,14 +34,7 @@ function users_html()
     //---
     $count_new = count($dd);
     //---
-    [$table1, $main_table] = make_table_lead(
-        $dd,
-        $tab_type = 'translations',
-        $views_table = $table_of_views,
-        $page_type = 'users',
-        $user = $mainuser,
-        $lang = ''
-    );
+    [$table1, $main_table] = make_users_lead($dd, 'translations', $table_of_views, $mainuser);
     //---
     $man = make_mdwiki_user_url($mainuser);
     //---
@@ -59,7 +52,7 @@ function users_html()
         </div>
     HTML;
     //---
-    [$_, $table_pnd] = make_table_lead($dd_Pending, $tab_type = 'pending', $views_table = $table_of_views, $page_type = 'users', $user = $mainuser, $lang = '');
+    [$_, $table_pnd] = make_users_lead($dd, 'pending', $table_of_views, $mainuser);
     //---
     echo <<<HTML
         <br>

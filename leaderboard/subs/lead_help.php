@@ -5,9 +5,11 @@ namespace Leaderboard\Subs\LeadHelp;
 /*
 Usage:
 
+use function Leaderboard\Subs\LeadHelp\make_key;
 use function Leaderboard\Subs\LeadHelp\make_td_fo_user;
 use function Leaderboard\Subs\LeadHelp\make_table_lead;
-use function Leaderboard\Subs\LeadHelp\make_key;
+use function Leaderboard\Subs\LeadHelp\make_langs_lead;
+use function Leaderboard\Subs\LeadHelp\make_users_lead;
 
 */
 
@@ -175,10 +177,15 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
     //---
 };
 
-function make_table_lead($dd, $tab_type = 'a', $views_table = [], $page_type = 'users', $user = '', $lang = '')
+function make_table_lead($dd, $tab_type, $views_table, $page_type, $user, $lang)
 {
     $total_words = 0;
     $total_views = 0;
+    //---
+    // if $views_table is not array
+    if (!is_array($views_table)) {
+        $views_table = [];
+    }
     //---
     $user_or_lang = ($page_type == 'users') ? 'Lang.' : 'User';
     //---
@@ -250,4 +257,32 @@ function make_table_lead($dd, $tab_type = 'a', $views_table = [], $page_type = '
     $table1 = ['total_articles' => $total_articles, 'total_words' => $total_words, 'total_views' => $total_views];
     //---
     return [$table1, $table2];
-};
+}
+
+function make_users_lead($tab, $tab_type, $views_table, $user)
+{
+    [$_, $table_pnd] = make_table_lead(
+        $tab,
+        $tab_type,
+        $views_table,
+        'users',
+        $user,
+        ""
+    );
+    // ---
+    return [$_, $table_pnd];
+}
+
+function make_langs_lead($tab, $tab_type, $views_table, $lang)
+{
+    [$_, $table_pnd] = make_table_lead(
+        $tab,
+        $tab_type,
+        $views_table,
+        'langs',
+        "",
+        $lang
+    );
+    // ---
+    return [$_, $table_pnd];
+}
