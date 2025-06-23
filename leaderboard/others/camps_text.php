@@ -1,5 +1,14 @@
 <?PHP
 
+namespace Leaderboard\CampText;
+
+/*
+Usage:
+
+use function Leaderboard\CampText\echo_html;
+
+*/
+
 use function Leaderboard\Camps\get_articles_to_camps;
 
 function camps_list()
@@ -101,7 +110,7 @@ function camps_list2()
         </table>
     HTML;
 
-    echo <<<HTML
+    return <<<HTML
         <div class="container-fluid col-9">
             <div class="card card2">
                 <div class="card-header">
@@ -118,7 +127,7 @@ function camps_list2()
                 </div>
             </div>
         </div>
-    HTML;;
+    HTML;
 }
 
 function campaigns_with_articles_table()
@@ -185,20 +194,22 @@ function campaigns_with_articles_table()
         </script>
     HTML;
 
-    echo $table;
+    return $table;
 }
+function echo_html()
+{
+    echo camps_list2();
+    // ---
+    echo campaigns_with_articles_table();
 
-camps_list2();
-// ---
-campaigns_with_articles_table();
-
-echo <<<HTML
-<script>
-	$('.ttx').DataTable({
-		stateSave: false,
-		paging: false,
-		info: false,
-		searching: false
-	});
-</script>
-HTML;
+    echo <<<HTML
+        <script>
+            $('.ttx').DataTable({
+                stateSave: false,
+                paging: false,
+                info: false,
+                searching: false
+            });
+        </script>
+    HTML;
+}

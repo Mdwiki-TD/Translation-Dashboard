@@ -11,18 +11,15 @@ use function Leaderboard\Subs\LeadHelp\make_key;
 
 */
 
-//---
-include_once __DIR__ . '/../camps.php';
-
 use Tables\Main\MainTables;
 use Tables\SqlTables\TablesSql;
 use function Actions\WikiApi\make_view_by_number;
 use function Actions\Html\make_cat_url;
 use function Actions\Html\make_mdwiki_title;
-// use function Actions\Html\make_translation_url;
 use function Actions\Html\make_target_url;
 use function Results\TrLink\make_translate_link_medwiki;
 use function Leaderboard\Camps\get_articles_to_camps;
+// use function Actions\Html\make_translation_url;
 
 function make_key($Taab)
 {

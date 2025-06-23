@@ -10,8 +10,6 @@ use function Leaderboard\LeaderTables\makeLangTable;
 
 */
 
-include_once __DIR__ . '/camps.php';
-
 use Tables\Main\MainTables;
 
 function createNumbersTable($c_user, $c_articles, $c_words, $c_langs, $c_views)

@@ -2,22 +2,20 @@
 
 namespace Leaderboard\Index;
 
-/*
-Usage:
-
-use function Leaderboard\Index\print_cat_table;
-
-*/
-
-//---
 if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
-};
-//---
-include_once __DIR__ . '/include.php';
-//---
+}
+
+/*
+
+Usage:
+
+use function Leaderboard\Index\main_leaderboard;
+
+*/
+
 use Tables\SqlTables\TablesSql;
 use function Actions\Html\makeColSm4;
 use function Actions\Html\makeCol;
@@ -89,21 +87,26 @@ function print_cat_table($year, $user_group, $camp, $cat): string
     HTML;
 }
 
-$year       = $_GET['year'] ?? 'all';
-$camp       = $_GET['camp'] ?? 'all';
-$user_group    = $_GET['project'] ?? $_GET['user_group'] ?? 'all';
-//---
-$filter_form = leaderboard_filter($year, $user_group, $camp);
-//---
-$cat = TablesSql::$s_camp_to_cat[$camp] ?? '';
-//---
-$uux = print_cat_table($year, $user_group, $camp, $cat);
-//---
-echo <<<HTML
-    $filter_form
-    <hr/>
-    <div class="container-fluid">
-        $uux
-    </div>
-HTML;
-//---
+function main_leaderboard()
+{
+    //---
+    $year       = $_GET['year'] ?? 'all';
+    $camp       = $_GET['camp'] ?? 'all';
+    $user_group    = $_GET['project'] ?? $_GET['user_group'] ?? 'all';
+    //---
+    $filter_form = leaderboard_filter($year, $user_group, $camp);
+    //---
+    $cat = TablesSql::$s_camp_to_cat[$camp] ?? '';
+    //---
+    $uux = print_cat_table($year, $user_group, $camp, $cat);
+    //---
+    $board = <<<HTML
+        $filter_form
+        <hr/>
+        <div class="container-fluid">
+            $uux
+        </div>
+    HTML;
+    //---
+    return $board;
+}
