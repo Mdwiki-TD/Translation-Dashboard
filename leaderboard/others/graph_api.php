@@ -59,7 +59,7 @@ function print_graph_tab_2_new()
 
     $g = graph_new_html([]);
 
-    echo <<<HTML
+    return <<<HTML
         <div class="container">
             <div class="col-md-10">
                 $g

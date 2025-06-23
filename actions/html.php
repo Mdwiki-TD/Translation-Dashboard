@@ -6,7 +6,6 @@ https://live.datatables.net/lopevege/1/edit
 
 Usage:
 use function Actions\Html\banner_alert;
-use function Actions\Html\add_quotes;
 use function Actions\Html\login_card;
 use function Actions\Html\makeCard;
 use function Actions\Html\makeColSm4;
@@ -27,13 +26,7 @@ use function Actions\Html\make_target_url;
 use function Actions\Html\make_translation_url;
 */
 
-//---
-function add_quotes($str)
-{
-    $quote = preg_match("/[']+/u", $str) ? '"' : "'";
-    return $quote . $str . $quote;
-};
-//---
+
 function banner_alert($text)
 {
     return <<<HTML

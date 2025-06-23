@@ -102,7 +102,7 @@ function print_graph_from_sql()
 function print_graph_tab()
 {
     $g = print_graph_from_sql();
-    echo <<<HTML
+    return <<<HTML
         <div class="container">
             <div class="col-md-10">
                 $g

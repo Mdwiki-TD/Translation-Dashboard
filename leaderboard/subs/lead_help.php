@@ -5,24 +5,23 @@ namespace Leaderboard\Subs\LeadHelp;
 /*
 Usage:
 
+use function Leaderboard\Subs\LeadHelp\make_key;
 use function Leaderboard\Subs\LeadHelp\make_td_fo_user;
 use function Leaderboard\Subs\LeadHelp\make_table_lead;
-use function Leaderboard\Subs\LeadHelp\make_key;
+use function Leaderboard\Subs\LeadHelp\make_langs_lead;
+use function Leaderboard\Subs\LeadHelp\make_users_lead;
 
 */
-
-//---
-include_once __DIR__ . '/../camps.php';
 
 use Tables\Main\MainTables;
 use Tables\SqlTables\TablesSql;
 use function Actions\WikiApi\make_view_by_number;
 use function Actions\Html\make_cat_url;
 use function Actions\Html\make_mdwiki_title;
-// use function Actions\Html\make_translation_url;
 use function Actions\Html\make_target_url;
 use function Results\TrLink\make_translate_link_medwiki;
 use function Leaderboard\Camps\get_articles_to_camps;
+// use function Actions\Html\make_translation_url;
 
 function make_key($Taab)
 {
@@ -178,10 +177,15 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
     //---
 };
 
-function make_table_lead($dd, $tab_type = 'a', $views_table = [], $page_type = 'users', $user = '', $lang = '')
+function make_table_lead($dd, $tab_type, $views_table, $page_type, $user, $lang)
 {
     $total_words = 0;
     $total_views = 0;
+    //---
+    // if $views_table is not array
+    if (!is_array($views_table)) {
+        $views_table = [];
+    }
     //---
     $user_or_lang = ($page_type == 'users') ? 'Lang.' : 'User';
     //---
@@ -253,4 +257,32 @@ function make_table_lead($dd, $tab_type = 'a', $views_table = [], $page_type = '
     $table1 = ['total_articles' => $total_articles, 'total_words' => $total_words, 'total_views' => $total_views];
     //---
     return [$table1, $table2];
-};
+}
+
+function make_users_lead($tab, $tab_type, $views_table, $user)
+{
+    [$_, $table_pnd] = make_table_lead(
+        $tab,
+        $tab_type,
+        $views_table,
+        'users',
+        $user,
+        ""
+    );
+    // ---
+    return [$_, $table_pnd];
+}
+
+function make_langs_lead($tab, $tab_type, $views_table, $lang)
+{
+    [$_, $table_pnd] = make_table_lead(
+        $tab,
+        $tab_type,
+        $views_table,
+        'langs',
+        "",
+        $lang
+    );
+    // ---
+    return [$_, $table_pnd];
+}

@@ -36,32 +36,36 @@ function pages_tables($mainlang, $year_y)
     $dd = [];
     $dd_Pending = [];
     //---
-    $rrr2 = get_lang_pages($mainlang, $year_y);
+    $sql_result = get_lang_pages($mainlang, $year_y);
     //---
-    foreach ($rrr2 as $yhu => $Taab) {
+    foreach ($sql_result as $yhu => $tabb) {
         //---
-        if (empty($Taab["lang"] ?? '')) {
+        if (empty($tabb["lang"] ?? '')) {
             error_log("Missing 'lang' field in entry: " . $yhu);
-            // var_export(json_encode($Taab, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
             continue;
         };
         //---
-        $kry = make_key($Taab);
+        $kry = make_key($tabb);
         //---
-        if (!empty($Taab['target'] ?? '')) {
-            $dd[$kry] = $Taab;
+        if (!empty($tabb['target'] ?? '')) {
+            $dd[$kry] = $tabb;
         } else {
-            $dd_Pending[$kry] = $Taab;
+            $dd_Pending[$kry] = $tabb;
         };
     };
     //---
-    return array('dd' => $dd, 'dd_Pending' => $dd_Pending);
+    return ['dd' => $dd, 'dd_Pending' => $dd_Pending];
 }
 
 function get_langs_tables($mainlang, $year_y)
 {
+    // ---
+    $result = ['dd' => [], 'dd_Pending' => [], 'table_of_views' => []];
+    // ---
+    if (empty($mainlang)) {
+        return $result;
+    };
     //---
-    $table_of_views = []; //get_lang_views($mainlang, $year_y);
     //---
     $p_tables = pages_tables($mainlang, $year_y);
     //---
@@ -70,5 +74,13 @@ function get_langs_tables($mainlang, $year_y)
     //---
     $dd_Pending = add_inp($dd_Pending, $mainlang, $year_y);
     //---
-    return array('dd' => $dd, 'dd_Pending' => $dd_Pending, 'table_of_views' => $table_of_views);
+    //---
+    //---
+    $table_of_views = []; //get_lang_views($mainlang, $year_y);
+    //---
+    $result['dd'] = $dd;
+    $result['dd_Pending'] = $dd_Pending;
+    $result['table_of_views'] = $table_of_views;
+    //---
+    return $result;
 }
