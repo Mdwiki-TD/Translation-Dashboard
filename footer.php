@@ -10,9 +10,9 @@ if (isset($GLOBALS['time_start'])) {
 	//---
 	$script = "$('.tool_title').attr('title', '$line');";
 	//---
-	if (isset($_REQUEST['test']) || isset($_COOKIE['test']) || $_SERVER["SERVER_NAME"] == "localhost") {
-		$script .= "\n\t$('#load_time').html('$line');";
-	}
+	// if (isset($_REQUEST['test']) || isset($_COOKIE['test']) || $_SERVER["SERVER_NAME"] == "localhost") {
+		// $script .= "\n\t$('#load_time').html('$line');";
+	// }
 	//---
 	echo "\n<script>\n\t $script</script>";
 }

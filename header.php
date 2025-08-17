@@ -44,7 +44,7 @@ define('user_in_coord', $user_in_coord);
 $coord_tools = "";
 //---
 if (in_array($GLOBALS['global_username'], $coordinators)) {
-	$coord_tools = '<a href="/tdc/index.php" class="nav-link py-2 px-0 px-lg-2"><span class="navtitles"></span>Coordinator Tools</a>';
+	$coord_tools = '<a href="/tdc/index.php" class="nav-link py-2 px-0 px-lg-2"><span class="navtitles"></span> <i class="bi bi-tools me-1"></i> Coordinator Tools</a>';
 };
 //---
 $li_user = <<<HTML
@@ -102,17 +102,21 @@ function is_active($url)
 					<ul class="navbar-nav flex-row flex-wrap bd-navbar-nav">
 						<li class="nav-item col-6 col-lg-auto <?php echo is_active('leaderboard.php'); ?>" id="leaderboard">
 							<a class="nav-link py-2 px-0 px-lg-2" href="leaderboard.php">
-								<span class="navtitles">Leaderboard</span>
+								<span class="navtitles"> <i class="bi bi-bar-chart-line me-1"></i> Leaderboard</span>
 							</a>
 						</li>
 						<li class="nav-item col-6 col-lg-auto" id="Prior">
 							<a class="nav-link py-2 px-0 px-lg-2" target="_blank" href="/prior">
-								<span class="navtitles">Prior</span>
+								<span class="navtitles">
+									<i class="bi bi-bar-chart me-1"></i> Prior
+								</span>
 							</a>
 						</li>
 						<li class="nav-item col-6 col-lg-auto <?php echo is_active('missing.php'); ?>" id="missing">
 							<a class="nav-link py-2 px-0 px-lg-2" href="missing.php">
-								<span class="navtitles">Missing</span>
+								<span class="navtitles">
+									<i class="bi bi-card-list me-1"></i> Missing
+								</span>
 							</a>
 						</li>
 						<li class="nav-item col-6 col-lg-auto" id="coord">
@@ -121,7 +125,9 @@ function is_active($url)
 
 						<li class="nav-item col-6 col-lg-auto">
 							<a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/MrIbrahem/Translation-Dashboard" target="_blank">
-								<span class="navtitles">Github</span>
+								<span class="navtitles">
+									<i class="bi bi-github me-1"></i> Github
+								</span>
 							</a>
 						</li>
 						<li class="nav-item col-6 col-lg-auto">
