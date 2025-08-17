@@ -19,9 +19,9 @@
 }
 
 :root[data-bs-theme="dark"] {
-    .navbar-nav .nav-item.active {
-        /* background-color: #3a3f44; */
-    }
+	.navbar-nav .nav-item.active {
+		/* background-color: #3a3f44; */
+	}
 }
 
 .navbar-nav li.active>a {
@@ -269,16 +269,10 @@ a {
 	box-shadow: none !important;
 }
 
-:root[data-bs-theme="dark"] {
-    canvas {
-        filter: invert(1) hue-rotate(180deg);
-        /* Inverts colors for a quick dark mode */
-    }
+:root[data-bs-theme="dark"] .invert-on-dark {
+	filter: invert(1) hue-rotate(180deg);
 }
 
-:root[data-bs-theme="light"] {
-    canvas {
-        filter: invert(0) hue-rotate(0deg);
-        /* Inverts colors for a quick dark mode */
-    }
+:root[data-bs-theme="light"] .invert-on-dark {
+	filter: invert(0) hue-rotate(0deg);
 }
