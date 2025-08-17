@@ -75,22 +75,22 @@ $them_li = <<<HTML
 HTML;
 //---
 $li_user = <<<HTML
-	<li class="nav-item col-4 col-lg-auto">
+	<li class="nav-item col-6 col-lg-auto">
 		<a role="button" class="nav-link py-2 px-0 px-lg-2" onclick="login()">
 			<i class="fas fa-sign-in-alt fa-sm fa-fw mr-2"></i> <span class="navtitles">Login</span>
 		</a>
-		</li>
+	</li>
 HTML;
 //---
 if (isset($GLOBALS['global_username']) && $GLOBALS['global_username'] != '') {
 	$u_name = $GLOBALS['global_username'];
 	$li_user = <<<HTML
-	<li class="nav-item col-4 col-lg-auto">
+	<li class="nav-item col-6 col-lg-auto">
 			<a href="leaderboard.php?get=users&user=$u_name" class="nav-link py-2 px-0 px-lg-2">
 				<i class="fas fa-user fa-sm fa-fw mr-2"></i> <span class="navtitles">$u_name</span>
 			</a>
 		</li>
-		<li class="nav-item col-4 col-lg-auto">
+		<li class="nav-item col-6 col-lg-auto">
 			<a class="nav-link py-2 px-0 px-lg-2" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">
 				<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2"></i> <span class="d-lg-none navtitles">Logout</span>
 			</a>
@@ -127,31 +127,31 @@ function is_active($url)
 				</button>
 				<div class="collapse navbar-collapse" id="collapsibleNavbar">
 					<ul class="navbar-nav flex-row flex-wrap bd-navbar-nav">
-						<li class="nav-item col-4 col-lg-auto <?php echo is_active('leaderboard.php'); ?>" id="leaderboard">
+						<li class="nav-item col-6 col-lg-auto <?php echo is_active('leaderboard.php'); ?>" id="leaderboard">
 							<a class="nav-link py-2 px-0 px-lg-2" href="leaderboard.php">
 								<span class="navtitles">Leaderboard</span>
 							</a>
 						</li>
-						<li class="nav-item col-4 col-lg-auto" id="Prior">
+						<li class="nav-item col-6 col-lg-auto" id="Prior">
 							<a class="nav-link py-2 px-0 px-lg-2" target="_blank" href="/prior">
 								<span class="navtitles">Prior</span>
 							</a>
 						</li>
-						<li class="nav-item col-4 col-lg-auto <?php echo is_active('missing.php'); ?>" id="missing">
+						<li class="nav-item col-6 col-lg-auto <?php echo is_active('missing.php'); ?>" id="missing">
 							<a class="nav-link py-2 px-0 px-lg-2" href="missing.php">
 								<span class="navtitles">Missing</span>
 							</a>
 						</li>
-						<li class="nav-item col-4 col-lg-auto" id="coord">
+						<li class="nav-item col-6 col-lg-auto" id="coord">
 							<?php echo $coord_tools; ?>
 						</li>
 
-						<li class="nav-item col-4 col-lg-auto">
+						<li class="nav-item col-6 col-lg-auto">
 							<a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/MrIbrahem/Translation-Dashboard" target="_blank">
 								<span class="navtitles">Github</span>
 							</a>
 						</li>
-						<li class="nav-item col-4 col-lg-auto">
+						<li class="nav-item col-6 col-lg-auto">
 							<span class="nav-link py-2 px-0 px-lg-2" id="load_time"></span>
 						</li>
 					</ul>
@@ -161,7 +161,7 @@ function is_active($url)
 					</ul>
 				</div>
 				<div class="d-flex ms-2">
-					<span class="nav-item col-4 col-lg-auto dropdown">
+					<span class="nav-item col-6 col-lg-auto dropdown">
 						<?php echo $them_li; ?>
 					</span>
 					<!-- <button class="theme-toggle btn btn-link me-ms-auto" aria-label="Toggle theme">
