@@ -26,7 +26,9 @@ function getSystemTheme() {
 
 // Update theme icon based on current theme
 function updateThemeIcon(preference) {
-    const { icon } = themes[preference];
+    const { cfg } = themes[preference];
+    if (!cfg || !themeIcon) return;
+    const { icon } = cfg;
     themeIcon.className = `bi ${icon}`;
 }
 
