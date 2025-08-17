@@ -58,7 +58,7 @@ $stylesheets = [
     "/Translation_Dashboard/css/dashboard_new1.css",
     "/Translation_Dashboard/css/sidebars.css",
     "$hoste/ajax/libs/font-awesome/5.15.3/css/all.min.css",
-    "$hoste/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css",
+    "$hoste/ajax/libs/bootstrap/5.3.7/css/bootstrap.min.css",
     "$hoste/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css",
     "$hoste/ajax/libs/bootstrap-select/1.14.0-beta3/css/bootstrap-select.css",
     "$hoste/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css",
@@ -69,12 +69,13 @@ $stylesheets = [
 
     "/Translation_Dashboard/css/mobile_format.css",
     "/Translation_Dashboard/css/Responsive_Table.css",
+    "/Translation_Dashboard/css/theme.css",
 ];
 
 $scripts = [
     "$hoste/ajax/libs/jquery/3.7.0/jquery.min.js",
     "$hoste/ajax/libs/popper.js/2.11.8/umd/popper.min.js",
-    "$hoste/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js",
+    "$hoste/ajax/libs/bootstrap/5.3.7/js/bootstrap.min.js",
     "$hoste/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js",
     "$hoste/ajax/libs/bootstrap-select/1.14.0-beta3/js/bootstrap-select.min.js",
 
@@ -90,6 +91,7 @@ $scripts = [
     "/Translation_Dashboard/js/login.js",
     "/td/plugins/chart.js/Chart.min.js",
     "/Translation_Dashboard/js/g.js",
+    "/Translation_Dashboard/js/theme.js",
 ];
 
 $scripts_module = [

@@ -23,9 +23,9 @@
 }
 
 .bi {
-    vertical-align: -.125em;
+    /* vertical-align: -.125em;
     pointer-events: none;
-    fill: currentColor;
+    fill: currentColor; */
 }
 
 .dropdown-toggle {

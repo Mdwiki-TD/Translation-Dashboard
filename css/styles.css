@@ -38,9 +38,9 @@
 }
 
 .bi {
-    width: 1em;
+    /* width: 1em;
     height: 1em;
-    fill: currentcolor;
+    fill: currentcolor; */
 }
 
 .color-modes {

@@ -47,33 +47,6 @@ if (in_array($GLOBALS['global_username'], $coordinators)) {
 	$coord_tools = '<a href="/tdc/index.php" class="nav-link py-2 px-0 px-lg-2"><span class="navtitles"></span>Coordinator Tools</a>';
 };
 //---
-$them_li = <<<HTML
-	<button class="btn btn-link nav-link px-2 d-flex align-items-center " id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown"
-		data-bs-display="static" aria-label="Toggle theme (light)">
-		<span class="theme-icon-active my-1">
-			<i class="bi bi-circle-half"></i>
-		</span>
-		<span class="d-lg-none ms-2" id="bd-theme-text"></span>
-	</button>
-	<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
-		<li>
-			<button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="light" aria-pressed="true">
-				<i class="bi bi-sun-fill me-2 opacity-50 theme-icon"></i> Light
-			</button>
-		</li>
-		<li>
-			<button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
-				<i class="bi bi-moon-stars-fill me-2 opacity-50 theme-icon"></i> Dark
-			</button>
-		</li>
-		<li>
-			<button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
-				<i class="bi bi-circle-half me-2 opacity-50 theme-icon"></i> Auto
-			</button>
-		</li>
-	</ul>
-HTML;
-//---
 $li_user = <<<HTML
 	<li class="nav-item col-6 col-lg-auto">
 		<a role="button" class="nav-link py-2 px-0 px-lg-2" onclick="login()">
@@ -160,13 +133,10 @@ function is_active($url)
 						<?php echo $li_user; ?>
 					</ul>
 				</div>
-				<div class="d-flex ms-2">
-					<span class="nav-item col-6 col-lg-auto dropdown">
-						<?php echo $them_li; ?>
-					</span>
-					<!-- <button class="theme-toggle btn btn-link me-ms-auto" aria-label="Toggle theme">
+				<div class="d-flex">
+					<button class="theme-toggle btn btn-link ms-me-auto" aria-label="Toggle theme">
 						<i class="bi bi-moon-stars-fill"></i>
-					</button> -->
+					</button>
 				</div>
 			</div>
 		</nav>
