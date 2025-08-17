@@ -88,7 +88,7 @@ HTML;
                 </div>
                 <div class="card-body1 card5px">
                     <div class="position-relative">
-                        <canvas id="chart09" height="200"></canvas>
+                        <canvas id="chart09" height="200" class="invert-on-dark"></canvas>
                     </div>
                 </div>
             </div>

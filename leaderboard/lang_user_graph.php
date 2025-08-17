@@ -73,7 +73,7 @@ function graph_data_new($dd)
     [$keys, $values, $count] = make_graph_data($dd);
     //---
     $text = <<<HTML
-        <canvas id="$graph_id" height="100" width="200"></canvas>
+        <canvas id="$graph_id" height="100" width="200" class="invert-on-dark"></canvas>
     HTML;
     //---
     if ($count > 0) {

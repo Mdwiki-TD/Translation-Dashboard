@@ -20,7 +20,7 @@ function graph_html($keys, $values, $no_card = false)
     // ---
     $canvas = <<<HTML
         <div class="position-relative">
-            <canvas id="$graph_id" height="200"></canvas>
+            <canvas id="$graph_id" height="200" class="invert-on-dark"></canvas>
         </div>
     HTML;
     //---

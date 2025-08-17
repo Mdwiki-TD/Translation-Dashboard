@@ -18,6 +18,12 @@
 	/* font-weight: bold; */
 }
 
+:root[data-bs-theme="dark"] {
+	.navbar-nav .nav-item.active {
+		/* background-color: #3a3f44; */
+	}
+}
+
 .navbar-nav li.active>a {
 	color: #000;
 }
@@ -261,4 +267,12 @@ a {
 
 .btn-tool:focus {
 	box-shadow: none !important;
+}
+
+:root[data-bs-theme="dark"] .invert-on-dark {
+	filter: invert(1) hue-rotate(180deg);
+}
+
+:root[data-bs-theme="light"] .invert-on-dark {
+	filter: invert(0) hue-rotate(0deg);
 }

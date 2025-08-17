@@ -38,9 +38,9 @@
 }
 
 .bi {
-    width: 1em;
+    /* width: 1em;
     height: 1em;
-    fill: currentcolor;
+    fill: currentcolor; */
 }
 
 .color-modes {
@@ -59,4 +59,22 @@
             display: block !important;
         }
     }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 750px) {
+    .navbar-collapse {
+        border-radius: 10px;
+        border: 1px solid rgba(44, 62, 80, 0.98);
+        padding: 1rem;
+        margin-top: 1rem;
+    }
+
+    .navbar-toggler {
+        margin-right: auto;
+        margin-left: 0;
+        border: none;
+        color: var(--light-text);
+    }
+
 }
