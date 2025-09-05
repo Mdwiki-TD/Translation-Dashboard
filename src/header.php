@@ -10,11 +10,7 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 //---
 ini_set('session.use_strict_mode', '1');
 //---
-if (substr(__DIR__, 0, 2) == 'I:') {
-    include_once 'I:/mdwiki/auth_repo/oauth/user_infos.php';
-} else {
-    include_once __DIR__ . '/../auth/oauth/user_infos.php';
-}
+include_once __DIR__ . '/userinfos_wrap.php';
 //---
 if (isset($GLOBALS['global_username']) && $GLOBALS['global_username'] != '') {
 	$global_username = $GLOBALS['global_username'];
