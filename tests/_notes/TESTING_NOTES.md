@@ -1,0 +1,10 @@
+- Testing framework: PHPUnit (assumed if not already present). Tests added in tests/IndexTest.php.
+- The test suite stubs external includes (header.php, footer.php, actions/load_request.php, Tables/include.php, results/results.php) at runtime to safely include the real index file that declares TD\print_form_start1.
+- Stubs are created in setUp() and removed in tearDown() and do not persist after tests.
+- Tests exercise the following behaviors:
+  - Type selection behavior (lead/all) and the allow_whole_translate flag
+  - Login button vs. "Do it" submit button rendering based on $GLOBALS['global_username']
+  - Generation of language select options with the selected state and autonyms
+  - Error message displayed when code_lang_name is empty but code is present
+  - Session behavior related to code
+  - Category and campaign selects with selected option

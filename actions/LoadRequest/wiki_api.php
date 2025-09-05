@@ -1,0 +1,1 @@
+<?php // test stub: wiki_api.php
