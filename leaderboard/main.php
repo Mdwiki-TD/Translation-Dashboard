@@ -87,12 +87,8 @@ function print_cat_table($year, $user_group, $camp, $cat): string
     HTML;
 }
 
-function main_leaderboard()
+function main_leaderboard($year, $camp, $user_group)
 {
-    //---
-    $year       = $_GET['year'] ?? 'all';
-    $camp       = $_GET['camp'] ?? 'all';
-    $user_group    = $_GET['project'] ?? $_GET['user_group'] ?? 'all';
     //---
     $filter_form = leaderboard_filter($year, $user_group, $camp);
     //---

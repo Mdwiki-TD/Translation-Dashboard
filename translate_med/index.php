@@ -15,9 +15,9 @@ use function Results\TrLink\make_translate_link_medwiki;
 use function TranslateMed\Inserter\insertPage_inprocess;
 use function SQLorAPI\GetDataTab\get_td_or_sql_users_no_inprocess;
 
-$coden = strtolower($_GET['code']);
-$title_o = $_GET['title'] ?? "";
-$useree = ($GLOBALS['global_username'] != '') ? $GLOBALS['global_username'] : '';
+$coden = strtolower(filter_input(INPUT_GET, 'code', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '');
+$title_o = filter_input(INPUT_GET, 'title', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
+$useree = !empty($GLOBALS['global_username']) ? $GLOBALS['global_username'] : '';
 
 $users_no_inprocess = get_td_or_sql_users_no_inprocess();
 $users_no_inprocess = array_column($users_no_inprocess, 'user');
@@ -62,10 +62,13 @@ if (!empty($title_o) && !empty($coden) && $user_valid) {
     $coden   = trim($coden);
     $useree  = trim($useree);
     //  title=COVID-19&code=ady&cat=RTTCovid&camp=COVID&type=lead
-    $cat     = $_GET['cat'] ?? '';
-    $camp    = $_GET['camp'] ?? '';
-    $tr_type = $_GET['type'] ?? 'lead';
-    $word    = $_GET['word'] ?? 0;
+    // ---
+    $cat = filter_input(INPUT_GET, 'cat', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
+    $camp = filter_input(INPUT_GET, 'camp', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
+    $tr_type = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'lead';
+    $word = filter_input(INPUT_GET, 'word', FILTER_VALIDATE_INT, [
+        'options' => ['default' => 0, 'min_range' => 0]
+    ]);
     // ---
     $user_decoded  = rawurldecode($useree);
     $cat     = rawurldecode($cat);

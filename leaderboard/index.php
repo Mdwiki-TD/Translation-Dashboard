@@ -19,17 +19,17 @@ echo <<<HTML
 </style>
 HTML;
 // ---
-$get   = $_GET['get'] ?? '';
-// ---
-$langcode = $_GET['langcode'] ?? '';
-$mainlang = $_GET['lang'] ?? 'All';
-// ---
-$mainuser = $_GET['user'] ?? "";
-$year_y = $_GET['year'] ?? 'All';
-$camp   = $_GET['camp'] ?? 'All';
+$get = filter_input(INPUT_GET, 'get', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
+
+$langcode = filter_input(INPUT_GET, 'langcode', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
+$mainlang = filter_input(INPUT_GET, 'lang', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'All';
+
+$mainuser = filter_input(INPUT_GET, 'user', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
+$year_y   = filter_input(INPUT_GET, 'year', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'All';
+$camp     = filter_input(INPUT_GET, 'camp', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'All';
+
 //---
 if ($get == 'users' || !empty($mainuser)) {
-    // ---
     // ---
     echo users_html($mainlang, $mainuser, $year_y, $camp);
     // ---
@@ -53,5 +53,10 @@ if ($get == 'users' || !empty($mainuser)) {
     echo print_graph_tab_2_new();
     // ---
 } else {
-    echo main_leaderboard();
+    //---
+    $user_group = filter_input(INPUT_GET, 'project', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
+        ?? filter_input(INPUT_GET, 'user_group', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
+        ?? 'all';
+    //---
+    echo main_leaderboard($year_y, $camp, $user_group);
 }
