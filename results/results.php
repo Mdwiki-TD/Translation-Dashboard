@@ -10,13 +10,8 @@ use function Results\ResultsTable\make_results_table;
 use function Results\ResultsTableExists\make_results_table_exists;
 use function Actions\LoadRequest\load_request;
 //---
-$doit = filter_input(INPUT_GET, 'doit', FILTER_VALIDATE_BOOL) ?? false;
-
+$doit = isset($_GET['doit']);
 $tra_type = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
-
-$depth = filter_input(INPUT_GET, 'depth', FILTER_VALIDATE_INT, [
-    'options' => ['default' => 1, 'min_range' => 1, 'max_range' => 10] // عدّل max حسب حاجتك
-]);
 //---
 $req  = load_request();
 $code = $req['code'] ?? "";
