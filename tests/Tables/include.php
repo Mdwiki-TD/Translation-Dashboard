@@ -1,0 +1,2 @@
+<?php
+// Stub Tables include
