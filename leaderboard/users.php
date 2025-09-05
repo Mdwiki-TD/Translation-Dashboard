@@ -43,7 +43,17 @@ function users_html()
     //---
     $filter_data = ["user" => $mainuser, "lang" => $mainlang, "year" => $year_y, "camp" => $camp];
     //---
-    $output .= lead_row($table1, $graph, "<h4 class='text-center'>User: $man</h4>", $filter_data, "user");
+    $xtools = <<<HTML
+            <div class="d-flex align-items-center justify-content-between">
+                <span class='h4'>User: $man </span>
+                <a href='https://xtools.wmflabs.org/globalcontribs/$mainuser' target='_blank'>
+                <span class='h4'>(XTools)</span>
+                <!-- <img src='https://xtools.wmcloud.org/build/images/logo.svg' title='Xtools' width='80px'/> -->
+            </a>
+            </div>
+    HTML;
+    //---
+    $output .= lead_row($table1, $graph, $xtools, $filter_data, "user");
     //---
     $output .= <<<HTML
         <div class='card mt-1'>
