@@ -13,9 +13,15 @@ include_once __DIR__ . '/include.php';
 
 use function Leaderboard\Filter\leaderboard_filter;
 
-$year       = $_GET['year'] ?? 'all';
-$camp       = $_GET['camp'] ?? 'all';
-$user_group = $_GET['project'] ?? $_GET['user_group'] ?? 'all';
+//---
+$year = strtolower(filter_input(INPUT_GET, 'year', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'all');
+$camp = strtolower(filter_input(INPUT_GET, 'camp', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'all');
+
+$user_group = filter_input(INPUT_GET, 'project', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
+    ?? filter_input(INPUT_GET, 'user_group', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
+    ?? 'all';
+//---
+$user_group = strtolower($user_group);
 //---
 $filter_form = leaderboard_filter($year, $user_group, $camp, 'x.php');
 
