@@ -11,25 +11,31 @@ use function Leaderboard\Langs\langs_html;
 use function Leaderboard\Users\users_html;
 
 echo <<<HTML
-    <style>
-    .border_debugx {
-        border: 1px solid;
-        border-radius: 5px;
-    }
-    </style>
+<style>
+.border_debugx {
+    border: 1px solid;
+    border-radius: 5px;
+}
+</style>
 HTML;
-
+// ---
 $get   = $_GET['get'] ?? '';
-$users = $_GET['user'] ?? '';
-$langs = $_GET['langcode'] ?? '';
-
-if ($get == 'users' || !empty($users)) {
+// ---
+$langcode = $_GET['langcode'] ?? '';
+$mainlang = $_GET['lang'] ?? 'All';
+// ---
+$mainuser = $_GET['user'] ?? "";
+$year_y = $_GET['year'] ?? 'All';
+$camp   = $_GET['camp'] ?? 'All';
+//---
+if ($get == 'users' || !empty($mainuser)) {
     // ---
-    echo users_html();
     // ---
-} elseif ($get == 'langs' || !empty($langs)) {
+    echo users_html($mainlang, $mainuser, $year_y, $camp);
     // ---
-    echo langs_html();
+} elseif ($get == 'langs' || !empty($langcode)) {
+    // ---
+    echo langs_html($langcode, $year_y, $camp);
     // ---
 } elseif (!empty($_GET['camps'] ?? '')) {
     // http://localhost:9001/Translation_Dashboard/leaderboard.php?camps=1&test=1

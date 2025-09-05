@@ -15,17 +15,11 @@ use function Leaderboard\Subs\SubUsers\get_users_tables;
 use function Leaderboard\SubGraph\graph_data_new;
 use function Leaderboard\Subs\FilterForm\lead_row;
 
-function users_html()
+function users_html($mainlang, $mainuser, $year_y, $camp)
 {
     $output = '';
     //---
-    $mainlang = $_GET['lang'] ?? 'All';
     $mainlang = rawurldecode(str_replace('_', ' ', $mainlang));
-    //---
-    $mainuser = $_GET['user'] ?? "";
-    //---
-    $year_y = $_GET['year'] ?? 'All';
-    $camp   = $_GET['camp'] ?? 'All';
     //---
     $u_tables = get_users_tables($mainuser, $year_y, $mainlang);
     //---

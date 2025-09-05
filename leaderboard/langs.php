@@ -15,15 +15,11 @@ use function Leaderboard\Subs\SubLangs\get_langs_tables;
 use function Leaderboard\SubGraph\graph_data_new;
 use function Leaderboard\Subs\FilterForm\lead_row;
 
-function langs_html()
+function langs_html($mainlang, $year_y, $camp)
 {
     $output = '';
     //---
-    $mainlang = $_GET['langcode'] ?? "";
     $mainlang = rawurldecode(str_replace('_', ' ', $mainlang));
-    //---
-    $year_y = $_GET['year'] ?? 'All';
-    $camp   = $_GET['camp'] ?? 'All';
     //---
     $langname = LangsTables::$L_code_to_lang_name[$mainlang] ?? $mainlang;
     //---
