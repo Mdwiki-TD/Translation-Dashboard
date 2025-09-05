@@ -1,11 +1,10 @@
 <?php
-$user_infos_path = __DIR__ . '/../../auth/auth/user_infos.php';
 //---
-if (substr($user_infos_path, 0, 2) == 'I:') {
-    $user_infos_path = 'I:/mdwiki/auth/auth/user_infos.php';
+if (substr(__DIR__, 0, 2) == 'I:') {
+    include_once 'I:/mdwiki/auth_repo/oauth/user_infos.php';
+} else {
+    include_once __DIR__ . '/../../auth/oauth/user_infos.php';
 }
-//---
-include_once $user_infos_path;
 //---
 // include_once __DIR__ . '/../header.php';
 // include_once __DIR__ . '/../actions/load_request.php';
