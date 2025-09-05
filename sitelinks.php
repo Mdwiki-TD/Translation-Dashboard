@@ -5,15 +5,9 @@ use function Actions\TestPrint\test_print;
 use function Tables\TablesDir\open_td_Tables_file;
 
 // Get request parameters with defaults
-$site = htmlspecialchars($_GET['site'] ?? 'all', ENT_QUOTES, 'UTF-8');
-$heads_limit = filter_input(INPUT_GET, 'heads_limit', FILTER_VALIDATE_INT, [
-	'options' => ['default' => 50, 'min_range' => 1, 'max_range' => 1000]
-]);
-
-$title_limit = filter_input(INPUT_GET, 'title_limit', FILTER_VALIDATE_INT, [
-	'options' => ['default' => 150, 'min_range' => 10, 'max_range' => 1000]
-]);
-
+$site = $_GET["site"] ?? "all";
+$heads_limit = $_GET["heads_limit"] ?? 50;
+$title_limit = $_GET["title_limit"] ?? 150;
 $items_with_no_links = isset($_GET["items_with_no_links"]) ? "checked" : "";
 
 // Generate form inputs
@@ -71,7 +65,7 @@ $heads_all = array_diff($data2["heads"], ["commons"]);
 $qids_all = $data2['qids'] ?? [];
 
 // Sort QIDs by sitelinks count
-uasort($qids_all, fn($a, $b) => count($b['sitelinks']) <=> count($a['sitelinks']));
+uasort($qids_all, fn ($a, $b) => count($b['sitelinks']) <=> count($a['sitelinks']));
 
 test_print("$file2: qids_all: " . count($qids_all));
 test_print("$file2: heads_all: " . count($heads_all));
@@ -88,11 +82,11 @@ $notitle = true;
 // Filter QIDs based on user selection
 if ($items_with_no_links) {
 	$heads = [];
-	$qids_o = array_filter($qids_all, fn($tab) => count($tab['sitelinks']) == 0);
+	$qids_o = array_filter($qids_all, fn ($tab) => count($tab['sitelinks']) == 0);
 } elseif (!empty($site) && $site != "all") {
 	$notitle = false;
 	$heads = [$site];
-	$len_items_with_site = count(array_filter($qids_all, fn($tab) => $tab['sitelinks'][$site] ?? false));
+	$len_items_with_site = count(array_filter($qids_all, fn ($tab) => $tab['sitelinks'][$site] ?? false));
 	$no_site_link = $len_qids_all - $len_items_with_site;
 	$with_site_note = " (with site: $len_items_with_site, no site link: $no_site_link)";
 }
