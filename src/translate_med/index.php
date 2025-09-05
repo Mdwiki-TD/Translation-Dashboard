@@ -1,8 +1,15 @@
 <?php
-// Define root path
-include_once __DIR__ . '/../../auth/auth/user_infos.php';
+$user_infos_path = __DIR__ . '/../../auth/auth/user_infos.php';
+//---
+if (substr($user_infos_path, 0, 2) == 'I:') {
+    $user_infos_path = 'I:/mdwiki/auth/auth/user_infos.php';
+}
+//---
+include_once $user_infos_path;
+//---
 // include_once __DIR__ . '/../header.php';
 // include_once __DIR__ . '/../actions/load_request.php';
+//---
 include_once __DIR__ . '/../actions/html.php';
 include_once __DIR__ . '/../Tables/sql_tables.php';
 include_once __DIR__ . '/../results/tr_link.php';

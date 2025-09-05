@@ -11,7 +11,14 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 ini_set('session.use_strict_mode', '1');
 //---
 // include_once __DIR__ . '/actions/load_request.php';
-include_once __DIR__ . '/../auth/auth/user_infos.php';
+// include_once __DIR__ . '/../auth/auth/user_infos.php';
+$user_infos_path = __DIR__ . '/../auth/auth/user_infos.php';
+//---
+if (substr($user_infos_path, 0, 2) == 'I:') {
+	$user_infos_path = 'I:/mdwiki/auth/auth/user_infos.php';
+}
+//---
+include_once $user_infos_path;
 //---
 if (isset($GLOBALS['global_username']) && $GLOBALS['global_username'] != '') {
 	$global_username = $GLOBALS['global_username'];
