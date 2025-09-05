@@ -15,17 +15,11 @@ use function Leaderboard\Subs\SubUsers\get_users_tables;
 use function Leaderboard\SubGraph\graph_data_new;
 use function Leaderboard\Subs\FilterForm\lead_row;
 
-function users_html()
+function users_html($mainlang, $mainuser, $year_y, $camp)
 {
     $output = '';
     //---
-    $mainlang = $_GET['lang'] ?? 'All';
     $mainlang = rawurldecode(str_replace('_', ' ', $mainlang));
-    //---
-    $mainuser = $_GET['user'] ?? "";
-    //---
-    $year_y = $_GET['year'] ?? 'All';
-    $camp   = $_GET['camp'] ?? 'All';
     //---
     $u_tables = get_users_tables($mainuser, $year_y, $mainlang);
     //---
@@ -43,7 +37,17 @@ function users_html()
     //---
     $filter_data = ["user" => $mainuser, "lang" => $mainlang, "year" => $year_y, "camp" => $camp];
     //---
-    $output .= lead_row($table1, $graph, "<h4 class='text-center'>User: $man</h4>", $filter_data, "user");
+    $xtools = <<<HTML
+            <div class="d-flex align-items-center justify-content-between">
+                <span class='h4'>User: $man </span>
+                <a href='https://xtools.wmflabs.org/globalcontribs/$mainuser' target='_blank'>
+                <span class='h4'>(XTools)</span>
+                <!-- <img src='https://xtools.wmcloud.org/build/images/logo.svg' title='Xtools' width='80px'/> -->
+            </a>
+            </div>
+    HTML;
+    //---
+    $output .= lead_row($table1, $graph, $xtools, $filter_data, "user");
     //---
     $output .= <<<HTML
         <div class='card mt-1'>

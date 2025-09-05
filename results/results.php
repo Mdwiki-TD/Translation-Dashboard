@@ -11,8 +11,7 @@ use function Results\ResultsTableExists\make_results_table_exists;
 use function Actions\LoadRequest\load_request;
 //---
 $doit = isset($_GET['doit']);
-//---
-$tra_type  = $_GET['type'] ?? '';
+$tra_type = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
 //---
 $req  = load_request();
 $code = $req['code'] ?? "";
@@ -25,9 +24,6 @@ $translation_button = TablesSql::$s_settings['translation_button_in_progress_tab
 if ($translation_button != "0") {
     $translation_button = ($GLOBALS['user_in_coord'] === true) ? '1' : '0';
 };
-//---
-$depth  = $_GET['depth'] ?? 1;
-$depth  = $depth * 1;
 //---
 $depth  = TablesSql::$s_camp_input_depth[$camp] ?? 1;
 //---
