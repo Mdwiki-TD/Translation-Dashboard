@@ -10,8 +10,7 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 //---
 ini_set('session.use_strict_mode', '1');
 //---
-// include_once __DIR__ . '/actions/load_request.php';
-include_once __DIR__ . '/../auth/auth/user_infos.php';
+include_once __DIR__ . '/userinfos_wrap.php';
 //---
 if (isset($GLOBALS['global_username']) && $GLOBALS['global_username'] != '') {
 	$global_username = $GLOBALS['global_username'];

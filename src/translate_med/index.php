@@ -1,8 +1,10 @@
 <?php
-// Define root path
-include_once __DIR__ . '/../../auth/auth/user_infos.php';
+//---
+include_once __DIR__ . '/../userinfos_wrap.php';
+//---
 // include_once __DIR__ . '/../header.php';
 // include_once __DIR__ . '/../actions/load_request.php';
+//---
 include_once __DIR__ . '/../actions/html.php';
 include_once __DIR__ . '/../Tables/sql_tables.php';
 include_once __DIR__ . '/../results/tr_link.php';
