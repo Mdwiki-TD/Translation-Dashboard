@@ -2,7 +2,8 @@
 
 // include_once __DIR__ . '/include.php';
 
-include_once __DIR__ . '/../actions/test_print.php';
+include_once __DIR__ . '/../renders/include.php';
+
 include_once __DIR__ . '/../results/getcats.php';
 include_once __DIR__ . '/../Tables/include.php';
 include_once __DIR__ . '/../actions/load_request.php';

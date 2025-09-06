@@ -13,7 +13,7 @@ use Tables\SqlTables\TablesSql;
 // use function Results\FetchCatData\get_cat_exists_and_missing;
 use function Results\FetchCatDataSparql\get_cat_exists_and_missing;
 use function Results\GetCats\get_mdwiki_cat_members;
-use function Actions\TestPrint\test_print;
+use function TD\Render\TestPrint\test_print;
 use function SQLorAPI\Process\get_lang_in_process_new;
 
 function getinprocess($missing, $code)

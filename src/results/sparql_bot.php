@@ -11,7 +11,7 @@ use function Results\SparqlBot\get_sparql_data_exists;
 */
 
 use function Results\ResultsHelps\print_r_it;
-use function Actions\TestPrint\test_print;
+use function TD\Render\TestPrint\test_print;
 use function SQLorAPI\GetDataTab\get_td_or_sql_qids;
 use function Results\SPARQL_Dispatcher\get_query_result;
 

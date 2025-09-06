@@ -11,7 +11,7 @@ use function Results\ResultsHelps\open_json_file;
 
 */
 
-use function Actions\TestPrint\test_print;
+use function TD\Render\TestPrint\test_print;
 use function Tables\TablesDir\open_td_Tables_file;
 
 function open_json_file($file_path)

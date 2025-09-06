@@ -1,6 +1,5 @@
 <?php
 
-include_once __DIR__ . '/../actions/test_print.php';
 include_once __DIR__ . '/../Tables/include.php';
 include_once __DIR__ . '/../actions/load_request.php';
 

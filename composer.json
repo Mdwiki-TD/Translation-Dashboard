@@ -1,0 +1,44 @@
+{
+    "name": "mdwiki/td",
+    "description": "This tool looks for Wikidata items that have a page on mdwiki.org but not in another wikipedia language",
+    "autoload": {
+        "psr-4": {
+            "TD\\": "src/",
+            "TD\\Render\\": "src/renders/",
+            "Actions\\": [
+                "src/actions/",
+                "src/td_api_wrap/"
+            ],
+            "SQLorAPI\\": "src/api_or_sql/",
+            "Tables\\": "src/Tables/",
+            "Results\\": "src/results/",
+            "Leaderboard\\": "src/leaderboard/",
+            "TranslateMed\\": "src/translate_med/"
+        },
+        "files": [
+            "src/include_all.php"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Ibrahem",
+            "email": "ibrahem.al-radaei@outlook.com"
+        }
+    ],
+    "autoload-dev": {
+        "psr-4": {
+            "MyLibrary\\Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.0"
+    },
+    "require": {
+        "php": "^8.2",
+        "ext-curl": "*",
+        "ext-json": "*"
+    },
+    "scripts": {
+        "test": "phpunit"
+    }
+}

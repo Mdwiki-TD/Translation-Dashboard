@@ -1,9 +1,9 @@
 <?php
 
-namespace Actions\TestPrint;
+namespace TD\Render\TestPrint;
 /*
 Usage:
-use function Actions\TestPrint\test_print;
+use function TD\Render\TestPrint\test_print;
 */
 
 if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {

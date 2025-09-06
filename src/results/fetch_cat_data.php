@@ -10,7 +10,7 @@ use function Results\FetchCatData\get_cat_exists_and_missing;
 */
 
 use function Results\GetCats\get_mdwiki_cat_members;
-use function Actions\TestPrint\test_print;
+use function TD\Render\TestPrint\test_print;
 use function Results\ResultsHelps\get_lang_exists_pages;
 
 function get_cat_exists_and_missing($cat, $depth, $code, $use_cache = true): array

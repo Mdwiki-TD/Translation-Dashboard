@@ -12,7 +12,7 @@ include_once __DIR__ . '/Tables/include.php';
 
 include_once __DIR__ . '/leaderboard/index.php';
 
-// use function Actions\TestPrint\test_print;
+// use function TD\Render\TestPrint\test_print;
 
 echo '<!-- <script src="/Translation_Dashboard/js/leadtable.js"></script> -->';
 
