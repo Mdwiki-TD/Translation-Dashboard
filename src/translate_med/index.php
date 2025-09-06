@@ -1,17 +1,17 @@
 <?php
 //---
+if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+}
+//---
 include_once __DIR__ . '/../userinfos_wrap.php';
-//---
-// include_once __DIR__ . '/../header.php';
-// include_once __DIR__ . '/../actions/load_request.php';
-//---
-include_once __DIR__ . '/../actions/html.php';
-include_once __DIR__ . '/../Tables/sql_tables.php';
-include_once __DIR__ . '/../results/tr_link.php';
+include_once __DIR__ . '/../include_all.php';
+// ---
 include_once __DIR__ . '/db_insert.php';
-include_once __DIR__ . '/../api_or_sql/index.php';
-
-use function Actions\Html\login_card;
+// ---
+use function TD\Render\Html\login_card;
 use function Results\TrLink\make_translate_link_medwiki;
 // use function TranslateMed\Inserter\insertPage;
 use function TranslateMed\Inserter\insertPage_inprocess;

@@ -18,7 +18,6 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 	error_reporting(E_ALL);
 };
 //---
-include_once __DIR__ . '/../api_or_sql/index.php';
 
 use function SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
 use function Tables\TablesDir\open_td_Tables_file;

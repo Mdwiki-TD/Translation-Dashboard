@@ -8,27 +8,31 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     error_reporting(E_ALL);
 };
 //---
-// include_once __DIR__ . '/include_all.php';
+include_once __DIR__ . '/include_all.php';
 include_once __DIR__ . '/header.php';
-include_once __DIR__ . '/actions/load_request.php';
-include_once __DIR__ . '/Tables/include.php';
+//---
+include_once __DIR__ . '/loaders/load_request.php';
 //---
 use Tables\Main\MainTables;
 use Tables\SqlTables\TablesSql;
-use function Actions\LoadRequest\load_request;
+use function Loaders\LoadRequest\load_request;
 use function TD\Render\Forms\print_form_start1;
+use function Results\ResultsIndex\Results_tables;
 //---
 $allow_whole_translate = TablesSql::$s_settings['allow_type_of_translate']['value'] ?? '1';
 //---
 $req  = load_request();
-$code = $req['code'] ?? "";
+// ---
+$doit     = $req['doit'] ?? false;
+$test     = $req['test'] ?? "";
+$code     = $req['code'] ?? "";
+$tra_type = $req['tra_type'] ?? "";
 //---
 $cat  = (!empty($req['cat'])) ? $req['cat'] : TablesSql::$s_main_cat;
 $camp  = (!empty($req['camp'])) ? $req['camp'] : TablesSql::$s_main_camp;
 //---
-$code_lang_name  = $req['code_lang_name'];
+$code_lang_name  = $req['code_lang_name'] ?? "";
 //---
-$tra_type  = htmlspecialchars($_GET['type'] ?? '', ENT_QUOTES, 'UTF-8');
 if ($allow_whole_translate == '0') $tra_type = 'lead';
 //---
 $cat_ch = htmlspecialchars($cat, ENT_QUOTES);
@@ -65,7 +69,13 @@ echo <<<HTML
 <!-- <script src='/Translation_Dashboard/js/codes.js'></script> -->
 HTML;
 //---
-include_once __DIR__ . '/results/results.php';
+echo "<div class='container-fluid'>";
+//---
+if ($doit) {
+    echo Results_tables($code, $camp, $cat, $tra_type, $code_lang_name, $test);
+};
+//---
+echo "</div>";
 //---
 echo "<br>";
 //---

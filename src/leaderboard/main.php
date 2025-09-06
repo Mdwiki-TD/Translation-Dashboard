@@ -17,8 +17,8 @@ use function Leaderboard\Index\main_leaderboard;
 */
 
 use Tables\SqlTables\TablesSql;
-use function Actions\Html\makeColSm4;
-use function Actions\Html\makeCol;
+use function TD\Render\Html\makeColSm4;
+use function TD\Render\Html\makeCol;
 use function Leaderboard\Graph\print_graph_for_table;
 use function Leaderboard\LeaderTables\createNumbersTable;
 use function Leaderboard\LeaderTables\makeLangTable;

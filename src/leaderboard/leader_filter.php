@@ -14,7 +14,7 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     error_reporting(E_ALL);
 };
 
-use function Actions\Html\makeDropdown;
+use function TD\Render\Html\makeDropdown;
 use function SQLorAPI\Funcs\get_pages_with_pupdate;
 use function SQLorAPI\GetDataTab\get_td_or_sql_projects;
 use function SQLorAPI\GetDataTab\get_td_or_sql_categories;

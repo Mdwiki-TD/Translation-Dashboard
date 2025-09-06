@@ -23,12 +23,6 @@ if (isset($_GET['use_td_api'])) {
     $use_td_api  = $_GET['use_td_api'] != "x";
 }
 
-include_once __DIR__ . '/get_lead.php';
-include_once __DIR__ . '/data_tab.php';
-include_once __DIR__ . '/process_data.php';
-include_once __DIR__ . '/top.php';
-include_once __DIR__ . '/funcs.php';
-
 function isvalid($str)
 {
     return !empty($str) && strtolower($str) != "all";

@@ -1,7 +1,8 @@
 <?PHP
 //---
+include_once __DIR__ . '/include_all.php';
 include_once __DIR__ . '/header.php';
-include_once __DIR__ . '/Tables/include.php';
+//---
 
 use Tables\Langs\LangsTables;
 use Tables\Main\MainTables;

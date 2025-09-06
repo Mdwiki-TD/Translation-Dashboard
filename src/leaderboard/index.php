@@ -1,7 +1,5 @@
 <?PHP
 //---
-include_once __DIR__ . '/include.php';
-include_once __DIR__ . '/main.php';
 
 use function Leaderboard\Graph\print_graph_tab;
 use function Leaderboard\Graph2\print_graph_tab_2_new;
