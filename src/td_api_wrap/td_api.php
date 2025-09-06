@@ -23,6 +23,7 @@ function test_print_o($s)
         print_r($s);
     }
 }
+
 function compare_it($t1, $t2)
 {
     echo "<br>fetch _query:<br>";
@@ -34,6 +35,7 @@ function compare_it($t1, $t2)
     var_dump(json_encode($t2, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
     //---
 }
+
 function post_url(string $endPoint, array $params = []): string
 {
     $usr_agent = "WikiProjectMed Translation Dashboard/1.0 (https://mdwiki.toolforge.org/; tools.mdwiki@toolforge.org)";
