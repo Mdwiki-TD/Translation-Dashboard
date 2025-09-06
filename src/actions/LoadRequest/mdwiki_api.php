@@ -1,1 +1,0 @@
-<?php // test stub: mdwiki_api.php
