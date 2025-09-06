@@ -45,3 +45,4 @@ t.php
 leaderboard/z.php
 
 /vendor/
+composer.lock
