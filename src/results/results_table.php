@@ -15,7 +15,6 @@ use function Results\ResultsTable\make_results_table;
 include_once __DIR__ . '/../Tables/include.php';
 
 use Tables\Main\MainTables;
-use Tables\SqlTables\TablesSql;
 
 use function Results\TrLink\make_tr_link_medwiki;
 use function Tables\SqlTables\load_translate_type;

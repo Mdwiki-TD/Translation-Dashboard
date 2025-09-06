@@ -15,9 +15,6 @@ use function Tables\SqlTables\make_views_by_lang_target;
 include_once __DIR__ . '/Tables/sql_tables.php'; // Tables::$s_cat_titles Tables::$s_cat_to_camp Tables::$s_camp_to_cat
 */
 //---
-include_once __DIR__ . '/../actions/load_request.php';
-include_once __DIR__ . '/../api_or_sql/index.php';
-//---
 use function SQLorAPI\GetDataTab\get_td_or_sql_translate_type;
 use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
 use function SQLorAPI\GetDataTab\get_td_or_sql_settings;

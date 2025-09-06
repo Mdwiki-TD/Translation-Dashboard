@@ -10,10 +10,27 @@ use function Results\SparqlBot\get_sparql_data_exists;
 
 */
 
-use function Results\ResultsHelps\print_r_it;
 use function TD\Render\TestPrint\test_print;
 use function SQLorAPI\GetDataTab\get_td_or_sql_qids;
 use function Results\SPARQL_Dispatcher\get_query_result;
+
+function print_r_it($data, $title, $d = false, $r = false)
+{
+    $test11 = $_GET['test11'] ?? '';
+    // ---
+    if (empty($test11)) return;
+    // ---
+    echo "   -  $title: " . count($data) . "<br>";
+    echo "<pre>";
+    // ---
+    if ($r !== false) {
+        print_r($data);
+    } elseif ($d !== false) {
+        print(json_encode($data));
+    }
+    // ---
+    echo "</pre>";
+}
 
 function sparql_query_result($with_qids, $code): array
 {

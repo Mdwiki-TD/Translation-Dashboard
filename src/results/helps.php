@@ -5,7 +5,6 @@ namespace Results\ResultsHelps;
 /*
 Usage:
 
-use function Results\ResultsHelps\print_r_it;
 use function Results\ResultsHelps\get_lang_exists_pages;
 use function Results\ResultsHelps\open_json_file;
 
@@ -34,24 +33,6 @@ function open_json_file($file_path)
     }
 
     return $data;
-}
-
-function print_r_it($data, $title, $d = false, $r = false)
-{
-    $test11 = $_GET['test11'] ?? '';
-    // ---
-    if (empty($test11)) return;
-    // ---
-    echo "   -  $title: " . count($data) . "<br>";
-    echo "<pre>";
-    // ---
-    if ($r !== false) {
-        print_r($data);
-    } elseif ($d !== false) {
-        print(json_encode($data));
-    }
-    // ---
-    echo "</pre>";
 }
 
 function get_lang_exists_pages($code)

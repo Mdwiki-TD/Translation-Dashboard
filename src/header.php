@@ -12,22 +12,11 @@ ini_set('session.use_strict_mode', '1');
 //---
 include_once __DIR__ . '/userinfos_wrap.php';
 //---
-if (isset($GLOBALS['global_username']) && $GLOBALS['global_username'] != '') {
-	$global_username = $GLOBALS['global_username'];
-} else {
-	$GLOBALS['global_username'] = '';
-}
-//---
-include_once __DIR__ . '/renders/include.php';
+include_once __DIR__ . '/include_first/include.php';
 //---
 include_once __DIR__ . '/head.php';
-include_once __DIR__ . '/td_api_wrap/td_api.php';
-include_once __DIR__ . '/Tables/tables_dir.php';
-include_once __DIR__ . '/actions/mdwiki_sql.php';
-include_once __DIR__ . '/actions/html.php';
-include_once __DIR__ . '/api_or_sql/index.php';
 //---
-use function Actions\Html\banner_alert;
+use function TD\Render\Html\banner_alert;
 use function SQLorAPI\Funcs\get_coordinator;
 //---
 $coordinators = array_column(get_coordinator(), 'user');
@@ -43,7 +32,8 @@ define('user_in_coord', $user_in_coord);
 //---
 $coord_tools = "";
 //---
-if (in_array($GLOBALS['global_username'], $coordinators)) {
+// if (in_array($GLOBALS['global_username'], $coordinators)) {
+if ($GLOBALS['user_in_coord'] === true) {
 	$coord_tools = '<a href="/tdc/index.php" class="nav-link py-2 px-0 px-lg-2"><span class="navtitles"></span> <i class="bi bi-tools me-1"></i> Coordinator Tools</a>';
 };
 //---
