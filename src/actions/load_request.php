@@ -12,10 +12,10 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     error_reporting(E_ALL);
 }
 
+include_once __DIR__ . '/../td_api_wrap/td_api.php';
 include_once __DIR__ . '/html.php';
 include_once __DIR__ . '/wiki_api.php';
 include_once __DIR__ . '/mdwiki_api.php';
-include_once __DIR__ . '/td_api.php';
 include_once __DIR__ . '/mdwiki_sql.php';
 include_once __DIR__ . '/../api_or_sql/index.php';
 

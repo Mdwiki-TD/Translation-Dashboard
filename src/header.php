@@ -18,12 +18,13 @@ if (isset($GLOBALS['global_username']) && $GLOBALS['global_username'] != '') {
 	$GLOBALS['global_username'] = '';
 }
 //---
+include_once __DIR__ . '/renders/include.php';
+//---
 include_once __DIR__ . '/head.php';
+include_once __DIR__ . '/td_api_wrap/td_api.php';
 include_once __DIR__ . '/Tables/tables_dir.php';
-include_once __DIR__ . '/actions/test_print.php';
 include_once __DIR__ . '/actions/mdwiki_sql.php';
 include_once __DIR__ . '/actions/html.php';
-include_once __DIR__ . '/actions/td_api.php';
 include_once __DIR__ . '/api_or_sql/index.php';
 //---
 use function Actions\Html\banner_alert;

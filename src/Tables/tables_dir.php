@@ -13,7 +13,7 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 	error_reporting(E_ALL);
 };
 
-use function Actions\TestPrint\test_print;
+use function TD\Render\TestPrint\test_print;
 
 $tables_dir = __DIR__ . '/../../td/Tables';
 //---

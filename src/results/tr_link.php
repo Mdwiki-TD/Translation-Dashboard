@@ -10,7 +10,7 @@ use function Results\TrLink\make_tr_link_medwiki;
 
 */
 
-include_once __DIR__ . '/../actions/td_api.php';
+include_once __DIR__ . '/../td_api_wrap/td_api.php';
 include_once __DIR__ . '/../api_or_sql/index.php';
 
 use Tables\SqlTables\TablesSql;

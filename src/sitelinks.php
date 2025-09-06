@@ -1,7 +1,7 @@
 <?php
 include_once __DIR__ . '/header.php';
 
-use function Actions\TestPrint\test_print;
+use function TD\Render\TestPrint\test_print;
 use function Tables\TablesDir\open_td_Tables_file;
 
 // Get request parameters with defaults
