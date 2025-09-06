@@ -46,3 +46,8 @@ leaderboard/z.php
 
 /vendor/
 composer.lock
+/tests_backup
+.phpunit.result.cache
+phpunit.xml.dist
+phpunit.xml.z
+run.sh
