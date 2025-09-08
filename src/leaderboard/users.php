@@ -10,7 +10,7 @@ use function Leaderboard\Users\users_html;
 */
 
 use function Leaderboard\Subs\LeadHelp\make_users_lead;
-use function Actions\Html\make_mdwiki_user_url;
+use function TD\Render\Html\make_mdwiki_user_url;
 use function Leaderboard\Subs\SubUsers\get_users_tables;
 use function Leaderboard\SubGraph\graph_data_new;
 use function Leaderboard\Subs\FilterForm\lead_row;

@@ -10,7 +10,7 @@ use function Leaderboard\LeaderTabUsers\module_copy_data;
 
 */
 
-use function Actions\Html\make_modal_fade;
+use function TD\Render\Html\make_modal_fade;
 
 function module_copy_data($users_tab)
 {
