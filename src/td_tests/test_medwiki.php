@@ -25,12 +25,16 @@ $rows = "";
 //---
 foreach ($members as $member) {
     $link = make_translate_link_medwiki($member, $lang, $Category, "", $tr_type);
+    // ---
+    $link = str_replace('/w/', '/mediawiki/', $link);
+    // ---
     $rows .= <<<HTML
         <div class="list-group-item">
             <a href="$link" target="_blank">$member</a>
         </div>
     HTML;
 }
+//---
 //---
 echo <<<HTML
     <div class='container'>
