@@ -12,10 +12,10 @@ use function Results\GetCats\get_mdwiki_cat_members;
 use function Results\TrLink\make_translate_link_medwiki; // make_translate_link_medwiki($title, $cod, $cat, $camp, $tra_type)
 use function TD\Render\TestPrint\test_print;
 //---
-$Category = $_GET['Category'] ?? 'World Health Organization essential medicines';
+$Category = htmlspecialchars($_GET['Category'] ?? 'World Health Organization essential medicines', ENT_QUOTES, 'UTF-8');
 $depth = $_GET['depth'] ?? 0;
-$lang = $_GET['lang'] ?? "ar";
-$tr_type = $_GET['tr_type'] ?? "lead";
+$lang = htmlspecialchars($_GET['lang'] ?? "ar", ENT_QUOTES, 'UTF-8');
+$tr_type = htmlspecialchars($_GET['tr_type'] ?? "lead", ENT_QUOTES, 'UTF-8');
 //---
 $members = get_mdwiki_cat_members($Category, $depth, true);
 //---
