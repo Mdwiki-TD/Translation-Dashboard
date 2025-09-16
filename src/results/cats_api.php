@@ -68,16 +68,21 @@ function fetch_category_members($cat)
     $cache_key = "Category_members_" . md5($cat);
     $cache_ttl = 3600 * 12;
 
-    $items = apcu_fetch($cache_key);
+    $items = false;
+    if (function_exists('apcu_fetch')) {
+        $items = apcu_fetch($cache_key);
 
-    if (empty($items) || ($cat === "RTT" && is_array($items) && count($items) < 3000)) {
-        apcu_delete($cache_key);
-        $items = false;
+        if (empty($items) || ($cat === "RTT" && is_array($items) && count($items) < 3000)) {
+            apcu_delete($cache_key);
+            $items = false;
+        }
     }
     if ($items === false) {
         $items = fetch_category_members_api($cat);
         test_print("apcu_store() size:" . count($items) . " cat: $cat");
-        apcu_store($cache_key, $items, $cache_ttl);
+        if (function_exists('apcu_store')) {
+            apcu_store($cache_key, $items, $cache_ttl);
+        }
     } else {
         test_print("apcu_fetch() size:" . count($items) . " cat: $cat");
     }
