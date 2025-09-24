@@ -280,8 +280,7 @@ function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inp
     };
     //---
     $frist = <<<HTML
-    <!-- <div class="table-responsive"> -->
-        <table class="table compact sortable table-striped table-mobile-responsive table_100 table_text_left" id="main_table">
+        <table class="table compact table-striped table_100 sortable table-mobile-responsive table_text_left">
             <thead>
                 <tr>
                     <th class="num">
@@ -322,7 +321,9 @@ function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inp
     $cnt = 1;
     //---
     foreach ($dd as $v => $gt) {
+        // ---
         if (empty($v)) continue;
+        // ---
         $title = str_replace('_', ' ', $v);
         //---
         $cnt2 = $cnt;
@@ -358,9 +359,11 @@ function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inp
         //---
         $cnt++;
     };
+    // ---
     $last = <<<HTML
-            </tbody>
-        </table>
+        </tbody>
+    </table>
     HTML;
+    // ---
     return $frist . $list . $last;
 }
