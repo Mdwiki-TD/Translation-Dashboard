@@ -133,6 +133,7 @@ function one_item_props($title, $tra_type)
     //---
     return $tab;
 }
+
 function make_one_row_new($title, $tra_type, $cnt, $cod, $cat, $camp, $inprocess, $inprocess_table, $tra_btn, $full, $full_tr_user)
 {
     //---
@@ -280,37 +281,37 @@ function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inp
     //---
     $frist = <<<HTML
     <!-- <div class="table-responsive"> -->
-    <table class="table compact sortable table-striped table-mobile-responsive table_100 table_text_left" id="main_table">
-        <thead>
-            <tr>
-                <th class="num">
-                    #
-                </th>
-                <th class="spannowrap" style="text-align: center">
-                    Title
-                </th>
-                <th class="">
-                    <span class=''>Translate</span>
-                </th>
-                <th class="spannowrap" style="text-align: center">
-                    <span data-bs-toggle="tooltip" data-bs-title="Page views in last month in English Wikipedia">Views</span>
-                </th>
-                <th class="spannowrap" style="text-align: center">
-                    <span data-bs-toggle="tooltip" data-bs-title="Page important from medicine project in English Wikipedia">Importance</span>
-                </th>
-                <th class="spannowrap" style="text-align: center">
-                    <span data-bs-toggle="tooltip" data-bs-title="number of words of the article in mdwiki.org">Words</span>
-                </th>
-                <th class="spannowrap" style="text-align: center">
-                    <span data-bs-toggle="tooltip" data-bs-title="number of references of the article in mdwiki.org">Refs.</span>
-                </th>
-                <th class="spannowrap" style="text-align: center">
-                    <span data-bs-toggle="tooltip" data-bs-title="Wikidata identifier">Qid</span>
-                </th>
-                $inprocess_first
-            </tr>
-        </thead>
-        <tbody>
+        <table class="table compact sortable table-striped table-mobile-responsive table_100 table_text_left" id="main_table">
+            <thead>
+                <tr>
+                    <th class="num">
+                        #
+                    </th>
+                    <th class="spannowrap" style="text-align: center">
+                        Title
+                    </th>
+                    <th class="">
+                        <span class=''>Translate</span>
+                    </th>
+                    <th class="spannowrap" style="text-align: center">
+                        <span data-bs-toggle="tooltip" data-bs-title="Page views in last month in English Wikipedia">Views</span>
+                    </th>
+                    <th class="spannowrap" style="text-align: center">
+                        <span data-bs-toggle="tooltip" data-bs-title="Page important from medicine project in English Wikipedia">Importance</span>
+                    </th>
+                    <th class="spannowrap" style="text-align: center">
+                        <span data-bs-toggle="tooltip" data-bs-title="number of words of the article in mdwiki.org">Words</span>
+                    </th>
+                    <th class="spannowrap" style="text-align: center">
+                        <span data-bs-toggle="tooltip" data-bs-title="number of references of the article in mdwiki.org">Refs.</span>
+                    </th>
+                    <th class="spannowrap" style="text-align: center">
+                        <span data-bs-toggle="tooltip" data-bs-title="Wikidata identifier">Qid</span>
+                    </th>
+                    $inprocess_first
+                </tr>
+            </thead>
+            <tbody>
     HTML;
     //---
     $dd = [];
