@@ -15,20 +15,13 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 
 use function TD\Render\TestPrint\test_print;
 
-$tables_dir = __DIR__ . '/../../td/Tables';
-//---
-if (substr($tables_dir, 0, 2) == 'I:') {
-	$tables_dir = 'I:/mdwiki/mdwiki/public_html/td/Tables';
-}
-//---
-if (!getenv('tables_dir')) {
-	// set env
-	putenv('tables_dir=' . $tables_dir);
-}
-
 function open_td_Tables_file($path, $echo = true)
 {
-	global $tables_dir;
+	$tables_dir = getenv("HOME") . '/public_html/td/Tables';
+	//---
+	if (substr($tables_dir, 0, 2) == 'I:') {
+		$tables_dir = 'I:/mdwiki/mdwiki/public_html/td/Tables';
+	}
 	//---
 	$file_path = "$tables_dir/$path";
 	//---

@@ -7,7 +7,7 @@
 
 include_once __DIR__ . '/include_first/include.php';
 
-foreach (glob(__DIR__ . "/actions/*.php") as $filename) {
+foreach (glob(__DIR__ . "/api_calls/*.php") as $filename) {
     include_once $filename;
 }
 

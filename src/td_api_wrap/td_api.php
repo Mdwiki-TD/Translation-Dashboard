@@ -1,11 +1,11 @@
 <?php
 
-namespace Actions\TDApi;
+namespace APICalls\TDApi;
 /*
 Usage:
 
-use function Actions\TDApi\get_td_api;
-use function Actions\TDApi\compare_it;
+use function APICalls\TDApi\get_td_api;
+use function APICalls\TDApi\compare_it;
 
 */
 

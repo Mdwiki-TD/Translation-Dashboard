@@ -1,10 +1,9 @@
 <?php
 
-namespace Actions\CurlApi;
+namespace APICalls\CurlApi;
 /*
 Usage:
-require_once __DIR__ . '/../actions/curl_api.php';
-use function Actions\CurlApi\post_url_params_result;
+use function APICalls\CurlApi\post_url_params_result;
 */
 
 use function TD\Render\TestPrint\test_print;
