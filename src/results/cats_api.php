@@ -7,7 +7,7 @@ use function Results\CatsAPI\fetch_category_members;
 */
 
 use function TD\Render\TestPrint\test_print;
-use function Actions\MdwikiApi\get_mdwiki_url_with_params;
+use function APICalls\MdwikiApi\get_mdwiki_url_with_params;
 
 function start_with($haystack, $needle)
 {

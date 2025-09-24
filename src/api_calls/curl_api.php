@@ -1,14 +1,15 @@
 <?php
 
-namespace Actions\MdwikiApi;
+namespace APICalls\CurlApi;
 /*
 Usage:
-use function Actions\MdwikiApi\get_mdwiki_url_with_params;
+require_once __DIR__ . '/../actions/curl_api.php';
+use function APICalls\CurlApi\post_url_params_result;
 */
 
 use function TD\Render\TestPrint\test_print;
 
-function post_url_mdwiki(string $endPoint, array $params = []): string
+function post_url_params_result(string $endPoint, array $params = []): string
 {
     $usr_agent = "WikiProjectMed Translation Dashboard/1.0 (https://mdwiki.toolforge.org/; tools.mdwiki@toolforge.org)";
 
@@ -34,35 +35,20 @@ function post_url_mdwiki(string $endPoint, array $params = []): string
     $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     //---
     if ($http_code !== 200) {
-        test_print('post_url_mdwiki: Error: API request failed with status code ' . $http_code);
+        test_print('Error: API request failed with status code ' . $http_code);
     }
     //---
-    test_print("post_url_mdwiki: (http_code: $http_code) $url2");
+    test_print("post_url_params_result:(http_code: $http_code) $url2");
     // ---
     if ($output === FALSE) {
-        test_print("post_url_mdwiki: cURL Error: " . curl_error($ch));
+        test_print("cURL Error: " . curl_error($ch));
     }
 
     if (curl_errno($ch)) {
-        test_print('post_url_mdwiki: Error:' . curl_error($ch));
+        test_print('Error:' . curl_error($ch));
     }
 
 
     curl_close($ch);
     return $output;
-}
-
-function get_mdwiki_url_with_params(array $params): array
-{
-    $endPoint = 'https://mdwiki.org/w/api.php';
-    //---
-    $out = post_url_mdwiki($endPoint, $params);
-    //---
-    $result = json_decode($out, true);
-    //---
-    if (!is_array($result)) {
-        $result = [];
-    }
-    //---
-    return $result;
 }

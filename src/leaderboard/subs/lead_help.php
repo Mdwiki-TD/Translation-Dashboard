@@ -15,7 +15,7 @@ use function Leaderboard\Subs\LeadHelp\make_users_lead;
 
 use Tables\Main\MainTables;
 use Tables\SqlTables\TablesSql;
-use function Actions\WikiApi\make_view_by_number;
+use function APICalls\WikiApi\make_view_by_number;
 use function TD\Render\Html\make_cat_url;
 use function TD\Render\Html\make_mdwiki_title;
 use function TD\Render\Html\make_target_url;
