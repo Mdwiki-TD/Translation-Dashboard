@@ -17,14 +17,14 @@ echo <<<HTML
 </style>
 HTML;
 // ---
-$get = filter_input(INPUT_GET, 'get', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
+$get = filter_input(INPUT_GET, 'get', FILTER_SANITIZE_SPECIAL_CHARS) ?? '';
 
-$langcode = filter_input(INPUT_GET, 'langcode', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
-$mainlang = filter_input(INPUT_GET, 'lang', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'All';
+$langcode = filter_input(INPUT_GET, 'langcode', FILTER_SANITIZE_SPECIAL_CHARS) ?? '';
+$mainlang = filter_input(INPUT_GET, 'lang', FILTER_SANITIZE_SPECIAL_CHARS) ?? 'All';
 
-$mainuser = filter_input(INPUT_GET, 'user', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
-$year_y   = filter_input(INPUT_GET, 'year', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'All';
-$camp     = filter_input(INPUT_GET, 'camp', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'All';
+$mainuser = filter_input(INPUT_GET, 'user', FILTER_SANITIZE_SPECIAL_CHARS) ?? '';
+$year_y   = filter_input(INPUT_GET, 'year', FILTER_SANITIZE_SPECIAL_CHARS) ?? 'All';
+$camp     = filter_input(INPUT_GET, 'camp', FILTER_SANITIZE_SPECIAL_CHARS) ?? 'All';
 
 //---
 if ($get == 'users' || !empty($mainuser)) {
@@ -52,8 +52,8 @@ if ($get == 'users' || !empty($mainuser)) {
     // ---
 } else {
     //---
-    $user_group = filter_input(INPUT_GET, 'project', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
-        ?? filter_input(INPUT_GET, 'user_group', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
+    $user_group = filter_input(INPUT_GET, 'project', FILTER_SANITIZE_SPECIAL_CHARS)
+        ?? filter_input(INPUT_GET, 'user_group', FILTER_SANITIZE_SPECIAL_CHARS)
         ?? 'all';
     //---
     echo main_leaderboard($year_y, $camp, $user_group);
