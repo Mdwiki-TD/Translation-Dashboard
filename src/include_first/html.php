@@ -211,8 +211,8 @@ function make_translation_url($title, $lang, $tr_type)
     //---
     $url = "//$lang.wikipedia.org/wiki/Special:ContentTranslation";
     //---
-    // $url .= "?" . http_build_query($params) . "#/sx/sentence-selector";
-    $url .= "?" . http_build_query($params) . "#/sx?previousRoute=dashboard&eventSource=direct_preselect";
+    // $url .= "?" . http_build_query($params, '', '&', PHP_QUERY_RFC3986) . "#/sx/sentence-selector";
+    $url .= "?" . http_build_query($params, '', '&', PHP_QUERY_RFC3986) . "#/sx?previousRoute=dashboard&eventSource=direct_preselect";
     //---
     // $url = "//$lang.wikipedia.org/wiki/Special:ContentTranslation?page=User%3AMr.+Ibrahem%2F$title&from=en&to=$lang&targettitle=$title#draft";
     //---
