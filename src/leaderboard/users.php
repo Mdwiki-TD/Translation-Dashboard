@@ -26,7 +26,7 @@ function users_html($mainlang, $mainuser, $year_y, $camp)
     // '[{"user":"Mr. Ibrahem","lang":"ar","cnt":14}]'
     $user_langs = get_td_or_sql_top_lang_of_users([$mainuser]);
     //---
-    $user_most_lang = $user_langs[0]['lang'];
+    $user_most_lang = $user_langs[0]['lang'] ?? "";
     //---
     $u_tables = get_users_tables($mainuser, $year_y, $mainlang);
     //---
@@ -45,16 +45,23 @@ function users_html($mainlang, $mainuser, $year_y, $camp)
     $filter_data = ["user" => $mainuser, "lang" => $mainlang, "year" => $year_y, "camp" => $camp];
     //---
     $xtools = <<<HTML
-            <div class="d-flex align-items-center justify-content-between">
-                <span class='h4'>User: $user_link </span>
-                <a href='https://xtools.wmflabs.org/globalcontribs/$mainuser' target='_blank'>
-                <span class='h4'>(XTools)</span>
-                <!-- <img src='https://xtools.wmcloud.org/build/images/logo.svg' title='Xtools' width='80px'/> -->
+        <!-- <div class="d-flex align-items-center justify-content-between"> -->
+            <a href='https://xtools.wmflabs.org/globalcontribs/$mainuser' target='_blank'>
+                <!-- <span class='h4'>(XTools)</span> -->
+                <img src='https://xtools.wmcloud.org/build/images/logo.svg' title='Xtools' width='80px'/>
             </a>
-            </div>
+        <!-- </div> -->
     HTML;
     //---
-    $output .= lead_row($table1, $graph, $xtools, $filter_data, "user");
+    $user_div = <<<HTML
+        <span class='h4 text-center'>
+            User: $user_link
+            <br>
+            $xtools
+        </span>
+    HTML;
+    //---
+    $output .= lead_row($table1, $graph, $user_div, $filter_data, "user");
     //---
     $output .= <<<HTML
         <div class='card mt-1'>
