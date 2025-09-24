@@ -54,6 +54,12 @@ foreach ($titles_infos as $k => $tab) {
 };
 
 if (file_exists(__DIR__ . '/lang_names.json')) {
-	MainTables::$x_Langs_table = json_decode(file_get_contents(__DIR__ . '/lang_names.json'), true);
-	ksort(MainTables::$x_Langs_table);
+	$contents = file_get_contents(__DIR__ . '/lang_names.json');
+	if ($contents !== false) {
+		$data = json_decode($contents, true);
+		if (is_array($data)) {
+			MainTables::$x_Langs_table = $data;
+			ksort(MainTables::$x_Langs_table);
+		}
+	}
 }

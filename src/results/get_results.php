@@ -29,7 +29,9 @@ function getinprocess($missing, $code)
 function get_results($cat, $camp, $depth, $code): array
 {
     // Get existing and missing pages
+    // ---
     $items = get_cat_exists_and_missing($cat, $depth, $code, true) ?: [];
+    // ---
     $len_of_exists_pages = $items['len_of_exists'];
     $items_missing = $items['missing'];
 

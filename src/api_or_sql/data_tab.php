@@ -192,7 +192,7 @@ function get_td_or_sql_users_no_inprocess()
     return $users;
 }
 
-function get_td_or_sql_full_translators()
+function get_td_or_sql_full_translators($column = null)
 {
     // ---
     static $full_tr = [];
@@ -202,6 +202,10 @@ function get_td_or_sql_full_translators()
     $api_params = ['get' => 'full_translators'];
     $query = "SELECT * FROM full_translators";
     $full_tr = super_function($api_params, [], $query);
+    // ---
+    if ($column) {
+        return array_column($full_tr, $column);
+    }
     // ---
     return $full_tr;
 }

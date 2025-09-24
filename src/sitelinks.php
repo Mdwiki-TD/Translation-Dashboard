@@ -67,8 +67,7 @@ $params = [
 
 echo generateFormInputs($params, $items_with_no_links);
 
-$file2 = "jsons/sitelinks.json";
-$data2 = open_td_Tables_file($file2);
+$data2 = open_td_Tables_file("jsons/sitelinks.json");
 
 $heads_all = array_diff($data2["heads"], ["commons"]);
 $qids_all = $data2['qids'] ?? [];
@@ -76,8 +75,8 @@ $qids_all = $data2['qids'] ?? [];
 // Sort QIDs by sitelinks count
 uasort($qids_all, fn($a, $b) => count($b['sitelinks']) <=> count($a['sitelinks']));
 
-test_print("$file2: qids_all: " . count($qids_all));
-test_print("$file2: heads_all: " . count($heads_all));
+test_print("jsons/sitelinks.json: qids_all: " . count($qids_all));
+test_print("jsons/sitelinks.json: heads_all: " . count($heads_all));
 
 $heads = array_slice($heads_all, 0, $heads_limit);
 $qids_o = array_slice($qids_all, 0, $title_limit);

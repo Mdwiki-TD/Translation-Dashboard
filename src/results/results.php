@@ -14,6 +14,7 @@ use Tables\SqlTables\TablesSql;
 use function Results\GetResults\get_results;
 use function Results\ResultsTable\make_results_table;
 use function Results\ResultsTableExists\make_results_table_exists;
+use function TD\Render\admin_text;
 
 function card_result($title, $text, $title2 = "")
 {
@@ -54,10 +55,10 @@ function Results_tables($code, $camp, $cat, $tra_type, $code_lang_name, $test)
     $tab = get_results($cat, $camp, $depth, $code);
     //---
     $p_inprocess = $tab['inprocess'];
-    $missing    = $tab['missing'];
-    $ix         = $tab['ix'];
+    $missing     = $tab['missing'];
+    $ix          = admin_text($tab['ix']);
     //---
-    $exists     = $tab['exists'];
+    $exists      = $tab['exists'];
     //---
     $res_line = " Results: (" . count($tab['missing']) . ")";
     //---
@@ -67,7 +68,7 @@ function Results_tables($code, $camp, $cat, $tra_type, $code_lang_name, $test)
     //---
     $title_x = <<<HTML
             <span class='only_on_mobile'><b>Click the article name to translate</b></span>
-            <!-- $ix -->
+            $ix
         HTML;
     //---
     echo card_result($res_line, $table, $title_x);
@@ -81,9 +82,11 @@ function Results_tables($code, $camp, $cat, $tra_type, $code_lang_name, $test)
         echo card_result("In process: ($len_inprocess)", $table_2);
     };
     //---
+    $user_in_coord = ($GLOBALS['user_in_coord'] ?? "") === true;
+    //---
     $len_exists = count($exists);
     //---
-    if ($len_exists > 5000) {
+    if ($len_exists > 1 && $user_in_coord) {
         //---
         $table_3 = make_results_table_exists($exists, $code, $cat, $camp);
         //---
