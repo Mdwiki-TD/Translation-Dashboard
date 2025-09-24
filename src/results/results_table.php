@@ -20,6 +20,9 @@ use function Results\TrLink\make_tr_link_medwiki;
 use function Tables\SqlTables\load_translate_type;
 use function SQLorAPI\GetDataTab\get_td_or_sql_qids;
 use function SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
+use function Results\ResultsTable\Rows\make_td_rows_responsive;
+use function Results\ResultsTable\Rows\make_td_rows_mobile;
+use function Results\ResultsTable\Rows\make_mobile_table;
 
 function sort_py_PageViews($items, $en_views_tab)
 {
@@ -59,54 +62,6 @@ function sort_py_importance($items, $Assessment_table)
     return $dd;
 }
 
-function make_mobile_table($words, $refs, $asse, $pageviews, $qid, $inprocess, $_user_, $_date_, $full_translate_url, $full_tr_user)
-{
-    // Define an array to store the values
-    $data = array(
-        array("Views", $pageviews),
-        array("Importance", $asse),
-        array("Words", $words),
-        array("Refs.", $refs),
-        array("Qid", $qid)
-    );
-    if ($inprocess) {
-        // add User : $_user_ and Date : $_date_
-        $data[] = array("User", $_user_);
-        $data[] = array("Date", $_date_);
-    };
-
-    // Initialize an empty string to store the generated HTML
-    $nq_ths = '';
-
-    // if ($full_tr_user && !$inprocess) {
-    if ($full_tr_user && !$inprocess) {
-        $nq_ths = <<<HTML
-                <div class="d-table-row">
-                    <span class="d-table-cell px-2" style="color:#54667a;">Full Translate</span>
-                    <span class="d-table-cell px-2" style='font-weight: normal;'><a class='inline' target='_blank' href='$full_translate_url'>Translate</a></span>
-                </div>
-            HTML;
-    }
-
-    // Loop through the array and generate the HTML
-    foreach ($data as $item) {
-        $nq_ths .= <<<HTML
-                <div class="d-table-row">
-                    <span class="d-table-cell px-2" style="color:#54667a;">{$item[0]}</span>
-                    <span class="d-table-cell px-2" style='font-weight: normal;'>{$item[1]}</span>
-                </div>
-            HTML;
-    }
-    //---
-    $nxqe = <<<HTML
-            <div class="d-table table-striped">
-                $nq_ths
-            </div>
-        HTML;
-    //---
-    return $nxqe;
-}
-
 function one_item_props($title, $tra_type)
 {
 
@@ -134,88 +89,8 @@ function one_item_props($title, $tra_type)
     return $tab;
 }
 
-function make_td_rows($cnt2, $cnt, $mdwiki_url, $title, $translate_url, $div_id, $tab, $mobile_table, $pageviews, $asse, $words, $refs, $qid, $inprocess, $_user_, $_date_)
+function make_translate_urls($title, $tra_type, $words, $cod, $cat, $camp, $inprocess, $mdwiki_url, $tra_btn, $_user_, $full_tr_user, $is_video)
 {
-    $td_rows = <<<HTML
-        <th class='num hide_on_mobile_cell' scope="row" data-content="$cnt2" data-sort="$cnt">
-            $cnt2
-        </th>
-        <td class='link_container' data-content="$cnt2">
-            <a target='_blank' href='$mdwiki_url' class='hide_on_mobile'>$title</a>
-            <a target='_blank' href='$translate_url' class="only_on_mobile"><b>$title</b></a>
-            <a class="only_on_mobile" style="float:right" data-bs-toggle="collapse" href="#$div_id" role="button" aria-expanded="false" aria-controls="$div_id"><i class="fas fa-plus"></i></a>
-        </td>
-        <th class=''>
-            <span class='hide_on_mobile'>$tab</span>
-            <div class='collapse' id="$div_id">
-                <div class='only_on_mobile'>$mobile_table</div>
-            </div>
-        </th>
-        <td class='num hide_on_mobile_cell' data-content="Views">
-            $pageviews
-        </td>
-        <td class='num hide_on_mobile_cell' data-content="Importance">
-            $asse
-        </td>
-        <td class='num hide_on_mobile_cell' data-content="Words">
-            $words
-        </td>
-        <td class='num hide_on_mobile_cell' data-content="Refs.">
-            $refs
-        </td>
-        <td class='hide_on_mobile_cell' data-content="Qid">
-            $qid
-        </td>
-    HTML;
-    //---
-    if ($inprocess) {
-        $td_rows .= <<<HTML
-            <td class='hide_on_mobile_cell' data-content="user">$_user_</td>
-            <td class='hide_on_mobile_cell' data-content="Date">$_date_</td>
-        HTML;
-    };
-    //---
-    $td_rows = "<tr class=''>$td_rows</tr>";
-    //---
-    return $td_rows;
-}
-
-function make_one_row_new($title, $tra_type, $cnt, $cod, $cat, $camp, $inprocess, $inprocess_table, $tra_btn, $full, $full_tr_user)
-{
-    //---
-    $cnt2 = $full ? "Full" : $cnt;
-    //---
-    $div_id = "t_$cnt";
-    //---
-    $_translate_type_ = $inprocess_table['translate_type'] ?? '';
-    //---
-    $is_video = false;
-    //---
-    // if lower $title startswith video
-    if (strtolower(substr($title, 0, 6)) == 'video:') {
-        $is_video = true;
-        $tra_type = 'all';
-    };
-    //---
-    if ($inprocess) {
-        $tra_type = $_translate_type_;
-    };
-    //---
-    $props = one_item_props($title, $tra_type);
-    //---
-    $words = $props['word'];
-    $refs  = $props['refs'];
-    $asse  = $props['asse'];
-    $pageviews = $props['views'];
-    $qid = $props['qid'];
-    //---
-    if ($inprocess) $div_id .= '_in';
-    if ($full) $div_id .= '_full';
-    //---
-    $title2 = rawurlEncode($title);
-    $mdwiki_url = "//mdwiki.org/wiki/" . str_replace('+', '_', $title2);
-    $qid = (!empty($qid)) ? "<a class='inline' target='_blank' href='https://wikidata.org/wiki/$qid'>$qid</a>" : '&nbsp;';
-    //---
     $full_translate_url = make_tr_link_medwiki($title, $cod, $cat, $camp, "all", $words);
     $translate_url = make_tr_link_medwiki($title, $cod, $cat, $camp, $tra_type, $words);
     //---
@@ -240,14 +115,6 @@ function make_one_row_new($title, $tra_type, $cnt, $cod, $cat, $camp, $inprocess
         $translate_url = $mdwiki_url;
     }
     //---
-    $_user_ = $inprocess_table['user'] ?? '';
-    $_date_ = $inprocess_table['date'] ?? $inprocess_table['add_date'] ?? '';
-    //---
-    // if $_date_ has : then split before first space
-    if (strpos($_date_, ':') !== false) {
-        $_date_ = explode(' ', $_date_)[0];
-    };
-    //---
     if ($inprocess) {
         if ($tra_btn != '1' && $_user_ != $GLOBALS['global_username']) {
             $tab = '';
@@ -255,12 +122,68 @@ function make_one_row_new($title, $tra_type, $cnt, $cod, $cat, $camp, $inprocess
             $full_translate_url = $mdwiki_url;
         };
     };
+    // ---
+    return [$tab, $translate_url, $full_translate_url];
+}
+
+function make_one_row_new($title, $tra_type, $cnt, $cod, $cat, $camp, $inprocess, $inprocess_table, $tra_btn, $full, $full_tr_user, $mobile_td)
+{
     //---
-    $mobile_table = make_mobile_table($words, $refs, $asse, $pageviews, $qid, $inprocess, $_user_, $_date_, $full_translate_url, $full_tr_user);
+    $_translate_type_ = $inprocess_table['translate_type'] ?? '';
+    $_user_ = $inprocess_table['user'] ?? '';
+    $_date_ = $inprocess_table['date'] ?? $inprocess_table['add_date'] ?? '';
     //---
-    $td_rows = make_td_rows($cnt2, $cnt, $mdwiki_url, $title, $translate_url, $div_id, $tab, $mobile_table, $pageviews, $asse, $words, $refs, $qid, $inprocess, $_user_, $_date_);
+    $is_video = false;
     //---
-    return $td_rows;
+    // if lower $title startswith video
+    if (strtolower(substr($title, 0, 6)) == 'video:') {
+        $is_video = true;
+        $tra_type = 'all';
+    };
+    //---
+    if ($inprocess) {
+        $tra_type = $_translate_type_;
+    };
+    //---
+    $props = one_item_props($title, $tra_type);
+    //---
+    $qid = $props['qid'];
+    //---
+    $qid_url = (!empty($qid)) ? "<a class='inline' target='_blank' href='https://wikidata.org/wiki/$qid'>$qid</a>" : '&nbsp;';
+    //---
+    $mdwiki_url = "//mdwiki.org/wiki/" . str_replace('+', '_', rawurlEncode($title));
+    //---
+    [$tab, $translate_url, $full_translate_url] = make_translate_urls($title, $tra_type, $props['word'], $cod, $cat, $camp, $inprocess, $mdwiki_url, $tra_btn, $_user_, $full_tr_user, $is_video);
+    //---
+    // if $_date_ has : then split before first space
+    if (strpos($_date_, ':') !== false) {
+        $_date_ = explode(' ', $_date_)[0];
+    };
+    //---
+    $tds = [
+        "translate_url" => $translate_url,
+        "mdwiki_url" => $mdwiki_url,
+        "cnt" => $cnt,
+        "title" => $title,
+        "tab" => $tab,
+        "pageviews" => $props['views'],
+        "asse" => $props['asse'],
+        "words" => $props['word'],
+        "refs" => $props['refs'],
+        "qid" => $qid_url,
+        "user" => $_user_,
+        "date" => $_date_
+    ];
+    //---
+    if ($mobile_td == "mobile") {
+        //---
+        $mobile_table = make_mobile_table($inprocess, $full_translate_url, $full_tr_user, $tds);
+        //---
+        return make_td_rows_mobile($full, $inprocess, $mobile_table, $tds);
+    };
+    //---
+    return make_td_rows_responsive($full, $inprocess, $tds);
+    // ---
 }
 
 function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inprocess = false)
@@ -286,8 +209,16 @@ function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inp
         // if ($tra_btn != '1') $Translate_th = '<th></th>';
     };
     //---
+    $table_classes = "sortable table-mobile-responsive table_text_left";
+    //---
+    $mobile_td = $_GET["mobile_td"] ?? "mobile";
+    //---
+    if ($mobile_td != 'mobile') {
+        $table_classes = "display table_responsive";
+    }
+    //---
     $frist = <<<HTML
-        <table class="table compact table-striped table_100 sortable table-mobile-responsive table_text_left">
+        <table class="table compact table-striped table_100 $table_classes">
             <thead>
                 <tr>
                     <th class="num">
@@ -337,7 +268,7 @@ function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inp
         //---
         $inprocess_v = $inprocess_table[$v] ?? [];
         //---
-        $row = make_one_row_new($title, $tra_type, $cnt2, $cod, $cat, $camp, $inprocess, $inprocess_v, $tra_btn, false, $full_tr_user);
+        $row = make_one_row_new($title, $tra_type, $cnt2, $cod, $cat, $camp, $inprocess, $inprocess_v, $tra_btn, false, $full_tr_user, $mobile_td);
         //---
         // if in process or full translates not allowed
         if ($inprocess || !$do_full || $full_tr_user) {
@@ -361,7 +292,7 @@ function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inp
         }
         //---
         if ($full) {
-            $list .= make_one_row_new($title, 'all', $cnt2, $cod, $cat, $camp, $inprocess, $inprocess_v, $tra_btn, true, $full_tr_user);
+            $list .= make_one_row_new($title, 'all', $cnt2, $cod, $cat, $camp, $inprocess, $inprocess_v, $tra_btn, true, $full_tr_user, $mobile_td);
         }
         //---
         $cnt++;
