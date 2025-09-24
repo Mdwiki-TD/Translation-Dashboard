@@ -134,6 +134,52 @@ function one_item_props($title, $tra_type)
     return $tab;
 }
 
+function make_td_rows($cnt2, $cnt, $mdwiki_url, $title, $translate_url, $div_id, $tab, $mobile_table, $pageviews, $asse, $words, $refs, $qid, $inprocess, $_user_, $_date_)
+{
+    $td_rows = <<<HTML
+        <th class='num hide_on_mobile_cell' scope="row" data-content="$cnt2" data-sort="$cnt">
+            $cnt2
+        </th>
+        <td class='link_container' data-content="$cnt2">
+            <a target='_blank' href='$mdwiki_url' class='hide_on_mobile'>$title</a>
+            <a target='_blank' href='$translate_url' class="only_on_mobile"><b>$title</b></a>
+            <a class="only_on_mobile" style="float:right" data-bs-toggle="collapse" href="#$div_id" role="button" aria-expanded="false" aria-controls="$div_id"><i class="fas fa-plus"></i></a>
+        </td>
+        <th class=''>
+            <span class='hide_on_mobile'>$tab</span>
+            <div class='collapse' id="$div_id">
+                <div class='only_on_mobile'>$mobile_table</div>
+            </div>
+        </th>
+        <td class='num hide_on_mobile_cell' data-content="Views">
+            $pageviews
+        </td>
+        <td class='num hide_on_mobile_cell' data-content="Importance">
+            $asse
+        </td>
+        <td class='num hide_on_mobile_cell' data-content="Words">
+            $words
+        </td>
+        <td class='num hide_on_mobile_cell' data-content="Refs.">
+            $refs
+        </td>
+        <td class='hide_on_mobile_cell' data-content="Qid">
+            $qid
+        </td>
+    HTML;
+    //---
+    if ($inprocess) {
+        $td_rows .= <<<HTML
+            <td class='hide_on_mobile_cell' data-content="user">$_user_</td>
+            <td class='hide_on_mobile_cell' data-content="Date">$_date_</td>
+        HTML;
+    };
+    //---
+    $td_rows = "<tr class=''>$td_rows</tr>";
+    //---
+    return $td_rows;
+}
+
 function make_one_row_new($title, $tra_type, $cnt, $cod, $cat, $camp, $inprocess, $inprocess_table, $tra_btn, $full, $full_tr_user)
 {
     //---
@@ -212,46 +258,7 @@ function make_one_row_new($title, $tra_type, $cnt, $cod, $cat, $camp, $inprocess
     //---
     $mobile_table = make_mobile_table($words, $refs, $asse, $pageviews, $qid, $inprocess, $_user_, $_date_, $full_translate_url, $full_tr_user);
     //---
-    $td_rows = <<<HTML
-        <th class='num hide_on_mobile_cell' scope="row" data-content="$cnt2" data-sort="$cnt">
-            $cnt2
-        </th>
-        <td class='link_container' data-content="$cnt2">
-            <a target='_blank' href='$mdwiki_url' class='hide_on_mobile'>$title</a>
-            <a target='_blank' href='$translate_url' class="only_on_mobile"><b>$title</b></a>
-            <a class="only_on_mobile" style="float:right" data-bs-toggle="collapse" href="#$div_id" role="button" aria-expanded="false" aria-controls="$div_id"><i class="fas fa-plus"></i></a>
-        </td>
-        <th class=''>
-            <span class='hide_on_mobile'>$tab</span>
-            <div class='collapse' id="$div_id">
-                <div class='only_on_mobile'>$mobile_table</div>
-            </div>
-        </th>
-        <td class='num hide_on_mobile_cell' data-content="Views">
-            $pageviews
-        </td>
-        <td class='num hide_on_mobile_cell' data-content="Importance">
-            $asse
-        </td>
-        <td class='num hide_on_mobile_cell' data-content="Words">
-            $words
-        </td>
-        <td class='num hide_on_mobile_cell' data-content="Refs.">
-            $refs
-        </td>
-        <td class='hide_on_mobile_cell' data-content="Qid">
-            $qid
-        </td>
-    HTML;
-    //---
-    if ($inprocess) {
-        $td_rows .= <<<HTML
-            <td class='hide_on_mobile_cell' data-content="user">$_user_</td>
-            <td class='hide_on_mobile_cell' data-content="Date">$_date_</td>
-        HTML;
-    };
-    //---
-    $td_rows = "<tr class=''>$td_rows</tr>";
+    $td_rows = make_td_rows($cnt2, $cnt, $mdwiki_url, $title, $translate_url, $div_id, $tab, $mobile_table, $pageviews, $asse, $words, $refs, $qid, $inprocess, $_user_, $_date_);
     //---
     return $td_rows;
 }
