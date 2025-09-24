@@ -9,7 +9,7 @@ use function Results\ResultsTableExists\make_results_table_exists;
 
 */
 
-include_once __DIR__ . '/../Tables/include.php';
+// include_once __DIR__ . '/../Tables/include.php';
 
 use Tables\Main\MainTables;
 
@@ -27,7 +27,7 @@ function sort_py_PageViews($items, $en_views_tab)
     return $dd;
 }
 
-function one_p_props($title)
+function one_item_props($title)
 {
 
     $sql_qids = get_td_or_sql_qids();
@@ -50,10 +50,11 @@ function one_p_props($title)
     //---
     return $tab;
 }
-function d_one_row($title, $cnt, $cod)
+
+function make_one_row_new($title, $cnt, $cod)
 {
     //---
-    $props = one_p_props($title);
+    $props = one_item_props($title);
     //---
     $words = $props['word'];
     $refs  = $props['refs'];
@@ -77,17 +78,33 @@ function d_one_row($title, $cnt, $cod)
     }
     //---
     $td_rows = <<<HTML
-        <tr>
-            <th class='' scope="row"  style="text-align: center">$cnt</th>
-            <td class='link_container spannowrap'><a target='_blank' href='$mdwiki_url'>$title</a></td>
-            <td><span>$target_tab</span></td>
-            <td class='num' style="text-align: left">$pageviews</td>
-            <td class='num' style="text-align: left">$asse</td>
-            <td class='num' style="text-align: left">$words</td>
-            <td class='num' style="text-align: left">$refs</td>
-            <td>$qid</td>
-        </tr>
+        <th class='' scope="row" style="text-align: center">
+            $cnt
+        </th>
+        <td class='link_container spannowrap'>
+            <a target='_blank' href='$mdwiki_url'>$title</a>
+        </td>
+        <td>
+            <span>$target_tab</span>
+        </td>
+        <td class='num' style="text-align: left">
+            $pageviews
+        </td>
+        <td class='num' style="text-align: left">
+            $asse
+        </td>
+        <td class='num' style="text-align: left">
+            $words
+        </td>
+        <td class='num' style="text-align: left">
+            $refs
+        </td>
+        <td>
+            $qid
+        </td>
     HTML;
+    //---
+    $td_rows = "<tr class=''>$td_rows</tr>";
     //---
     return $td_rows;
 }
@@ -96,7 +113,7 @@ function make_results_table_exists($items, $cod, $cat, $camp)
 {
     //---
     $frist = <<<HTML
-        <table class="table display compact table-striped table-mobile-responsive table_100 table_text_left">
+        <table class="table display compact table-striped table_responsive table_100">
             <thead>
                 <tr>
                     <th class="">
@@ -140,7 +157,7 @@ function make_results_table_exists($items, $cod, $cat, $camp)
         // ---
         $title = str_replace('_', ' ', $v);
         //---
-        $row = d_one_row($title, $cnt, $cod);
+        $row = make_one_row_new($title, $cnt, $cod);
         //---
         $list .= $row;
         //---
