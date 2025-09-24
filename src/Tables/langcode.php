@@ -43,7 +43,7 @@ https://db-names.toolforge.org/
 "zh-yue" : "yue"
 */
 // ---
-require_once __DIR__ . '/tables.php';
+// require_once __DIR__ . '/tables.php';
 
 use Tables\Main\MainTables;
 

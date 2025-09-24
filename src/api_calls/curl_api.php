@@ -3,7 +3,6 @@
 namespace APICalls\CurlApi;
 /*
 Usage:
-require_once __DIR__ . '/../actions/curl_api.php';
 use function APICalls\CurlApi\post_url_params_result;
 */
 
