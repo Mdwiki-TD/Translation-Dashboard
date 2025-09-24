@@ -12,7 +12,7 @@ use function Results\ResultsTable\make_results_table;
 
 */
 
-include_once __DIR__ . '/../Tables/include.php';
+// include_once __DIR__ . '/../Tables/include.php';
 
 use Tables\Main\MainTables;
 
@@ -133,6 +133,7 @@ function one_item_props($title, $tra_type)
     //---
     return $tab;
 }
+
 function make_one_row_new($title, $tra_type, $cnt, $cod, $cat, $camp, $inprocess, $inprocess_table, $tra_btn, $full, $full_tr_user)
 {
     //---
@@ -212,25 +213,35 @@ function make_one_row_new($title, $tra_type, $cnt, $cod, $cat, $camp, $inprocess
     $mobile_table = make_mobile_table($words, $refs, $asse, $pageviews, $qid, $inprocess, $_user_, $_date_, $full_translate_url, $full_tr_user);
     //---
     $td_rows = <<<HTML
-        <th class='num hide_on_mobile_cell' scope="row" data-content="$cnt2" data-sort="$cnt">$cnt2</th>
+        <th class='num hide_on_mobile_cell' scope="row" data-content="$cnt2" data-sort="$cnt">
+            $cnt2
+        </th>
         <td class='link_container' data-content="$cnt2">
             <a target='_blank' href='$mdwiki_url' class='hide_on_mobile'>$title</a>
             <a target='_blank' href='$translate_url' class="only_on_mobile"><b>$title</b></a>
             <a class="only_on_mobile" style="float:right" data-bs-toggle="collapse" href="#$div_id" role="button" aria-expanded="false" aria-controls="$div_id"><i class="fas fa-plus"></i></a>
         </td>
-
         <th class=''>
             <span class='hide_on_mobile'>$tab</span>
             <div class='collapse' id="$div_id">
                 <div class='only_on_mobile'>$mobile_table</div>
             </div>
         </th>
-
-        <td class='num hide_on_mobile_cell' data-content="Views">$pageviews</td>
-        <td class='num hide_on_mobile_cell' data-content="Importance">$asse</td>
-        <td class='num hide_on_mobile_cell' data-content="Words">$words</td>
-        <td class='num hide_on_mobile_cell' data-content="Refs.">$refs</td>
-        <td class='hide_on_mobile_cell' data-content="Qid">$qid</td>
+        <td class='num hide_on_mobile_cell' data-content="Views">
+            $pageviews
+        </td>
+        <td class='num hide_on_mobile_cell' data-content="Importance">
+            $asse
+        </td>
+        <td class='num hide_on_mobile_cell' data-content="Words">
+            $words
+        </td>
+        <td class='num hide_on_mobile_cell' data-content="Refs.">
+            $refs
+        </td>
+        <td class='hide_on_mobile_cell' data-content="Qid">
+            $qid
+        </td>
     HTML;
     //---
     if ($inprocess) {
@@ -248,7 +259,7 @@ function make_one_row_new($title, $tra_type, $cnt, $cod, $cat, $camp, $inprocess
 function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inprocess = false)
 {
     //---
-    $full_translators = array_column(get_td_or_sql_full_translators(), 'user');
+    $full_translators = get_td_or_sql_full_translators('user');
     //---
     $nolead_translates = load_translate_type('no');
     $translates_full = load_translate_type('full');
@@ -270,37 +281,37 @@ function make_results_table($items, $cod, $cat, $camp, $tra_type, $tra_btn, $inp
     //---
     $frist = <<<HTML
     <!-- <div class="table-responsive"> -->
-    <table class="table compact sortable table-striped table-mobile-responsive table_100 table_text_left" id="main_table">
-        <thead>
-            <tr>
-                <th class="num">
-                    #
-                </th>
-                <th class="spannowrap" style="text-align: center">
-                    Title
-                </th>
-                <th class="">
-                    <span class=''>Translate</span>
-                </th>
-                <th class="spannowrap" style="text-align: center">
-                    <span data-bs-toggle="tooltip" data-bs-title="Page views in last month in English Wikipedia">Views</span>
-                </th>
-                <th class="spannowrap" style="text-align: center">
-                    <span data-bs-toggle="tooltip" data-bs-title="Page important from medicine project in English Wikipedia">Importance</span>
-                </th>
-                <th class="spannowrap" style="text-align: center">
-                    <span data-bs-toggle="tooltip" data-bs-title="number of words of the article in mdwiki.org">Words</span>
-                </th>
-                <th class="spannowrap" style="text-align: center">
-                    <span data-bs-toggle="tooltip" data-bs-title="number of references of the article in mdwiki.org">Refs.</span>
-                </th>
-                <th class="spannowrap" style="text-align: center">
-                    <span data-bs-toggle="tooltip" data-bs-title="Wikidata identifier">Qid</span>
-                </th>
-                $inprocess_first
-            </tr>
-        </thead>
-        <tbody>
+        <table class="table compact sortable table-striped table-mobile-responsive table_100 table_text_left" id="main_table">
+            <thead>
+                <tr>
+                    <th class="num">
+                        #
+                    </th>
+                    <th class="spannowrap" style="text-align: center">
+                        Title
+                    </th>
+                    <th class="">
+                        <span class=''>Translate</span>
+                    </th>
+                    <th class="spannowrap" style="text-align: center">
+                        <span data-bs-toggle="tooltip" data-bs-title="Page views in last month in English Wikipedia">Views</span>
+                    </th>
+                    <th class="spannowrap" style="text-align: center">
+                        <span data-bs-toggle="tooltip" data-bs-title="Page important from medicine project in English Wikipedia">Importance</span>
+                    </th>
+                    <th class="spannowrap" style="text-align: center">
+                        <span data-bs-toggle="tooltip" data-bs-title="number of words of the article in mdwiki.org">Words</span>
+                    </th>
+                    <th class="spannowrap" style="text-align: center">
+                        <span data-bs-toggle="tooltip" data-bs-title="number of references of the article in mdwiki.org">Refs.</span>
+                    </th>
+                    <th class="spannowrap" style="text-align: center">
+                        <span data-bs-toggle="tooltip" data-bs-title="Wikidata identifier">Qid</span>
+                    </th>
+                    $inprocess_first
+                </tr>
+            </thead>
+            <tbody>
     HTML;
     //---
     $dd = [];

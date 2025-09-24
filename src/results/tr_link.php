@@ -54,7 +54,7 @@ function make_translate_link_medwiki($title, $cod, $cat, $camp, $tra_type)
         'page' => $title
     ];
     // ---
-    $url = $endpoint . "?" . http_build_query($params);
+    $url = $endpoint . "?" . http_build_query($params, '', '&', PHP_QUERY_RFC3986);
     // ---
     return $url;
 }
@@ -75,7 +75,7 @@ function make_tr_link_medwiki($title, $cod, $cat, $camp, $tra_type, $word)
         "type" => $tra_type
     );
     //---
-    $url = 'translate_med/index.php?' . http_build_query($params);
+    $url = 'translate_med/index.php?' . http_build_query($params, '', '&', PHP_QUERY_RFC3986);
     //---
     return $url;
 }

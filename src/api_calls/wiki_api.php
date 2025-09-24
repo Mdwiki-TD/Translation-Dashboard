@@ -24,7 +24,7 @@ function make_view_by_number($target, $numb, $lang, $pupdate)
         // 'range' => 'all-time',
         'redirects' => '0',
         'pages' => $target,
-    ));
+    ), '', '&', PHP_QUERY_RFC3986);
     // ---
     $numb3 = (is_numeric($numb2)) ? number_format($numb2) : $numb2;
     $link = "<a target='_blank' href='$url'>$numb3</a>";

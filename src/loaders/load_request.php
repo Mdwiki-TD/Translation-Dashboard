@@ -41,7 +41,7 @@ function load_request()
     }
     // if (empty($cat)) $cat = "RTT";
     //---
-    $tra_type = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
+    $tra_type = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_SPECIAL_CHARS) ?? '';
     //---
     $doit = $doit !== "";
     //---

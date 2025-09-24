@@ -66,7 +66,6 @@ function get_langs_tables($mainlang, $year_y)
         return $result;
     };
     //---
-    //---
     $p_tables = pages_tables($mainlang, $year_y);
     //---
     $dd = $p_tables['dd'];

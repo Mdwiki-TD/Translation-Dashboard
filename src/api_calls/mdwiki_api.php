@@ -17,7 +17,7 @@ function post_url_mdwiki(string $endPoint, array $params = []): string
     curl_setopt_array($ch, [
         CURLOPT_URL => $endPoint,
         CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => http_build_query($params),
+        CURLOPT_POSTFIELDS => http_build_query($params, '', '&', PHP_QUERY_RFC3986),
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_USERAGENT => $usr_agent,
         CURLOPT_CONNECTTIMEOUT => 5,
@@ -29,7 +29,7 @@ function post_url_mdwiki(string $endPoint, array $params = []): string
     // ---
     $output = curl_exec($ch);
     // ---
-    $url = "{$endPoint}?" . http_build_query($params);
+    $url = "{$endPoint}?" . http_build_query($params, '', '&', PHP_QUERY_RFC3986);
     // ---
     // remove "&format=json" from $url then make it link <a href="$url2">
     $url2 = str_replace('&format=json', '', $url);
