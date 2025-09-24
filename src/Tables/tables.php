@@ -20,7 +20,6 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 //---
 
 use function SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
-use function Tables\TablesDir\open_td_Tables_file;
 
 //---
 class MainTables
@@ -38,10 +37,6 @@ $tables_d = array(
 	'langs_tables' => &MainTables::$x_Langs_table,
 );
 //---
-foreach ($tables_d as $key => &$value) {
-	$value = open_td_Tables_file("jsons/{$key}.json");
-}
-
 $titles_infos = get_td_or_sql_titles_infos();
 
 foreach ($titles_infos as $k => $tab) {
@@ -57,3 +52,8 @@ foreach ($titles_infos as $k => $tab) {
 	// ---
 	MainTables::$x_Assessments_table[$title] = $tab['importance'];
 };
+
+if (file_exists(__DIR__ . '/lang_names.json')) {
+	MainTables::$x_Langs_table = json_decode(file_get_contents(__DIR__ . '/lang_names.json'), true);
+	ksort(MainTables::$x_Langs_table);
+}
