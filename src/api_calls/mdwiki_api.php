@@ -13,18 +13,22 @@ function post_url_mdwiki(string $endPoint, array $params = []): string
     $usr_agent = "WikiProjectMed Translation Dashboard/1.0 (https://mdwiki.toolforge.org/; tools.mdwiki@toolforge.org)";
 
     $ch = curl_init();
-
-    curl_setopt($ch, CURLOPT_URL, $endPoint);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    // curl_setopt($ch, CURLOPT_COOKIEJAR, "cookie.txt");
-    // curl_setopt($ch, CURLOPT_COOKIEFILE, "cookie.txt");
-    curl_setopt($ch, CURLOPT_USERAGENT, $usr_agent);
-    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-
+    // ---
+    curl_setopt_array($ch, [
+        CURLOPT_URL => $endPoint,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => http_build_query($params),
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_USERAGENT => $usr_agent,
+        CURLOPT_CONNECTTIMEOUT => 5,
+        CURLOPT_TIMEOUT => 5,
+        // لاستخدام ملفات الكوكيز عند الحاجة:
+        // CURLOPT_COOKIEJAR => "cookie.txt",
+        // CURLOPT_COOKIEFILE => "cookie.txt",
+    ]);
+    // ---
     $output = curl_exec($ch);
+    // ---
     $url = "{$endPoint}?" . http_build_query($params);
     // ---
     // remove "&format=json" from $url then make it link <a href="$url2">
