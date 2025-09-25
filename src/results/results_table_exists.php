@@ -143,6 +143,7 @@ function make_results_table_exists($items, $langcode, $cat, $camp, $tra_btn, $fu
     $count_translated_before = 0;
     //---
     $exists_targets = array_column($exists_targets, 'target', 'title');
+    $exists_targets_before = array_column($exists_targets_before, 'target', 'title');
     //---
     foreach ($dd as $v => $gt) {
         // ---
