@@ -101,6 +101,23 @@ function make_one_row_new($title, $cnt, $langcode, $cat, $camp, $tra_btn, $full_
         </div>
     HTML;
     //---
+    $td22 = <<<HTML
+            <td class='num'>
+            $pageviews
+        </td>
+        <td class='num'>
+            $asse
+        </td>
+        <td class='num'>
+            $words
+        </td>
+        <td class='num'>
+            $refs
+        </td>
+    HTML;
+    //---
+    $td22 = "";
+    //---
     $td_rows = <<<HTML
         <th class='' scope="row" style="text-align: center">
             $cnt
@@ -117,18 +134,7 @@ function make_one_row_new($title, $cnt, $langcode, $cat, $camp, $tra_btn, $full_
         <td>
             $target_tab2
         </td>
-        <td class='num'>
-            $pageviews
-        </td>
-        <td class='num'>
-            $asse
-        </td>
-        <td class='num'>
-            $words
-        </td>
-        <td class='num'>
-            $refs
-        </td>
+        $td22
         <td>
             $qid_url
         </td>
@@ -178,6 +184,23 @@ function make_results_table_exists($items, $langcode, $cat, $camp, $tra_btn, $fu
         $cnt++;
     };
     // ---
+    $th22 = <<<HTML
+        <th class="spannowrap" style="text-align: center">
+            <span data-bs-toggle="tooltip" data-bs-title="Page views in last month in English Wikipedia">Views</span>
+        </th>
+        <th class="spannowrap" style="text-align: center">
+            <span data-bs-toggle="tooltip" data-bs-title="Page important from medicine project in English Wikipedia">Importance</span>
+        </th>
+        <th class="spannowrap" style="text-align: center">
+            <span data-bs-toggle="tooltip" data-bs-title="number of words of the article in mdwiki.org">Words</span>
+        </th>
+        <th class="spannowrap" style="text-align: center">
+            <span data-bs-toggle="tooltip" data-bs-title="number of references of the article in mdwiki.org">Refs.</span>
+        </th>
+    HTML;
+    // ---
+    $th22 = "";
+    // ---
     $table = <<<HTML
         <table class="table compact table-striped table_100 table_text_left table_responsive display">
             <thead>
@@ -197,18 +220,7 @@ function make_results_table_exists($items, $langcode, $cat, $camp, $tra_btn, $fu
                     <th class="">
                         Translated before ($count_translated_before)
                     </th>
-                    <th class="spannowrap" style="text-align: center">
-                        <span data-bs-toggle="tooltip" data-bs-title="Page views in last month in English Wikipedia">Views</span>
-                    </th>
-                    <th class="spannowrap" style="text-align: center">
-                        <span data-bs-toggle="tooltip" data-bs-title="Page important from medicine project in English Wikipedia">Importance</span>
-                    </th>
-                    <th class="spannowrap" style="text-align: center">
-                        <span data-bs-toggle="tooltip" data-bs-title="number of words of the article in mdwiki.org">Words</span>
-                    </th>
-                    <th class="spannowrap" style="text-align: center">
-                        <span data-bs-toggle="tooltip" data-bs-title="number of references of the article in mdwiki.org">Refs.</span>
-                    </th>
+                    $th22
                     <th class="spannowrap" style="text-align: center">
                         <span data-bs-toggle="tooltip" data-bs-title="Wikidata identifier">Qid</span>
                     </th>
