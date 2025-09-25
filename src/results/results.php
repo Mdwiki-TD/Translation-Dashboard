@@ -16,6 +16,7 @@ use function Results\ResultsTable\make_results_table;
 use function Results\ResultsTableExists\make_results_table_exists;
 use function SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
 use function TD\Render\admin_text;
+use function SQLorAPI\Funcs\get_lang_pages_by_cat;
 
 function card_result($title, $text, $title2 = "")
 {
@@ -92,7 +93,9 @@ function Results_tables($code, $camp, $cat, $tra_type, $code_lang_name, $test)
     //---
     if ($len_exists > 1 && $user_in_coord) {
         //---
-        $table_3 = make_results_table_exists($exists, $code, $cat, $camp, $translation_button, $full_tr_user);
+        $exists_targets = get_lang_pages_by_cat($code, $cat);
+        //---
+        $table_3 = make_results_table_exists($exists, $code, $cat, $camp, $translation_button, $full_tr_user, $exists_targets);
         //---
         echo card_result("Exists: ($len_exists)", $table_3);
     };

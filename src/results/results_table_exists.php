@@ -28,7 +28,7 @@ function sort_py_PageViews($items, $en_views_tab)
     return $dd;
 }
 
-function one_item_props($title, $langcode)
+function one_item_props($title, $target)
 {
 
     $sql_qids = get_td_or_sql_qids();
@@ -40,8 +40,6 @@ function one_item_props($title, $langcode)
     $qid   = $sql_qids[$title] ?? "";
     //---
     if (empty($asse)) $asse = 'Unknown';
-    //---
-    $target = "";
     //---
     $tab = [
         'word'  => $word,
@@ -55,19 +53,14 @@ function one_item_props($title, $langcode)
     return $tab;
 }
 
-function make_one_row_new($title, $cnt, $langcode, $cat, $camp, $tra_btn, $full_tr_user)
+function make_one_row_new($title, $cnt, $langcode, $cat, $camp, $tra_btn, $full_tr_user, $props)
 {
     //---
     $tra_type = "lead";
     //---
-    $is_video = false;
-    // if lower $title startswith video
     if (strtolower(substr($title, 0, 6)) == 'video:') {
-        $is_video = true;
         $tra_type = 'all';
     };
-    //---
-    $props = one_item_props($title, $langcode);
     //---
     $words = $props['word'];
     $refs  = $props['refs'];
@@ -91,7 +84,7 @@ function make_one_row_new($title, $cnt, $langcode, $cat, $camp, $tra_btn, $full_
         $target_tab = "<a target='_blank' href='$target_url'>$target</a>";
     }
     //---
-    [$tab, $translate_url, $full_translate_url] = make_translate_urls($title, $tra_type, $props['word'], $langcode, $cat, $camp, "", $mdwiki_url, $tra_btn, "", $full_tr_user, $is_video);
+    [$tab, $translate_url, $full_translate_url] = make_translate_urls($title, $tra_type, $props['word'], $langcode, $cat, $camp, "", $mdwiki_url, $tra_btn, "", $full_tr_user);
     //---
     $td_rows = <<<HTML
         <th class='' scope="row" style="text-align: center">
@@ -128,7 +121,7 @@ function make_one_row_new($title, $cnt, $langcode, $cat, $camp, $tra_btn, $full_
     return $td_rows;
 }
 
-function make_results_table_exists($items, $langcode, $cat, $camp, $tra_btn, $full_tr_user)
+function make_results_table_exists($items, $langcode, $cat, $camp, $tra_btn, $full_tr_user, $exists_targets)
 {
     //---
     $frist = <<<HTML
@@ -173,13 +166,19 @@ function make_results_table_exists($items, $langcode, $cat, $camp, $tra_btn, $fu
     $list = "";
     $cnt = 1;
     //---
+    $exists_targets = array_column($exists_targets, 'target', 'title');
+    //---
     foreach ($dd as $v => $gt) {
         // ---
         if (empty($v)) continue;
         // ---
         $title = str_replace('_', ' ', $v);
         //---
-        $row = make_one_row_new($title, $cnt, $langcode, $cat, $camp, $tra_btn, $full_tr_user);
+        $target = $exists_targets[$title] ?? null;
+        //---
+        $props = one_item_props($title, $target);
+        //---
+        $row = make_one_row_new($title, $cnt, $langcode, $cat, $camp, $tra_btn, $full_tr_user, $props);
         //---
         $list .= $row;
         //---

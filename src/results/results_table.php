@@ -94,20 +94,8 @@ function one_item_props($title, $langcode, $tra_type)
 function make_one_row_new($title, $tra_type, $cnt, $langcode, $cat, $camp, $inprocess, $inprocess_table, $tra_btn, $full, $full_tr_user, $mobile_td)
 {
     //---
-    $_translate_type_ = $inprocess_table['translate_type'] ?? '';
     $_user_ = $inprocess_table['user'] ?? '';
     $_date_ = $inprocess_table['date'] ?? $inprocess_table['add_date'] ?? '';
-    //---
-    if ($inprocess) {
-        $tra_type = $_translate_type_;
-    };
-    //---
-    $is_video = false;
-    // if lower $title startswith video
-    if (strtolower(substr($title, 0, 6)) == 'video:') {
-        $is_video = true;
-        $tra_type = 'all';
-    };
     //---
     $props = one_item_props($title, $langcode, $tra_type);
     //---
@@ -117,7 +105,7 @@ function make_one_row_new($title, $tra_type, $cnt, $langcode, $cat, $camp, $inpr
     //---
     $mdwiki_url = "//mdwiki.org/wiki/" . str_replace('+', '_', rawurlEncode($title));
     //---
-    [$tab, $translate_url, $full_translate_url] = make_translate_urls($title, $tra_type, $props['word'], $langcode, $cat, $camp, $inprocess, $mdwiki_url, $tra_btn, $_user_, $full_tr_user, $is_video);
+    [$tab, $translate_url, $full_translate_url] = make_translate_urls($title, $tra_type, $props['word'], $langcode, $cat, $camp, $inprocess, $mdwiki_url, $tra_btn, $_user_, $full_tr_user);
     //---
     // if $_date_ has : then split before first space
     if (strpos($_date_, ':') !== false) {
@@ -226,9 +214,17 @@ function make_results_table($items, $langcode, $cat, $camp, $tra_type, $tra_btn,
         //---
         $cnt2 = $cnt;
         //---
-        $inprocess_v = $inprocess_table[$v] ?? [];
+        $inprocess_tab = $inprocess_table[$v] ?? [];
         //---
-        $row = make_one_row_new($title, $tra_type, $cnt2, $langcode, $cat, $camp, $inprocess, $inprocess_v, $tra_btn, false, $full_tr_user, $mobile_td);
+        if ($inprocess) {
+            $tra_type = $inprocess_table['translate_type'] ?? '';
+        };
+        //---
+        if (strtolower(substr($title, 0, 6)) == 'video:') {
+            $tra_type = 'all';
+        };
+        //---
+        $row = make_one_row_new($title, $tra_type, $cnt2, $langcode, $cat, $camp, $inprocess, $inprocess_tab, $tra_btn, false, $full_tr_user, $mobile_td);
         //---
         // if in process or full translates not allowed
         if ($inprocess || !$do_full || $full_tr_user) {
@@ -252,7 +248,7 @@ function make_results_table($items, $langcode, $cat, $camp, $tra_type, $tra_btn,
         }
         //---
         if ($full) {
-            $list .= make_one_row_new($title, 'all', $cnt2, $langcode, $cat, $camp, $inprocess, $inprocess_v, $tra_btn, true, $full_tr_user, $mobile_td);
+            $list .= make_one_row_new($title, 'all', $cnt2, $langcode, $cat, $camp, $inprocess, $inprocess_tab, $tra_btn, true, $full_tr_user, $mobile_td);
         }
         //---
         $cnt++;

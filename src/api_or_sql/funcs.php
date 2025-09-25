@@ -17,11 +17,34 @@ use function SQLorAPI\Funcs\get_pages_with_pupdate;
 use function SQLorAPI\Funcs\get_user_views;
 use function SQLorAPI\Funcs\get_user_pages;
 use function SQLorAPI\Funcs\get_coordinator;
+use function SQLorAPI\Funcs\get_lang_pages_by_cat;
 
 */
 
 use function SQLorAPI\Get\super_function;
 use function SQLorAPI\Get\isvalid;
+
+function get_lang_pages_by_cat($lang, $cat)
+{
+    // ---
+    // http://localhost:9001/api.php?get=pages&lang=ar&cat=RTT
+    static $data = [];
+    // ---
+    if (!empty($data[$lang . $cat] ?? [])) {
+        return $data[$lang . $cat];
+    }
+    // ---
+    $api_params = ['get' => 'pages', 'lang' => $lang, 'cat' => $cat];
+    // ---
+    $query = "select * from pages p where p.lang = ? and p.cat = ?";
+    $params = [$lang, $cat];
+    // ---
+    $u_data = super_function($api_params, $params, $query);
+    // ---
+    $data[$lang . $cat] = $u_data;
+    // ---
+    return $u_data;
+}
 
 function get_coordinator()
 {

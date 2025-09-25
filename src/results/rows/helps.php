@@ -11,8 +11,15 @@ use function Results\ResultsTable\Rows\make_translate_urls;
 
 use function Results\TrLink\make_tr_link_medwiki;
 
-function make_translate_urls($title, $tra_type, $words, $cod, $cat, $camp, $inprocess, $mdwiki_url, $tra_btn, $_user_, $full_tr_user, $is_video)
+function make_translate_urls($title, $tra_type, $words, $cod, $cat, $camp, $inprocess, $mdwiki_url, $tra_btn, $_user_, $full_tr_user)
 {
+    $is_video = false;
+    // if lower $title startswith video
+    //---
+    if (strtolower(substr($title, 0, 6)) == 'video:') {
+        $is_video = true;
+    };
+    //---
     $full_translate_url = make_tr_link_medwiki($title, $cod, $cat, $camp, "all", $words);
     $translate_url = make_tr_link_medwiki($title, $cod, $cat, $camp, $tra_type, $words);
     //---
