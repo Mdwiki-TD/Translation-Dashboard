@@ -28,7 +28,7 @@ function isvalid($str)
     return !empty($str) && strtolower($str) != "all";
 }
 
-function super_function($api_params, $sql_params, $sql_query, $no_refind = false)
+function super_function($api_params, $sql_params, $sql_query, $no_refind = false, $table_name = null)
 {
     global $use_td_api;
     // ---
@@ -36,7 +36,7 @@ function super_function($api_params, $sql_params, $sql_query, $no_refind = false
     // ---
     if (empty($data) && !$no_refind) {
         test_print("<br> >>>>> Query:");
-        $data = fetch_query($sql_query, $sql_params);
+        $data = fetch_query($sql_query, $sql_params, $table_name = $table_name);
     }
     // ---
     return $data;

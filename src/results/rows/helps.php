@@ -31,7 +31,7 @@ function make_translate_urls($title, $tra_type, $words, $cod, $cat, $camp, $inpr
                 <a href='$translate_url' class='btn btn-outline-primary btn-sm' target='_blank'>Lead</a>
                 <a href='$full_translate_url' class='btn btn-outline-primary btn-sm' target='_blank'>Full</a>
             </div>
-            HTML;
+        HTML;
     }
     //---
     if ($GLOBALS['global_username'] == '') {

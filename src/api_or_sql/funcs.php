@@ -43,14 +43,14 @@ function exists_by_qids_query($lang, $category)
             FROM all_qids_titles a
             JOIN all_qids_exists t
             ON t.qid = a.qid
-        WHERE t.lang = ?
+        WHERE t.code = ?
         AND a.category = ?
         AND (t.target != '' AND t.target IS NOT NULL)
     SQL;
     // ---
     $params = [$lang, $category];
     // ---
-    $u_data = super_function($api_params, $params, $query);
+    $u_data = super_function($api_params, $params, $query, $no_refind = false, $table_name = "all_qids_titles");
     // ---
     $data2[$lang . $category] = $u_data;
     // ---

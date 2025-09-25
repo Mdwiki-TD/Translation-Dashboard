@@ -15,6 +15,7 @@ use Tables\Main\MainTables;
 
 use function SQLorAPI\GetDataTab\get_td_or_sql_qids;
 use function Results\ResultsTable\Rows\make_translate_urls;
+use function Results\TrLink\make_translate_link_medwiki;
 
 function sort_py_PageViews($items, $en_views_tab)
 {
@@ -90,7 +91,15 @@ function make_one_row_new($title, $cnt, $langcode, $cat, $camp, $tra_btn, $full_
         $target_tab2 = "<a target='_blank' href='$target_url2'>$target_before</a>";
     }
     //---
-    [$tab, $translate_url, $full_translate_url] = make_translate_urls($title, $tra_type, $props['word'], $langcode, $cat, $camp, "", $mdwiki_url, $tra_btn, "", $full_tr_user);
+    // [$tab, $translate_url, $full_translate_url] = make_translate_urls($title, $tra_type, $props['word'], $langcode, $cat, $camp, "", $mdwiki_url, $tra_btn, "", $full_tr_user);
+    //---
+    $translate_url = make_translate_link_medwiki($title, $langcode, $cat, $camp, 'lead');
+    //---
+    $tab = <<<HTML
+        <div class='inline'>
+            <a href='$translate_url' class='btn btn-outline-primary btn-sm' target='_blank'>Translate</a>
+        </div>
+    HTML;
     //---
     $td_rows = <<<HTML
         <th class='' scope="row" style="text-align: center">
