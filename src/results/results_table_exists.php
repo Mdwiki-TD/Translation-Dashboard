@@ -74,14 +74,20 @@ function make_one_row_new($title, $cnt, $langcode, $cat, $camp, $tra_btn, $full_
     $qid_url = (!empty($qid)) ? "<a class='inline' target='_blank' href='https://wikidata.org/wiki/$qid'>$qid</a>" : '&nbsp;';
     //---
     $target = $props['target'] ?? '';
+    $target_before = $props['target_before'] ?? '';
     //---
     $target_tab = "";
+    $target_tab2 = "";
     $target_url = "";
     //---
     if (!empty($target)) {
         $encoded_target = rawurlencode(str_replace(' ', '_', $target));
         $target_url = "https://$langcode.wikipedia.org/wiki/$encoded_target";
         $target_tab = "<a target='_blank' href='$target_url'>$target</a>";
+    } elseif (!empty($target_before)) {
+        $encoded_target2 = rawurlencode(str_replace(' ', '_', $target_before));
+        $target_url2 = "https://$langcode.wikipedia.org/wiki/$encoded_target2";
+        $target_tab2 = "<a target='_blank' href='$target_url2'>$target_before</a>";
     }
     //---
     [$tab, $translate_url, $full_translate_url] = make_translate_urls($title, $tra_type, $props['word'], $langcode, $cat, $camp, "", $mdwiki_url, $tra_btn, "", $full_tr_user);
@@ -97,7 +103,10 @@ function make_one_row_new($title, $cnt, $langcode, $cat, $camp, $tra_btn, $full_
             $tab
         </td>
         <td>
-            <span>$target_tab</span>
+            $target_tab
+        </td>
+        <td>
+            $target_tab2
         </td>
         <td class='num'>
             $pageviews
@@ -121,10 +130,45 @@ function make_one_row_new($title, $cnt, $langcode, $cat, $camp, $tra_btn, $full_
     return $td_rows;
 }
 
-function make_results_table_exists($items, $langcode, $cat, $camp, $tra_btn, $full_tr_user, $exists_targets)
+function make_results_table_exists($items, $langcode, $cat, $camp, $tra_btn, $full_tr_user, $exists_targets, $exists_targets_before)
 {
     //---
-    $frist = <<<HTML
+    $dd = [];
+    $dd = sort_py_PageViews($items, MainTables::$x_enwiki_pageviews_table);
+    //---
+    $list = "";
+    //---
+    $cnt = 1;
+    $count_translated = 0;
+    $count_translated_before = 0;
+    //---
+    $exists_targets = array_column($exists_targets, 'target', 'title');
+    //---
+    foreach ($dd as $v => $gt) {
+        // ---
+        if (empty($v)) continue;
+        // ---
+        $title = str_replace('_', ' ', $v);
+        //---
+        $target = $exists_targets[$title] ?? null;
+        //---
+        $target_before = $exists_targets_before[$title] ?? null;
+        //---
+        $count_translated += !empty($target);
+        //---
+        $count_translated_before += empty($target) && !empty($target_before);
+        //---
+        $props = one_item_props($title, $target);
+        $props["target_before"] = $target_before;
+        //---
+        $row = make_one_row_new($title, $cnt, $langcode, $cat, $camp, $tra_btn, $full_tr_user, $props);
+        //---
+        $list .= $row;
+        //---
+        $cnt++;
+    };
+    // ---
+    $table = <<<HTML
         <table class="table compact table-striped table_100 table_text_left table_responsive display">
             <thead>
                 <tr>
@@ -138,7 +182,10 @@ function make_results_table_exists($items, $langcode, $cat, $camp, $tra_btn, $fu
                         <span class=''>Translate</span>
                     </th>
                     <th class="">
-                        Translated
+                        Translated ($count_translated)
+                    </th>
+                    <th class="">
+                        Translated before ($count_translated_before)
                     </th>
                     <th class="spannowrap" style="text-align: center">
                         <span data-bs-toggle="tooltip" data-bs-title="Page views in last month in English Wikipedia">Views</span>
@@ -158,37 +205,10 @@ function make_results_table_exists($items, $langcode, $cat, $camp, $tra_btn, $fu
                 </tr>
             </thead>
             <tbody>
-    HTML;
-    //---
-    $dd = [];
-    $dd = sort_py_PageViews($items, MainTables::$x_enwiki_pageviews_table);
-    //---
-    $list = "";
-    $cnt = 1;
-    //---
-    $exists_targets = array_column($exists_targets, 'target', 'title');
-    //---
-    foreach ($dd as $v => $gt) {
-        // ---
-        if (empty($v)) continue;
-        // ---
-        $title = str_replace('_', ' ', $v);
-        //---
-        $target = $exists_targets[$title] ?? null;
-        //---
-        $props = one_item_props($title, $target);
-        //---
-        $row = make_one_row_new($title, $cnt, $langcode, $cat, $camp, $tra_btn, $full_tr_user, $props);
-        //---
-        $list .= $row;
-        //---
-        $cnt++;
-    };
-    // ---
-    $last = <<<HTML
-        </tbody>
-    </table>
+                $list
+            </tbody>
+        </table>
     HTML;
     // ---
-    return $frist . $list . $last;
+    return $table;
 }

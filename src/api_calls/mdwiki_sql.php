@@ -169,7 +169,7 @@ function get_dbname($table_name)
 {
     // Load from configuration file or define as class constant
     $table_db_mapping = [
-        'mdwiki_new' => ["missing", "missing_qids", "publish_reports", "login_attempts", "logins", "publish_reports_stats"],
+        'mdwiki_new' => ["missing", "missing_by_qids", "publish_reports", "login_attempts", "logins", "publish_reports_stats"],
         'mdwiki' => [] // default
     ];
 

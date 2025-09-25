@@ -95,7 +95,9 @@ function Results_tables($code, $camp, $cat, $tra_type, $code_lang_name, $test)
         //---
         $exists_targets = get_lang_pages_by_cat($code, $cat);
         //---
-        $table_3 = make_results_table_exists($exists, $code, $cat, $camp, $translation_button, $full_tr_user, $exists_targets);
+        $exists_targets_before = [];
+        //---
+        $table_3 = make_results_table_exists($exists, $code, $cat, $camp, $translation_button, $full_tr_user, $exists_targets, $exists_targets_before);
         //---
         echo card_result("Exists: ($len_exists)", $table_3);
     };
