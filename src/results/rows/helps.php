@@ -42,6 +42,7 @@ function make_translate_urls($title, $tra_type, $words, $cod, $cat, $camp, $inpr
             HTML;
         //---
         $translate_url = $mdwiki_url;
+        $full_translate_url = $mdwiki_url;
     }
     //---
     if ($inprocess) {
