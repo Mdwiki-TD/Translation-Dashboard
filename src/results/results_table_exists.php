@@ -14,6 +14,7 @@ use function Results\ResultsTableExists\make_results_table_exists;
 use Tables\Main\MainTables;
 
 use function SQLorAPI\GetDataTab\get_td_or_sql_qids;
+use function Results\ResultsTable\Rows\make_translate_urls;
 
 function sort_py_PageViews($items, $en_views_tab)
 {
@@ -27,7 +28,7 @@ function sort_py_PageViews($items, $en_views_tab)
     return $dd;
 }
 
-function one_item_props($title)
+function one_item_props($title, $langcode)
 {
 
     $sql_qids = get_td_or_sql_qids();
@@ -40,21 +41,33 @@ function one_item_props($title)
     //---
     if (empty($asse)) $asse = 'Unknown';
     //---
+    $target = "";
+    //---
     $tab = [
         'word'  => $word,
         'refs'  => $refs,
         'asse'  => $asse,
         'views' => $views,
-        'qid'   => $qid
+        'qid'   => $qid,
+        'target' => $target
     ];
     //---
     return $tab;
 }
 
-function make_one_row_new($title, $cnt, $cod)
+function make_one_row_new($title, $cnt, $langcode, $cat, $camp, $tra_btn, $full_tr_user)
 {
     //---
-    $props = one_item_props($title);
+    $tra_type = "lead";
+    //---
+    $is_video = false;
+    // if lower $title startswith video
+    if (strtolower(substr($title, 0, 6)) == 'video:') {
+        $is_video = true;
+        $tra_type = 'all';
+    };
+    //---
+    $props = one_item_props($title, $langcode);
     //---
     $words = $props['word'];
     $refs  = $props['refs'];
@@ -64,7 +77,8 @@ function make_one_row_new($title, $cnt, $cod)
     //---
     $title2 = rawurlEncode($title);
     $mdwiki_url = "//mdwiki.org/wiki/" . str_replace('+', '_', $title2);
-    $qid = (!empty($qid)) ? "<a class='inline' target='_blank' href='https://wikidata.org/wiki/$qid'>$qid</a>" : '&nbsp;';
+    //---
+    $qid_url = (!empty($qid)) ? "<a class='inline' target='_blank' href='https://wikidata.org/wiki/$qid'>$qid</a>" : '&nbsp;';
     //---
     $target = $props['target'] ?? '';
     //---
@@ -73,9 +87,11 @@ function make_one_row_new($title, $cnt, $cod)
     //---
     if (!empty($target)) {
         $encoded_target = rawurlencode(str_replace(' ', '_', $target));
-        $target_url = "https://$cod.wikipedia.org/wiki/$encoded_target";
+        $target_url = "https://$langcode.wikipedia.org/wiki/$encoded_target";
         $target_tab = "<a target='_blank' href='$target_url'>$target</a>";
     }
+    //---
+    [$tab, $translate_url, $full_translate_url] = make_translate_urls($title, $tra_type, $props['word'], $langcode, $cat, $camp, "", $mdwiki_url, $tra_btn, "", $full_tr_user, $is_video);
     //---
     $td_rows = <<<HTML
         <th class='' scope="row" style="text-align: center">
@@ -85,22 +101,25 @@ function make_one_row_new($title, $cnt, $cod)
             <a target='_blank' href='$mdwiki_url'>$title</a>
         </td>
         <td>
+            $tab
+        </td>
+        <td>
             <span>$target_tab</span>
         </td>
-        <td class='num' style="text-align: left">
+        <td class='num'>
             $pageviews
         </td>
-        <td class='num' style="text-align: left">
+        <td class='num'>
             $asse
         </td>
-        <td class='num' style="text-align: left">
+        <td class='num'>
             $words
         </td>
-        <td class='num' style="text-align: left">
+        <td class='num'>
             $refs
         </td>
         <td>
-            $qid
+            $qid_url
         </td>
     HTML;
     //---
@@ -109,18 +128,21 @@ function make_one_row_new($title, $cnt, $cod)
     return $td_rows;
 }
 
-function make_results_table_exists($items, $cod, $cat, $camp)
+function make_results_table_exists($items, $langcode, $cat, $camp, $tra_btn, $full_tr_user)
 {
     //---
     $frist = <<<HTML
-        <table class="table display compact table-striped table_responsive table_100">
+        <table class="table compact table-striped table_100 table_text_left table_responsive display">
             <thead>
                 <tr>
-                    <th class="">
+                    <th class="num">
                         #
                     </th>
-                    <th class="spannowrap">
+                    <th class="spannowrap" style="text-align: center">
                         Title
+                    </th>
+                    <th class="">
+                        <span class=''>Translate</span>
                     </th>
                     <th class="">
                         Translated
@@ -157,7 +179,7 @@ function make_results_table_exists($items, $cod, $cat, $camp)
         // ---
         $title = str_replace('_', ' ', $v);
         //---
-        $row = make_one_row_new($title, $cnt, $cod);
+        $row = make_one_row_new($title, $cnt, $langcode, $cat, $camp, $tra_btn, $full_tr_user);
         //---
         $list .= $row;
         //---
