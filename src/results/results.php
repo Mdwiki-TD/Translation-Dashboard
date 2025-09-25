@@ -14,7 +14,10 @@ use Tables\SqlTables\TablesSql;
 use function Results\GetResults\get_results;
 use function Results\ResultsTable\make_results_table;
 use function Results\ResultsTableExists\make_results_table_exists;
+use function SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
 use function TD\Render\admin_text;
+use function SQLorAPI\Funcs\get_lang_pages_by_cat;
+use function SQLorAPI\Funcs\exists_by_qids_query;
 
 function card_result($title, $text, $title2 = "")
 {
@@ -64,7 +67,10 @@ function Results_tables($code, $camp, $cat, $tra_type, $code_lang_name, $test)
     //---
     if (!empty($test)) $res_line .= 'test:';
     //---
-    $table = make_results_table($missing, $code, $cat, $camp, $tra_type, $translation_button);
+    $full_translators = get_td_or_sql_full_translators('user');
+    $full_tr_user = in_array($GLOBALS['global_username'], $full_translators);
+    //---
+    $table = make_results_table($missing, $code, $cat, $camp, $tra_type, $translation_button, $full_tr_user);
     //---
     $title_x = <<<HTML
             <span class='only_on_mobile'><b>Click the article name to translate</b></span>
@@ -77,7 +83,7 @@ function Results_tables($code, $camp, $cat, $tra_type, $code_lang_name, $test)
     //---
     if ($len_inprocess > 0) {
         //---
-        $table_2 = make_results_table($p_inprocess, $code, $cat, $camp, $tra_type, $translation_button, $inprocess = true);
+        $table_2 = make_results_table($p_inprocess, $code, $cat, $camp, $tra_type, $translation_button, $full_tr_user, $inprocess = true);
         //---
         echo card_result("In process: ($len_inprocess)", $table_2);
     };
@@ -88,7 +94,11 @@ function Results_tables($code, $camp, $cat, $tra_type, $code_lang_name, $test)
     //---
     if ($len_exists > 1 && $user_in_coord) {
         //---
-        $table_3 = make_results_table_exists($exists, $code, $cat, $camp);
+        $exists_targets = get_lang_pages_by_cat($code, $cat);
+        //---
+        $exists_targets_before = exists_by_qids_query($code, $cat);
+        //---
+        $table_3 = make_results_table_exists($exists, $code, $cat, $camp, $translation_button, $full_tr_user, $exists_targets, $exists_targets_before);
         //---
         echo card_result("Exists: ($len_exists)", $table_3);
     };

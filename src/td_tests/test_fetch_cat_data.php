@@ -33,6 +33,10 @@ if (!empty($Category)) {
     print(json_encode($items["missing"], JSON_PRETTY_PRINT));
     echo "</pre>";
     // ---
+    echo "<pre> exists:";
+    print(json_encode($items["exists"], JSON_PRETTY_PRINT));
+    echo "</pre>";
+    // ---
 } else {
     echo <<<HTML
         <div class='container'>

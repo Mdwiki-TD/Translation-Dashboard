@@ -21,6 +21,7 @@ class Database
 
     private $db;
     private $host;
+    private $home_dir;
     private $user;
     private $password;
     private $dbname;
@@ -33,26 +34,36 @@ class Database
             $db_suffix = 'mdwiki';
         }
         // ---
+        $this->home_dir = getenv("HOME");
+        //---
+        if (substr(__DIR__, 0, 2) == 'I:') {
+            $this->home_dir = 'I:/mdwiki/mdwiki';
+        }
+        //---
         $this->db_suffix = $db_suffix;
         $this->set_db($server_name);
     }
 
     private function set_db($server_name)
     {
+        // $ts_pw = posix_getpwuid(posix_getuid());
+        // $ts_mycnf = parse_ini_file($ts_pw['dir'] . "/confs/db.ini");
+        // ---
+        $ts_mycnf = parse_ini_file($this->home_dir . "/confs/db.ini");
+        // ---
         if ($server_name === 'localhost' || !getenv('HOME')) {
             $this->host = 'localhost:3306';
-            $this->dbname = $this->db_suffix;
+            $this->dbname = $ts_mycnf['user'] . "__" . $this->db_suffix;
             $this->user = 'root';
             $this->password = 'root11';
         } else {
-            $ts_pw = posix_getpwuid(posix_getuid());
-            $ts_mycnf = parse_ini_file($ts_pw['dir'] . "/confs/db.ini");
             $this->host = 'tools.db.svc.wikimedia.cloud';
             $this->dbname = $ts_mycnf['user'] . "__" . $this->db_suffix;
             $this->user = $ts_mycnf['user'];
             $this->password = $ts_mycnf['password'];
-            unset($ts_mycnf, $ts_pw);
         }
+        // unset($ts_mycnf, $ts_pw);
+        unset($ts_mycnf);
 
         try {
             $this->db = new PDO("mysql:host=$this->host;dbname=$this->dbname", $this->user, $this->password);
@@ -158,7 +169,15 @@ function get_dbname($table_name)
 {
     // Load from configuration file or define as class constant
     $table_db_mapping = [
-        'mdwiki_new' => ["missing", "missing_qids", "publish_reports", "login_attempts", "logins", "publish_reports_stats"],
+        'mdwiki_new' => [
+            "missing",
+            "missing_by_qids",
+            "publish_reports",
+            "login_attempts",
+            "logins",
+            "publish_reports_stats",
+            "all_qids_titles"
+        ],
         'mdwiki' => [] // default
     ];
 

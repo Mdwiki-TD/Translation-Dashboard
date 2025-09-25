@@ -1,6 +1,6 @@
 -- Adminer 5.0.5 MySQL 5.5.5-10.6.20-MariaDB-log dump
 -- https://mdwiki.toolforge.org/api.php?get=missing
--- https://mdwiki.toolforge.org/api.php?get=missing_qids
+-- https://mdwiki.toolforge.org/api.php?get=missing_by_qids
 
 SET NAMES utf8;
 SET time_zone = '+00:00';
