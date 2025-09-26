@@ -77,7 +77,7 @@ function print_form_start1($allow_whole_translate, $Lang_tables, $cat_input_list
     $err = '';
     //---
     if (empty($code_lang_name) and !empty($code)) {
-        $err = "<span style='font-size:13pt;color:red'><span tt=\"code_not_valid_wiki\"></span></span>";
+        $err = "<span style='font-size:13pt;color:red'><span tt='code_not_valid_wiki' tt1='$code'></span></span>";
     } else {
         if (!empty($code)) {
             $_SESSION['code'] = $code;
@@ -91,7 +91,7 @@ function print_form_start1($allow_whole_translate, $Lang_tables, $cat_input_list
     HTML;
     //---
     if ($GLOBALS['global_username'] != '') {
-        $uiu = '<input type="submit" name="doit" class="btn btn-outline-primary" value="1"/>';
+        $uiu = '<input type="submit" name="doit" class="btn btn-outline-primary" tt_value="do_it"/>';
     }
     //---
     $cat_input = make_drop($cat_input_list, $cat_ch);

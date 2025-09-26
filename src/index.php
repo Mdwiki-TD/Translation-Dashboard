@@ -45,7 +45,7 @@ $img_src = '//upload.wikimedia.org/wikipedia/commons/thumb/5/58/Wiki_Project_Med
 $form_start1  = print_form_start1($allow_whole_translate, MainTables::$x_Langs_table, TablesSql::$s_catinput_list, TablesSql::$s_campaign_input_list, $cat_ch, $camp_ch, $code_lang_name, $code, $tra_type);
 //---
 $intro = <<<HTML
-    This tool looks for Wikidata items that have a page on mdwiki.org but not in another wikipedia language <a href='?cat=RTT&depth=1&code=ceb&doit=Do+it'>(Example)</a>. <a href='//mdwiki.org/wiki/WikiProjectMed:Translation_task_force'><b>How to use.</b></a>
+    <span tt="introduce"></span> <a href='?cat=RTT&depth=1&code=ceb&doit=Do+it'>(<span tt="example"></span>)</a>. <a href='//mdwiki.org/wiki/WikiProjectMed:Translation_task_force'><b><span tt="how_to_use"></span></b></a>
 HTML;
 //---
 echo <<<HTML
