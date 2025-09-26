@@ -73,7 +73,7 @@ function Results_tables($code, $camp, $cat, $tra_type, $code_lang_name, $test)
     $table = make_results_table($missing, $code, $cat, $camp, $tra_type, $translation_button, $full_tr_user);
     //---
     $title_x = <<<HTML
-            <span class='only_on_mobile'><b>Click the article name to translate</b></span>
+            <!-- <span class='only_on_mobile'><b>Click the article name to translate</b></span> -->
             $ix
         HTML;
     //---
@@ -92,7 +92,7 @@ function Results_tables($code, $camp, $cat, $tra_type, $code_lang_name, $test)
     //---
     $len_exists = count($exists);
     //---
-    if ($len_exists > 1 && $user_in_coord) {
+    if ($len_exists > 1 && ($user_in_coord || isset($_GET['exists']))) {
         //---
         $exists_targets = get_lang_pages_by_cat($code, $cat);
         //---
