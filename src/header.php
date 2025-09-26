@@ -10,9 +10,10 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 //---
 ini_set('session.use_strict_mode', '1');
 //---
-include_once __DIR__ . '/userinfos_wrap.php';
+include_once __DIR__ . '/backend/userinfos_wrap.php';
 //---
-include_once __DIR__ . '/include_first/include.php';
+include_once __DIR__ . '/frontend/include.php';
+include_once __DIR__ . '/backend/include_first/include.php';
 //---
 include_once __DIR__ . '/head.php';
 //---
