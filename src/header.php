@@ -50,8 +50,9 @@ if (isset($GLOBALS['global_username']) && $GLOBALS['global_username'] != '') {
 	$u_name = $GLOBALS['global_username'];
 	$li_user = <<<HTML
 	<li class="nav-item col-6 col-lg-auto">
-			<a href="leaderboard.php?get=users&user=$u_name" class="nav-link py-2 px-0 px-lg-2">
-				<i class="fas fa-user fa-sm fa-fw mr-2"></i> <span class="navtitles">$u_name</span>
+			<a href="leaderboard.php?get=users&user=$u_name" class="nav-link py-2 px-0 px-lg-2" title="$u_name">
+				<i class="fas fa-user fa-sm fa-fw mr-2"></i>
+				<!-- <span class="navtitles">$u_name</span> -->
 			</a>
 		</li>
 		<li class="nav-item col-6 col-lg-auto">
@@ -117,7 +118,7 @@ function is_active($url)
 						<li class="nav-item col-6 col-lg-auto">
 							<a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/MrIbrahem/Translation-Dashboard" target="_blank">
 								<span class="navtitles">
-									<i class="bi bi-github me-1"></i> <span tt="github"></span>
+									<i class="bi bi-github me-1"></i> Github
 								</span>
 							</a>
 						</li>
@@ -162,7 +163,7 @@ function is_active($url)
 
 	<?php
 
-	$aal = banner_alert("<span tt=\"tool_down_message\"></span>");
+	// $aal = banner_alert("<span tt=\"tool_down_message\"></span>");
 	// ---
 	?>
 	<main id="body">
