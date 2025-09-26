@@ -58,8 +58,7 @@ $user_valid = (!empty($useree)) ? true : false;
 if (!empty($title_o) && !empty($coden) && $user_valid) {
     // ---
     $users_no_inprocess = get_td_or_sql_users_no_inprocess();
-    $users_no_inprocess = array_column($users_no_inprocess, 'user');
-    // var_export($users_no_inprocess);
+    $users_no_inprocess = array_column($users_no_inprocess, 'active', 'user');
     // ---
     $title_o = trim($title_o);
     $coden   = trim($coden);
@@ -79,7 +78,9 @@ if (!empty($title_o) && !empty($coden) && $user_valid) {
     $title_o = rawurldecode($title_o);
     // ---
     // if not user in $users_no_inprocess
-    if (!in_array($useree, $users_no_inprocess)) {
+    // if (!in_array($useree, $users_no_inprocess)) {
+    // ---
+    if (($users_no_inprocess[$useree] ?? 0) != 1) {
         // ---
         // insertPage($title_o, $word, $tr_type, $cat, $coden, $user_decoded);
         // ---

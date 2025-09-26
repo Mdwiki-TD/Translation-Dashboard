@@ -20,10 +20,10 @@ include_once __DIR__ . '/head.php';
 use function TD\Render\Html\banner_alert;
 use function SQLorAPI\Funcs\get_coordinator;
 //---
-$coordinators = array_column(get_coordinator(), 'user');
+$coordinators = array_column(get_coordinator(), 'active', 'user');
 
 $user_in_coord = false;
-if (in_array($GLOBALS['global_username'], $coordinators)) {
+if (($coordinators[$GLOBALS['global_username']] ?? 0) == 1) {
 	$user_in_coord = true;
 };
 $GLOBALS['user_in_coord'] = $user_in_coord;
