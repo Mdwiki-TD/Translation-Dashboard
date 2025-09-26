@@ -77,7 +77,7 @@ function print_form_start1($allow_whole_translate, $Lang_tables, $cat_input_list
     $err = '';
     //---
     if (empty($code_lang_name) and !empty($code)) {
-        $err = "<span style='font-size:13pt;color:red'>code ($code) not valid wiki.</span>";
+        $err = "<span style='font-size:13pt;color:red'><span tt=\"code_not_valid_wiki\"></span></span>";
     } else {
         if (!empty($code)) {
             $_SESSION['code'] = $code;
@@ -86,12 +86,12 @@ function print_form_start1($allow_whole_translate, $Lang_tables, $cat_input_list
     //---
     $uiu = <<<HTML
             <a role="button" class="btn btn-outline-primary" onclick="login()">
-            <i class="fas fa-sign-in-alt fa-sm fa-fw mr-1"></i><span class="navtitles">Login</span>
+            <i class="fas fa-sign-in-alt fa-sm fa-fw mr-1"></i><span class="navtitles"><span tt="login"></span></span>
             </a>
     HTML;
     //---
     if ($GLOBALS['global_username'] != '') {
-        $uiu = '<input type="submit" name="doit" class="btn btn-outline-primary" value="Do it"/>';
+        $uiu = '<input type="submit" name="doit" class="btn btn-outline-primary" value="1"/>';
     }
     //---
     $cat_input = make_drop($cat_input_list, $cat_ch);
@@ -112,11 +112,11 @@ function print_form_start1($allow_whole_translate, $Lang_tables, $cat_input_list
     $ttype = <<<HTML
         <div class='form-check form-check-inline'>
             <input type='radio' class='form-check-input' id='customRadio' name='type' value='lead' $lead_checked>
-            <label class='form-check-label' for='customRadio'>The lead only</label>
+            <label class='form-check-label' for='customRadio'><span tt="the_lead_only"></span></label>
         </div>
         <div class='form-check form-check-inline'>
             <input type='radio' class='form-check-input' id='customRadio2' name='type' value='all' $all_checked>
-            <label class='form-check-label' for='customRadio2'>The whole article</label>
+            <label class='form-check-label' for='customRadio2'><span tt="the_whole_article"></span></label>
         </div>
     HTML;
     //---
@@ -141,14 +141,14 @@ function print_form_start1($allow_whole_translate, $Lang_tables, $cat_input_list
         </div>
     HTML;
     //---
-    $in_cat = sprintf($d22, 'cat', 'Category', $cat_input);
-    $in_camp = sprintf($d22, 'camp', 'Campaign', $camp_input);
+    $in_cat = sprintf($d22, 'cat', '<span tt="category"></span>', $cat_input);
+    $in_camp = sprintf($d22, 'camp', '<span tt="campaign"></span>', $camp_input);
     //---
-    $in_lng = sprintf($d22, 'code', 'Language', "<div>$langse $err</div>");
+    $in_lng = sprintf($d22, 'code', '<span tt="language"></span>', "<div>$langse $err</div>");
     //---
     $in_typ = '';
     if ($allow_whole_translate == '1') {
-        $in_typ = sprintf($d22, 'type', 'Type', "<div class='form-control'>$ttype</div>");
+        $in_typ = sprintf($d22, 'type', '<span tt="translation_type"></span>', "<div class='form-control'>$ttype</div>");
     } else {
         $in_typ = '<input type="hidden" name="type" value="lead" />';
     };

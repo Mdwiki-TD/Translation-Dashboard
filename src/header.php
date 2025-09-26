@@ -35,13 +35,13 @@ $coord_tools = "";
 //---
 // if (in_array($GLOBALS['global_username'], $coordinators)) {
 if ($GLOBALS['user_in_coord'] === true) {
-	$coord_tools = '<a href="/tdc/index.php" class="nav-link py-2 px-0 px-lg-2"><span class="navtitles"></span> <i class="bi bi-tools me-1"></i> Coordinator Tools</a>';
+	$coord_tools = '<a href="/tdc/index.php" class="nav-link py-2 px-0 px-lg-2"><span class="navtitles"></span> <i class="bi bi-tools me-1"></i> <span tt="coordinator_tools"></span></a>';
 };
 //---
 $li_user = <<<HTML
 	<li class="nav-item col-6 col-lg-auto">
 		<a role="button" class="nav-link py-2 px-0 px-lg-2" onclick="login()">
-			<i class="fas fa-sign-in-alt fa-sm fa-fw mr-2"></i> <span class="navtitles">Login</span>
+			<i class="fas fa-sign-in-alt fa-sm fa-fw mr-2"></i> <span class="navtitles"><span tt="login"></span></span>
 		</a>
 	</li>
 HTML;
@@ -56,7 +56,7 @@ if (isset($GLOBALS['global_username']) && $GLOBALS['global_username'] != '') {
 		</li>
 		<li class="nav-item col-6 col-lg-auto">
 			<a class="nav-link py-2 px-0 px-lg-2" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">
-				<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2"></i> <span class="d-lg-none navtitles">Logout</span>
+				<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2"></i> <span class="d-lg-none navtitles"><span tt="logout"></span></span>
 			</a>
 		</li>
 	HTML;
@@ -93,20 +93,20 @@ function is_active($url)
 					<ul class="navbar-nav flex-row flex-wrap bd-navbar-nav">
 						<li class="nav-item col-6 col-lg-auto <?php echo is_active('leaderboard.php'); ?>" id="leaderboard">
 							<a class="nav-link py-2 px-0 px-lg-2" href="leaderboard.php">
-								<span class="navtitles"> <i class="bi bi-bar-chart-line me-1"></i> Leaderboard</span>
+								<span class="navtitles"> <i class="bi bi-bar-chart-line me-1"></i> <span tt="leaderboard"></span></span>
 							</a>
 						</li>
 						<li class="nav-item col-6 col-lg-auto" id="Prior">
 							<a class="nav-link py-2 px-0 px-lg-2" target="_blank" href="/prior">
 								<span class="navtitles">
-									<i class="bi bi-bar-chart me-1"></i> Prior
+									<i class="bi bi-bar-chart me-1"></i> <span tt="prior"></span>
 								</span>
 							</a>
 						</li>
 						<li class="nav-item col-6 col-lg-auto <?php echo is_active('missing.php'); ?>" id="missing">
 							<a class="nav-link py-2 px-0 px-lg-2" href="missing.php">
 								<span class="navtitles">
-									<i class="bi bi-card-list me-1"></i> Missing
+									<i class="bi bi-card-list me-1"></i> <span tt="missing"></span>
 								</span>
 							</a>
 						</li>
@@ -117,7 +117,7 @@ function is_active($url)
 						<li class="nav-item col-6 col-lg-auto">
 							<a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/MrIbrahem/Translation-Dashboard" target="_blank">
 								<span class="navtitles">
-									<i class="bi bi-github me-1"></i> Github
+									<i class="bi bi-github me-1"></i> <span tt="github"></span>
 								</span>
 							</a>
 						</li>
@@ -142,13 +142,13 @@ function is_active($url)
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h6 class="modal-title" id="exampleModalLabel">Ready to Leave?</h6>
+						<h6 class="modal-title" id="exampleModalLabel"><span tt="ready_to_leave"></span></h6>
 						<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 					</div>
-					<div class="modal-body">Select &quot;Logout&quot; below if you are ready to end your current session.</div>
+					<div class="modal-body"><span tt="select_logout_below"></span></div>
 					<div class="modal-footer">
-						<button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
-						<a class="btn btn-outline-primary" href="/auth/index.php?a=logout">Logout</a>
+						<button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><span tt="cancel"></span></button>
+						<a class="btn btn-outline-primary" href="/auth/index.php?a=logout"><span tt="logout"></span></a>
 					</div>
 				</div>
 			</div>
@@ -157,7 +157,7 @@ function is_active($url)
 
 	<?php
 
-	$aal = banner_alert("Tool is down due to cultural and technical reasons since Aug 3 2024. Work is ongoing to get it functional again");
+	$aal = banner_alert("<span tt=\"tool_down_message\"></span>");
 	// ---
 	?>
 	<main id="body">
