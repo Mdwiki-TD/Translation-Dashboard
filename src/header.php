@@ -125,6 +125,11 @@ function is_active($url)
 							<span class="nav-link py-2 px-0 px-lg-2" id="load_time"></span>
 						</li>
 					</ul>
+					<ul class="navbar-nav flex-row flex-wrap bd-navbar-nav me-ms-auto">
+						<li class="nav-item col-6 col-lg-auto">
+							<span class="nav-link_disabled" id='interface_language_wrapper'></span>
+						</li>
+					</ul>
 					<hr class="d-lg-none text-dark-subtle text-50">
 					<ul class="navbar-nav flex-row flex-wrap bd-navbar-nav ms-lg-auto">
 						<?php echo $li_user; ?>
