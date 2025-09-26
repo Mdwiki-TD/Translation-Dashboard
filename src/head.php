@@ -92,6 +92,7 @@ $scripts = [
     "/td/plugins/chart.js/Chart.min.js",
     "/Translation_Dashboard/js/g.js",
     "/Translation_Dashboard/js/theme.js",
+    "/Translation_Dashboard/js/tt.js",
 ];
 
 $scripts_module = [
