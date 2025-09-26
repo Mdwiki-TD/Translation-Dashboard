@@ -62,7 +62,7 @@ function print_form_start1($allow_whole_translate, $Lang_tables, $cat_input_list
             class="selectpicker"
             id='code'
             name='code'
-            placeholder='two letter code'
+            tt_placeholder='two_letter_code'
             data-live-search="true"
             data-container="body"
             data-live-search-style="begins"
