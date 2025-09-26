@@ -12,7 +12,6 @@ use Tables\SqlTables\TablesSql;
 use function Tables\SqlTables\load_translate_type;
 use function Tables\SqlTables\make_views_by_lang_target;
 
-include_once __DIR__ . '/Tables/sql_tables.php'; // Tables::$s_cat_titles Tables::$s_cat_to_camp Tables::$s_camp_to_cat
 */
 //---
 use function SQLorAPI\GetDataTab\get_td_or_sql_translate_type;

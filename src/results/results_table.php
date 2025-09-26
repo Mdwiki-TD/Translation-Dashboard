@@ -11,9 +11,6 @@ use function Results\ResultsTable\make_one_row;
 use function Results\ResultsTable\make_results_table;
 
 */
-
-// include_once __DIR__ . '/../Tables/include.php';
-
 use Tables\Main\MainTables;
 
 use function Tables\SqlTables\load_translate_type;
