@@ -4,7 +4,6 @@ namespace TranslateMed\Inserter;
 
 /*
 Usage:
-include_once __DIR__ . '/db_insert.php';
 
 use function TranslateMed\Inserter\insertPage;
 use function TranslateMed\Inserter\insertPage_inprocess;
