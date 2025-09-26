@@ -21,10 +21,6 @@ $coden = strtolower(filter_input(INPUT_GET, 'code', FILTER_SANITIZE_FULL_SPECIAL
 $title_o = filter_input(INPUT_GET, 'title', FILTER_SANITIZE_SPECIAL_CHARS) ?? '';
 $useree = !empty($GLOBALS['global_username']) ? $GLOBALS['global_username'] : '';
 
-$users_no_inprocess = get_td_or_sql_users_no_inprocess();
-$users_no_inprocess = array_column($users_no_inprocess, 'user');
-// var_export($users_no_inprocess);
-
 function go_to_translate_url($title_o, $coden, $tr_type, $cat, $camp)
 {
     // ---
@@ -60,6 +56,11 @@ if (empty($useree)) {
 $user_valid = (!empty($useree)) ? true : false;
 
 if (!empty($title_o) && !empty($coden) && $user_valid) {
+    // ---
+    $users_no_inprocess = get_td_or_sql_users_no_inprocess();
+    $users_no_inprocess = array_column($users_no_inprocess, 'user');
+    // var_export($users_no_inprocess);
+    // ---
     $title_o = trim($title_o);
     $coden   = trim($coden);
     $useree  = trim($useree);
