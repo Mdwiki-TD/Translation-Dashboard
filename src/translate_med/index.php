@@ -6,10 +6,10 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     error_reporting(E_ALL);
 }
 //---
-include_once __DIR__ . '/../userinfos_wrap.php';
+include_once __DIR__ . '/../backend/userinfos_wrap.php';
 include_once __DIR__ . '/../include_all.php';
 // ---
-include_once __DIR__ . '/db_insert.php';
+include_once __DIR__ . '/../backend/others/db_insert.php';
 // ---
 use function TD\Render\Html\login_card;
 use function Results\TrLink\make_translate_link_medwiki;
