@@ -50,8 +50,13 @@ function make_key($Taab)
     return $kry;
 }
 
-function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'users', $tab_ty, $user_is_global_username)
+function make_td_fo_user($tabb, $number, $view_number, $word, $page_type, $tab_ty, $user_is_global_username)
 {
+    //---
+    // $page_type = 'users' or 'langs' only
+    if ($page_type != 'users' && $page_type != 'langs') {
+        $page_type = 'users';
+    };
     //---
     $catto_camp_new = TablesSql::$s_cat_to_camp;
     $articlesto_camps = get_articles_to_camps();
@@ -244,7 +249,7 @@ function make_table_lead($dd, $tab_type, $views_table, $page_type, $user_is_glob
         //---
         $total_words += $word;
         //---
-        $table2 .= make_td_fo_user($tabe, $noo, $view_number, $word, $page_type = $page_type, $tab_type, $user_is_global_username);
+        $table2 .= make_td_fo_user($tabe, $noo, $view_number, $word, $page_type, $tab_type, $user_is_global_username);
     };
     //---
     $table2 .= <<<HTML
