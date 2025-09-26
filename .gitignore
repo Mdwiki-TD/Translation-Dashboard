@@ -51,3 +51,6 @@ composer.lock
 phpunit.xml.dist
 phpunit.xml.z
 run.sh
+/src/.claude
+src/Plan.md
+tt.md

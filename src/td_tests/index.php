@@ -19,10 +19,9 @@ echo <<<HTML
 $files = glob(__DIR__ . '/*.php');
 //---
 foreach ($files as $file) {
-    if (strpos($file, 'index.php') === false) {
-        $name = basename($file);
-        echo "<a href='$name'>" . $name . "</a><br>";
-    }
+    $name = basename($file);
+    if ($name === "index.php") continue;
+    echo "<a href='$name'>" . $name . "</a><br>";
 }
 //---
 echo <<<HTML

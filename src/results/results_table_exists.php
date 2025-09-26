@@ -9,8 +9,6 @@ use function Results\ResultsTableExists\make_results_table_exists;
 
 */
 
-// include_once __DIR__ . '/../Tables/include.php';
-
 use Tables\Main\MainTables;
 
 use function SQLorAPI\GetDataTab\get_td_or_sql_qids;

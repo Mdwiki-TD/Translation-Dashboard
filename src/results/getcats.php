@@ -7,7 +7,6 @@ use function Results\GetCats\get_category_from_cache;
 use function Results\GetCats\get_mdwiki_cat_members;
 */
 
-include_once __DIR__ . '/include.php';
 
 use function TD\Render\TestPrint\test_print;
 use function Results\CatsAPI\fetch_category_members;

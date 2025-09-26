@@ -63,10 +63,10 @@ function get_results($cat, $camp, $depth, $code): array
 
     // Prepare category URL
     $cat2 = "Category:" . str_replace('Category:', '', $cat);
-    $caturl = "<a href='https://mdwiki.org/wiki/$cat2'>category</a>";
+    $caturl = "<a href='https://mdwiki.org/wiki/$cat2' target='_blank'>category</a>";
 
     // Generate summary message
-    $ix = "Found $len_of_all pages in $caturl, $len_of_exists_pages exists, and $len_of_missing_pages missing in (<a href='https://$code.wikipedia.org'>$code</a>), $len_inprocess In process.";
+    $ix = "Found $len_of_all pages in $caturl, $len_of_exists_pages exists, and $len_of_missing_pages missing in (<a href='https://$code.wikipedia.org' target='_blank'>$code</a>), $len_inprocess In process.";
 
     // Remove in-process items from missing list
     if ($len_inprocess > 0) {
