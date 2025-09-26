@@ -67,8 +67,11 @@ function Results_tables($code, $camp, $cat, $tra_type, $code_lang_name, $test)
     //---
     if (!empty($test)) $res_line .= 'test:';
     //---
-    $full_translators = get_td_or_sql_full_translators('user');
-    $full_tr_user = in_array($GLOBALS['global_username'], $full_translators);
+    $full_translators = get_td_or_sql_full_translators();
+    $full_translators = array_column($full_translators, 'active', 'user');
+    //---
+    // $full_tr_user = in_array($GLOBALS['global_username'], $full_translators);
+    $full_tr_user = ($full_translators[$GLOBALS['global_username']] ?? 0) == 1;
     //---
     $table = make_results_table($missing, $code, $cat, $camp, $tra_type, $translation_button, $full_tr_user);
     //---

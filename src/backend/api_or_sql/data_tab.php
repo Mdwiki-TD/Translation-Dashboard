@@ -186,7 +186,7 @@ function get_td_or_sql_users_no_inprocess()
     if (!empty($users)) return $users;
     // ---
     $api_params = ['get' => 'users_no_inprocess'];
-    $query = "SELECT * FROM users_no_inprocess order by id";
+    $query = "SELECT id, user, active FROM users_no_inprocess order by id";
     $users = super_function($api_params, [], $query);
     // ---
     return $users;
@@ -200,7 +200,7 @@ function get_td_or_sql_full_translators($column = null)
     if (!empty($full_tr)) return $full_tr;
     // ---
     $api_params = ['get' => 'full_translators'];
-    $query = "SELECT * FROM full_translators";
+    $query = "SELECT id, user, active FROM full_translators";
     $full_tr = super_function($api_params, [], $query);
     // ---
     if ($column) {
