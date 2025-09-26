@@ -22,14 +22,16 @@ $get = filter_input(INPUT_GET, 'get', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
 $langcode = filter_input(INPUT_GET, 'langcode', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
 $mainlang = filter_input(INPUT_GET, 'lang', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'All';
 
-$mainuser = filter_input(INPUT_GET, 'user', FILTER_SANITIZE_SPECIAL_CHARS) ?? '';
+$user_to_html = filter_input(INPUT_GET, 'user', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
+$user_to_curl = filter_input(INPUT_GET, 'user', FILTER_UNSAFE_RAW) ?? '';
+
 $year_y   = filter_input(INPUT_GET, 'year', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'All';
 $camp     = filter_input(INPUT_GET, 'camp', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'All';
 
 //---
-if ($get == 'users' || !empty($mainuser)) {
+if ($get == 'users' || !empty($user_to_curl)) {
     // ---
-    echo users_html($mainlang, $mainuser, $year_y, $camp);
+    echo users_html($mainlang, $year_y, $camp, $user_to_curl, $user_to_html);
     // ---
 } elseif ($get == 'langs' || !empty($langcode)) {
     // ---

@@ -50,7 +50,7 @@ function make_key($Taab)
     return $kry;
 }
 
-function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'users', $tab_ty = 'a', $_user_ = '')
+function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'users', $tab_ty, $user_is_global_username)
 {
     //---
     $catto_camp_new = TablesSql::$s_cat_to_camp;
@@ -128,7 +128,7 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
         //---
         // $tralink = make_translation_url($mdtitle, $lang, $tran_type);
         $tralink = make_translate_link_medwiki($mdtitle, $lang, $cat, "", $tran_type);
-        $complete   = ($GLOBALS['global_username'] === $_user_) ? "<td data-content='complete'><a target='_blank' href='$tralink'>complete</a></td>" : '';
+        $complete   = ($user_is_global_username) ? "<td data-content='complete'><a target='_blank' href='$tralink'>complete</a></td>" : '';
     } else {
         $target  = trim($tabb['target']);
         //---
@@ -177,7 +177,7 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type = 'user
     //---
 };
 
-function make_table_lead($dd, $tab_type, $views_table, $page_type, $user, $lang)
+function make_table_lead($dd, $tab_type, $views_table, $page_type, $user_is_global_username)
 {
     $total_words = 0;
     $total_views = 0;
@@ -191,7 +191,7 @@ function make_table_lead($dd, $tab_type, $views_table, $page_type, $user, $lang)
     //---
     $tab_views  = ($tab_type == 'pending') ? '' : '<th>Views</th>';
     $th_Date    = ($tab_type == 'pending') ? 'Start date' : 'Date';
-    $complete   = ($tab_type == 'pending' && $GLOBALS['global_username'] === $user) ? '<th>complete!</th>' : '';
+    $complete   = ($tab_type == 'pending' && $user_is_global_username) ? '<th>complete!</th>' : '';
     //---
     $leadtable = ($tab_type == 'pending') ? 'leadtable2' : 'leadtable';
     //---
@@ -244,7 +244,7 @@ function make_table_lead($dd, $tab_type, $views_table, $page_type, $user, $lang)
         //---
         $total_words += $word;
         //---
-        $table2 .= make_td_fo_user($tabe, $noo, $view_number, $word, $page_type = $page_type, $tab_ty = $tab_type, $_user_ = $user);
+        $table2 .= make_td_fo_user($tabe, $noo, $view_number, $word, $page_type = $page_type, $tab_type, $user_is_global_username);
     };
     //---
     $table2 .= <<<HTML
@@ -259,15 +259,15 @@ function make_table_lead($dd, $tab_type, $views_table, $page_type, $user, $lang)
     return [$table1, $table2];
 }
 
-function make_users_lead($tab, $tab_type, $views_table, $user)
+function make_users_lead($tab, $tab_type, $views_table, $user_is_global_username)
 {
+    //---
     [$_, $table_pnd] = make_table_lead(
         $tab,
         $tab_type,
         $views_table,
         'users',
-        $user,
-        ""
+        $user_is_global_username
     );
     // ---
     return [$_, $table_pnd];
@@ -280,8 +280,7 @@ function make_langs_lead($tab, $tab_type, $views_table, $lang)
         $tab_type,
         $views_table,
         'langs',
-        "",
-        $lang
+        false
     );
     // ---
     return [$_, $table_pnd];

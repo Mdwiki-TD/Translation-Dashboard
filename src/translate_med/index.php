@@ -18,7 +18,7 @@ use function TranslateMed\Inserter\insertPage_inprocess;
 use function SQLorAPI\GetDataTab\get_td_or_sql_users_no_inprocess;
 
 $coden = strtolower(filter_input(INPUT_GET, 'code', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '');
-$title_o = filter_input(INPUT_GET, 'title', FILTER_SANITIZE_SPECIAL_CHARS) ?? '';
+$title_o = filter_input(INPUT_GET, 'title', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
 $useree = !empty($GLOBALS['global_username']) ? $GLOBALS['global_username'] : '';
 
 function go_to_translate_url($title_o, $coden, $tr_type, $cat, $camp)

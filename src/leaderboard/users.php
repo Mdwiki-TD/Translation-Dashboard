@@ -17,18 +17,19 @@ use function Leaderboard\SubGraph\graph_data_new;
 use function Leaderboard\Subs\FilterForm\lead_row;
 use function SQLorAPI\TopData\get_td_or_sql_top_lang_of_users;
 
-function users_html($mainlang, $mainuser, $year_y, $camp)
+// users_html($mainlang, $mainuser, $year_y, $camp)
+function users_html($mainlang, $year_y, $camp, $user_to_curl, $user_to_html)
 {
     $output = '';
     //---
     $mainlang = rawurldecode(str_replace('_', ' ', $mainlang));
     //---
     // '[{"user":"Mr. Ibrahem","lang":"ar","cnt":14}]'
-    $user_langs = get_td_or_sql_top_lang_of_users([$mainuser]);
+    $user_most_langs = get_td_or_sql_top_lang_of_users([$user_to_curl]);
     //---
-    $user_most_lang = $user_langs[0]['lang'] ?? "";
+    $user_langs = $user_most_langs[0]['lang'] ?? "";
     //---
-    $u_tables = get_users_tables($mainuser, $year_y, $mainlang);
+    $u_tables = get_users_tables($user_to_curl, $year_y, $mainlang);
     //---
     $dd = $u_tables['dd'];
     $dd_Pending = $u_tables['dd_Pending'];
@@ -36,17 +37,17 @@ function users_html($mainlang, $mainuser, $year_y, $camp)
     //---
     $count_new = count($dd);
     //---
-    [$table1, $main_table] = make_users_lead($dd, 'translations', $table_of_views, $mainuser);
+    $user_is_global_username = ($GLOBALS['global_username'] === $user_to_curl) ? true : false;
     //---
-    $user_link = ($user_most_lang) ? make_target_url("User:$mainuser", $user_most_lang, $mainuser) : make_mdwiki_user_url($mainuser);
+    [$table1, $main_table] = make_users_lead($dd, 'translations', $table_of_views, $user_is_global_username);
     //---
-    $graph = graph_data_new($dd);
+    $user_link = ($user_langs) ? make_target_url("User:$user_to_curl", $user_langs, $user_to_html) : make_mdwiki_user_url($user_to_html);
     //---
-    $filter_data = ["user" => $mainuser, "lang" => $mainlang, "year" => $year_y, "camp" => $camp];
+    $filter_data = ["user" => $user_to_curl, "lang" => $mainlang, "year" => $year_y, "camp" => $camp];
     //---
     $xtools = <<<HTML
         <!-- <div class="d-flex align-items-center justify-content-between"> -->
-            <a href='https://xtools.wmflabs.org/globalcontribs/$mainuser' target='_blank'>
+            <a href='https://xtools.wmflabs.org/globalcontribs/$user_to_html' target='_blank'>
                 <!-- <span class='h4'>(XTools)</span> -->
                 <img src='https://xtools.wmcloud.org/build/images/logo.svg' title='Xtools' width='80px'/>
             </a>
@@ -61,6 +62,8 @@ function users_html($mainlang, $mainuser, $year_y, $camp)
         </span>
     HTML;
     //---
+    $graph = graph_data_new($dd);
+    //---
     $output .= lead_row($table1, $graph, $user_div, $filter_data, "user");
     //---
     $output .= <<<HTML
@@ -71,7 +74,7 @@ function users_html($mainlang, $mainuser, $year_y, $camp)
         </div>
     HTML;
     //---
-    [$_, $table_pnd] = make_users_lead($dd_Pending, 'pending', $table_of_views, $mainuser);
+    [$_, $table_pnd] = make_users_lead($dd_Pending, 'pending', $table_of_views, $user_is_global_username);
     //---
     $output .= <<<HTML
         <br>
