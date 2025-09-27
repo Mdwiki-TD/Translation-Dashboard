@@ -25,7 +25,7 @@ if (isset($GLOBALS['time_start'])) {
 	const cookieAlert = document.getElementById('cookie-alert');
 	if (cookieAlert) {
 		cookieAlert.addEventListener('close.bs.alert', function() {
-			document.cookie = "cookie_alert_dismissed=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+			document.cookie = "cookie_alert_dismissed=true; max-age=31536000; path=/; Secure; SameSite=Lax";
 		});
 	}
 
