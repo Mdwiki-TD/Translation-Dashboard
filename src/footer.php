@@ -1,5 +1,24 @@
 <?php
 
+if (isset($GLOBALS['global_username']) && $GLOBALS['global_username'] != '') {
+
+	if (!isset($_COOKIE['cookie_alert_dismissed1'])) {
+		echo <<<HTML
+			<div id="cookie-alert" class="alert alert-dismissible fade show" role="alert">
+				<div class="d-flex align-items-center justify-content-center text-center fixed-bottom">
+					<div class="card border-warning m-1">
+						<div class="w-100 d-flex justify-content-end">
+							<button type="button" class="btn btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+						</div>
+						<div class="card-body me-5">
+							<p class="card-text">This website uses cookies to save your username for a better experience.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		HTML;
+	}
+}
 if (isset($GLOBALS['time_start'])) {
 	$time_start = $GLOBALS['time_start'];
 	$time_end = microtime(true);
@@ -22,6 +41,13 @@ if (isset($GLOBALS['time_start'])) {
 </main>
 <script src="/Translation_Dashboard/js/c.js"></script>
 <script>
+	const cookieAlert = document.getElementById('cookie-alert');
+	if (cookieAlert) {
+		cookieAlert.addEventListener('close.bs.alert', function() {
+			document.cookie = "cookie_alert_dismissed1=true; max-age=31536000; path=/; Secure; SameSite=Lax";
+		});
+	}
+
 	function copy_target_text(id) {
 		let textarea = document.getElementById(id);
 		textarea.select();
