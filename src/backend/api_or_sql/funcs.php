@@ -121,7 +121,7 @@ function get_pages_with_pupdate()
         return $data;
     }
     // ---
-    $api_params = ['get' => 'pages', 'distinct' => "1", 'select' => 'YEAR(pupdate) AS year', 'pupdate' => 'not_empty'];
+    $api_params = ['get' => 'pages', 'distinct' => "1", 'select' => 'year', 'pupdate' => 'not_empty'];
     // ---
     $query = "SELECT DISTINCT YEAR(pupdate) AS year FROM pages WHERE pupdate <> ''";
     // ---
@@ -292,7 +292,6 @@ function get_lang_years($mainlang)
         return $data[$mainlang];
     }
     // ---
-    // $api_params = ['get' => 'pages', 'distinct' => "1", 'select' => 'YEAR(pupdate) AS year', 'pupdate' => 'not_empty', 'lang' => $mainlang];
     $api_params = ['get' => 'user_lang_status', 'select' => 'year', 'lang' => $mainlang];
     // ---
     $query = "SELECT DISTINCT YEAR(p.pupdate) AS year FROM pages p WHERE p.lang = ?";
@@ -319,7 +318,6 @@ function get_user_years($user)
         return $data[$user];
     }
     // ---
-    // $api_params = ['get' => 'pages', 'distinct' => "1", 'select' => 'YEAR(date) AS year', 'user' => $user];
     $api_params = ['get' => 'user_status', 'select' => 'year', 'user' => $user];
     // ---
     $query = "SELECT DISTINCT YEAR(p.date) AS year FROM pages p WHERE p.user = ?";
@@ -352,7 +350,6 @@ function get_user_langs($user)
         return $data[$user];
     }
     // ---
-    // $api_params = ['get' => 'pages', 'distinct' => "1", 'select' => 'lang', 'user' => $user];
     $api_params = ['get' => 'user_status', 'select' => 'lang', 'user' => $user];
     // ---
     $query = "SELECT DISTINCT p.lang FROM pages p WHERE p.user = ?";
