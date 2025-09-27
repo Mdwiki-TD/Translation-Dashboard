@@ -37,7 +37,7 @@ function print_cat_table($year, $user_group, $camp, $cat): string
     // ---
     $lang_table = get_td_or_sql_top_langs($year, $user_group, $cat);
     // ---
-    $all_articles = number_format(array_sum(array_column($users_list, 'count')));
+    $al_articles = number_format(array_sum(array_column($users_list, 'count')));
     // ---
     // sum all $users_list[user]["words"] values
     $all_Words = number_format(array_sum(array_column($users_list, 'words')));
@@ -46,7 +46,7 @@ function print_cat_table($year, $user_group, $camp, $cat): string
     // ---
     $numbersTable = createNumbersTable(
         count($users_list),
-        $all_articles,
+        $al_articles,
         $all_Words,
         count($lang_table),
         $all_views
