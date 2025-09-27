@@ -13,6 +13,10 @@ if (!empty($GLOBALS['global_username'])) {
 						<div class="card-body me-5">
 							<p class="card-text">This website uses cookies to save your username for a better experience.</p>
 						</div>
+						<div class="card-footer text-muted">
+							<button type="button" class="btn btn-sm btn-success" onclick="acceptCookieAlert()" data-bs-dismiss="alert" aria-label="Close">Accept</button>
+							<button type="button" class="btn btn-sm btn-warning" data-bs-dismiss="alert" aria-label="Close">Dismiss</button>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -41,11 +45,8 @@ if (isset($GLOBALS['time_start'])) {
 </main>
 <script src="/Translation_Dashboard/js/c.js"></script>
 <script>
-	const cookieAlert = document.getElementById('cookie-alert');
-	if (cookieAlert) {
-		cookieAlert.addEventListener('close.bs.alert', function() {
-			document.cookie = "cookie_alert_dismissed1=true; max-age=31536000; path=/; Secure; SameSite=Lax";
-		});
+	function acceptCookieAlert() {
+		document.cookie = "cookie_alert_dismissed1=true; max-age=31536000; path=/; Secure; SameSite=Lax";
 	}
 
 	function copy_target_text(id) {
