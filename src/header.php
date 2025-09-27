@@ -163,6 +163,15 @@ function is_active($url)
 	<main id="body">
 		<!-- <div id="maindiv" class="container-fluid"> -->
 		<div id="maindiv" class="container-fluid">
-
+			<?php
+			if (isset($GLOBALS['global_username']) && $GLOBALS['global_username'] != '' && !isset($_COOKIE['cookie_alert_dismissed'])) {
+				echo <<<HTML
+				<div id="cookie-alert" class="alert alert-info alert-dismissible fade show" role="alert">
+					This website uses cookies to save your username for a better experience.
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+				HTML;
+			}
+			?>
 			<!-- <br> -->
 			<!-- <hr/> -->
