@@ -140,6 +140,15 @@ function make_one_row_new($title, $tra_type, $cnt, $langcode, $cat, $camp, $inpr
     // ---
 }
 
+function normalizeItems(array $items): array
+{
+    // Check if the array is associative (keys are not 0..n-1)
+    if (array_keys($items) !== range(0, count($items) - 1)) {
+        return array_keys($items); // Return only the keys
+    }
+    // If it's an indexed array, return it as is
+    return $items;
+}
 function make_results_table($items, $langcode, $cat, $camp, $tra_type, $tra_btn, $full_tr_user, $global_username, $inprocess = false)
 {
     //---
@@ -155,7 +164,9 @@ function make_results_table($items, $langcode, $cat, $camp, $tra_type, $tra_btn,
     //---
     if ($inprocess) {
         $inprocess_first = '<th>user</th><th>date</th>';
-        $items = array_keys($items);
+        // ---
+        $items = normalizeItems($items);
+        // ---
         // if ($tra_btn != '1') $Translate_th = '<th></th>';
     };
     //---
