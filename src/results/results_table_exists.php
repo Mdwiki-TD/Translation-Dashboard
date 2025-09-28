@@ -55,7 +55,7 @@ function one_item_props($title, $target)
     return $tab;
 }
 
-function make_one_row_new($title, $cnt, $langcode, $cat, $camp, $tra_btn, $full_tr_user, $props, $global_username)
+function make_one_row_new($title, $cnt, $langcode, $cat, $camp, $props, $global_username)
 {
     //---
     $words = $props['word'];
@@ -81,8 +81,6 @@ function make_one_row_new($title, $cnt, $langcode, $cat, $camp, $tra_btn, $full_
         // ---
         $target_tab2 = make_wikipedia_url_blank($target_before, $langcode);
     }
-    //---
-    // [$tab, $translate_url, $full_translate_url] = make_translate_urls($title, $tra_type, $props['word'], $langcode, $cat, $camp, "", $tra_btn, "", $full_tr_user, $global_username);
     //---
     $translate_url = make_ContentTranslation_url($title, $langcode, $cat, $camp, 'lead');
     //---
@@ -168,7 +166,7 @@ function make_results_table_exists($items, $langcode, $cat, $camp, $tra_btn, $fu
         $props = one_item_props($title, $target);
         $props["target_before"] = $target_before;
         //---
-        $row = make_one_row_new($title, $cnt, $langcode, $cat, $camp, $tra_btn, $full_tr_user, $props, $global_username);
+        $row = make_one_row_new($title, $cnt, $langcode, $cat, $camp, $props, $global_username);
         //---
         $list .= $row;
         //---

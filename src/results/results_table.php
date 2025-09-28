@@ -104,15 +104,31 @@ function make_one_row_new($title, $tra_type, $cnt, $langcode, $cat, $camp, $inpr
     // $qid_url = (!empty($qid)) ? "<a class='inline' target='_blank' href='https://wikidata.org/wiki/$qid'>$qid</a>" : '&nbsp;';
     $qid_url = make_wikidata_url_blank($qid);
     //---
-    [$tab, $translate_url, $full_translate_url] = make_translate_urls($title, $tra_type, $props['word'], $langcode, $cat, $camp, $inprocess, $tra_btn, $_user_, $full_tr_user, $global_username);
+    $_user_no_as_global_username = $_user_ != $global_username;
+    //---
+    // $mdwiki_url = "//mdwiki.org/wiki/" . str_replace('+', '_', rawurlEncode($title));
+    $mdwiki_url = make_mdwiki_href($title);
+    //---
+    $tab = "";
+    //---
+    $translate_url = $mdwiki_url;
+    $full_translate_url = $mdwiki_url;
+    //---
+    if ($global_username == '') {
+        //---
+        $tab = <<<HTML
+            <a role='button' class='btn btn-outline-primary' onclick='login()'>
+                <i class='fas fa-sign-in-alt fa-sm fa-fw mr-1'></i><span class='navtitles'>Login</span>
+            </a>
+            HTML;
+    } else {
+        [$tab, $translate_url, $full_translate_url] = make_translate_urls($title, $tra_type, $props['word'], $langcode, $cat, $camp, $inprocess, $tra_btn, $_user_, $full_tr_user, $_user_no_as_global_username);
+    }
     //---
     // if $_date_ has : then split before first space
     if (strpos($_date_, ':') !== false) {
         $_date_ = explode(' ', $_date_)[0];
     };
-    //---
-    // $mdwiki_url = "//mdwiki.org/wiki/" . str_replace('+', '_', rawurlEncode($title));
-    $mdwiki_url = make_mdwiki_href($title);
     //---
     $tds = [
         "translate_url" => $translate_url,
@@ -149,6 +165,7 @@ function normalizeItems(array $items): array
     // If it's an indexed array, return it as is
     return $items;
 }
+
 function make_results_table($items, $langcode, $cat, $camp, $tra_type, $tra_btn, $full_tr_user, $global_username, $inprocess = false)
 {
     //---

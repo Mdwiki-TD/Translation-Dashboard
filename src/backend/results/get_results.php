@@ -58,45 +58,9 @@ function getinprocess($missing, $code)
     return $titles;
 }
 
-$test_result = [
-    "inprocess" => [
-        "Perforated eardrum",
-        "Otitis media",
-        "Occupational hearing loss",
-        "Nystagmus",
-        "Earwax",
-        "Ear foreign body",
-        "Eustachian tube dysfunction"
-    ],
-    "exists" => [
-        "Otitis externa",
-        "Perichondritis of the ear",
-        "Ménière's disease",
-        "Vertigo",
-        "Earwax",
-        "Ear foreign body",
-        "Eustachian tube dysfunction",
-        "Labyrinthitis"
-    ],
-    "missing" => [
-        "Hearing loss",
-        "Tinnitus",
-        "Universal neonatal hearing screening",
-        "Vestibular schwannoma",
-        "Cochlear implant"
-    ],
-    "ix" => ""
-];
-
 function get_results($cat, $camp, $depth, $code): array
 {
     // Get existing and missing pages
-    // ---
-    global $test_result;
-    // ---
-    if ($camp == 'test') {
-        return $test_result;
-    }
     // ---
     $items = get_cat_exists_and_missing($cat, $depth, $code, true) ?: [];
     // ---

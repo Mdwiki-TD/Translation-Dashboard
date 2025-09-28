@@ -6,15 +6,16 @@ namespace Results\ResultsIndex;
 Usage:
 
 use function Results\ResultsIndex\Results_tables;
+use function Results\ResultsIndex\results_loader;
 
 */
 
 //---
 use Tables\SqlTables\TablesSql;
 use function Results\GetResults\get_results;
+use function SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
 use function Results\ResultsTable\make_results_table;
 use function Results\ResultsTableExists\make_results_table_exists;
-use function SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
 use function TD\Render\admin_text;
 use function SQLorAPI\Funcs\get_lang_pages_by_cat;
 use function SQLorAPI\Funcs\exists_by_qids_query;
@@ -40,22 +41,14 @@ function card_result($title, $text, $title2 = "")
     HTML;
 }
 
-function Results_tables($code, $camp, $cat, $tra_type, $code_lang_name, $global_username, $test)
+function Results_tables($code, $camp, $cat, $tra_type, $code_lang_name, $global_username, $tab, $show_exists, $translation_button, $full_tr_user, $test)
 {
     //---
-    $depth  = TablesSql::$s_camp_input_depth[$camp] ?? 1;
-    //---
-    $translation_button = TablesSql::$s_settings['translation_button_in_progress_table']['value'] ?? '0';
-    //---
-    if ($translation_button != "0") {
-        $translation_button = (($GLOBALS['user_in_coord'] ?? "") === true) ? '1' : '0';
-    };
+    $html_result = "";
     //---
     if (!empty($test)) {
-        echo "code:$code<br>code_lang_name:$code_lang_name<br>";
+        $html_result .= "code:$code<br>code_lang_name:$code_lang_name<br>";
     };
-    //---
-    $tab = get_results($cat, $camp, $depth, $code);
     //---
     $p_inprocess = $tab['inprocess'];
     $missing     = $tab['missing'];
@@ -67,20 +60,14 @@ function Results_tables($code, $camp, $cat, $tra_type, $code_lang_name, $global_
     //---
     if (!empty($test)) $res_line .= 'test:';
     //---
-    $full_translators = get_td_or_sql_full_translators();
-    $full_translators = array_column($full_translators, 'active', 'user');
-    //---
-    // $full_tr_user = in_array($global_username, $full_translators);
-    $full_tr_user = ($full_translators[$global_username] ?? 0) == 1;
-    //---
     $table = make_results_table($missing, $code, $cat, $camp, $tra_type, $translation_button, $full_tr_user, $global_username);
     //---
     $title_x = <<<HTML
-            <!-- <span class='only_on_mobile'><b>Click the article name to translate</b></span> -->
-            $ix
-        HTML;
+        <!-- <span class='only_on_mobile'><b>Click the article name to translate</b></span> -->
+        $ix
+    HTML;
     //---
-    echo card_result($res_line, $table, $title_x);
+    $html_result .= card_result($res_line, $table, $title_x);
     //---
     $len_inprocess = count($p_inprocess);
     //---
@@ -88,14 +75,12 @@ function Results_tables($code, $camp, $cat, $tra_type, $code_lang_name, $global_
         //---
         $table_2 = make_results_table($p_inprocess, $code, $cat, $camp, $tra_type, $translation_button, $full_tr_user, $global_username, true);
         //---
-        echo card_result("In process: ($len_inprocess)", $table_2);
+        $html_result .= card_result("In process: ($len_inprocess)", $table_2);
     };
-    //---
-    $user_in_coord = ($GLOBALS['user_in_coord'] ?? "") === true;
     //---
     $len_exists = count($exists);
     //---
-    if ($len_exists > 1 && ($user_in_coord || isset($_GET['exists']))) {
+    if ($len_exists > 1 && $show_exists) {
         //---
         $exists_targets = get_lang_pages_by_cat($code, $cat);
         //---
@@ -103,10 +88,37 @@ function Results_tables($code, $camp, $cat, $tra_type, $code_lang_name, $global_
         //---
         $table_3 = make_results_table_exists($exists, $code, $cat, $camp, $translation_button, $full_tr_user, $exists_targets, $exists_targets_before, $global_username);
         //---
-        echo card_result("Exists: ($len_exists)", $table_3);
+        $html_result .= card_result("Exists: ($len_exists)", $table_3);
     };
     //---
-    echo '</div>';
+    $html_result .= '</div>';
+    //---
+    return $html_result;
+}
 
-    return "";
+function results_loader($camp, $code, $code_lang_name, $cat, $tra_type, $translation_button, $full_tr_user, $global_username, $test)
+{
+    // ---
+    $depth  = TablesSql::$s_camp_input_depth[$camp] ?? 1;
+    // ---
+    $user_in_coord = ($GLOBALS['user_in_coord'] ?? "") === true;
+    //---
+    $show_exists = ($user_in_coord || isset($_GET['exists']));
+    //---
+    $translation_button = TablesSql::$s_settings['translation_button_in_progress_table']['value'] ?? '0';
+    //---
+    if ($translation_button != "0") {
+        $translation_button = (($GLOBALS['user_in_coord'] ?? "") === true) ? '1' : '0';
+    };
+    //---
+    $full_translators = get_td_or_sql_full_translators();
+    $full_translators = array_column($full_translators, 'active', 'user');
+    //---
+    // $full_tr_user = in_array($global_username, $full_translators);
+    $full_tr_user = ($full_translators[$global_username] ?? 0) == 1;
+    //---
+    $tab = get_results($cat, $camp, $depth, $code);
+    //---
+    return Results_tables($code, $camp, $cat, $tra_type, $code_lang_name, $global_username, $tab, $show_exists, $translation_button, $full_tr_user, $test);
+    //---
 }

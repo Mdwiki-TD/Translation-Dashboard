@@ -29,7 +29,7 @@ function make_drop($uxutable, $code)
     return $options;
 }
 
-function print_form_start1($allow_whole_translate, $Lang_tables, $cat_input_list, $campaigninput_list, $cat, $camp, $code_lang_name, $code, $tra_type, $global_username)
+function print_form_start1($allow_whole_translate, $Lang_tables, $campaigninput_list, $cat, $camp, $code_lang_name, $code, $tra_type, $global_username)
 {
     //---
     $cat_ch = htmlspecialchars($cat, ENT_QUOTES);
@@ -92,18 +92,20 @@ function print_form_start1($allow_whole_translate, $Lang_tables, $cat_input_list
         $uiu = '<input type="submit" name="doit" class="btn btn-outline-primary" value="Do it"/>';
     }
     //---
-    $cat_input = make_drop($cat_input_list, $cat_ch);
     $camp_input = make_drop($campaigninput_list, $camp_ch);
     //---
     if ($camp === "test") {
         $camp_input .= "<option value='test' selected>test</option>";
     };
     //---
+    /*
+    $cat_input = make_drop($cat_input_list, $cat_ch);
     $cat_input = <<<HTML
         <select dir='ltr' name='cat' id='cat' class='form-select' data-bs-theme="auto">
             $cat_input
         </select>
     HTML;
+    */
     //---
     $camp_input = <<<HTML
         <select dir='ltr' name='camp' id='camp' class='form-select' data-bs-theme="auto">
@@ -143,7 +145,7 @@ function print_form_start1($allow_whole_translate, $Lang_tables, $cat_input_list
         </div>
     HTML;
     //---
-    $in_cat = sprintf($d22, 'cat', 'Category', $cat_input);
+    // $in_cat = sprintf($d22, 'cat', 'Category', $cat_input);
     $in_camp = sprintf($d22, 'camp', 'Campaign', $camp_input);
     //---
     $in_lng = sprintf($d22, 'code', 'Language', "<div>$langse $err</div>");
@@ -157,7 +159,6 @@ function print_form_start1($allow_whole_translate, $Lang_tables, $cat_input_list
     //---
     $d = <<<HTML
     <div class='row'>
-        <!-- $in_cat -->
         $in_camp
         $in_lng
         $in_typ
