@@ -71,7 +71,7 @@ HTML;
 echo "<div class='container-fluid'>";
 //---
 if ($doit) {
-    echo results_loader($camp, $code, $code_lang_name, $cat, $tra_type, $translation_button, $full_tr_user, $global_username, $test);
+    echo results_loader($camp, $code, $code_lang_name, $cat, $tra_type, $global_username, $test);
 };
 //---
 echo "</div>";

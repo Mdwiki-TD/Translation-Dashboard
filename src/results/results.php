@@ -100,7 +100,7 @@ function Results_tables($code, $camp, $cat, $tra_type, $code_lang_name, $global_
     return $html_result;
 }
 
-function results_loader($camp, $code, $code_lang_name, $cat, $tra_type, $translation_button, $full_tr_user, $global_username, $test)
+function results_loader($camp, $code, $code_lang_name, $cat, $tra_type, $global_username, $test)
 {
     // ---
     $depth  = TablesSql::$s_camp_input_depth[$camp] ?? 1;
