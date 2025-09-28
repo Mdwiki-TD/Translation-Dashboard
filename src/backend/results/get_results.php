@@ -37,7 +37,7 @@ function create_summary($code, $cat, $inprocess, $missing, $len_of_exists_pages)
 
     // Calculate totals
     $len_of_missing_pages = count($missing);
-    $len_of_all = $len_of_exists_pages + $len_of_missing_pages;
+    $len_of_all = $len_of_exists_pages + $len_of_missing_pages + $len_inprocess;
 
     // Prepare category URL
     $caturl = make_mdwiki_cat_url($cat, "Category");

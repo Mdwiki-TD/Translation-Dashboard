@@ -22,7 +22,11 @@ function make_translate_urls($title, $tra_type, $words, $langcode, $cat, $camp, 
     $mdwiki_url = make_mdwiki_href($title);
     //---
     // if lower $title startswith video
-    $tra_type = "lead";
+    // $tra_type = "lead";
+    if ($tra_type === null || $tra_type === '') {
+        $tra_type = 'lead';
+    }
+    //---
     $is_video = false;
     //---
     if (strtolower(substr($title, 0, 6)) == 'video:') {
