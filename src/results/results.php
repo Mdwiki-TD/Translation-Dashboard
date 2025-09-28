@@ -19,6 +19,7 @@ use function Results\ResultsTableExists\make_results_table_exists;
 use function TD\Render\admin_text;
 use function SQLorAPI\Funcs\get_lang_pages_by_cat;
 use function SQLorAPI\Funcs\exists_by_qids_query;
+use function Tables\SqlTables\load_translate_type;
 
 function card_result($title, $text, $title2 = "")
 {
@@ -60,7 +61,10 @@ function Results_tables($code, $camp, $cat, $tra_type, $code_lang_name, $global_
     //---
     if (!empty($test)) $res_line .= 'test:';
     //---
-    $table = make_results_table($missing, $code, $cat, $camp, $tra_type, $translation_button, $full_tr_user, $global_username);
+    $nolead_translates = load_translate_type('no');
+    $translates_full = load_translate_type('full');
+    //---
+    $table = make_results_table($missing, $code, $cat, $camp, $tra_type, $translation_button, $full_tr_user, $global_username, $nolead_translates, $translates_full);
     //---
     $title_x = <<<HTML
         <!-- <span class='only_on_mobile'><b>Click the article name to translate</b></span> -->
@@ -73,7 +77,7 @@ function Results_tables($code, $camp, $cat, $tra_type, $code_lang_name, $global_
     //---
     if ($len_inprocess > 0) {
         //---
-        $table_2 = make_results_table($p_inprocess, $code, $cat, $camp, $tra_type, $translation_button, $full_tr_user, $global_username, true);
+        $table_2 = make_results_table($p_inprocess, $code, $cat, $camp, $tra_type, $translation_button, $full_tr_user, $global_username, $nolead_translates, $translates_full, true);
         //---
         $html_result .= card_result("In process: ($len_inprocess)", $table_2);
     };
@@ -108,7 +112,7 @@ function results_loader($camp, $code, $code_lang_name, $cat, $tra_type, $transla
     $translation_button = TablesSql::$s_settings['translation_button_in_progress_table']['value'] ?? '0';
     //---
     if ($translation_button != "0") {
-        $translation_button = (($GLOBALS['user_in_coord'] ?? "") === true) ? '1' : '0';
+        $translation_button = $user_in_coord ? '1' : '0';
     };
     //---
     $full_translators = get_td_or_sql_full_translators();

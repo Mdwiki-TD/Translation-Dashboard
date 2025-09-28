@@ -24,7 +24,7 @@ function make_td_rows_responsive($full, $inprocess, $tds)
     $_user_ = $tds["user"];
     $_date_ = $tds["date"];
     //---
-    $cnt2 = $full ? "Full" : $cnt;
+    $cnt2 = $full ? "$cnt.Full" : $cnt;
     //---
     $td_rows = <<<HTML
         <th class='num' scope="row">

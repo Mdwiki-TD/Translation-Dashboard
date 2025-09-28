@@ -14,7 +14,6 @@ use function Results\ResultsTable\make_results_table;
 
 use Tables\Main\MainTables;
 
-use function Tables\SqlTables\load_translate_type;
 use function SQLorAPI\GetDataTab\get_td_or_sql_qids;
 use function Results\ResultsTable\Rows\make_td_rows_responsive;
 use function Results\ResultsTable\Rows\make_td_rows_mobile;
@@ -166,11 +165,8 @@ function normalizeItems(array $items): array
     return $items;
 }
 
-function make_results_table($items, $langcode, $cat, $camp, $tra_type, $tra_btn, $full_tr_user, $global_username, $inprocess = false)
+function make_results_table($items, $langcode, $cat, $camp, $tra_type, $tra_btn, $full_tr_user, $global_username, $nolead_translates, $translates_full, $inprocess = false)
 {
-    //---
-    $nolead_translates = load_translate_type('no');
-    $translates_full = load_translate_type('full');
     //---
     $do_full   = ($tra_type == 'all') ? false : true;
     //---
