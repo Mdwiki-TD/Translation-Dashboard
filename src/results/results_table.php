@@ -11,6 +11,7 @@ use function Results\ResultsTable\make_one_row;
 use function Results\ResultsTable\make_results_table;
 
 */
+
 use Tables\Main\MainTables;
 
 use function Tables\SqlTables\load_translate_type;
@@ -19,6 +20,7 @@ use function Results\ResultsTable\Rows\make_td_rows_responsive;
 use function Results\ResultsTable\Rows\make_td_rows_mobile;
 use function Results\ResultsTable\Rows\make_mobile_table;
 use function Results\ResultsTable\Rows\make_translate_urls;
+use function TD\Render\Html\make_mdwiki_article_url;
 
 function sort_py_PageViews($items, $en_views_tab)
 {
@@ -88,7 +90,7 @@ function one_item_props($title, $langcode, $tra_type)
     return $tab;
 }
 
-function make_one_row_new($title, $tra_type, $cnt, $langcode, $cat, $camp, $inprocess, $inprocess_table, $tra_btn, $full, $full_tr_user, $mobile_td)
+function make_one_row_new($title, $tra_type, $cnt, $langcode, $cat, $camp, $inprocess, $inprocess_table, $tra_btn, $full, $full_tr_user, $mobile_td, $global_username)
 {
     //---
     $_user_ = $inprocess_table['user'] ?? '';
@@ -100,9 +102,10 @@ function make_one_row_new($title, $tra_type, $cnt, $langcode, $cat, $camp, $inpr
     //---
     $qid_url = (!empty($qid)) ? "<a class='inline' target='_blank' href='https://wikidata.org/wiki/$qid'>$qid</a>" : '&nbsp;';
     //---
-    $mdwiki_url = "//mdwiki.org/wiki/" . str_replace('+', '_', rawurlEncode($title));
+    // $mdwiki_url = "//mdwiki.org/wiki/" . str_replace('+', '_', rawurlEncode($title));
+    $mdwiki_url = make_mdwiki_article_url($title);
     //---
-    [$tab, $translate_url, $full_translate_url] = make_translate_urls($title, $tra_type, $props['word'], $langcode, $cat, $camp, $inprocess, $mdwiki_url, $tra_btn, $_user_, $full_tr_user);
+    [$tab, $translate_url, $full_translate_url] = make_translate_urls($title, $tra_type, $props['word'], $langcode, $cat, $camp, $inprocess, $mdwiki_url, $tra_btn, $_user_, $full_tr_user, $global_username);
     //---
     // if $_date_ has : then split before first space
     if (strpos($_date_, ':') !== false) {
@@ -135,7 +138,7 @@ function make_one_row_new($title, $tra_type, $cnt, $langcode, $cat, $camp, $inpr
     // ---
 }
 
-function make_results_table($items, $langcode, $cat, $camp, $tra_type, $tra_btn, $full_tr_user, $inprocess = false)
+function make_results_table($items, $langcode, $cat, $camp, $tra_type, $tra_btn, $full_tr_user, $global_username, $inprocess = false)
 {
     //---
     $nolead_translates = load_translate_type('no');
@@ -221,7 +224,7 @@ function make_results_table($items, $langcode, $cat, $camp, $tra_type, $tra_btn,
             $tra_type = 'all';
         };
         //---
-        $row = make_one_row_new($title, $tra_type, $cnt2, $langcode, $cat, $camp, $inprocess, $inprocess_tab, $tra_btn, false, $full_tr_user, $mobile_td);
+        $row = make_one_row_new($title, $tra_type, $cnt2, $langcode, $cat, $camp, $inprocess, $inprocess_tab, $tra_btn, false, $full_tr_user, $mobile_td, $global_username);
         //---
         // if in process or full translates not allowed
         if ($inprocess || !$do_full || $full_tr_user) {
@@ -245,7 +248,7 @@ function make_results_table($items, $langcode, $cat, $camp, $tra_type, $tra_btn,
         }
         //---
         if ($full) {
-            $list .= make_one_row_new($title, 'all', $cnt2, $langcode, $cat, $camp, $inprocess, $inprocess_tab, $tra_btn, true, $full_tr_user, $mobile_td);
+            $list .= make_one_row_new($title, 'all', $cnt2, $langcode, $cat, $camp, $inprocess, $inprocess_tab, $tra_btn, true, $full_tr_user, $mobile_td, $global_username);
         }
         //---
         $cnt++;

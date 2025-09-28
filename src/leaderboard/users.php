@@ -18,7 +18,7 @@ use function Leaderboard\Subs\FilterForm\lead_row;
 use function SQLorAPI\TopData\get_td_or_sql_top_lang_of_users;
 
 // users_html($mainlang, $mainuser, $year_y, $camp)
-function users_html($mainlang, $year_y, $camp, $user_to_curl, $user_to_html)
+function users_html($mainlang, $year_y, $camp, $user_to_curl, $user_to_html, $global_username)
 {
     $output = '';
     //---
@@ -37,7 +37,7 @@ function users_html($mainlang, $year_y, $camp, $user_to_curl, $user_to_html)
     //---
     $count_new = count($dd);
     //---
-    $user_is_global_username = ($GLOBALS['global_username'] === $user_to_curl) ? true : false;
+    $user_is_global_username = ($global_username === $user_to_curl) ? true : false;
     //---
     [$table1, $main_table] = make_users_lead($dd, 'translations', $table_of_views, $user_is_global_username);
     //---

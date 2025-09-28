@@ -29,7 +29,7 @@ function make_drop($uxutable, $code)
     //---
     return $options;
 }
-function print_form_start1($allow_whole_translate, $Lang_tables, $cat_input_list, $campaigninput_list, $cat_ch, $camp_ch, $code_lang_name, $code, $tra_type)
+function print_form_start1($allow_whole_translate, $Lang_tables, $cat_input_list, $campaigninput_list, $cat_ch, $camp_ch, $code_lang_name, $code, $tra_type, $global_username)
 {
     //---
     $lead_checked = "checked";
@@ -90,7 +90,7 @@ function print_form_start1($allow_whole_translate, $Lang_tables, $cat_input_list
             </a>
     HTML;
     //---
-    if ($GLOBALS['global_username'] != '') {
+    if ($global_username != '') {
         $uiu = '<input type="submit" name="doit" class="btn btn-outline-primary" value="Do it"/>';
     }
     //---

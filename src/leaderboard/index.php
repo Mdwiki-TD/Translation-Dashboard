@@ -28,10 +28,12 @@ $user_to_curl = filter_input(INPUT_GET, 'user', FILTER_UNSAFE_RAW) ?? '';
 $year_y   = filter_input(INPUT_GET, 'year', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'All';
 $camp     = filter_input(INPUT_GET, 'camp', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'All';
 
-//---
+// ---
+$global_username = $GLOBALS['global_username'] ?? "";
+// ---
 if ($get == 'users' || !empty($user_to_curl)) {
     // ---
-    echo users_html($mainlang, $year_y, $camp, $user_to_curl, $user_to_html);
+    echo users_html($mainlang, $year_y, $camp, $user_to_curl, $user_to_html, $global_username);
     // ---
 } elseif ($get == 'langs' || !empty($langcode)) {
     // ---

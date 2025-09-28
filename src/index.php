@@ -42,7 +42,9 @@ $camp_ch = htmlspecialchars($camp, ENT_QUOTES);
 //---
 $img_src = '//upload.wikimedia.org/wikipedia/commons/thumb/5/58/Wiki_Project_Med_Foundation_logo.svg/400px-Wiki_Project_Med_Foundation_logo.svg.png';
 //---
-$form_start1  = print_form_start1($allow_whole_translate, MainTables::$x_Langs_table, TablesSql::$s_catinput_list, TablesSql::$s_campaign_input_list, $cat_ch, $camp_ch, $code_lang_name, $code, $tra_type);
+$global_username = $GLOBALS['global_username'] ?? "";
+// ---
+$form_start1  = print_form_start1($allow_whole_translate, MainTables::$x_Langs_table, TablesSql::$s_catinput_list, TablesSql::$s_campaign_input_list, $cat_ch, $camp_ch, $code_lang_name, $code, $tra_type, $global_username);
 //---
 $intro = <<<HTML
     This tool looks for Wikidata items that have a page on mdwiki.org but not in another wikipedia language <a href='?cat=RTT&depth=1&code=ceb&doit=Do+it'>(Example)</a>. <a href='//mdwiki.org/wiki/WikiProjectMed:Translation_task_force'><b>How to use.</b></a>
@@ -72,7 +74,7 @@ HTML;
 echo "<div class='container-fluid'>";
 //---
 if ($doit) {
-    echo Results_tables($code, $camp, $cat, $tra_type, $code_lang_name, $test);
+    echo Results_tables($code, $camp, $cat, $tra_type, $code_lang_name, $global_username, $test);
 };
 //---
 echo "</div>";
