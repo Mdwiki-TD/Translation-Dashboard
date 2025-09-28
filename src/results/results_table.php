@@ -20,7 +20,8 @@ use function Results\ResultsTable\Rows\make_td_rows_responsive;
 use function Results\ResultsTable\Rows\make_td_rows_mobile;
 use function Results\ResultsTable\Rows\make_mobile_table;
 use function Results\ResultsTable\Rows\make_translate_urls;
-use function TD\Render\Html\make_mdwiki_article_url;
+use function TD\Render\Html\make_mdwiki_href;
+use function TD\Render\Html\make_wikidata_url_blank;
 
 function sort_py_PageViews($items, $en_views_tab)
 {
@@ -100,17 +101,18 @@ function make_one_row_new($title, $tra_type, $cnt, $langcode, $cat, $camp, $inpr
     //---
     $qid = $props['qid'];
     //---
-    $qid_url = (!empty($qid)) ? "<a class='inline' target='_blank' href='https://wikidata.org/wiki/$qid'>$qid</a>" : '&nbsp;';
+    // $qid_url = (!empty($qid)) ? "<a class='inline' target='_blank' href='https://wikidata.org/wiki/$qid'>$qid</a>" : '&nbsp;';
+    $qid_url = make_wikidata_url_blank($qid);
     //---
-    // $mdwiki_url = "//mdwiki.org/wiki/" . str_replace('+', '_', rawurlEncode($title));
-    $mdwiki_url = make_mdwiki_article_url($title);
-    //---
-    [$tab, $translate_url, $full_translate_url] = make_translate_urls($title, $tra_type, $props['word'], $langcode, $cat, $camp, $inprocess, $mdwiki_url, $tra_btn, $_user_, $full_tr_user, $global_username);
+    [$tab, $translate_url, $full_translate_url] = make_translate_urls($title, $tra_type, $props['word'], $langcode, $cat, $camp, $inprocess, $tra_btn, $_user_, $full_tr_user, $global_username);
     //---
     // if $_date_ has : then split before first space
     if (strpos($_date_, ':') !== false) {
         $_date_ = explode(' ', $_date_)[0];
     };
+    //---
+    // $mdwiki_url = "//mdwiki.org/wiki/" . str_replace('+', '_', rawurlEncode($title));
+    $mdwiki_url = make_mdwiki_href($title);
     //---
     $tds = [
         "translate_url" => $translate_url,

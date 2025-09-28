@@ -17,13 +17,14 @@ use function TD\Render\Html\make_drop;
 use function TD\Render\Html\make_form_check_input;
 use function TD\Render\Html\make_input_group;
 use function TD\Render\Html\make_input_group_no_col;
-use function TD\Render\Html\make_mdwiki_article_url;
+use function TD\Render\Html\make_mdwiki_article_url_blank;
 use function TD\Render\Html\make_mdwiki_user_url;
 use function TD\Render\Html\make_modal_fade;
 use function TD\Render\Html\make_project_to_user;
 use function TD\Render\Html\make_talk_url;
-use function TD\Render\Html\make_target_url;
+use function TD\Render\Html\make_wikipedia_url_blank;
 use function TD\Render\Html\make_translation_url;
+use function TD\Render\Html\make_wikidata_url_blank;
 */
 
 
@@ -176,8 +177,15 @@ function make_drop($uxutable, $code)
     //---
     return $options;
 };
-//---
-function make_mdwiki_article_url($title, $name = null)
+
+function make_mdwiki_href($title)
+{
+    if (empty($title)) return $title;
+    // ---
+    return "https://mdwiki.org/wiki/" . rawurlencode(str_replace(' ', '_', $title));
+}
+
+function make_mdwiki_article_url_blank($title, $name = null)
 {
     if (empty($title)) return $title;
     // ---
@@ -234,17 +242,31 @@ function make_mdwiki_user_url($user)
     return $user;
 }
 
-function make_target_url($target, $lang, $name = '', $deleted = false)
+function make_wikipedia_url_blank($target, $lang, $name = '', $deleted = false)
 {
+    //---
+    if (empty($target)) return $target;
+    //---
     $display_name = (!empty($name)) ? $name : $target;
-    if (!empty($target)) {
-        $encoded_target = rawurlencode(str_replace(' ', '_', $target));
-        $link = "<a target='_blank' href='https://$lang.wikipedia.org/wiki/$encoded_target'>$display_name</a>";
-
-        if ($deleted == 1) {
-            $link .= ' <span class="text-danger">(DELETED)</span>';
-        }
-        return $link;
+    //---
+    $encoded_target = rawurlencode(str_replace(' ', '_', $target));
+    //---
+    $link = "<a target='_blank' href='https://$lang.wikipedia.org/wiki/$encoded_target'>$display_name</a>";
+    //---
+    if ($deleted == 1) {
+        $link .= ' <span class="text-danger">(DELETED)</span>';
     }
-    return $target;
+    //---
+    return $link;
+}
+
+function make_wikidata_url_blank($qid, $name = '', $default = '')
+{
+    if (empty($qid)) return $default;
+    // ---
+    $display_name = (!empty($name)) ? $name : $qid;
+    //---
+    $url = "https://wikidata.org/wiki/" . rawurlencode(str_replace(' ', '_', $qid));
+    //---
+    return "<a class='inline' target='_blank' href='$url'>$display_name</a>";
 }

@@ -5,7 +5,7 @@ namespace Results\TrLink;
 /*
 Usage:
 
-use function Results\TrLink\make_translate_link_medwiki; // make_translate_link_medwiki($title, $cod, $cat, $camp, $tra_type)
+use function Results\TrLink\make_ContentTranslation_url; // make_ContentTranslation_url($title, $cod, $cat, $camp, $tra_type)
 use function Results\TrLink\make_tr_link_medwiki;
 
 */
@@ -34,7 +34,7 @@ function get_endpoint()
     return $endpoint;
 }
 
-function make_translate_link_medwiki($title, $cod, $cat, $camp, $tra_type)
+function make_ContentTranslation_url($title, $cod, $cat, $camp, $tra_type)
 {
     // ---
     $endpoint = get_endpoint();

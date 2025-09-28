@@ -9,7 +9,7 @@ include_once __DIR__ . '/../include_all.php';
 include_once __DIR__ . '/../header.php';
 //---
 use function Results\GetCats\get_mdwiki_cat_members;
-use function Results\TrLink\make_translate_link_medwiki; // make_translate_link_medwiki($title, $cod, $cat, $camp, $tra_type)
+use function Results\TrLink\make_ContentTranslation_url; // make_ContentTranslation_url($title, $cod, $cat, $camp, $tra_type)
 use function TD\Render\TestPrint\test_print;
 //---
 $Category = htmlspecialchars($_GET['Category'] ?? 'World Health Organization essential medicines', ENT_QUOTES, 'UTF-8');
@@ -24,7 +24,7 @@ test_print("members size:" . count($members));
 $rows = "";
 //---
 foreach ($members as $member) {
-    $link = make_translate_link_medwiki($member, $lang, $Category, "", $tr_type);
+    $link = make_ContentTranslation_url($member, $lang, $Category, "", $tr_type);
     // ---
     $link = str_replace('/w/', '/mediawiki/', $link);
     // ---
