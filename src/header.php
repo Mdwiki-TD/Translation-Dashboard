@@ -46,7 +46,7 @@ $li_user = <<<HTML
 	</li>
 HTML;
 //---
-if (!empty($GLOBALS['global_username'])) {
+if (!empty($GLOBALS['global_username'] ?? "")) {
 	$u_name = $GLOBALS['global_username'];
 	$li_user = <<<HTML
 	<li class="nav-item col-6 col-lg-auto">
