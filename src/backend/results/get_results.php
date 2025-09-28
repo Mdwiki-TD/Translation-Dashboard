@@ -15,6 +15,7 @@ use function Results\FetchCatDataSparql\get_cat_exists_and_missing;
 use function Results\GetCats\get_mdwiki_cat_members;
 use function TD\Render\TestPrint\test_print;
 use function SQLorAPI\Process\get_lang_in_process_new;
+use function TD\Render\Html\make_mdwiki_cat_url;
 
 function getinprocess($missing, $code)
 {
@@ -62,8 +63,9 @@ function get_results($cat, $camp, $depth, $code): array
     $len_of_all = $len_of_exists_pages + $len_of_missing_pages;
 
     // Prepare category URL
-    $cat2 = "Category:" . str_replace('Category:', '', $cat);
-    $caturl = "<a href='https://mdwiki.org/wiki/$cat2' target='_blank'>category</a>";
+    // $cat2 = "Category:" . str_replace('Category:', '', $cat);
+    // $caturl = "<a href='https://mdwiki.org/wiki/$cat2' target='_blank'>Category</a>";
+    $caturl = make_mdwiki_cat_url($cat, "Category");
 
     // Generate summary message
     $ix = "Found $len_of_all pages in $caturl, $len_of_exists_pages exists, and $len_of_missing_pages missing in (<a href='https://$code.wikipedia.org' target='_blank'>$code</a>), $len_inprocess In process.";
