@@ -35,6 +35,7 @@ function get_results($cat, $camp, $depth, $code, $filter_sparql): array
     // Get existing and missing pages
     // ---
     $targets_via_td = get_lang_pages_by_cat($code, $cat);
+    $targets_via_td = array_column($targets_via_td, null, "title");
     //---
     $items = get_cat_exists_and_missing($cat, $depth, $code, true);
     // ---
@@ -45,7 +46,7 @@ function get_results($cat, $camp, $depth, $code, $filter_sparql): array
         [$items_exists, $items_missing] = filter_existing_out($items_missing, $items_exists, $code);
     }
     // ---
-    $items_exists = make_exists_targets($targets_via_td, $items_exists, $code, $cat);
+    $items_exists = make_exists_targets($targets_via_td, $items_exists, $code);
     // ---
     test_print("Items missing: " . count($items_missing));
 
