@@ -9,6 +9,7 @@ use function Results\ResultsTable\sort_py_PageViews;
 use function Results\ResultsTable\sort_py_importance;
 use function Results\ResultsTable\make_one_row;
 use function Results\ResultsTable\make_results_table;
+use function Results\ResultsTable\normalizeItems;
 
 */
 
@@ -155,7 +156,7 @@ function make_one_row_new($title, $tra_type, $cnt, $langcode, $cat, $camp, $inpr
     // ---
 }
 
-function normalizeItems(array $items): array
+function normalizeItemsOld(array $items): array
 {
     // Check if the array is associative (keys are not 0..n-1)
     if (array_keys($items) !== range(0, count($items) - 1)) {
@@ -163,6 +164,21 @@ function normalizeItems(array $items): array
     }
     // If it's an indexed array, return it as is
     return $items;
+}
+function normalizeItems(array $items): array
+{
+    if (array_keys($items) === range(0, count($items) - 1)) {
+        return $items;
+    }
+
+    $normalized = [];
+    foreach ($items as $key => $value) {
+        if (is_array($value)) {
+            $normalized[] = $key;
+        }
+    }
+
+    return $normalized;
 }
 
 function make_results_table($items, $langcode, $cat, $camp, $tra_type, $tra_btn, $full_tr_user, $global_username, $nolead_translates, $translates_full, $inprocess = false)

@@ -19,7 +19,7 @@ function get_cat_exists_and_missing($cat, $depth, $code, $use_cache = true): arr
     // $members = get_mdwiki_cat_members($cat, $use_cache = $use_cache, $depth = $depth, $camp = $camp);
     $members = get_mdwiki_cat_members($cat, $depth, $use_cache);
 
-    test_print("get_cat_exists_and_missing Members size: " . count($members));
+    test_print("get_cat_exists and_missing Members size: " . count($members));
 
     $exists = get_lang_exists_pages_from_cache($code);
     // ---
@@ -37,7 +37,7 @@ function get_cat_exists_and_missing($cat, $depth, $code, $use_cache = true): arr
     // Calculate the length of existing pages
     $exs_len = count($members) - count($missing);
 
-    // test_print("End of get_cat_exists_and_missing <br>===============================");
+    // test_print("End of get_cat exists_and_missing <br>===============================");
 
     return [
         "len_of_exists" => $exs_len,
