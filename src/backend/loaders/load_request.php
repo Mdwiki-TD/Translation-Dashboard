@@ -21,6 +21,7 @@ function load_request()
     $test = htmlspecialchars($_GET['test'] ?? '', ENT_QUOTES, 'UTF-8');
     $doit = htmlspecialchars($_GET['doit'] ?? '', ENT_QUOTES, 'UTF-8');
     $code = htmlspecialchars($_GET['code'] ?? '', ENT_QUOTES, 'UTF-8');
+    $filter_sparql = !empty($_GET['filter_sparql'] ?? '') ? true : false;
     //---
     if ($code == 'undefined') $code = "";
     //---
@@ -54,6 +55,7 @@ function load_request()
         'cat' => $cat,
         'camp' => $camp,
         'tra_type' => $tra_type,
-        'code_lang_name' => $code_lang_name
+        'filter_sparql' => $filter_sparql,
+        'code_lang_name' => $code_lang_name,
     ];
 }

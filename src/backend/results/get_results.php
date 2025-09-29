@@ -11,42 +11,14 @@ use function Results\GetResults\get_results; // get_results($cat, $camp, $depth,
 
 use Tables\SqlTables\TablesSql;
 use function Results\FetchCatData\get_cat_exists_and_missing;
-// use function Results\FetchCatDataSparql\get_cat_exists_and_missing;
-use function Results\GetCats\get_mdwiki_cat_members;
+use function Results\SparqlBot\filter_existing_out;
 use function TD\Render\TestPrint\test_print;
 use function SQLorAPI\Process\get_lang_in_process_new;
-use function TD\Render\Html\make_mdwiki_cat_url;
+use function SQLorAPI\Funcs\get_lang_pages_by_cat;
+use function Results\ResultsHelps\make_exists_targets;
+use function Results\ResultsHelps\filter_items_missing_cat2;
+use function Results\ResultsHelps\create_summary;
 
-function filter_items_missing_cat2($items_missing, $cat2, $depth)
-{
-    // ---
-    // $cat2_members = get_mdwiki_cat_members($cat2, $use_cache = true, $depth = $depth, $camp = $camp);
-    // ---
-    $cat2_members = get_mdwiki_cat_members($cat2, $depth, true);
-    // ---
-    $items_missing = array_intersect($items_missing, $cat2_members);
-    test_print("Items missing after intersecting with cat2: " . count($items_missing));
-    // ---
-    return $items_missing;
-}
-
-function create_summary($code, $cat, $inprocess, $missing, $len_of_exists_pages)
-{
-
-    $len_inprocess = count($inprocess);
-
-    // Calculate totals
-    $len_of_missing_pages = count($missing);
-    $len_of_all = $len_of_exists_pages + $len_of_missing_pages + $len_inprocess;
-
-    // Prepare category URL
-    $caturl = make_mdwiki_cat_url($cat, "Category");
-
-    // Generate summary message
-    $summary = "Found $len_of_all pages in $caturl, $len_of_exists_pages exists, and $len_of_missing_pages missing in (<a href='https://$code.wikipedia.org' target='_blank'>$code</a>), $len_inprocess In process.";
-    // ---
-    return $summary;
-}
 
 function getinprocess($missing, $code)
 {
@@ -58,17 +30,24 @@ function getinprocess($missing, $code)
     return $titles;
 }
 
-function get_results($cat, $camp, $depth, $code): array
+function get_results($cat, $camp, $depth, $code, $filter_sparql): array
 {
     // Get existing and missing pages
     // ---
+    $targets_via_td = get_lang_pages_by_cat($code, $cat);
+    //---
     $items = get_cat_exists_and_missing($cat, $depth, $code, true) ?: [];
     // ---
-    $len_of_exists_pages = $items['len_of_exists'];
     $items_missing = $items['missing'];
     $items_exists = $items['exists'];
+    $len_of_exists_pages = count($items_exists);
     // ---
-
+    if (!empty($filter_sparql)) {
+        [$items_exists, $items_missing] = filter_existing_out($items_missing, $items_exists, $code);
+    }
+    // ---
+    $items_exists = make_exists_targets($targets_via_td, $items_exists, $code, $cat);
+    // ---
     test_print("Items missing: " . count($items_missing));
 
     // Check for a secondary category

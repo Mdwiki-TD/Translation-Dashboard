@@ -27,6 +27,7 @@ $doit     = $req['doit'] ?? false;
 $test     = $req['test'] ?? "";
 $code     = $req['code'] ?? "";
 $tra_type = $req['tra_type'] ?? "";
+$filter_sparql = $req['filter_sparql_x'] ?? true;
 //---
 $cat  = (!empty($req['cat'])) ? $req['cat'] : TablesSql::$s_main_cat;
 $camp  = (!empty($req['camp'])) ? $req['camp'] : TablesSql::$s_main_camp;
@@ -71,7 +72,7 @@ HTML;
 echo "<div class='container-fluid'>";
 //---
 if ($doit) {
-    echo results_loader($camp, $code, $code_lang_name, $cat, $tra_type, $global_username, $test);
+    echo results_loader($camp, $code, $code_lang_name, $cat, $tra_type, $global_username, $filter_sparql, $test);
 };
 //---
 echo "</div>";

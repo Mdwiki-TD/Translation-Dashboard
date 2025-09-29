@@ -18,7 +18,6 @@ use function Results\ResultsTable\make_results_table;
 use function Results\ResultsTableExists\make_results_table_exists;
 use function TD\Render\admin_text;
 use function Tables\SqlTables\load_translate_type;
-use function Results\GetResults\make_exists_targets;
 
 function card_result($title, $text, $title2 = "")
 {
@@ -95,7 +94,7 @@ function Results_tables($code, $camp, $cat, $tra_type, $code_lang_name, $global_
     return $html_result;
 }
 
-function results_loader($camp, $code, $code_lang_name, $cat, $tra_type, $global_username, $test)
+function results_loader($camp, $code, $code_lang_name, $cat, $tra_type, $global_username, $filter_sparql, $test)
 {
     // ---
     $depth  = TablesSql::$s_camp_input_depth[$camp] ?? 1;
@@ -115,8 +114,6 @@ function results_loader($camp, $code, $code_lang_name, $cat, $tra_type, $global_
     //---
     // $full_tr_user = in_array($global_username, $full_translators);
     $full_tr_user = ($full_translators[$global_username] ?? 0) == 1;
-    //---
-    $filter_sparql = $_GET['filter_sparql'] ?? "1";
     //---
     $tab = get_results($cat, $camp, $depth, $code, $filter_sparql);
     //---

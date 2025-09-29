@@ -41,10 +41,39 @@ $tab_titles = [
     "Vestibular schwannoma"
 ];
 // ---
+// "exists": { "Video:Cancer": { "via": "td", "target": "Video:Cancer" } }
+// ---
+$exists_list = [
+    "Video:Cancer" => [
+        "via" => "td",
+        "target" => "Video:Cancer"
+    ],
+    "Universal neonatal hearing screening" => [
+        "via" => "before",
+        "target" => "الفحص السمعي الشامل لحديثي الولادة"
+    ],
+    "Gout" => [
+        "via" => "before",
+        "target" => "نقرس"
+    ],
+    "WHO AWaRe" => [
+        "via" => "before",
+        "target" => "تصنيف منظمة الصحة العالمية للمضادات الحيوية"
+    ],
+    "Vertigo" => [
+        "via" => "before",
+        "target" => "دوار (عرض)"
+    ],
+    "Vestibular schwannoma" => [
+        "via" => "before",
+        "target" => "ورم العصب السمعي"
+    ]
+];
+// ---
 $results_list = [
-    "inprocess" => $tab_titles,
-    "exists" => $tab_titles,
-    "missing" => $tab_titles,
+    "inprocess" => array_keys($exists_list),
+    "exists" => $exists_list,
+    "missing" => array_keys($exists_list),
     "ix" => ""
 ];
 //---
