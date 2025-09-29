@@ -13,6 +13,7 @@ foreach (glob(__DIR__ . "/../backend/results/new_way/*.php") as $filename) {
 }
 
 foreach (glob(__DIR__ . "/../backend/results/*.php") as $filename) {
+    if (basename($filename) === "getcats_new.php") continue;
     include_once $filename;
 }
 
