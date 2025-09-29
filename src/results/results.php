@@ -89,7 +89,7 @@ function Results_tables($code, $camp, $cat, $tra_type, $code_lang_name, $global_
         $html_result .= card_result("Exists: ($len_exists)", $table_3);
     };
     //---
-    $html_result .= '</div>';
+    // $html_result .= '</div>';
     //---
     return $html_result;
 }
