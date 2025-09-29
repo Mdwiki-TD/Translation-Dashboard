@@ -2,6 +2,11 @@
 
 
 namespace Results\GetCats;
+/*
+use function Results\GetCats\get_cats_from_cache;
+use function Results\GetCats\get_mdwiki_cat_members;
+
+*/
 
 /**
  * Class CategoryFetcher
@@ -241,7 +246,7 @@ class CategoryFetcher
      * @param string $cat
      * @return array filtered titles (Category:, File:, Template:, User: excluded unless with_Category true)
      */
-    private function getCatsFromCache(string $cat): array
+    public function getCatsFromCache(string $cat): array
     {
         if (!empty($this->options['nocache'])) {
             return [];
@@ -355,6 +360,20 @@ class CategoryFetcher
     }
 }
 
+function make_options(): array
+{
+    $nocache = filter_var($_GET['nocache'] ?? false, FILTER_VALIDATE_BOOLEAN);
+
+    $debug = (isset($_REQUEST['test']) || isset($_COOKIE['test'])) ? true : false;
+
+    if (isset($_COOKIE['test']) && $_COOKIE['test'] == 'x') {
+        $debug = false;
+    }
+
+    $options = ['nocache' => $nocache, 'debug' => $debug];
+
+    return $options;
+}
 /**
  * Procedural wrapper to use CategoryFetcher.
  *
@@ -363,26 +382,35 @@ class CategoryFetcher
  * @param bool   $use_cache
  * @return array
  */
+
 function get_mdwiki_cat_members(string $cat, int $depth = 0, bool $use_cache = true): array
 {
-    // اكتشاف مختصر وواضح للقيم (query -> env)
-    $nocache = filter_var($_GET['nocache'] ?? false, FILTER_VALIDATE_BOOLEAN);
-
-    $debug = (isset($_REQUEST['test']) || isset($_COOKIE['test'])) ? true : false;
-
-    if (isset($_COOKIE['test']) && $_COOKIE['test'] == 'x') {
-        $debug = false;
-    }
     $endPoint = 'https://mdwiki.org/w/api.php';
 
-    $options = ['nocache' => $nocache, 'debug' => $debug];
+    $options = make_options();
 
     $fetcher = new CategoryFetcher($options, $endPoint);
 
     return $fetcher->getMdwikiCatMembers($cat, $depth, $use_cache);
 }
 
-function get_category_from_cache($cat)
+function get_cats_from_cache($cat)
 {
-    return [];
+    static $data = [];
+    // ---
+    if (!empty($data[$cat] ?? [])) {
+        return $data[$cat];
+    }
+    // ---
+    $endPoint = 'https://mdwiki.org/w/api.php';
+
+    $options = make_options();
+
+    $fetcher = new CategoryFetcher($options, $endPoint);
+
+    $result = $fetcher->getCatsFromCache($cat);
+
+    $data[$cat] = $result;
+
+    return $result;
 }

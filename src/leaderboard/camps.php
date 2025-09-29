@@ -8,7 +8,7 @@ use function Leaderboard\Camps\get_articles_to_camps;
 
 */
 
-use function Results\GetCats\get_category_from_cache;
+use function Results\GetCats\get_cats_from_cache;
 use Tables\SqlTables\TablesSql;
 
 function get_articles_to_camps()
@@ -27,7 +27,7 @@ function get_articles_to_camps()
     // ---
     foreach ($cat2camp as $cat => $camp) {
         // ---
-        $members = get_category_from_cache($cat);
+        $members = get_cats_from_cache($cat);
         // ---
         foreach ($members as $member) {
             // ---
