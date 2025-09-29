@@ -23,10 +23,15 @@ use function Results\ResultsHelps\create_summary;
 function getinprocess($missing, $code)
 {
     $res = get_lang_in_process_new($code);
+    // ---
     $titles = [];
+    // ---
     foreach ($res as $t) {
-        if (in_array($t['title'], $missing)) $titles[$t['title']] = $t;
+        if (in_array($t['title'], $missing)) {
+            $titles[$t['title']] = $t;
+        }
     }
+    // ---
     return $titles;
 }
 

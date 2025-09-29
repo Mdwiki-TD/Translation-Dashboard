@@ -84,7 +84,7 @@ function exists_expends($items_missing, $exists_targets_before)
     return $items_exists;
 }
 
-function getinprocess_old($missing, $code)
+function getinprocess_n($missing, $code)
 {
     $res = get_lang_in_process_new($code);
     // ---
