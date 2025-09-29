@@ -36,7 +36,7 @@ function get_results($cat, $camp, $depth, $code, $filter_sparql): array
     // ---
     $targets_via_td = get_lang_pages_by_cat($code, $cat);
     //---
-    $items = get_cat_exists_and_missing($cat, $depth, $code, true) ?: [];
+    $items = get_cat_exists_and_missing($cat, $depth, $code, true);
     // ---
     $items_missing = $items['missing'];
     $items_exists = $items['exists'];
