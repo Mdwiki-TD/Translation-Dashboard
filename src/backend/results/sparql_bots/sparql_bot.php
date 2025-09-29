@@ -7,6 +7,8 @@ Usage:
 
 use function Results\SparqlBot\get_sparql_data;
 use function Results\SparqlBot\get_sparql_data_exists;
+use function Results\SparqlBot\filter_existing_out;
+use function Results\SparqlBot\filter_existing_out_new;
 
 */
 
@@ -139,21 +141,21 @@ function filter_existing_out($missing, $exists, $code): array
     //---
     $with_qids = $qids_tab['with_qids'];
     //---
-    $sparql_exists = get_sparql_data_exists($with_qids, $code) ?? [];
+    $sparql_exist = get_sparql_data_exists($with_qids, $code) ?? [];
     //---
-    print_r_it($sparql_exists, 'sparql_exists', $r = 1);
+    print_r_it($sparql_exist, 'sparql_exist', $r = 1);
     // ---
-    if (count($sparql_exists) == 0) {
+    if (count($sparql_exist) == 0) {
         return [$exists, $missing];
     }
     //---
     $new_missings = [];
     //---
-    $sparql_exists_keys = array_keys($sparql_exists);
+    $sparql_exist_keys = array_keys($sparql_exist);
     //---
-    // Filter out titles that exist in $sparql_exists from $missing
+    // Filter out titles that exist in $sparql_exist from $missing
     foreach ($missing as $title) {
-        if (in_array($title, $sparql_exists_keys)) {
+        if (in_array($title, $sparql_exist_keys)) {
             $exists[] = $title;
         } else {
             $new_missings[] = $title;
@@ -162,7 +164,52 @@ function filter_existing_out($missing, $exists, $code): array
     // ---
     print_r_it($new_missings, 'new_missings', $d = 1);
     // ---
-    test_print("filter_existing_out sparql_exists count: " . count($sparql_exists));
+    test_print("filter_existing_out sparql_exist count: " . count($sparql_exist));
+    // ---
+    return [$exists, $new_missings];
+}
+
+
+function filter_existing_out_new($missing, $code): array
+{
+    //---
+    $exists = [];
+    $missing2 = [];
+    //---
+    foreach ($missing as $_ => $title) $missing2[] = $title;
+    //---
+    $missing = $missing2;
+    //---
+    print_r_it($missing2, '<br>missing2');
+    //---
+    $qids_tab = get_qids($missing);
+    //---
+    $with_qids = $qids_tab['with_qids'];
+    //---
+    $sparql_exist = get_sparql_data_exists($with_qids, $code) ?? [];
+    //---
+    print_r_it($sparql_exist, 'sparql_exist', $r = 1);
+    // ---
+    if (count($sparql_exist) == 0) {
+        return [$exists, $missing];
+    }
+    //---
+    $new_missings = [];
+    //---
+    $sparql_exist_keys = array_keys($sparql_exist);
+    //---
+    // Filter out titles that exist in $sparql_exist from $missing
+    foreach ($missing as $title) {
+        if (in_array($title, $sparql_exist_keys)) {
+            $exists[] = $title;
+        } else {
+            $new_missings[] = $title;
+        }
+    };
+    // ---
+    print_r_it($new_missings, 'new_missings', $d = 1);
+    // ---
+    test_print("filter_existing_out sparql_exist count: " . count($sparql_exist));
     // ---
     return [$exists, $new_missings];
 }
