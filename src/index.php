@@ -71,8 +71,21 @@ HTML;
 //---
 echo "<div class='container-fluid'>";
 //---
+$new_result = $_GET['new_result'] ?? "";
+//---
 if ($doit) {
-    echo results_loader($camp, $code, $code_lang_name, $cat, $tra_type, $global_username, $filter_sparql, $test);
+    $data = [
+        "camp" => $camp,
+        "code" => $code,
+        "code_lang_name" => $code_lang_name,
+        "cat" => $cat,
+        "tra_type" => $tra_type,
+        "global_username" => $global_username,
+        "filter_sparql" => $filter_sparql,
+        "new_result" => $new_result,
+        "test" => $test
+    ];
+    echo results_loader($data);
 };
 //---
 echo "</div>";
