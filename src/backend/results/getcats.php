@@ -381,3 +381,8 @@ function get_mdwiki_cat_members(string $cat, int $depth = 0, bool $use_cache = t
 
     return $fetcher->getMdwikiCatMembers($cat, $depth, $use_cache);
 }
+
+function get_category_from_cache($cat)
+{
+    return [];
+}
