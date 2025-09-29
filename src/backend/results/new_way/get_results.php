@@ -97,7 +97,6 @@ function getinprocess_n($missing, $code)
     return $titles;
 }
 
-
 function get_results_new($cat, $camp, $depth, $code, $filter_sparql): array
 {
     // Get existing and missing pages

@@ -34,19 +34,16 @@ function get_results($cat, $camp, $depth, $code, $filter_sparql): array
 {
     // Get existing and missing pages
     // ---
-    $targets_via_td = get_lang_pages_by_cat($code, $cat);
-    $targets_via_td = array_column($targets_via_td, null, "title");
+    $exists_via_td = get_lang_pages_by_cat($code, $cat);
+    $exists_via_td = array_column($exists_via_td, null, "title");
     //---
-    $items = get_cat_exists_and_missing($cat, $depth, $code, true);
-    // ---
-    $items_missing = $items['missing'];
-    $items_exists = $items['exists'];
+    [$items_exists, $items_missing] = get_cat_exists_and_missing($cat, $depth, $code, true);
     // ---
     if (!empty($filter_sparql)) {
         [$items_exists, $items_missing] = filter_existing_out($items_missing, $items_exists, $code);
     }
     // ---
-    $items_exists = make_exists_targets($targets_via_td, $items_exists, $code);
+    $items_exists = make_exists_targets($exists_via_td, $items_exists, $code);
     // ---
     test_print("Items missing: " . count($items_missing));
 
@@ -58,7 +55,6 @@ function get_results($cat, $camp, $depth, $code, $filter_sparql): array
     }
 
     $len_of_exists_pages = count($items_exists);
-
     test_print("Length of existing pages: $len_of_exists_pages");
 
     // Remove duplicates from missing items
@@ -70,8 +66,7 @@ function get_results($cat, $camp, $depth, $code, $filter_sparql): array
 
     // Remove in-process items from missing list
     if ($len_inprocess > 0) {
-        $inprocess_2 = array_column($inprocess, 'title');
-        $missing = array_diff($missing, $inprocess_2);
+        $missing = array_diff($missing, array_column($inprocess, 'title'));
     }
 
     $summary = create_summary($code, $cat, count($inprocess), count($missing), $len_of_exists_pages);

@@ -14,9 +14,7 @@ use function TD\Render\TestPrint\test_print;
 
 function get_cat_exists_and_missing_new($exists_via_td, $cat, $depth, $code, $use_cache = true): array
 {
-    // $exists_via_td example:
-    // { "id": 15, "title": "Kidney dysplasia", "word": 180, "translate_type": "lead", "cat": "RTT", "lang": "ar", "user": "عرين أسد أبو رمان", "target": "خلل التنسج الكلوي", "date": "2021-07-10", "pupdate": "2021-07-10", "add_date": "2021-07-10 03:00:00", "deleted": 0, "mdwiki_revid": null }
-    // ---
+    // Fetch category members
     $members = get_mdwiki_cat_members($cat, $depth, $use_cache);
     // ---
     test_print("get_cat_exists and_missing Members size: " . count($members));
@@ -46,7 +44,6 @@ function get_cat_exists_and_missing_new($exists_via_td, $cat, $depth, $code, $us
     // Find missing members
     $missing = array_diff($members, array_keys($exists));
 
-    // var_export(json_encode($missing));
     // ---
     $missing = array_unique($missing);
     // ---

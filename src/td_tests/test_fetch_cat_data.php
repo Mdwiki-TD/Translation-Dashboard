@@ -21,20 +21,20 @@ if (!empty($Category)) {
     // ---
     echo "  - Category:" . $Category . "<br>";
     // ---
-    $items = get_cat_exists_and_missing($Category, $depth, $lang, $use_cache = $use_cache);
+    [$exists, $missing] = get_cat_exists_and_missing($Category, $depth, $lang, $use_cache = $use_cache);
     // ---
     $execution_time = (microtime(true) - $time_start);
     echo "<br> >>>>> Total Execution Time: " . $execution_time . " Seconds<br>";
     // ---
-    echo "len of exists: " . count($items["exists"]) . "<br>";
-    echo "len of missing: " . count($items["missing"]) . "<br>";
+    echo "len of exists: " . count($exists) . "<br>";
+    echo "len of missing: " . count($missing) . "<br>";
     // ---
     echo "<pre> missing:";
-    print(json_encode($items["missing"], JSON_PRETTY_PRINT));
+    print(json_encode($missing, JSON_PRETTY_PRINT));
     echo "</pre>";
     // ---
     echo "<pre> exists:";
-    print(json_encode($items["exists"], JSON_PRETTY_PRINT));
+    print(json_encode($exists, JSON_PRETTY_PRINT));
     echo "</pre>";
     // ---
 } else {
