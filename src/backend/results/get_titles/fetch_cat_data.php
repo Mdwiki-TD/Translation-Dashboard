@@ -30,7 +30,6 @@ function get_cat_exists_and_missing($cat, $depth, $code, $use_cache = true): arr
     // ---
     // Find missing members
     $missing = array_diff($members, $exists);
-
     // ---
     $missing = array_unique($missing);
     // ---

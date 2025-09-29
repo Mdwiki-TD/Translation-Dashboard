@@ -84,13 +84,18 @@ function exists_expends($items_missing, $exists_targets_before)
     return $items_exists;
 }
 
-function getinprocess_n($missing, $code)
+function getinprocess_old($missing, $code)
 {
     $res = get_lang_in_process_new($code);
+    // ---
     $titles = [];
+    // ---
     foreach ($res as $t) {
-        if (in_array($t['title'], $missing)) $titles[$t['title']] = $t;
+        if (in_array($t['title'], $missing)) {
+            $titles[$t['title']] = $t;
+        }
     }
+    // ---
     return $titles;
 }
 
@@ -154,6 +159,7 @@ function get_results_new($cat, $camp, $depth, $code, $filter_sparql): array
     // Remove in-process items from missing list
     if ($len_inprocess > 0) {
         $missing = array_diff($missing, array_column($inprocess, 'title'));
+        // $missing = array_values($missing);
     }
 
     $summary = create_summary($code, $cat, count($inprocess), count($missing), $len_of_exists_pages);

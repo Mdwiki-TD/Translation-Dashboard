@@ -129,13 +129,13 @@ function get_qids($list)
 function filter_existing_out($missing, $exists, $code): array
 {
     //---
-    $missing2 = [];
+    // $missing2 = [];
+    // foreach ($missing as $_ => $title) $missing2[] = $title;
+    // $missing = $missing2;
     //---
-    foreach ($missing as $_ => $title) $missing2[] = $title;
+    $missing = array_values($missing);
     //---
-    $missing = $missing2;
-    //---
-    print_r_it($missing2, '<br>missing2');
+    print_r_it($missing, '<br>missing2');
     //---
     $qids_tab = get_qids($missing);
     //---
@@ -174,13 +174,14 @@ function filter_existing_out_new($missing, $code): array
 {
     //---
     $exists = [];
-    $missing2 = [];
     //---
-    foreach ($missing as $_ => $title) $missing2[] = $title;
-    //---
-    $missing = $missing2;
-    //---
-    print_r_it($missing2, '<br>missing2');
+    // $missing2 = [];
+    // foreach ($missing as $_ => $title) $missing2[] = $title;
+    // $missing = $missing2;
+    // ---
+    $missing = array_values($missing);
+    // ---
+    print_r_it($missing, '<br>missing');
     //---
     $qids_tab = get_qids($missing);
     //---

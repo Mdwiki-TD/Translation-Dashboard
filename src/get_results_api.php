@@ -1,6 +1,5 @@
 <?php
-header('Content-Type: application/json');
-header('Content-Encoding: UTF-8');
+header('Content-Type: application/json; charset=UTF-8');
 
 //---
 $time_start = microtime(true);

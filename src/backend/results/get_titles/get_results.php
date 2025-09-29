@@ -67,6 +67,7 @@ function get_results($cat, $camp, $depth, $code, $filter_sparql): array
     // Remove in-process items from missing list
     if ($len_inprocess > 0) {
         $missing = array_diff($missing, array_column($inprocess, 'title'));
+        // $missing = array_values($missing);
     }
 
     $summary = create_summary($code, $cat, count($inprocess), count($missing), $len_of_exists_pages);
