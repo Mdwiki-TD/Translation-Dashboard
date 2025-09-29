@@ -5,7 +5,7 @@ namespace Results\ResultsHelps;
 /*
 Usage:
 
-use function Results\ResultsHelps\get_lang_exists_pages;
+use function Results\ResultsHelps\get_lang_exists_pages_from_cache;
 use function Results\ResultsHelps\open_json_file;
 
 */
@@ -35,8 +35,10 @@ function open_json_file($file_path)
     return $data;
 }
 
-function get_lang_exists_pages($code)
+function get_lang_exists_pages_from_cache($code)
 {
+    // example of result like: [ "Spontaneous bacterial peritonitis", "Dronedarone", ... ]
+    // ---
     $json_file = "cash_exists/$code.json";
     $exists = open_td_Tables_file($json_file);
 

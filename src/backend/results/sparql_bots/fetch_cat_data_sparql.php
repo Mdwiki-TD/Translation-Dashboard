@@ -11,7 +11,7 @@ use function Results\FetchCatDataSparql\get_cat_exists_and_missing;
 
 use function Results\GetCats\get_mdwiki_cat_members;
 use function TD\Render\TestPrint\test_print;
-use function Results\ResultsHelps\get_lang_exists_pages;
+use function Results\ResultsHelps\get_lang_exists_pages_from_cache;
 use function Results\SparqlBot\filter_existing_out;
 
 function get_cat_exists_and_missing($cat, $depth, $code, $use_cache = true): array
@@ -22,7 +22,7 @@ function get_cat_exists_and_missing($cat, $depth, $code, $use_cache = true): arr
 
     test_print("get_cat_exists_and_missing Members size: " . count($members));
 
-    $exists = get_lang_exists_pages($code);
+    $exists = get_lang_exists_pages_from_cache($code);
     // ---
     // pages that exist in $exists and $members
     $exists = array_intersect($members, $exists);
@@ -36,9 +36,8 @@ function get_cat_exists_and_missing($cat, $depth, $code, $use_cache = true): arr
 
     $missing = array_unique($missing);
     // ---
-    $missing = filter_existing_out($missing, $code);
+    [$exists, $missing] = filter_existing_out($missing, $exists, $code);
     // ---
-
     // Calculate the length of existing pages
     $exs_len = count($members) - count($missing);
 
