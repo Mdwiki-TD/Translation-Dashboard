@@ -26,7 +26,7 @@ if (!empty($Category)) {
     $execution_time = (microtime(true) - $time_start);
     echo "<br> >>>>> Total Execution Time: " . $execution_time . " Seconds<br>";
     // ---
-    echo "len_of_exists: " . $items['len_of_exists'] . "<br>";
+    echo "len of exists: " . count($items["exists"]) . "<br>";
     echo "len of missing: " . count($items["missing"]) . "<br>";
     // ---
     echo "<pre> missing:";
