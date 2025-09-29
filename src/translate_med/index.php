@@ -12,7 +12,7 @@ include_once __DIR__ . '/../include_all.php';
 include_once __DIR__ . '/../backend/others/db_insert.php';
 // ---
 use function TD\Render\Html\login_card;
-use function Results\TrLink\make_translate_link_medwiki;
+use function Results\TrLink\make_ContentTranslation_url;
 // use function TranslateMed\Inserter\insertPage;
 use function TranslateMed\Inserter\insertPage_inprocess;
 use function SQLorAPI\GetDataTab\get_td_or_sql_users_no_inprocess;
@@ -26,7 +26,7 @@ function go_to_translate_url($title_o, $coden, $tr_type, $cat, $camp)
     // ---
     $test = $_GET['test'] ?? '';
     // ---
-    $url = make_translate_link_medwiki($title_o, $coden, $cat, $camp, $tr_type);
+    $url = make_ContentTranslation_url($title_o, $coden, $cat, $camp, $tr_type);
     // ---
     echo <<<HTML
         <br>

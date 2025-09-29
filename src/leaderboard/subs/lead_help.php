@@ -16,10 +16,10 @@ use function Leaderboard\Subs\LeadHelp\make_users_lead;
 use Tables\Main\MainTables;
 use Tables\SqlTables\TablesSql;
 use function APICalls\WikiApi\make_view_by_number;
-use function TD\Render\Html\make_cat_url;
-use function TD\Render\Html\make_mdwiki_title;
-use function TD\Render\Html\make_target_url;
-use function Results\TrLink\make_translate_link_medwiki;
+use function TD\Render\Html\make_mdwiki_cat_url;
+use function TD\Render\Html\make_mdwiki_article_url_blank;
+use function TD\Render\Html\make_wikipedia_url_blank;
+use function Results\TrLink\make_ContentTranslation_url;
 use function Leaderboard\Camps\get_articles_to_camps;
 // use function TD\Render\Html\make_translation_url;
 
@@ -77,9 +77,9 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type, $tab_t
     //---
     $word = number_format($word);
     //---
-    $nana = make_mdwiki_title($mdtitle);
+    $mdwiki_url = make_mdwiki_article_url_blank($mdtitle);
     //---
-    $ccat = make_cat_url($cat);
+    $cat_or_camp_link = make_mdwiki_cat_url($cat);
     //---
     $new_camps = $articlesto_camps[$mdtitle] ?? [];
     //---
@@ -89,17 +89,17 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type, $tab_t
     // 2023-08-22
     if (count($new_camps) > 0) {
         $campaign_data = "";
-        $ccat = "";
+        $cat_or_camp_link = "";
         foreach ($new_camps as $camp) {
-            $ccat .= "<a href='leaderboard.php?camp=$camp' style='white-space: nowrap;'>$camp</a><br>";
+            $cat_or_camp_link .= "<a href='leaderboard.php?camp=$camp' style='white-space: nowrap;'>$camp</a><br>";
             $campaign_data .= "$camp, ";
         }
         // remove last <br>
-        $ccat = substr($ccat, 0, -4);
+        $cat_or_camp_link = substr($cat_or_camp_link, 0, -4);
     } else {
         // echo "No campaigns for $mdtitle<br>";
         if (!empty($campaign)) {
-            $ccat = "<a href='leaderboard.php?camp=$campaign'>$campaign</a>";
+            $cat_or_camp_link = "<a href='leaderboard.php?camp=$campaign'>$campaign</a>";
         };
     };
     //---
@@ -132,7 +132,7 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type, $tab_t
         $td_views = '';
         //---
         // $tralink = make_translation_url($mdtitle, $lang, $tran_type);
-        $tralink = make_translate_link_medwiki($mdtitle, $lang, $cat, "", $tran_type);
+        $tralink = make_ContentTranslation_url($mdtitle, $lang, $cat, "", $tran_type);
         $complete   = ($user_is_global_username) ? "<td data-content='complete'><a target='_blank' href='$tralink'>complete</a></td>" : '';
     } else {
         $target  = trim($tabb['target']);
@@ -142,7 +142,7 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type, $tab_t
             $view = make_view_by_number($target, $view_number, $lang, $pupdate);
         }
         //---
-        $target_link = make_target_url($target, $lang, $name = "", $deleted = $deleted);
+        $target_link = make_wikipedia_url_blank($target, $lang, $name = "", $deleted = $deleted);
         //---
         $td_views = "<td data-content='Views' data-sort='$view_number' data-filter='$view_number'>$view</td>";
     };
@@ -159,10 +159,10 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type, $tab_t
                 $urll
             </td>
             <td data-content="Title" data-filter="$mdtitle">
-                $nana
+                $mdwiki_url
             </td>
             <td data-content="Campaign" data-filter="$campaign_data">
-                $ccat
+                $cat_or_camp_link
             </td>
             <td data-content="Words" data-filter="$word">
                 $word

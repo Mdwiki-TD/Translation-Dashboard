@@ -9,16 +9,19 @@ use function Results\ResultsTable\sort_py_PageViews;
 use function Results\ResultsTable\sort_py_importance;
 use function Results\ResultsTable\make_one_row;
 use function Results\ResultsTable\make_results_table;
+use function Results\ResultsTable\normalizeItems;
 
 */
+
 use Tables\Main\MainTables;
 
-use function Tables\SqlTables\load_translate_type;
 use function SQLorAPI\GetDataTab\get_td_or_sql_qids;
 use function Results\ResultsTable\Rows\make_td_rows_responsive;
 use function Results\ResultsTable\Rows\make_td_rows_mobile;
 use function Results\ResultsTable\Rows\make_mobile_table;
 use function Results\ResultsTable\Rows\make_translate_urls;
+use function TD\Render\Html\make_mdwiki_href;
+use function TD\Render\Html\make_wikidata_url_blank;
 
 function sort_py_PageViews($items, $en_views_tab)
 {
@@ -88,7 +91,7 @@ function one_item_props($title, $langcode, $tra_type)
     return $tab;
 }
 
-function make_one_row_new($title, $tra_type, $cnt, $langcode, $cat, $camp, $inprocess, $inprocess_table, $tra_btn, $full, $full_tr_user, $mobile_td)
+function make_one_row_new($title, $tra_type, $cnt, $langcode, $cat, $camp, $inprocess, $inprocess_table, $tra_btn, $full, $full_tr_user, $mobile_td, $global_username)
 {
     //---
     $_user_ = $inprocess_table['user'] ?? '';
@@ -98,11 +101,29 @@ function make_one_row_new($title, $tra_type, $cnt, $langcode, $cat, $camp, $inpr
     //---
     $qid = $props['qid'];
     //---
-    $qid_url = (!empty($qid)) ? "<a class='inline' target='_blank' href='https://wikidata.org/wiki/$qid'>$qid</a>" : '&nbsp;';
+    // $qid_url = (!empty($qid)) ? "<a class='inline' target='_blank' href='https://wikidata.org/wiki/$qid'>$qid</a>" : '&nbsp;';
+    $qid_url = make_wikidata_url_blank($qid);
     //---
-    $mdwiki_url = "//mdwiki.org/wiki/" . str_replace('+', '_', rawurlEncode($title));
+    $_user_no_as_global_username = $_user_ != $global_username;
     //---
-    [$tab, $translate_url, $full_translate_url] = make_translate_urls($title, $tra_type, $props['word'], $langcode, $cat, $camp, $inprocess, $mdwiki_url, $tra_btn, $_user_, $full_tr_user);
+    // $mdwiki_url = "//mdwiki.org/wiki/" . str_replace('+', '_', rawurlEncode($title));
+    $mdwiki_url = make_mdwiki_href($title);
+    //---
+    $tab = "";
+    //---
+    $translate_url = $mdwiki_url;
+    $full_translate_url = $mdwiki_url;
+    //---
+    if ($global_username == '') {
+        //---
+        $tab = <<<HTML
+            <a role='button' class='btn btn-outline-primary' onclick='login()'>
+                <i class='fas fa-sign-in-alt fa-sm fa-fw mr-1'></i><span class='navtitles'>Login</span>
+            </a>
+            HTML;
+    } else {
+        [$tab, $translate_url, $full_translate_url] = make_translate_urls($title, $tra_type, $props['word'], $langcode, $cat, $camp, $inprocess, $tra_btn, $_user_, $full_tr_user, $_user_no_as_global_username);
+    }
     //---
     // if $_date_ has : then split before first space
     if (strpos($_date_, ':') !== false) {
@@ -135,11 +156,39 @@ function make_one_row_new($title, $tra_type, $cnt, $langcode, $cat, $camp, $inpr
     // ---
 }
 
-function make_results_table($items, $langcode, $cat, $camp, $tra_type, $tra_btn, $full_tr_user, $inprocess = false)
+function normalizeItemsOld(array $items): array
 {
-    //---
-    $nolead_translates = load_translate_type('no');
-    $translates_full = load_translate_type('full');
+    // Check if the array is associative (keys are not 0..n-1)
+    if (array_keys($items) !== range(0, count($items) - 1)) {
+        return array_keys($items); // Return only the keys
+    }
+    // If it's an indexed array, return it as is
+    return $items;
+}
+function normalizeItems(array $items): array
+{
+    // If it's an indexed array (0..n-1), return it as-is
+    if (array_keys($items) === range(0, count($items) - 1)) {
+        return $items;
+    }
+    // Otherwise, build a list that includes:
+    //  - each integer-keyed item’s value
+    //  - each associative key whose value is itself an array
+    $normalized = [];
+    foreach ($items as $key => $value) {
+        if (is_int($key)) {
+            $normalized[] = $value;
+            continue;
+        }
+        if (is_array($value)) {
+            $normalized[] = $key;
+        }
+    }
+    return $normalized;
+}
+
+function make_results_table($items, $langcode, $cat, $camp, $tra_type, $tra_btn, $full_tr_user, $global_username, $nolead_translates, $translates_full, $inprocess = false)
+{
     //---
     $do_full   = ($tra_type == 'all') ? false : true;
     //---
@@ -150,7 +199,9 @@ function make_results_table($items, $langcode, $cat, $camp, $tra_type, $tra_btn,
     //---
     if ($inprocess) {
         $inprocess_first = '<th>user</th><th>date</th>';
-        $items = array_keys($items);
+        // ---
+        $items = normalizeItems($items);
+        // ---
         // if ($tra_btn != '1') $Translate_th = '<th></th>';
     };
     //---
@@ -221,7 +272,7 @@ function make_results_table($items, $langcode, $cat, $camp, $tra_type, $tra_btn,
             $tra_type = 'all';
         };
         //---
-        $row = make_one_row_new($title, $tra_type, $cnt2, $langcode, $cat, $camp, $inprocess, $inprocess_tab, $tra_btn, false, $full_tr_user, $mobile_td);
+        $row = make_one_row_new($title, $tra_type, $cnt2, $langcode, $cat, $camp, $inprocess, $inprocess_tab, $tra_btn, false, $full_tr_user, $mobile_td, $global_username);
         //---
         // if in process or full translates not allowed
         if ($inprocess || !$do_full || $full_tr_user) {
@@ -245,7 +296,7 @@ function make_results_table($items, $langcode, $cat, $camp, $tra_type, $tra_btn,
         }
         //---
         if ($full) {
-            $list .= make_one_row_new($title, 'all', $cnt2, $langcode, $cat, $camp, $inprocess, $inprocess_tab, $tra_btn, true, $full_tr_user, $mobile_td);
+            $list .= make_one_row_new($title, 'all', $cnt2, $langcode, $cat, $camp, $inprocess, $inprocess_tab, $tra_btn, true, $full_tr_user, $mobile_td, $global_username);
         }
         //---
         $cnt++;

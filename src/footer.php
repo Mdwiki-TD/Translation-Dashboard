@@ -1,6 +1,6 @@
 <?php
 
-if (!empty($GLOBALS['global_username'])) {
+if (!empty($GLOBALS['global_username'] ?? "")) {
 
 	if (!isset($_COOKIE['cookie_alert_dismissed1'])) {
 		echo <<<HTML
@@ -81,6 +81,7 @@ if (isset($GLOBALS['time_start'])) {
 
 		// $('.card').CardWidget('toggle')
 		$('.table_responsive').DataTable({
+			stateSave: false,
 			paging: false,
 			info: false,
 			searching: false,

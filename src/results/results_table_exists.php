@@ -12,20 +12,10 @@ use function Results\ResultsTableExists\make_results_table_exists;
 use Tables\Main\MainTables;
 
 use function SQLorAPI\GetDataTab\get_td_or_sql_qids;
-use function Results\ResultsTable\Rows\make_translate_urls;
-use function Results\TrLink\make_translate_link_medwiki;
-
-function sort_py_PageViews($items, $en_views_tab)
-{
-    $dd = [];
-    foreach ($items as $t) {
-        $t = str_replace('_', ' ', $t);
-        $kry = $en_views_tab[$t] ?? 0;
-        $dd[$t] = $kry;
-    }
-    arsort($dd);
-    return $dd;
-}
+use function Results\TrLink\make_ContentTranslation_url;
+use function TD\Render\Html\make_mdwiki_article_url_blank;
+use function TD\Render\Html\make_wikipedia_url_blank;
+use function TD\Render\Html\make_wikidata_url_blank;
 
 function one_item_props($title, $target)
 {
@@ -52,14 +42,8 @@ function one_item_props($title, $target)
     return $tab;
 }
 
-function make_one_row_new($title, $cnt, $langcode, $cat, $camp, $tra_btn, $full_tr_user, $props)
+function make_one_row_new($title, $cnt, $langcode, $cat, $camp, $props, $global_username)
 {
-    //---
-    $tra_type = "lead";
-    //---
-    if (strtolower(substr($title, 0, 6)) == 'video:') {
-        $tra_type = 'all';
-    };
     //---
     $words = $props['word'];
     $refs  = $props['refs'];
@@ -67,31 +51,25 @@ function make_one_row_new($title, $cnt, $langcode, $cat, $camp, $tra_btn, $full_
     $pageviews = $props['views'];
     $qid = $props['qid'];
     //---
-    $title2 = rawurlEncode($title);
-    $mdwiki_url = "//mdwiki.org/wiki/" . str_replace('+', '_', $title2);
+    $mdwiki_a_tag = make_mdwiki_article_url_blank($title);
     //---
-    $qid_url = (!empty($qid)) ? "<a class='inline' target='_blank' href='https://wikidata.org/wiki/$qid'>$qid</a>" : '&nbsp;';
+    $qid_url = make_wikidata_url_blank($qid);
     //---
     $target = $props['target'] ?? '';
     $target_before = $props['target_before'] ?? '';
     //---
     $target_tab = "";
     $target_tab2 = "";
-    $target_url = "";
     //---
     if (!empty($target)) {
-        $encoded_target = rawurlencode(str_replace(' ', '_', $target));
-        $target_url = "https://$langcode.wikipedia.org/wiki/$encoded_target";
-        $target_tab = "<a target='_blank' href='$target_url'>$target</a>";
+        // ---
+        $target_tab = make_wikipedia_url_blank($target, $langcode);
     } elseif (!empty($target_before)) {
-        $encoded_target2 = rawurlencode(str_replace(' ', '_', $target_before));
-        $target_url2 = "https://$langcode.wikipedia.org/wiki/$encoded_target2";
-        $target_tab2 = "<a target='_blank' href='$target_url2'>$target_before</a>";
+        // ---
+        $target_tab2 = make_wikipedia_url_blank($target_before, $langcode);
     }
     //---
-    // [$tab, $translate_url, $full_translate_url] = make_translate_urls($title, $tra_type, $props['word'], $langcode, $cat, $camp, "", $mdwiki_url, $tra_btn, "", $full_tr_user);
-    //---
-    $translate_url = make_translate_link_medwiki($title, $langcode, $cat, $camp, 'lead');
+    $translate_url = make_ContentTranslation_url($title, $langcode, $cat, $camp, 'lead');
     //---
     $tab = <<<HTML
         <div class='inline'>
@@ -121,7 +99,7 @@ function make_one_row_new($title, $cnt, $langcode, $cat, $camp, $tra_btn, $full_
             $cnt
         </th>
         <td class='link_container spannowrap'>
-            <a target='_blank' href='$mdwiki_url'>$title</a>
+            $mdwiki_a_tag
         </td>
         <td>
             $tab
@@ -143,11 +121,8 @@ function make_one_row_new($title, $cnt, $langcode, $cat, $camp, $tra_btn, $full_
     return $td_rows;
 }
 
-function make_results_table_exists($items, $langcode, $cat, $camp, $tra_btn, $full_tr_user, $exists_targets, $exists_targets_before)
+function make_results_table_exists($items, $langcode, $cat, $camp, $global_username)
 {
-    //---
-    $dd = [];
-    $dd = sort_py_PageViews($items, MainTables::$x_enwiki_pageviews_table);
     //---
     $list = "";
     //---
@@ -155,27 +130,26 @@ function make_results_table_exists($items, $langcode, $cat, $camp, $tra_btn, $fu
     $count_translated = 0;
     $count_translated_before = 0;
     //---
-    $exists_targets = array_column($exists_targets, 'target', 'title');
-    $exists_targets_before = array_column($exists_targets_before, 'target', 'title');
-    //---
-    foreach ($dd as $v => $gt) {
+    foreach ($items as $title => $target_tab) {
         // ---
-        if (empty($v)) continue;
+        if (empty($title)) continue;
         // ---
-        $title = str_replace('_', ' ', $v);
+        $title = str_replace('_', ' ', $title);
         //---
-        $target = $exists_targets[$title] ?? null;
+        // $target_td = $exists_targets[$title] ?? null;
+        // $target_before = $exists_targets_before[$title] ?? null;
         //---
-        $target_before = $exists_targets_before[$title] ?? null;
+        $target_td = ($target_tab["via"] === "td") ? $target_tab["target"] : null;
+        $target_before = ($target_tab["via"] !== "td") ? $target_tab["target"] : null;
         //---
-        $count_translated += !empty($target);
+        $count_translated += !empty($target_td);
         //---
-        $count_translated_before += empty($target) && !empty($target_before);
+        $count_translated_before += empty($target_td) && !empty($target_before);
         //---
-        $props = one_item_props($title, $target);
+        $props = one_item_props($title, $target_td);
         $props["target_before"] = $target_before;
         //---
-        $row = make_one_row_new($title, $cnt, $langcode, $cat, $camp, $tra_btn, $full_tr_user, $props);
+        $row = make_one_row_new($title, $cnt, $langcode, $cat, $camp, $props, $global_username);
         //---
         $list .= $row;
         //---
