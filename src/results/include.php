@@ -4,6 +4,10 @@ foreach (glob(__DIR__ . "/../backend/results/sparql_bots/*.php") as $filename) {
     include_once $filename;
 }
 
+foreach (glob(__DIR__ . "/../backend/results/new_way/*.php") as $filename) {
+    include_once $filename;
+}
+
 foreach (glob(__DIR__ . "/../backend/results/*.php") as $filename) {
     include_once $filename;
 }

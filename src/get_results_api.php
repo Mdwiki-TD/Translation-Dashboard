@@ -2,6 +2,9 @@
 header('Content-Type: application/json');
 header('Content-Encoding: UTF-8');
 
+//---
+$time_start = microtime(true);
+//---
 $_REQUEST['test'] = "x";
 $_COOKIE['test'] = "x";
 $_GET['test'] = "x";
@@ -37,4 +40,9 @@ if ($new) {
 // $results['missing'] = normalizeItems($results['missing']);
 // $results['exists'] = normalizeItems($results['exists']);
 
-echo json_encode($results, JSON_PRETTY_PRINT);
+$tab = [
+    "execution_time" => (microtime(true) - $time_start),
+    "results" => $results
+];
+// ---
+echo json_encode($tab, JSON_PRETTY_PRINT);

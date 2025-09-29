@@ -38,6 +38,7 @@ function compare_it($t1, $t2)
 
 function post_url(string $endPoint, array $params = []): string
 {
+    $time_start = microtime(true);
     $usr_agent = "WikiProjectMed Translation Dashboard/1.0 (https://mdwiki.toolforge.org/; tools.mdwiki@toolforge.org)";
 
     $ch = curl_init();
@@ -66,7 +67,10 @@ function post_url(string $endPoint, array $params = []): string
         test_print_o('post_url: Error: API request failed with status code ' . $http_code);
     }
     //---
-    test_print_o("post_url: (http_code: $http_code) $url2");
+    $execution_time = (microtime(true) - $time_start);
+    $execution_time = round($execution_time, 4);
+    // ---
+    test_print_o("post_url (time: $execution_time s): (http_code: $http_code) $url2");
     // ---
     if ($output === FALSE) {
         test_print_o("post_url: cURL Error: " . curl_error($ch));
@@ -75,7 +79,7 @@ function post_url(string $endPoint, array $params = []): string
     if (curl_errno($ch)) {
         test_print_o('post_url: Error:' . curl_error($ch));
     }
-
+    // ---
     curl_close($ch);
     return $output;
 }
