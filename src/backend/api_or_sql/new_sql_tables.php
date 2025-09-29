@@ -46,7 +46,7 @@ function exists_by_qids_query_and_category($lang, $category)
     return $u_data;
 }
 
-function exists_by_qids_query($lang, $category)
+function exists_by_qids_query($lang)
 {
     // ---
     // http://localhost:9001/api.php?get=exists_by_qids&lang=ar&target=not_empty
