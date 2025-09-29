@@ -52,14 +52,12 @@ function get_lang_exists_pages_from_cache($code)
 }
 
 
-function make_exists_targets($targets_via_td, $exists, $code, $cat)
+function make_exists_targets($targets_via_td, $exists, $code)
 {
     //---
-    // $targets_via_td = array_column($targets_via_td, 'target', 'title');
-    $targets_via_td = array_column($targets_via_td, null, 'title');
     // { "id": 6982, "title": "Video:Abdominal thrusts", "word": 117, "translate_type": "all", "cat": "RTTVideo", "lang": "ar", "user": "Mr. Ibrahem", "target": "ويكيبيديا:فيديوويكي\/ضغطات البطن", "date": "2025-02-06", "pupdate": "2025-02-06", "add_date": "2025-02-06 03:00:00", "deleted": 0, "mdwiki_revid": null }
     //---
-    $exists_targets_before = exists_by_qids_query($code, $cat);
+    $exists_targets_before = exists_by_qids_query($code);
     // $exists_targets_before = array_column($exists_targets_before, 'target', 'title');
     $exists_targets_before = array_column($exists_targets_before, null, 'title');
     // { "qid": "Q133005500", "title": "Video:Abdominal thrusts", "category": "RTTVideo", "code": "ar", "target": "ويكيبيديا:فيديوويكي\/ضغطات البطن" }
