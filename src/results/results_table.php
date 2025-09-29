@@ -167,17 +167,23 @@ function normalizeItemsOld(array $items): array
 }
 function normalizeItems(array $items): array
 {
+    // If it's an indexed array (0..n-1), return it as-is
     if (array_keys($items) === range(0, count($items) - 1)) {
         return $items;
     }
-
+    // Otherwise, build a list that includes:
+    //  - each integer-keyed item’s value
+    //  - each associative key whose value is itself an array
     $normalized = [];
     foreach ($items as $key => $value) {
+        if (is_int($key)) {
+            $normalized[] = $value;
+            continue;
+        }
         if (is_array($value)) {
             $normalized[] = $key;
         }
     }
-
     return $normalized;
 }
 
