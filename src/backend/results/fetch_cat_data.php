@@ -26,21 +26,18 @@ function get_cat_exists_and_missing($cat, $depth, $code, $use_cache = true): arr
     // pages that exist in $exists and $members
     $exists = array_intersect($members, $exists);
     // ---
-    // var_dump($exists);
+    // change from ("{"6":"Video:Cancer"}") to (["Video:Cancer"])
+    // $exists = array_values($exists);
     // ---
     // Find missing members
     $missing = array_diff($members, $exists);
 
     $missing = array_unique($missing);
-
     // ---
-    // Calculate the length of existing pages
-    $exs_len = count($members) - count($missing);
-
+    // ---
     // test_print("End of get_cat exists_and_missing <br>===============================");
 
     return [
-        "len_of_exists" => $exs_len,
         "missing" => $missing,
         "exists" => $exists,
     ];
