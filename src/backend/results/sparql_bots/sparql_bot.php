@@ -191,7 +191,7 @@ function filter_existing_out_new($missing, $code): array
     print_r_it($sparql_exist, 'sparql_exist', $r = 1);
     // ---
     if (count($sparql_exist) == 0) {
-        return [$exists, $missing];
+        return $exists;
     }
     //---
     $new_missings = [];
@@ -211,5 +211,5 @@ function filter_existing_out_new($missing, $code): array
     // ---
     test_print("filter_existing_out sparql_exist count: " . count($sparql_exist));
     // ---
-    return [$exists, $new_missings];
+    return $exists;
 }

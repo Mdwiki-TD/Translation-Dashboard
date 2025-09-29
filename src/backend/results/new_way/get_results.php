@@ -117,11 +117,16 @@ function get_results_new($cat, $camp, $depth, $code, $filter_sparql): array
     // ---
     if (!empty($filter_sparql)) {
         // ---
-        [$items_exists_2, $items_missing] = filter_existing_out_new($items_missing, $code);
+        $items_exists_2 = filter_existing_out_new($items_missing, $code);
         // ---
-        $exists_add = make_exists_targets_new($items_exists_2, $code, $exists_targets_before);
-        // ---
-        $items_exists = array_merge($items_exists, $exists_add);
+        if ($items_exists_2) {
+            // ---
+            $items_missing = array_diff($items_missing, $items_exists_2);
+            // ---
+            $exists_add = make_exists_targets_new($items_exists_2, $code, $exists_targets_before);
+            // ---
+            $items_exists = array_merge($items_exists, $exists_add);
+        }
     }
     // ---
     test_print("Items missing: " . count($items_missing));

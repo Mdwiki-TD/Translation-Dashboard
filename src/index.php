@@ -20,6 +20,7 @@ use function TD\Render\Forms\print_form_start1;
 use function Results\ResultsIndex\results_loader;
 //---
 $allow_whole_translate = TablesSql::$s_settings['allow_type_of_translate']['value'] ?? '1';
+$load_new_result = TablesSql::$s_settings['load_new_result']['value'] ?? '';
 //---
 $req  = load_request();
 // ---
@@ -71,8 +72,6 @@ HTML;
 //---
 echo "<div class='container-fluid'>";
 //---
-$new_result = $_GET['new_result'] ?? "";
-//---
 if ($doit) {
     $data = [
         "camp" => $camp,
@@ -82,7 +81,7 @@ if ($doit) {
         "tra_type" => $tra_type,
         "global_username" => $global_username,
         "filter_sparql" => $filter_sparql,
-        "new_result" => $new_result,
+        "new_result" => $load_new_result,
         "test" => $test
     ];
     echo results_loader($data);
