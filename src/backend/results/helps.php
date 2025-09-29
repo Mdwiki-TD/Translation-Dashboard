@@ -52,14 +52,12 @@ function get_lang_exists_pages_from_cache($code)
 }
 
 
-function make_exists_targets($targets_via_td, $exists, $code, $cat)
+function make_exists_targets($targets_via_td, $exists, $code)
 {
     //---
-    // $targets_via_td = array_column($targets_via_td, 'target', 'title');
-    $targets_via_td = array_column($targets_via_td, null, 'title');
     // { "id": 6982, "title": "Video:Abdominal thrusts", "word": 117, "translate_type": "all", "cat": "RTTVideo", "lang": "ar", "user": "Mr. Ibrahem", "target": "ويكيبيديا:فيديوويكي\/ضغطات البطن", "date": "2025-02-06", "pupdate": "2025-02-06", "add_date": "2025-02-06 03:00:00", "deleted": 0, "mdwiki_revid": null }
     //---
-    $exists_targets_before = exists_by_qids_query($code, $cat);
+    $exists_targets_before = exists_by_qids_query($code);
     // $exists_targets_before = array_column($exists_targets_before, 'target', 'title');
     $exists_targets_before = array_column($exists_targets_before, null, 'title');
     // { "qid": "Q133005500", "title": "Video:Abdominal thrusts", "category": "RTTVideo", "code": "ar", "target": "ويكيبيديا:فيديوويكي\/ضغطات البطن" }
@@ -110,20 +108,16 @@ function filter_items_missing_cat2($items_missing, $cat2, $depth)
     return $items_missing;
 }
 
-function create_summary($code, $cat, $inprocess, $missing, $len_of_exists_pages)
+function create_summary($code, $cat, $len_inprocess, $len_missing, $len_of_exists_pages)
 {
 
-    $len_inprocess = count($inprocess);
-
-    // Calculate totals
-    $len_of_missing_pages = count($missing);
-    $len_of_all = $len_of_exists_pages + $len_of_missing_pages + $len_inprocess;
+    $len_of_all = $len_of_exists_pages + $len_missing + $len_inprocess;
 
     // Prepare category URL
     $caturl = make_mdwiki_cat_url($cat, "Category");
 
     // Generate summary message
-    $summary = "Found $len_of_all pages in $caturl, $len_of_exists_pages exists, and $len_of_missing_pages missing in (<a href='https://$code.wikipedia.org' target='_blank'>$code</a>), $len_inprocess In process.";
+    $summary = "Found $len_of_all pages in $caturl, $len_of_exists_pages exists, and $len_missing missing in (<a href='https://$code.wikipedia.org' target='_blank'>$code</a>), $len_inprocess In process.";
     // ---
     return $summary;
 }
