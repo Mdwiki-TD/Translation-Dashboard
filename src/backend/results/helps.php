@@ -110,20 +110,16 @@ function filter_items_missing_cat2($items_missing, $cat2, $depth)
     return $items_missing;
 }
 
-function create_summary($code, $cat, $inprocess, $missing, $len_of_exists_pages)
+function create_summary($code, $cat, $len_inprocess, $len_missing, $len_of_exists_pages)
 {
 
-    $len_inprocess = count($inprocess);
-
-    // Calculate totals
-    $len_of_missing_pages = count($missing);
-    $len_of_all = $len_of_exists_pages + $len_of_missing_pages + $len_inprocess;
+    $len_of_all = $len_of_exists_pages + $len_missing + $len_inprocess;
 
     // Prepare category URL
     $caturl = make_mdwiki_cat_url($cat, "Category");
 
     // Generate summary message
-    $summary = "Found $len_of_all pages in $caturl, $len_of_exists_pages exists, and $len_of_missing_pages missing in (<a href='https://$code.wikipedia.org' target='_blank'>$code</a>), $len_inprocess In process.";
+    $summary = "Found $len_of_all pages in $caturl, $len_of_exists_pages exists, and $len_missing missing in (<a href='https://$code.wikipedia.org' target='_blank'>$code</a>), $len_inprocess In process.";
     // ---
     return $summary;
 }

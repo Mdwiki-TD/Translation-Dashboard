@@ -10,7 +10,7 @@ include_once __DIR__ . '/include_all.php';
 
 use Tables\SqlTables\TablesSql;
 use function Results\GetResults\get_results;
-use function Results\GetResults\get_results_new;
+// use function Results\GetResults\get_results_new;
 use function Results\ResultsTable\normalizeItems;
 
 $cat   = $_GET['cat'] ?? "";
@@ -27,7 +27,7 @@ $cat   = $cat ?? "RTTHearing";
 $camp  = $camp ?? "Hearing";
 
 $results = get_results($cat, $camp, $depth, $code, $filter_sparql);
-$results = get_results_new($cat, $camp, $depth, $code, $filter_sparql);
+// $results = get_results_new($cat, $camp, $depth, $code, $filter_sparql);
 
 // $results['inprocess'] = normalizeItems($results['inprocess']);
 // $results['missing'] = normalizeItems($results['missing']);
