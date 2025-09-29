@@ -27,8 +27,12 @@ if (empty($cat) && !empty($camp)) {
     $cat = TablesSql::$s_camp_to_cat[$camp] ?? '';
 }
 
-$cat   = $cat ?? "RTTHearing";
-$camp  = $camp ?? "Hearing";
+if (empty($cat)) {
+    $cat = "RTTHearing";
+}
+if (empty($camp)) {
+    $camp = "Hearing";
+}
 
 if ($new) {
     $results = get_results_new($cat, $camp, $depth, $code, $filter_sparql);

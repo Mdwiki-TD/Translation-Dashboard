@@ -49,15 +49,15 @@ function make_exists_targets_new($exists, $code, $exists_targets_before)
     return $tab;
 }
 
-function exists_expends($items_exists, $items_missing, $exists_targets_before)
+function exists_expends($items_missing, $exists_targets_before)
 {
     //---
     test_print("++ exists_expends:");
-    test_print("++ before ++ items_exists " . count($items_exists));
     test_print("++ before ++ items_missing " . count($items_missing));
     // ---
     // { "qid": "Q133005500", "title": "Video:Abdominal thrusts", "category": "RTTVideo", "code": "ar", "target": "ويكيبيديا:فيديوويكي\/ضغطات البطن" }
     //---
+    $items_exists = [];
     $missing_new = [];
     //---
     foreach ($items_missing as $title) {
@@ -66,9 +66,6 @@ function exists_expends($items_exists, $items_missing, $exists_targets_before)
         $target = $before_link['target'] ?? "";
         // ---
         if ($target) {
-            // ---
-            // remove it from $items_missing
-            unset($items_missing[$title]);
             // ---
             $items_exists[$title] = [
                 "qid" => $before_link['qid'] ?? "",
@@ -84,7 +81,7 @@ function exists_expends($items_exists, $items_missing, $exists_targets_before)
     test_print("++ after ++ items_exists " . count($items_exists));
     test_print("++ after ++ items_missing " . count($missing_new));
     //---
-    return [$items_exists, $missing_new];
+    return $items_exists;
 }
 
 function getinprocess_n($missing, $code)
@@ -113,7 +110,13 @@ function get_results_new($cat, $camp, $depth, $code, $filter_sparql): array
     // ---
     test_print("Items missing before filter_sparql " . count($items_missing));
     // ---
-    [$items_exists, $items_missing] = exists_expends($items_exists, $items_missing, $exists_targets_before);
+    $exists_1 = exists_expends($items_missing, $exists_targets_before);
+    // ---
+    if ($exists_1) {
+        // ---
+        $items_missing = array_diff($items_missing, array_keys($exists_1));
+        $items_exists = array_merge($items_exists, $exists_1);
+    }
     // ---
     if (!empty($filter_sparql)) {
         // ---
