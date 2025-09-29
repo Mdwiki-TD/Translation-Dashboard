@@ -20,6 +20,13 @@ class CategoryFetcher
     private array $options;
     private bool $debug;
     private string $endPoint;
+    private int $connectTimeout;
+    private string $tablesDir;
+    private int $timeout;
+
+    private const NS_MAIN = 0;
+    private const NS_CATEGORY = 14;
+    private const NS_CUSTOM_EXAMPLE = 3000; // Or a more descriptive name
 
     /**
      * @param array $options Options array. Supported keys:
@@ -33,6 +40,9 @@ class CategoryFetcher
         $this->options = $options;
         $this->endPoint = (!empty($endPoint)) ? $endPoint : 'https://mdwiki.org/w/api.php';
         $this->debug = (bool)($options['debug'] ?? false);
+        $this->connectTimeout = $options['connect_timeout'] ?? 10;
+        $this->timeout = $options['timeout'] ?? 15;
+        $this->tablesDir = $options['tablesDir'] ?? '';
     }
 
     /**
@@ -45,6 +55,10 @@ class CategoryFetcher
      */
     public function getMdwikiCatMembers(string $rootCat, int $depth = 0, bool $useCache = true): array
     {
+        // Validate depth is non-negative
+        if (!is_int($depth) || $depth < 0) {
+            $depth = 0;
+        }
         $titles = [];
         $cats = [$rootCat];
         $depthDone = -1;
@@ -169,7 +183,8 @@ class CategoryFetcher
             $categoryMembers = $resa["query"]["categorymembers"] ?? [];
             foreach ($categoryMembers as $pages) {
                 // keep ns 0 (articles), 14 (Category), 3000 (??? as original)
-                if (($pages["ns"] ?? -1) === 0 || ($pages["ns"] ?? -1) === 14 || ($pages["ns"] ?? -1) === 3000) {
+                $ns = $pages["ns"] ?? -1;
+                if ($ns === self::NS_MAIN || $ns === self::NS_CATEGORY || $ns === self::NS_CUSTOM_EXAMPLE) {
                     $items[] = $pages["title"];
                 }
             }
@@ -214,8 +229,8 @@ class CategoryFetcher
             CURLOPT_POSTFIELDS => http_build_query($params, '', '&', PHP_QUERY_RFC3986),
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_USERAGENT => $usrAgent,
-            CURLOPT_CONNECTTIMEOUT => 10,
-            CURLOPT_TIMEOUT => 15,
+            CURLOPT_CONNECTTIMEOUT => $this->connectTimeout,
+            CURLOPT_TIMEOUT => $this->timeout,
         ]);
         $output = curl_exec($ch);
 
@@ -252,7 +267,7 @@ class CategoryFetcher
             return [];
         }
 
-        $newList = $this->openTablesFile($cat, false) ?? [];
+        $newList = $this->openTablesFile($cat) ?? [];
 
         if (empty($newList)) {
             return [];
@@ -273,13 +288,15 @@ class CategoryFetcher
      * @param bool $echo
      * @return array
      */
-    private function openTablesFile(string $cat, bool $echo = true): array
+    private function openTablesFile(string $cat): array
     {
-        $tablesDir = getenv("HOME") . '/public_html/td/Tables';
-        if (substr(__DIR__, 0, 2) == 'I:') {
-            $tablesDir = 'I:/mdwiki/mdwiki/public_html/td/Tables';
+        if (empty($this->tablesDir)) {
+            return [];
         }
-        $filePath = "$tablesDir/cats_cash/$cat.json";
+        // Sanitize category name to prevent path traversal
+        $cat = str_replace(['/', '\\', '..'], '', $cat);
+
+        $filePath = "{$this->tablesDir}/cats_cash/$cat.json";
 
         if (!is_file($filePath)) {
             $this->log("---- openTablesFile: file $filePath does not exist");
@@ -296,9 +313,8 @@ class CategoryFetcher
         if ($result === null || $result === false) {
             $this->log("---- Failed to decode JSON from $filePath");
             $result = [];
-        } elseif ($echo) {
-            $len = count($result);
-            if (isset($result['list'])) $len = count($result['list']);
+        } else {
+            $len = $result['list'] ? count($result['list']) : count($result);
             $this->log("---- openTablesFile File: $filePath: Exists size: $len");
         }
         return $result;
@@ -314,6 +330,7 @@ class CategoryFetcher
     private function titlesFilters(array $titles, bool $withCategory = false): array
     {
         $regline = $withCategory ? '/^(Category|File|Template|User):/' : '/^(File|Template|User):/';
+
         return array_values(array_filter($titles, function ($title) use ($regline) {
             if (!is_string($title)) {
                 return false;
@@ -337,7 +354,7 @@ class CategoryFetcher
      */
     private function startsWith(string $haystack, string $needle): bool
     {
-        return strncmp($haystack, $needle, strlen($needle)) === 0;
+        return strpos($haystack, $needle) === 0;
     }
 
     /**
@@ -370,10 +387,22 @@ function make_options(): array
         $debug = false;
     }
 
-    $options = ['nocache' => $nocache, 'debug' => $debug];
+    $tablesDir = getenv("HOME") . '/public_html/td/Tables';
+
+    if (substr(__DIR__, 0, 2) == 'I:') {
+        $tablesDir = 'I:/mdwiki/mdwiki/public_html/td/Tables';
+    }
+
+    $options = [
+        'nocache' => $nocache,
+        'debug' => $debug,
+        'tablesDir' => $tablesDir,
+    ];
 
     return $options;
 }
+
+
 /**
  * Procedural wrapper to use CategoryFetcher.
  *
