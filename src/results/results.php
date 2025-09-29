@@ -17,9 +17,8 @@ use function SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
 use function Results\ResultsTable\make_results_table;
 use function Results\ResultsTableExists\make_results_table_exists;
 use function TD\Render\admin_text;
-use function SQLorAPI\Funcs\get_lang_pages_by_cat;
-use function SQLorAPI\Funcs\exists_by_qids_query;
 use function Tables\SqlTables\load_translate_type;
+use function Results\GetResults\make_exists_targets;
 
 function card_result($title, $text, $title2 = "")
 {
@@ -86,11 +85,7 @@ function Results_tables($code, $camp, $cat, $tra_type, $code_lang_name, $global_
     //---
     if ($len_exists > 1 && $show_exists) {
         //---
-        $exists_targets = get_lang_pages_by_cat($code, $cat);
-        //---
-        $exists_targets_before = exists_by_qids_query($code, $cat);
-        //---
-        $table_3 = make_results_table_exists($exists, $code, $cat, $camp, $translation_button, $full_tr_user, $exists_targets, $exists_targets_before, $global_username);
+        $table_3 = make_results_table_exists($exists, $code, $cat, $camp, $global_username);
         //---
         $html_result .= card_result("Exists: ($len_exists)", $table_3);
     };
@@ -121,7 +116,9 @@ function results_loader($camp, $code, $code_lang_name, $cat, $tra_type, $global_
     // $full_tr_user = in_array($global_username, $full_translators);
     $full_tr_user = ($full_translators[$global_username] ?? 0) == 1;
     //---
-    $tab = get_results($cat, $camp, $depth, $code);
+    $filter_sparql = $_GET['filter_sparql'] ?? "1";
+    //---
+    $tab = get_results($cat, $camp, $depth, $code, $filter_sparql);
     //---
     return Results_tables($code, $camp, $cat, $tra_type, $code_lang_name, $global_username, $tab, $show_exists, $translation_button, $full_tr_user, $test);
     //---
