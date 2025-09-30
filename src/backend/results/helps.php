@@ -102,10 +102,13 @@ function filter_items_missing_cat2($items_missing, $cat2, $depth)
     // ---
     $cat2_members = get_mdwiki_cat_members($cat2, $depth, true);
     // ---
-    $items_missing = array_intersect($items_missing, $cat2_members);
-    test_print("Items missing after intersecting with cat2: " . count($items_missing));
+    $new_missing = array_intersect($items_missing, $cat2_members);
     // ---
-    return $items_missing;
+    $new_missing = array_values($new_missing);
+    // ---
+    test_print("Items missing after intersecting with cat2: " . count($new_missing) . ", before: " . count($items_missing));
+    // ---
+    return $new_missing;
 }
 
 function create_summary($code, $cat, $len_inprocess, $len_missing, $len_of_exists_pages)

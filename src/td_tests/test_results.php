@@ -71,7 +71,7 @@ $exists_list = [
 ];
 // ---
 $results_list = [
-    "inprocess" => array_keys($exists_list),
+    "inprocess" => $exists_list,
     "exists" => $exists_list,
     "missing" => array_keys($exists_list),
     "ix" => ""
