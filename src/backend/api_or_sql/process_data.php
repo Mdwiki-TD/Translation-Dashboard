@@ -32,7 +32,7 @@ function get_process_all_new(): array
     return $process_all;
 }
 
-function get_user_process_new($user, $year_y = "all")
+function get_user_process_new(string $user, string $year_y = "all")
 {
     // ---
     static $cache = [];
@@ -53,7 +53,7 @@ function get_user_process_new($user, $year_y = "all")
         $api_params['year'] = $year_y;
     }
     // ---
-    $data = super_function($api_params, $params, $query, true);
+    $data = super_function($api_params, $params, $query, "in_process", true);
     // ---
     $cache[$user] = $data;
     // ---
@@ -82,7 +82,7 @@ function get_users_process_new(): array
     return $process_new;
 }
 
-function get_lang_in_process_new($code, $year_y = "all")
+function get_lang_in_process_new($code, $year_y = "all"): array
 {
     // ---
     static $cache = [];
@@ -113,7 +113,7 @@ function get_lang_in_process_new($code, $year_y = "all")
         $api_params['year'] = $year_y;
     }
     // ---
-    $data = super_function($api_params, $params, $query, true);
+    $data = super_function($api_params, $params, $query, "in_process", true);
     // ---
     // $cache[$code] = array_column($data, 'title');
     $cache[$code] = $data;

@@ -48,7 +48,6 @@ leaderboard/z.php
 composer.lock
 /tests_backup
 .phpunit.result.cache
-phpunit.xml.dist
 phpunit.xml.z
 run.sh
 /src/.claude

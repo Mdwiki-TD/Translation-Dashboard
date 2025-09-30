@@ -33,9 +33,16 @@ class MainTables
 	public static $x_Langs_table = [];
 }
 // ---
+/*
 $tables_d = array(
 	'langs_tables' => &MainTables::$x_Langs_table,
 );
+//---
+foreach ($tables_d as $key => &$value) {
+	$file = "jsons/{$key}.json";
+	$value = open_td_Tables_file($file);
+}
+*/
 //---
 $titles_infos = get_td_or_sql_titles_infos();
 
@@ -55,7 +62,9 @@ foreach ($titles_infos as $k => $tab) {
 
 if (file_exists(__DIR__ . '/lang_names.json')) {
 	$contents = file_get_contents(__DIR__ . '/lang_names.json');
-	if ($contents !== false) {
+	if ($contents === false) {
+		error_log('Failed to read lang_names.json');
+	} else {
 		$data = json_decode($contents, true);
 		if (is_array($data)) {
 			MainTables::$x_Langs_table = $data;

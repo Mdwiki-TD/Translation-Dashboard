@@ -43,7 +43,6 @@ https://db-names.toolforge.org/
 "zh-yue" : "yue"
 */
 // ---
-
 use Tables\Main\MainTables;
 
 class LangsTables
