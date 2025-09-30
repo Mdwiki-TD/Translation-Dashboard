@@ -93,6 +93,8 @@ $translation_button = $_GET['translation_button'] ?? "";
 $full_tr_user = $_GET['full_tr_user'] ?? "";
 $allow_whole_translate = $_GET['allow_whole_translate'] ?? '';
 // ---
+$mobile_td = $_GET["mobile_td"] ?? "1";
+//---
 $Lang_tables = [
     "aa" => [
         "code" => "aa",
@@ -193,7 +195,20 @@ $code_lang_name = $Lang_tables[$code]['autonym'] ?? "!";
 //---
 echo "<div class='container-fluid'>";
 //---
-echo Results_tables($code, $camp, $cat, $tra_type, $code_lang_name, $global_username, $results_list, $show_exists, $translation_button, $full_tr_user, $user_coord, $test);
+$tab = [
+    "code" => $code,
+    "camp" => $camp,
+    "cat" => $cat,
+    "tra_type" => $tra_type,
+    "code_lang_name" => $code_lang_name,
+    "global_username" => $global_username,
+    "results_list" => $results_list,
+    "user_coord" => $user_coord,
+    "mobile_td" => $mobile_td,
+    "test" => $test,
+];
+// ---
+echo Results_tables($tab, $show_exists, $translation_button, $full_tr_user);
 //---
 echo "</div>";
 //---

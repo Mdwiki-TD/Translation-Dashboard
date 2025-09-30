@@ -125,7 +125,7 @@ function make_one_row_new($title, $tra_type, $cnt, $langcode, $cat, $camp, $inpr
     };
     //---
     $tds = [
-        "tra_btn" => $$tra_btn,
+        "tra_btn" => $tra_btn,
         "translate_url" => $translate_url,
         "mdwiki_url" => $mdwiki_url,
         "cnt" => $cnt,
@@ -162,15 +162,13 @@ function make_results_table_inprocess($inprocess_table, $langcode, $cat, $camp, 
     $list = "";
     $cnt = 1;
     //---
-    foreach ($inprocess_table as $title => $inprocess_tab) {
+    foreach ($inprocess_table as $title => $title_tab) {
         // ---
         if (empty($title)) continue;
         // ---
-        // $inprocess_tab = $inprocess_table[$title] ?? [];
-        //---
         $title = str_replace('_', ' ', $title);
         //---
-        $tra_type = $inprocess_table['translate_type'] ?? '';
+        $tra_type = $title_tab['translate_type'] ?? '';
         //---
         $full = false;
         //---
@@ -179,7 +177,7 @@ function make_results_table_inprocess($inprocess_table, $langcode, $cat, $camp, 
             $full = true;
         };
         //---
-        $row = make_one_row_new($title, $tra_type, $cnt, $langcode, $cat, $camp, $inprocess_tab, $tra_btn, $full, $full_tr_user, $mobile_td, $global_username);
+        $row = make_one_row_new($title, $tra_type, $cnt, $langcode, $cat, $camp, $title_tab, $tra_btn, $full, $full_tr_user, $mobile_td, $global_username);
         //---
         $list .= $row;
         //---

@@ -60,9 +60,7 @@ function get_results($cat, $camp, $depth, $code, $filter_sparql, $cat2): array
     test_print("Length of existing pages: $len_of_exists_pages");
 
     // Remove duplicates from missing items
-    $missing = $items_missing;
-    $missing = array_unique($items_missing);
-    $missing = array_values($items_missing);
+    $missing = array_values(array_unique($items_missing));
 
     // Get in-process items
     $inprocess = getinprocess($missing, $code);

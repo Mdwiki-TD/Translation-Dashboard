@@ -42,26 +42,37 @@ function card_result($title, $text, $title2 = "")
     HTML;
 }
 
-function Results_tables($code, $camp, $cat, $tra_type, $code_lang_name, $global_username, $tab, $show_exists, $translation_button, $full_tr_user, $user_coord, $test)
+function Results_tables($tab, $show_exists, $translation_button, $full_tr_user)
 {
     //---
+    $camp       = $tab["camp"];
+    $code       = $tab["code"];
+    $cat        = $tab["cat"];
+    $tra_type   = $tab["tra_type"];
+    $test       = $tab["test"];
+    // ---
+    $code_lang_name  = $tab["code_lang_name"];
+    $global_username = $tab["global_username"];
+    $user_coord      = $tab["user_coord"];
+    $mobile_td       = $tab["mobile_td"];
+    // ---
     $html_result = "";
     //---
     if (!empty($test)) {
         $html_result .= "code:$code<br>code_lang_name:$code_lang_name<br>";
     };
     //---
-    $p_inprocess = $tab['inprocess'];
-    $missing     = $tab['missing'];
-    $ix          = admin_text($tab['ix']);
+    $results_list = $tab["results_list"];
     //---
-    $exists      = $tab['exists'];
+    $p_inprocess = $results_list['inprocess'];
+    $missing     = $results_list['missing'];
+    $ix          = admin_text($results_list['ix']);
     //---
-    $res_line = " Results: (" . count($tab['missing']) . ")";
+    $exists      = $results_list['exists'];
+    //---
+    $res_line = " Results: (" . count($results_list['missing']) . ")";
     //---
     if (!empty($test)) $res_line .= 'test:';
-    //---
-    $mobile_td = $_GET["mobile_td"] ?? "1";
     //---
     $nolead_translates = load_translate_type('no');
     $translates_full = load_translate_type('full');
@@ -100,20 +111,16 @@ function Results_tables($code, $camp, $cat, $tra_type, $code_lang_name, $global_
     return $html_result;
 }
 
-function results_loader($tab)
+function results_loader($data)
 {
     // ---
-    $camp       = $tab["camp"];
-    $code       = $tab["code"];
-    $cat        = $tab["cat"];
-    $tra_type   = $tab["tra_type"];
-    $test       = $tab["test"];
+    $camp       = $data["camp"];
+    $code       = $data["code"];
+    $cat        = $data["cat"];
     // ---
-    $code_lang_name  = $tab["code_lang_name"];
-    $global_username = $tab["global_username"];
-    $filter_sparql   = $tab["filter_sparql"];
-    $new_result      = $tab["new_result"];
-    $user_coord      = $tab["user_coord"];
+    $global_username = $data["global_username"];
+    $filter_sparql   = $data["filter_sparql"];
+    $new_result      = $data["new_result"];
     // ---
     $depth  = TablesSql::$s_camp_input_depth[$camp] ?? 1;
     $cat2   = TablesSql::$s_camps_cat2[$camp] ?? '';
@@ -135,11 +142,23 @@ function results_loader($tab)
     $full_tr_user = ($full_translators[$global_username] ?? 0) == 1;
     //---
     if ($new_result) {
-        $tab = get_results_new($cat, $camp, $depth, $code, $filter_sparql, $cat2);
+        $results_list = get_results_new($cat, $camp, $depth, $code, $filter_sparql, $cat2);
     } else {
-        $tab = get_results($cat, $camp, $depth, $code, $filter_sparql, $cat2);
+        $results_list = get_results($cat, $camp, $depth, $code, $filter_sparql, $cat2);
     }
     //---
-    return Results_tables($code, $camp, $cat, $tra_type, $code_lang_name, $global_username, $tab, $show_exists, $translation_button, $full_tr_user, $user_coord, $test);
+    $tab = [
+        "code" => $code,
+        "camp" => $camp,
+        "cat" => $cat,
+        "tra_type" => $data["tra_type"],
+        "code_lang_name" => $data["code_lang_name"],
+        "global_username" => $global_username,
+        "results_list" => $results_list,
+        "user_coord" => $data["user_coord"],
+        "mobile_td" => $data["mobile_td"],
+        "test" => $data["test"]
+    ];
     //---
+    return Results_tables($tab, $show_exists, $translation_button, $full_tr_user);
 }

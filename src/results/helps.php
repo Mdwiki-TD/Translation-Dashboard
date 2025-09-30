@@ -48,6 +48,7 @@ function sort_py_importance($items, $Assessment_table)
     foreach ($items as $t) {
         $t = str_replace('_', ' ', $t);
         $aa = $Assessment_table[$t] ?? null;
+        $kry = $empty;
         if (isset($aa)) {
             $kry = $Assessment_fff[$aa] ?? $empty;
         }
