@@ -23,16 +23,18 @@ function get_host()
     if ($hoste == "https://tools-static.wmflabs.org/cdnjs") {
         $url = "https://tools-static.wmflabs.org";
         $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_HEADER, true);
-        curl_setopt($ch, CURLOPT_NOBODY, true); // لا نريد تحميل الجسم
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // لمنع الطباعة
 
-        curl_setopt($ch, CURLOPT_TIMEOUT, 3); // المهلة القصوى للاتصال
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (compatible; CDN-Checker)');
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+        curl_setopt_array($ch, [
+            CURLOPT_HEADER => true,
+            CURLOPT_NOBODY => true, // لا نريد تحميل الجسم
+            CURLOPT_RETURNTRANSFER => true, // لمنع الطباعة
+            CURLOPT_TIMEOUT => 3, // المهلة القصوى للاتصال
+            CURLOPT_CONNECTTIMEOUT => 2,
+            CURLOPT_SSL_VERIFYPEER => true,
+            CURLOPT_SSL_VERIFYHOST => 2,
+            CURLOPT_USERAGENT => 'Mozilla/5.0 (compatible; CDN-Checker)',
+            CURLOPT_FOLLOWLOCATION => false,
+        ]);
 
         $result = curl_exec($ch);
         $curlError = curl_error($ch);

@@ -25,11 +25,13 @@ class SPARQLQueryDispatcher
     {
         $ch = curl_init();
 
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_USERAGENT, $this->user_agent);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+        curl_setopt_array($ch, [
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true, // لمنع الطباعة
+            CURLOPT_USERAGENT => $this->user_agent,
+            CURLOPT_TIMEOUT => 10, // المهلة القصوى للاتصال
+            CURLOPT_CONNECTTIMEOUT => 10,
+        ]);
 
         $output = curl_exec($ch);
 
