@@ -28,7 +28,7 @@ function isvalid($str)
     return !empty($str) && strtolower($str) != "all";
 }
 
-function super_function($api_params, $sql_params, $sql_query, $no_refind = false, $table_name = null)
+function super_function(array $api_params, array $sql_params, string $sql_query, $no_refind = false, $table_name = null): array
 {
     global $use_td_api;
     // ---

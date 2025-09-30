@@ -315,7 +315,7 @@ class CategoryFetcher
             $this->log("---- Failed to decode JSON from $filePath");
             $result = [];
         } else {
-            $len = $result['list'] ? count($result['list']) : count($result);
+            $len = isset($result['list']) ? count($result['list']) : count($result);
             $this->log("---- openTablesFile File: $filePath: Exists size: $len");
         }
         return $result;

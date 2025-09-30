@@ -33,9 +33,16 @@ class MainTables
 	public static $x_Langs_table = [];
 }
 // ---
+/*
 $tables_d = array(
 	'langs_tables' => &MainTables::$x_Langs_table,
 );
+//---
+foreach ($tables_d as $key => &$value) {
+	$file = "jsons/{$key}.json";
+	$value = open_td_Tables_file($file);
+}
+*/
 //---
 $titles_infos = get_td_or_sql_titles_infos();
 
