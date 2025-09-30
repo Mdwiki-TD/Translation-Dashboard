@@ -39,7 +39,8 @@ function make_tds_rows_responsive($full, $tds)
     $_user_ = $tds["user"];
     $_date_ = $tds["date"];
     //---
-    $cnt2 = $full ? "$cnt.Full" : $cnt;
+    // $cnt2 = $full ? "$cnt.Full" : $cnt;
+    $cnt2 = $full && (strtolower(substr($title, 0, 6)) != 'video:') ? "$cnt.Full" : $cnt;
     //---
     $tab_th = ($tra_btn == "1") ? "<th>$tab</th>" : "";
     //---

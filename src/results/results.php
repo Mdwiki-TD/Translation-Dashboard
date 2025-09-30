@@ -42,7 +42,7 @@ function card_result($title, $text, $title2 = "")
     HTML;
 }
 
-function Results_tables($code, $camp, $cat, $tra_type, $code_lang_name, $global_username, $tab, $show_exists, $translation_button, $full_tr_user, $test)
+function Results_tables($code, $camp, $cat, $tra_type, $code_lang_name, $global_username, $tab, $show_exists, $translation_button, $full_tr_user, $user_coord, $test)
 {
     //---
     $html_result = "";
@@ -79,7 +79,9 @@ function Results_tables($code, $camp, $cat, $tra_type, $code_lang_name, $global_
     //---
     if ($len_inprocess > 0) {
         //---
-        $table_2 = make_results_table_inprocess($p_inprocess, $code, $cat, $camp, $translation_button, $full_tr_user, $global_username, $mobile_td);
+        $translation_button = ($user_coord) ? $translation_button : false;
+        //---
+        $table_2 = make_results_table_inprocess($p_inprocess, $code, $cat, $camp, $translation_button, $full_tr_user, $global_username, $mobile_td, $user_coord);
         //---
         $html_result .= card_result("In process: ($len_inprocess)", $table_2);
     };
@@ -88,7 +90,7 @@ function Results_tables($code, $camp, $cat, $tra_type, $code_lang_name, $global_
     //---
     if ($len_exists > 1 && $show_exists) {
         //---
-        $table_3 = make_results_table_exists($exists, $code, $cat, $camp, $global_username);
+        $table_3 = make_results_table_exists($exists, $code, $cat, $camp, $global_username, $user_coord);
         //---
         $html_result .= card_result("Exists: ($len_exists)", $table_3);
     };
@@ -111,6 +113,7 @@ function results_loader($tab)
     $global_username = $tab["global_username"];
     $filter_sparql   = $tab["filter_sparql"];
     $new_result      = $tab["new_result"];
+    $user_coord      = $tab["user_coord"];
     // ---
     $depth  = TablesSql::$s_camp_input_depth[$camp] ?? 1;
     $cat2   = TablesSql::$s_camps_cat2[$camp] ?? '';
@@ -137,6 +140,6 @@ function results_loader($tab)
         $tab = get_results($cat, $camp, $depth, $code, $filter_sparql, $cat2);
     }
     //---
-    return Results_tables($code, $camp, $cat, $tra_type, $code_lang_name, $global_username, $tab, $show_exists, $translation_button, $full_tr_user, $test);
+    return Results_tables($code, $camp, $cat, $tra_type, $code_lang_name, $global_username, $tab, $show_exists, $translation_button, $full_tr_user, $user_coord, $test);
     //---
 }
