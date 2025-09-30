@@ -278,7 +278,8 @@ class CategoryFetcher
             return [];
         }
 
-        return $this->titlesFilters($newList['list'], true);
+        // return $this->titlesFilters($newList['list'], true);
+        return $newList['list'];
     }
 
     /**
