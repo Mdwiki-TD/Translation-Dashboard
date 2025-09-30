@@ -39,7 +39,7 @@ function exists_by_qids_query_and_category($lang, $category)
     // ---
     $params = [$lang, $category];
     // ---
-    $u_data = super_function($api_params, $params, $query, $no_refind = false, $table_name = "all_qids_titles");
+    $u_data = super_function($api_params, $params, $query, "all_qids_titles");
     // ---
     $data2[$lang . $category] = $u_data;
     // ---
@@ -71,7 +71,7 @@ function exists_by_qids_query($lang)
     // ---
     $params = [$lang];
     // ---
-    $u_data = super_function($api_params, $params, $query, $no_refind = false, $table_name = "all_qids_titles");
+    $u_data = super_function($api_params, $params, $query, "all_qids_titles");
     // ---
     $data2[$lang] = $u_data;
     // ---
