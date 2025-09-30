@@ -32,7 +32,7 @@ function get_process_all_new(): array
     return $process_all;
 }
 
-function get_user_process_new($user, $year_y = "all")
+function get_user_process_new(string $user, string $year_y = "all")
 {
     // ---
     static $cache = [];
