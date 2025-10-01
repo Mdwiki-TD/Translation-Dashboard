@@ -58,7 +58,7 @@ $hoste = get_host();
 $stylesheets = [
     "/Translation_Dashboard/css/styles.css",
     "/Translation_Dashboard/css/dashboard_new1.css",
-    "/Translation_Dashboard/css/sidebars.css",
+    // "/Translation_Dashboard/css/sidebars.css",
     "$hoste/ajax/libs/font-awesome/5.15.3/css/all.min.css",
     "$hoste/ajax/libs/bootstrap/5.3.7/css/bootstrap.min.css",
     "$hoste/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css",
@@ -158,29 +158,6 @@ function head()
             word-break: break-all !important;
         }
 
-        .Dropdown_menu_toggle {
-            display: none;
-            cursor: pointer;
-        }
-
-        @media (max-width: 768px) {
-            .Dropdown_menu_toggle {
-                display: block;
-            }
-
-            .div_menu {
-                display: none;
-                flex-direction: column;
-                /* width: 100%; */
-                /* background: #ddddff; */
-                padding: 0;
-                border-radius: 5px;
-            }
-
-            .div_menu.mactive {
-                display: block;
-            }
-        }
     </style>
 
 </head>

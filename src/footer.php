@@ -54,9 +54,6 @@ if (isset($GLOBALS['time_start'])) {
 		textarea.select();
 		document.execCommand("copy");
 	}
-	$(".Dropdown_menu_toggle").on("click", function() {
-		$(".div_menu").toggleClass("mactive");
-	});
 
 	$('.sortable').DataTable({
 		stateSave: true,
