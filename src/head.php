@@ -62,7 +62,7 @@ $stylesheets = [
     "$hoste/ajax/libs/font-awesome/5.15.3/css/all.min.css",
     "$hoste/ajax/libs/bootstrap/5.3.7/css/bootstrap.min.css",
     "$hoste/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css",
-    "$hoste/ajax/libs/bootstrap-select/1.14.0-beta3/css/bootstrap-select.css",
+    "$hoste/ajax/libs/bootstrap-select/1.14.0-beta3/css/bootstrap-select.min.css",
     "$hoste/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css",
 
     // "$hoste/ajax/libs/datatables.net-bs5/1.13.5/dataTables.bootstrap5.min.css",
