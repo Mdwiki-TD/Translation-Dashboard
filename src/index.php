@@ -82,6 +82,8 @@ if ($doit) {
         "global_username" => $global_username,
         "filter_sparql" => $filter_sparql,
         "new_result" => $load_new_result,
+        "user_coord" => $GLOBALS['user_in_coord'] ?? false,
+        "mobile_td" => $_GET["mobile_td"] ?? "1",
         "test" => $test
     ];
     echo results_loader($data);

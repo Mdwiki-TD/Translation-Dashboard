@@ -26,7 +26,9 @@ function make_td_rows_mobile($full, $inprocess, $mobile_table, $tds)
     $_user_ = $tds["user"];
     $_date_ = $tds["date"];
     //---
-    $cnt2 = $full ? "$cnt.Full" : $cnt;
+    // $cnt2 = $full ? "$cnt.Full" : $cnt;
+    $cnt2 = $full && (strtolower(substr($title, 0, 6)) != 'video:') ? "$cnt.Full" : $cnt;
+    //---
     $div_id = "t_$cnt";
     if ($inprocess) $div_id .= '_in';
     if ($full) $div_id .= '_full';

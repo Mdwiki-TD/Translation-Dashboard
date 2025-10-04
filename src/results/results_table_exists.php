@@ -42,7 +42,7 @@ function one_item_props($title, $target)
     return $tab;
 }
 
-function make_one_row_new($title, $cnt, $langcode, $cat, $camp, $props, $global_username)
+function make_one_row_new($title, $cnt, $langcode, $cat, $camp, $props, $global_username, $user_coord)
 {
     //---
     $words = $props['word'];
@@ -71,11 +71,11 @@ function make_one_row_new($title, $cnt, $langcode, $cat, $camp, $props, $global_
     //---
     $translate_url = make_ContentTranslation_url($title, $langcode, $cat, $camp, 'lead');
     //---
-    $tab = <<<HTML
+    $tab = ($global_username !== "" && $user_coord) ? <<<HTML
         <div class='inline'>
             <a href='$translate_url' class='btn btn-outline-primary btn-sm' target='_blank'>Translate</a>
         </div>
-    HTML;
+    HTML : "";
     //---
     $td22 = <<<HTML
             <td class='num'>
@@ -121,7 +121,7 @@ function make_one_row_new($title, $cnt, $langcode, $cat, $camp, $props, $global_
     return $td_rows;
 }
 
-function make_results_table_exists($items, $langcode, $cat, $camp, $global_username)
+function make_results_table_exists($items, $langcode, $cat, $camp, $global_username, $user_coord)
 {
     //---
     $list = "";
@@ -149,7 +149,7 @@ function make_results_table_exists($items, $langcode, $cat, $camp, $global_usern
         $props = one_item_props($title, $target_td);
         $props["target_before"] = $target_before;
         //---
-        $row = make_one_row_new($title, $cnt, $langcode, $cat, $camp, $props, $global_username);
+        $row = make_one_row_new($title, $cnt, $langcode, $cat, $camp, $props, $global_username, $user_coord);
         //---
         $list .= $row;
         //---

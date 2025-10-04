@@ -35,7 +35,7 @@ class CategoryFetcher
      */
     public function __construct(
         array $options = [],
-        string $endPoint = '',
+        string $endPoint = ''
     ) {
         $this->options = $options;
         $this->endPoint = (!empty($endPoint)) ? $endPoint : 'https://mdwiki.org/w/api.php';
@@ -413,10 +413,10 @@ function make_options(): array
  * @return array
  */
 
-function get_mdwiki_cat_members(string $cat, int $depth = 0, bool $use_cache = true): array
+function get_mdwiki_cat_members(string $cat, $depth = 0, bool $use_cache = true): array
 {
     $endPoint = 'https://mdwiki.org/w/api.php';
-
+    $depth = (int) $depth;
     $options = make_options();
 
     $fetcher = new CategoryFetcher($options, $endPoint);

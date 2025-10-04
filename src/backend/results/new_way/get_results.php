@@ -9,7 +9,6 @@ use function Results\GetResults\get_results_new; // get_results_new($cat, $camp,
 
 */
 
-use Tables\SqlTables\TablesSql;
 use function Results\FetchCatDataNew\get_cat_exists_and_missing_new;
 use function Results\SparqlBot\filter_existing_out_new;
 use function TD\Render\TestPrint\test_print;
@@ -99,7 +98,7 @@ function getinprocess_n($missing, $code)
     return $titles;
 }
 
-function get_results_new($cat, $camp, $depth, $code, $filter_sparql): array
+function get_results_new($cat, $camp, $depth, $code, $filter_sparql, $cat2): array
 {
     // Get existing and missing pages
     // ---
@@ -140,7 +139,6 @@ function get_results_new($cat, $camp, $depth, $code, $filter_sparql): array
     test_print("Items missing: " . count($items_missing));
 
     // Check for a secondary category
-    $cat2 = TablesSql::$s_camps_cat2[$camp] ?? '';
 
     if (!empty($cat2) && $cat2 !== $cat) {
         $items_missing = filter_items_missing_cat2($items_missing, $cat2, $depth);
@@ -150,7 +148,7 @@ function get_results_new($cat, $camp, $depth, $code, $filter_sparql): array
     test_print("Length of existing pages: $len_of_exists_pages");
 
     // Remove duplicates from missing items
-    $missing = array_unique($items_missing);
+    $missing = array_values(array_unique($items_missing));
 
     // Get in-process items
     $inprocess = getinprocess_n($missing, $code);
@@ -159,10 +157,13 @@ function get_results_new($cat, $camp, $depth, $code, $filter_sparql): array
     // Remove in-process items from missing list
     if ($len_inprocess > 0) {
         $missing = array_diff($missing, array_column($inprocess, 'title'));
-        // $missing = array_values($missing);
+        $missing = array_values($missing);
     }
 
     $summary = create_summary($code, $cat, count($inprocess), count($missing), $len_of_exists_pages);
+
+    // sort $items_exists by keys
+    ksort($items_exists);
 
     return [
         "inprocess" => $inprocess,

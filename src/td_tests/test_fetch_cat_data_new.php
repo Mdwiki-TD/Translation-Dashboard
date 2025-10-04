@@ -9,7 +9,7 @@ include_once __DIR__ . '/../include_all.php';
 include_once __DIR__ . '/../header.php';
 include_once __DIR__ . '/../results/include.php';
 //---
-use function Results\FetchCatDataSparql\get_cat_exists_and_missing;
+use function Results\FetchCatDataNew\get_cat_exists_and_missing_new;
 //---
 $Category = $_GET['Category'] ?? '';
 $lang = $_GET['lang'] ?? '';
@@ -19,7 +19,9 @@ $use_cache = $_GET['use_cache'] ?? '';
 if (!empty($Category)) {
     $time_start = microtime(true);
     // ---
-    [$exists, $missing] = get_cat_exists_and_missing($Category, $depth, $lang, $use_cache = $use_cache);
+    echo "  - Category:" . $Category . "<br>";
+    // ---
+    [$exists, $missing] = get_cat_exists_and_missing_new([], $Category, $depth, $lang, $use_cache = $use_cache);
     // ---
     $execution_time = (microtime(true) - $time_start);
     echo "<br> >>>>> Total Execution Time: " . $execution_time . " Seconds<br>";
@@ -43,7 +45,7 @@ if (!empty($Category)) {
             </div>
             <div class='card-body mb-0'>
             <div class='mainindex'>
-                <form action="test_fetch_cat_data_sparql.php" method="GET">
+                <form action="test_fetch_cat_data_new.php" method="GET">
                     <input id="test" name="test11" value="1" type='hidden'/>
                     <div class="container">
                         <div class="row">
