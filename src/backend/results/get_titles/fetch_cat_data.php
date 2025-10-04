@@ -26,12 +26,12 @@ function get_cat_exists_and_missing($cat, $depth, $code, $use_cache = true): arr
     $exists = array_intersect($members, $exists);
     // ---
     // change from ("{"6":"Video:Cancer"}") to (["Video:Cancer"])
-    // $exists = array_values($exists);
+    $exists = array_values($exists);
     // ---
     // Find missing members
     $missing = array_diff($members, $exists);
     // ---
-    $missing = array_unique($missing);
+    $missing = array_values(array_unique($missing));
     // ---
     // test_print("End of get_cat exists_and_missing <br>===============================");
     return [$exists, $missing];

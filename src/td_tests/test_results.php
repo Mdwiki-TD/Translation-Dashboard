@@ -71,7 +71,7 @@ $exists_list = [
 ];
 // ---
 $results_list = [
-    "inprocess" => array_keys($exists_list),
+    "inprocess" => $exists_list,
     "exists" => $exists_list,
     "missing" => array_keys($exists_list),
     "ix" => ""
@@ -87,10 +87,14 @@ $tra_type = $_GET['tra_type'] ?? "lead";
 $global_username = $_GET['global_username'] ?? $GLOBALS['global_username'] ?? "";
 $show_exists = $_GET['show_exists'] ?? "";
 // ---
+$user_coord = $_GET['user_coord'] ?? "";
+// ---
 $translation_button = $_GET['translation_button'] ?? "";
 $full_tr_user = $_GET['full_tr_user'] ?? "";
 $allow_whole_translate = $_GET['allow_whole_translate'] ?? '';
 // ---
+$mobile_td = $_GET["mobile_td"] ?? "1";
+//---
 $Lang_tables = [
     "aa" => [
         "code" => "aa",
@@ -171,6 +175,13 @@ $code_lang_name = $Lang_tables[$code]['autonym'] ?? "!";
                                 <label class="check-label" for="allow_whole_translate">allow_whole_translate</label>
                             </div>
                         </div>
+                        <div class="col">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="user_coord" name="user_coord" value="1"
+                                    <?= (!empty($user_coord)) ? "checked" : ""; ?>>
+                                <label class="check-label" for="user_coord">user_coord</label>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <h4 class="aligncenter">
@@ -184,7 +195,20 @@ $code_lang_name = $Lang_tables[$code]['autonym'] ?? "!";
 //---
 echo "<div class='container-fluid'>";
 //---
-echo Results_tables($code, $camp, $cat, $tra_type, $code_lang_name, $global_username, $results_list, $show_exists, $translation_button, $full_tr_user, $test);
+$tab = [
+    "code" => $code,
+    "camp" => $camp,
+    "cat" => $cat,
+    "tra_type" => $tra_type,
+    "code_lang_name" => $code_lang_name,
+    "global_username" => $global_username,
+    "results_list" => $results_list,
+    "user_coord" => $user_coord,
+    "mobile_td" => $mobile_td,
+    "test" => $test,
+];
+// ---
+echo Results_tables($tab, $show_exists, $translation_button, $full_tr_user);
 //---
 echo "</div>";
 //---
