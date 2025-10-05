@@ -17,11 +17,11 @@ use function TD\Render\TestPrint\test_print;
 
 function open_td_Tables_file($path, $echo = true)
 {
-	$tables_dir = getenv("HOME") . '/public_html/td/Tables';
+	// $tables_dir = getenv("HOME") . '/public_html/td/Tables';
+	// if (substr(__DIR__, 0, 2) == 'I:') $tables_dir = 'I:/mdwiki/mdwiki/public_html/td/Tables';
 	//---
-	if (substr(__DIR__, 0, 2) == 'I:') {
-		$tables_dir = 'I:/mdwiki/mdwiki/public_html/td/Tables';
-	}
+	$home_dir = getenv("HOME") ?: 'I:/mdwiki/mdwiki';
+	$tables_dir = $home_dir . '/public_html/td/Tables';
 	//---
 	$file_path = "$tables_dir/$path";
 	//---
