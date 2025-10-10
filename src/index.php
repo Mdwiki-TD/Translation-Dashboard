@@ -49,24 +49,24 @@ $intro = <<<HTML
 HTML;
 //---
 echo <<<HTML
-<div class='container'>
-  <div class='card'>
-    <div class='card-header'>
-        $intro
-    </div>
-    <div class='card-body mb-0'>
-      <div class='mainindex'>
-		<div style='float:right'>
-            <img class='medlogo' src='$img_src' decoding='async' alt='Wiki Project Med Foundation logo'>
+    <div class='container'>
+        <div class='card'>
+            <div class='card-header'>
+                $intro
+            </div>
+            <div class='card-body mb-0'>
+            <div class='mainindex'>
+                <div style='float:right'>
+                    <img class='medlogo' src='$img_src' decoding='async' alt='Wiki Project Med Foundation logo'>
+                </div>
+                <form method='GET' action='index.php' class='form-inline'>
+                    $form_start1
+                </form>
+            </div>
+            </div>
         </div>
-        <form method='GET' action='index.php' class='form-inline'>
-            $form_start1
-        </form>
-      </div>
     </div>
-  </div>
-</div>
-<!-- <script src='/Translation_Dashboard/js/codes.js'></script> -->
+    <!-- <script src='/Translation_Dashboard/js/codes.js'></script> -->
 HTML;
 //---
 echo "<div class='container-fluid'>";
