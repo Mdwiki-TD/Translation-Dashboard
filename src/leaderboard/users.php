@@ -49,7 +49,9 @@ function users_html($mainlang, $year_y, $camp, $user_to_curl, $user_to_html, $gl
         <!-- <div class="d-flex align-items-center justify-content-between"> -->
             <a href='https://xtools.wmflabs.org/globalcontribs/$user_to_html' target='_blank'>
                 <!-- <span class='h4'>(XTools)</span> -->
-                <img src='https://xtools.wmcloud.org/build/images/logo.svg' title='Xtools' width='80px'/>
+                <svg width="80" height="35" title="Xtools">
+                    <use href="#logo-xtools" />
+                </svg>
             </a>
         <!-- </div> -->
     HTML;

@@ -34,11 +34,7 @@ class Database
             $db_suffix = 'mdwiki';
         }
         // ---
-        $this->home_dir = getenv("HOME");
-        //---
-        if (substr(__DIR__, 0, 2) == 'I:') {
-            $this->home_dir = 'I:/mdwiki/mdwiki';
-        }
+        $this->home_dir = getenv("HOME") ?: 'I:/mdwiki/mdwiki';
         //---
         $this->db_suffix = $db_suffix;
         $this->set_db($server_name);
@@ -51,7 +47,7 @@ class Database
         // ---
         $ts_mycnf = parse_ini_file($this->home_dir . "/confs/db.ini");
         // ---
-        if ($server_name === 'localhost' || !getenv('HOME')) {
+        if ($server_name === 'localhost') {
             $this->host = 'localhost:3306';
             $this->dbname = $ts_mycnf['user'] . "__" . $this->db_suffix;
             $this->user = 'root';

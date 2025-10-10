@@ -388,11 +388,12 @@ function make_options(): array
         $debug = false;
     }
 
-    $tablesDir = getenv("HOME") . '/public_html/td/Tables';
-
-    if (substr(__DIR__, 0, 2) == 'I:') {
-        $tablesDir = 'I:/mdwiki/mdwiki/public_html/td/Tables';
-    }
+	// ---
+    // $tablesDir = getenv("HOME") . '/public_html/td/Tables';
+    // if (substr(__DIR__, 0, 2) == 'I:') $tablesDir = 'I:/mdwiki/mdwiki/public_html/td/Tables';
+	// ---
+    $home_dir = getenv("HOME") ?: 'I:/mdwiki/mdwiki';
+    $tablesDir = $home_dir . '/public_html/td/Tables';
 
     $options = [
         'nocache' => $nocache,

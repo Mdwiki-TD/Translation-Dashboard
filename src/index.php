@@ -39,8 +39,6 @@ if ($allow_whole_translate == '0') $tra_type = 'lead';
 //---
 // echo $_SERVER['SERVER_NAME'];
 //---
-$img_src = '//upload.wikimedia.org/wikipedia/commons/thumb/5/58/Wiki_Project_Med_Foundation_logo.svg/400px-Wiki_Project_Med_Foundation_logo.svg.png';
-//---
 $global_username = $GLOBALS['global_username'] ?? "";
 // ---
 $form_start1  = print_form_start1($allow_whole_translate, MainTables::$x_Langs_table, TablesSql::$s_campaign_input_list, $cat, $camp, $code_lang_name, $code, $tra_type, $global_username);
@@ -57,12 +55,12 @@ echo <<<HTML
             </div>
             <div class='card-body mb-0'>
             <div class='mainindex'>
-                <div style='float:right'>
-                    <img class='medlogo' src='$img_src' decoding='async' alt='Wiki Project Med Foundation logo'>
-                </div>
                 <form method='GET' action='index.php' class='form-inline'>
                     $form_start1
                 </form>
+                <div class="d-flex justify-content-end">
+                    <img class='med-logo-big' src='/favicon.svg' decoding='async' alt='Wiki Project Med Foundation logo'>
+                </div>
             </div>
             </div>
         </div>
