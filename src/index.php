@@ -55,12 +55,12 @@ echo <<<HTML
             </div>
             <div class='card-body mb-0'>
             <div class='mainindex'>
-                <div style='float:right'>
-                    <img class='med-logo-big' src='/favicon.svg' decoding='async' alt='Wiki Project Med Foundation logo'>
-                </div>
                 <form method='GET' action='index.php' class='form-inline'>
                     $form_start1
                 </form>
+                <div class="d-flex justify-content-end">
+                    <img class='med-logo-big' src='/favicon.svg' decoding='async' alt='Wiki Project Med Foundation logo'>
+                </div>
             </div>
             </div>
         </div>

@@ -120,6 +120,13 @@ thead {
 .mainindex {
 	margin-right: 20px;
 	margin-left: 20px;
+	display: grid;
+	grid-template-columns: 2fr 1fr;
+	grid-template-rows: auto 1fr;
+	gap: 2vw;
+	flex-grow: 1;
+	align-items: center;
+	align-content: center;
 }
 
 .med-logo-big {
