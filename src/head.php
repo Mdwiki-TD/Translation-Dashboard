@@ -23,16 +23,18 @@ function get_host()
     if ($hoste == "https://tools-static.wmflabs.org/cdnjs") {
         $url = "https://tools-static.wmflabs.org";
         $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_HEADER, true);
-        curl_setopt($ch, CURLOPT_NOBODY, true); // لا نريد تحميل الجسم
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // لمنع الطباعة
 
-        curl_setopt($ch, CURLOPT_TIMEOUT, 3); // المهلة القصوى للاتصال
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (compatible; CDN-Checker)');
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+        curl_setopt_array($ch, [
+            CURLOPT_HEADER => true,
+            CURLOPT_NOBODY => true, // لا نريد تحميل الجسم
+            CURLOPT_RETURNTRANSFER => true, // لمنع الطباعة
+            CURLOPT_TIMEOUT => 3, // المهلة القصوى للاتصال
+            CURLOPT_CONNECTTIMEOUT => 2,
+            CURLOPT_SSL_VERIFYPEER => true,
+            CURLOPT_SSL_VERIFYHOST => 2,
+            CURLOPT_USERAGENT => 'Mozilla/5.0 (compatible; CDN-Checker)',
+            CURLOPT_FOLLOWLOCATION => false,
+        ]);
 
         $result = curl_exec($ch);
         $curlError = curl_error($ch);
@@ -56,11 +58,11 @@ $hoste = get_host();
 $stylesheets = [
     "/Translation_Dashboard/css/styles.css",
     "/Translation_Dashboard/css/dashboard_new1.css",
-    "/Translation_Dashboard/css/sidebars.css",
+    // "/Translation_Dashboard/css/sidebars.css",
     "$hoste/ajax/libs/font-awesome/5.15.3/css/all.min.css",
     "$hoste/ajax/libs/bootstrap/5.3.7/css/bootstrap.min.css",
     "$hoste/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css",
-    "$hoste/ajax/libs/bootstrap-select/1.14.0-beta3/css/bootstrap-select.css",
+    "$hoste/ajax/libs/bootstrap-select/1.14.0-beta3/css/bootstrap-select.min.css",
     "$hoste/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css",
 
     // "$hoste/ajax/libs/datatables.net-bs5/1.13.5/dataTables.bootstrap5.min.css",
@@ -122,6 +124,7 @@ function head()
 <head>
     <meta charset="UTF-8">
     <meta name="robots" content="noindex">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="light dark">
@@ -155,30 +158,6 @@ function head()
         a {
             text-decoration: none;
             word-break: break-all !important;
-        }
-
-        .Dropdown_menu_toggle {
-            display: none;
-            cursor: pointer;
-        }
-
-        @media (max-width: 768px) {
-            .Dropdown_menu_toggle {
-                display: block;
-            }
-
-            .div_menu {
-                display: none;
-                flex-direction: column;
-                /* width: 100%; */
-                /* background: #ddddff; */
-                padding: 0;
-                border-radius: 5px;
-            }
-
-            .div_menu.mactive {
-                display: block;
-            }
         }
     </style>
 
