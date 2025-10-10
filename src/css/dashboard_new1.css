@@ -2,6 +2,14 @@
 	/* padding: 0px !important; */
 }
 
+.med-logo {
+	height: 40px;
+	max-height: 40px;
+	/* Adjust as needed */
+	width: auto;
+	/* Maintain aspect ratio */
+}
+
 #collapsibleNavbar>ul>li {
 	/* padding-top: 0.5rem !important; */
 	/* padding-bottom: 0.5rem !important; */
@@ -112,9 +120,16 @@ thead {
 .mainindex {
 	margin-right: 20px;
 	margin-left: 20px;
+	display: grid;
+	grid-template-columns: 2fr 1fr;
+	grid-template-rows: auto 1fr;
+	gap: 2vw;
+	flex-grow: 1;
+	align-items: center;
+	align-content: center;
 }
 
-.medlogo {
+.med-logo-big {
 	width: 180px;
 	height: auto;
 }
@@ -144,7 +159,7 @@ thead {
 		margin-left: 5px;
 	}
 
-	.medlogo {
+	.med-logo-big {
 		width: 100px;
 		height: auto;
 		float: right;
