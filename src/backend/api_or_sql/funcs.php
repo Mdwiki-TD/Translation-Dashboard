@@ -60,10 +60,53 @@ function get_coordinator()
     $query = "SELECT id, user FROM coordinator order by id";
     //---
     $u_data = super_function($api_params, [], $query);
+    // Ensure all coordinator rows expose an `active` flag for downstream
+    // consumers. The SQL fallback currently only returns the `id` and
+    // `user` columns, so we inject a default active=1 flag in that case to
+    // match the API payload.
+    $u_data = normalize_coordinator_rows($u_data);
     // ---
     $coordinator = $u_data;
     // ---
     return $u_data;
+}
+
+function normalize_coordinator_rows(array $rows): array
+{
+    return array_map(static function ($row) {
+        if (!is_array($row)) {
+            return $row;
+        }
+
+        $active = $row['active'] ?? null;
+        if ($active === null || $active === '') {
+            $active = 1;
+        }
+        $row['active'] = (int) $active;
+
+        return $row;
+    }, $rows);
+}
+
+function coordinator_active_index(array $rows): array
+{
+    $normalized = normalize_coordinator_rows($rows);
+    $coordinators = [];
+
+    foreach ($normalized as $row) {
+        if (!is_array($row)) {
+            continue;
+        }
+
+        $user = $row['user'] ?? '';
+        if ($user === '') {
+            continue;
+        }
+
+        $coordinators[$user] = (int) ($row['active'] ?? 0);
+    }
+
+    return $coordinators;
 }
 
 function get_user_pages($user_main, $year_y, $lang_y)
