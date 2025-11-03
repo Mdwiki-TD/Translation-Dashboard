@@ -15,6 +15,7 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 //---
 use PDO;
 use PDOException;
+use RuntimeException;
 
 class Database
 {
@@ -45,7 +46,37 @@ class Database
         // $ts_pw = posix_getpwuid(posix_getuid());
         // $ts_mycnf = parse_ini_file($ts_pw['dir'] . "/confs/db.ini");
         // ---
-        $ts_mycnf = parse_ini_file($this->home_dir . "/confs/db.ini");
+        $configPath = $this->home_dir . "/confs/db.ini";
+        $ts_mycnf = @parse_ini_file($configPath);
+
+        if ($ts_mycnf === false || !is_array($ts_mycnf)) {
+            error_log(sprintf('Database configuration file "%s" is missing or unreadable.', $configPath));
+            throw new RuntimeException('Database configuration error.');
+        }
+
+        $requiredKeys = ['user'];
+        $missingKeys = [];
+        foreach ($requiredKeys as $key) {
+            if (!isset($ts_mycnf[$key]) || $ts_mycnf[$key] === '') {
+                $missingKeys[] = $key;
+            }
+        }
+
+        if ($server_name !== 'localhost' && (!isset($ts_mycnf['password']) || $ts_mycnf['password'] === '')) {
+            $missingKeys[] = 'password';
+        }
+
+        if (!empty($missingKeys)) {
+            error_log(
+                sprintf(
+                    'Database configuration file "%s" is missing required key(s): %s.',
+                    $configPath,
+                    implode(', ', array_unique($missingKeys))
+                )
+            );
+            throw new RuntimeException('Database configuration error.');
+        }
+
         // ---
         if ($server_name === 'localhost') {
             $this->host = 'localhost:3306';
