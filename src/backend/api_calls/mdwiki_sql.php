@@ -15,6 +15,7 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 //---
 use PDO;
 use PDOException;
+use RuntimeException;
 
 class Database
 {
@@ -45,7 +46,22 @@ class Database
         // $ts_pw = posix_getpwuid(posix_getuid());
         // $ts_mycnf = parse_ini_file($ts_pw['dir'] . "/confs/db.ini");
         // ---
-        $ts_mycnf = parse_ini_file($this->home_dir . "/confs/db.ini");
+        $config_path = $this->home_dir . "/confs/db.ini";
+        $ts_mycnf = @parse_ini_file($config_path);
+        if ($ts_mycnf === false) {
+            throw new RuntimeException(sprintf('Database configuration file "%s" could not be read or parsed.', $config_path));
+        }
+
+        $required_keys = ['user'];
+        if ($server_name !== 'localhost') {
+            $required_keys[] = 'password';
+        }
+
+        foreach ($required_keys as $key) {
+            if (!array_key_exists($key, $ts_mycnf) || $ts_mycnf[$key] === '') {
+                throw new RuntimeException(sprintf('Database configuration is missing required "%s" entry in "%s".', $key, $config_path));
+            }
+        }
         // ---
         if ($server_name === 'localhost') {
             $this->host = 'localhost:3306';
