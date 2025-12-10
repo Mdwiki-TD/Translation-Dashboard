@@ -37,11 +37,11 @@ function make_camp_dropdown($camp): string
 {
     //---
     $categories_tab = get_td_or_sql_categories();
-    $categories_tab = array_column(array: $categories_tab, column_key: 'campaign');
+    $categories_tab = array_column($categories_tab, 'campaign');
     //---
-    $y1 = makeDropdown(tab: $categories_tab, cat: $camp, id: 'camp', add: 'all');
+    $y1 = makeDropdown($categories_tab, $camp, 'camp', 'all');
     // ---
-    $campDropdown = input_group(title: 'Campaign', rows: $y1);
+    $campDropdown = input_group('Campaign', $y1);
     // ---
     return $campDropdown;
 }
@@ -51,14 +51,14 @@ function make_project_dropdown($user_group): string
     //---
     $projects_tab = get_td_or_sql_projects();
     //---
-    $user_groups = array_column(array: $projects_tab, column_key: 'g_title');
+    $user_groups = array_column($projects_tab, 'g_title');
     //---
     // '["Benevity","Hearing","McMaster","OLI","ProZ","Shani","TWB","TWB\\/WikiMed (Arabic)","Uncategorized","Wiki"]'
     // var_export(json_encode($user_groups));
     //---
-    $y2 = makeDropdown(tab: $user_groups, cat: $user_group, id: 'user_group', add: 'all');
+    $y2 = makeDropdown($user_groups, $user_group, 'user_group', 'all');
     // ---
-    $projectDropdown = input_group(title: 'Translators', rows: $y2);
+    $projectDropdown = input_group('Translators', $y2);
     // ---
     return $projectDropdown;
 }
@@ -69,10 +69,10 @@ function make_year_dropdown($year): string
     $m_years2 = get_pages_with_pupdate();
     //---
     // sort $m_years2 from biggest to smallest
-    rsort(array: $m_years2);
+    rsort($m_years2);
     //---
-    $y3 = makeDropdown(tab: $m_years2, cat: $year, id: 'year', add: 'all');
-    $yearDropdown = input_group(title: 'Year', rows: $y3);
+    $y3 = makeDropdown($m_years2, $year, 'year', 'all');
+    $yearDropdown = input_group('Year', $y3);
     // ---
     return $yearDropdown;
 }
@@ -84,18 +84,18 @@ function make_month_dropdown($month, $graph_data): string
     //---
     // 2024-01 > 01
     //---
-    $months_list = array_unique(array: array_map(
-        callback: fn($item): int|string => date(
-            format: 'm',
-            timestamp: strtotime(datetime: $item)
+    $months_list = array_unique(array_map(
+        fn($item) => date(
+            'm',
+            strtotime($item)
         ),
-        array: array_keys(array: $graph_data)
+        array_keys(array: $graph_data)
     ));
     //---
     // sort $m_months from biggest to smallest
-    rsort(array: $months_list);
+    rsort($months_list);
     //---
-    $y3 = makeDropdown(tab: $months_list, cat: $month, id: 'month', add: 'All');
+    $y3 = makeDropdown($months_list, $month, 'month', 'All');
     // ---
     // $monthDropdown = input_group('Month', $y3);
     $monthDropdown = <<<HTML
@@ -109,24 +109,24 @@ function make_month_dropdown($month, $graph_data): string
 function leaderboard_filter($year, $month, $user_group, $camp, $action = "leaderboard.php"): string
 {
     //---
-    $campDropdown = make_camp_dropdown(camp: $camp);
+    $campDropdown = make_camp_dropdown($camp);
     //---
-    $projectDropdown = make_project_dropdown(user_group: $user_group);
+    $projectDropdown = make_project_dropdown($user_group);
     //---
-    $yearDropdown = make_year_dropdown(year: $year);
+    $yearDropdown = make_year_dropdown($year);
     //---
     $cat = TablesSql::$s_camp_to_cat[$camp] ?? '';
     //---
     $monthDropdown = "";
     //---
     if ($year !== 'all') {
-        $graph_data = get_td_or_sql_status(_year: $year, _user_group: $user_group, _cat: $cat);
+        $graph_data = get_td_or_sql_status($year, $user_group, $cat);
         //---
-        $monthDropdown = make_month_dropdown(month: $month, graph_data: $graph_data);
+        $monthDropdown = make_month_dropdown($month, $graph_data);
     };
     //---
     $test_line = (isset($_REQUEST['test']) != '') ? '<input type="hidden" name="test" value="1" />' : "";
-    $test_line .= (isset($_GET['use_td_api']) != '') ? "<input type='hidden' name='use_td_api' value='" . htmlspecialchars(string: $_GET['use_td_api'], flags: ENT_QUOTES, encoding: 'UTF-8') . "'/>" : "";
+    $test_line .= (isset($_GET['use_td_api']) != '') ? "<input type='hidden' name='use_td_api' value='" . htmlspecialchars($_GET['use_td_api'], ENT_QUOTES, 'UTF-8') . "'/>" : "";
     //---
     return <<<HTML
         <form method="get" action="$action" id="leaderboard_filter">

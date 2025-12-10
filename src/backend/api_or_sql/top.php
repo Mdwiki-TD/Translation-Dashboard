@@ -16,18 +16,18 @@ use function SQLorAPI\TopData\get_td_or_sql_status;
 use function SQLorAPI\Get\super_function;
 use function SQLorAPI\Get\isvalid;
 
-function get_td_or_sql_top_lang_of_users($users_original): array
+function get_td_or_sql_top_lang_of_users($users_original)
 {
     // ---
-    $users = (count(value: $users_original) > 50) ? [] : $users_original;
+    $users = (count($users_original) > 50) ? [] : $users_original;
     // ---
     $api_params = ['get' => 'top_lang_of_users', 'users' => $users];
     // ---
     $query_params = [];
     $query_line = "";
     // ---
-    if (!empty($users) && is_array(value: $users)) {
-        $placeholders = rtrim(string: str_repeat(string: '?,', times: count(value: $users)), characters: ',');
+    if (!empty($users) && is_array($users)) {
+        $placeholders = rtrim(str_repeat('?,', count($users)), ',');
         $query_line = " AND p.user IN ($placeholders)";
         $query_params = $users;
     }
@@ -47,21 +47,21 @@ function get_td_or_sql_top_lang_of_users($users_original): array
         ORDER BY cnt DESC;
     SQL;
     // ---
-    $data = super_function(api_params: $api_params, sql_params: $query_params, sql_query: $query);
+    $data = super_function($api_params, $query_params, $query);
     // ---
     // [{"user":"Subas Chandra Rout","lang":"or","cnt":1906},{"user":"Pranayraj1985","lang":"te","cnt":401} ...
     // var_export(json_encode($data));
     // ---
     if ($users != $users_original) {
-        $data = array_filter(array: $data, callback: function ($item) use ($users_original): bool {
-            return in_array(needle: $item['user'], haystack: $users_original);
+        $data = array_filter($data, function ($item) use ($users_original) {
+            return in_array($item['user'], $users_original);
         });
     }
     // ---
     return $data;
 }
 
-function add_top_params($query, $params, $to_add): array
+function add_top_params($query, $params, $to_add)
 {
     $top_params = [
         "year" => "YEAR(p.pupdate)",
@@ -71,7 +71,7 @@ function add_top_params($query, $params, $to_add): array
     ];
     // ---
     foreach ($top_params as $key => $column) {
-        if (isvalid(str: $to_add[$key] ?? '')) {
+        if (isvalid($to_add[$key] ?? '')) {
             $query .= " AND $column = ?";
             $params[] = $to_add[$key];
         }
@@ -80,7 +80,7 @@ function add_top_params($query, $params, $to_add): array
     return [$query, $params];
 }
 
-function top_query($select): string
+function top_query($select)
 {
     // ---
     $select_field = ($select === 'user') ? 'p.user' : 'p.lang';
@@ -120,7 +120,7 @@ function top_query($select): string
     return $query;
 }
 
-function get_td_or_sql_top_users($year, $user_group, $cat, $month = null): array
+function get_td_or_sql_top_users($year, $user_group, $cat, $month = null)
 {
     // ---
     $to_add = [
@@ -138,18 +138,18 @@ function get_td_or_sql_top_users($year, $user_group, $cat, $month = null): array
         'month' => $month,
     ];
     // ---
-    $query = top_query(select: 'user');
+    $query = top_query('user');
     // ---
-    [$query, $params] = add_top_params(query: $query, params: [], to_add: $to_add);
+    [$query, $params] = add_top_params($query, [], $to_add);
     // ---
     $query .= " GROUP BY p.user ORDER BY 2 DESC";
     // ---
-    $data = super_function(api_params: $api_params, sql_params: $params, sql_query: $query);
+    $data = super_function($api_params, $params, $query);
     // ---
     $new_data = [];
     // ---
     foreach ($data as $item) {
-        $item["count"] = intval(value: $item["targets"]);
+        $item["count"] = intval($item["targets"]);
         $new_data[$item['user']] = $item;
     }
     // ---
@@ -174,18 +174,18 @@ function get_td_or_sql_top_langs($year, $user_group, $cat, $month = null): array
         'month' => $month,
     ];
     // ---
-    $query = top_query(select: 'lang');
+    $query = top_query('lang');
     // ---
-    [$query, $params] = add_top_params(query: $query, params: [], to_add: $to_add);
+    [$query, $params] = add_top_params($query, [], $to_add);
     // ---
     $query .= " GROUP BY p.lang ORDER BY 2 DESC";
     // ---
-    $data = super_function(api_params: $api_params, sql_params: $params, sql_query: $query);
+    $data = super_function($api_params, $params, $query);
     // ---
     $new_data = [];
     // ---
     foreach ($data as $item) {
-        $item["count"] = intval(value: $item["targets"]);
+        $item["count"] = intval($item["targets"]);
         $new_data[$item['lang']] = $item;
     }
     // ---
@@ -211,11 +211,11 @@ function get_td_or_sql_status($year, $user_group, $cat): array
 
     SQL;
     // ---
-    [$query, $params] = add_top_params(query: $query, params: [], to_add: $to_add);
+    [$query, $params] = add_top_params($query, [], $to_add);
     // ---
     $query .= " GROUP BY 1 ORDER BY 1 ASC";
     // ---
-    $data = super_function(api_params: $api_params, sql_params: $params, sql_query: $query);
+    $data = super_function($api_params, $params, $query);
     // ---
     // var_export(json_encode($params));
     // echo $query . "<br>";
@@ -224,7 +224,7 @@ function get_td_or_sql_status($year, $user_group, $cat): array
     $new_data = [];
     // ---
     foreach ($data as $item) {
-        $new_data[$item['date']] = intval(value: $item["count"]);
+        $new_data[$item['date']] = intval($item["count"]);
     }
     // ---
     return $new_data;

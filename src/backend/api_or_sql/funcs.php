@@ -91,21 +91,21 @@ function get_user_pages($user_main, $year_y, $lang_y): array
     // ---
     $sql_params = [$user_main];
     // ---
-    if (isvalid(str: $year_y)) {
+    if (isvalid($year_y)) {
         $query .= " and YEAR(p.date) = ?";
         $sql_params[] = $year_y;
         // ---
         $api_params['year'] = $year_y;
     };
     // ---
-    if (isvalid(str: $lang_y)) {
+    if (isvalid($lang_y)) {
         $query .= " and p.lang = ?";
         $sql_params[] = $lang_y;
         // ---
         $api_params['lang'] = $lang_y;
     };
     //---
-    $u_data = super_function(api_params: $api_params, sql_params: $sql_params, sql_query: $query);
+    $u_data = super_function($api_params, $sql_params, $query);
     // ---
     $data[$key] = $u_data;
     // ---
@@ -125,9 +125,9 @@ function get_pages_with_pupdate(): array
     // ---
     $query = "SELECT DISTINCT YEAR(pupdate) AS year FROM pages WHERE pupdate <> ''";
     // ---
-    $u_data = super_function(api_params: $api_params, sql_params: [], sql_query: $query);
+    $u_data = super_function($api_params, [], $query);
     // ---
-    $u_data = array_map(callback: 'current', array: $u_data);
+    $u_data = array_map('current', array: $u_data);
     // ---
     $data = $u_data;
     // ---

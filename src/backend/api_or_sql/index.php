@@ -36,7 +36,7 @@ function super_function(array $api_params, array $sql_params, string $sql_query,
     // ---
     if (empty($data) && !$no_refind) {
         test_print("<br> >>>>> Query:");
-        $data = fetch_query($sql_query, $sql_params, $table_name = $table_name);
+        $data = fetch_query($sql_query, $sql_params, $table_name);
     }
     // ---
     return $data;
