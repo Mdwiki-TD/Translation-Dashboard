@@ -66,7 +66,7 @@ function get_coordinator()
     return $u_data;
 }
 
-function get_user_pages($user_main, $year_y, $lang_y): array
+function get_user_pages($user_main, $year_y, $lang_y)
 {
     // ---
     static $data = [];
@@ -112,7 +112,7 @@ function get_user_pages($user_main, $year_y, $lang_y): array
     return $u_data;
 }
 
-function get_pages_with_pupdate(): array
+function get_pages_with_pupdate()
 {
     // ---
     static $data = [];
@@ -127,14 +127,14 @@ function get_pages_with_pupdate(): array
     // ---
     $u_data = super_function($api_params, [], $query);
     // ---
-    $u_data = array_map('current', array: $u_data);
+    $u_data = array_map('current', $u_data);
     // ---
     $data = $u_data;
     // ---
     return $u_data;
 }
 
-function get_graph_data(): array
+function get_graph_data()
 {
     // ---
     static $graph_data = [];
