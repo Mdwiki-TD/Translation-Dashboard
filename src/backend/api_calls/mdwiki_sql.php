@@ -195,7 +195,7 @@ function execute_query($sql_query, $params = null, $table_name = null)
     $dbname = get_dbname($table_name);
 
     // Create a new database object
-    $db = new Database($_SERVER['SERVER_NAME'] ?? '', $dbname);
+    $db = new Database($_SERVER['SERVER_NAME'] ?? 'localhost', $dbname);
 
     // Execute a SQL query
     if ($params) {
@@ -219,7 +219,7 @@ function fetch_query($sql_query, $params = null, $table_name = null)
     $dbname = get_dbname($table_name);
 
     // Create a new database object
-    $db = new Database($_SERVER['SERVER_NAME'] ?? '', $dbname);
+    $db = new Database($_SERVER['SERVER_NAME'] ?? 'localhost', $dbname);
 
     // Execute a SQL query
     if ($params) {
