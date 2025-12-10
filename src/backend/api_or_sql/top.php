@@ -65,6 +65,7 @@ function add_top_params($query, $params, $to_add)
 {
     $top_params = [
         "year" => "YEAR(p.pupdate)",
+        "month" => "MONTH(p.pupdate)",
         "user_group" => "u.user_group",
         "cat" => "p.cat"
     ];
