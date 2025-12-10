@@ -26,6 +26,7 @@ $user_to_html = filter_input(INPUT_GET, 'user', FILTER_SANITIZE_FULL_SPECIAL_CHA
 $user_to_curl = filter_input(INPUT_GET, 'user', FILTER_UNSAFE_RAW) ?? '';
 
 $year_y   = filter_input(INPUT_GET, 'year', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'All';
+$month_y  = filter_input(INPUT_GET, 'month', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
 $camp     = filter_input(INPUT_GET, 'camp', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'All';
 
 // ---
@@ -60,5 +61,5 @@ if ($get == 'users' || !empty($user_to_curl)) {
         ?? filter_input(INPUT_GET, 'user_group', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
         ?? 'all';
     //---
-    echo main_leaderboard($year_y, $camp, $user_group);
+    echo main_leaderboard($year_y, $camp, $user_group, $month_y);
 }

@@ -14,8 +14,10 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     error_reporting(E_ALL);
 };
 
+use Tables\SqlTables\TablesSql;
 use function TD\Render\Html\makeDropdown;
 use function SQLorAPI\Funcs\get_pages_with_pupdate;
+use function SQLorAPI\TopData\get_td_or_sql_status;
 use function SQLorAPI\GetDataTab\get_td_or_sql_projects;
 use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
 
@@ -75,7 +77,36 @@ function make_year_dropdown($year): string
     return $yearDropdown;
 }
 
-function leaderboard_filter($year, $user_group, $camp, $action = "leaderboard.php"): string
+function make_month_dropdown($month, $graph_data): string
+{
+    //---
+    // array ( '2024-01' => 92, '2024-02' => 222, '2024-03' => 231, '2024-04' => 160, '2024-05' => 214, '2024-06' => 146, '2024-07' => 145, '2024-08' => 73, '2024-09' => 503, '2024-10' => 359, '2024-11' => 207, '2024-12' => 204, )
+    //---
+    // 2024-01 > 01
+    //---
+    $months_list = array_unique(array_map(
+        fn($item) => date(
+            'm',
+            strtotime($item)
+        ),
+        array_keys($graph_data)
+    ));
+    //---
+    // sort $m_months from biggest to smallest
+    rsort($months_list);
+    //---
+    $y3 = makeDropdown($months_list, $month, 'month', 'All');
+    // ---
+    // $monthDropdown = input_group('Month', $y3);
+    $monthDropdown = <<<HTML
+        <div class="input-group w-50">
+            $y3
+        </div>
+    HTML;
+    // ---
+    return $monthDropdown;
+}
+function leaderboard_filter($year, $month, $user_group, $camp, $action = "leaderboard.php"): string
 {
     //---
     $campDropdown = make_camp_dropdown($camp);
@@ -83,6 +114,16 @@ function leaderboard_filter($year, $user_group, $camp, $action = "leaderboard.ph
     $projectDropdown = make_project_dropdown($user_group);
     //---
     $yearDropdown = make_year_dropdown($year);
+    //---
+    $cat = TablesSql::$s_camp_to_cat[$camp] ?? '';
+    //---
+    $monthDropdown = "";
+    //---
+    if ($year !== 'all') {
+        $graph_data = get_td_or_sql_status($year, $user_group, $cat);
+        //---
+        $monthDropdown = make_month_dropdown($month, $graph_data);
+    };
     //---
     $test_line = (isset($_REQUEST['test']) != '') ? '<input type="hidden" name="test" value="1" />' : "";
     $test_line .= (isset($_GET['use_td_api']) != '') ? "<input type='hidden' name='use_td_api' value='" . htmlspecialchars($_GET['use_td_api'], ENT_QUOTES, 'UTF-8') . "'/>" : "";
@@ -97,14 +138,17 @@ function leaderboard_filter($year, $user_group, $camp, $action = "leaderboard.ph
                 </div>
                 <div class="col-md-7">
                     <div class="row">
-                        <div class="col-md-5">
+                        <div class="col-md-4">
                             $campDropdown
                         </div>
                         <div class="col-md-4">
                             $projectDropdown
                         </div>
-                        <div class="col-md-3">
-                            $yearDropdown
+                        <div class="col-md-4">
+                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                $yearDropdown
+                                $monthDropdown
+                            </div>
                         </div>
                     </div>
                 </div>
