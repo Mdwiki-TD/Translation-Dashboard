@@ -18,4 +18,4 @@ jobs:
           script_stop: true
           key: ${{ secrets.KEY }}
           script: |
-            become mdwiki sh -c "shs/update_td.sh; echo ''"
+            become mdwiki bash -lc "shs/update_td.sh; echo ''"

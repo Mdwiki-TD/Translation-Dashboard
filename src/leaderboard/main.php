@@ -30,12 +30,12 @@ use function SQLorAPI\TopData\get_td_or_sql_top_langs;
 use function SQLorAPI\TopData\get_td_or_sql_top_users;
 use function SQLorAPI\TopData\get_td_or_sql_status;
 
-function print_cat_table($year, $user_group, $camp, $cat): string
+function print_cat_table($year, $user_group, $camp, $cat, $month = null): string
 {
     // ---
-    $users_list = get_td_or_sql_top_users($year, $user_group, $cat);
+    $users_list = get_td_or_sql_top_users($year, $user_group, $cat, $month);
     // ---
-    $lang_table = get_td_or_sql_top_langs($year, $user_group, $cat);
+    $lang_table = get_td_or_sql_top_langs($year, $user_group, $cat, $month);
     // ---
     $articles_all = number_format(array_sum(array_column($users_list, 'count')));
     // ---
@@ -87,14 +87,14 @@ function print_cat_table($year, $user_group, $camp, $cat): string
     HTML;
 }
 
-function main_leaderboard($year, $camp, $user_group)
+function main_leaderboard($year, $camp, $user_group, $month = null): string
 {
-    //---
-    $filter_form = leaderboard_filter($year, $user_group, $camp);
     //---
     $cat = TablesSql::$s_camp_to_cat[$camp] ?? '';
     //---
-    $uux = print_cat_table($year, $user_group, $camp, $cat);
+    $filter_form = leaderboard_filter($year, $month, $user_group, $camp);
+    //---
+    $uux = print_cat_table($year, $user_group, $camp, $cat, $month);
     //---
     $board = <<<HTML
         $filter_form
