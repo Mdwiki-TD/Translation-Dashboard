@@ -12,8 +12,9 @@ include_once __DIR__ . '/../header.php';
 use function Leaderboard\Filter\leaderboard_filter;
 
 //---
-$year = strtolower(filter_input(INPUT_GET, 'year', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'all');
-$camp = strtolower(filter_input(INPUT_GET, 'camp', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'all');
+$year  = strtolower(filter_input(INPUT_GET, 'year', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'all');
+$month = strtolower(filter_input(INPUT_GET, 'month', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '');
+$camp  = strtolower(filter_input(INPUT_GET, 'camp', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'all');
 
 $user_group = filter_input(INPUT_GET, 'project', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
     ?? filter_input(INPUT_GET, 'user_group', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
@@ -21,7 +22,7 @@ $user_group = filter_input(INPUT_GET, 'project', FILTER_SANITIZE_FULL_SPECIAL_CH
 //---
 $user_group = strtolower($user_group);
 //---
-$filter_form = leaderboard_filter($year, $user_group, $camp, 'x.php');
+$filter_form = leaderboard_filter($year, $month, $user_group, $camp, 'x.php');
 
 echo <<<HTML
     <main id="body">
