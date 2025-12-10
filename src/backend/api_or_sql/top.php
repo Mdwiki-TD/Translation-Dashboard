@@ -65,7 +65,6 @@ function add_top_params($query, $params, $to_add)
 {
     $top_params = [
         "year" => "YEAR(p.pupdate)",
-        "month" => "MONTH(p.pupdate)",
         "user_group" => "u.user_group",
         "cat" => "p.cat"
     ];
@@ -120,23 +119,12 @@ function top_query($select)
     return $query;
 }
 
-function get_td_or_sql_top_users($year, $user_group, $cat, $month = null)
+function get_td_or_sql_top_users($year, $user_group, $cat)
 {
     // ---
-    $to_add = [
-        "year" => $year,
-        "user_group" => $user_group,
-        "cat" => $cat,
-        "month" => $month,
-    ];
+    $to_add = ["year" => $year, "user_group" => $user_group, "cat" => $cat];
     // ---
-    $api_params = [
-        'get' => 'top_users',
-        'year' => $year,
-        'user_group' => $user_group,
-        'cat' => $cat,
-        'month' => $month,
-    ];
+    $api_params = ['get' => 'top_users', 'year' => $year, 'user_group' => $user_group, 'cat' => $cat];
     // ---
     $query = top_query('user');
     // ---
@@ -156,23 +144,12 @@ function get_td_or_sql_top_users($year, $user_group, $cat, $month = null)
     return $new_data;
 }
 
-function get_td_or_sql_top_langs($year, $user_group, $cat, $month = null): array
+function get_td_or_sql_top_langs($year, $user_group, $cat)
 {
     // ---
-    $to_add = [
-        "year" => $year,
-        "user_group" => $user_group,
-        "cat" => $cat,
-        'month' => $month,
-    ];
+    $to_add = ["year" => $year, "user_group" => $user_group, "cat" => $cat];
     // ---
-    $api_params = [
-        'get' => 'top_langs',
-        'year' => $year,
-        'user_group' => $user_group,
-        'cat' => $cat,
-        'month' => $month,
-    ];
+    $api_params = ['get' => 'top_langs', 'year' => $year, 'user_group' => $user_group, 'cat' => $cat];
     // ---
     $query = top_query('lang');
     // ---
@@ -192,7 +169,7 @@ function get_td_or_sql_top_langs($year, $user_group, $cat, $month = null): array
     return $new_data;
 }
 
-function get_td_or_sql_status($year, $user_group, $cat): array
+function get_td_or_sql_status($year, $user_group, $cat)
 {
     // ---
     $to_add = ["year" => $year, "user_group" => $user_group, "cat" => $cat];
