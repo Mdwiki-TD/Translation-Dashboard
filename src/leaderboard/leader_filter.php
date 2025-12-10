@@ -89,7 +89,7 @@ function make_month_dropdown($month, $graph_data): string
             'm',
             strtotime($item)
         ),
-        array_keys(array: $graph_data)
+        array_keys($graph_data)
     ));
     //---
     // sort $m_months from biggest to smallest
