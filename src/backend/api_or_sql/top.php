@@ -119,12 +119,23 @@ function top_query($select)
     return $query;
 }
 
-function get_td_or_sql_top_users($year, $user_group, $cat)
+function get_td_or_sql_top_users($year, $user_group, $cat, $month = null)
 {
     // ---
-    $to_add = ["year" => $year, "user_group" => $user_group, "cat" => $cat];
+    $to_add = [
+        "year" => $year,
+        "user_group" => $user_group,
+        "cat" => $cat,
+        "month" => $month,
+    ];
     // ---
-    $api_params = ['get' => 'top_users', 'year' => $year, 'user_group' => $user_group, 'cat' => $cat];
+    $api_params = [
+        'get' => 'top_users',
+        'year' => $year,
+        'user_group' => $user_group,
+        'cat' => $cat,
+        'month' => $month,
+    ];
     // ---
     $query = top_query('user');
     // ---
@@ -144,12 +155,23 @@ function get_td_or_sql_top_users($year, $user_group, $cat)
     return $new_data;
 }
 
-function get_td_or_sql_top_langs($year, $user_group, $cat)
+function get_td_or_sql_top_langs($year, $user_group, $cat, $month = null): array
 {
     // ---
-    $to_add = ["year" => $year, "user_group" => $user_group, "cat" => $cat];
+    $to_add = [
+        "year" => $year,
+        "user_group" => $user_group,
+        "cat" => $cat,
+        'month' => $month,
+    ];
     // ---
-    $api_params = ['get' => 'top_langs', 'year' => $year, 'user_group' => $user_group, 'cat' => $cat];
+    $api_params = [
+        'get' => 'top_langs',
+        'year' => $year,
+        'user_group' => $user_group,
+        'cat' => $cat,
+        'month' => $month,
+    ];
     // ---
     $query = top_query('lang');
     // ---
@@ -169,7 +191,7 @@ function get_td_or_sql_top_langs($year, $user_group, $cat)
     return $new_data;
 }
 
-function get_td_or_sql_status($year, $user_group, $cat)
+function get_td_or_sql_status($year, $user_group, $cat): array
 {
     // ---
     $to_add = ["year" => $year, "user_group" => $user_group, "cat" => $cat];
