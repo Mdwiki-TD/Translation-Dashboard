@@ -53,3 +53,4 @@ run.sh
 /src/.claude
 src/Plan.md
 tt.md
+.claude/settings.local.json
