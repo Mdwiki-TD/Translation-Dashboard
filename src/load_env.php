@@ -81,7 +81,7 @@ function loadEnvFile(string $filePath, array $allowedKeys = []): void
         $_ENV[$key] = $value;
 
         // Expose to getenv()
-        if (!@putenv("$key=$value")) {
+        if (!@putenv($key . '=' . $value)) {
             throw new RuntimeException("Failed to set environment variable: $key");
         }
     }
