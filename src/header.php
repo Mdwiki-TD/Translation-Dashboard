@@ -10,6 +10,9 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 //---
 ini_set('session.use_strict_mode', '1');
 //---
+use function TD\Render\Html\banner_alert;
+use function SQLorAPI\Funcs\get_coordinator;
+//---
 include_once __DIR__ . '/backend/userinfos_wrap.php';
 //---
 include_once __DIR__ . '/frontend/include.php';
@@ -17,8 +20,7 @@ include_once __DIR__ . '/backend/include_first/include.php';
 //---
 include_once __DIR__ . '/head.php';
 //---
-use function TD\Render\Html\banner_alert;
-use function SQLorAPI\Funcs\get_coordinator;
+echo print_full_head(!isset($_GET["noboot"]));
 //---
 $coordinators = array_column(get_coordinator(), 'active', 'user');
 
