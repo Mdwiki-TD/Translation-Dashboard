@@ -120,14 +120,15 @@ function head()
     return $text;
 }
 
-
-function print_full_head($no_boot): string
+/**
+ * Generates the full HTML head section, including meta tags, title, and linked resources.
+ *
+ * @return string The complete HTML head section as a string.
+ */
+function print_full_head(): string
 {
-    $head_text = "";
+    $head_text = head();
 
-    if ($no_boot) {
-        $head_text = head();
-    };
     $full_head = <<<HTML
         <html lang="en" dir="ltr" data-bs-theme="light" xmlns="http://www.w3.org/1999/xhtml">
 

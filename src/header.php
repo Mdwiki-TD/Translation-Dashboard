@@ -20,7 +20,7 @@ include_once __DIR__ . '/backend/include_first/include.php';
 //---
 include_once __DIR__ . '/head.php';
 //---
-echo print_full_head(!isset($_GET["noboot"]));
+echo print_full_head();
 //---
 $coordinators = array_column(get_coordinator(), 'active', 'user');
 
