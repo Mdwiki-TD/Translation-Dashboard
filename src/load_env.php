@@ -37,9 +37,10 @@ if (!function_exists('str_contains')) {
  * @return void
  * @throws RuntimeException
  */
-function loadEnvFile(string $filePath, array $allowedKeys = []): void
+function loadEnvironmentVariables(string $filePath, array $allowedKeys = []): void
 {
     if (!file_exists($filePath) || !is_readable($filePath)) {
+        echo "Warning: Env file not found or not readable: $filePath\n";
         throw new RuntimeException("Env file not found or not readable: $filePath");
     }
     $lines = file($filePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
@@ -99,7 +100,7 @@ try {
         'DB_NAME_NEW',
     ];
 
-    loadEnvFile($envFile, $whitelist);
+    loadEnvironmentVariables($envFile, $whitelist);
 } catch (RuntimeException $e) {
     error_log('ENV Loader Error: ' . $e->getMessage());
     exit(1); // Fail-fast
