@@ -54,3 +54,5 @@ run.sh
 src/Plan.md
 tt.md
 .claude/settings.local.json
+/.vscode
+.env
