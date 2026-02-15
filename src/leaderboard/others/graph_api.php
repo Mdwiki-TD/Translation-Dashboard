@@ -50,7 +50,7 @@ function print_graph_api($tab, $no_card = false)
 {
     // &year=&user_group=&campaign=COVID
 
-    return graph_new_html($tab, $no_card = $no_card);
+    return graph_new_html($tab, $no_card);
 }
 
 function print_graph_tab_2_new()
