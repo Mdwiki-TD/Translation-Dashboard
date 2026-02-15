@@ -115,7 +115,7 @@ function is_active($url)
 						aria-controls="collapsibleNavbar" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="navbar-toggler-icon"></span>
 					</button>
-					<button class="theme-toggle btn btn-link ms-me-auto" aria-label="Toggle theme">
+					<button class="theme-toggle btn btn-link me-ms-auto" aria-label="Toggle theme">
 						<i class="bi bi-moon-stars-fill"></i>
 					</button>
 				</div>

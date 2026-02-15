@@ -30,7 +30,7 @@ This comprehensive static analysis of the WikiProjectMed Translation Dashboard i
 ```php
 $this->host = 'localhost:3306';
 $this->user = 'root';
-$this->password = 'root11';  // CRITICAL: Hardcoded password
+$this->password = '***REDACTED***';  // CRITICAL: Hardcoded password
 ```
 
 **Risk:** Database credential exposure in source code. If repository is compromised, attackers gain direct database access.

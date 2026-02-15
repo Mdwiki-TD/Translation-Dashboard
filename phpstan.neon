@@ -8,7 +8,7 @@ parameters:
         - src
 
     excludePaths:
-        - src/td_tests/*
+        - src_/td_tests/*
         - src/backend/results/sparql_bots/*
 
     # Treat phpdoc types as assertions for runtime safety
@@ -57,7 +57,7 @@ parameters:
 
         # Ignore missing typehints in test files
         - '#^Method .+ has no return type specified\.$#'
-          path: src/td_tests/*.php
+          path: src_/td_tests/*.php
 
     # Bootstrap file for autoloading
     bootstrap: tests/bootstrap.php

@@ -591,7 +591,7 @@ if ($server_name === 'localhost') {
     $this->host = 'localhost:3306';
     $this->dbname = $ts_mycnf['user'] . "__" . $this->db_suffix;
     $this->user = 'root';
-    $this->password = 'root11';  // ← HARDCODED
+    $this->password = '***REDACTED***';  // ← HARDCODED
 }
 ```
 
