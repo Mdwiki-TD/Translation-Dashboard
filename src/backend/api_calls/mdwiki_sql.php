@@ -21,45 +21,35 @@ class Database
 
     private $db;
     private $host;
-    private $home_dir;
     private $user;
     private $password;
     private $dbname;
-    private $db_suffix;
     private $groupByModeDisabled = false;
 
-    public function __construct($server_name, $db_suffix = 'mdwiki')
+    public function __construct(string $dbname_var = 'DB_NAME')
     {
-        if (empty($db_suffix)) {
-            $db_suffix = 'mdwiki';
-        }
-        // ---
-        $this->home_dir = getenv("HOME") ?: 'I:/mdwiki/mdwiki';
-        //---
-        $this->db_suffix = $db_suffix;
-        $this->set_db($server_name);
+        $this->set_db($dbname_var);
     }
 
-    private function set_db($server_name)
+    private function envVar(string $key)
     {
-        // $ts_pw = posix_getpwuid(posix_getuid());
-        // $ts_mycnf = parse_ini_file($ts_pw['dir'] . "/confs/db.ini");
-        // ---
-        $ts_mycnf = parse_ini_file($this->home_dir . "/confs/db.ini");
-        // ---
-        if ($server_name === 'localhost') {
-            $this->host = 'localhost:3306';
-            $this->dbname = $ts_mycnf['user'] . "__" . $this->db_suffix;
-            $this->user = 'root';
-            $this->password = 'root11';
-        } else {
-            $this->host = 'tools.db.svc.wikimedia.cloud';
-            $this->dbname = $ts_mycnf['user'] . "__" . $this->db_suffix;
-            $this->user = $ts_mycnf['user'];
-            $this->password = $ts_mycnf['password'];
+        $value = getenv($key);
+        if ($value !== false) {
+            return $value;
         }
-        // unset($ts_mycnf, $ts_pw);
-        unset($ts_mycnf);
+
+        if (array_key_exists($key, $_ENV)) {
+            return $_ENV[$key];
+        }
+
+        return "";
+    }
+    private function set_db(string $dbname_var)
+    {
+        $this->host = $this->envVar('DB_HOST') ?: 'tools.db.svc.wikimedia.cloud';
+        $this->dbname = $this->envVar($dbname_var) ?: '';
+        $this->user = $this->envVar('TOOL_TOOLSDB_USER') ?: '';
+        $this->password = $this->envVar('TOOL_TOOLSDB_PASSWORD') ?: '';
 
         try {
             $this->db = new PDO("mysql:host=$this->host;dbname=$this->dbname", $this->user, $this->password);
@@ -161,11 +151,12 @@ class Database
         $this->db = null;
     }
 }
+
 function get_dbname($table_name)
 {
     // Load from configuration file or define as class constant
     $table_db_mapping = [
-        'mdwiki_new' => [
+        'DB_NAME_NEW' => [
             "missing",
             "missing_by_qids",
             "exists_by_qids",
@@ -175,7 +166,7 @@ function get_dbname($table_name)
             "publish_reports_stats",
             "all_qids_titles"
         ],
-        'mdwiki' => [] // default
+        'DB_NAME' => [] // default
     ];
 
     if ($table_name) {
@@ -186,16 +177,16 @@ function get_dbname($table_name)
         }
     }
 
-    return 'mdwiki'; // default
+    return 'DB_NAME'; // default
 }
 
-function execute_query($sql_query, $params = null, $table_name = null)
+function execute_query(string $sql_query, $params = null, $table_name = null)
 {
 
-    $dbname = get_dbname($table_name);
+    $dbname_var = get_dbname($table_name);
 
     // Create a new database object
-    $db = new Database($_SERVER['SERVER_NAME'] ?? 'localhost', $dbname);
+    $db = new Database($dbname_var);
 
     // Execute a SQL query
     if ($params) {
@@ -213,13 +204,13 @@ function execute_query($sql_query, $params = null, $table_name = null)
     //---
     return $results;
 };
-function fetch_query($sql_query, $params = null, $table_name = null)
+function fetch_query(string $sql_query, $params = null, $table_name = null)
 {
 
-    $dbname = get_dbname($table_name);
+    $dbname_var = get_dbname($table_name);
 
     // Create a new database object
-    $db = new Database($_SERVER['SERVER_NAME'] ?? 'localhost', $dbname);
+    $db = new Database($dbname_var);
 
     // Execute a SQL query
     if ($params) {
