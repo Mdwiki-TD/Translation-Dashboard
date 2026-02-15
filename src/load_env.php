@@ -96,6 +96,7 @@ try {
         'TOOL_TOOLSDB_USER',
         'TOOL_TOOLSDB_PASSWORD',
         'DB_NAME',
+        'DB_NAME_NEW',
     ];
 
     loadEnvFile($envFile, $whitelist);
