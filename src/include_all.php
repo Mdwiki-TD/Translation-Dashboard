@@ -1,9 +1,10 @@
 <?PHP
 
-// foreach (glob(__DIR__ . "/*.php") as $filename) {
-//     if ($filename == __FILE__) continue;
-//     include_once $filename;
-// }
+$env = getenv('APP_ENV') ?: 'development';
+
+if ($env === 'development') {
+    include_once __DIR__ . '/load_env.php';
+}
 
 include_once __DIR__ . '/frontend/include.php';
 include_once __DIR__ . '/backend/include_first/include.php';
