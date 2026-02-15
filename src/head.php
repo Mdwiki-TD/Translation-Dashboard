@@ -105,60 +105,71 @@ function head()
 {
     global $stylesheets, $scripts, $scripts_module;
     // ---
+    $text = "";
+    // ---
     foreach ($stylesheets as $css) {
-        echo "\n\t<link rel='stylesheet' href='" . $css . "'>";
+        $text .= "\n\t<link rel='stylesheet' href='" . $css . "'>";
     }
     foreach ($scripts as $js) {
-        echo "\n\t<script src='" . $js . "'></script>";
+        $text .= "\n\t<script src='" . $js . "'></script>";
     }
     foreach ($scripts_module as $js) {
-        echo "\n\t<script type='module' src='" . $js . "'></script>";
+        $text .= "\n\t<script type='module' src='" . $js . "'></script>";
     }
-    echo "\n";
+    $text .= "\n";
+    return $text;
+}
+
+
+function print_full_head($no_boot): string
+{
+    $head_text = "";
+
+    if ($no_boot) {
+        $head_text = head();
+    };
+    $full_head = <<<HTML
+        <html lang="en" dir="ltr" data-bs-theme="light" xmlns="http://www.w3.org/1999/xhtml">
+
+        <head>
+            <meta charset="UTF-8">
+            <meta name="robots" content="noindex">
+            <link rel="icon" href="/favicon.svg" sizes="any">
+            <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <meta name="color-scheme" content="light dark">
+            <meta name="theme-color" content="#111111" media="(prefers-color-scheme: light)">
+            <meta name="theme-color" content="#eeeeee" media="(prefers-color-scheme: dark)">
+            <title>Wiki Project Med Translation Dashboard</title>
+            $head_text
+            <style>
+                .table_text_left>tbody>tr>th,
+                .table_text_left>tbody>tr>td,
+                .table_text_left>thead>tr>td,
+                .table_text_left>thead>tr>th {
+                    text-align: left !important;
+                }
+
+                .leaderboard_tables>tbody>tr>td,
+                .leaderboard_tables>tbody>tr>th,
+                .leaderboard_tables>thead>tr>td,
+                .leaderboard_tables>thead>tr>th {
+                    padding: 6px;
+                    line-height: 1.42857143;
+                    vertical-align: top;
+                    border-top: 1px solid #ddd;
+                }
+
+                a {
+                    text-decoration: none;
+                    word-break: break-all !important;
+                }
+            </style>
+
+        </head>
+    HTML;
+
+    return $full_head;
 }
 ?>
-
-<html lang="en" dir="ltr" data-bs-theme="light" xmlns="http://www.w3.org/1999/xhtml">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="robots" content="noindex">
-    <link rel="icon" href="/favicon.svg" sizes="any">
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="color-scheme" content="light dark">
-    <meta name="theme-color" content="#111111" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="#eeeeee" media="(prefers-color-scheme: dark)">
-    <title>Wiki Project Med Translation Dashboard</title>
-
-    <?php
-    if (!isset($_GET["noboot"])) {
-        head();
-    };
-    ?>
-    <style>
-        .table_text_left>tbody>tr>th,
-        .table_text_left>tbody>tr>td,
-        .table_text_left>thead>tr>td,
-        .table_text_left>thead>tr>th {
-            text-align: left !important;
-        }
-
-        .leaderboard_tables>tbody>tr>td,
-        .leaderboard_tables>tbody>tr>th,
-        .leaderboard_tables>thead>tr>td,
-        .leaderboard_tables>thead>tr>th {
-            padding: 6px;
-            line-height: 1.42857143;
-            vertical-align: top;
-            border-top: 1px solid #ddd;
-        }
-
-        a {
-            text-decoration: none;
-            word-break: break-all !important;
-        }
-    </style>
-
-</head>

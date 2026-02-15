@@ -62,7 +62,7 @@
 }
 
 /* Mobile Responsiveness */
-@media (max-width: 750px) {
+@media (max-width: 960px) {
     .navbar-collapse {
         border-radius: 10px;
         border: 1px solid rgba(44, 62, 80, 0.98);

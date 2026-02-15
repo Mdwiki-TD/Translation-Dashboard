@@ -1,0 +1,76 @@
+# PHPStan Configuration for Translation Dashboard
+# Run: vendor/bin/phpstan analyse -c phpstan.neon
+
+parameters:
+    level: 5
+
+    paths:
+        - src
+
+    excludePaths:
+        - src_/td_tests/*
+        - src/backend/results/sparql_bots/*
+
+    # Treat phpdoc types as assertions for runtime safety
+    treatPhpDocTypesAsAssert: true
+
+    # Report unmatched ignored errors
+    reportUnmatchedIgnoredErrors: true
+
+    # Check missing typehints
+    checkMissingIterableValueType: true
+    checkGenericClassInNonGenericObjectType: true
+
+    # Type aliases for complex types used throughout the codebase
+    typeAliases:
+        # Entity array types (from database queries)
+        PageRow: array{id: int, title: string, target: non-empty-string, lang: non-empty-string, user: non-empty-string, word: int<0, max>|null, translate_type: non-empty-string, cat: non-empty-string, date: non-empty-string, pupdate: non-empty-string, add_date: non-empty-string|null, deleted: int<0,1>, views: int<0, max>|null}
+        UserRow: array{id: int, username: non-empty-string, user_group: non-empty-string|null, active: int<0,1>}
+        CoordinatorRow: array{id: int, user: non-empty-string, active: int<0,1>}
+        CategoryRow: array{id: int, category: non-empty-string, campaign: non-empty-string, depth: int<0, max>, cat2: non-empty-string|null}
+
+        # Stats result types
+        TranslatorStats: array{user: non-empty-string, targets: int<0, max>, words: int<0, max>, views: int<0, max>, count: int<0, max>}
+        LanguageStats: array{lang: non-empty-string, targets: int<0, max>, words: int<0, max>, views: int<0, max>, count: int<0, max>}
+        GraphDataPoint: array{m: non-empty-string, c: int<0, max>}
+
+        # Request parameter types
+        LoadRequestResult: array{doit: bool, test: non-empty-string, code: non-empty-string, tra_type: non-empty-string, cat: non-empty-string, camp: non-empty-string, code_lang_name: non-empty-string, filter_sparql_x: bool}
+        ResultsData: array{camp: non-empty-string, code: non-empty-string, cat: non-empty-string, tra_type: non-empty-string, code_lang_name: non-empty-string, global_username: non-empty-string, filter_sparql: bool, new_result: non-empty-string, user_coord: bool, mobile_td: non-empty-string, test: non-empty-string}
+
+        # View counts
+        ViewsMap: array<non-empty-string, int<0, max>>
+
+    # Universal object crates (classes with dynamic properties)
+    universalObjectCratesClasses:
+        - stdClass
+
+    # Ignore specific errors during transition
+    ignoreErrors:
+        # Allow mixed types in legacy code temporarily
+        - '#^Parameter \w+ has no value type specified in iterable type array\.$#'
+          path: src/backend/api_or_sql/*.php
+
+        # Allow dynamic property access during migration
+        - '#^Access to undefined constant .+\.$#'
+          path: src/backend/tables/*.php
+
+        # Ignore missing typehints in test files
+        - '#^Method .+ has no return type specified\.$#'
+          path: src_/td_tests/*.php
+
+    # Bootstrap file for autoloading
+    bootstrap: tests/bootstrap.php
+
+    # Scan files for class definitions
+    scanFiles:
+        - src/include_all.php
+
+rules:
+    # Enable all strict rules
+    - PHPStan\Rules\BooleansInConditionsRule
+    - PHPStan\Rules\Comparison\StrictComparisonOfDifferentTypesRule
+
+    # Disallow dangerous constructs
+    - PHPStan\Rules\Functions\CallToFunctionParametersMismatchRule
+    - PHPStan\Rules\Methods\CallToMethodParametersMismatchRule
