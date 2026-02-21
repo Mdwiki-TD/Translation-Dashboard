@@ -241,6 +241,12 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
+DROP VIEW IF EXISTS `users_list`;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `users_list` AS
+SELECT `user_id`, `username`, `wiki`, `user_group`, `reg_date`
+FROM `users`;
+
+
 DROP TABLE IF EXISTS `users_no_inprocess`;
 CREATE TABLE `users_no_inprocess` (
   `id` int(6) unsigned NOT NULL AUTO_INCREMENT,
