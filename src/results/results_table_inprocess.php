@@ -150,8 +150,16 @@ function make_one_row_new($title, $tra_type, $cnt, $langcode, $cat, $camp, $inpr
     return make_tds_rows_responsive($full, $tds);
 }
 
-function make_results_table_inprocess($inprocess_table, $langcode, $cat, $camp, $tra_btn, $full_tr_user, $global_username, $mobile_td)
-{
+function make_results_table_inprocess(
+    $inprocess_table,
+    $langcode,
+    $cat,
+    $camp,
+    $tra_btn,
+    $full_tr_user,
+    $global_username,
+    $mobile_td
+) {
     //---
     // $inprocess_table = normalizeItems($inprocess_table);
     //---

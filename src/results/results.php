@@ -92,7 +92,16 @@ function Results_tables($tab, $show_exists, $translation_button, $full_tr_user)
         //---
         $translation_button = ($user_coord) ? $translation_button : false;
         //---
-        $table_2 = make_results_table_inprocess($p_inprocess, $code, $cat, $camp, $translation_button, $full_tr_user, $global_username, $mobile_td, $user_coord);
+        $table_2 = make_results_table_inprocess(
+            $p_inprocess,
+            $code,
+            $cat,
+            $camp,
+            $translation_button,
+            $full_tr_user,
+            $global_username,
+            $mobile_td
+        );
         //---
         $html_result .= card_result("In process: ($len_inprocess)", $table_2);
     };
