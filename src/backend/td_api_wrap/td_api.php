@@ -86,7 +86,7 @@ function post_url(string $endPoint, array $params = []): string
 
 function get_td_api(array $params): array
 {
-    $endPoint = ($_SERVER['SERVER_NAME'] == 'localhost') ? 'http://localhost:9001' : 'https://mdwiki.toolforge.org';
+    $endPoint = (getenv('APP_ENV') === 'production') ? 'https://mdwiki.toolforge.org' : 'http://localhost:9001';
     //---
     $endPoint .= '/api.php';
     //---

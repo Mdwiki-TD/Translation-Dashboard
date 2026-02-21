@@ -1,6 +1,6 @@
 <?PHP
 
-$env = getenv('APP_ENV') ?: 'development';
+$env = (getenv('APP_ENV') ?: $_ENV['APP_ENV'] ?? '') ?? 'development';
 
 if ($env === 'development') {
     include_once __DIR__ . '/load_env.php';

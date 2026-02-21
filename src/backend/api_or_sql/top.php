@@ -103,7 +103,7 @@ function top_query($select)
 
         FROM pages p
 
-        LEFT JOIN users u
+        LEFT JOIN users_list u
             ON p.user = u.username
 
         LEFT JOIN words w
@@ -204,7 +204,7 @@ function get_td_or_sql_status($year, $user_group, $cat): array
 
         FROM pages p
 
-        LEFT JOIN users u
+        LEFT JOIN users_list u
             ON p.user = u.username
 
         WHERE p.target != ''

@@ -7,6 +7,11 @@ if (getenv('APP_ENV') === 'production') {
     return;
 }
 
+if (getenv('APP_ENV') === 'testing') {
+    // In test environment, we can load .env files but with strict checks
+    error_log('Loading .env file in test environment');
+}
+
 if (!function_exists('str_ends_with')) {
     function str_ends_with($string, $endString)
     {
