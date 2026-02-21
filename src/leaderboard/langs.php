@@ -37,7 +37,7 @@ function langs_html($mainlang, $year_y, $camp)
     //---
     $cat_link = "";
     //---
-    if ($_SERVER['SERVER_NAME'] == 'localhost' || (isset($_REQUEST['test']) || isset($_COOKIE['test']))) {
+    if (getenv('APP_ENV') !== 'production' || (isset($_REQUEST['test']) || isset($_COOKIE['test']))) {
         $cat_link = '<br><a target="_blank" href="http://' . $mainlang . '.wikipedia.org/wiki/Category:Translated_from_MDWiki">(cat)</a>';
     };
     //---
