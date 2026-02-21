@@ -17,10 +17,6 @@ use function Results\TrLink\make_ContentTranslation_url;
 use function TranslateMed\Inserter\insertPage_inprocess;
 use function SQLorAPI\GetDataTab\get_td_or_sql_users_no_inprocess;
 
-$coden = strtolower(filter_input(INPUT_GET, 'code', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '');
-$title_o = filter_input(INPUT_GET, 'title', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
-$useree = !empty($GLOBALS['global_username']) ? $GLOBALS['global_username'] : '';
-
 function go_to_translate_url($title_o, $coden, $tr_type, $cat, $camp)
 {
     // ---
@@ -48,14 +44,16 @@ function go_to_translate_url($title_o, $coden, $tr_type, $cat, $camp)
     }
 }
 
+$coden = strtolower(filter_input(INPUT_GET, 'code', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '');
+$title_o = filter_input(INPUT_GET, 'title', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
+$useree = !empty($GLOBALS['global_username']) ? $GLOBALS['global_username'] : '';
+
 if (empty($useree)) {
     echo login_card();
     exit;
 }
 
-$user_valid = (!empty($useree)) ? true : false;
-
-if (!empty($title_o) && !empty($coden) && $user_valid) {
+if (!empty($title_o) && !empty($coden)) {
     // ---
     $users_no_inprocess = get_td_or_sql_users_no_inprocess();
     $users_no_inprocess = array_column($users_no_inprocess, 'active', 'user');

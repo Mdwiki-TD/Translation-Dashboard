@@ -56,7 +56,7 @@ class CategoryFetcher
     public function getMdwikiCatMembers(string $rootCat, int $depth = 0, bool $useCache = true): array
     {
         // Validate depth is non-negative
-        if (!is_int($depth) || $depth < 0) {
+        if ($depth < 0) {
             $depth = 0;
         }
         $titles = [];
@@ -267,7 +267,7 @@ class CategoryFetcher
             return [];
         }
 
-        $newList = $this->openTablesFile($cat) ?? [];
+        $newList = $this->openTablesFile($cat);
 
         if (empty($newList)) {
             return [];
@@ -285,8 +285,7 @@ class CategoryFetcher
     /**
      * Default open_tables_file implementation (mirrors your original behavior).
      *
-     * @param string $path
-     * @param bool $echo
+     * @param string $cat
      * @return array
      */
     private function openTablesFile(string $cat): array
