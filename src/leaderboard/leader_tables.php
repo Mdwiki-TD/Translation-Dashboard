@@ -43,7 +43,7 @@ function makeLangTable($lang_table)
         return $b["count"] <=> $a["count"];
     });
     // ---
-    $addcat = $_SERVER['SERVER_NAME'] == 'localhost' && (isset($_GET['nocat']));
+    $addcat = getenv('APP_ENV') !== 'production' && (isset($_GET['nocat']));
 
     $cac = ($addcat == true) ? '<th>cat</th>' : '';
 
