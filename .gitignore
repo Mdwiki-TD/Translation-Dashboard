@@ -56,3 +56,4 @@ tt.md
 .claude/settings.local.json
 /.vscode
 .env
+*.env
