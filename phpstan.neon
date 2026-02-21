@@ -22,18 +22,7 @@ parameters:
         - stdClass
 
     # Ignore specific errors during transition
-    ignoreErrors:
-        # Allow mixed types in legacy code temporarily
-        - message: '#^Parameter \w+ has no value type specified in iterable type array\.$#'
-          path: src/backend/api_or_sql/*.php
-
-        # Allow dynamic property access during migration
-        - message: '#^Access to undefined constant .+\.$#'
-          path: src/backend/tables/*.php
-
-        # Ignore missing typehints in test files
-        - message: '#^Method .+ has no return type specified\.$#'
-          path: src_/td_tests/*.php
+    ignoreErrors: []
 
     # Bootstrap file for autoloading
     bootstrapFiles:
