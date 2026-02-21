@@ -43,7 +43,7 @@ function sort_py_importance($items, $Assessment_table)
         '' => 5
     ];
     // ---
-    $empty = $Assessment_fff['Unknown'] ?? '';
+    $empty = $Assessment_fff['Unknown'];
     $dd = [];
     foreach ($items as $t) {
         $t = str_replace('_', ' ', $t);
