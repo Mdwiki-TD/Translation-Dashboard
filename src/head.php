@@ -16,9 +16,9 @@ function get_host()
         return $cached_host; // استخدم القيمة المحفوظة
     }
     //---
-    $hoste = ($_SERVER["SERVER_NAME"] == "localhost")
-        ? "https://cdnjs.cloudflare.com"
-        : "https://tools-static.wmflabs.org/cdnjs";
+    $hoste = (getenv('APP_ENV') === 'production')
+        ? "https://tools-static.wmflabs.org/cdnjs"
+        : "https://cdnjs.cloudflare.com";
     //---
     if ($hoste == "https://tools-static.wmflabs.org/cdnjs") {
         $url = "https://tools-static.wmflabs.org";
