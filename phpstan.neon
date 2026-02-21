@@ -12,14 +12,10 @@ parameters:
         - src/backend/results/sparql_bots/*
 
     # Treat phpdoc types as assertions for runtime safety
-    treatPhpDocTypesAsAssert: true
+    treatPhpDocTypesAsCertain: true
 
     # Report unmatched ignored errors
     reportUnmatchedIgnoredErrors: true
-
-    # Check missing typehints
-    checkMissingIterableValueType: true
-    checkGenericClassInNonGenericObjectType: true
 
     # Universal object crates (classes with dynamic properties)
     universalObjectCratesClasses:
@@ -28,32 +24,21 @@ parameters:
     # Ignore specific errors during transition
     ignoreErrors:
         # Allow mixed types in legacy code temporarily
-        -
-            message: '#^Parameter \w+ has no value type specified in iterable type array\.$#'
-            path: src/backend/api_or_sql/*.php
+        - message: '#^Parameter \w+ has no value type specified in iterable type array\.$#'
+          path: src/backend/api_or_sql/*.php
 
         # Allow dynamic property access during migration
-        -
-            message: '#^Access to undefined constant .+\.$#'
-            path: src/backend/tables/*.php
+        - message: '#^Access to undefined constant .+\.$#'
+          path: src/backend/tables/*.php
 
         # Ignore missing typehints in test files
-        -
-            message: '#^Method .+ has no return type specified\.$#'
-            path: src_/td_tests/*.php
+        - message: '#^Method .+ has no return type specified\.$#'
+          path: src_/td_tests/*.php
 
     # Bootstrap file for autoloading
-    bootstrap: tests/bootstrap.php
+    bootstrapFiles:
+        - tests/bootstrap.php
 
     # Scan files for class definitions
     scanFiles:
         - src/include_all.php
-
-rules:
-    # Enable all strict rules
-    - PHPStan\Rules\BooleansInConditionsRule
-    - PHPStan\Rules\Comparison\StrictComparisonOfDifferentTypesRule
-
-    # Disallow dangerous constructs
-    - PHPStan\Rules\Functions\CallToFunctionParametersMismatchRule
-    - PHPStan\Rules\Methods\CallToMethodParametersMismatchRule
