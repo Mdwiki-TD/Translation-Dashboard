@@ -103,6 +103,7 @@ try {
         'TOOL_TOOLSDB_PASSWORD',
         'DB_NAME',
         'DB_NAME_NEW',
+        'COOKIE_KEY',
     ];
 
     loadEnvironmentVariables($envFile, $whitelist);
