@@ -32,19 +32,20 @@ if ($cookieDomain != 'localhost') {
 
 function de_code_value($value)
 {
-    // ---
-    if (empty(trim($value))) {
-        return "";
+    $value = trim((string)$value);
+    if ($value === '') {
+        return '';
     }
-    // ---
     $cookieKeyRaw = getenv('COOKIE_KEY') ?: ($_ENV['COOKIE_KEY'] ?? '');
-    $cookieKey = $cookieKeyRaw  ? Key::loadFromAsciiSafeString($cookieKeyRaw)  : null;
-    try {
-        $value = Crypto::decrypt($value, $cookieKey);
-    } catch (\Exception $e) {
-        $value = "";
+    if ($cookieKeyRaw === '') {
+        return '';
     }
-    return $value;
+    try {
+        $cookieKey = Key::loadFromAsciiSafeString($cookieKeyRaw);
+        return Crypto::decrypt($value, $cookieKey);
+    } catch (\Throwable $e) {
+        return '';
+    }
 }
 
 function get_access_from_dbs($user)

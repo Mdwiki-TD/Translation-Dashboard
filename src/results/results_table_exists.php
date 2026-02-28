@@ -174,7 +174,7 @@ function make_results_table_exists($items, $langcode, $cat, $camp, $global_usern
     $th22 = "";
     // ---
     $table = <<<HTML
-        <table class="table compact table-striped table_100 table_text_left table_responsive_main display">
+        <table class="table compact table-striped table_100 table_text_left table_responsive display">
             <thead>
                 <tr>
                     <th class="num">
