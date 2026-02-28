@@ -57,3 +57,4 @@ tt.md
 /.vscode
 .env
 *.env
+src/load_env.php
