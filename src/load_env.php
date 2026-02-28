@@ -1,13 +1,15 @@
 <?php
 
+$env = getenv('APP_ENV') ?: ($_ENV['APP_ENV'] ?? 'production');
+
 # Prevent loading .env files in production environment
-if (getenv('APP_ENV') === 'production') {
+if ($env === 'production') {
     // In production, we should not load .env files
     error_log('Attempted to load .env file in production environment');
     return;
 }
 
-if (getenv('APP_ENV') === 'testing') {
+if ($env === 'testing') {
     // In test environment, we can load .env files but with strict checks
     error_log('Loading .env file in test environment');
 }
