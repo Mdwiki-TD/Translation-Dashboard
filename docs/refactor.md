@@ -598,7 +598,7 @@ if ($server_name === 'localhost') {
 **Target**:
 ```php
 // .env file
-DB_HOST=localhost:3306
+DB_HOST_TOOLS=localhost:3306
 DB_NAME=mdwiki
 DB_USER=root
 DB_PASS=${DB_PASSWORD}
@@ -700,7 +700,7 @@ final class Container {
 // Usage in bootstrap
 $container = new Container();
 $container->register(Database::class, fn() => new Database(
-    getenv('DB_HOST'),
+    getenv('DB_HOST_TOOLS'),
     getenv('DB_NAME'),
     getenv('DB_USER'),
     getenv('DB_PASS')
@@ -1291,7 +1291,7 @@ final class DatabaseConfiguration {
 
     public static function fromEnv(): self {
         return new self(
-            host: getenv('DB_HOST') ?: 'localhost:3306',
+            host: getenv('DB_HOST_TOOLS') ?: 'localhost:3306',
             dbname: getenv('DB_NAME') ?: 'mdwiki',
             user: getenv('DB_USER') ?: 'root',
             password: getenv('DB_PASSWORD') ?: ''

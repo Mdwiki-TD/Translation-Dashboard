@@ -46,7 +46,7 @@ class Database
     }
     private function set_db(string $dbname_var)
     {
-        $this->host = $this->envVar('DB_HOST') ?: 'tools.db.svc.wikimedia.cloud';
+        $this->host = $this->envVar('DB_HOST_TOOLS') ?: 'tools.db.svc.wikimedia.cloud';
         $this->dbname = $this->envVar($dbname_var);
         $this->user = $this->envVar('TOOL_TOOLSDB_USER');
         $this->password = $this->envVar('TOOL_TOOLSDB_PASSWORD');
