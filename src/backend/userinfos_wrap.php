@@ -37,8 +37,8 @@ function de_code_value($value)
         return "";
     }
     // ---
-    $cookieKey = getenv('COOKIE_KEY') ?: ($_ENV['COOKIE_KEY'] ?? '');
-    $cookieKey      = $cookieKey  ? Key::loadFromAsciiSafeString($cookieKey)  : null;
+    $cookieKeyRaw = getenv('COOKIE_KEY') ?: ($_ENV['COOKIE_KEY'] ?? '');
+    $cookieKey = $cookieKeyRaw  ? Key::loadFromAsciiSafeString($cookieKeyRaw)  : null;
     try {
         $value = Crypto::decrypt($value, $cookieKey);
     } catch (\Exception $e) {
