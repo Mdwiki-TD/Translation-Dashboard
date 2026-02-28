@@ -88,6 +88,19 @@ if (isset($GLOBALS['time_start'])) {
 			}
 		});
 
+		$('.table_responsive_main').DataTable({
+			stateSave: false,
+			paging: false,
+			info: false,
+			searching: false,
+			order: [
+				[3, 'desc']
+			],
+			responsive: {
+				details: true
+			}
+		});
+
 		setTimeout(function() {
 			$('.soro').DataTable({
 				stateSave: true,
