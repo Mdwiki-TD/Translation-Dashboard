@@ -109,7 +109,7 @@ if ($cookieDomain == 'localhost') {
             'expires' => time() - 3600,
             'path' => '/',
             'domain' => $cookieDomain,
-            'secure' => true,
+            'secure' => $secure,
             'httponly' => true,
             'samesite' => 'Lax',
         ]);
