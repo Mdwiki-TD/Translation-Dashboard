@@ -18,7 +18,7 @@ function make_table_start($mobile_td, $inprocess, $tra_btn)
         $Translate_th = '<th></th>';
     };
     //---
-    $table_classes = ($mobile_td == 'mobile') ? "sortable table-mobile-responsive" : "display table_responsive";
+    $table_classes = ($mobile_td == 'mobile') ? "sortable table-mobile-responsive" : "display table_responsive_main";
     //---
     $inprocess_first = ($inprocess) ? '<th>user</th><th>date</th>' : '';
     //---

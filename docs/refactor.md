@@ -296,7 +296,7 @@ $db = null;  // ← Wasteful
 **File**: `src/backend/userinfos_wrap.php:5-9`
 ```php
 if (substr(__DIR__, 0, 2) == 'I:') {
-    include_once 'I:/mdwiki/auth_repo/oauth/user_infos.php';
+    include_once 'I:/mdwiki/auth_repo/src/oauth/user_infos.php';
 } else {
     include_once __DIR__ . '/../../auth/oauth/user_infos.php';
 }
@@ -598,7 +598,7 @@ if ($server_name === 'localhost') {
 **Target**:
 ```php
 // .env file
-DB_HOST=localhost:3306
+DB_HOST_TOOLS=localhost:3306
 DB_NAME=mdwiki
 DB_USER=root
 DB_PASS=${DB_PASSWORD}
@@ -700,7 +700,7 @@ final class Container {
 // Usage in bootstrap
 $container = new Container();
 $container->register(Database::class, fn() => new Database(
-    getenv('DB_HOST'),
+    getenv('DB_HOST_TOOLS'),
     getenv('DB_NAME'),
     getenv('DB_USER'),
     getenv('DB_PASS')
@@ -1291,7 +1291,7 @@ final class DatabaseConfiguration {
 
     public static function fromEnv(): self {
         return new self(
-            host: getenv('DB_HOST') ?: 'localhost:3306',
+            host: getenv('DB_HOST_TOOLS') ?: 'localhost:3306',
             dbname: getenv('DB_NAME') ?: 'mdwiki',
             user: getenv('DB_USER') ?: 'root',
             password: getenv('DB_PASSWORD') ?: ''
