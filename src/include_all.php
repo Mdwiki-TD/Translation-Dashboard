@@ -6,6 +6,18 @@ if ($env === 'development' && file_exists(__DIR__ . '/load_env.php')) {
     include_once __DIR__ . '/load_env.php';
 }
 
+$vendorAutoload = __DIR__ . '/vendor/autoload.php';
+
+if (!file_exists($vendorAutoload)) {
+    $vendorAutoload = dirname(__DIR__) . '/vendor/autoload.php';
+}
+
+if (file_exists($vendorAutoload)) {
+    require_once $vendorAutoload;
+} else {
+    die("Vendor autoload not found. Please run 'composer install' in the project root.");
+}
+
 include_once __DIR__ . '/frontend/include.php';
 include_once __DIR__ . '/backend/include_first/include.php';
 
