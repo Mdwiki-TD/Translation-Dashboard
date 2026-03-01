@@ -58,3 +58,4 @@ tt.md
 .env
 *.env
 src/load_env.php
+/src/td_tests
