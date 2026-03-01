@@ -27,9 +27,9 @@ $coordinators = array_column(get_coordinator(), 'active', 'user');
 $user_in_coord = false;
 if (($coordinators[$GLOBALS['global_username']] ?? 0) == 1) {
 	$user_in_coord = true;
-};
+}
+
 $GLOBALS['user_in_coord'] = $user_in_coord;
-define('user_in_coord', $user_in_coord);
 //---
 // var_dump(json_encode($coordinators2, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 //---

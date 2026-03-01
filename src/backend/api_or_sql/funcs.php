@@ -57,7 +57,7 @@ function get_coordinator()
     }
     // ---
     $api_params = ['get' => 'coordinator'];
-    $query = "SELECT id, user FROM coordinator order by id";
+    $query = "SELECT id, user, active FROM coordinator order by id";
     //---
     $u_data = super_function($api_params, [], $query);
     // ---
