@@ -21,7 +21,6 @@ use function TD\Render\Html\make_mdwiki_article_url_blank;
 use function TD\Render\Html\make_wikipedia_url_blank;
 use function Results\TrLink\make_ContentTranslation_url;
 use function Leaderboard\Camps\get_articles_to_camps;
-// use function TD\Render\Html\make_translation_url;
 
 function make_key($Taab)
 {
@@ -131,7 +130,6 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type, $tab_t
         $target_link = 'Pending';
         $td_views = '';
         //---
-        // $tralink = make_translation_url($mdtitle, $lang, $tran_type);
         $tralink = make_ContentTranslation_url($mdtitle, $lang, $cat, "", $tran_type);
         $complete   = ($user_is_global_username) ? "<td data-content='complete'><a target='_blank' href='$tralink'>complete</a></td>" : '';
     } else {

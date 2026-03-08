@@ -132,12 +132,12 @@ function super_function(array $api_params, array $sql_params, string $sql_query,
 #### Example 3: Coordinator Flag in Global and Constant
 **File**: `src/header.php:26-30`
 ```php
-$user_in_coord = false;
+$user_is_coordinator = false;
 if (($coordinators[$GLOBALS['global_username']] ?? 0) == 1) {
-    $user_in_coord = true;
+    $user_is_coordinator = true;
 };
-$GLOBALS['user_in_coord'] = $user_in_coord;
-define('user_in_coord', $user_in_coord);  // ← CONSTANT FROM RUNTIME VALUE
+$GLOBALS['user_is_coordinator'] = $user_is_coordinator;
+define('user_is_coordinator', $user_is_coordinator);  // ← CONSTANT FROM RUNTIME VALUE
 ```
 **Problem**: Runtime value converted to constant, can't be tested.
 
@@ -1215,7 +1215,7 @@ $router->dispatch(Request::fromGlobals())->send();
 
 #### `src/header.php`
 **Issues**:
-- Sets `$GLOBALS['user_in_coord']` (line 29)
+- Sets `$GLOBALS['user_is_coordinator']` (line 29)
 - Converts runtime value to constant (line 30)
 - Mixed navigation and authentication logic
 - 192 lines of mixed concerns

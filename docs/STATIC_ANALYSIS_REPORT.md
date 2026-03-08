@@ -539,7 +539,7 @@ $options = implode('', $optionList);
 ```php
 $global_username = $GLOBALS['global_username'] ?? "";
 // ...
-$GLOBALS['user_in_coord'] ?? false
+$GLOBALS['user_is_coordinator'] ?? false
 ```
 
 **Issue:** Using `$GLOBALS` makes code:

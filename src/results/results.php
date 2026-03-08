@@ -134,14 +134,14 @@ function results_loader($data)
     $depth  = TablesSql::$s_camp_input_depth[$camp] ?? 1;
     $cat2   = TablesSql::$s_camps_cat2[$camp] ?? '';
     // ---
-    $user_in_coord = ($GLOBALS['user_in_coord'] ?? "") === true;
+    $user_is_coordinator = ($GLOBALS['user_is_coordinator'] ?? "") === true;
     //---
-    $show_exists = ($user_in_coord || isset($_GET['exists']));
+    $show_exists = ($user_is_coordinator || isset($_GET['exists']));
     //---
     $translation_button = TablesSql::$s_settings['translation_button_in_progress_table']['value'] ?? '0';
     //---
     if ($translation_button != "0") {
-        $translation_button = $user_in_coord ? '1' : '0';
+        $translation_button = $user_is_coordinator ? '1' : '0';
     };
     //---
     $full_translators = get_td_or_sql_full_translators();
