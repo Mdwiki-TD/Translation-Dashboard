@@ -134,7 +134,7 @@ function results_loader($data)
     $depth  = TablesSql::$s_camp_input_depth[$camp] ?? 1;
     $cat2   = TablesSql::$s_camps_cat2[$camp] ?? '';
     // ---
-    $user_is_coordinator = ($GLOBALS['user_is_coordinator'] ?? "") === true;
+    $user_is_coordinator = $GLOBALS['user_is_coordinator'] ?? false;
     //---
     $show_exists = ($user_is_coordinator || isset($_GET['exists']));
     //---
