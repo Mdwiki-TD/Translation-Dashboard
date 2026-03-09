@@ -23,20 +23,14 @@ include_once __DIR__ . '/head.php';
 echo print_full_head();
 //---
 $coordinators = array_column(get_coordinator(), 'active', 'user');
-
-$user_in_coord = false;
-if (($coordinators[$GLOBALS['global_username']] ?? 0) == 1) {
-	$user_in_coord = true;
-}
-
-$GLOBALS['user_in_coord'] = $user_in_coord;
+$GLOBALS['user_is_coordinator'] = (($coordinators[$GLOBALS['global_username']] ?? 0) == 1);
 //---
 // var_dump(json_encode($coordinators2, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 //---
 $coord_tools = "";
 //---
 // if (in_array($GLOBALS['global_username'], $coordinators)) {
-if ($GLOBALS['user_in_coord'] === true) {
+if ($GLOBALS['user_is_coordinator'] === true) {
 	$coord_tools = '<a href="/tdc/index.php" class="nav-link py-2 px-0 px-lg-2"><span class="navtitles"></span> <i class="bi bi-tools me-1"></i> Coordinator Tools</a>';
 };
 //---

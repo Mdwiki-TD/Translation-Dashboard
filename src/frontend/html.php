@@ -14,7 +14,6 @@ use function TD\Render\Html\make_mdwiki_cat_url;
 use function TD\Render\Html\make_col_sm_body;
 use function TD\Render\Html\make_datalist_options;
 use function TD\Render\Html\make_drop;
-use function TD\Render\Html\make_form_check_input;
 use function TD\Render\Html\make_input_group;
 use function TD\Render\Html\make_input_group_no_col;
 use function TD\Render\Html\make_mdwiki_article_url_blank;
@@ -207,30 +206,6 @@ function make_mdwiki_cat_url($category, $name = null)
     $encoded_category = rawurlencode(str_replace(' ', '_', $new_cat));
     // ---
     return "<a target='_blank' href='https://mdwiki.org/wiki/Category:$encoded_category'>$display_name</a>";
-}
-//---
-
-function make_translation_url($title, $lang, $tr_type)
-{
-    //---
-    $page = $tr_type == 'all' ? "User:Mr. Ibrahem/$title/full" : "User:Mr. Ibrahem/$title";
-    //---
-    $params = array(
-        'page' => $page,
-        'from' => "simple",
-        'sx' => 'true',
-        'to' => $lang,
-        'targettitle' => $title
-    );
-    //---
-    $url = "//$lang.wikipedia.org/wiki/Special:ContentTranslation";
-    //---
-    // $url .= "?" . http_build_query($params, '', '&', PHP_QUERY_RFC3986) . "#/sx/sentence-selector";
-    $url .= "?" . http_build_query($params, '', '&', PHP_QUERY_RFC3986) . "#/sx?previousRoute=dashboard&eventSource=direct_preselect";
-    //---
-    // $url = "//$lang.wikipedia.org/wiki/Special:ContentTranslation?page=User%3AMr.+Ibrahem%2F$title&from=en&to=$lang&targettitle=$title#draft";
-    //---
-    return $url;
 }
 
 function make_mdwiki_user_url($user)

@@ -8,7 +8,8 @@ parameters:
         - src
 
     excludePaths:
-        - src_/td_tests/*
+        - src/td_tests
+        - src_
         - src/backend/results/sparql_bots/*
 
     # Treat phpdoc types as assertions for runtime safety
