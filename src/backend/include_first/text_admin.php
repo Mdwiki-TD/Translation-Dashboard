@@ -8,7 +8,7 @@ use function TD\Render\admin_text;
 
 function admin_text($text)
 {
-    // $user_is_coordinator = ($GLOBALS['user_is_coordinator'] ?? "") === true;
+    // $user_is_coordinator = (($coordinators[$GLOBALS['global_username']] ?? 0) == 1);
     // ---
     $is_ibrahem = ($GLOBALS['global_username'] ?? "") === "Mr. Ibrahem";
     // ---

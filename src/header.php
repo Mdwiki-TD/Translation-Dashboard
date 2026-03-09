@@ -23,13 +23,7 @@ include_once __DIR__ . '/head.php';
 echo print_full_head();
 //---
 $coordinators = array_column(get_coordinator(), 'active', 'user');
-
-$user_is_coordinator = false;
-if (($coordinators[$GLOBALS['global_username']] ?? 0) == 1) {
-	$user_is_coordinator = true;
-}
-
-$GLOBALS['user_is_coordinator'] = $user_is_coordinator;
+$GLOBALS['user_is_coordinator'] = (($coordinators[$GLOBALS['global_username']] ?? 0) == 1);
 //---
 // var_dump(json_encode($coordinators2, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 //---
