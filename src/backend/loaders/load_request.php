@@ -44,12 +44,12 @@ function load_request()
     //---
     $tra_type = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
     //---
-    $doit = $doit !== "";
+    $doit = !empty($doit);
     //---
     if (empty($code_lang_name)) $doit = false;
     //---
     return [
-        'test' => $test !== "",
+        'test' => !empty($test),
         'doit' => $doit,
         'code' => $code,
         'cat' => $cat,
