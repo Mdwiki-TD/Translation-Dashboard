@@ -6,7 +6,7 @@ namespace SQLorAPI\Process;
 
 Usage:
 
-use function SQLorAPI\Process\get_process_all_new;
+use function SQLorAPI\Process\get_process_data;
 use function SQLorAPI\Process\get_user_process_new;
 use function SQLorAPI\Process\get_users_process_new;
 use function SQLorAPI\Process\get_lang_in_process_new;
@@ -15,7 +15,7 @@ use function SQLorAPI\Process\get_lang_in_process_new;
 use function SQLorAPI\Get\super_function;
 use function SQLorAPI\Get\isvalid;
 
-function get_process_all_new(): array
+function get_process_data(): array
 {
     // ---
     static $process_all = [];
