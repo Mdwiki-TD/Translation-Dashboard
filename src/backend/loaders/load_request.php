@@ -44,7 +44,7 @@ function load_request()
     //---
     $tra_type = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
     //---
-    $doit = !empty($doit);
+    $doit = $doit !== "";
     //---
     if (empty($code_lang_name)) $doit = false;
     //---

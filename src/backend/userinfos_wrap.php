@@ -23,7 +23,7 @@ if ($cookieDomain != 'localhost') {
 function de_code_value($value)
 {
     $value = trim((string)$value);
-    if (empty($value)) {
+    if ($value === '') {
         return '';
     }
     $cookieKeyRaw = getenv('COOKIE_KEY') ?: ($_ENV['COOKIE_KEY'] ?? '');
