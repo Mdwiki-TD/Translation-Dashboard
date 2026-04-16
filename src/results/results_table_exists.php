@@ -71,7 +71,7 @@ function make_one_row_new($title, $cnt, $langcode, $cat, $camp, $props, $global_
     //---
     $translate_url = make_ContentTranslation_url($title, $langcode, $cat, $camp, 'lead');
     //---
-    $tab = ($global_username !== "" && $user_coord) ? <<<HTML
+    $tab = (!empty($global_username) && $user_coord) ? <<<HTML
         <div class='inline'>
             <a href='$translate_url' class='btn btn-outline-primary btn-sm' target='_blank'>Translate</a>
         </div>

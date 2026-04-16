@@ -108,7 +108,7 @@ function make_one_row_new($title, $tra_type, $cnt, $langcode, $cat, $camp, $inpr
     if ($tra_btn != '1') {
         $translate_url = "";
         $full_translate_url = "";
-    } elseif ($global_username == '') {
+    } elseif (empty($global_username)) {
         //---
         $tab = <<<HTML
             <a role='button' class='btn btn-outline-primary' onclick='login()'>

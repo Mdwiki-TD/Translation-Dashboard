@@ -42,7 +42,7 @@ function make_one_row_new($title, $tra_type, $cnt, $langcode, $cat, $camp, $full
     $translate_url = $mdwiki_url;
     $full_translate_url = $mdwiki_url;
     //---
-    if ($global_username == '') {
+    if (empty($global_username)) {
         //---
         $tab = <<<HTML
             <a role='button' class='btn btn-outline-primary' onclick='login()'>

@@ -88,7 +88,7 @@ function print_form_start1($allow_whole_translate, $Lang_tables, $campaigninput_
             </a>
     HTML;
     //---
-    if ($global_username != '') {
+    if (!empty($global_username)) {
         $uiu = '<input type="submit" name="doit" class="btn btn-outline-primary" value="Do it"/>';
     }
     //---

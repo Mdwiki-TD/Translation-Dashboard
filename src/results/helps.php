@@ -68,7 +68,7 @@ function make_translate_urls($title, $tra_type, $words, $langcode, $cat, $camp, 
     //---
     // if lower $title startswith video
     // $tra_type = "lead";
-    if ($tra_type === null || $tra_type === '') {
+    if (empty($tra_type)) {
         $tra_type = 'lead';
     }
     //---

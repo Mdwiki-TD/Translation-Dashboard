@@ -37,7 +37,7 @@ CREATE TABLE `categories` (
   `display` varchar(120) NOT NULL DEFAULT '',
   `campaign` varchar(120) NOT NULL DEFAULT '',
   `depth` int(2) DEFAULT NULL,
-  `def` int(1) NOT NULL DEFAULT 0,
+  `is_default` int(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

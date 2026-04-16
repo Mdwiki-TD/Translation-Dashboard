@@ -27,7 +27,7 @@ function de_code_value($value)
         return '';
     }
     $cookieKeyRaw = getenv('COOKIE_KEY') ?: ($_ENV['COOKIE_KEY'] ?? '');
-    if ($cookieKeyRaw === '') {
+    if (empty($cookieKeyRaw)) {
         return '';
     }
     try {

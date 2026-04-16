@@ -49,7 +49,7 @@ function load_request()
     if (empty($code_lang_name)) $doit = false;
     //---
     return [
-        'test' => $test !== "",
+        'test' => !empty($test),
         'doit' => $doit,
         'code' => $code,
         'cat' => $cat,

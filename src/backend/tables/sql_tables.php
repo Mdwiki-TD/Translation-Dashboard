@@ -80,9 +80,9 @@ foreach ($categories_tab as $k => $tab) {
         // $catinput_depth[$tab['category']] = $tab['depth'];
         TablesSql::$s_camp_input_depth[$tab['campaign']] = $tab['depth'];
         //---
-        $default  = $tab['def'];
-        if ($default == 1 || $default == '1') TablesSql::$s_main_cat = $tab['category'];
-        if ($default == 1 || $default == '1') TablesSql::$s_main_camp = $tab['campaign'];
+        $is_default  = $tab['is_default'];
+        if ($is_default == 1 || $is_default == '1') TablesSql::$s_main_cat = $tab['category'];
+        if ($is_default == 1 || $is_default == '1') TablesSql::$s_main_camp = $tab['campaign'];
         //---
     };
 };
