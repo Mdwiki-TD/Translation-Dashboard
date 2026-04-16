@@ -48,6 +48,9 @@ function print_form_start1($allow_whole_translate, $Lang_tables, $campaigninput_
     foreach ($Lang_tables as $_ => $lang_tab) {
         $lang_code = $lang_tab['code'] ?? "";
         $lang_name = $lang_tab['autonym'] ?? "";
+
+        if (empty($lang_code)) continue;
+
         $lang_title = "($lang_code) $lang_name";
         $selected = ($lang_code == $code) ? 'selected' : '';
         $lang_list .= <<<HTML

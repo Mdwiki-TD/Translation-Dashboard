@@ -20,6 +20,7 @@ function DropdownNew($title, $tab, $cat, $id)
     $options = "";
     //---
     foreach ($tab as $dd) {
+        if (empty($dd)) continue;
         $se = ($cat == $dd) ? 'selected' : '';
         //---
         $options .= <<<HTML
