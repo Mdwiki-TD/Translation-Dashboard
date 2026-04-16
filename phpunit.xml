@@ -1,21 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="tests/bootstrap.php"
-  colors="true"
-  testdox="true"
-  stopOnFailure="false"
-  verbose="true">
-  <testsuites>
-    <testsuite name="Project Test Suite">
-      <directory>tests</directory>
-    </testsuite>
-  </testsuites>
-  <coverage processUncoveredFiles="true">
-    <include>
-      <directory suffix=".php">.</directory>
-    </include>
-    <exclude>
-      <directory>vendor</directory>
-      <directory>tests</directory>
-    </exclude>
-  </coverage>
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+    bootstrap="tests/bootstrap.php"
+    testdox="true"
+    stderr="true"
+    displayDetailsOnAllIssues="true"
+    displayDetailsOnIncompleteTests="true"
+    displayDetailsOnSkippedTests="true"
+    displayDetailsOnTestsThatTriggerDeprecations="true"
+    displayDetailsOnPhpunitDeprecations="true"
+    displayDetailsOnTestsThatTriggerErrors="true"
+    displayDetailsOnTestsThatTriggerNotices="true"
+    displayDetailsOnTestsThatTriggerWarnings="true"
+    colors="true"
+    stopOnFailure="false"
+    cacheDirectory=".phpunit.cache"
+    executionOrder="depends,defects"
+    beStrictAboutOutputDuringTests="true"
+    failOnRisky="true"
+    failOnWarning="true">
+    <testsuites>
+        <testsuite name="default">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+    <source>
+        <include>
+            <directory suffix=".php">src</directory>
+        </include>
+        <exclude>
+            <directory>vendor</directory>
+            <directory>tests</directory>
+        </exclude>
+    </source>
+    <coverage>
+        <report>
+            <html outputDirectory="build/coverage-html" />
+            <text outputFile="php://stdout" showUncoveredFiles="false" />
+        </report>
+    </coverage>
 </phpunit>
