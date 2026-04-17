@@ -86,6 +86,8 @@ function makeDropdown($tab, $cat, $id, $add)
     foreach ($tab as $dd) {
         $se = ($cat == $dd) ? 'selected' : '';
         //---
+        if (empty($dd)) continue;
+        //---
         $options .= <<<HTML
             <option value='$dd' $se>$dd</option>
         HTML;
@@ -167,6 +169,7 @@ function make_drop($uxutable, $code)
     $options  =  "";
     //---
     foreach ($uxutable as $name => $cod) {
+        if (empty($cod)) continue;
         $cdcdc = $code == $cod ? "selected" : "";
         $options .= <<<HTML
 		<option value='$cod' $cdcdc>$name</option>
