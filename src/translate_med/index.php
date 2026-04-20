@@ -56,7 +56,7 @@ if (empty($useree)) {
 if (!empty($title_o) && !empty($coden)) {
     // ---
     $users_no_inprocess = get_td_or_sql_users_no_inprocess();
-    $users_no_inprocess = array_column($users_no_inprocess, 'active', 'user');
+    $users_no_inprocess = array_column($users_no_inprocess, 'is_active', 'user');
     // ---
     $title_o = trim($title_o);
     $coden   = trim($coden);

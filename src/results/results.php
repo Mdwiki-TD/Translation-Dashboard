@@ -145,7 +145,7 @@ function results_loader($data)
     };
     //---
     $full_translators = get_td_or_sql_full_translators();
-    $full_translators = array_column($full_translators, 'active', 'user');
+    $full_translators = array_column($full_translators, 'is_active', 'user');
     //---
     // $full_tr_user = in_array($global_username, $full_translators);
     $full_tr_user = ($full_translators[$global_username] ?? 0) == 1;
