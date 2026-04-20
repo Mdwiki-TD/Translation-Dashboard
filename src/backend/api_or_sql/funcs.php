@@ -16,7 +16,7 @@ use function SQLorAPI\Funcs\get_graph_data;
 use function SQLorAPI\Funcs\get_pages_with_pupdate;
 use function SQLorAPI\Funcs\get_user_views;
 use function SQLorAPI\Funcs\get_user_pages;
-use function SQLorAPI\Funcs\get_coordinator;
+use function SQLorAPI\Funcs\get_coordinators;
 use function SQLorAPI\Funcs\get_lang_pages_by_cat;
 use function SQLorAPI\Funcs\exists_by_qids_query;
 
@@ -47,21 +47,21 @@ function get_lang_pages_by_cat($lang, $cat)
     return $u_data;
 }
 
-function get_coordinator()
+function get_coordinators()
 {
     // ---
-    static $coordinator = [];
+    static $coordinators = [];
     // ---
-    if (!empty($coordinator ?? [])) {
-        return $coordinator;
+    if (!empty($coordinators ?? [])) {
+        return $coordinators;
     }
     // ---
-    $api_params = ['get' => 'coordinator'];
-    $query = "SELECT id, user, active FROM coordinator order by id";
+    $api_params = ['get' => 'coordinators'];
+    $query = "SELECT id, username, is_active FROM coordinators order by id";
     //---
     $u_data = super_function($api_params, [], $query);
     // ---
-    $coordinator = $u_data;
+    $coordinators = $u_data;
     // ---
     return $u_data;
 }
