@@ -230,16 +230,6 @@ CREATE TABLE users (
         PRIMARY KEY (user_id)
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
-CREATE VIEW users_list AS
-SELECT
-    user_id,
-    username,
-    wiki,
-    user_group,
-    reg_date
-FROM
-    users;
-
 CREATE TABLE users_no_inprocess (
         id int (6) unsigned NOT NULL AUTO_INCREMENT,
         user varchar(120) NOT NULL,
@@ -268,6 +258,16 @@ CREATE TABLE words (
         UNIQUE KEY w_title (w_title),
         KEY idx_words_w_title (w_title)
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+
+CREATE VIEW users_list AS
+SELECT
+    user_id,
+    username,
+    wiki,
+    user_group,
+    reg_date
+FROM
+    users;
 
 CREATE VIEW titles_infos AS
 select
