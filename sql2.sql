@@ -16,8 +16,7 @@ SET
 SET
     NAMES utf8mb4;
 
-CREATE TABLE
-    all_articles (
+CREATE TABLE all_articles (
         id int NOT NULL AUTO_INCREMENT,
         article_id varchar(255) NOT NULL,
         category varchar(255) DEFAULT NULL,
@@ -25,8 +24,7 @@ CREATE TABLE
         UNIQUE KEY article_id (article_id)
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
-CREATE TABLE
-    all_exists (
+CREATE TABLE all_exists (
         id int NOT NULL AUTO_INCREMENT,
         article_id varchar(255) NOT NULL,
         code varchar(25) NOT NULL,
@@ -35,8 +33,7 @@ CREATE TABLE
         CONSTRAINT all_exists_ibfk_1 FOREIGN KEY (article_id) REFERENCES all_articles (article_id)
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
-CREATE TABLE
-    all_qids (
+CREATE TABLE all_qids (
         qid varchar(255) NOT NULL,
         category varchar(255) DEFAULT NULL,
         id int NOT NULL AUTO_INCREMENT,
@@ -44,8 +41,7 @@ CREATE TABLE
         UNIQUE KEY qid (qid)
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
-CREATE TABLE
-    all_qids_exists (
+CREATE TABLE all_qids_exists (
         id int NOT NULL AUTO_INCREMENT,
         qid varchar(255) NOT NULL,
         code varchar(25) NOT NULL,
@@ -55,8 +51,7 @@ CREATE TABLE
         CONSTRAINT all_qids_exists_ibfk_1 FOREIGN KEY (qid) REFERENCES all_qids (qid)
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
-CREATE TABLE
-    publish_reports (
+CREATE TABLE publish_reports (
         id int NOT NULL AUTO_INCREMENT,
         date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
         title varchar(255) NOT NULL,
@@ -71,8 +66,7 @@ CREATE TABLE
             CONSTRAINT publish_reports_chk_1 CHECK (json_valid (data))
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
-CREATE VIEW
-    all_articles_titles AS
+CREATE VIEW all_articles_titles AS
 select
     q.qid AS qid,
     aa.article_id AS title,
@@ -81,8 +75,7 @@ from
     all_articles aa
     left join qids q on aa.article_id = q.title;
 
-CREATE VIEW
-    all_qids_titles AS
+CREATE VIEW all_qids_titles AS
 select
     qq.qid AS qid,
     q.title AS title,
