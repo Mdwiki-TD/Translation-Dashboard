@@ -389,9 +389,9 @@ function make_options(): array
 
 	// ---
     // $tablesDir = getenv("HOME") . '/public_html/td/Tables';
-    // if (substr(__DIR__, 0, 2) == 'I:') $tablesDir = 'I:/mdwiki/mdwiki/public_html/td/Tables';
+    // if (substr(__DIR__, 0, 2) == 'I:') $tablesDir = 'I:/MD_TOOLS/MDWIKI_MAIN_REPO/public_html/td/Tables';
 	// ---
-    $home_dir = getenv("HOME") ?: 'I:/mdwiki/mdwiki';
+    $home_dir = getenv("HOME") ?: 'I:/MD_TOOLS/MDWIKI_MAIN_REPO';
     $tablesDir = $home_dir . '/public_html/td/Tables';
 
     $options = [

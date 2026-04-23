@@ -63,7 +63,7 @@ function get_coordinators()
     // ---
     $coordinators = $u_data;
     // ---
-    return $u_data;
+    return $coordinators;
 }
 
 function get_user_pages($user_main, $year_y, $lang_y)
