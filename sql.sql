@@ -14,15 +14,19 @@ SET
 SET
     NAMES utf8mb4;
 
+
 CREATE TABLE access_keys (
-        id int (11) NOT NULL AUTO_INCREMENT,
-        user_name varchar(255) NOT NULL DEFAULT '',
-        access_key varchar(255) NOT NULL DEFAULT '',
-        access_secret varchar(255) NOT NULL DEFAULT '',
-        created_at timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-        PRIMARY KEY (id),
-        UNIQUE KEY user_name (user_name)
-    ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+    id int (11) NOT NULL AUTO_INCREMENT,
+    user_name varchar(255) NOT NULL,
+    user_name_hash varchar(255) DEFAULT NULL,
+    access_key varchar(255) NOT NULL,
+    access_secret varchar(255) NOT NULL,
+    created_at timestamp NOT NULL DEFAULT current_timestamp(),
+    updated_at timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+    PRIMARY KEY (id),
+    UNIQUE KEY user_name (user_name),
+    KEY user_name_hash (user_name_hash)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
 CREATE TABLE assessments (
         id int (6) unsigned NOT NULL AUTO_INCREMENT,
@@ -81,15 +85,6 @@ CREATE TABLE in_process (
         add_date timestamp NOT NULL DEFAULT current_timestamp(),
         PRIMARY KEY (id),
         KEY title (title)
-    ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
-
-CREATE TABLE keys_new (
-        id int (11) NOT NULL AUTO_INCREMENT,
-        u_n text NOT NULL,
-        a_k text NOT NULL,
-        a_s text NOT NULL,
-        created_at timestamp NOT NULL DEFAULT current_timestamp(),
-        PRIMARY KEY (id)
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE langs (
@@ -258,16 +253,6 @@ CREATE TABLE words (
         UNIQUE KEY w_title (w_title),
         KEY idx_words_w_title (w_title)
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
-
-CREATE VIEW users_list AS
-SELECT
-    user_id,
-    username,
-    wiki,
-    user_group,
-    reg_date
-FROM
-    users;
 
 CREATE VIEW titles_infos AS
 select
