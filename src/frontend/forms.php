@@ -89,6 +89,7 @@ function print_form_start1($allow_whole_translate, $Lang_tables, $campaigninput_
         <button type="submit"
                 formaction="/auth/login.php"
                 formmethod="get"
+                formnovalidate
                 class="btn btn-outline-primary">
             <i class="fas fa-sign-in-alt"></i> Login
         </button>
