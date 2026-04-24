@@ -8,7 +8,6 @@ parameters:
         - src
 
     excludePaths:
-        - src/td_tests
         - src_
         - src/backend/results/sparql_bots/*
 
