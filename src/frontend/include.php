@@ -3,11 +3,7 @@
 /*
 include_once __DIR__ . '/backend/include_first/include.php';
 */
-foreach (glob(__DIR__ . "/*.php") as $filename) {
-    if ($filename == __FILE__) continue;
-    include_once $filename;
-}
-
-foreach (glob(__DIR__ . "/results_rows/*.php") as $filename) {
-    include_once $filename;
-}
+include_once __DIR__ . '/html.php';
+include_once __DIR__ . '/results_rows/results_table_html.php';
+include_once __DIR__ . '/results_rows/td_rows_mobile.php';
+include_once __DIR__ . '/results_rows/td_rows_responsive.php';

@@ -13,7 +13,6 @@ include_once __DIR__ . '/../backend/loaders/load_request.php';
 //---
 use Tables\SqlTables\TablesSql;
 use function Results\ResultsIndex\Results_tables;
-use function TD\Render\Forms\print_form_start1;
 //---
 $tab_titles = [
     "Acetylsalicylic acid/simvastatin/ramipril/atenolol/hydrochlorothiazide",

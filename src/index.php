@@ -21,8 +21,41 @@ include_once __DIR__ . '/backend/loaders/load_request.php';
 use Tables\Main\MainTables;
 use Tables\SqlTables\TablesSql;
 use function Loaders\LoadRequest\load_request;
-use function TD\Render\Forms\print_form_start1;
 use function Results\ResultsIndex\results_loader;
+
+function make_drop($uxutable, $code)
+{
+    $options  =  "";
+    //---
+    foreach ($uxutable as $name => $cod) {
+        $cdcdc = $code == $cod ? "selected" : "";
+        $options .= <<<HTML
+		    <option value='$cod' $cdcdc>$name</option>
+		HTML;
+    };
+    //---
+    return $options;
+}
+
+function print_form_start1($Lang_tables, $code)
+{
+    //---
+    $lang_list = '';
+    //---
+    foreach ($Lang_tables as $_ => $lang_tab) {
+        $lang_code = $lang_tab['code'] ?? "";
+        $lang_name = $lang_tab['autonym'] ?? "";
+
+        if (empty($lang_code)) continue;
+
+        $lang_title = "($lang_code) $lang_name";
+        $selected = ($lang_code == $code) ? 'selected' : '';
+        $lang_list .= <<<HTML
+            <option data-tokens='$lang_code' value='$lang_code' $selected>$lang_title</option>
+        HTML;
+    };
+    return $lang_list;
+};
 
 // =======================
 // Load Config
@@ -78,15 +111,47 @@ if (!in_array($camp, TablesSql::$s_campaign_input_list)) {
 // =======================
 
 // Form
-$form_start = print_form_start1(
-    $allow_whole_translate,
-    MainTables::$x_Langs_table,
-    TablesSql::$s_campaign_input_list,
-    $cat,
-    $camp,
-    $code,
-    $tra_type
-);
+$in_typ = '<input type="hidden" name="type" value="lead" />';
+
+if ($allow_whole_translate == '1') {
+
+    $lead_checked = "checked";
+    $all_checked = "";
+
+    if ($tra_type == 'all') {
+        $lead_checked = "";
+        $all_checked = "checked";
+    };
+
+    $in_typ = <<<HTML
+        <div class='col-10'>
+            <div class="mb-3">
+                <label for="type" class="form-label"><b>Type</b></label>
+                <div class='form-control'>
+                    <div class='form-check form-check-inline'>
+                        <input type='radio' class='form-check-input' id='customRadio' name='type' value='lead' $lead_checked>
+                        <label class='form-check-label' for='customRadio'>The lead only</label>
+                    </div>
+                    <div class='form-check form-check-inline'>
+                        <input type='radio' class='form-check-input' id='customRadio2' name='type' value='all' $all_checked>
+                        <label class='form-check-label' for='customRadio2'>The whole article</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    HTML;
+};
+
+
+$camp_ch = htmlspecialchars($camp, ENT_QUOTES);
+$camp_input = make_drop(TablesSql::$s_campaign_input_list, $camp_ch);
+
+if ($camp === "test") {
+    $camp_input .= "<option value='test' selected>test</option>";
+};
+
+
+$lang_list = print_form_start1(MainTables::$x_Langs_table, $code);
 
 // Login Button
 $login_btn = (!empty($global_username))
@@ -124,7 +189,34 @@ echo <<<HTML
             <div class='mainindex'>
                 <form method='GET' action='index.php' class='form-inline' id="mainForm">
                     <div class='row'>
-                        $form_start
+                        <div class='col-10'>
+                            <div class="mb-3">
+                                <label for="camp" class="form-label"><b>Campaign</b></label>
+                                <select dir='ltr' name='camp' id='camp' class='form-select' data-bs-theme="auto">
+                                    $camp_input
+                                </select>
+                            </div>
+                        </div>
+                        <div class='col-10'>
+                            <div class="mb-3">
+                                <label for="code" class="form-label"><b>Language</b></label>
+                                <select aria-label="Language code"
+                                    class="selectpicker"
+                                    id='code'
+                                    name='code'
+                                    placeholder='two letter code'
+                                    data-live-search="true"
+                                    data-container="body"
+                                    data-live-search-style="begins"
+                                    data-bs-theme="auto"
+                                    data-style='btn active'
+                                    data-width="100%"
+                                    required>
+                                    $lang_list
+                                </select>
+                            </div>
+                        </div>
+                        $in_typ
                         $error_html
                         <div class='col-10'>
                             <h4 class='aligncenter mb-0'>
@@ -133,7 +225,6 @@ echo <<<HTML
                         </div>
                     </div>
                 </form>
-
                 <div class="d-flex justify-content-end">
                     <img class='med-logo-big' src='/favicon.svg' alt='Wiki Project Med Foundation logo'>
                 </div>
