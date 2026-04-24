@@ -64,7 +64,7 @@ function load_request($s_campaign_input_list, $allow_whole_translate)
         $_SESSION['code'] = $code;
     }
     //---
-    if (!in_array($camp, $s_campaign_input_list)) {
+    if ($camp && !in_array($camp, $s_campaign_input_list)) {
         $errors[] = "camp ($camp) not valid.";
         $camp = "";
     }
