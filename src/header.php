@@ -33,14 +33,17 @@ if ($GLOBALS['user_is_coordinator'] === true) {
 //---
 $li_user = <<<HTML
 	<li class="nav-item col-lg-auto col-md-4 col-sm-6 col-6">
-		<button type="submit"
+		<!-- <button type="submit"
 				form="mainForm"
 				formaction="/auth/login.php"
 				formmethod="get"
 				formnovalidate
 				class="nav-link py-2 px-0 px-lg-2 btn btn-link">
-			<i class="fas fa-sign-in-alt fa-sm fa-fw mr-2"></i> <span class="navtitles">Login</span>
-		</button>
+			<i class="fas fa-sign-in-alt fa-sm fa-fw mr-2"></i> Login
+		</button> -->
+		<a href="/auth/login.php" class="nav-link py-2 px-0 px-lg-2">
+			<i class="fas fa-sign-in-alt fa-sm fa-fw mr-2"></i> Login
+		</a>
 	</li>
 HTML;
 //---
