@@ -1,62 +1,94 @@
 <?PHP
-//---
+
 namespace TD;
-//---
+
 if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 };
-//---
+
 include_once __DIR__ . '/include_all.php';
 include_once __DIR__ . '/header.php';
-//---
+
 include_once __DIR__ . '/backend/loaders/load_request.php';
-//---
+
 use Tables\Main\MainTables;
 use Tables\SqlTables\TablesSql;
 use function Loaders\LoadRequest\load_request;
 use function TD\Render\Forms\print_form_start1;
 use function Results\ResultsIndex\results_loader;
-//---
+
 $allow_whole_translate = TablesSql::$s_settings['allow_type_of_translate']['value'] ?? '1';
 $load_new_result = TablesSql::$s_settings['load_new_result']['value'] ?? '';
-//---
+
 $req  = load_request();
-// ---
-$doit     = $req['doit'] ?? false;
+
 $test     = $req['test'] ?? "";
 $code     = $req['code'] ?? "";
 $tra_type = $req['tra_type'] ?? "";
 $filter_sparql = $req['filter_sparql_x'] ?? true;
-//---
+
 $cat  = (!empty($req['cat'])) ? $req['cat'] : TablesSql::$s_main_cat;
 $camp  = (!empty($req['camp'])) ? $req['camp'] : TablesSql::$s_main_camp;
-//---
+
 $code_lang_name  = $req['code_lang_name'] ?? "";
-//---
+
 if ($allow_whole_translate == '0') $tra_type = 'lead';
-//---
-// echo $_SERVER['SERVER_NAME'];
-//---
+
 $global_username = $GLOBALS['global_username'] ?? "";
-// ---
-$form_start1  = print_form_start1($allow_whole_translate, MainTables::$x_Langs_table, TablesSql::$s_campaign_input_list, $cat, $camp, $code_lang_name, $code, $tra_type, $global_username);
-//---
-$intro = <<<HTML
-    This tool looks for Wikidata items that have a page on mdwiki.org but not in another wikipedia language <a href='?cat=RTT&depth=1&code=ceb&doit=Do+it'>(Example)</a>. <a href='//mdwiki.org/wiki/WikiProjectMed:Translation_task_force'><b>How to use.</b></a>
+
+$form_start1  = print_form_start1($allow_whole_translate, MainTables::$x_Langs_table, TablesSql::$s_campaign_input_list, $cat, $camp, $code, $tra_type);
+
+$login_btn = <<<HTML
+    <input type="text" name="doit" value="Do it" hidden/>
+    <button type="submit"
+            formaction="/auth/login.php"
+            formmethod="get"
+            formnovalidate
+            class="btn btn-outline-primary">
+        <i class="fas fa-sign-in-alt"></i> Login
+    </button>
 HTML;
-//---
+
+if (!empty($global_username)) {
+    $login_btn = '<input type="submit" name="doit" class="btn btn-outline-primary" value="Do it"/>';
+}
+
+$err = '';
+
+if (empty($code_lang_name) && !empty($code)) {
+    $err .= "<span style='font-size:13pt;color:red'>code ($code) not valid wiki.</span>";
+    $code = "";
+} else {
+    if (!empty($code)) {
+        $_SESSION['code'] = $code;
+    };
+};
+if (!in_array($camp, TablesSql::$s_campaign_input_list)) {
+    $err .= "<span style='font-size:13pt;color:red'>camp ($camp) not valid.</span>";
+    $camp = "";
+}
 echo <<<HTML
     <div class='container'>
         <div class='card'>
             <div class='card-header'>
-                $intro
+                This tool looks for Wikidata items that have a page on mdwiki.org but not in another wikipedia language
+                <a href='?cat=RTT&depth=1&code=ceb&doit=Do+it'>(Example)</a>.
+                <a href='//mdwiki.org/wiki/WikiProjectMed:Translation_task_force'><b>How to use.</b></a>
             </div>
             <div class='card-body mb-0'>
             <div class='mainindex'>
-                <form method='GET' action='index.php' class='form-inline'>
-                    $form_start1
+                <form method='GET' action='index.php' class='form-inline' id="mainForm">
+                    <div class='row'>
+                        $form_start1
+                        $err
+                        <div class='col-10'>
+                            <h4 class='aligncenter mb-0'>
+                                $login_btn
+                            </h4>
+                        </div>
+                    </div>
                 </form>
                 <div class="d-flex justify-content-end">
                     <img class='med-logo-big' src='/favicon.svg' decoding='async' alt='Wiki Project Med Foundation logo'>
@@ -65,12 +97,13 @@ echo <<<HTML
             </div>
         </div>
     </div>
-    <!-- <script src='/Translation_Dashboard/js/codes.js'></script> -->
 HTML;
-//---
+
 echo "<div class='container-fluid'>";
-//---
-if ($doit) {
+
+// $doit     = $req['doit'] ?? false;
+// if ($doit) {
+if ($camp && $code) {
     $data = [
         "camp" => $camp,
         "code" => $code,
@@ -86,10 +119,7 @@ if ($doit) {
     ];
     echo results_loader($data);
 };
-//---
-echo "</div>";
-//---
-echo "<br>";
-//---
+
+echo "</div><br>";
+
 include_once __DIR__ . '/footer.php';
-//---

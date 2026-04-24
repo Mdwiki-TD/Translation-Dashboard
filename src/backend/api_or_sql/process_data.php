@@ -9,7 +9,8 @@ Usage:
 use function SQLorAPI\Process\get_process_data;
 use function SQLorAPI\Process\get_user_process_new;
 use function SQLorAPI\Process\get_users_process_new;
-use function SQLorAPI\Process\get_lang_in_process_new;
+use function SQLorAPI\Process\get_lang_in_process_by_cat;
+use function SQLorAPI\Process\get_lang_in_process_by_year;
 */
 
 use function SQLorAPI\Get\super_function;
@@ -82,24 +83,36 @@ function get_users_process_new(): array
     return $process_new;
 }
 
-function get_lang_in_process_new($code, $year_y = "all"): array
+function get_lang_in_process_by_cat($code, $category): array
 {
     // ---
     static $cache = [];
     // ---
-    if (!empty($cache[$code] ?? [])) {
-        return $cache[$code];
+    if (!isvalid($category)) {
+        return [];
     }
     // ---
-    /*
-    SELECT * from in_process ip
-        WHERE NOT EXISTS (
-        SELECT p.user FROM pages p
-        where p.title = ip.title
-        and p.lang = ip.lang
-        and p.target != ""
-        )
-    */
+    if (!empty($cache[$code][$category] ?? [])) return $cache[$code][$category];
+    // ---
+    $query = "select * from in_process where lang = ? AND cat = ?";
+    // ---
+    $api_params = ['get' => 'in_process', 'lang' => $code, 'cat' => $category];
+    // ---
+    $params = [$code, $category];
+    // ---
+    $data = super_function($api_params, $params, $query, "in_process");
+    // ---
+    $cache[$code][$category] = $data;
+    //---
+    return $cache[$code][$category];
+}
+
+function get_lang_in_process_by_year($code, $year_y = "all"): array
+{
+    // ---
+    static $cache = [];
+    // ---
+    if (!empty($cache[$code][$year_y] ?? [])) return $cache[$code][$year_y];
     // ---
     $query = "select * from in_process where lang = ?";
     // ---
@@ -113,10 +126,29 @@ function get_lang_in_process_new($code, $year_y = "all"): array
         $api_params['year'] = $year_y;
     }
     // ---
-    $data = super_function($api_params, $params, $query, "in_process", true);
+    $data = super_function($api_params, $params, $query, "in_process");
     // ---
-    // $cache[$code] = array_column($data, 'title');
+    $cache[$code][$year_y] = $data;
+    //---
+    return $cache[$code][$year_y];
+}
+
+function get_lang_in_process($code): array
+{
+    // ---
+    static $cache = [];
+    // ---
+    if (!empty($cache[$code] ?? [])) return $cache[$code];
+    // ---
+    $query = "select * from in_process where lang = ?";
+    // ---
+    $api_params = ['get' => 'in_process', 'lang' => $code];
+    // ---
+    $params = [$code];
+    // ---
+    $data = super_function($api_params, $params, $query, "in_process");
+    // ---
     $cache[$code] = $data;
     //---
-    return $cache[$code];
+    return $data;
 }

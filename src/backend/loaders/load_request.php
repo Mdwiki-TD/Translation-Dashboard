@@ -25,13 +25,18 @@ function load_request()
     //---
     if ($code == 'undefined') $code = "";
     //---
+    $code = trim($code);
+    //---
     $code = LangsTables::$L_lang_to_code[$code] ?? $code;
+    //---
     $code_lang_name = LangsTables::$L_code_to_lang[$code] ?? '';
     //---
     $cat  = htmlspecialchars($_GET['cat'] ?? '', ENT_QUOTES, 'UTF-8');
     if ($cat == 'undefined') $cat = "";
     //---
     $camp = htmlspecialchars($_GET['camp'] ?? '', ENT_QUOTES, 'UTF-8');
+    //---
+    $camp = trim($camp);
     //---
     if (empty($cat) && !empty($camp)) {
         $cat = TablesSql::$s_camp_to_cat[$camp] ?? $cat;

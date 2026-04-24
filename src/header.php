@@ -24,20 +24,25 @@ echo print_full_head();
 //---
 $coordinators = array_column(get_coordinators(), 'is_active', 'username');
 $GLOBALS['user_is_coordinator'] = (($coordinators[$GLOBALS['global_username']] ?? 0) == 1);
-//---
-// var_dump(json_encode($coordinators2, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
-//---
+
 $coord_tools = "";
 //---
-// if (in_array($GLOBALS['global_username'], $coordinators)) {
 if ($GLOBALS['user_is_coordinator'] === true) {
 	$coord_tools = '<a href="/tdc/index.php" class="nav-link py-2 px-0 px-lg-2"><span class="navtitles"></span> <i class="bi bi-tools me-1"></i> Coordinator Tools</a>';
 };
 //---
 $li_user = <<<HTML
 	<li class="nav-item col-lg-auto col-md-4 col-sm-6 col-6">
-		<a role="button" class="nav-link py-2 px-0 px-lg-2" onclick="login()">
-			<i class="fas fa-sign-in-alt fa-sm fa-fw mr-2"></i> <span class="navtitles">Login</span>
+		<!-- <button type="submit"
+				form="mainForm"
+				formaction="/auth/login.php"
+				formmethod="get"
+				formnovalidate
+				class="nav-link py-2 px-0 px-lg-2 btn btn-link">
+			<i class="fas fa-sign-in-alt fa-sm fa-fw mr-2"></i> Login
+		</button> -->
+		<a href="/auth/login.php" class="nav-link py-2 px-0 px-lg-2">
+			<i class="fas fa-sign-in-alt fa-sm fa-fw mr-2"></i> Login
 		</a>
 	</li>
 HTML;
@@ -45,7 +50,7 @@ HTML;
 if (!empty($GLOBALS['global_username'] ?? "")) {
 	$u_name = $GLOBALS['global_username'];
 	$li_user = <<<HTML
-	<li class="nav-item col-lg-auto col-md-4 col-sm-6 col-6">
+		<li class="nav-item col-lg-auto col-md-4 col-sm-6 col-6">
 			<a href="leaderboard.php?get=users&user=$u_name" class="nav-link py-2 px-0 px-lg-2">
 				<i class="fas fa-user fa-sm fa-fw mr-2"></i> <span class="navtitles">$u_name</span>
 			</a>
@@ -167,7 +172,7 @@ function is_active($url)
 					<div class="modal-body">Select &quot;Logout&quot; below if you are ready to end your current session.</div>
 					<div class="modal-footer">
 						<button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
-						<a class="btn btn-outline-primary" href="/auth/index.php?a=logout">Logout</a>
+						<a class="btn btn-outline-primary" href="/auth/logout.php">Logout</a>
 					</div>
 				</div>
 			</div>

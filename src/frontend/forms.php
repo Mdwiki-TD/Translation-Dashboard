@@ -29,7 +29,7 @@ function make_drop($uxutable, $code)
     return $options;
 }
 
-function print_form_start1($allow_whole_translate, $Lang_tables, $campaigninput_list, $cat, $camp, $code_lang_name, $code, $tra_type, $global_username)
+function print_form_start1($allow_whole_translate, $Lang_tables, $campaigninput_list, $cat, $camp, $code, $tra_type)
 {
     //---
     $cat_ch = htmlspecialchars($cat, ENT_QUOTES);
@@ -75,40 +75,11 @@ function print_form_start1($allow_whole_translate, $Lang_tables, $campaigninput_
         </select>
     HTML;
     //---
-    $err = '';
-    //---
-    if (empty($code_lang_name) and !empty($code)) {
-        $err = "<span style='font-size:13pt;color:red'>code ($code) not valid wiki.</span>";
-    } else {
-        if (!empty($code)) {
-            $_SESSION['code'] = $code;
-        };
-    };
-    //---
-    $uiu = <<<HTML
-            <a role="button" class="btn btn-outline-primary" onclick="login()">
-            <i class="fas fa-sign-in-alt fa-sm fa-fw mr-1"></i><span class="navtitles">Login</span>
-            </a>
-    HTML;
-    //---
-    if (!empty($global_username)) {
-        $uiu = '<input type="submit" name="doit" class="btn btn-outline-primary" value="Do it"/>';
-    }
-    //---
     $camp_input = make_drop($campaigninput_list, $camp_ch);
     //---
     if ($camp === "test") {
         $camp_input .= "<option value='test' selected>test</option>";
     };
-    //---
-    /*
-    $cat_input = make_drop($cat_input_list, $cat_ch);
-    $cat_input = <<<HTML
-        <select dir='ltr' name='cat' id='cat' class='form-select' data-bs-theme="auto">
-            $cat_input
-        </select>
-    HTML;
-    */
     //---
     $camp_input = <<<HTML
         <select dir='ltr' name='camp' id='camp' class='form-select' data-bs-theme="auto">
@@ -127,20 +98,8 @@ function print_form_start1($allow_whole_translate, $Lang_tables, $campaigninput_
         </div>
     HTML;
     //---
-    $col12         = 'col-10';
-    $gridclass     = 'input-group col-7 mb-3';
-    //---
-    $d2 = <<<HTML
-        <div class='$col12'>
-            <div class='$gridclass'>
-                <span class='input-group-text' for="%s">%s</span>
-                %s
-            </div>
-        </div>
-    HTML;
-    //---
     $d22 = <<<HTML
-        <div class='$col12'>
+        <div class='col-10'>
             <div class="mb-3">
                 <label for="%s" class="form-label"><b>%s</b></label>
                 %s
@@ -148,10 +107,9 @@ function print_form_start1($allow_whole_translate, $Lang_tables, $campaigninput_
         </div>
     HTML;
     //---
-    // $in_cat = sprintf($d22, 'cat', 'Category', $cat_input);
     $in_camp = sprintf($d22, 'camp', 'Campaign', $camp_input);
     //---
-    $in_lng = sprintf($d22, 'code', 'Language', "<div>$langse $err</div>");
+    $in_lng = sprintf($d22, 'code', 'Language', "$langse");
     //---
     $in_typ = '';
     if ($allow_whole_translate == '1') {
@@ -161,17 +119,9 @@ function print_form_start1($allow_whole_translate, $Lang_tables, $campaigninput_
     };
     //---
     $d = <<<HTML
-    <div class='row'>
         $in_camp
         $in_lng
         $in_typ
-        <div class='$col12'>
-            <h4 class='aligncenter mb-0'>
-                $uiu
-            </h4>
-        </div>
-    </div>
-
     HTML;
     //---
     return $d;

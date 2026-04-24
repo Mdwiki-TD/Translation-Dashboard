@@ -21,13 +21,13 @@ use function Results\ResultsTableHtml\make_table_start;
 use function Results\Helps\make_translate_urls;
 use function Results\Helps\sort_py_PageViews;
 use function Results\Helps\sort_py_importance;
-use function Results\Helps\one_item_props;
+use function Results\Helps\get_item_properties;
 use function Results\Helps\normalizeItems;
 
-function make_one_row_new($title, $tra_type, $cnt, $langcode, $cat, $camp, $full, $full_tr_user, $mobile_td, $global_username)
+function make_one_row_results($title, $tra_type, $cnt, $langcode, $cat, $camp, $full, $full_tr_user, $mobile_td, $global_username)
 {
     //---
-    $props = one_item_props($title, $langcode, $tra_type);
+    $props = get_item_properties($title, $langcode, $tra_type);
     //---
     $qid = $props['qid'];
     //---
@@ -45,7 +45,7 @@ function make_one_row_new($title, $tra_type, $cnt, $langcode, $cat, $camp, $full
     if (empty($global_username)) {
         //---
         $tab = <<<HTML
-            <a role='button' class='btn btn-outline-primary' onclick='login()'>
+            <a role='button' class='btn btn-outline-primary' href='/auth/login.php'>
                 <i class='fas fa-sign-in-alt fa-sm fa-fw mr-1'></i><span class='navtitles'>Login</span>
             </a>
             HTML;
@@ -104,7 +104,7 @@ function make_results_table($items, $langcode, $cat, $camp, $tra_type, $full_tr_
             $tra_type = 'all';
         };
         //---
-        $row = make_one_row_new($title, $tra_type, $cnt2, $langcode, $cat, $camp, false, $full_tr_user, $mobile_td, $global_username);
+        $row = make_one_row_results($title, $tra_type, $cnt2, $langcode, $cat, $camp, false, $full_tr_user, $mobile_td, $global_username);
         //---
         // if full translates not allowed
         if (!$do_full || $full_tr_user) {
@@ -128,7 +128,7 @@ function make_results_table($items, $langcode, $cat, $camp, $tra_type, $full_tr_
         }
         //---
         if ($full) {
-            $list .= make_one_row_new($title, 'all', $cnt2, $langcode, $cat, $camp, true, $full_tr_user, $mobile_td, $global_username);
+            $list .= make_one_row_results($title, 'all', $cnt2, $langcode, $cat, $camp, true, $full_tr_user, $mobile_td, $global_username);
         }
         //---
         $cnt++;
