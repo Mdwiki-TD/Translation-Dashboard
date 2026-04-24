@@ -6,7 +6,6 @@ https://live.datatables.net/lopevege/1/edit
 
 Usage:
 use function TD\Render\Html\banner_alert;
-use function TD\Render\Html\login_card;
 use function TD\Render\Html\makeCard;
 use function TD\Render\Html\makeColSm4;
 use function TD\Render\Html\makeDropdown;

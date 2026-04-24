@@ -169,7 +169,7 @@ function is_active($url)
 					<div class="modal-body">Select &quot;Logout&quot; below if you are ready to end your current session.</div>
 					<div class="modal-footer">
 						<button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
-						<a class="btn btn-outline-primary" href="/auth/index.php?a=logout">Logout</a>
+						<a class="btn btn-outline-primary" href="/auth/logout.php">Logout</a>
 					</div>
 				</div>
 			</div>
