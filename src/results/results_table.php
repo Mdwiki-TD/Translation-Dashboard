@@ -21,13 +21,13 @@ use function Results\ResultsTableHtml\make_table_start;
 use function Results\Helps\make_translate_urls;
 use function Results\Helps\sort_py_PageViews;
 use function Results\Helps\sort_py_importance;
-use function Results\Helps\one_item_props;
+use function Results\Helps\one_item_props2;
 use function Results\Helps\normalizeItems;
 
-function make_one_row_new($title, $tra_type, $cnt, $langcode, $cat, $camp, $full, $full_tr_user, $mobile_td, $global_username)
+function make_one_row_results($title, $tra_type, $cnt, $langcode, $cat, $camp, $full, $full_tr_user, $mobile_td, $global_username)
 {
     //---
-    $props = one_item_props($title, $langcode, $tra_type);
+    $props = one_item_props2($title, $langcode, $tra_type);
     //---
     $qid = $props['qid'];
     //---
@@ -104,7 +104,7 @@ function make_results_table($items, $langcode, $cat, $camp, $tra_type, $full_tr_
             $tra_type = 'all';
         };
         //---
-        $row = make_one_row_new($title, $tra_type, $cnt2, $langcode, $cat, $camp, false, $full_tr_user, $mobile_td, $global_username);
+        $row = make_one_row_results($title, $tra_type, $cnt2, $langcode, $cat, $camp, false, $full_tr_user, $mobile_td, $global_username);
         //---
         // if full translates not allowed
         if (!$do_full || $full_tr_user) {
@@ -128,7 +128,7 @@ function make_results_table($items, $langcode, $cat, $camp, $tra_type, $full_tr_
         }
         //---
         if ($full) {
-            $list .= make_one_row_new($title, 'all', $cnt2, $langcode, $cat, $camp, true, $full_tr_user, $mobile_td, $global_username);
+            $list .= make_one_row_results($title, 'all', $cnt2, $langcode, $cat, $camp, true, $full_tr_user, $mobile_td, $global_username);
         }
         //---
         $cnt++;

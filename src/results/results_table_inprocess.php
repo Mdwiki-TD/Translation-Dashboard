@@ -19,7 +19,7 @@ use function Results\ResultsTableHtml\make_table_start;
 
 use function Results\Helps\make_translate_urls;
 use function Results\Helps\sort_py_PageViews;
-use function Results\Helps\one_item_props;
+use function Results\Helps\one_item_props2;
 use function Results\Helps\normalizeItems;
 
 function make_tds_rows_responsive($full, $tds)
@@ -82,13 +82,13 @@ function make_tds_rows_responsive($full, $tds)
     return $td_rows;
 }
 
-function make_one_row_new($title, $tra_type, $cnt, $langcode, $cat, $camp, $inprocess_table, $tra_btn, $full, $full_tr_user, $mobile_td, $global_username)
+function make_one_row_new_inprocess($title, $tra_type, $cnt, $langcode, $cat, $camp, $inprocess_table, $tra_btn, $full, $full_tr_user, $mobile_td, $global_username)
 {
     //---
     $_user_ = $inprocess_table['user'] ?? '';
     $_date_ = $inprocess_table['date'] ?? $inprocess_table['add_date'] ?? '';
     //---
-    $props = one_item_props($title, $langcode, $tra_type);
+    $props = one_item_props2($title, $langcode, $tra_type);
     //---
     $qid = $props['qid'];
     //---
@@ -185,7 +185,7 @@ function make_results_table_inprocess(
             $full = true;
         };
         //---
-        $row = make_one_row_new($title, $tra_type, $cnt, $langcode, $cat, $camp, $title_tab, $tra_btn, $full, $full_tr_user, $mobile_td, $global_username);
+        $row = make_one_row_new_inprocess($title, $tra_type, $cnt, $langcode, $cat, $camp, $title_tab, $tra_btn, $full, $full_tr_user, $mobile_td, $global_username);
         //---
         $list .= $row;
         //---

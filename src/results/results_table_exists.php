@@ -17,7 +17,7 @@ use function TD\Render\Html\make_mdwiki_article_url_blank;
 use function TD\Render\Html\make_wikipedia_url_blank;
 use function TD\Render\Html\make_wikidata_url_blank;
 
-function one_item_props($title, $target)
+function one_item_props_exists($title, $target)
 {
 
     $sql_qids = get_td_or_sql_qids();
@@ -42,7 +42,7 @@ function one_item_props($title, $target)
     return $tab;
 }
 
-function make_one_row_new($title, $cnt, $langcode, $cat, $camp, $props, $global_username, $user_coord)
+function make_one_row_exists($title, $cnt, $langcode, $cat, $camp, $props, $global_username, $user_coord)
 {
     //---
     $words = $props['word'];
@@ -146,10 +146,10 @@ function make_results_table_exists($items, $langcode, $cat, $camp, $global_usern
         //---
         $count_translated_before += empty($target_td) && !empty($target_before);
         //---
-        $props = one_item_props($title, $target_td);
+        $props = one_item_props_exists($title, $target_td);
         $props["target_before"] = $target_before;
         //---
-        $row = make_one_row_new($title, $cnt, $langcode, $cat, $camp, $props, $global_username, $user_coord);
+        $row = make_one_row_exists($title, $cnt, $langcode, $cat, $camp, $props, $global_username, $user_coord);
         //---
         $list .= $row;
         //---

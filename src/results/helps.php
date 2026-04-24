@@ -111,7 +111,7 @@ function make_translate_urls($title, $tra_type, $words, $langcode, $cat, $camp, 
     return [$tab, $translate_url, $full_translate_url];
 }
 
-function one_item_props($title, $langcode, $tra_type)
+function one_item_props2($title, $langcode, $tra_type)
 {
 
     $words_tab = ($tra_type == 'all') ? MainTables::$x_All_Words_table : MainTables::$x_Words_table;
