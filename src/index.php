@@ -29,6 +29,7 @@ function make_drop($uxutable, $code)
     $options  =  "";
     //---
     foreach ($uxutable as $name => $cod) {
+        if (empty($cod)) continue;
         $cdcdc = $code == $cod ? "selected" : "";
         $options .= <<<HTML
 		    <option value='$cod' $cdcdc>$name</option>
