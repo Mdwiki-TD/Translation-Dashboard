@@ -19,9 +19,10 @@ include_once __DIR__ . '/header.php';
 include_once __DIR__ . '/backend/loaders/load_request.php';
 
 use Tables\Main\MainTables;
-use Tables\SqlTables\TablesSql;
 use function Loaders\LoadRequest\load_request;
 use function Results\ResultsIndex\results_loader;
+use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
+use function SQLorAPI\GetDataTab\get_td_or_sql_settings;
 
 function make_drop($uxutable, $code)
 {
@@ -60,51 +61,51 @@ function print_form_start1($Lang_tables, $code)
 // =======================
 // Load Config
 // =======================
-$settings = TablesSql::$s_settings;
 
-$allow_whole_translate = $settings['allow_type_of_translate']['value'] ?? '1';
-$load_new_result       = $settings['load_new_result']['value'] ?? '';
+$settings = get_td_or_sql_settings();
+$categories_tab = get_td_or_sql_categories();
+
+$settings = array_column($settings, 'value', 'title');
+
+$allow_whole_translate = $settings['allow_type_of_translate'] ?? '1';
+$load_new_result       = $settings['load_new_result'] ?? '';
+
+$s_campaign_input_list = [];
+
+$s_main_cat = "";
+$s_main_camp = "";
+
+foreach ($categories_tab as $k => $tab) {
+    if (!empty($tab['category']) && !empty($tab['campaign'])) {
+        $s_campaign_input_list[$tab['campaign']] = $tab['campaign'];
+        $is_default  = $tab['is_default'];
+        if ($is_default == 1 || $is_default == '1') $s_main_cat = $tab['category'];
+        if ($is_default == 1 || $is_default == '1') $s_main_camp = $tab['campaign'];
+    };
+};
 
 // =======================
 // Load Request
 // =======================
-$req = load_request();
+$req = load_request($s_campaign_input_list, $allow_whole_translate);
 
 $test              = $req['test'] ?? '';
 $code              = $req['code'] ?? '';
 $tra_type          = $req['tra_type'] ?? '';
 $filter_sparql     = $req['filter_sparql_x'] ?? true;
 $code_lang_name    = $req['code_lang_name'] ?? '';
+$errors            = $req['errors'];
 
-$cat  = $req['cat']  ?: TablesSql::$s_main_cat;
-$camp = $req['camp'] ?: TablesSql::$s_main_camp;
+$cat  = $req['cat']  ?: $s_main_cat;
+$camp = $req['camp'] ?: $s_main_camp;
 
 // =======================
 // Normalize Data
 // =======================
-if ($allow_whole_translate == '0') {
-    $tra_type = 'lead';
-}
+
 
 $global_username = $GLOBALS['global_username'] ?? '';
 $user_coord      = $GLOBALS['user_is_coordinator'] ?? false;
-
-// =======================
-// Validation
-// =======================
-$errors = [];
-
-if (empty($code_lang_name) && !empty($code)) {
-    $errors[] = "code ($code) not valid wiki.";
-    $code = "";
-} elseif (!empty($code)) {
-    $_SESSION['code'] = $code;
-}
-
-if (!in_array($camp, TablesSql::$s_campaign_input_list)) {
-    $errors[] = "camp ($camp) not valid.";
-    $camp = "";
-}
 
 // =======================
 // UI
@@ -142,9 +143,8 @@ if ($allow_whole_translate == '1') {
     HTML;
 };
 
-
 $camp_ch = htmlspecialchars($camp, ENT_QUOTES);
-$camp_input = make_drop(TablesSql::$s_campaign_input_list, $camp_ch);
+$camp_input = make_drop($s_campaign_input_list, $camp_ch);
 
 if ($camp === "test") {
     $camp_input .= "<option value='test' selected>test</option>";
