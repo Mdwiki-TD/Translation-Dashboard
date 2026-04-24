@@ -47,7 +47,7 @@ HTML;
 if (!empty($GLOBALS['global_username'] ?? "")) {
 	$u_name = $GLOBALS['global_username'];
 	$li_user = <<<HTML
-	<li class="nav-item col-lg-auto col-md-4 col-sm-6 col-6">
+		<li class="nav-item col-lg-auto col-md-4 col-sm-6 col-6">
 			<a href="leaderboard.php?get=users&user=$u_name" class="nav-link py-2 px-0 px-lg-2">
 				<i class="fas fa-user fa-sm fa-fw mr-2"></i> <span class="navtitles">$u_name</span>
 			</a>
