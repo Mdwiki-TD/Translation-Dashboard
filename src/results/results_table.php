@@ -11,20 +11,76 @@ use function Results\ResultsTable\make_results_table;
 
 use Tables\Main\MainTables;
 
-use function Results\ResultsTable\Rows\make_td_rows_responsive;
-use function Results\ResultsTable\Rows\make_td_rows_mobile;
-use function Results\ResultsTable\Rows\make_mobile_table;
 use function TD\Render\Html\make_mdwiki_href;
 use function TD\Render\Html\make_wikidata_url_blank;
 use function Results\ResultsTableHtml\make_table_start;
 
 use function Results\Helps\make_translate_urls;
 use function Results\Helps\sort_py_PageViews;
-use function Results\Helps\sort_py_importance;
 use function Results\Helps\get_item_properties;
-use function Results\Helps\normalizeItems;
 
-function make_one_row_results($title, $tra_type, $cnt, $langcode, $cat, $camp, $full, $full_tr_user, $mobile_td, $global_username)
+function make_td_rows_responsive($full, $inprocess, $tds)
+{
+    //---
+    $mdwiki_url = $tds["mdwiki_url"];
+    $cnt    = $tds["cnt"];
+    $tab    = $tds["tab"];
+    $pviews = $tds["pageviews"];
+    $asse   = $tds["asse"];
+    $words  = $tds["words"];
+    $refs   = $tds["refs"];
+    $qid    = $tds["qid"];
+    $title  = $tds["title"];
+    $_user_ = $tds["user"];
+    $_date_ = $tds["date"];
+    //---
+    // $cnt2 = $full ? "$cnt.Full" : $cnt;
+    $cnt2 = $full && (strtolower(substr($title, 0, 6)) != 'video:') ? "$cnt.Full" : $cnt;
+    //---
+    $td_rows = <<<HTML
+        <th class='num' scope="row">
+            $cnt2
+        </th>
+        <td class='link_container'>
+            <a target='_blank' href='$mdwiki_url'>$title</a>
+        </td>
+        <th class=''>
+            $tab
+        </th>
+        <td class='num' style="text-align: left">
+            $pviews
+        </td>
+        <td class='num' style="text-align: left">
+            $asse
+        </td>
+        <td class='num' style="text-align: left">
+            $words
+        </td>
+        <td class='num' style="text-align: left">
+            $refs
+        </td>
+        <td>
+            $qid
+        </td>
+    HTML;
+    //---
+    if ($inprocess) {
+        $td_rows .= <<<HTML
+            <td>
+                $_user_
+            </td>
+            <td>
+                $_date_
+            </td>
+        HTML;
+    };
+    //---
+    $td_rows = "<tr class=''>$td_rows</tr>";
+    //---
+    return $td_rows;
+}
+
+function make_one_row_results($title, $tra_type, $cnt, $langcode, $cat, $camp, $full, $full_tr_user, $global_username)
 {
     //---
     $props = get_item_properties($title, $langcode, $tra_type);
@@ -67,24 +123,15 @@ function make_one_row_results($title, $tra_type, $cnt, $langcode, $cat, $camp, $
         "user" => "",
         "date" => ""
     ];
-    //---
-    if ($mobile_td == "mobile") {
-        //---
-        $mobile_table = make_mobile_table(false, $full_translate_url, $full_tr_user, $tds);
-        //---
-        return make_td_rows_mobile($full, false, $mobile_table, $tds);
-    };
-    //---
     return make_td_rows_responsive($full, false, $tds);
-    // ---
 }
 
-function make_results_table($items, $langcode, $cat, $camp, $tra_type, $full_tr_user, $global_username, $nolead_translates, $translates_full, $mobile_td)
+function make_results_table($items, $langcode, $cat, $camp, $tra_type, $full_tr_user, $global_username, $nolead_translates, $translates_full)
 {
     //---
     $do_full   = ($tra_type == 'all') ? false : true;
     //---
-    $frist = make_table_start($mobile_td, false, false);
+    $frist = make_table_start(false, false);
     //---
     $dd = sort_py_PageViews($items, MainTables::$x_enwiki_pageviews_table);
     // $dd = sort_py_importance($items, MainTables::$x_Assessments_table);
@@ -104,7 +151,7 @@ function make_results_table($items, $langcode, $cat, $camp, $tra_type, $full_tr_
             $tra_type = 'all';
         };
         //---
-        $row = make_one_row_results($title, $tra_type, $cnt2, $langcode, $cat, $camp, false, $full_tr_user, $mobile_td, $global_username);
+        $row = make_one_row_results($title, $tra_type, $cnt2, $langcode, $cat, $camp, false, $full_tr_user, $global_username);
         //---
         // if full translates not allowed
         if (!$do_full || $full_tr_user) {
@@ -128,7 +175,7 @@ function make_results_table($items, $langcode, $cat, $camp, $tra_type, $full_tr_
         }
         //---
         if ($full) {
-            $list .= make_one_row_results($title, 'all', $cnt2, $langcode, $cat, $camp, true, $full_tr_user, $mobile_td, $global_username);
+            $list .= make_one_row_results($title, 'all', $cnt2, $langcode, $cat, $camp, true, $full_tr_user, $global_username);
         }
         //---
         $cnt++;

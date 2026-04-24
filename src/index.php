@@ -252,7 +252,6 @@ if ($camp && $code) {
         "filter_sparql" => $filter_sparql,
         "new_result" => $load_new_result,
         "user_coord" => $GLOBALS['user_is_coordinator'] ?? false,
-        "mobile_td" => $_GET["mobile_td"] ?? "1",
         "test" => $test
     ];
 

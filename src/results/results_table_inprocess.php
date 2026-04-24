@@ -9,10 +9,6 @@ use function Results\ResultsTableInprocess\make_results_table_inprocess;
 
 */
 
-use Tables\Main\MainTables;
-
-use function Results\ResultsTable\Rows\make_td_rows_mobile;
-use function Results\ResultsTable\Rows\make_mobile_table;
 use function TD\Render\Html\make_mdwiki_href;
 use function TD\Render\Html\make_wikidata_url_blank;
 use function Results\ResultsTableHtml\make_table_start;
@@ -73,7 +69,7 @@ function make_tds_rows_responsive($full, $tds)
     return $td_rows;
 }
 
-function make_one_row_new_inprocess($title, $tra_type, $cnt, $langcode, $cat, $camp, $inprocess_table, $tra_btn, $full, $full_tr_user, $mobile_td, $global_username)
+function make_one_row_new_inprocess($title, $tra_type, $cnt, $langcode, $cat, $camp, $inprocess_table, $tra_btn, $full, $full_tr_user, $global_username)
 {
     //---
     $_user_ = $inprocess_table['user'] ?? '';
@@ -123,14 +119,6 @@ function make_one_row_new_inprocess($title, $tra_type, $cnt, $langcode, $cat, $c
         "user" => $_user_,
         "date" => $_date_
     ];
-    //---
-    if ($mobile_td == "mobile") {
-        //---
-        $mobile_table = make_mobile_table(true, $full_translate_url, $full_tr_user, $tds);
-        //---
-        return make_td_rows_mobile($full, true, $mobile_table, $tds);
-    };
-    //---
     return make_tds_rows_responsive($full, $tds);
 }
 
@@ -141,13 +129,12 @@ function make_results_table_inprocess(
     $camp,
     $tra_btn,
     $full_tr_user,
-    $global_username,
-    $mobile_td
+    $global_username
 ) {
     //---
     // $inprocess_table = normalizeItems($inprocess_table);
     //---
-    $frist = make_table_start($mobile_td, true, $tra_btn);
+    $frist = make_table_start(true, $tra_btn);
     //---
     // $dd = sort_py_PageViews($inprocess_table, MainTables::$x_enwiki_pageviews_table);
     //---
@@ -169,8 +156,8 @@ function make_results_table_inprocess(
             $full = true;
         };
         //---
-        $row = make_one_row_new_inprocess($title, $tra_type, $cnt, $langcode, $cat, $camp, $title_tab, $tra_btn, $full, $full_tr_user, $mobile_td, $global_username);
-        //---
+        $row = make_one_row_new_inprocess($title, $tra_type, $cnt, $langcode, $cat, $camp, $title_tab, $tra_btn, $full, $full_tr_user, $global_username);
+        //--
         $list .= $row;
         //---
         $cnt++;
