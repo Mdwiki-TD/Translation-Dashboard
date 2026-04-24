@@ -21,13 +21,13 @@ use function Results\ResultsTableHtml\make_table_start;
 use function Results\Helps\make_translate_urls;
 use function Results\Helps\sort_py_PageViews;
 use function Results\Helps\sort_py_importance;
-use function Results\Helps\one_item_props2;
+use function Results\Helps\get_item_properties;
 use function Results\Helps\normalizeItems;
 
 function make_one_row_results($title, $tra_type, $cnt, $langcode, $cat, $camp, $full, $full_tr_user, $mobile_td, $global_username)
 {
     //---
-    $props = one_item_props2($title, $langcode, $tra_type);
+    $props = get_item_properties($title, $langcode, $tra_type);
     //---
     $qid = $props['qid'];
     //---

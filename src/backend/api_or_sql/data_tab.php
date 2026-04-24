@@ -113,19 +113,19 @@ function get_td_or_sql_views($year, $lang)
 function get_td_or_sql_settings()
 {
     // ---
-    static $settingsx = [];
+    static $sql_settings = [];
     // ---
-    if (!empty($settingsx)) {
-        return $settingsx;
+    if (!empty($sql_settings)) {
+        return $sql_settings;
     }
     // ---
     $query = "select id, title, displayed, value, Type from settings";
     // ---
     $api_params = ['get' => 'settings'];
     // ---
-    $settingsx = super_function($api_params, [], $query);
+    $sql_settings = super_function($api_params, [], $query);
     // ---
-    return $settingsx;
+    return $sql_settings;
 }
 
 function get_td_or_sql_projects()

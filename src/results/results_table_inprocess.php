@@ -18,69 +18,9 @@ use function TD\Render\Html\make_wikidata_url_blank;
 use function Results\ResultsTableHtml\make_table_start;
 
 use function Results\Helps\make_translate_urls;
-use function Results\Helps\sort_py_PageViews;
-use function Results\Helps\one_item_props2;
-use function Results\Helps\normalizeItems;
+use function Results\Helps\get_item_properties;
 
-function make_tds_rows_responsive($full, $tds)
-{
-    //---
-    $tra_btn = $tds["tra_btn"];
-    //---
-    $mdwiki_url = $tds["mdwiki_url"];
-    $cnt    = $tds["cnt"];
-    $tab    = $tds["tab"];
-    $pviews = $tds["pageviews"];
-    $asse   = $tds["asse"];
-    $words  = $tds["words"];
-    $refs   = $tds["refs"];
-    $qid    = $tds["qid"];
-    $title  = $tds["title"];
-    $_user_ = $tds["user"];
-    $_date_ = $tds["date"];
-    //---
-    // $cnt2 = $full ? "$cnt.Full" : $cnt;
-    $cnt2 = $full && (strtolower(substr($title, 0, 6)) != 'video:') ? "$cnt.Full" : $cnt;
-    //---
-    $tab_th = ($tra_btn == "1") ? "<th>$tab</th>" : "";
-    //---
-    $td_rows = <<<HTML
-        <th class='num' scope="row">
-            $cnt2
-        </th>
-        <td class='link_container'>
-            <a target='_blank' href='$mdwiki_url'>$title</a>
-        </td>
-        <th class=''>
-            $tab
-        </th>
-        <td class='num' style="text-align: left">
-            $pviews
-        </td>
-        <td class='num' style="text-align: left">
-            $asse
-        </td>
-        <td class='num' style="text-align: left">
-            $words
-        </td>
-        <td class='num' style="text-align: left">
-            $refs
-        </td>
-        <td>
-            $qid
-        </td>
-        <td>
-            $_user_
-        </td>
-        <td>
-            $_date_
-        </td>
-    HTML;
-    //---
-    $td_rows = "<tr class=''>$td_rows</tr>";
-    //---
-    return $td_rows;
-}
+function make_tds_rows_responsive($full, $tds) {}
 
 function make_one_row_new_inprocess($title, $tra_type, $cnt, $langcode, $cat, $camp, $inprocess_table, $tra_btn, $full, $full_tr_user, $mobile_td, $global_username)
 {
@@ -88,7 +28,7 @@ function make_one_row_new_inprocess($title, $tra_type, $cnt, $langcode, $cat, $c
     $_user_ = $inprocess_table['user'] ?? '';
     $_date_ = $inprocess_table['date'] ?? $inprocess_table['add_date'] ?? '';
     //---
-    $props = one_item_props2($title, $langcode, $tra_type);
+    $props = get_item_properties($title, $langcode, $tra_type);
     //---
     $qid = $props['qid'];
     //---
@@ -108,14 +48,7 @@ function make_one_row_new_inprocess($title, $tra_type, $cnt, $langcode, $cat, $c
     if ($tra_btn != '1') {
         $translate_url = "";
         $full_translate_url = "";
-    } elseif (empty($global_username)) {
-        //---
-        $tab = <<<HTML
-            <a role='button' class='btn btn-outline-primary' href='/auth/login.php'>
-                <i class='fas fa-sign-in-alt fa-sm fa-fw mr-1'></i><span class='navtitles'>Login</span>
-            </a>
-            HTML;
-    } else {
+    } elseif (!empty($global_username)) {
         [$tab, $translate_url, $full_translate_url] = make_translate_urls($title, $tra_type, $props['word'], $langcode, $cat, $camp, true, $tra_btn, $_user_, $full_tr_user, $_user_no_as_global_username);
     }
     //---
@@ -146,8 +79,51 @@ function make_one_row_new_inprocess($title, $tra_type, $cnt, $langcode, $cat, $c
         //---
         return make_td_rows_mobile($full, true, $mobile_table, $tds);
     };
+    $pviews = $props['views'];
+    $asse   = $tds["asse"];
+    $words  = $tds["words"];
+    $refs   = $tds["refs"];
+    $qid    = $tds["qid"];
+    $title  = $tds["title"];
+    $_user_ = $tds["user"];
     //---
-    return make_tds_rows_responsive($full, $tds);
+    $cnt2 = $full && (strtolower(substr($title, 0, 6)) != 'video:') ? "$cnt.Full" : $cnt;
+    //---
+    $td_rows = <<<HTML
+        <tr class=''>
+            <th class='num' scope="row">
+                $cnt2
+            </th>
+            <td class='link_container'>
+                <a target='_blank' href='$mdwiki_url'>$title</a>
+            </td>
+            <th class=''>
+                $tab
+            </th>
+            <td class='num' style="text-align: left">
+                $pviews
+            </td>
+            <td class='num' style="text-align: left">
+                $asse
+            </td>
+            <td class='num' style="text-align: left">
+                $words
+            </td>
+            <td class='num' style="text-align: left">
+                $refs
+            </td>
+            <td>
+                $qid
+            </td>
+            <td>
+                $_user_
+            </td>
+            <td>
+                $_date_
+            </td>
+        </tr>
+    HTML;
+    return $td_rows;
 }
 
 function make_results_table_inprocess(

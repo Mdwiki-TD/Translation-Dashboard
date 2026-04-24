@@ -12,17 +12,18 @@ use function Results\GetResults\get_results;
 use function Results\FetchCatData\get_cat_exists_and_missing;
 use function Results\SparqlBot\filter_existing_out;
 use function TD\Render\TestPrint\test_print;
-use function SQLorAPI\Process\get_lang_in_process_new;
+use function SQLorAPI\Process\get_lang_in_process_by_cat;
 use function SQLorAPI\Funcs\get_lang_pages_by_cat;
 use function Results\ResultsHelps\make_exists_targets;
 use function Results\ResultsHelps\filter_items_missing_cat2;
 use function Results\ResultsHelps\create_summary;
 
 
-function getinprocess($missing, $code)
+function getinprocess($missing, $code, $cat)
 {
-    $res = get_lang_in_process_new($code);
+    $res = get_lang_in_process_by_cat($code, $cat);
     // ---
+    test_print("getinprocess, res: " . count($res));
     $titles = [];
     // ---
     foreach ($res as $t) {
@@ -63,7 +64,7 @@ function get_results($cat, $camp, $depth, $code, $filter_sparql, $cat2): array
     $missing = array_values(array_unique($items_missing));
 
     // Get in-process items
-    $inprocess = getinprocess($missing, $code);
+    $inprocess = getinprocess($missing, $code, $cat);
     $len_inprocess = count($inprocess);
 
     // Remove in-process items from missing list

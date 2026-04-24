@@ -8,15 +8,14 @@ use function Leaderboard\Subs\SubLangs\get_langs_tables;
 
 */
 
-use function SQLorAPI\Funcs\get_lang_views;
 use function SQLorAPI\Funcs\get_lang_pages;
-use function SQLorAPI\Process\get_lang_in_process_new;
+use function SQLorAPI\Process\get_lang_in_process_by_year;
 use function Leaderboard\Subs\LeadHelp\make_key;
 
 function add_inp($dd_Pending, $mainlang, $year_y)
 {
     // ---
-    $to_add = get_lang_in_process_new($mainlang, $year_y);
+    $to_add = get_lang_in_process_by_year($mainlang, $year_y);
     // ---
     foreach ($to_add as $_ => $Taab) {
         //---
@@ -72,8 +71,6 @@ function get_langs_tables($mainlang, $year_y)
     $dd_Pending = $p_tables['dd_Pending'];
     //---
     $dd_Pending = add_inp($dd_Pending, $mainlang, $year_y);
-    //---
-    //---
     //---
     $table_of_views = []; //get_lang_views($mainlang, $year_y);
     //---

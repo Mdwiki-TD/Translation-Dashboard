@@ -105,7 +105,7 @@ function get_td_api(array $params): array
         $result = [];
     }
     //---
-    // var_dump(json_encode(, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+    // var_dump(json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
     //---
     return $result;
 }
