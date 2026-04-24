@@ -8,10 +8,8 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 //---
 include_once __DIR__ . '/../backend/userinfos_wrap.php';
 include_once __DIR__ . '/../include_all.php';
-// ---
 include_once __DIR__ . '/../backend/others/db_insert.php';
-// ---
-use function TD\Render\Html\login_card;
+
 use function Results\TrLink\make_ContentTranslation_url;
 // use function TranslateMed\Inserter\insertPage;
 use function TranslateMed\Inserter\insertPage_inprocess;
@@ -49,7 +47,19 @@ $title_o = filter_input(INPUT_GET, 'title', FILTER_SANITIZE_FULL_SPECIAL_CHARS) 
 $useree = !empty($GLOBALS['global_username']) ? $GLOBALS['global_username'] : '';
 
 if (empty($useree)) {
-    echo login_card();
+    echo <<<HTML
+        <div class='card' style='font-weight: bold;'>
+            <div class='card-body'>
+                <div class='row'>
+                    <div class='col-md-10'>
+                        <a role='button' class='btn btn-outline-primary' href='/auth/login.php'>
+                            <i class='fas fa-sign-in-alt fa-sm fa-fw mr-1'></i><span class='navtitles'>Login</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    HTML;
     exit;
 }
 

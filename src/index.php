@@ -55,7 +55,7 @@ echo <<<HTML
             </div>
             <div class='card-body mb-0'>
             <div class='mainindex'>
-                <form method='GET' action='index.php' class='form-inline'>
+                <form method='GET' action='index.php' class='form-inline' id="mainForm">
                     $form_start1
                 </form>
                 <div class="d-flex justify-content-end">

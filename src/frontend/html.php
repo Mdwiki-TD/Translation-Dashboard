@@ -37,22 +37,6 @@ function banner_alert($text)
 	</div>
 	HTML;
 }
-function login_card()
-{
-    return <<<HTML
-    <div class='card' style='font-weight: bold;'>
-        <div class='card-body'>
-            <div class='row'>
-                <div class='col-md-10'>
-                    <a role='button' class='btn btn-outline-primary' onclick='login()'>
-                        <i class='fas fa-sign-in-alt fa-sm fa-fw mr-1'></i><span class='navtitles'>Login</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-    HTML;
-}
 
 function make_modal_fade($label, $text, $id, $button = '')
 {

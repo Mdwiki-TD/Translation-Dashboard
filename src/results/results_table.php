@@ -45,7 +45,7 @@ function make_one_row_results($title, $tra_type, $cnt, $langcode, $cat, $camp, $
     if (empty($global_username)) {
         //---
         $tab = <<<HTML
-            <a role='button' class='btn btn-outline-primary' onclick='login()'>
+            <a role='button' class='btn btn-outline-primary' href='/auth/login.php'>
                 <i class='fas fa-sign-in-alt fa-sm fa-fw mr-1'></i><span class='navtitles'>Login</span>
             </a>
             HTML;

@@ -85,14 +85,17 @@ function print_form_start1($allow_whole_translate, $Lang_tables, $campaigninput_
         };
     };
     //---
-    $uiu = <<<HTML
-            <a role="button" class="btn btn-outline-primary" onclick="login()">
-            <i class="fas fa-sign-in-alt fa-sm fa-fw mr-1"></i><span class="navtitles">Login</span>
-            </a>
+    $login_btn = <<<HTML
+        <button type="submit"
+                formaction="/auth/login.php"
+                formmethod="get"
+                class="btn btn-outline-primary">
+            <i class="fas fa-sign-in-alt"></i> Login
+        </button>
     HTML;
     //---
     if (!empty($global_username)) {
-        $uiu = '<input type="submit" name="doit" class="btn btn-outline-primary" value="Do it"/>';
+        $login_btn = '<input type="submit" name="doit" class="btn btn-outline-primary" value="Do it"/>';
     }
     //---
     $camp_input = make_drop($campaigninput_list, $camp_ch);
@@ -100,15 +103,6 @@ function print_form_start1($allow_whole_translate, $Lang_tables, $campaigninput_
     if ($camp === "test") {
         $camp_input .= "<option value='test' selected>test</option>";
     };
-    //---
-    /*
-    $cat_input = make_drop($cat_input_list, $cat_ch);
-    $cat_input = <<<HTML
-        <select dir='ltr' name='cat' id='cat' class='form-select' data-bs-theme="auto">
-            $cat_input
-        </select>
-    HTML;
-    */
     //---
     $camp_input = <<<HTML
         <select dir='ltr' name='camp' id='camp' class='form-select' data-bs-theme="auto">
@@ -167,7 +161,7 @@ function print_form_start1($allow_whole_translate, $Lang_tables, $campaigninput_
         $in_typ
         <div class='$col12'>
             <h4 class='aligncenter mb-0'>
-                $uiu
+                $login_btn
             </h4>
         </div>
     </div>

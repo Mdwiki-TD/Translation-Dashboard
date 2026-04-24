@@ -34,7 +34,7 @@ function insertPage($title_o, $word, $tr_type, $cat, $coden, $useree)
     test_print($quae_new);
     // ---
     $params = [$title_o, $word, $tr_type, $cat, $coden, $useree, $title_o, $coden, $useree];
-    execute_query($quae_new, $params = $params);
+    execute_query($quae_new, $params);
 };
 
 function insertPage_inprocess($title, $word, $tr_type, $cat, $lang, $user)
@@ -57,5 +57,5 @@ function insertPage_inprocess($title, $word, $tr_type, $cat, $lang, $user)
     test_print($quae_new);
     // ---
     $params = [$title, $user, $lang, $cat, $tr_type, $word, $title, $lang, $user];
-    execute_query($quae_new, $params = $params);
+    execute_query($quae_new, $params);
 };

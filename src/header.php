@@ -24,21 +24,23 @@ echo print_full_head();
 //---
 $coordinators = array_column(get_coordinators(), 'is_active', 'username');
 $GLOBALS['user_is_coordinator'] = (($coordinators[$GLOBALS['global_username']] ?? 0) == 1);
-//---
-// var_dump(json_encode($coordinators2, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
-//---
+
 $coord_tools = "";
 //---
-// if (in_array($GLOBALS['global_username'], $coordinators)) {
 if ($GLOBALS['user_is_coordinator'] === true) {
 	$coord_tools = '<a href="/tdc/index.php" class="nav-link py-2 px-0 px-lg-2"><span class="navtitles"></span> <i class="bi bi-tools me-1"></i> Coordinator Tools</a>';
 };
 //---
 $li_user = <<<HTML
 	<li class="nav-item col-lg-auto col-md-4 col-sm-6 col-6">
-		<a role="button" class="nav-link py-2 px-0 px-lg-2" onclick="login()">
+		<button type="submit"
+				form="mainForm"
+				formaction="/auth/login.php"
+				formmethod="get"
+				formnovalidate
+				class="nav-link py-2 px-0 px-lg-2 btn btn-link">
 			<i class="fas fa-sign-in-alt fa-sm fa-fw mr-2"></i> <span class="navtitles">Login</span>
-		</a>
+		</button>
 	</li>
 HTML;
 //---
