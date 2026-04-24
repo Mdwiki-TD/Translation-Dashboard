@@ -13,7 +13,6 @@ include_once __DIR__ . '/../backend/loaders/load_request.php';
 //---
 use Tables\SqlTables\TablesSql;
 use function Results\ResultsIndex\Results_tables;
-use function TD\Render\Forms\print_form_start1;
 //---
 $tab_titles = [
     "Acetylsalicylic acid/simvastatin/ramipril/atenolol/hydrochlorothiazide",
@@ -92,9 +91,7 @@ $user_coord = $_GET['user_coord'] ?? "";
 $translation_button = $_GET['translation_button'] ?? "";
 $full_tr_user = $_GET['full_tr_user'] ?? "";
 $allow_whole_translate = $_GET['allow_whole_translate'] ?? '';
-// ---
-$mobile_td = $_GET["mobile_td"] ?? "1";
-//---
+
 $Lang_tables = [
     "aa" => [
         "code" => "aa",
@@ -204,7 +201,6 @@ $tab = [
     "global_username" => $global_username,
     "results_list" => $results_list,
     "user_coord" => $user_coord,
-    "mobile_td" => $mobile_td,
     "test" => $test,
 ];
 // ---

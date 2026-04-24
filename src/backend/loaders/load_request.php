@@ -15,8 +15,10 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 use Tables\SqlTables\TablesSql;
 use Tables\Langs\LangsTables;
 
-function load_request()
+function load_request($s_campaign_input_list, $allow_whole_translate)
 {
+    //---
+    $errors = [];
     //---
     $test = htmlspecialchars($_GET['test'] ?? '', ENT_QUOTES, 'UTF-8');
     $doit = htmlspecialchars($_GET['doit'] ?? '', ENT_QUOTES, 'UTF-8');
@@ -53,6 +55,24 @@ function load_request()
     //---
     if (empty($code_lang_name)) $doit = false;
     //---
+    $errors = [];
+    //---
+    if (empty($code_lang_name) && !empty($code)) {
+        $errors[] = "code ($code) not valid wiki.";
+        $code = "";
+    } elseif (!empty($code)) {
+        $_SESSION['code'] = $code;
+    }
+    //---
+    if (!in_array($camp, $s_campaign_input_list)) {
+        $errors[] = "camp ($camp) not valid.";
+        $camp = "";
+    }
+    //---
+    if ($allow_whole_translate == '0') {
+        $tra_type = 'lead';
+    }
+    //---
     return [
         'test' => !empty($test),
         'doit' => $doit,
@@ -62,5 +82,6 @@ function load_request()
         'tra_type' => $tra_type,
         'filter_sparql' => $filter_sparql,
         'code_lang_name' => $code_lang_name,
+        'errors' => $errors,
     ];
 }

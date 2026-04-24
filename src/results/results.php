@@ -54,7 +54,6 @@ function Results_tables($tab, $show_exists, $translation_button, $full_tr_user)
     $code_lang_name  = $tab["code_lang_name"];
     $global_username = $tab["global_username"];
     $user_coord      = $tab["user_coord"];
-    $mobile_td       = $tab["mobile_td"];
     // ---
     $html_result = "";
     //---
@@ -77,7 +76,17 @@ function Results_tables($tab, $show_exists, $translation_button, $full_tr_user)
     $nolead_translates = load_translate_type('no');
     $translates_full = load_translate_type('full');
     //---
-    $table = make_results_table($missing, $code, $cat, $camp, $tra_type, $full_tr_user, $global_username, $nolead_translates, $translates_full, $mobile_td);
+    $table = make_results_table(
+        $missing,
+        $code,
+        $cat,
+        $camp,
+        $tra_type,
+        $full_tr_user,
+        $global_username,
+        $nolead_translates,
+        $translates_full
+    );
     //---
     $title_x = <<<HTML
         <!-- <span class='only_on_mobile'><b>Click the article name to translate</b></span> -->
@@ -99,8 +108,7 @@ function Results_tables($tab, $show_exists, $translation_button, $full_tr_user)
             $camp,
             $translation_button,
             $full_tr_user,
-            $global_username,
-            $mobile_td
+            $global_username
         );
         //---
         $html_result .= card_result("In process: ($len_inprocess)", $table_2);
@@ -165,7 +173,6 @@ function results_loader($data)
         "global_username" => $global_username,
         "results_list" => $results_list,
         "user_coord" => $data["user_coord"],
-        "mobile_td" => $data["mobile_td"],
         "test" => $data["test"]
     ];
     //---

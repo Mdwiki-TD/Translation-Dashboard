@@ -1,47 +1,164 @@
-<?PHP
+<?php
 
 namespace TD;
 
+// =======================
+// Debug Mode
+// =======================
 if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
-};
+}
 
+// =======================
+// Includes
+// =======================
 include_once __DIR__ . '/include_all.php';
 include_once __DIR__ . '/header.php';
-
 include_once __DIR__ . '/backend/loaders/load_request.php';
 
 use Tables\Main\MainTables;
-use Tables\SqlTables\TablesSql;
 use function Loaders\LoadRequest\load_request;
-use function TD\Render\Forms\print_form_start1;
 use function Results\ResultsIndex\results_loader;
+use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
+use function SQLorAPI\GetDataTab\get_td_or_sql_settings;
 
-$allow_whole_translate = TablesSql::$s_settings['allow_type_of_translate']['value'] ?? '1';
-$load_new_result = TablesSql::$s_settings['load_new_result']['value'] ?? '';
+function make_drop($uxutable, $code)
+{
+    $options  =  "";
+    //---
+    foreach ($uxutable as $name => $cod) {
+        if (empty($cod)) continue;
+        $cdcdc = $code == $cod ? "selected" : "";
+        $options .= <<<HTML
+		    <option value='$cod' $cdcdc>$name</option>
+		HTML;
+    };
+    //---
+    return $options;
+}
 
-$req  = load_request();
+function print_form_start1($Lang_tables, $code)
+{
+    //---
+    $lang_list = '';
+    //---
+    foreach ($Lang_tables as $_ => $lang_tab) {
+        $lang_code = $lang_tab['code'] ?? "";
+        $lang_name = $lang_tab['autonym'] ?? "";
 
-$test     = $req['test'] ?? "";
-$code     = $req['code'] ?? "";
-$tra_type = $req['tra_type'] ?? "";
-$filter_sparql = $req['filter_sparql_x'] ?? true;
+        if (empty($lang_code)) continue;
 
-$cat  = (!empty($req['cat'])) ? $req['cat'] : TablesSql::$s_main_cat;
-$camp  = (!empty($req['camp'])) ? $req['camp'] : TablesSql::$s_main_camp;
+        $lang_title = "($lang_code) $lang_name";
+        $selected = ($lang_code == $code) ? 'selected' : '';
+        $lang_list .= <<<HTML
+            <option data-tokens='$lang_code' value='$lang_code' $selected>$lang_title</option>
+        HTML;
+    };
+    return $lang_list;
+};
 
-$code_lang_name  = $req['code_lang_name'] ?? "";
+// =======================
+// Load Config
+// =======================
 
-if ($allow_whole_translate == '0') $tra_type = 'lead';
+$settings = get_td_or_sql_settings();
+$categories_tab = get_td_or_sql_categories();
 
-$global_username = $GLOBALS['global_username'] ?? "";
+$settings = array_column($settings, 'value', 'title');
 
-$form_start1  = print_form_start1($allow_whole_translate, MainTables::$x_Langs_table, TablesSql::$s_campaign_input_list, $cat, $camp, $code, $tra_type);
+$allow_whole_translate = $settings['allow_type_of_translate'] ?? '1';
+$load_new_result       = $settings['load_new_result'] ?? '';
 
-$login_btn = <<<HTML
-    <input type="text" name="doit" value="Do it" hidden/>
+$s_campaign_input_list = [];
+
+$s_main_cat = "";
+$s_main_camp = "";
+
+foreach ($categories_tab as $k => $tab) {
+    if (!empty($tab['category']) && !empty($tab['campaign'])) {
+        $s_campaign_input_list[$tab['campaign']] = $tab['campaign'];
+        $is_default  = $tab['is_default'];
+        if ($is_default == 1 || $is_default == '1') $s_main_cat = $tab['category'];
+        if ($is_default == 1 || $is_default == '1') $s_main_camp = $tab['campaign'];
+    };
+};
+
+// =======================
+// Load Request
+// =======================
+$req = load_request($s_campaign_input_list, $allow_whole_translate);
+
+$test              = $req['test'] ?? '';
+$code              = $req['code'] ?? '';
+$tra_type          = $req['tra_type'] ?? '';
+$filter_sparql     = $req['filter_sparql_x'] ?? true;
+$code_lang_name    = $req['code_lang_name'] ?? '';
+$errors            = $req['errors'];
+
+$cat  = $req['cat']  ?: $s_main_cat;
+$camp = $req['camp'] ?: $s_main_camp;
+
+// =======================
+// Normalize Data
+// =======================
+
+
+$global_username = $GLOBALS['global_username'] ?? '';
+$user_coord      = $GLOBALS['user_is_coordinator'] ?? false;
+
+// =======================
+// UI
+// =======================
+
+// Form
+$in_typ = '<input type="hidden" name="type" value="lead" />';
+
+if ($allow_whole_translate == '1') {
+
+    $lead_checked = "checked";
+    $all_checked = "";
+
+    if ($tra_type == 'all') {
+        $lead_checked = "";
+        $all_checked = "checked";
+    };
+
+    $in_typ = <<<HTML
+        <div class='col-10'>
+            <div class="mb-3">
+                <label for="type" class="form-label"><b>Type</b></label>
+                <div class='form-control'>
+                    <div class='form-check form-check-inline'>
+                        <input type='radio' class='form-check-input' id='customRadio' name='type' value='lead' $lead_checked>
+                        <label class='form-check-label' for='customRadio'>The lead only</label>
+                    </div>
+                    <div class='form-check form-check-inline'>
+                        <input type='radio' class='form-check-input' id='customRadio2' name='type' value='all' $all_checked>
+                        <label class='form-check-label' for='customRadio2'>The whole article</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    HTML;
+};
+
+$camp_ch = htmlspecialchars($camp, ENT_QUOTES);
+$camp_input = make_drop($s_campaign_input_list, $camp_ch);
+
+if ($camp === "test") {
+    $camp_input .= "<option value='test' selected>test</option>";
+};
+
+
+$lang_list = print_form_start1(MainTables::$x_Langs_table, $code);
+
+// Login Button
+$login_btn = (!empty($global_username))
+    ? '<input type="submit" name="doit" class="btn btn-outline-primary" value="Do it"/>'
+    : <<<HTML
+    <input type="hidden" name="doit" value="Do it"/>
     <button type="submit"
             formaction="/auth/login.php"
             formmethod="get"
@@ -51,24 +168,15 @@ $login_btn = <<<HTML
     </button>
 HTML;
 
-if (!empty($global_username)) {
-    $login_btn = '<input type="submit" name="doit" class="btn btn-outline-primary" value="Do it"/>';
+// Errors HTML
+$error_html = '';
+foreach ($errors as $err) {
+    $error_html .= "<div class='text-danger' style='font-size:13pt;'>$err</div>";
 }
 
-$err = '';
-
-if (empty($code_lang_name) && !empty($code)) {
-    $err .= "<span style='font-size:13pt;color:red'>code ($code) not valid wiki.</span>";
-    $code = "";
-} else {
-    if (!empty($code)) {
-        $_SESSION['code'] = $code;
-    };
-};
-if (!in_array($camp, TablesSql::$s_campaign_input_list)) {
-    $err .= "<span style='font-size:13pt;color:red'>camp ($camp) not valid.</span>";
-    $camp = "";
-}
+// =======================
+// Render Header Block
+// =======================
 echo <<<HTML
     <div class='container'>
         <div class='card'>
@@ -77,12 +185,40 @@ echo <<<HTML
                 <a href='?cat=RTT&depth=1&code=ceb&doit=Do+it'>(Example)</a>.
                 <a href='//mdwiki.org/wiki/WikiProjectMed:Translation_task_force'><b>How to use.</b></a>
             </div>
+
             <div class='card-body mb-0'>
             <div class='mainindex'>
                 <form method='GET' action='index.php' class='form-inline' id="mainForm">
                     <div class='row'>
-                        $form_start1
-                        $err
+                        <div class='col-10'>
+                            <div class="mb-3">
+                                <label for="camp" class="form-label"><b>Campaign</b></label>
+                                <select dir='ltr' name='camp' id='camp' class='form-select' data-bs-theme="auto">
+                                    $camp_input
+                                </select>
+                            </div>
+                        </div>
+                        <div class='col-10'>
+                            <div class="mb-3">
+                                <label for="code" class="form-label"><b>Language</b></label>
+                                <select aria-label="Language code"
+                                    class="selectpicker"
+                                    id='code'
+                                    name='code'
+                                    placeholder='two letter code'
+                                    data-live-search="true"
+                                    data-container="body"
+                                    data-live-search-style="begins"
+                                    data-bs-theme="auto"
+                                    data-style='btn active'
+                                    data-width="100%"
+                                    required>
+                                    $lang_list
+                                </select>
+                            </div>
+                        </div>
+                        $in_typ
+                        $error_html
                         <div class='col-10'>
                             <h4 class='aligncenter mb-0'>
                                 $login_btn
@@ -91,7 +227,7 @@ echo <<<HTML
                     </div>
                 </form>
                 <div class="d-flex justify-content-end">
-                    <img class='med-logo-big' src='/favicon.svg' decoding='async' alt='Wiki Project Med Foundation logo'>
+                    <img class='med-logo-big' src='/favicon.svg' alt='Wiki Project Med Foundation logo'>
                 </div>
             </div>
             </div>
@@ -99,6 +235,9 @@ echo <<<HTML
     </div>
 HTML;
 
+// =======================
+// Results
+// =======================
 echo "<div class='container-fluid'>";
 
 // $doit     = $req['doit'] ?? false;
@@ -114,12 +253,15 @@ if ($camp && $code) {
         "filter_sparql" => $filter_sparql,
         "new_result" => $load_new_result,
         "user_coord" => $GLOBALS['user_is_coordinator'] ?? false,
-        "mobile_td" => $_GET["mobile_td"] ?? "1",
         "test" => $test
     ];
+
     echo results_loader($data);
-};
+}
 
 echo "</div><br>";
 
-include_once __DIR__ . '/footer.php';
+// =======================
+// Footer
+// =======================
+require_once __DIR__ . '/footer.php';
