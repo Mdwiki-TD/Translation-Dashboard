@@ -20,7 +20,58 @@ use function Results\ResultsTableHtml\make_table_start;
 use function Results\Helps\make_translate_urls;
 use function Results\Helps\get_item_properties;
 
-function make_tds_rows_responsive($full, $tds) {}
+function make_tds_rows_responsive($full, $tds)
+{
+    $mdwiki_url = $tds["mdwiki_url"];
+    $cnt    = $tds["cnt"];
+    $tab    = $tds["tab"];
+    $pviews = $tds["pageviews"];
+    $asse   = $tds["asse"];
+    $words  = $tds["words"];
+    $refs   = $tds["refs"];
+    $qid    = $tds["qid"];
+    $title  = $tds["title"];
+    $_user_ = $tds["user"];
+    $_date_ = $tds["date"];
+    //---
+    $cnt2 = $full && (strtolower(substr($title, 0, 6)) != 'video:') ? "$cnt.Full" : $cnt;
+    //---
+    $td_rows = <<<HTML
+        <tr class=''>
+            <th class='num' scope="row">
+                $cnt2
+            </th>
+            <td class='link_container'>
+                <a target='_blank' href='$mdwiki_url'>$title</a>
+            </td>
+            <th class=''>
+                $tab
+            </th>
+            <td class='num' style="text-align: left">
+                $pviews
+            </td>
+            <td class='num' style="text-align: left">
+                $asse
+            </td>
+            <td class='num' style="text-align: left">
+                $words
+            </td>
+            <td class='num' style="text-align: left">
+                $refs
+            </td>
+            <td>
+                $qid
+            </td>
+            <td>
+                $_user_
+            </td>
+            <td>
+                $_date_
+            </td>
+        </tr>
+    HTML;
+    return $td_rows;
+}
 
 function make_one_row_new_inprocess($title, $tra_type, $cnt, $langcode, $cat, $camp, $inprocess_table, $tra_btn, $full, $full_tr_user, $mobile_td, $global_username)
 {
@@ -79,51 +130,8 @@ function make_one_row_new_inprocess($title, $tra_type, $cnt, $langcode, $cat, $c
         //---
         return make_td_rows_mobile($full, true, $mobile_table, $tds);
     };
-    $pviews = $props['views'];
-    $asse   = $tds["asse"];
-    $words  = $tds["words"];
-    $refs   = $tds["refs"];
-    $qid    = $tds["qid"];
-    $title  = $tds["title"];
-    $_user_ = $tds["user"];
     //---
-    $cnt2 = $full && (strtolower(substr($title, 0, 6)) != 'video:') ? "$cnt.Full" : $cnt;
-    //---
-    $td_rows = <<<HTML
-        <tr class=''>
-            <th class='num' scope="row">
-                $cnt2
-            </th>
-            <td class='link_container'>
-                <a target='_blank' href='$mdwiki_url'>$title</a>
-            </td>
-            <th class=''>
-                $tab
-            </th>
-            <td class='num' style="text-align: left">
-                $pviews
-            </td>
-            <td class='num' style="text-align: left">
-                $asse
-            </td>
-            <td class='num' style="text-align: left">
-                $words
-            </td>
-            <td class='num' style="text-align: left">
-                $refs
-            </td>
-            <td>
-                $qid
-            </td>
-            <td>
-                $_user_
-            </td>
-            <td>
-                $_date_
-            </td>
-        </tr>
-    HTML;
-    return $td_rows;
+    return make_tds_rows_responsive($full, $tds);
 }
 
 function make_results_table_inprocess(
