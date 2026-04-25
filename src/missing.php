@@ -37,7 +37,7 @@ foreach ($langs_table as $_ => $lang_info) {
     $langcode = $lang_info['code'] ?? '';
     $langcode = LangsTables::$L_change_codes[$langcode] ?? $langcode;
 
-    if (!empty(array_intersect([$langcode, $langcode], LangsTables::$L_skip_codes))) {
+    if (in_array($langcode, LangsTables::$L_skip_codes)) {
         continue;
     };
 
@@ -65,8 +65,8 @@ foreach ($langs_table as $_ => $lang_info) {
             if ($exists > 0) break;
         }
     }
-    $missing = bcsub($length, $exists);
-    $missing_numb = number_format((int) $missing);
+    $missing = (int)$length - (int)$exists;
+    $missing_numb = number_format($missing);
 
     $text .= <<<HTML
         <tr>
