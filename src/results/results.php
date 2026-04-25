@@ -14,10 +14,10 @@ use function Results\ResultsIndex\results_loader;
 use Tables\SqlTables\TablesSql;
 use function Results\GetResults\get_results;
 use function Results\GetResults\get_results_new;
-use function SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
 use function Results\ResultsTable\make_results_table;
 use function Results\ResultsTableInprocess\make_results_table_inprocess;
 use function Results\ResultsTableExists\make_results_table_exists;
+use function SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
 use function TD\Render\admin_text;
 use function Tables\SqlTables\load_translate_type;
 

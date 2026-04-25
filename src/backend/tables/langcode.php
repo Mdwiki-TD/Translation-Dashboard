@@ -10,9 +10,8 @@ use Tables\Langs\LangsTables;
 LangsTables::$1L_$2
 
 */
-//---
+
 /*
-"gsw": "als",
 "gswsgs": "bat-smg",
 "fiu-vro": "vro",
 "roa-rup": "rup",
@@ -42,36 +41,10 @@ https://db-names.toolforge.org/
 "zh-min-nan" : "nan"
 "zh-yue" : "yue"
 */
-// ---
-use Tables\Main\MainTables;
 
-class LangsTables
-{
-    public static $L_skip_codes = [];
-    public static $L_change_codes = [];
-    public static $L_code_to_wikiname = [];
-    public static $L_code_to_lang_name = [];
-    public static $L_lang_to_code = [];
-    public static $L_code_to_lang = [];
-}
-LangsTables::$L_skip_codes = ["commons", "species", "ary", "arz", "meta", "en", "simple"];
-//---
-LangsTables::$L_change_codes = [
-    "nb"    =>    "no",
-    "bat_smg"    =>    "bat-smg",
-    "be-x-old"    =>    "be-tarask",
-    "be_x_old"    =>    "be-tarask",
-    "cbk_zam"    =>    "cbk-zam",
-    "fiu_vro"    =>    "fiu-vro",
-    "map_bms"    =>    "map-bms",
-    "nds_nl"    =>    "nds-nl",
-    "roa_rup"    =>    "roa-rup",
-    "zh_classical"    =>    "zh-classical",
-    "zh_min_nan"    =>    "zh-min-nan",
-    "zh_yue"    =>    "zh-yue",
-];
-#---
-LangsTables::$L_code_to_wikiname = [
+use function SQLorAPI\GetDataTab\get_td_or_sql_langs;
+
+$L_code_to_wikiname = [
     "aa"    =>    "Afar",
     "ab"    =>    "Аԥсуа",
     "ace"    =>    "Basa Acèh",
@@ -402,17 +375,51 @@ LangsTables::$L_code_to_wikiname = [
     "zh-yue"    =>    "粵語",
     "zu"    =>    "isiZulu",
 ];
-//---
-foreach (MainTables::$x_Langs_table as $_ => $lang_tab) {
+class LangsTables
+{
+    public static $L_skip_codes = [];
+    public static $L_change_codes = [];
+    public static $L_code_to_lang_name = [];
+    public static $L_lang_to_code = [];
+    public static $L_code_to_lang = [];
+}
+
+LangsTables::$L_skip_codes = ["commons", "species", "ary", "arz", "meta", "en", "simple"];
+/*
+bh	        bho
+*/
+
+LangsTables::$L_change_codes = [
+    "gsw" => "als",
+    "sgs" => "bat-smg",
+    "nb"    =>    "no",
+    "bat_smg"    =>    "bat-smg",
+    "be-x-old"    =>    "be-tarask",
+    "be_x_old"    =>    "be-tarask",
+    "cbk_zam"    =>    "cbk-zam",
+    "vro"    =>    "fiu-vro",
+    "fiu_vro"    =>    "fiu-vro",
+    "map_bms"    =>    "map-bms",
+    "nds_nl"    =>    "nds-nl",
+    "roa_rup"    =>    "roa-rup",
+    "zh_classical"    =>    "zh-classical",
+    "zh_min_nan"    =>    "zh-min-nan",
+    "zh_yue"    =>    "zh-yue",
+    "yue"    =>    "zh-yue",
+];
+#---
+$langs_table = get_td_or_sql_langs();
+
+foreach ($langs_table as $_ => $lang_tab) {
     $lang_code = $lang_tab['code'] ?? "";
     $lang_name = $lang_tab['autonym'] ?? "";
-    // ---
+
     if (isset(LangsTables::$L_change_codes[$lang_code]) && isset(LangsTables::$L_code_to_lang[LangsTables::$L_change_codes[$lang_code]])) {
         continue;
     }
-    // ---
+
     $lang_title = "($lang_code) $lang_name";
-    // ---
+
     LangsTables::$L_code_to_lang[$lang_code] = $lang_title;
     LangsTables::$L_code_to_lang_name[$lang_code] = $lang_name;
     LangsTables::$L_lang_to_code[$lang_title] = $lang_code;
