@@ -34,7 +34,6 @@ foreach ($langs_missing_data as $code => $tabe) {
 };
 
 $langs_table = get_td_or_sql_langs();
-
 $lang_codes = array_column($langs_table, 'code');
 $Table += array_fill_keys(array_filter($lang_codes), $length);
 arsort($Table);
@@ -58,7 +57,7 @@ foreach ($Table as $langcode => $missing) {
     };
 
     $translated = $translated_data[$langcode] ?? 0;
-    $translated = ($translated > 0) ? "<a href='leaderboard.php?get=langs&langcode=$langcode'>$translated</a>" : 0;
+    $translated_url = ($translated > 0) ? "<a href='leaderboard.php?get=langs&langcode=$langcode'>$translated</a>" : 0;
 
     if (isset($tab_done[$langcode])) continue;
     $tab_done[$langcode] = true;
@@ -75,13 +74,11 @@ foreach ($Table as $langcode => $missing) {
 
     if (empty($langname)) $langname = "! langname";
 
-    if ($length === $missing && ($langs_missing_data[$langcode]['exists'] ?? 0)) {
-        $missing = bcsub($length, $langs_missing_data[$langcode]['exists']);
-    }
+    $exists = $langs_missing_data[$langcode]['exists'] ?? 0;
 
-    $exists = $langs_missing_data[$langcode]['exists'] ?? bcsub($length, $missing);
+    $missing = bcsub($length, $exists);
 
-    $missing_numb = number_format($missing);
+    $missing_numb = number_format((int) $missing);
 
     $text .= <<<HTML
         <tr>
@@ -97,7 +94,7 @@ foreach ($Table as $langcode => $missing) {
             <td data-content="Autonym">
                 $autonym
             </td>
-            <td data-content="Translated Articles">$translated</td>
+            <td data-content="Translated Articles" data-search="$translated">$translated_url</td>
             <td data-content="Exists Articles">$exists</td>
             <td data-content="Missing Articles" data-search="$missing_numb">
                 <a href="index.php?cat=RTT&depth=1&doit=Do+it&code=$langcode&type=lead">$missing_numb</a>

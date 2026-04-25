@@ -63,6 +63,7 @@ LangsTables::$L_change_codes = [
     "be-x-old"    =>    "be-tarask",
     "be_x_old"    =>    "be-tarask",
     "cbk_zam"    =>    "cbk-zam",
+    "vro"    =>    "fiu-vro",
     "fiu_vro"    =>    "fiu-vro",
     "map_bms"    =>    "map-bms",
     "nds_nl"    =>    "nds-nl",
@@ -404,7 +405,6 @@ LangsTables::$L_code_to_wikiname = [
     "zh-yue"    =>    "粵語",
     "zu"    =>    "isiZulu",
 ];
-
 $langs_table = get_td_or_sql_langs();
 
 foreach ($langs_table as $_ => $lang_tab) {
@@ -421,4 +421,3 @@ foreach ($langs_table as $_ => $lang_tab) {
     LangsTables::$L_code_to_lang_name[$lang_code] = $lang_name;
     LangsTables::$L_lang_to_code[$lang_title] = $lang_code;
 };
-
