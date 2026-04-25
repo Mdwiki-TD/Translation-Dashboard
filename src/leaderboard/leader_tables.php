@@ -10,7 +10,7 @@ use function Leaderboard\LeaderTables\makeLangTable;
 
 */
 
-use Tables\Main\MainTables;
+use function SQLorAPI\GetDataTab\get_td_or_sql_langs;
 
 function createNumbersTable($c_user, $c_articles, $c_words, $c_langs, $c_views)
 {
@@ -63,10 +63,11 @@ function makeLangTable($lang_table)
 
     $numb = 0;
 
+    $langs_table = get_td_or_sql_langs();
     foreach ($lang_table as $langcode => $tab) {
         $comp = $tab['count'];
         $views = $tab['views'];
-        $langname = $tab['lang_name'] ?? MainTables::$x_Langs_table[$langcode]['name'] ?? $langcode;
+        $langname = $tab['lang_name'] ?? $langs_table[$langcode]['name'] ?? $langcode;
         # Get the Articles numbers
 
         if ($comp < 1) continue;

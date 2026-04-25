@@ -13,13 +13,13 @@ include_once __DIR__ . '/include_all.php';
 use Tables\SqlTables\TablesSql;
 use function Results\GetResults\get_results;
 use function Results\GetResults\get_results_new;
-use function Results\Helps\normalizeItems;
 
 $cat   = $_GET['cat'] ?? "";
 $cat2  = $_GET['cat2'] ?? "";
 $camp  = $_GET['camp'] ?? "";
 $depth = $_GET['depth'] ?? "1";
 $code  = $_GET['code'] ?? "gg";
+
 $filter_sparql  = $_GET['filter_sparql'] ?? true;
 $new  = $_GET['new'] ?? false;
 
@@ -40,13 +40,9 @@ if ($new) {
     $results = get_results($cat, $camp, $depth, $code, $filter_sparql, $cat2);
 }
 
-// $results['inprocess'] = normalizeItems($results['inprocess']);
-// $results['missing'] = normalizeItems($results['missing']);
-// $results['exists'] = normalizeItems($results['exists']);
-
 $tab = [
     "execution_time" => (microtime(true) - $time_start),
     "results" => $results
 ];
-// ---
+
 echo json_encode($tab, JSON_PRETTY_PRINT);

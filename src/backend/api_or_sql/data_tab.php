@@ -16,6 +16,7 @@ use function SQLorAPI\GetDataTab\get_td_or_sql_settings;
 use function SQLorAPI\GetDataTab\get_td_or_sql_views;
 use function SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
 use function SQLorAPI\GetDataTab\get_td_or_sql_count_pages;
+use function SQLorAPI\GetDataTab\get_td_or_sql_langs;
 
 */
 
@@ -254,4 +255,21 @@ function get_td_or_sql_count_pages()
     $count_pages = $data;
     // ---
     return $data;
+}
+
+function get_td_or_sql_langs()
+{
+    // ---
+    static $langs = [];
+    // ---
+    if (!empty($langs ?? [])) return $langs;
+    // ---
+    $api_params = ['get' => 'langs'];
+    $query = "SELECT code, autonym, name FROM langs";
+    // ---
+    $data = super_function($api_params, [], $query);
+    // ---
+    $langs = array_column($data, null, 'code');
+    // ---
+    return $langs;
 }

@@ -34,10 +34,7 @@ foreach ($langs_missing_data as $code => $tabe) {
 };
 
 $langs_table = get_td_or_sql_langs();
-
 $lang_codes = array_column($langs_table, 'code');
-$Table += array_fill_keys(array_filter($lang_codes), $length);
-arsort($Table);
 
 $text = "";
 
@@ -49,8 +46,8 @@ $translated_data = get_td_or_sql_top_langs("", "", "");
 
 $translated_data = array_column($translated_data, 'targets', 'lang');
 
-foreach ($Table as $langcode => $missing) {
-
+foreach ($langs_table as $_ => $lang_info) {
+    $langcode = $lang_info['code'] ?? '';
     $langcode = LangsTables::$L_change_codes[$langcode] ?? $langcode;
 
     if (!empty(array_intersect([$langcode, $langcode], LangsTables::$L_skip_codes))) {
@@ -63,8 +60,6 @@ foreach ($Table as $langcode => $missing) {
     if (isset($tab_done[$langcode])) continue;
     $tab_done[$langcode] = true;
 
-    $lang_info = $langs_table[$langcode] ?? $langs_table[$langcode] ?? [];
-
     $num += 1;
 
     $autonym = $lang_info['autonym'] ?? '';
@@ -75,9 +70,7 @@ foreach ($Table as $langcode => $missing) {
 
     if (empty($langname)) $langname = "! langname";
 
-    if ($length === $missing && ($langs_missing_data[$langcode]['exists'] ?? 0)) {
-        $missing = bcsub($length, $langs_missing_data[$langcode]['exists']);
-    }
+    $missing = $langs_missing_data[$langcode]['missing'] ?? 0;
 
     $exists = $langs_missing_data[$langcode]['exists'] ?? bcsub($length, $missing);
 
@@ -99,7 +92,7 @@ foreach ($Table as $langcode => $missing) {
             </td>
             <td data-content="Translated Articles">$translated</td>
             <td data-content="Exists Articles">$exists</td>
-            <td data-content="Missing Articles" data-search="$missing_numb">
+            <td data-content="Missing Articles">
                 <a href="index.php?cat=RTT&depth=1&doit=Do+it&code=$langcode&type=lead">$missing_numb</a>
             </td>
         </tr>
@@ -107,7 +100,7 @@ foreach ($Table as $langcode => $missing) {
 };
 
 echo <<<HTML
-        <div align=center>
+    <div align=center>
         <h4>Top languages by missing Articles ($date)</h4>
         <h5>Number of pages in Category:RTT : $length</h5>
     </div>
@@ -131,7 +124,7 @@ echo <<<HTML
             </table>
         </div>
     </div>
-</div>
+    </div>
 HTML;
 
 include_once __DIR__ . '/footer.php';

@@ -23,6 +23,8 @@ use function Loaders\LoadRequest\load_request;
 use function Results\ResultsIndex\results_loader;
 use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
 use function SQLorAPI\GetDataTab\get_td_or_sql_settings;
+use function SQLorAPI\GetDataTab\get_td_or_sql_langs;
+
 
 function make_drop($uxutable, $code)
 {
@@ -151,8 +153,8 @@ if ($camp === "test") {
     $camp_input .= "<option value='test' selected>test</option>";
 };
 
-
-$lang_list = print_form_start1(MainTables::$x_Langs_table, $code);
+$langs_table = get_td_or_sql_langs();
+$lang_list = print_form_start1($langs_table, $code);
 
 // Login Button
 $login_btn = (!empty($global_username))
