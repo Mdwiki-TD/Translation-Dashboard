@@ -3,12 +3,10 @@
 include_once __DIR__ . '/include_all.php';
 include_once __DIR__ . '/header.php';
 
-
 use Tables\Langs\LangsTables;
 use function Tables\TablesDir\open_td_Tables_file;
 use function SQLorAPI\TopData\get_td_or_sql_top_langs;
 use function SQLorAPI\GetDataTab\get_td_or_sql_langs;
-
 
 if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     ini_set('display_errors', 1);
@@ -24,32 +22,19 @@ $length = $MIS['all'] ?? 0;
 //$date = '15-05-2021';
 $date = $MIS['date'] ?? "";
 
-$Table = [];
 $langs_missing_data = $MIS['langs'] ?? [];
 
-foreach ($langs_missing_data as $code => $tabe) {
-    //$tabe = { 'missing' leeen :  , 'exists' : len( table[langs] ) };
-    $aaa = $tabe['missing'] ?? 0;
-    $Table[$code] = $aaa;
-};
-
 $langs_table = get_td_or_sql_langs();
-$lang_codes = array_column($langs_table, 'code');
-$Table += array_fill_keys(array_filter($lang_codes), $length);
-arsort($Table);
 
 $text = "";
-
 $num = 0;
-
 $tab_done = [];
 
 $translated_data = get_td_or_sql_top_langs("", "", "");
-
 $translated_data = array_column($translated_data, 'targets', 'lang');
 
-foreach ($Table as $langcode => $missing) {
-
+foreach ($langs_table as $_ => $lang_info) {
+    $langcode = $lang_info['code'] ?? '';
     $langcode = LangsTables::$L_change_codes[$langcode] ?? $langcode;
 
     if (!empty(array_intersect([$langcode, $langcode], LangsTables::$L_skip_codes))) {
@@ -62,10 +47,9 @@ foreach ($Table as $langcode => $missing) {
     if (isset($tab_done[$langcode])) continue;
     $tab_done[$langcode] = true;
 
-    $lang_info = $langs_table[$langcode] ?? $langs_table[$langcode] ?? [];
-
     $num += 1;
 
+    $redirects = $lang_info['redirects'] ?? [];
     $autonym = $lang_info['autonym'] ?? '';
 
     if (empty($autonym)) $autonym = "! autonym";
@@ -75,9 +59,13 @@ foreach ($Table as $langcode => $missing) {
     if (empty($langname)) $langname = "! langname";
 
     $exists = $langs_missing_data[$langcode]['exists'] ?? 0;
-
+    if ($exists === 0) {
+        foreach ($redirects as $redirect) {
+            $exists = $langs_missing_data[$redirect]['exists'] ?? 0;
+            if ($exists > 0) break;
+        }
+    }
     $missing = bcsub($length, $exists);
-
     $missing_numb = number_format((int) $missing);
 
     $text .= <<<HTML

@@ -12,7 +12,6 @@ LangsTables::$1L_$2
 */
 
 /*
-"gsw": "als",
 "gswsgs": "bat-smg",
 "fiu-vro": "vro",
 "roa-rup": "rup",
@@ -45,36 +44,7 @@ https://db-names.toolforge.org/
 
 use function SQLorAPI\GetDataTab\get_td_or_sql_langs;
 
-class LangsTables
-{
-    public static $L_skip_codes = [];
-    public static $L_change_codes = [];
-    public static $L_code_to_wikiname = [];
-    public static $L_code_to_lang_name = [];
-    public static $L_lang_to_code = [];
-    public static $L_code_to_lang = [];
-}
-
-LangsTables::$L_skip_codes = ["commons", "species", "ary", "arz", "meta", "en", "simple"];
-
-LangsTables::$L_change_codes = [
-    "nb"    =>    "no",
-    "bat_smg"    =>    "bat-smg",
-    "be-x-old"    =>    "be-tarask",
-    "be_x_old"    =>    "be-tarask",
-    "cbk_zam"    =>    "cbk-zam",
-    "vro"    =>    "fiu-vro",
-    "fiu_vro"    =>    "fiu-vro",
-    "map_bms"    =>    "map-bms",
-    "nds_nl"    =>    "nds-nl",
-    "roa_rup"    =>    "roa-rup",
-    "zh_classical"    =>    "zh-classical",
-    "zh_min_nan"    =>    "zh-min-nan",
-    "zh_yue"    =>    "zh-yue",
-    "yue"    =>    "zh-yue",
-];
-#---
-LangsTables::$L_code_to_wikiname = [
+$L_code_to_wikiname = [
     "aa"    =>    "Afar",
     "ab"    =>    "Аԥсуа",
     "ace"    =>    "Basa Acèh",
@@ -405,6 +375,39 @@ LangsTables::$L_code_to_wikiname = [
     "zh-yue"    =>    "粵語",
     "zu"    =>    "isiZulu",
 ];
+class LangsTables
+{
+    public static $L_skip_codes = [];
+    public static $L_change_codes = [];
+    public static $L_code_to_lang_name = [];
+    public static $L_lang_to_code = [];
+    public static $L_code_to_lang = [];
+}
+
+LangsTables::$L_skip_codes = ["commons", "species", "ary", "arz", "meta", "en", "simple"];
+/*
+bh	        bho
+*/
+
+LangsTables::$L_change_codes = [
+    "gsw" => "als",
+    "sgs" => "bat-smg",
+    "nb"    =>    "no",
+    "bat_smg"    =>    "bat-smg",
+    "be-x-old"    =>    "be-tarask",
+    "be_x_old"    =>    "be-tarask",
+    "cbk_zam"    =>    "cbk-zam",
+    "vro"    =>    "fiu-vro",
+    "fiu_vro"    =>    "fiu-vro",
+    "map_bms"    =>    "map-bms",
+    "nds_nl"    =>    "nds-nl",
+    "roa_rup"    =>    "roa-rup",
+    "zh_classical"    =>    "zh-classical",
+    "zh_min_nan"    =>    "zh-min-nan",
+    "zh_yue"    =>    "zh-yue",
+    "yue"    =>    "zh-yue",
+];
+#---
 $langs_table = get_td_or_sql_langs();
 
 foreach ($langs_table as $_ => $lang_tab) {

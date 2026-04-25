@@ -265,7 +265,7 @@ function get_td_or_sql_langs()
     if (!empty($langs ?? [])) return $langs;
     // ---
     $api_params = ['get' => 'langs'];
-    $query = "SELECT code, autonym, name FROM langs";
+    $query = "SELECT code, autonym, name, redirects FROM langs";
     // ---
     $data = super_function($api_params, [], $query);
     // ---
