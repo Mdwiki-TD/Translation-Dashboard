@@ -22,7 +22,7 @@ CREATE TABLE access_keys (
     access_key varchar(255) NOT NULL,
     access_secret varchar(255) NOT NULL,
     created_at timestamp NOT NULL DEFAULT current_timestamp(),
-    updated_at timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+    updated_at timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
     PRIMARY KEY (id),
     UNIQUE KEY user_name (user_name),
     KEY user_name_hash (user_name_hash)
