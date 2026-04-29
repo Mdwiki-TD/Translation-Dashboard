@@ -60,6 +60,7 @@ final class Settings
             exit(0);
         }
 
+        $this->appEnv    = $appEnv;
         $this->consumerKey    = $consumerKey;
         $this->consumerSecret = $consumerSecret;
         $this->jwtKey         = $jwtKey;

@@ -19,6 +19,7 @@ if (file_exists($vendorAutoload)) {
 }
 
 include_once __DIR__ . '/frontend/include.php';
+include_once __DIR__ . '/backend/settings.php';
 include_once __DIR__ . '/backend/include_first/include.php';
 
 foreach (glob(__DIR__ . "/backend/api_calls/*.php") as $filename) {

@@ -1,23 +1,18 @@
 <?php
-//---
-// include_once __DIR__ . '/../backend/userinfos_wrap.php';
-//---
 
 use Defuse\Crypto\Crypto;
-use Defuse\Crypto\Key;
 use function APICalls\MdwikiSql\fetch_query;
 use OAuth\Settings\Settings;
 
 require_once __DIR__ . '/../include_all.php';
 
-$cookieDomain = $_SERVER['SERVER_NAME'] ?? 'localhost';
-$secure = ($cookieDomain === 'localhost') ? false : true;
+$settings = Settings::getInstance();
 
-if ($cookieDomain != 'localhost') {
+if ($settings->is_production()) {
     if (session_status() === PHP_SESSION_NONE) {
         session_name("mdwikitoolforgeoauth");
         // Ensure $domain is defined, fallback to server name
-        session_set_cookie_params(0, "/", $cookieDomain, $secure, $secure);
+        session_set_cookie_params(0, "/", $settings->domain, true, true);
     }
 }
 
@@ -84,20 +79,22 @@ function ba_alert($text)
 }
 
 if (session_status() === PHP_SESSION_NONE) session_start();
-//---
+
 $username = get_from_cookies('username');
-//---
-if ($cookieDomain == 'localhost') {
+
+if ($settings->is_development()) {
     $username = $_SESSION['username'] ?? '';
-} elseif (!empty($username)) {
+}
+
+if ($settings->is_production()) {
     $access = get_access_from_db($username);
     if (empty($access)) {
         echo ba_alert("No access keys found. Login again.");
         setcookie('username', '', [
             'expires' => time() - 3600,
             'path' => '/',
-            'domain' => $cookieDomain,
-            'secure' => $secure,
+            'domain' => $settings->domain,
+            'secure' => true,
             'httponly' => true,
             'samesite' => 'Lax',
         ]);
@@ -105,8 +102,8 @@ if ($cookieDomain == 'localhost') {
         unset($_SESSION['username']);
     }
 }
-//---
+
 $global_username = $username;
-//---
+
 define('global_username', $global_username);
 $GLOBALS['global_username'] = $global_username;
