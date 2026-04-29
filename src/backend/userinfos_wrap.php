@@ -86,7 +86,7 @@ if ($settings->is_development()) {
     $username = $_SESSION['username'] ?? '';
 }
 
-if ($settings->is_production()) {
+if ($settings->is_production() && !empty($username)) {
     $access = get_access_from_db($username);
     if (empty($access)) {
         echo ba_alert("No access keys found. Login again.");
