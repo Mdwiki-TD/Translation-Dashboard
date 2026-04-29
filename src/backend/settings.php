@@ -60,7 +60,8 @@ final class Settings
             http_response_code(500);
             error_log('Required configuration directives not found in environment variables!');
             echo 'Required configuration directives not found';
-            exit(0);
+            // exit(0);
+            throw new \RuntimeException('Required configuration directives not found in environment variables!');
         }
 
         $this->appEnv    = $appEnv;
