@@ -52,8 +52,8 @@ function get_access_from_db($user)
 
     if ($result) {
         return [
-            'access_key' => decode_value($result[0]['access_key']),
-            'access_secret' => decode_value($result[0]['access_secret'])
+            'access_key' => decode_value($result[0]['access_key'], "decrypt"),
+            'access_secret' => decode_value($result[0]['access_secret'], "decrypt")
         ];
     }
     return [];
