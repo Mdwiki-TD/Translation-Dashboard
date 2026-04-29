@@ -9,6 +9,8 @@ use function APICalls\TDApi\compare_it;
 
 */
 
+use OAuth\Settings\Settings;
+
 function test_print_o($s)
 {
     if (isset($_COOKIE['test']) && $_COOKIE['test'] == 'x') {
@@ -86,7 +88,10 @@ function post_url(string $endPoint, array $params = []): string
 
 function get_td_api(array $params): array
 {
-    $endPoint = (getenv('APP_ENV') === 'production') ? 'https://mdwiki.toolforge.org' : 'http://localhost:9001';
+    $settings = Settings::getInstance();
+
+    // $endPoint = (getenv('APP_ENV') === 'production') ? 'https://mdwiki.toolforge.org' : 'http://localhost:9001';
+    $endPoint = $settings->ServerUrl;
     //---
     $endPoint .= '/api.php';
     //---

@@ -2,6 +2,9 @@
 
 
 namespace Results\GetCats;
+
+use OAuth\Settings\Settings;
+
 /*
 use function Results\GetCats\get_cats_from_cache;
 use function Results\GetCats\get_mdwiki_cat_members;
@@ -387,17 +390,18 @@ function make_options(): array
         $debug = false;
     }
 
-	// ---
-    // $tablesDir = getenv("HOME") . '/public_html/td/Tables';
-    // if (substr(__DIR__, 0, 2) == 'I:') $tablesDir = 'I:/MD_TOOLS/MDWIKI_MAIN_REPO/public_html/td/Tables';
-	// ---
-    $home_dir = getenv("HOME") ?: 'I:/MD_TOOLS/MDWIKI_MAIN_REPO';
-    $tablesDir = $home_dir . '/public_html/td/Tables';
+    // ---
+    // $home_dir = getenv("HOME") ?: 'I:/MD_TOOLS/MDWIKI_MAIN_REPO';
+    // $tablesDir = $home_dir . '/public_html/td/Tables';
+    // ---
+    $settings = Settings::getInstance();
+    $tables_path = $settings->TablesPath;
+    // ---
 
     $options = [
         'nocache' => $nocache,
         'debug' => $debug,
-        'tablesDir' => $tablesDir,
+        'tablesDir' => $tables_path,
     ];
 
     return $options;

@@ -10,6 +10,7 @@ use function Leaderboard\LeaderTables\makeLangTable;
 
 */
 
+use OAuth\Settings\Settings;
 use function SQLorAPI\GetDataTab\get_td_or_sql_langs;
 
 function createNumbersTable($c_user, $c_articles, $c_words, $c_langs, $c_views)
@@ -43,7 +44,9 @@ function makeLangTable($lang_table)
         return $b["count"] <=> $a["count"];
     });
     // ---
-    $addcat = getenv('APP_ENV') !== 'production' && (isset($_GET['nocat']));
+
+    $settings = Settings::getInstance();
+    $addcat = !$settings->is_production() && (isset($_GET['nocat']));
 
     $cac = ($addcat == true) ? '<th>cat</th>' : '';
 

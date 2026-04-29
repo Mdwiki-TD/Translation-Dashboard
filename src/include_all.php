@@ -1,5 +1,6 @@
 <?PHP
 
+# don't use OAuth\Settings\Settings here, Instance is not created yet
 $env = getenv('APP_ENV') ?: ($_ENV['APP_ENV'] ?? 'development');
 
 if ($env === 'development' && file_exists(__DIR__ . '/load_env.php')) {
@@ -19,6 +20,7 @@ if (file_exists($vendorAutoload)) {
 }
 
 include_once __DIR__ . '/frontend/include.php';
+include_once __DIR__ . '/backend/settings.php';
 include_once __DIR__ . '/backend/include_first/include.php';
 
 foreach (glob(__DIR__ . "/backend/api_calls/*.php") as $filename) {

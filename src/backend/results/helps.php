@@ -14,7 +14,7 @@ use function Results\ResultsHelps\create_summary;
 */
 
 use function TD\Render\TestPrint\test_print;
-use function Tables\TablesDir\open_td_Tables_file;
+use function Tables\TablesDir\open_td_tables_file;
 use function SQLorAPI\Funcs\exists_by_qids_query;
 use function Results\GetCats\get_mdwiki_cat_members;
 use function TD\Render\Html\make_mdwiki_cat_url;
@@ -46,7 +46,7 @@ function get_lang_exists_pages_from_cache($code)
     // example of result like: [ "Spontaneous bacterial peritonitis", "Dronedarone", ... ]
     // ---
     $json_file = "cash_exists/$code.json";
-    $exists = open_td_Tables_file($json_file);
+    $exists = open_td_tables_file($json_file);
 
     return $exists;
 }
