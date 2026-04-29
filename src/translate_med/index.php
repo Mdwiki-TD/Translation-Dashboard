@@ -1,11 +1,11 @@
 <?php
-//---
+
 if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 }
-//---
+
 include_once __DIR__ . '/../backend/userinfos_wrap.php';
 include_once __DIR__ . '/../include_all.php';
 include_once __DIR__ . '/../backend/others/db_insert.php';
@@ -85,13 +85,7 @@ if (!empty($title_o) && !empty($coden)) {
     $camp    = rawurldecode($camp);
     $title_o = rawurldecode($title_o);
     // ---
-    // if not user in $users_no_inprocess
-    // if (!in_array($useree, $users_no_inprocess)) {
-    // ---
     if (($users_no_inprocess[$useree] ?? 0) != 1) {
-        // ---
-        // insertPage($title_o, $word, $tr_type, $cat, $coden, $user_decoded);
-        // ---
         insertPage_inprocess($title_o, $word, $tr_type, $cat, $coden, $user_decoded);
     }
     // ---
@@ -107,4 +101,3 @@ echo <<<HTML
 
 </html>
 HTML;
-// include_once __DIR__ . '/../footer.php';
