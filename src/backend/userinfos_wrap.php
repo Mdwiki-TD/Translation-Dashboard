@@ -6,6 +6,7 @@
 use Defuse\Crypto\Crypto;
 use Defuse\Crypto\Key;
 use function APICalls\MdwikiSql\fetch_query;
+use OAuth\Settings\Settings;
 
 require_once __DIR__ . '/../include_all.php';
 
@@ -20,21 +21,19 @@ if ($cookieDomain != 'localhost') {
     }
 }
 
-function decode_value($value)
+function decode_value($value, $key_type = "cookie")
 {
-    $value = trim((string)$value);
-    if ($value === '') {
-        return '';
-    }
-    $cookieKeyRaw = getenv('COOKIE_KEY') ?: ($_ENV['COOKIE_KEY'] ?? '');
-    if (empty($cookieKeyRaw)) {
-        return '';
-    }
+    if (empty(trim($value))) return "";
+
+    $settings = Settings::getInstance();
+    $use_key  = ($key_type === "decrypt") ? $settings->decryptKey : $settings->cookieKey;
+
+    if ($use_key === null) return "";
+
     try {
-        $cookieKey = Key::loadFromAsciiSafeString($cookieKeyRaw);
-        return Crypto::decrypt($value, $cookieKey);
-    } catch (\Throwable $e) {
-        return '';
+        return Crypto::decrypt($value, $use_key);
+    } catch (\Exception $e) {
+        return "";
     }
 }
 
