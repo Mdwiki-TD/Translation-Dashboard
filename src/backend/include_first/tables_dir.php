@@ -3,7 +3,7 @@
 namespace Tables\TablesDir;
 /*
 
-use function Tables\TablesDir\open_td_Tables_file;
+use function Tables\TablesDir\open_td_tables_file;
 
 */
 
@@ -13,20 +13,22 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 	error_reporting(E_ALL);
 };
 
+use OAuth\Settings\Settings;
 use function TD\Render\TestPrint\test_print;
 
-function open_td_Tables_file($path, $echo = true)
+function open_td_tables_file($path, $echo = true)
 {
-	// $tables_dir = getenv("HOME") . '/public_html/td/Tables';
-	// if (substr(__DIR__, 0, 2) == 'I:') $tables_dir = 'I:/MD_TOOLS/MDWIKI_MAIN_REPO/public_html/td/Tables';
 	//---
-	$home_dir = getenv("HOME") ?: 'I:/MD_TOOLS/MDWIKI_MAIN_REPO';
-	$tables_dir = $home_dir . '/public_html/td/Tables';
+	// $home_dir = getenv("HOME") ?: 'I:/MD_TOOLS/MDWIKI_MAIN_REPO';
+	// $json_tables_path = $home_dir . '/public_html/td/Tables';
 	//---
-	$file_path = "$tables_dir/$path";
+	$settings = Settings::getInstance();
+	$json_tables_path = $settings->TablesPath;
+	//---
+	$file_path = "$json_tables_path/jsons/$path";
 	//---
 	if (!is_file($file_path)) {
-		test_print("---- open_td_Tables_file: file $file_path does not exist");
+		test_print("---- open_td_tables_file: file $file_path does not exist");
 		return [];
 	}
 	$contents = file_get_contents($file_path);
@@ -45,7 +47,7 @@ function open_td_Tables_file($path, $echo = true)
 		$len = count($result);
 		if (isset($result['list'])) $len = count($result['list']);
 		// ---
-		test_print("---- open_td_Tables_file File: $file_path: Exists size: $len");
+		test_print("---- open_td_tables_file File: $file_path: Exists size: $len");
 	}
 
 	return $result;
