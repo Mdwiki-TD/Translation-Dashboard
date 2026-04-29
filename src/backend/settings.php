@@ -13,6 +13,7 @@ use Defuse\Crypto\Key;
  * @property string $apiUrl
  * @property string $consumerKey
  * @property string $consumerSecret
+ * @property string $appEnv
  * @property Key|null $cookieKey
  * @property Key|null $decryptKey
  * @property string $jwtKey
@@ -27,6 +28,7 @@ final class Settings
     public string $apiUrl;
     public string $consumerKey;
     public string $consumerSecret;
+    public string $appEnv;
     public ?Key   $cookieKey;
     public ?Key   $decryptKey;
     public string $jwtKey;
@@ -41,6 +43,7 @@ final class Settings
         $this->oauthUrl  = 'https://meta.wikimedia.org/w/index.php?title=Special:OAuth';
         $this->apiUrl    = preg_replace('/index\.php.*/', 'api.php', $this->oauthUrl);
 
+        $appEnv         = $this->envVar('APP_ENV');
         $consumerKey    = $this->envVar('CONSUMER_KEY');
         $consumerSecret = $this->envVar('CONSUMER_SECRET');
         $cookieKey      = $this->envVar('COOKIE_KEY');
@@ -91,6 +94,20 @@ final class Settings
 
         // 4. Build the final absolute URI
         return $protocol . "://" . $host;
+    }
+    /**
+     */
+    public function is_development()
+    {
+        return $this->appEnv === "development";
+    }
+    public function is_production()
+    {
+        return $this->appEnv === "production";
+    }
+    public function is_testing()
+    {
+        return $this->appEnv === "testing";
     }
     /**
      * Generates a dynamic Callback URL that works seamlessly on Windows (localhost)
