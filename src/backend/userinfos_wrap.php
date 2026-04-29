@@ -27,7 +27,7 @@ function decode_value($value, $key_type = "cookie")
 
     try {
         return Crypto::decrypt($value, $use_key);
-    } catch (\Exception $e) {
+    } catch (\Throwable $e) {
         return "";
     }
 }
