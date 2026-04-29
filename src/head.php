@@ -6,17 +6,19 @@ if (isset($_REQUEST["test"])) {
     error_reporting(E_ALL);
 }
 
+use OAuth\Settings\Settings;
+
 function get_host()
 {
-    // $hoste = get_host();
     //---
     static $cached_host = null;
     //---
     if ($cached_host !== null) {
-        return $cached_host; // استخدم القيمة المحفوظة
+        return $cached_host;
     }
     //---
-    $hoste = (getenv('APP_ENV') === 'production')
+    $settings = Settings::getInstance(); // $settings->is_production()
+    $hoste = ($settings->is_production())
         ? "https://tools-static.wmflabs.org/cdnjs"
         : "https://cdnjs.cloudflare.com";
     //---
@@ -26,9 +28,9 @@ function get_host()
 
         curl_setopt_array($ch, [
             CURLOPT_HEADER => true,
-            CURLOPT_NOBODY => true, // لا نريد تحميل الجسم
-            CURLOPT_RETURNTRANSFER => true, // لمنع الطباعة
-            CURLOPT_TIMEOUT => 3, // المهلة القصوى للاتصال
+            CURLOPT_NOBODY => true,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT => 3,
             CURLOPT_CONNECTTIMEOUT => 2,
             CURLOPT_SSL_VERIFYPEER => true,
             CURLOPT_SSL_VERIFYHOST => 2,
@@ -42,7 +44,6 @@ function get_host()
 
         curl_close($ch);
 
-        // إذا فشل الاتصال أو لم تكن الاستجابة ضمن 200–399، نستخدم cdnjs
         if ($result === false || !empty($curlError) || $httpCode < 200 || $httpCode >= 400) {
             $hoste = "https://cdnjs.cloudflare.com";
         }
