@@ -4,7 +4,7 @@ include_once __DIR__ . '/include_all.php';
 include_once __DIR__ . '/header.php';
 
 use Tables\Langs\LangsTables;
-use function Tables\TablesDir\open_td_Tables_file;
+use function Tables\TablesDir\open_td_tables_file;
 use function SQLorAPI\TopData\get_td_or_sql_top_langs;
 use function SQLorAPI\GetDataTab\get_td_or_sql_langs;
 
@@ -14,7 +14,7 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     error_reporting(E_ALL);
 };
 
-$MIS = open_td_Tables_file("/jsons/missing.json"); //{'all' : len(listenew), 'date' : Day_History, 'langs' : {} }
+$MIS = open_td_tables_file("missing.json"); //{'all' : len(listenew), 'date' : Day_History, 'langs' : {} }
 
 //$length = file_get_contents("len.csv");
 $length = $MIS['all'] ?? 0;
