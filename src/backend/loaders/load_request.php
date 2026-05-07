@@ -16,7 +16,7 @@ use Tables\SqlTables\TablesSql;
 use Tables\Langs\LangsTables;
 use function SQLorAPI\GetDataTab\get_camps_to_cat;
 
-function load_request($s_campaign_input_list, $allow_whole_translate)
+function load_request($campaigns_input_list, $allow_whole_translate)
 {
     //---
     $errors = [];
@@ -66,7 +66,7 @@ function load_request($s_campaign_input_list, $allow_whole_translate)
         $_SESSION['code'] = $code;
     }
     //---
-    if ($camp && !in_array($camp, $s_campaign_input_list)) {
+    if ($camp && !in_array($camp, $campaigns_input_list)) {
         $errors[] = "camp ($camp) not valid.";
         $camp = "";
     }
