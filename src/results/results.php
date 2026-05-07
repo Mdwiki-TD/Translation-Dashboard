@@ -19,8 +19,31 @@ use function Results\ResultsTableInprocess\make_results_table_inprocess;
 use function Results\ResultsTableExists\make_results_table_exists;
 use function SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
 use function TD\Render\admin_text;
-use function Tables\SqlTables\load_translate_type;
+use function SQLorAPI\GetDataTab\get_td_or_sql_translate_type;
 
+function load_translate_type($ty)
+{
+    static $full_translates = [];
+    static $no_lead_translates = [];
+
+    if (empty($full_translates)) {
+        $rere = get_td_or_sql_translate_type();
+        //---
+        foreach ($rere as $k => $tab) {
+            // if tt_full == 1 then add tt_title to $full_translates
+            if ($tab['tt_full'] == 1) {
+                $full_translates[] = $tab['tt_title'];
+            }
+            if ($tab['tt_lead'] == 0) {
+                $no_lead_translates[] = $tab['tt_title'];
+            }
+        }
+    }
+    // ---
+    $tab = ($ty == 'full') ? $full_translates : $no_lead_translates;
+    // ---
+    return $tab;
+}
 function card_result($title, $text, $title2 = "")
 {
     return <<<HTML
@@ -131,27 +154,19 @@ function Results_tables($tab, $show_exists, $translation_button, $full_tr_user)
 function results_loader($data)
 {
     // ---
-    $camp       = $data["camp"];
-    $code       = $data["code"];
-    $cat        = $data["cat"];
+    $camp        = $data["camp"];
+    $code        = $data["code"];
+    $cat         = $data["cat"];
+    $show_exists = $data["show_exists"];
     // ---
-    $global_username = $data["global_username"];
-    $filter_sparql   = $data["filter_sparql"];
-    $new_result      = $data["new_result"];
+    $global_username  = $data["global_username"];
+    $filter_sparql    = $data["filter_sparql"];
+    $new_result       = $data["new_result"];
+    $translate_button = $data["translation_button"];
     // ---
     $depth  = TablesSql::$s_camp_input_depth[$camp] ?? 1;
     $cat2   = TablesSql::$s_camps_cat2[$camp] ?? '';
     // ---
-    $user_is_coordinator = $GLOBALS['user_is_coordinator'] ?? false;
-    //---
-    $show_exists = ($user_is_coordinator || isset($_GET['exists']));
-    //---
-    $translation_button = TablesSql::$s_settings['translation_button_in_progress_table']['value'] ?? '0';
-    //---
-    if ($translation_button != "0") {
-        $translation_button = $user_is_coordinator ? '1' : '0';
-    };
-    //---
     $full_translators = get_td_or_sql_full_translators();
     $full_translators = array_column($full_translators, 'is_active', 'user');
     //---
@@ -176,5 +191,5 @@ function results_loader($data)
         "test" => $data["test"]
     ];
     //---
-    return Results_tables($tab, $show_exists, $translation_button, $full_tr_user);
+    return Results_tables($tab, $show_exists, $translate_button, $full_tr_user);
 }

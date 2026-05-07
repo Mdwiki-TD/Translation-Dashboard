@@ -13,6 +13,7 @@ use function Results\GetCats\get_mdwiki_cat_members;
 use function TD\Render\TestPrint\test_print;
 use function Results\ResultsHelps\get_lang_exists_pages_from_cache;
 use function Results\SparqlBot\filter_existing_out;
+use function SQLorAPI\GetDataTab\get_qids;
 
 function get_cat_exists_and_missing($cat, $depth, $code, $use_cache = true): array
 {
@@ -35,7 +36,11 @@ function get_cat_exists_and_missing($cat, $depth, $code, $use_cache = true): arr
 
     $missing = array_unique($missing);
     // ---
-    [$exists, $missing] = filter_existing_out($missing, $exists, $code);
+    $missing_items = array_values($missing);
+    $qids_tab = get_qids($missing_items);
+    $with_qids = $qids_tab['with_qids'];
+    // ---
+    [$exists, $missing] = filter_existing_out($missing_items, $exists, $code, $with_qids);
     // ---
     // test_print("End of get_cat exists_and_missing <br>===============================");
 

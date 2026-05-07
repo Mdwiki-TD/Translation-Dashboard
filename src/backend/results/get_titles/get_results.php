@@ -17,6 +17,8 @@ use function SQLorAPI\Funcs\get_lang_pages_by_cat;
 use function Results\ResultsHelps\make_exists_targets;
 use function Results\ResultsHelps\filter_items_missing_cat2;
 use function Results\ResultsHelps\create_summary;
+use function SQLorAPI\GetDataTab\get_qids;
+use function SQLorAPI\GetDataTab\get_camps_to_cat;
 
 
 function getinprocess($missing, $code, $cat)
@@ -39,13 +41,22 @@ function get_results($cat, $camp, $depth, $code, $filter_sparql, $cat2): array
 {
     // Get existing and missing pages
     // ---
+    if (empty($cat) && !empty($camp)) {
+        $s_camp_to_cat = get_camps_to_cat();
+        $cat = $s_camp_to_cat[$camp] ?? '';
+    }
+    // ---
     $exists_via_td = get_lang_pages_by_cat($code, $cat);
     $exists_via_td = array_column($exists_via_td, null, "title");
     //---
     [$items_exists, $items_missing] = get_cat_exists_and_missing($cat, $depth, $code, true);
     // ---
     if (!empty($filter_sparql)) {
-        [$items_exists, $items_missing] = filter_existing_out($items_missing, $items_exists, $code);
+        $missings = array_values($items_missing);
+        $qids_tab = get_qids($missings);
+        $with_qids = $qids_tab['with_qids'];
+        // ---
+        [$items_exists, $items_missing] = filter_existing_out($missings, $items_exists, $code, $with_qids);
     }
     // ---
     $items_exists = make_exists_targets($exists_via_td, $items_exists, $code);
@@ -79,9 +90,9 @@ function get_results($cat, $camp, $depth, $code, $filter_sparql, $cat2): array
     ksort($items_exists);
 
     return [
+        "ix" => $summary,
         "inprocess" => $inprocess,
         "exists" => $items_exists,
         "missing" => $missing,
-        "ix" => $summary,
     ];
 }

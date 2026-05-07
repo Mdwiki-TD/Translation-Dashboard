@@ -6,6 +6,7 @@ namespace SQLorAPI\GetDataTab;
 
 Usage:
 
+use function SQLorAPI\GetDataTab\get_camps_to_cat;
 use function SQLorAPI\GetDataTab\get_td_or_sql_translate_type;
 use function SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
 use function SQLorAPI\GetDataTab\get_td_or_sql_users_no_inprocess;
@@ -272,4 +273,43 @@ function get_td_or_sql_langs()
     $langs = array_column($data, null, 'code');
     // ---
     return $langs;
+}
+
+function get_qids($list)
+{
+    //---
+    $sq_qids = get_td_or_sql_qids();
+    //---
+    $with_qids = [];
+    $no_qids = [];
+    // ---
+    foreach ($list as $member) {
+        $qid = $sq_qids[$member] ?? 0;
+        if ($qid) {
+            $with_qids[$member] = $qid;
+        } else {
+            $no_qids[] = $member;
+        }
+    }
+    // ---
+    return [
+        "with_qids" => $with_qids,
+        "no_qids" => $no_qids,
+    ];
+}
+function get_camps_to_cat()
+{
+    static $s_camp_to_cat = [];
+    //---
+    if (!empty($s_camp_to_cat)) return $s_camp_to_cat;
+    //---
+    $categories_tab = get_td_or_sql_categories();
+    //---
+    foreach ($categories_tab as $k => $tab) {
+        if (!empty($tab['category']) && !empty($tab['campaign'])) {
+            $s_camp_to_cat[$tab['campaign']] = $tab['category'];
+        };
+    };
+    // ---
+    return $s_camp_to_cat;
 }

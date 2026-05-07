@@ -14,12 +14,12 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     error_reporting(E_ALL);
 };
 
-use Tables\SqlTables\TablesSql;
 use function TD\Render\Html\makeDropdown;
 use function SQLorAPI\Funcs\get_pages_with_pupdate;
 use function SQLorAPI\TopData\get_td_or_sql_status;
 use function SQLorAPI\GetDataTab\get_td_or_sql_projects;
 use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
+use function SQLorAPI\GetDataTab\get_camps_to_cat;
 
 function input_group($title, $rows): string
 {
@@ -115,7 +115,8 @@ function leaderboard_filter($year, $month, $user_group, $camp, $action = "leader
     //---
     $yearDropdown = make_year_dropdown($year);
     //---
-    $cat = TablesSql::$s_camp_to_cat[$camp] ?? '';
+    $s_camp_to_cat = get_camps_to_cat();
+    $cat = $s_camp_to_cat[$camp] ?? '';
     //---
     $monthDropdown = "";
     //---

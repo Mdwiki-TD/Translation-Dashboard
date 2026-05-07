@@ -16,7 +16,6 @@ use function Leaderboard\Index\main_leaderboard;
 
 */
 
-use Tables\SqlTables\TablesSql;
 use function TD\Render\Html\makeColSm4;
 use function TD\Render\Html\makeCol;
 use function Leaderboard\Graph\print_graph_for_table;
@@ -29,6 +28,7 @@ use function SQLorAPI\TopData\get_td_or_sql_top_lang_of_users;
 use function SQLorAPI\TopData\get_td_or_sql_top_langs;
 use function SQLorAPI\TopData\get_td_or_sql_top_users;
 use function SQLorAPI\TopData\get_td_or_sql_status;
+use function SQLorAPI\GetDataTab\get_camps_to_cat;
 
 function print_cat_table($year, $user_group, $camp, $cat, $month = null): string
 {
@@ -90,7 +90,9 @@ function print_cat_table($year, $user_group, $camp, $cat, $month = null): string
 function main_leaderboard($year, $camp, $user_group, $month = null): string
 {
     //---
-    $cat = TablesSql::$s_camp_to_cat[$camp] ?? '';
+    $s_camp_to_cat = get_camps_to_cat();
+    //---
+    $cat = $s_camp_to_cat[$camp] ?? '';
     //---
     $filter_form = leaderboard_filter($year, $month, $user_group, $camp);
     //---

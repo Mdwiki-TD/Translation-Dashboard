@@ -73,24 +73,24 @@ $settings = array_column($settings, 'value', 'title');
 $allow_whole_translate = $settings['allow_type_of_translate'] ?? '1';
 $load_new_result       = $settings['load_new_result'] ?? '';
 
-$s_campaign_input_list = [];
+$campaigns_input_list = [];
 
-$s_main_cat = "";
-$s_main_camp = "";
+$main_cat = "";
+$main_camp = "";
 
 foreach ($categories_tab as $k => $tab) {
     if (!empty($tab['category']) && !empty($tab['campaign'])) {
-        $s_campaign_input_list[$tab['campaign']] = $tab['campaign'];
+        $campaigns_input_list[$tab['campaign']] = $tab['campaign'];
         $is_default  = $tab['is_default'];
-        if ($is_default == 1 || $is_default == '1') $s_main_cat = $tab['category'];
-        if ($is_default == 1 || $is_default == '1') $s_main_camp = $tab['campaign'];
+        if ($is_default == 1 || $is_default == '1') $main_cat = $tab['category'];
+        if ($is_default == 1 || $is_default == '1') $main_camp = $tab['campaign'];
     };
 };
 
 // =======================
 // Load Request
 // =======================
-$req = load_request($s_campaign_input_list, $allow_whole_translate);
+$req = load_request($campaigns_input_list, $allow_whole_translate);
 
 $test              = $req['test'] ?? '';
 $code              = $req['code'] ?? '';
@@ -99,8 +99,8 @@ $filter_sparql     = $req['filter_sparql_x'] ?? true;
 $code_lang_name    = $req['code_lang_name'] ?? '';
 $errors            = $req['errors'];
 
-$cat  = $req['cat']  ?: $s_main_cat;
-$camp = $req['camp'] ?: $s_main_camp;
+$cat  = $req['cat']  ?: $main_cat;
+$camp = $req['camp'] ?: $main_camp;
 
 // =======================
 // Normalize Data
@@ -147,7 +147,7 @@ if ($allow_whole_translate == '1') {
 };
 
 $camp_ch = htmlspecialchars($camp, ENT_QUOTES);
-$camp_input = make_drop($s_campaign_input_list, $camp_ch);
+$camp_input = make_drop($campaigns_input_list, $camp_ch);
 
 if ($camp === "test") {
     $camp_input .= "<option value='test' selected>test</option>";
@@ -245,6 +245,15 @@ echo "<div class='container-fluid'>";
 // $doit     = $req['doit'] ?? false;
 // if ($doit) {
 if ($camp && $code) {
+    $user_coord = $GLOBALS['user_is_coordinator'] ?? false;
+    $show_exists = ($user_coord || isset($_GET['exists']));
+    // ---
+    $translation_button = $settings['translation_button_in_progress_table']['value'] ?? '0';
+    //---
+    if ($translation_button != "0") {
+        $translation_button = $user_coord ? '1' : '0';
+    };
+    //---
     $data = [
         "camp" => $camp,
         "code" => $code,
@@ -254,7 +263,11 @@ if ($camp && $code) {
         "global_username" => $global_username,
         "filter_sparql" => $filter_sparql,
         "new_result" => $load_new_result,
-        "user_coord" => $GLOBALS['user_is_coordinator'] ?? false,
+        "user_coord" => $user_coord,
+
+        "show_exists" => $show_exists,
+        "translation_button" => $translation_button,
+
         "test" => $test
     ];
 

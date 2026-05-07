@@ -14,8 +14,9 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 
 use Tables\SqlTables\TablesSql;
 use Tables\Langs\LangsTables;
+use function SQLorAPI\GetDataTab\get_camps_to_cat;
 
-function load_request($s_campaign_input_list, $allow_whole_translate)
+function load_request($campaigns_input_list, $allow_whole_translate)
 {
     //---
     $errors = [];
@@ -41,7 +42,8 @@ function load_request($s_campaign_input_list, $allow_whole_translate)
     $camp = trim($camp);
     //---
     if (empty($cat) && !empty($camp)) {
-        $cat = TablesSql::$s_camp_to_cat[$camp] ?? $cat;
+        $s_camp_to_cat = get_camps_to_cat();
+        $cat = $s_camp_to_cat[$camp] ?? $cat;
     }
     //---
     if (!empty($cat) && empty($camp)) {
@@ -64,7 +66,7 @@ function load_request($s_campaign_input_list, $allow_whole_translate)
         $_SESSION['code'] = $code;
     }
     //---
-    if ($camp && !in_array($camp, $s_campaign_input_list)) {
+    if ($camp && !in_array($camp, $campaigns_input_list)) {
         $errors[] = "camp ($camp) not valid.";
         $camp = "";
     }
