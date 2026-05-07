@@ -9,6 +9,7 @@ use function Results\GetResults\get_results;
 
 */
 
+use Tables\SqlTables\TablesSql;
 use function Results\FetchCatData\get_cat_exists_and_missing;
 use function Results\SparqlBot\filter_existing_out;
 use function TD\Render\TestPrint\test_print;
@@ -38,6 +39,10 @@ function getinprocess($missing, $code, $cat)
 function get_results($cat, $camp, $depth, $code, $filter_sparql, $cat2): array
 {
     // Get existing and missing pages
+    // ---
+    if (empty($cat) && !empty($camp)) {
+        $cat = TablesSql::$s_camp_to_cat[$camp] ?? '';
+    }
     // ---
     $exists_via_td = get_lang_pages_by_cat($code, $cat);
     $exists_via_td = array_column($exists_via_td, null, "title");
