@@ -6,6 +6,7 @@ namespace SQLorAPI\GetDataTab;
 
 Usage:
 
+use function SQLorAPI\GetDataTab\get_camps_to_cat;
 use function SQLorAPI\GetDataTab\get_td_or_sql_translate_type;
 use function SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
 use function SQLorAPI\GetDataTab\get_td_or_sql_users_no_inprocess;
@@ -295,4 +296,20 @@ function get_qids($list)
         "with_qids" => $with_qids,
         "no_qids" => $no_qids,
     ];
+}
+function get_camps_to_cat()
+{
+    static $s_camp_to_cat = [];
+    //---
+    if (!empty($s_camp_to_cat)) return $s_camp_to_cat;
+    //---
+    $categories_tab = get_td_or_sql_categories();
+    //---
+    foreach ($categories_tab as $k => $tab) {
+        if (!empty($tab['category']) && !empty($tab['campaign'])) {
+            $s_camp_to_cat[$tab['campaign']] = $tab['category'];
+        };
+    };
+    // ---
+    return $s_camp_to_cat;
 }

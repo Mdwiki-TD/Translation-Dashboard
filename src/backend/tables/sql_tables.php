@@ -26,7 +26,6 @@ class TablesSql
     //---
     public static $s_cat_titles = [];
     public static $s_cat_to_camp = [];
-    public static $s_camp_to_cat = [];
     //---
     public static $s_main_cat = ''; # RTT
     public static $s_main_camp = ''; # Main
@@ -72,12 +71,10 @@ foreach ($categories_tab as $k => $tab) {
         TablesSql::$s_camps_cat2[$tab['campaign']] = $tab['category2'];
         //---
         TablesSql::$s_cat_to_camp[$tab['category']] = $tab['campaign'];
-        TablesSql::$s_camp_to_cat[$tab['campaign']] = $tab['category'];
         //---
         TablesSql::$s_catinput_list[$tab['category']] = $tab['category'];
         TablesSql::$s_campaign_input_list[$tab['campaign']] = $tab['campaign'];
         // ---
-        // $catinput_depth[$tab['category']] = $tab['depth'];
         TablesSql::$s_camp_input_depth[$tab['campaign']] = $tab['depth'];
         //---
         $is_default  = $tab['is_default'];

@@ -9,7 +9,6 @@ use function Results\GetResults\get_results_new; // get_results_new($cat, $camp,
 
 */
 
-use Tables\SqlTables\TablesSql;
 use function Results\FetchCatDataNew\get_cat_exists_and_missing_new;
 use function Results\SparqlBot\filter_existing_out_new;
 use function TD\Render\TestPrint\test_print;
@@ -19,6 +18,7 @@ use function Results\ResultsHelps\filter_items_missing_cat2;
 use function Results\ResultsHelps\create_summary;
 use function SQLorAPI\Funcs\exists_by_qids_query;
 use function SQLorAPI\GetDataTab\get_qids;
+use function SQLorAPI\GetDataTab\get_camps_to_cat;
 
 
 function make_exists_targets_new($exists, $code, $exists_targets_before)
@@ -105,7 +105,8 @@ function get_results_new($cat, $camp, $depth, $code, $filter_sparql, $cat2): arr
     // Get existing and missing pages
     // ---
     if (empty($cat) && !empty($camp)) {
-        $cat = TablesSql::$s_camp_to_cat[$camp] ?? '';
+        $s_camp_to_cat = get_camps_to_cat();
+        $cat = $s_camp_to_cat[$camp] ?? '';
     }
     // ---
     $exists_via_td = get_lang_pages_by_cat($code, $cat);
