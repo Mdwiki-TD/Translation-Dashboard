@@ -90,9 +90,9 @@ function get_results($cat, $camp, $depth, $code, $filter_sparql, $cat2): array
     ksort($items_exists);
 
     return [
+        "ix" => $summary,
         "inprocess" => $inprocess,
         "exists" => $items_exists,
         "missing" => $missing,
-        "ix" => $summary,
     ];
 }

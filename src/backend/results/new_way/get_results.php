@@ -177,9 +177,9 @@ function get_results_new($cat, $camp, $depth, $code, $filter_sparql, $cat2): arr
     ksort($items_exists);
 
     return [
+        "ix" => $summary,
         "inprocess" => $inprocess,
         "exists" => $items_exists,
         "missing" => $missing,
-        "ix" => $summary,
     ];
 }
