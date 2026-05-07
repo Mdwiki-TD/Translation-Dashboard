@@ -245,6 +245,15 @@ echo "<div class='container-fluid'>";
 // $doit     = $req['doit'] ?? false;
 // if ($doit) {
 if ($camp && $code) {
+    $user_coord = $GLOBALS['user_is_coordinator'] ?? false;
+    $show_exists = ($user_coord || isset($_GET['exists']));
+    // ---
+    $translation_button = $settings['translation_button_in_progress_table']['value'] ?? '0';
+    //---
+    if ($translation_button != "0") {
+        $translation_button = $user_coord ? '1' : '0';
+    };
+    //---
     $data = [
         "camp" => $camp,
         "code" => $code,
@@ -254,7 +263,11 @@ if ($camp && $code) {
         "global_username" => $global_username,
         "filter_sparql" => $filter_sparql,
         "new_result" => $load_new_result,
-        "user_coord" => $GLOBALS['user_is_coordinator'] ?? false,
+        "user_coord" => $user_coord,
+
+        "show_exists" => $show_exists,
+        "translation_button" => $translation_button,
+
         "test" => $test
     ];
 

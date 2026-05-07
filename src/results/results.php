@@ -154,27 +154,19 @@ function Results_tables($tab, $show_exists, $translation_button, $full_tr_user)
 function results_loader($data)
 {
     // ---
-    $camp       = $data["camp"];
-    $code       = $data["code"];
-    $cat        = $data["cat"];
+    $camp        = $data["camp"];
+    $code        = $data["code"];
+    $cat         = $data["cat"];
+    $show_exists = $data["show_exists"];
     // ---
-    $global_username = $data["global_username"];
-    $filter_sparql   = $data["filter_sparql"];
-    $new_result      = $data["new_result"];
+    $global_username  = $data["global_username"];
+    $filter_sparql    = $data["filter_sparql"];
+    $new_result       = $data["new_result"];
+    $translate_button = $data["translation_button"];
     // ---
     $depth  = TablesSql::$s_camp_input_depth[$camp] ?? 1;
     $cat2   = TablesSql::$s_camps_cat2[$camp] ?? '';
     // ---
-    $user_is_coordinator = $GLOBALS['user_is_coordinator'] ?? false;
-    //---
-    $show_exists = ($user_is_coordinator || isset($_GET['exists']));
-    //---
-    $translation_button = TablesSql::$s_settings['translation_button_in_progress_table']['value'] ?? '0';
-    //---
-    if ($translation_button != "0") {
-        $translation_button = $user_is_coordinator ? '1' : '0';
-    };
-    //---
     $full_translators = get_td_or_sql_full_translators();
     $full_translators = array_column($full_translators, 'is_active', 'user');
     //---
@@ -199,5 +191,5 @@ function results_loader($data)
         "test" => $data["test"]
     ];
     //---
-    return Results_tables($tab, $show_exists, $translation_button, $full_tr_user);
+    return Results_tables($tab, $show_exists, $translate_button, $full_tr_user);
 }

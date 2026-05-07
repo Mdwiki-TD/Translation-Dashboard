@@ -4,13 +4,10 @@ namespace Tables\SqlTables;
 
 use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
 use function SQLorAPI\GetDataTab\get_td_or_sql_settings;
-use function SQLorAPI\GetDataTab\get_td_or_sql_views;
 
 class TablesSql
 {
     public static $s_cat_to_camp = [];
-
-
     public static $s_camps_cat2 = [];
     public static $s_camp_input_depth = [];
 
@@ -30,31 +27,6 @@ foreach ($categories_tab as $k => $tab) {
         TablesSql::$s_camp_input_depth[$tab['campaign']] = $tab['depth'];
     };
 };
-
-function make_views_by_lang_target($year, $lang)
-{
-    $vta = [];
-
-    $tat = get_td_or_sql_views($year, $lang);
-
-    foreach ($tat as $k => $tab) {
-        // check if lang already in array array_key_exists
-        $langcode = $tab['lang'];
-        $target   = $tab['target'];
-
-        if (!array_key_exists($langcode, $vta)) {
-            $vta[$langcode] = [];
-        };
-
-        $views = isset($tab['views']) ? $tab['views'] : 0;
-
-        // add to array
-
-        $vta[$langcode][$target] = $views;
-    }
-
-    return $vta;
-}
 
 $settings_tab = get_td_or_sql_settings();
 
