@@ -5,15 +5,13 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 };
-//---
+
 include_once __DIR__ . '/../include_all.php';
 include_once __DIR__ . '/../header.php';
-//---
 include_once __DIR__ . '/../backend/loaders/load_request.php';
-//---
-use Tables\SqlTables\TablesSql;
+
 use function Results\ResultsIndex\Results_tables;
-//---
+
 $tab_titles = [
     "Acetylsalicylic acid/simvastatin/ramipril/atenolol/hydrochlorothiazide",
     "Cochlear implant",

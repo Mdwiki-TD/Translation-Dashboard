@@ -9,7 +9,7 @@ use function Leaderboard\Camps\get_articles_to_camps;
 */
 
 use function Results\GetCats\get_cats_from_cache;
-use Tables\SqlTables\TablesSql;
+use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
 
 function get_articles_to_camps()
 {
@@ -17,15 +17,15 @@ function get_articles_to_camps()
     // ---
     if (!empty($articles_to_camps)) return $articles_to_camps;
     // ---
-    // sort TablesSql::$s_cat_to_camp make RTT last item
-    $cat2camp = TablesSql::$s_cat_to_camp;
+    $categories_tab = get_td_or_sql_categories();
+    $cats_data = array_column($categories_tab, "campaign", "category");
     // ---
-    if (isset($cat2camp['RTT'])) {
-        unset($cat2camp['RTT']);
-        $cat2camp['RTT'] = 'Main';
+    if (isset($cats_data['RTT'])) {
+        unset($cats_data['RTT']);
+        $cats_data['RTT'] = 'Main';
     }
     // ---
-    foreach ($cat2camp as $cat => $camp) {
+    foreach ($cats_data as $cat => $camp) {
         // ---
         $members = get_cats_from_cache($cat);
         // ---

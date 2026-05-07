@@ -14,13 +14,13 @@ use function Leaderboard\Subs\LeadHelp\make_users_lead;
 */
 
 use Tables\Main\MainTables;
-use Tables\SqlTables\TablesSql;
 use function APICalls\WikiApi\make_view_by_number;
 use function TD\Render\Html\make_mdwiki_cat_url;
 use function TD\Render\Html\make_mdwiki_article_url_blank;
 use function TD\Render\Html\make_wikipedia_url_blank;
 use function Results\TrLink\make_ContentTranslation_url;
 use function Leaderboard\Camps\get_articles_to_camps;
+use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
 
 function make_key($Taab)
 {
@@ -57,7 +57,6 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type, $tab_t
         $page_type = 'users';
     };
     //---
-    $catto_camp_new = TablesSql::$s_cat_to_camp;
     $articlesto_camps = get_articles_to_camps();
     //---
     $mdtitle = trim($tabb['title']);
@@ -82,7 +81,10 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type, $tab_t
     //---
     $new_camps = $articlesto_camps[$mdtitle] ?? [];
     //---
-    $campaign = $catto_camp_new[$cat] ?? '';
+    $categories_tab = get_td_or_sql_categories();
+    $cats_data = array_column($categories_tab, "campaign", "category");
+    //---
+    $campaign = $cats_data[$cat] ?? '';
     $campaign_data = $campaign;
     //---
     // 2023-08-22

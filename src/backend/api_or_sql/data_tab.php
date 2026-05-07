@@ -300,16 +300,10 @@ function get_qids($list)
 function get_camps_to_cat()
 {
     static $s_camp_to_cat = [];
-    //---
     if (!empty($s_camp_to_cat)) return $s_camp_to_cat;
-    //---
+
     $categories_tab = get_td_or_sql_categories();
-    //---
-    foreach ($categories_tab as $k => $tab) {
-        if (!empty($tab['category']) && !empty($tab['campaign'])) {
-            $s_camp_to_cat[$tab['campaign']] = $tab['category'];
-        };
-    };
-    // ---
+    $s_camp_to_cat = array_column($categories_tab, "category", 'campaign');
+
     return $s_camp_to_cat;
 }

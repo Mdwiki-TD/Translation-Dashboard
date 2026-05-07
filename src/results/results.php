@@ -11,7 +11,6 @@ use function Results\ResultsIndex\results_loader;
 */
 
 //---
-use Tables\SqlTables\TablesSql;
 use function Results\GetResults\get_results;
 use function Results\GetResults\get_results_new;
 use function Results\ResultsTable\make_results_table;
@@ -157,15 +156,15 @@ function results_loader($data)
     $camp        = $data["camp"];
     $code        = $data["code"];
     $cat         = $data["cat"];
+    $depth       = $data["depth"];
+    // ---
     $show_exists = $data["show_exists"];
+    $category2 = $data["category2"];
     // ---
     $global_username  = $data["global_username"];
     $filter_sparql    = $data["filter_sparql"];
     $new_result       = $data["new_result"];
     $translate_button = $data["translation_button"];
-    // ---
-    $depth  = TablesSql::$s_camp_input_depth[$camp] ?? 1;
-    $cat2   = TablesSql::$s_camps_cat2[$camp] ?? '';
     // ---
     $full_translators = get_td_or_sql_full_translators();
     $full_translators = array_column($full_translators, 'is_active', 'user');
@@ -174,9 +173,9 @@ function results_loader($data)
     $full_tr_user = ($full_translators[$global_username] ?? 0) == 1;
     //---
     if ($new_result) {
-        $results_list = get_results_new($cat, $camp, $depth, $code, $filter_sparql, $cat2);
+        $results_list = get_results_new($cat, $camp, $depth, $code, $filter_sparql, $category2);
     } else {
-        $results_list = get_results($cat, $camp, $depth, $code, $filter_sparql, $cat2);
+        $results_list = get_results($cat, $camp, $depth, $code, $filter_sparql, $category2);
     }
     //---
     $tab = [

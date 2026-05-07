@@ -66,7 +66,9 @@ function print_form_start1($Lang_tables, $code)
 // =======================
 
 $settings = get_td_or_sql_settings();
+
 $categories_tab = get_td_or_sql_categories();
+$camps_data = array_column($categories_tab, null, 'campaign');
 
 $settings = array_column($settings, 'value', 'title');
 
@@ -254,9 +256,16 @@ if ($camp && $code) {
         $translation_button = $user_coord ? '1' : '0';
     };
     //---
+    $depth     = $camps_data[$camp]["depth"] ?? 1;
+    $category2 = $camps_data[$camp]["category2"] ?? "";
+    // ---
     $data = [
         "camp" => $camp,
         "code" => $code,
+
+        "depth" => $depth,
+        "category2" => $category2,
+
         "code_lang_name" => $code_lang_name,
         "cat" => $cat,
         "tra_type" => $tra_type,
@@ -270,6 +279,8 @@ if ($camp && $code) {
 
         "test" => $test
     ];
+    var_export($data);
+    // ---
 
     echo results_loader($data);
 }
