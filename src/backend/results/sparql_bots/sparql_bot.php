@@ -13,7 +13,6 @@ use function Results\SparqlBot\filter_existing_out_new;
 */
 
 use function TD\Render\TestPrint\test_print;
-use function SQLorAPI\GetDataTab\get_td_or_sql_qids;
 use function Results\SPARQL_Dispatcher\get_query_result;
 
 function print_r_it($data, $title, $d = false, $r = false)
@@ -100,46 +99,10 @@ function get_sparql_data_exists($with_qids, $code): array
     return $EXISTS;
 }
 
-function get_qids($list)
+function filter_existing_out($missing, $exists, $code, $with_qids): array
 {
-    //---
-    $sq_qids = get_td_or_sql_qids();
-    //---
-    $with_qids = [];
-    $no_qids = [];
-    // ---
-    foreach ($list as $member) {
-        $qid = $sq_qids[$member] ?? 0;
-        if ($qid) {
-            $with_qids[$member] = $qid;
-        } else {
-            $no_qids[] = $member;
-        }
-    }
-    // ---
-    print_r_it($with_qids, "with_qids");
-    print_r_it($no_qids, "no_qids");
-    // ---
-    return [
-        "with_qids" => $with_qids,
-        "no_qids" => $no_qids,
-    ];
-}
-
-function filter_existing_out($missing, $exists, $code): array
-{
-    //---
-    // $missing2 = [];
-    // foreach ($missing as $_ => $title) $missing2[] = $title;
-    // $missing = $missing2;
-    //---
-    $missing = array_values($missing);
     //---
     print_r_it($missing, '<br>missing2');
-    //---
-    $qids_tab = get_qids($missing);
-    //---
-    $with_qids = $qids_tab['with_qids'];
     //---
     $sparql_exist = get_sparql_data_exists($with_qids, $code) ?? [];
     //---
@@ -170,22 +133,12 @@ function filter_existing_out($missing, $exists, $code): array
 }
 
 
-function filter_existing_out_new($missing, $code): array
+function filter_existing_out_new($missing, $code, $with_qids): array
 {
     //---
     $exists = [];
     //---
-    // $missing2 = [];
-    // foreach ($missing as $_ => $title) $missing2[] = $title;
-    // $missing = $missing2;
-    // ---
-    $missing = array_values($missing);
-    // ---
     print_r_it($missing, '<br>missing');
-    //---
-    $qids_tab = get_qids($missing);
-    //---
-    $with_qids = $qids_tab['with_qids'];
     //---
     $sparql_exist = get_sparql_data_exists($with_qids, $code) ?? [];
     //---

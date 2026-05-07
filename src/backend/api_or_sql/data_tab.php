@@ -273,3 +273,26 @@ function get_td_or_sql_langs()
     // ---
     return $langs;
 }
+
+function get_qids($list)
+{
+    //---
+    $sq_qids = get_td_or_sql_qids();
+    //---
+    $with_qids = [];
+    $no_qids = [];
+    // ---
+    foreach ($list as $member) {
+        $qid = $sq_qids[$member] ?? 0;
+        if ($qid) {
+            $with_qids[$member] = $qid;
+        } else {
+            $no_qids[] = $member;
+        }
+    }
+    // ---
+    return [
+        "with_qids" => $with_qids,
+        "no_qids" => $no_qids,
+    ];
+}

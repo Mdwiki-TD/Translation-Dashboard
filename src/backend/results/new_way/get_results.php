@@ -18,6 +18,7 @@ use function SQLorAPI\Funcs\get_lang_pages_by_cat;
 use function Results\ResultsHelps\filter_items_missing_cat2;
 use function Results\ResultsHelps\create_summary;
 use function SQLorAPI\Funcs\exists_by_qids_query;
+use function SQLorAPI\GetDataTab\get_qids;
 
 
 function make_exists_targets_new($exists, $code, $exists_targets_before)
@@ -129,7 +130,11 @@ function get_results_new($cat, $camp, $depth, $code, $filter_sparql, $cat2): arr
     // ---
     if (!empty($filter_sparql)) {
         // ---
-        $items_exists_2 = filter_existing_out_new($items_missing, $code);
+        $missings = array_values($items_missing);
+        $qids_tab = get_qids($missings);
+        $with_qids = $qids_tab['with_qids'];
+        //---
+        $items_exists_2 = filter_existing_out_new($missings, $code, $with_qids);
         // ---
         if ($items_exists_2) {
             // ---

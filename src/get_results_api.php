@@ -13,7 +13,7 @@ $cat   = $_GET['cat'] ?? "";
 $cat2  = $_GET['cat2'] ?? "";
 $camp  = $_GET['camp'] ?? "";
 $depth = $_GET['depth'] ?? "1";
-$code  = $_GET['code'] ?? "gg";
+$code  = $_GET['code'] ?? "";
 
 $filter_sparql  = $_GET['filter_sparql'] ?? true;
 $new  = $_GET['new'] ?? false;
