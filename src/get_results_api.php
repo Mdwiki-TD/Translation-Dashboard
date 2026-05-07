@@ -18,6 +18,12 @@ $code  = $_GET['code'] ?? "gg";
 $filter_sparql  = $_GET['filter_sparql'] ?? true;
 $new  = $_GET['new'] ?? false;
 
+$example = '';
+
+if (empty($cat) && empty($camp) && empty($code)) {
+    $example = "?cat=RTTHearing&camp=Hearing&depth=1&code=ar";
+}
+
 $results = [];
 
 if ((!empty($cat) || !empty($camp)) && !empty($code)) {
