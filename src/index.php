@@ -67,7 +67,9 @@ function print_form_start1($Lang_tables, $code)
 $settings = get_td_or_sql_settings();
 
 $categories_tab = get_td_or_sql_categories();
+
 $camps_data = array_column($categories_tab, null, 'campaign');
+$cats_data = array_column($categories_tab, "campaign", "category");
 
 $settings = array_column($settings, 'value', 'title');
 
@@ -91,7 +93,12 @@ foreach ($categories_tab as $k => $tab) {
 // =======================
 // Load Request
 // =======================
-$req = load_request($campaigns_input_list, $allow_whole_translate);
+$req = load_request(
+    $campaigns_input_list,
+    $allow_whole_translate,
+    $camps_data,
+    $cats_data
+);
 
 $test              = $req['test'] ?? '';
 $code              = $req['code'] ?? '';

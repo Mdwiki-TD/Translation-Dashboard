@@ -12,12 +12,15 @@ if (isset($_REQUEST["test"]) || isset($_COOKIE["test"])) {
     error_reporting(E_ALL);
 }
 
-use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
 use function Tables\Langs\get_lang_code;
 use function Tables\Langs\get_lang_title;
 
-function load_request($campaigns_input_list, $allow_whole_translate)
-{
+function load_request(
+    $campaigns_input_list,
+    $allow_whole_translate,
+    $camps_data,
+    $cats_data
+) {
     //---
     $errors = [];
     //---
@@ -40,15 +43,11 @@ function load_request($campaigns_input_list, $allow_whole_translate)
     //---
     $camp = trim($camp);
     //---
-    $categories_tab = get_td_or_sql_categories();
-    //---
     if (empty($cat) && !empty($camp)) {
-        $camps_data = array_column($categories_tab, "category", "campaign");
-        $cat = $camps_data[$camp] ?? $cat;
+        $cat = $camps_data[$camp]["category"] ?? $cat;
     }
     //---
     if (!empty($cat) && empty($camp)) {
-        $cats_data = array_column($categories_tab, "campaign", "category");
         $camp = $cats_data[$cat] ?? $camp;
     }
     //---
