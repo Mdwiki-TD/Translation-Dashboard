@@ -75,7 +75,7 @@ function make_one_row_new_inprocess($title, $tra_type, $cnt, $langcode, $cat, $c
     $_user_ = $inprocess_table['user'] ?? '';
     $_date_ = $inprocess_table['date'] ?? $inprocess_table['add_date'] ?? '';
     //---
-    $props = get_item_properties($title, $langcode, $tra_type);
+    $props = get_item_properties($title, $tra_type);
     //---
     $qid = $props['qid'];
     //---
@@ -135,8 +135,6 @@ function make_results_table_inprocess(
     // $inprocess_table = normalizeItems($inprocess_table);
     //---
     $frist = make_table_start(true, $tra_btn);
-    //---
-    // $dd = sort_py_PageViews($inprocess_table, MainTables::$x_enwiki_pageviews_table);
     //---
     $list = "";
     $cnt = 1;

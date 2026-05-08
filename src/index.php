@@ -18,7 +18,6 @@ include_once __DIR__ . '/include_all.php';
 include_once __DIR__ . '/header.php';
 include_once __DIR__ . '/backend/loaders/load_request.php';
 
-use Tables\Main\MainTables;
 use function Loaders\LoadRequest\load_request;
 use function Results\ResultsIndex\results_loader;
 use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
@@ -279,7 +278,6 @@ if ($camp && $code) {
 
         "test" => $test
     ];
-    var_export($data);
     // ---
 
     echo results_loader($data);

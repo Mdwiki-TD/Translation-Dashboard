@@ -408,6 +408,7 @@ LangsTables::$L_change_codes = [
     "yue"    =>    "zh-yue",
 ];
 #---
+
 $langs_table = get_td_or_sql_langs();
 
 foreach ($langs_table as $_ => $lang_tab) {

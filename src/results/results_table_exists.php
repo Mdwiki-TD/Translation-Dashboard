@@ -9,31 +9,35 @@ use function Results\ResultsTableExists\make_results_table_exists;
 
 */
 
-use Tables\Main\MainTables;
-
 use function SQLorAPI\GetDataTab\get_td_or_sql_qids;
 use function Results\TrLink\make_ContentTranslation_url;
 use function TD\Render\Html\make_mdwiki_article_url_blank;
 use function TD\Render\Html\make_wikipedia_url_blank;
 use function TD\Render\Html\make_wikidata_url_blank;
+use function SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
+
 
 function one_item_props_exists($title, $target)
 {
-
-    $sql_qids = get_td_or_sql_qids();
     //---
-    $word  = MainTables::$x_Words_table[$title] ?? 0;
-    $refs  = MainTables::$x_Lead_Refs_table[$title] ?? 0;
-    $asse  = MainTables::$x_Assessments_table[$title] ?? '';
-    $views = MainTables::$x_enwiki_pageviews_table[$title] ?? 0;
+    $titles_infos = get_td_or_sql_titles_infos();
+    $titles_infos_items = array_column($titles_infos, null, 'title');
+    $title_data = $titles_infos_items[$title] ?? [];
+    //---
+    $word        = $title_data['w_lead_words'] ?? 0;
+    $refs        = $title_data['r_lead_refs'] ?? 0;
+    $importance  = $title_data['importance'] ?? 0;
+    $views       = $title_data['en_views'] ?? 0;
+    //---
+    $sql_qids = get_td_or_sql_qids();
     $qid   = $sql_qids[$title] ?? "";
     //---
-    if (empty($asse)) $asse = 'Unknown';
+    if (empty($importance)) $importance = 'Unknown';
     //---
     $tab = [
         'word'  => $word,
         'refs'  => $refs,
-        'asse'  => $asse,
+        'asse'  => $importance,
         'views' => $views,
         'qid'   => $qid,
         'target' => $target

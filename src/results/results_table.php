@@ -8,12 +8,10 @@ Usage:
 use function Results\ResultsTable\make_results_table;
 
 */
-
-use Tables\Main\MainTables;
-
 use function TD\Render\Html\make_mdwiki_href;
 use function TD\Render\Html\make_wikidata_url_blank;
 use function Results\ResultsTableHtml\make_table_start;
+use function SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
 
 use function Results\Helps\make_translate_urls;
 use function Results\Helps\sort_py_PageViews;
@@ -83,7 +81,7 @@ function make_td_rows_responsive($full, $inprocess, $tds)
 function make_one_row_results($title, $tra_type, $cnt, $langcode, $cat, $camp, $full, $full_tr_user, $global_username)
 {
     //---
-    $props = get_item_properties($title, $langcode, $tra_type);
+    $props = get_item_properties($title, $tra_type);
     //---
     $qid = $props['qid'];
     //---
@@ -133,8 +131,10 @@ function make_results_table($items, $langcode, $cat, $camp, $tra_type, $full_tr_
     //---
     $frist = make_table_start(false, false);
     //---
-    $dd = sort_py_PageViews($items, MainTables::$x_enwiki_pageviews_table);
-    // $dd = sort_py_importance($items, MainTables::$x_Assessments_table);
+    $titles_infos = get_td_or_sql_titles_infos();
+    $enwiki_pageviews_table = array_column($titles_infos, 'en_views', 'title');
+    //---
+    $dd = sort_py_PageViews($items, $enwiki_pageviews_table);
     //---
     $list = "";
     $cnt = 1;

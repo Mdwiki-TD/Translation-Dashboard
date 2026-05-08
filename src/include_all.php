@@ -35,13 +35,6 @@ foreach (glob(__DIR__ . "/backend/api_or_sql/*.php") as $filename) {
     include_once $filename;
 }
 
-foreach (glob(__DIR__ . "/backend/tables/*.php") as $filename) {
-    if (basename($filename) == 'langcode.php') {
-        continue;
-    }
-    include_once $filename;
-}
-
 include_once __DIR__ . '/backend/tables/langcode.php';
 
 foreach (glob(__DIR__ . "/backend/others/*.php") as $filename) {

@@ -13,7 +13,6 @@ use function Leaderboard\Subs\LeadHelp\make_users_lead;
 
 */
 
-use Tables\Main\MainTables;
 use function APICalls\WikiApi\make_view_by_number;
 use function TD\Render\Html\make_mdwiki_cat_url;
 use function TD\Render\Html\make_mdwiki_article_url_blank;
@@ -21,6 +20,7 @@ use function TD\Render\Html\make_wikipedia_url_blank;
 use function Results\TrLink\make_ContentTranslation_url;
 use function Leaderboard\Camps\get_articles_to_camps;
 use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
+use function SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
 
 function make_key($Taab)
 {
@@ -222,6 +222,9 @@ function make_table_lead($dd, $tab_type, $views_table, $page_type, $user_is_glob
     $total_articles = count($dd);
     $noo = 0;
     //---
+    $titles_infos = get_td_or_sql_titles_infos();
+    $lead_words_table = array_column($titles_infos, 'w_lead_words', 'title');
+    //---
     foreach ($dd as $tat => $tabe) {
         //---
         $noo += 1;
@@ -242,7 +245,7 @@ function make_table_lead($dd, $tab_type, $views_table, $page_type, $user_is_glob
         $total_views += $view_number;
         //---
         $mdtitle = $tabe['title'] ?? "";
-        $word2 = MainTables::$x_Words_table[$mdtitle] ?? 0;
+        $word2 = $lead_words_table[$mdtitle] ?? 0;
         $word = $tabe['word'] ?? 0;
         //---
         if ($word < 1) $word = $word2;
