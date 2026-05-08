@@ -12,6 +12,7 @@ use function Results\ResultsTableInprocess\make_results_table_inprocess;
 use function TD\Render\Html\make_mdwiki_href;
 use function TD\Render\Html\make_wikidata_url_blank;
 use function Results\ResultsTableHtml\make_table_start;
+use function SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
 
 use function Results\Helps\make_translate_urls;
 use function Results\Helps\get_item_properties;
@@ -69,13 +70,25 @@ function make_tds_rows_responsive($full, $tds)
     return $td_rows;
 }
 
-function make_one_row_new_inprocess($title, $tra_type, $cnt, $langcode, $cat, $camp, $inprocess_table, $tra_btn, $full, $full_tr_user, $global_username)
-{
+function make_one_row_new_inprocess(
+    $title,
+    $tra_type,
+    $cnt,
+    $langcode,
+    $cat,
+    $camp,
+    $inprocess_table,
+    $tra_btn,
+    $full,
+    $full_tr_user,
+    $global_username,
+    $title_data
+) {
     //---
     $_user_ = $inprocess_table['user'] ?? '';
     $_date_ = $inprocess_table['date'] ?? $inprocess_table['add_date'] ?? '';
     //---
-    $props = get_item_properties($title, $tra_type);
+    $props = get_item_properties($title, $tra_type, $title_data);
     //---
     $qid = $props['qid'];
     //---
@@ -129,7 +142,8 @@ function make_results_table_inprocess(
     $camp,
     $tra_btn,
     $full_tr_user,
-    $global_username
+    $global_username,
+    $titles_infos_items
 ) {
     //---
     // $inprocess_table = normalizeItems($inprocess_table);
@@ -145,6 +159,8 @@ function make_results_table_inprocess(
         // ---
         $title = str_replace('_', ' ', $title);
         //---
+        $title_data = $titles_infos_items[$title] ?? [];
+        //---
         $tra_type = $title_tab['translate_type'] ?? '';
         //---
         $full = false;
@@ -154,7 +170,20 @@ function make_results_table_inprocess(
             $full = true;
         };
         //---
-        $row = make_one_row_new_inprocess($title, $tra_type, $cnt, $langcode, $cat, $camp, $title_tab, $tra_btn, $full, $full_tr_user, $global_username);
+        $row = make_one_row_new_inprocess(
+            $title,
+            $tra_type,
+            $cnt,
+            $langcode,
+            $cat,
+            $camp,
+            $title_tab,
+            $tra_btn,
+            $full,
+            $full_tr_user,
+            $global_username,
+            $title_data
+        );
         //--
         $list .= $row;
         //---

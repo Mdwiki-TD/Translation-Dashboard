@@ -19,8 +19,6 @@ use function TD\Render\Html\make_mdwiki_article_url_blank;
 use function TD\Render\Html\make_wikipedia_url_blank;
 use function Results\TrLink\make_ContentTranslation_url;
 use function Leaderboard\Camps\get_articles_to_camps;
-use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
-use function SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
 
 function make_key($Taab)
 {
@@ -176,8 +174,15 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type, $tab_t
     //---
 };
 
-function make_table_lead($dd, $tab_type, $views_table, $page_type, $user_is_global_username)
-{
+function make_table_lead(
+    $dd,
+    $tab_type,
+    $views_table,
+    $page_type,
+    $user_is_global_username,
+    $lead_words_table,
+    $cats_data
+) {
     $total_words = 0;
     $total_views = 0;
     //---
@@ -215,12 +220,6 @@ function make_table_lead($dd, $tab_type, $views_table, $page_type, $user_is_glob
     //---
     $total_articles = count($dd);
     $noo = 0;
-    //---
-    $titles_infos = get_td_or_sql_titles_infos();
-    $lead_words_table = array_column($titles_infos, 'w_lead_words', 'title');
-    //---
-    $categories_tab = get_td_or_sql_categories();
-    $cats_data = array_column($categories_tab, "campaign", "category");
     //---
     $articlesto_camps = get_articles_to_camps();
     //---
@@ -279,28 +278,44 @@ function make_table_lead($dd, $tab_type, $views_table, $page_type, $user_is_glob
     return [$table1, $table2];
 }
 
-function make_users_lead($tab, $tab_type, $views_table, $user_is_global_username)
-{
+function make_users_lead(
+    $tab,
+    $tab_type,
+    $views_table,
+    $user_is_global_username,
+    $lead_words_table,
+    $cats_data
+) {
     //---
     [$_, $table_pnd] = make_table_lead(
         $tab,
         $tab_type,
         $views_table,
         'users',
-        $user_is_global_username
+        $user_is_global_username,
+        $lead_words_table,
+        $cats_data
     );
     // ---
     return [$_, $table_pnd];
 }
 
-function make_langs_lead($tab, $tab_type, $views_table, $lang)
-{
+function make_langs_lead(
+    $tab,
+    $tab_type,
+    $views_table,
+    $lang,
+    $lead_words_table,
+    $cats_data
+) {
     [$_, $table_pnd] = make_table_lead(
         $tab,
         $tab_type,
         $views_table,
         'langs',
-        false
+        false,
+        $lead_words_table,
+        $cats_data
     );
     // ---
     return [$_, $table_pnd];

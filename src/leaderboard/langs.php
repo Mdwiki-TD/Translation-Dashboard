@@ -15,8 +15,13 @@ use function Leaderboard\SubGraph\graph_data_new;
 use function Leaderboard\Subs\FilterForm\lead_row;
 use function Tables\Langs\get_lang_name;
 
-function langs_html($mainlang, $year_y, $camp)
-{
+function langs_html(
+    $mainlang,
+    $year_y,
+    $camp,
+    $lead_words_table,
+    $cats_data
+) {
     $output = '';
     //---
     $mainlang = rawurldecode(str_replace('_', ' ', $mainlang));
@@ -31,7 +36,14 @@ function langs_html($mainlang, $year_y, $camp)
     //---
     $count_new = count($dd);
     //---
-    [$table1, $main_table] = make_langs_lead($dd, 'translations', $table_of_views, $mainlang);
+    [$table1, $main_table] = make_langs_lead(
+        $dd,
+        'translations',
+        $table_of_views,
+        $mainlang,
+        $lead_words_table,
+        $cats_data
+    );
     //---
     $man = $langname;
     //---
@@ -55,7 +67,14 @@ function langs_html($mainlang, $year_y, $camp)
         </div>
     HTML;
     //---
-    [$_, $table_pnd] = make_langs_lead($dd_Pending, 'pending', $table_of_views, $mainlang);
+    [$_, $table_pnd] = make_langs_lead(
+        $dd_Pending,
+        'pending',
+        $table_of_views,
+        $mainlang,
+        $lead_words_table,
+        $cats_data
+    );
     //---
     $output .= <<<HTML
         <br>

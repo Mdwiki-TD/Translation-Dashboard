@@ -19,6 +19,7 @@ use function Results\ResultsTableExists\make_results_table_exists;
 use function SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
 use function TD\Render\admin_text;
 use function SQLorAPI\GetDataTab\get_td_or_sql_translate_type;
+use function SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
 
 function load_translate_type($ty)
 {
@@ -64,8 +65,15 @@ function card_result($title, $text, $title2 = "")
     HTML;
 }
 
-function Results_tables($tab, $show_exists, $translation_button, $full_tr_user)
-{
+function Results_tables(
+    $tab,
+    $show_exists,
+    $translation_button,
+    $full_tr_user,
+    $titles_infos,
+    $nolead_translates,
+    $translates_full
+) {
     //---
     $camp       = $tab["camp"];
     $code       = $tab["code"];
@@ -95,8 +103,7 @@ function Results_tables($tab, $show_exists, $translation_button, $full_tr_user)
     //---
     if (!empty($test)) $res_line .= 'test:';
     //---
-    $nolead_translates = load_translate_type('no');
-    $translates_full = load_translate_type('full');
+    $titles_infos_items = array_column($titles_infos, null, 'title');
     //---
     $table = make_results_table(
         $missing,
@@ -107,7 +114,8 @@ function Results_tables($tab, $show_exists, $translation_button, $full_tr_user)
         $full_tr_user,
         $global_username,
         $nolead_translates,
-        $translates_full
+        $translates_full,
+        $titles_infos
     );
     //---
     $title_x = <<<HTML
@@ -130,7 +138,8 @@ function Results_tables($tab, $show_exists, $translation_button, $full_tr_user)
             $camp,
             $translation_button,
             $full_tr_user,
-            $global_username
+            $global_username,
+            $titles_infos_items
         );
         //---
         $html_result .= card_result("In process: ($len_inprocess)", $table_2);
@@ -140,7 +149,15 @@ function Results_tables($tab, $show_exists, $translation_button, $full_tr_user)
     //---
     if ($len_exists > 1 && $show_exists) {
         //---
-        $table_3 = make_results_table_exists($exists, $code, $cat, $camp, $global_username, $user_coord);
+        $table_3 = make_results_table_exists(
+            $exists,
+            $code,
+            $cat,
+            $camp,
+            $global_username,
+            $user_coord,
+            $titles_infos_items
+        );
         //---
         $html_result .= card_result("Exists: ($len_exists)", $table_3);
     };
@@ -190,5 +207,17 @@ function results_loader($data)
         "test" => $data["test"]
     ];
     //---
-    return Results_tables($tab, $show_exists, $translate_button, $full_tr_user);
+    $titles_infos = get_td_or_sql_titles_infos();
+    $nolead_translates = load_translate_type('no');
+    $translates_full = load_translate_type('full');
+    //---
+    return Results_tables(
+        $tab,
+        $show_exists,
+        $translate_button,
+        $full_tr_user,
+        $titles_infos,
+        $nolead_translates,
+        $translates_full
+    );
 }

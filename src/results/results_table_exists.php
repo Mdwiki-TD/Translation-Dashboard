@@ -14,15 +14,10 @@ use function Results\TrLink\make_ContentTranslation_url;
 use function TD\Render\Html\make_mdwiki_article_url_blank;
 use function TD\Render\Html\make_wikipedia_url_blank;
 use function TD\Render\Html\make_wikidata_url_blank;
-use function SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
 
 
-function one_item_props_exists($title, $target)
+function one_item_props_exists($title, $target, $title_data)
 {
-    //---
-    $titles_infos = get_td_or_sql_titles_infos();
-    $titles_infos_items = array_column($titles_infos, null, 'title');
-    $title_data = $titles_infos_items[$title] ?? [];
     //---
     $word        = $title_data['w_lead_words'] ?? 0;
     $refs        = $title_data['r_lead_refs'] ?? 0;
@@ -125,8 +120,15 @@ function make_one_row_exists($title, $cnt, $langcode, $cat, $camp, $props, $glob
     return $td_rows;
 }
 
-function make_results_table_exists($items, $langcode, $cat, $camp, $global_username, $user_coord)
-{
+function make_results_table_exists(
+    $items,
+    $langcode,
+    $cat,
+    $camp,
+    $global_username,
+    $user_coord,
+    $titles_infos_items
+) {
     //---
     $list = "";
     //---
@@ -140,6 +142,8 @@ function make_results_table_exists($items, $langcode, $cat, $camp, $global_usern
         // ---
         $title = str_replace('_', ' ', $title);
         //---
+        $title_data = $titles_infos_items[$title] ?? [];
+        //---
         // $target_td = $exists_targets[$title] ?? null;
         // $target_before = $exists_targets_before[$title] ?? null;
         //---
@@ -150,7 +154,7 @@ function make_results_table_exists($items, $langcode, $cat, $camp, $global_usern
         //---
         $count_translated_before += empty($target_td) && !empty($target_before);
         //---
-        $props = one_item_props_exists($title, $target_td);
+        $props = one_item_props_exists($title, $target_td, $title_data);
         $props["target_before"] = $target_before;
         //---
         $row = make_one_row_exists($title, $cnt, $langcode, $cat, $camp, $props, $global_username, $user_coord);

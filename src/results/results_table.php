@@ -8,6 +8,7 @@ Usage:
 use function Results\ResultsTable\make_results_table;
 
 */
+
 use function TD\Render\Html\make_mdwiki_href;
 use function TD\Render\Html\make_wikidata_url_blank;
 use function Results\ResultsTableHtml\make_table_start;
@@ -78,10 +79,20 @@ function make_td_rows_responsive($full, $inprocess, $tds)
     return $td_rows;
 }
 
-function make_one_row_results($title, $tra_type, $cnt, $langcode, $cat, $camp, $full, $full_tr_user, $global_username)
-{
+function make_one_row_results(
+    $title,
+    $tra_type,
+    $cnt,
+    $langcode,
+    $cat,
+    $camp,
+    $full,
+    $full_tr_user,
+    $global_username,
+    $title_data
+) {
     //---
-    $props = get_item_properties($title, $tra_type);
+    $props = get_item_properties($title, $tra_type, $title_data);
     //---
     $qid = $props['qid'];
     //---
@@ -124,15 +135,26 @@ function make_one_row_results($title, $tra_type, $cnt, $langcode, $cat, $camp, $
     return make_td_rows_responsive($full, false, $tds);
 }
 
-function make_results_table($items, $langcode, $cat, $camp, $tra_type, $full_tr_user, $global_username, $nolead_translates, $translates_full)
-{
+function make_results_table(
+    $items,
+    $langcode,
+    $cat,
+    $camp,
+    $tra_type,
+    $full_tr_user,
+    $global_username,
+    $nolead_translates,
+    $translates_full,
+    $titles_infos
+) {
     //---
     $do_full   = ($tra_type == 'all') ? false : true;
     //---
     $frist = make_table_start(false, false);
     //---
-    $titles_infos = get_td_or_sql_titles_infos();
     $enwiki_pageviews_table = array_column($titles_infos, 'en_views', 'title');
+    //---
+    $titles_infos_items = array_column($titles_infos, null, 'title');
     //---
     $dd = sort_py_PageViews($items, $enwiki_pageviews_table);
     //---
@@ -145,13 +167,26 @@ function make_results_table($items, $langcode, $cat, $camp, $tra_type, $full_tr_
         // ---
         $title = str_replace('_', ' ', $v);
         //---
+        $title_data = $titles_infos_items[$title] ?? [];
+        //---
         $cnt2 = $cnt;
         //---
         if (strtolower(substr($title, 0, 6)) == 'video:') {
             $tra_type = 'all';
         };
         //---
-        $row = make_one_row_results($title, $tra_type, $cnt2, $langcode, $cat, $camp, false, $full_tr_user, $global_username);
+        $row = make_one_row_results(
+            $title,
+            $tra_type,
+            $cnt2,
+            $langcode,
+            $cat,
+            $camp,
+            false,
+            $full_tr_user,
+            $global_username,
+            $title_data
+        );
         //---
         // if full translates not allowed
         if (!$do_full || $full_tr_user) {
@@ -175,7 +210,18 @@ function make_results_table($items, $langcode, $cat, $camp, $tra_type, $full_tr_
         }
         //---
         if ($full) {
-            $list .= make_one_row_results($title, 'all', $cnt2, $langcode, $cat, $camp, true, $full_tr_user, $global_username);
+            $list .= make_one_row_results(
+                $title,
+                'all',
+                $cnt2,
+                $langcode,
+                $cat,
+                $camp,
+                true,
+                $full_tr_user,
+                $global_username,
+                $title_data
+            );
         }
         //---
         $cnt++;

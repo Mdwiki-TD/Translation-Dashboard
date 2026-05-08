@@ -15,7 +15,6 @@ use function Results\Helps\normalizeItems;
 use function SQLorAPI\GetDataTab\get_td_or_sql_qids;
 use function Results\TrLink\make_tr_link_medwiki;
 use function TD\Render\Html\make_mdwiki_href;
-use function SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
 use function Results\TrLink\make_ContentTranslation_url;
 
 function sort_py_PageViews($items, $en_views_tab)
@@ -110,11 +109,8 @@ function make_translate_urls($title, $tra_type, $words, $langcode, $cat, $camp, 
     return [$tab, $translate_url, $full_translate_url];
 }
 
-function get_item_properties($title, $tra_type)
+function get_item_properties($title, $tra_type, $title_data)
 {
-    $titles_infos = get_td_or_sql_titles_infos();
-    $titles_infos_items = array_column($titles_infos, null, 'title');
-    $title_data = $titles_infos_items[$title] ?? [];
     //---
     $word     = $title_data['w_lead_words'] ?? 0;
     $refs     = $title_data['r_lead_refs'] ?? 0;
