@@ -49,7 +49,7 @@ function make_key($Taab)
     return $kry;
 }
 
-function make_td_fo_user($tabb, $number, $view_number, $word, $page_type, $tab_ty, $user_is_global_username)
+function make_td_fo_user($tabb, $number, $view_number, $word, $page_type, $tab_ty, $user_is_global_username, $new_camps)
 {
     //---
     // $page_type = 'users' or 'langs' only
@@ -57,14 +57,13 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type, $tab_t
         $page_type = 'users';
     };
     //---
-    $articlesto_camps = get_articles_to_camps();
-    //---
-    $mdtitle = trim($tabb['title']);
-    $user    = $tabb['user'] ?? "";
-    $lang    = $tabb['lang'] ?? "";
-    $cat     = $tabb['cat'] ?? "";
-    $deleted = $tabb['deleted'] ?? "";
-    $pupdate = $tabb['pupdate'] ?? "";
+    $mdtitle  = trim($tabb['title']);
+    $user     = $tabb['user'] ?? "";
+    $lang     = $tabb['lang'] ?? "";
+    $cat      = $tabb['cat'] ?? "";
+    $deleted  = $tabb['deleted'] ?? "";
+    $pupdate  = $tabb['pupdate'] ?? "";
+    $campaign = $tabb['campaign'] ?? "";
     //---
     $date    = $tabb['date'] ?? $tabb['add_date'] ?? "";
     //---
@@ -79,12 +78,7 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type, $tab_t
     //---
     $cat_or_camp_link = make_mdwiki_cat_url($cat);
     //---
-    $new_camps = $articlesto_camps[$mdtitle] ?? [];
     //---
-    $categories_tab = get_td_or_sql_categories();
-    $cats_data = array_column($categories_tab, "campaign", "category");
-    //---
-    $campaign = $cats_data[$cat] ?? '';
     $campaign_data = $campaign;
     //---
     // 2023-08-22
@@ -225,14 +219,18 @@ function make_table_lead($dd, $tab_type, $views_table, $page_type, $user_is_glob
     $titles_infos = get_td_or_sql_titles_infos();
     $lead_words_table = array_column($titles_infos, 'w_lead_words', 'title');
     //---
+    $categories_tab = get_td_or_sql_categories();
+    $cats_data = array_column($categories_tab, "campaign", "category");
+    //---
+    $articlesto_camps = get_articles_to_camps();
+    //---
     foreach ($dd as $tat => $tabe) {
         //---
         $noo += 1;
         //---
         $deleted = $tabe['deleted'] ?? 0;
-        //---
         $target  = $tabe['target'] ?? "";
-        $lange    = $tabe['lang'] ?? "";
+        $lange   = $tabe['lang'] ?? "";
         //---
         $view_number  = $tabe['views'] ?? 0;
         // ---
@@ -252,7 +250,21 @@ function make_table_lead($dd, $tab_type, $views_table, $page_type, $user_is_glob
         //---
         $total_words += $word;
         //---
-        $table2 .= make_td_fo_user($tabe, $noo, $view_number, $word, $page_type, $tab_type, $user_is_global_username);
+        $category = $tabe['cat'] ?? "";
+        $tabe["campaign"] = $cats_data[$category] ?? '';
+        //---
+        $new_camps = $articlesto_camps[trim($mdtitle)] ?? [];
+        //---
+        $table2 .= make_td_fo_user(
+            $tabe,
+            $noo,
+            $view_number,
+            $word,
+            $page_type,
+            $tab_type,
+            $user_is_global_username,
+            $new_camps,
+        );
     };
     //---
     $table2 .= <<<HTML
