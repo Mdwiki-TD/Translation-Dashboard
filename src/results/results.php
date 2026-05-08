@@ -173,10 +173,10 @@ function results_loader($data)
     $camp        = $data["camp"];
     $code        = $data["code"];
     $cat         = $data["cat"];
-    $depth       = $data["depth"];
+    $depth       = $data["depth"] ?? 1;
     // ---
     $show_exists = $data["show_exists"];
-    $category2 = $data["category2"];
+    $category2 = $data["category2"] ?? "";
     // ---
     $global_username  = $data["global_username"];
     $filter_sparql    = $data["filter_sparql"];
