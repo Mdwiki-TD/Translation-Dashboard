@@ -12,8 +12,9 @@ if (isset($_REQUEST["test"]) || isset($_COOKIE["test"])) {
     error_reporting(E_ALL);
 }
 
-use Tables\Langs\LangsTables;
 use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
+use function Tables\Langs\get_lang_code;
+use function Tables\Langs\get_lang_title;
 
 function load_request($campaigns_input_list, $allow_whole_translate)
 {
@@ -29,9 +30,8 @@ function load_request($campaigns_input_list, $allow_whole_translate)
     //---
     $code = trim($code);
     //---
-    $code = LangsTables::$L_lang_to_code[$code] ?? $code;
-    //---
-    $code_lang_name = LangsTables::$L_code_to_lang[$code] ?? "";
+    $code = get_lang_code($code) ?? $code;
+    $code_lang_name = get_lang_title($code) ?? "";
     //---
     $cat  = htmlspecialchars($_GET["cat"] ?? "", ENT_QUOTES, "UTF-8");
     if ($cat == "undefined") $cat = "";

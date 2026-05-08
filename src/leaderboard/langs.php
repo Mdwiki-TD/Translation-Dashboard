@@ -9,11 +9,11 @@ use function Leaderboard\Langs\langs_html;
 
 */
 
-use Tables\Langs\LangsTables;
 use function Leaderboard\Subs\LeadHelp\make_langs_lead;
 use function Leaderboard\Subs\SubLangs\get_langs_tables;
 use function Leaderboard\SubGraph\graph_data_new;
 use function Leaderboard\Subs\FilterForm\lead_row;
+use function Tables\Langs\get_lang_name;
 
 function langs_html($mainlang, $year_y, $camp)
 {
@@ -21,7 +21,7 @@ function langs_html($mainlang, $year_y, $camp)
     //---
     $mainlang = rawurldecode(str_replace('_', ' ', $mainlang));
     //---
-    $langname = LangsTables::$L_code_to_lang_name[$mainlang] ?? $mainlang;
+    $langname = get_lang_name($mainlang) ?? $mainlang;
     //---
     $u_tables = get_langs_tables($mainlang, $year_y);
     //---
