@@ -41,8 +41,17 @@ function one_item_props_exists($title, $target, $title_data)
     return $tab;
 }
 
-function make_one_row_exists($title, $cnt, $langcode, $cat, $camp, $props, $global_username, $user_coord)
-{
+function make_one_row_exists(
+    $title,
+    $cnt,
+    $langcode,
+    $cat,
+    $camp,
+    $props,
+    $global_username,
+    $user_coord,
+    $endpoint
+) {
     //---
     $words = $props['word'];
     $refs  = $props['refs'];
@@ -68,7 +77,14 @@ function make_one_row_exists($title, $cnt, $langcode, $cat, $camp, $props, $glob
         $target_tab2 = make_wikipedia_url_blank($target_before, $langcode);
     }
     //---
-    $translate_url = make_ContentTranslation_url($title, $langcode, $cat, $camp, 'lead');
+    $translate_url = make_ContentTranslation_url(
+        $title,
+        $langcode,
+        $cat,
+        $camp,
+        'lead',
+        $endpoint
+    );
     //---
     $tab = (!empty($global_username) && $user_coord) ? <<<HTML
         <div class='inline'>
@@ -127,7 +143,8 @@ function make_results_table_exists(
     $camp,
     $global_username,
     $user_coord,
-    $titles_infos_items
+    $titles_infos_items,
+    $endpoint
 ) {
     //---
     $list = "";
@@ -157,7 +174,17 @@ function make_results_table_exists(
         $props = one_item_props_exists($title, $target_td, $title_data);
         $props["target_before"] = $target_before;
         //---
-        $row = make_one_row_exists($title, $cnt, $langcode, $cat, $camp, $props, $global_username, $user_coord);
+        $row = make_one_row_exists(
+            $title,
+            $cnt,
+            $langcode,
+            $cat,
+            $camp,
+            $props,
+            $global_username,
+            $user_coord,
+            $endpoint
+        );
         //---
         $list .= $row;
         //---

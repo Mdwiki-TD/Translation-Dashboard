@@ -20,6 +20,8 @@ use function SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
 use function TD\Render\admin_text;
 use function SQLorAPI\GetDataTab\get_td_or_sql_translate_type;
 use function SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
+use function SQLorAPI\GetDataTab\get_td_or_sql_qids;
+use function SQLorAPI\GetDataTab\get_endpoint;
 
 function load_translate_type($ty)
 {
@@ -72,7 +74,9 @@ function Results_tables(
     $full_tr_user,
     $titles_infos,
     $nolead_translates,
-    $translates_full
+    $translates_full,
+    $sql_qids,
+    $endpoint
 ) {
     //---
     $camp       = $tab["camp"];
@@ -115,7 +119,9 @@ function Results_tables(
         $global_username,
         $nolead_translates,
         $translates_full,
-        $titles_infos
+        $titles_infos,
+        $sql_qids,
+        $endpoint
     );
     //---
     $title_x = <<<HTML
@@ -139,7 +145,8 @@ function Results_tables(
             $translation_button,
             $full_tr_user,
             $global_username,
-            $titles_infos_items
+            $titles_infos_items,
+            $endpoint
         );
         //---
         $html_result .= card_result("In process: ($len_inprocess)", $table_2);
@@ -156,7 +163,8 @@ function Results_tables(
             $camp,
             $global_username,
             $user_coord,
-            $titles_infos_items
+            $titles_infos_items,
+            $endpoint
         );
         //---
         $html_result .= card_result("Exists: ($len_exists)", $table_3);
@@ -169,6 +177,8 @@ function Results_tables(
 
 function results_loader($data)
 {
+    // ---
+    $endpoint = get_endpoint();
     // ---
     $camp        = $data["camp"];
     $code        = $data["code"];
@@ -210,6 +220,7 @@ function results_loader($data)
     $titles_infos = get_td_or_sql_titles_infos();
     $nolead_translates = load_translate_type('no');
     $translates_full = load_translate_type('full');
+    $sql_qids = get_td_or_sql_qids();
     //---
     return Results_tables(
         $tab,
@@ -218,6 +229,8 @@ function results_loader($data)
         $full_tr_user,
         $titles_infos,
         $nolead_translates,
-        $translates_full
+        $translates_full,
+        $sql_qids,
+        $endpoint
     );
 }

@@ -15,13 +15,21 @@ use function Results\TrLink\make_ContentTranslation_url;
 use function TranslateMed\Inserter\insertPage_inprocess;
 use function SQLorAPI\GetDataTab\get_td_or_sql_users_no_inprocess;
 use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
+use function SQLorAPI\GetDataTab\get_endpoint;
 
-function go_to_translate_url($title_o, $coden, $tr_type, $cat, $camp)
+function go_to_translate_url($title_o, $coden, $tr_type, $cat, $camp, $endpoint)
 {
     // ---
     $test = $_GET['test'] ?? '';
     // ---
-    $url = make_ContentTranslation_url($title_o, $coden, $cat, $camp, $tr_type);
+    $url = make_ContentTranslation_url(
+        $title_o,
+        $coden,
+        $cat,
+        $camp,
+        $tr_type,
+        $endpoint
+    );
     // ---
     echo <<<HTML
         <br>
@@ -98,7 +106,16 @@ if (!empty($title_o) && !empty($coden)) {
         insertPage_inprocess($title_o, $word, $tr_type, $cat, $coden, $user_decoded);
     }
     // ---
-    go_to_translate_url($title_o, $coden, $tr_type, $cat, $camp);
+    $endpoint = get_endpoint();
+    // ---
+    go_to_translate_url(
+        $title_o,
+        $coden,
+        $tr_type,
+        $cat,
+        $camp,
+        $endpoint
+    );
 }
 // ---
 echo <<<HTML

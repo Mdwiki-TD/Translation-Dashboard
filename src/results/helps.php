@@ -12,7 +12,6 @@ use function Results\Helps\normalizeItems;
 
 */
 
-use function SQLorAPI\GetDataTab\get_td_or_sql_qids;
 use function Results\TrLink\make_tr_link_medwiki;
 use function TD\Render\Html\make_mdwiki_href;
 use function Results\TrLink\make_ContentTranslation_url;
@@ -56,8 +55,20 @@ function sort_py_importance($items, $Assessment_table)
     return $dd;
 }
 
-function make_translate_urls($title, $tra_type, $words, $langcode, $cat, $camp, $inprocess, $tra_btn, $_user_, $full_tr_user, $_user_no_as_global_username)
-{
+function make_translate_urls(
+    $title,
+    $tra_type,
+    $words,
+    $langcode,
+    $cat,
+    $camp,
+    $inprocess,
+    $tra_btn,
+    $_user_,
+    $full_tr_user,
+    $_user_no_as_global_username,
+    $endpoint
+) {
     //---
     // if $inprocess and $tra_btn is 1 then show the translate button for
     //---
@@ -79,8 +90,22 @@ function make_translate_urls($title, $tra_type, $words, $langcode, $cat, $camp, 
     //---
     if ($inprocess) {
         // links directly to ContentTranslation
-        $full_translate_url = make_ContentTranslation_url($title, $langcode, $cat, $camp, 'all');
-        $translate_url = make_ContentTranslation_url($title, $langcode, $cat, $camp, $tra_type);
+        $full_translate_url = make_ContentTranslation_url(
+            $title,
+            $langcode,
+            $cat,
+            $camp,
+            'all',
+            $endpoint
+        );
+        $translate_url = make_ContentTranslation_url(
+            $title,
+            $langcode,
+            $cat,
+            $camp,
+            $tra_type,
+            $endpoint
+        );
     } else {
         // links to translate_med/index.php
         $full_translate_url = make_tr_link_medwiki($title, $langcode, $cat, $camp, "all", $words);
@@ -116,9 +141,7 @@ function get_item_properties($title, $tra_type, $title_data)
     $refs     = $title_data['r_lead_refs'] ?? 0;
     $asse     = $title_data['importance'] ?? "";
     $en_views = $title_data['en_views'] ?? "";
-    //---
-    $sql_qids = get_td_or_sql_qids();
-    $qid      = $sql_qids[$title] ?? "";
+    $qid      = $title_data['qid'] ?? "";
     //---
     if ($tra_type == 'all') {
         $word  = $title_data['w_all_words'] ?? 0;

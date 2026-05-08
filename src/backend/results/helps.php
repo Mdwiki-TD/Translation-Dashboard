@@ -6,7 +6,6 @@ namespace Results\ResultsHelps;
 Usage:
 
 use function Results\ResultsHelps\get_lang_exists_pages_from_cache;
-use function Results\ResultsHelps\open_json_file;
 use function Results\ResultsHelps\make_exists_targets;
 use function Results\ResultsHelps\filter_items_missing_cat2;
 use function Results\ResultsHelps\create_summary;
@@ -15,31 +14,9 @@ use function Results\ResultsHelps\create_summary;
 
 use function TD\Render\TestPrint\test_print;
 use function Tables\TablesDir\open_td_tables_file;
-use function SQLorAPI\Funcs\exists_by_qids_query;
 use function Results\GetCats\get_mdwiki_cat_members;
 use function TD\Render\Html\make_mdwiki_cat_url;
 
-function open_json_file($file_path)
-{
-    if (!is_file($file_path)) {
-        test_print("file $file_path does not exist");
-        return [];
-    }
-
-    $text = file_get_contents($file_path);
-    if ($text === false) {
-        test_print("Failed to read file contents from $file_path");
-        return [];
-    }
-
-    $data = json_decode($text, true);
-    if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
-        test_print("Failed to decode JSON from $file_path");
-        return [];
-    }
-
-    return $data;
-}
 
 function get_lang_exists_pages_from_cache($code)
 {
@@ -52,14 +29,15 @@ function get_lang_exists_pages_from_cache($code)
 }
 
 
-function make_exists_targets($targets_via_td, $exists, $code)
-{
+function make_exists_targets(
+    $targets_via_td,
+    $exists,
+    $code,
+    $exists_targets_before
+) {
     //---
     // { "id": 6982, "title": "Video:Abdominal thrusts", "word": 117, "translate_type": "all", "cat": "RTTVideo", "lang": "ar", "user": "Mr. Ibrahem", "target": "ويكيبيديا:فيديوويكي\/ضغطات البطن", "date": "2025-02-06", "pupdate": "2025-02-06", "add_date": "2025-02-06 03:00:00", "deleted": 0, "mdwiki_revid": null }
     //---
-    $exists_targets_before = exists_by_qids_query($code);
-    // $exists_targets_before = array_column($exists_targets_before, 'target', 'title');
-    $exists_targets_before = array_column($exists_targets_before, null, 'title');
     // { "qid": "Q133005500", "title": "Video:Abdominal thrusts", "category": "RTTVideo", "code": "ar", "target": "ويكيبيديا:فيديوويكي\/ضغطات البطن" }
     //---
     $tab = [];

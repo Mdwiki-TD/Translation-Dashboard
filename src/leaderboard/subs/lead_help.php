@@ -47,8 +47,17 @@ function make_key($Taab)
     return $kry;
 }
 
-function make_td_fo_user($tabb, $number, $view_number, $word, $page_type, $tab_ty, $user_is_global_username, $new_camps)
-{
+function make_td_fo_user(
+    $tabb,
+    $number,
+    $view_number,
+    $word,
+    $page_type,
+    $tab_ty,
+    $user_is_global_username,
+    $new_camps,
+    $endpoint
+) {
     //---
     // $page_type = 'users' or 'langs' only
     if ($page_type != 'users' && $page_type != 'langs') {
@@ -124,7 +133,14 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type, $tab_t
         $target_link = 'Pending';
         $td_views = '';
         //---
-        $tralink = make_ContentTranslation_url($mdtitle, $lang, $cat, $campaign, $tran_type);
+        $tralink = make_ContentTranslation_url(
+            $mdtitle,
+            $lang,
+            $cat,
+            $campaign,
+            $tran_type,
+            $endpoint
+        );
         $complete   = ($user_is_global_username) ? "<td data-content='complete'><a target='_blank' href='$tralink'>complete</a></td>" : '';
     } else {
         $target  = trim($tabb['target']);
@@ -181,7 +197,8 @@ function make_table_lead(
     $page_type,
     $user_is_global_username,
     $lead_words_table,
-    $cats_data
+    $cats_data,
+    $endpoint
 ) {
     $total_words = 0;
     $total_views = 0;
@@ -263,6 +280,7 @@ function make_table_lead(
             $tab_type,
             $user_is_global_username,
             $new_camps,
+            $endpoint
         );
     };
     //---
@@ -294,7 +312,8 @@ function make_users_lead(
         'users',
         $user_is_global_username,
         $lead_words_table,
-        $cats_data
+        $cats_data,
+        $endpoint
     );
     // ---
     return [$_, $table_pnd];
@@ -306,7 +325,8 @@ function make_langs_lead(
     $views_table,
     $lang,
     $lead_words_table,
-    $cats_data
+    $cats_data,
+    $endpoint
 ) {
     [$_, $table_pnd] = make_table_lead(
         $tab,
@@ -315,7 +335,8 @@ function make_langs_lead(
         'langs',
         false,
         $lead_words_table,
-        $cats_data
+        $cats_data,
+        $endpoint
     );
     // ---
     return [$_, $table_pnd];

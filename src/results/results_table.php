@@ -12,8 +12,6 @@ use function Results\ResultsTable\make_results_table;
 use function TD\Render\Html\make_mdwiki_href;
 use function TD\Render\Html\make_wikidata_url_blank;
 use function Results\ResultsTableHtml\make_table_start;
-use function SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
-
 use function Results\Helps\make_translate_urls;
 use function Results\Helps\sort_py_PageViews;
 use function Results\Helps\get_item_properties;
@@ -89,7 +87,8 @@ function make_one_row_results(
     $full,
     $full_tr_user,
     $global_username,
-    $title_data
+    $title_data,
+    $endpoint
 ) {
     //---
     $props = get_item_properties($title, $tra_type, $title_data);
@@ -115,7 +114,20 @@ function make_one_row_results(
             </a>
             HTML;
     } else {
-        [$tab, $translate_url, $full_translate_url] = make_translate_urls($title, $tra_type, $props['word'], $langcode, $cat, $camp, false, "", "", $full_tr_user, false);
+        [$tab, $translate_url, $full_translate_url] = make_translate_urls(
+            $title,
+            $tra_type,
+            $props['word'],
+            $langcode,
+            $cat,
+            $camp,
+            false,
+            "",
+            "",
+            $full_tr_user,
+            false,
+            $endpoint
+        );
     }
     //---
     $tds = [
@@ -145,7 +157,9 @@ function make_results_table(
     $global_username,
     $nolead_translates,
     $translates_full,
-    $titles_infos
+    $titles_infos,
+    $sql_qids,
+    $endpoint
 ) {
     //---
     $do_full   = ($tra_type == 'all') ? false : true;
@@ -168,6 +182,7 @@ function make_results_table(
         $title = str_replace('_', ' ', $v);
         //---
         $title_data = $titles_infos_items[$title] ?? [];
+        $title_data["qid"] = $sql_qids[$title] ?? "";
         //---
         $cnt2 = $cnt;
         //---
@@ -185,7 +200,8 @@ function make_results_table(
             false,
             $full_tr_user,
             $global_username,
-            $title_data
+            $title_data,
+            $endpoint
         );
         //---
         // if full translates not allowed
@@ -220,7 +236,8 @@ function make_results_table(
                 true,
                 $full_tr_user,
                 $global_username,
-                $title_data
+                $title_data,
+                $endpoint
             );
         }
         //---

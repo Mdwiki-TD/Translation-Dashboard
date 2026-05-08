@@ -29,8 +29,17 @@ $categories_tab = get_td_or_sql_categories();
 $cats_data = array_column($categories_tab, "campaign", "category");
 $campaign = $cats_data[$Category] ?? "";
 //---
+$endpoint = "";
+//---
 foreach ($members as $member) {
-    $link = make_ContentTranslation_url($member, $lang, $Category, $campaign, $tr_type);
+    $link = make_ContentTranslation_url(
+        $member,
+        $lang,
+        $Category,
+        $campaign,
+        $tr_type,
+        $endpoint
+    );
     // ---
     $link = str_replace('/w/', '/mediawiki/', $link);
     // ---

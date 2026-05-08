@@ -20,7 +20,8 @@ function langs_html(
     $year_y,
     $camp,
     $lead_words_table,
-    $cats_data
+    $cats_data,
+    $endpoint
 ) {
     $output = '';
     //---
@@ -42,7 +43,8 @@ function langs_html(
         $table_of_views,
         $mainlang,
         $lead_words_table,
-        $cats_data
+        $cats_data,
+        $endpoint
     );
     //---
     $man = $langname;
@@ -73,7 +75,8 @@ function langs_html(
         $table_of_views,
         $mainlang,
         $lead_words_table,
-        $cats_data
+        $cats_data,
+        $endpoint
     );
     //---
     $output .= <<<HTML

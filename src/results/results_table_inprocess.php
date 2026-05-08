@@ -12,7 +12,6 @@ use function Results\ResultsTableInprocess\make_results_table_inprocess;
 use function TD\Render\Html\make_mdwiki_href;
 use function TD\Render\Html\make_wikidata_url_blank;
 use function Results\ResultsTableHtml\make_table_start;
-use function SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
 
 use function Results\Helps\make_translate_urls;
 use function Results\Helps\get_item_properties;
@@ -82,7 +81,8 @@ function make_one_row_new_inprocess(
     $full,
     $full_tr_user,
     $global_username,
-    $title_data
+    $title_data,
+    $endpoint
 ) {
     //---
     $_user_ = $inprocess_table['user'] ?? '';
@@ -109,7 +109,20 @@ function make_one_row_new_inprocess(
         $translate_url = "";
         $full_translate_url = "";
     } elseif (!empty($global_username)) {
-        [$tab, $translate_url, $full_translate_url] = make_translate_urls($title, $tra_type, $props['word'], $langcode, $cat, $camp, true, $tra_btn, $_user_, $full_tr_user, $_user_no_as_global_username);
+        [$tab, $translate_url, $full_translate_url] = make_translate_urls(
+            $title,
+            $tra_type,
+            $props['word'],
+            $langcode,
+            $cat,
+            $camp,
+            true,
+            $tra_btn,
+            $_user_,
+            $full_tr_user,
+            $_user_no_as_global_username,
+            $endpoint
+        );
     }
     //---
     // if $_date_ has : then split before first space
@@ -143,7 +156,8 @@ function make_results_table_inprocess(
     $tra_btn,
     $full_tr_user,
     $global_username,
-    $titles_infos_items
+    $titles_infos_items,
+    $endpoint
 ) {
     //---
     // $inprocess_table = normalizeItems($inprocess_table);
@@ -182,7 +196,8 @@ function make_results_table_inprocess(
             $full,
             $full_tr_user,
             $global_username,
-            $title_data
+            $title_data,
+            $endpoint
         );
         //--
         $list .= $row;

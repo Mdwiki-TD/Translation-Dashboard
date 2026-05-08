@@ -11,6 +11,7 @@ include_once __DIR__ . '/../header.php';
 include_once __DIR__ . '/../backend/loaders/load_request.php';
 
 use function Results\ResultsIndex\Results_tables;
+use function SQLorAPI\GetDataTab\get_endpoint;
 
 $tab_titles = [
     "Acetylsalicylic acid/simvastatin/ramipril/atenolol/hydrochlorothiazide",
@@ -202,7 +203,21 @@ $tab = [
     "test" => $test,
 ];
 // ---
-echo Results_tables($tab, $show_exists, $translation_button, $full_tr_user);
+// $sql_qids = get_td_or_sql_qids();
+// ---
+$endpoint = get_endpoint();
+// ---
+echo Results_tables(
+    $tab,
+    $show_exists,
+    $translation_button,
+    $full_tr_user,
+    [],
+    [],
+    [],
+    [],
+    $endpoint
+);
 //---
 echo "</div>";
 //---
