@@ -11,7 +11,6 @@ use function Leaderboard\Graph\print_graph_tab;
 
 */
 //---
-use function SQLorAPI\Funcs\get_graph_data;
 // ---
 function graph_html($keys, $values, $no_card = false)
 {
@@ -70,15 +69,13 @@ function print_graph_for_table($table, $no_card = false)
     $ms = substr($ms, 0, -1);
     $cs = substr($cs, 0, -1);
     //---
-    $graph = graph_html($ms, $cs, $no_card = $no_card);
+    $graph = graph_html($ms, $cs, $no_card);
     //---
     return $graph;
 }
 
-function print_graph_from_sql()
+function print_graph_from_sql($data)
 {
-    //---
-    $data = get_graph_data();
     //---
     $ms = "";
     $cs = "";
@@ -99,9 +96,9 @@ function print_graph_from_sql()
     return $graph;
 }
 
-function print_graph_tab()
+function print_graph_tab($data)
 {
-    $g = print_graph_from_sql();
+    $g = print_graph_from_sql($data);
     return <<<HTML
         <div class="container">
             <div class="col-md-10">

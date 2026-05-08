@@ -1,6 +1,8 @@
 <?PHP
 //---
 
+use OAuth\Settings\Settings;
+
 use function Leaderboard\Graph\print_graph_tab;
 use function Leaderboard\Graph2\print_graph_tab_2_new;
 use function Leaderboard\Index\main_leaderboard;
@@ -11,6 +13,8 @@ use function Leaderboard\Users\users_html;
 use function SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
 use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
 use function SQLorAPI\GetDataTab\get_endpoint;
+use function SQLorAPI\GetDataTab\get_td_or_sql_langs;
+use function SQLorAPI\Funcs\get_graph_data;
 
 $endpoint = get_endpoint();
 
@@ -78,7 +82,8 @@ if ($get == 'users' || !empty($user_to_curl)) {
 } elseif (!empty($_GET['graph'] ?? '')) {
     // http://localhost:9001/Translation_Dashboard/leaderboard.php?graph=1&test=1
     // ---
-    echo print_graph_tab();
+    $data = get_graph_data();
+    echo print_graph_tab($data);
     // ---
 } elseif (!empty($_GET['graph_api'] ?? '')) {
     // http://localhost:9001/Translation_Dashboard/leaderboard.php?graph_api=1&test=1
@@ -91,5 +96,10 @@ if ($get == 'users' || !empty($user_to_curl)) {
         ?? filter_input(INPUT_GET, 'user_group', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
         ?? 'all';
     //---
-    echo main_leaderboard($year_y, $camp, $user_group, $month_y);
+    $langs_data = get_td_or_sql_langs();
+    //---
+    $settings = Settings::getInstance();
+    $addcat = !$settings->is_production() && (isset($_GET['nocat']));
+    //---
+    echo main_leaderboard($year_y, $camp, $user_group, $langs_data, $addcat, $month_y);
 }
