@@ -123,10 +123,12 @@ class Database
         }
     }
 
-    public function fetchquery($sql_query, $params = null)
+    public function fetchquery($sql_query, $params = null, $noprint = false)
     {
         try {
-            $this->test_print($sql_query);
+            if ($noprint == false) {
+                $this->test_print($sql_query);
+            }
 
             $this->disableFullGroupByMode($sql_query);
 
@@ -177,19 +179,16 @@ function execute_query(string $sql_query, $params = null, $table_name = null)
     //---
     return $results;
 };
-function fetch_query(string $sql_query, $params = null, $table_name = null)
+function fetch_query(string $sql_query, $params = null, $noprint = false)
 {
-
-
-
     // Create a new database object
     $db = new Database('DB_NAME');
 
     // Execute a SQL query
     if ($params) {
-        $results = $db->fetchquery($sql_query, $params);
+        $results = $db->fetchquery($sql_query, $params, $noprint);
     } else {
-        $results = $db->fetchquery($sql_query);
+        $results = $db->fetchquery($sql_query, null, $noprint);
     }
 
     // Print the results

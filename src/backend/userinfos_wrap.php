@@ -42,7 +42,7 @@ function get_access_from_db($user)
         WHERE user_name = ? or user_name_hash = ?;
     SQL;
 
-    $result = fetch_query($query, [$user, hash('sha256', $user)]);
+    $result = fetch_query($query, [$user, hash('sha256', $user)], true);
 
     if ($result) {
         return [
