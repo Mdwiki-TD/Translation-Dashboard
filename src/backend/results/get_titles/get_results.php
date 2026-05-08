@@ -9,17 +9,20 @@ use function Results\GetResults\get_results;
 
 */
 
+use function TD\Render\TestPrint\test_print;
+
 use function Results\FetchCatData\get_cat_exists_and_missing;
 use function Results\SparqlBot\filter_existing_out;
-use function TD\Render\TestPrint\test_print;
-use function SQLorAPI\Process\get_lang_in_process_by_cat;
-use function SQLorAPI\Funcs\get_lang_pages_by_cat;
+
 use function Results\ResultsHelps\make_exists_targets;
-use function SQLorAPI\Funcs\exists_by_qids_query;
 use function Results\ResultsHelps\filter_items_missing_cat2;
 use function Results\ResultsHelps\create_summary;
+
 use function SQLorAPI\GetDataTab\get_qids;
 use function SQLorAPI\GetDataTab\get_camps_to_cat;
+use function SQLorAPI\Funcs\exists_by_qids_query;
+use function SQLorAPI\Process\get_lang_in_process_by_cat;
+use function SQLorAPI\Funcs\get_lang_pages_by_cat;
 
 
 function getinprocess($missing, $code, $cat)

@@ -21,7 +21,7 @@ if (!empty($Category)) {
     // ---
     echo "  - Category:" . $Category . "<br>";
     // ---
-    [$exists, $missing] = get_cat_exists_and_missing_new([], $Category, $depth, $lang, $use_cache = $use_cache);
+    [$exists, $missing] = get_cat_exists_and_missing_new([], $Category, $depth, $lang, $use_cache);
     // ---
     $execution_time = (microtime(true) - $time_start);
     echo "<br> >>>>> Total Execution Time: " . $execution_time . " Seconds<br>";
