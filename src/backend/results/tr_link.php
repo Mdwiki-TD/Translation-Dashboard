@@ -10,7 +10,6 @@ use function Results\TrLink\make_tr_link_medwiki;
 
 */
 
-use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
 use function SQLorAPI\GetDataTab\get_td_or_sql_settings;
 
 function get_endpoint()
@@ -34,14 +33,10 @@ function get_endpoint()
     return $endpoint;
 }
 
-function make_ContentTranslation_url($title, $cod, $cat, $camp, $tra_type)
+function make_ContentTranslation_url($title, $cod, $cat, $campaign, $tra_type)
 {
     // ---
     $endpoint = get_endpoint();
-    // ---
-    $categories_tab = get_td_or_sql_categories();
-    $cats_data = array_column($categories_tab, "campaign", "category");
-    $campaign = $cats_data[$cat] ?? $cat;
     // ---
     // ?title=Special:ContentTranslation&from=mdwiki&to=ary&campaign=contributionsmenu&page=Dracunculiasis&targettitle=Dracunculiasis
     // ---

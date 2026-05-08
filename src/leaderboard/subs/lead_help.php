@@ -132,7 +132,7 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type, $tab_t
         $target_link = 'Pending';
         $td_views = '';
         //---
-        $tralink = make_ContentTranslation_url($mdtitle, $lang, $cat, "", $tran_type);
+        $tralink = make_ContentTranslation_url($mdtitle, $lang, $cat, $campaign, $tran_type);
         $complete   = ($user_is_global_username) ? "<td data-content='complete'><a target='_blank' href='$tralink'>complete</a></td>" : '';
     } else {
         $target  = trim($tabb['target']);
@@ -142,7 +142,7 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type, $tab_t
             $view = make_view_by_number($target, $view_number, $lang, $pupdate);
         }
         //---
-        $target_link = make_wikipedia_url_blank($target, $lang, $name = "", $deleted = $deleted);
+        $target_link = make_wikipedia_url_blank($target, $lang, "", $deleted);
         //---
         $td_views = "<td data-content='Views' data-sort='$view_number' data-filter='$view_number'>$view</td>";
     };
