@@ -12,9 +12,6 @@ use function Results\Helps\normalizeItems;
 
 */
 
-use Tables\Main\MainTables;
-
-use function SQLorAPI\GetDataTab\get_td_or_sql_qids;
 use function Results\TrLink\make_tr_link_medwiki;
 use function TD\Render\Html\make_mdwiki_href;
 use function Results\TrLink\make_ContentTranslation_url;
@@ -58,8 +55,20 @@ function sort_py_importance($items, $Assessment_table)
     return $dd;
 }
 
-function make_translate_urls($title, $tra_type, $words, $langcode, $cat, $camp, $inprocess, $tra_btn, $_user_, $full_tr_user, $_user_no_as_global_username)
-{
+function make_translate_urls(
+    $title,
+    $tra_type,
+    $words,
+    $langcode,
+    $cat,
+    $camp,
+    $inprocess,
+    $tra_btn,
+    $_user_,
+    $full_tr_user,
+    $_user_no_as_global_username,
+    $endpoint
+) {
     //---
     // if $inprocess and $tra_btn is 1 then show the translate button for
     //---
@@ -81,8 +90,22 @@ function make_translate_urls($title, $tra_type, $words, $langcode, $cat, $camp, 
     //---
     if ($inprocess) {
         // links directly to ContentTranslation
-        $full_translate_url = make_ContentTranslation_url($title, $langcode, $cat, $camp, 'all');
-        $translate_url = make_ContentTranslation_url($title, $langcode, $cat, $camp, $tra_type);
+        $full_translate_url = make_ContentTranslation_url(
+            $title,
+            $langcode,
+            $cat,
+            $camp,
+            'all',
+            $endpoint
+        );
+        $translate_url = make_ContentTranslation_url(
+            $title,
+            $langcode,
+            $cat,
+            $camp,
+            $tra_type,
+            $endpoint
+        );
     } else {
         // links to translate_med/index.php
         $full_translate_url = make_tr_link_medwiki($title, $langcode, $cat, $camp, "all", $words);
@@ -111,21 +134,19 @@ function make_translate_urls($title, $tra_type, $words, $langcode, $cat, $camp, 
     return [$tab, $translate_url, $full_translate_url];
 }
 
-function get_item_properties($title, $langcode, $tra_type)
+function get_item_properties($title, $tra_type, $title_data)
 {
-
-    $words_tab = ($tra_type == 'all') ? MainTables::$x_All_Words_table : MainTables::$x_Words_table;
-    $ref_tab   = ($tra_type == 'all') ? MainTables::$x_All_Refs_table  : MainTables::$x_Lead_Refs_table;
     //---
-    $sql_qids = get_td_or_sql_qids();
+    $word     = $title_data['w_lead_words'] ?? 0;
+    $refs     = $title_data['r_lead_refs'] ?? 0;
+    $asse     = $title_data['importance'] ?? "";
+    $en_views = $title_data['en_views'] ?? "";
+    $qid      = $title_data['qid'] ?? "";
     //---
-    $word  = $words_tab[$title] ?? 0;
-    $refs  = $ref_tab[$title] ?? 0;
-    $asse  = MainTables::$x_Assessments_table[$title] ?? '';
-    $views = MainTables::$x_enwiki_pageviews_table[$title] ?? 0;
-    $qid   = $sql_qids[$title] ?? "";
-    //---
-    $target = "";
+    if ($tra_type == 'all') {
+        $word  = $title_data['w_all_words'] ?? 0;
+        $refs  = $title_data['r_all_refs'] ?? 0;
+    }
     //---
     if (empty($asse)) $asse = 'Unknown';
     //---
@@ -133,9 +154,9 @@ function get_item_properties($title, $langcode, $tra_type)
         'word'  => $word,
         'refs'  => $refs,
         'asse'  => $asse,
-        'views' => $views,
+        'views' => $en_views,
         'qid'   => $qid,
-        'target' => $target
+        'target' => ""
     ];
     //---
     return $tab;

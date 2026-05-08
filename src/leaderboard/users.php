@@ -17,9 +17,18 @@ use function Leaderboard\SubGraph\graph_data_new;
 use function Leaderboard\Subs\FilterForm\lead_row;
 use function SQLorAPI\TopData\get_td_or_sql_top_lang_of_users;
 
-// users_html($mainlang, $mainuser, $year_y, $camp)
-function users_html($mainlang, $year_y, $camp, $user_to_curl, $user_to_html, $global_username)
-{
+function users_html(
+    $mainlang,
+    $year_y,
+    $camp,
+    $user_to_curl,
+    $user_to_html,
+    $global_username,
+    $lead_words_table,
+    $cats_data,
+    $endpoint
+) {
+    //---
     $output = '';
     //---
     $mainlang = rawurldecode(str_replace('_', ' ', $mainlang));
@@ -39,7 +48,15 @@ function users_html($mainlang, $year_y, $camp, $user_to_curl, $user_to_html, $gl
     //---
     $user_is_global_username = ($global_username === $user_to_curl) ? true : false;
     //---
-    [$table1, $main_table] = make_users_lead($dd, 'translations', $table_of_views, $user_is_global_username);
+    [$table1, $main_table] = make_users_lead(
+        $dd,
+        'translations',
+        $table_of_views,
+        $user_is_global_username,
+        $lead_words_table,
+        $cats_data,
+        $endpoint
+    );
     //---
     $user_link = ($user_langs) ? make_wikipedia_url_blank("User:$user_to_curl", $user_langs, $user_to_html) : make_mdwiki_user_url($user_to_html);
     //---
@@ -76,7 +93,15 @@ function users_html($mainlang, $year_y, $camp, $user_to_curl, $user_to_html, $gl
         </div>
     HTML;
     //---
-    [$_, $table_pnd] = make_users_lead($dd_Pending, 'pending', $table_of_views, $user_is_global_username);
+    [$_, $table_pnd] = make_users_lead(
+        $dd_Pending,
+        'pending',
+        $table_of_views,
+        $user_is_global_username,
+        $lead_words_table,
+        $cats_data,
+        $endpoint
+    );
     //---
     $output .= <<<HTML
         <br>

@@ -13,8 +13,6 @@ use function Leaderboard\Subs\LeadHelp\make_users_lead;
 
 */
 
-use Tables\Main\MainTables;
-use Tables\SqlTables\TablesSql;
 use function APICalls\WikiApi\make_view_by_number;
 use function TD\Render\Html\make_mdwiki_cat_url;
 use function TD\Render\Html\make_mdwiki_article_url_blank;
@@ -49,23 +47,30 @@ function make_key($Taab)
     return $kry;
 }
 
-function make_td_fo_user($tabb, $number, $view_number, $word, $page_type, $tab_ty, $user_is_global_username)
-{
+function make_td_fo_user(
+    $tabb,
+    $number,
+    $view_number,
+    $word,
+    $page_type,
+    $tab_ty,
+    $user_is_global_username,
+    $new_camps,
+    $endpoint
+) {
     //---
     // $page_type = 'users' or 'langs' only
     if ($page_type != 'users' && $page_type != 'langs') {
         $page_type = 'users';
     };
     //---
-    $catto_camp_new = TablesSql::$s_cat_to_camp;
-    $articlesto_camps = get_articles_to_camps();
-    //---
-    $mdtitle = trim($tabb['title']);
-    $user    = $tabb['user'] ?? "";
-    $lang    = $tabb['lang'] ?? "";
-    $cat     = $tabb['cat'] ?? "";
-    $deleted = $tabb['deleted'] ?? "";
-    $pupdate = $tabb['pupdate'] ?? "";
+    $mdtitle  = trim($tabb['title']);
+    $user     = $tabb['user'] ?? "";
+    $lang     = $tabb['lang'] ?? "";
+    $cat      = $tabb['cat'] ?? "";
+    $deleted  = $tabb['deleted'] ?? "";
+    $pupdate  = $tabb['pupdate'] ?? "";
+    $campaign = $tabb['campaign'] ?? "";
     //---
     $date    = $tabb['date'] ?? $tabb['add_date'] ?? "";
     //---
@@ -80,9 +85,7 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type, $tab_t
     //---
     $cat_or_camp_link = make_mdwiki_cat_url($cat);
     //---
-    $new_camps = $articlesto_camps[$mdtitle] ?? [];
     //---
-    $campaign = $catto_camp_new[$cat] ?? '';
     $campaign_data = $campaign;
     //---
     // 2023-08-22
@@ -130,7 +133,14 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type, $tab_t
         $target_link = 'Pending';
         $td_views = '';
         //---
-        $tralink = make_ContentTranslation_url($mdtitle, $lang, $cat, "", $tran_type);
+        $tralink = make_ContentTranslation_url(
+            $mdtitle,
+            $lang,
+            $cat,
+            $campaign,
+            $tran_type,
+            $endpoint
+        );
         $complete   = ($user_is_global_username) ? "<td data-content='complete'><a target='_blank' href='$tralink'>complete</a></td>" : '';
     } else {
         $target  = trim($tabb['target']);
@@ -140,7 +150,7 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type, $tab_t
             $view = make_view_by_number($target, $view_number, $lang, $pupdate);
         }
         //---
-        $target_link = make_wikipedia_url_blank($target, $lang, $name = "", $deleted = $deleted);
+        $target_link = make_wikipedia_url_blank($target, $lang, "", $deleted);
         //---
         $td_views = "<td data-content='Views' data-sort='$view_number' data-filter='$view_number'>$view</td>";
     };
@@ -180,8 +190,16 @@ function make_td_fo_user($tabb, $number, $view_number, $word, $page_type, $tab_t
     //---
 };
 
-function make_table_lead($dd, $tab_type, $views_table, $page_type, $user_is_global_username)
-{
+function make_table_lead(
+    $dd,
+    $tab_type,
+    $views_table,
+    $page_type,
+    $user_is_global_username,
+    $lead_words_table,
+    $cats_data,
+    $endpoint
+) {
     $total_words = 0;
     $total_views = 0;
     //---
@@ -220,14 +238,15 @@ function make_table_lead($dd, $tab_type, $views_table, $page_type, $user_is_glob
     $total_articles = count($dd);
     $noo = 0;
     //---
+    $articlesto_camps = get_articles_to_camps();
+    //---
     foreach ($dd as $tat => $tabe) {
         //---
         $noo += 1;
         //---
         $deleted = $tabe['deleted'] ?? 0;
-        //---
         $target  = $tabe['target'] ?? "";
-        $lange    = $tabe['lang'] ?? "";
+        $lange   = $tabe['lang'] ?? "";
         //---
         $view_number  = $tabe['views'] ?? 0;
         // ---
@@ -240,14 +259,29 @@ function make_table_lead($dd, $tab_type, $views_table, $page_type, $user_is_glob
         $total_views += $view_number;
         //---
         $mdtitle = $tabe['title'] ?? "";
-        $word2 = MainTables::$x_Words_table[$mdtitle] ?? 0;
+        $word2 = $lead_words_table[$mdtitle] ?? 0;
         $word = $tabe['word'] ?? 0;
         //---
         if ($word < 1) $word = $word2;
         //---
         $total_words += $word;
         //---
-        $table2 .= make_td_fo_user($tabe, $noo, $view_number, $word, $page_type, $tab_type, $user_is_global_username);
+        $category = $tabe['cat'] ?? "";
+        $tabe["campaign"] = $cats_data[$category] ?? '';
+        //---
+        $new_camps = $articlesto_camps[trim($mdtitle)] ?? [];
+        //---
+        $table2 .= make_td_fo_user(
+            $tabe,
+            $noo,
+            $view_number,
+            $word,
+            $page_type,
+            $tab_type,
+            $user_is_global_username,
+            $new_camps,
+            $endpoint
+        );
     };
     //---
     $table2 .= <<<HTML
@@ -262,28 +296,48 @@ function make_table_lead($dd, $tab_type, $views_table, $page_type, $user_is_glob
     return [$table1, $table2];
 }
 
-function make_users_lead($tab, $tab_type, $views_table, $user_is_global_username)
-{
+function make_users_lead(
+    $tab,
+    $tab_type,
+    $views_table,
+    $user_is_global_username,
+    $lead_words_table,
+    $cats_data,
+    $endpoint
+) {
     //---
     [$_, $table_pnd] = make_table_lead(
         $tab,
         $tab_type,
         $views_table,
         'users',
-        $user_is_global_username
+        $user_is_global_username,
+        $lead_words_table,
+        $cats_data,
+        $endpoint
     );
     // ---
     return [$_, $table_pnd];
 }
 
-function make_langs_lead($tab, $tab_type, $views_table, $lang)
-{
+function make_langs_lead(
+    $tab,
+    $tab_type,
+    $views_table,
+    $lang,
+    $lead_words_table,
+    $cats_data,
+    $endpoint
+) {
     [$_, $table_pnd] = make_table_lead(
         $tab,
         $tab_type,
         $views_table,
         'langs',
-        false
+        false,
+        $lead_words_table,
+        $cats_data,
+        $endpoint
     );
     // ---
     return [$_, $table_pnd];

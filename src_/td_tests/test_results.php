@@ -5,15 +5,14 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 };
-//---
+
 include_once __DIR__ . '/../include_all.php';
 include_once __DIR__ . '/../header.php';
-//---
 include_once __DIR__ . '/../backend/loaders/load_request.php';
-//---
-use Tables\SqlTables\TablesSql;
+
 use function Results\ResultsIndex\Results_tables;
-//---
+use function SQLorAPI\GetDataTab\get_endpoint;
+
 $tab_titles = [
     "Acetylsalicylic acid/simvastatin/ramipril/atenolol/hydrochlorothiazide",
     "Cochlear implant",
@@ -204,7 +203,21 @@ $tab = [
     "test" => $test,
 ];
 // ---
-echo Results_tables($tab, $show_exists, $translation_button, $full_tr_user);
+// $sql_qids = get_td_or_sql_qids();
+// ---
+$endpoint = get_endpoint();
+// ---
+echo Results_tables(
+    $tab,
+    $show_exists,
+    $translation_button,
+    $full_tr_user,
+    [],
+    [],
+    [],
+    [],
+    $endpoint
+);
 //---
 echo "</div>";
 //---

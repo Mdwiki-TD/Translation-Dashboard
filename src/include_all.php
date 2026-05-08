@@ -1,6 +1,6 @@
 <?PHP
 
-# don't use OAuth\Settings\Settings here, Instance is not created yet
+// don't use OAuth\Settings\Settings here, Instance is not created yet
 $env = getenv('APP_ENV') ?: ($_ENV['APP_ENV'] ?? 'development');
 
 if ($env === 'development' && file_exists(__DIR__ . '/load_env.php')) {
@@ -32,13 +32,6 @@ foreach (glob(__DIR__ . "/backend/td_api_wrap/*.php") as $filename) {
 }
 
 foreach (glob(__DIR__ . "/backend/api_or_sql/*.php") as $filename) {
-    include_once $filename;
-}
-
-foreach (glob(__DIR__ . "/backend/tables/*.php") as $filename) {
-    if (basename($filename) == 'langcode.php') {
-        continue;
-    }
     include_once $filename;
 }
 

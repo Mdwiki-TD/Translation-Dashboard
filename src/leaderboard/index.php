@@ -8,6 +8,12 @@ use function Leaderboard\CampText\echo_html;
 use function Leaderboard\Langs\langs_html;
 use function Leaderboard\Users\users_html;
 
+use function SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
+use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
+use function SQLorAPI\GetDataTab\get_endpoint;
+
+$endpoint = get_endpoint();
+
 echo <<<HTML
 <style>
 .border_debugx {
@@ -32,13 +38,37 @@ $camp     = filter_input(INPUT_GET, 'camp', FILTER_SANITIZE_FULL_SPECIAL_CHARS) 
 // ---
 $global_username = $GLOBALS['global_username'] ?? "";
 // ---
+$titles_infos   = get_td_or_sql_titles_infos();
+$categories_tab = get_td_or_sql_categories();
+//---
+$lead_words_table = array_column($titles_infos, 'w_lead_words', 'title');
+$cats_data = array_column($categories_tab, "campaign", "category");
+//---
+// ---
 if ($get == 'users' || !empty($user_to_curl)) {
     // ---
-    echo users_html($mainlang, $year_y, $camp, $user_to_curl, $user_to_html, $global_username);
+    echo users_html(
+        $mainlang,
+        $year_y,
+        $camp,
+        $user_to_curl,
+        $user_to_html,
+        $global_username,
+        $lead_words_table,
+        $cats_data,
+        $endpoint
+    );
     // ---
 } elseif ($get == 'langs' || !empty($langcode)) {
     // ---
-    echo langs_html($langcode, $year_y, $camp);
+    echo langs_html(
+        $langcode,
+        $year_y,
+        $camp,
+        $lead_words_table,
+        $cats_data,
+        $endpoint
+    );
     // ---
 } elseif (!empty($_GET['camps'] ?? '')) {
     // http://localhost:9001/Translation_Dashboard/leaderboard.php?camps=1&test=1

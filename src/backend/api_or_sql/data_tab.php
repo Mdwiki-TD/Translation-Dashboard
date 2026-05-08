@@ -300,16 +300,31 @@ function get_qids($list)
 function get_camps_to_cat()
 {
     static $s_camp_to_cat = [];
-    //---
     if (!empty($s_camp_to_cat)) return $s_camp_to_cat;
-    //---
+
     $categories_tab = get_td_or_sql_categories();
-    //---
-    foreach ($categories_tab as $k => $tab) {
-        if (!empty($tab['category']) && !empty($tab['campaign'])) {
-            $s_camp_to_cat[$tab['campaign']] = $tab['category'];
-        };
+    $s_camp_to_cat = array_column($categories_tab, "category", 'campaign');
+
+    return $s_camp_to_cat;
+}
+
+function get_endpoint()
+{
+    // ---
+    static $settings1 = [];
+    // ---
+    if (empty($settings1)) {
+        $settings1 = get_td_or_sql_settings();
+        $settings1 = array_column($settings1, 'value', 'title');
+    }
+    // ---
+    $use_mdwikicx = $settings1['use_mdwikicx'] ?? '0';
+    // ---
+    $endpoint = "https://medwiki.toolforge.org/w/index.php";
+    // ---
+    if ($use_mdwikicx != '0') {
+        $endpoint = "https://mdwikicx.toolforge.org/w/index.php";
     };
     // ---
-    return $s_camp_to_cat;
+    return $endpoint;
 }

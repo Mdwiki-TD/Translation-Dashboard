@@ -11,6 +11,7 @@ include_once __DIR__ . '/../header.php';
 use function Results\GetCats\get_mdwiki_cat_members;
 use function Results\TrLink\make_ContentTranslation_url; // make_ContentTranslation_url($title, $cod, $cat, $camp, $tra_type)
 use function TD\Render\TestPrint\test_print;
+use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
 //---
 $Category = htmlspecialchars($_GET['Category'] ?? 'World Health Organization essential medicines', ENT_QUOTES, 'UTF-8');
 $depth = $_GET['depth'] ?? 0;
@@ -23,8 +24,22 @@ test_print("members size:" . count($members));
 //---
 $rows = "";
 //---
+// use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
+$categories_tab = get_td_or_sql_categories();
+$cats_data = array_column($categories_tab, "campaign", "category");
+$campaign = $cats_data[$Category] ?? "";
+//---
+$endpoint = "";
+//---
 foreach ($members as $member) {
-    $link = make_ContentTranslation_url($member, $lang, $Category, "", $tr_type);
+    $link = make_ContentTranslation_url(
+        $member,
+        $lang,
+        $Category,
+        $campaign,
+        $tr_type,
+        $endpoint
+    );
     // ---
     $link = str_replace('/w/', '/mediawiki/', $link);
     // ---

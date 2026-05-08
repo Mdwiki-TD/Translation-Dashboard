@@ -69,13 +69,26 @@ function make_tds_rows_responsive($full, $tds)
     return $td_rows;
 }
 
-function make_one_row_new_inprocess($title, $tra_type, $cnt, $langcode, $cat, $camp, $inprocess_table, $tra_btn, $full, $full_tr_user, $global_username)
-{
+function make_one_row_new_inprocess(
+    $title,
+    $tra_type,
+    $cnt,
+    $langcode,
+    $cat,
+    $camp,
+    $inprocess_table,
+    $tra_btn,
+    $full,
+    $full_tr_user,
+    $global_username,
+    $title_data,
+    $endpoint
+) {
     //---
     $_user_ = $inprocess_table['user'] ?? '';
     $_date_ = $inprocess_table['date'] ?? $inprocess_table['add_date'] ?? '';
     //---
-    $props = get_item_properties($title, $langcode, $tra_type);
+    $props = get_item_properties($title, $tra_type, $title_data);
     //---
     $qid = $props['qid'];
     //---
@@ -96,7 +109,20 @@ function make_one_row_new_inprocess($title, $tra_type, $cnt, $langcode, $cat, $c
         $translate_url = "";
         $full_translate_url = "";
     } elseif (!empty($global_username)) {
-        [$tab, $translate_url, $full_translate_url] = make_translate_urls($title, $tra_type, $props['word'], $langcode, $cat, $camp, true, $tra_btn, $_user_, $full_tr_user, $_user_no_as_global_username);
+        [$tab, $translate_url, $full_translate_url] = make_translate_urls(
+            $title,
+            $tra_type,
+            $props['word'],
+            $langcode,
+            $cat,
+            $camp,
+            true,
+            $tra_btn,
+            $_user_,
+            $full_tr_user,
+            $_user_no_as_global_username,
+            $endpoint
+        );
     }
     //---
     // if $_date_ has : then split before first space
@@ -129,14 +155,14 @@ function make_results_table_inprocess(
     $camp,
     $tra_btn,
     $full_tr_user,
-    $global_username
+    $global_username,
+    $titles_infos_items,
+    $endpoint
 ) {
     //---
     // $inprocess_table = normalizeItems($inprocess_table);
     //---
     $frist = make_table_start(true, $tra_btn);
-    //---
-    // $dd = sort_py_PageViews($inprocess_table, MainTables::$x_enwiki_pageviews_table);
     //---
     $list = "";
     $cnt = 1;
@@ -147,6 +173,8 @@ function make_results_table_inprocess(
         // ---
         $title = str_replace('_', ' ', $title);
         //---
+        $title_data = $titles_infos_items[$title] ?? [];
+        //---
         $tra_type = $title_tab['translate_type'] ?? '';
         //---
         $full = false;
@@ -156,7 +184,21 @@ function make_results_table_inprocess(
             $full = true;
         };
         //---
-        $row = make_one_row_new_inprocess($title, $tra_type, $cnt, $langcode, $cat, $camp, $title_tab, $tra_btn, $full, $full_tr_user, $global_username);
+        $row = make_one_row_new_inprocess(
+            $title,
+            $tra_type,
+            $cnt,
+            $langcode,
+            $cat,
+            $camp,
+            $title_tab,
+            $tra_btn,
+            $full,
+            $full_tr_user,
+            $global_username,
+            $title_data,
+            $endpoint
+        );
         //--
         $list .= $row;
         //---

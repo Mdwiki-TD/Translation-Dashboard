@@ -9,31 +9,30 @@ use function Results\ResultsTableExists\make_results_table_exists;
 
 */
 
-use Tables\Main\MainTables;
-
 use function SQLorAPI\GetDataTab\get_td_or_sql_qids;
 use function Results\TrLink\make_ContentTranslation_url;
 use function TD\Render\Html\make_mdwiki_article_url_blank;
 use function TD\Render\Html\make_wikipedia_url_blank;
 use function TD\Render\Html\make_wikidata_url_blank;
 
-function one_item_props_exists($title, $target)
-{
 
-    $sql_qids = get_td_or_sql_qids();
+function one_item_props_exists($title, $target, $title_data)
+{
     //---
-    $word  = MainTables::$x_Words_table[$title] ?? 0;
-    $refs  = MainTables::$x_Lead_Refs_table[$title] ?? 0;
-    $asse  = MainTables::$x_Assessments_table[$title] ?? '';
-    $views = MainTables::$x_enwiki_pageviews_table[$title] ?? 0;
+    $word        = $title_data['w_lead_words'] ?? 0;
+    $refs        = $title_data['r_lead_refs'] ?? 0;
+    $importance  = $title_data['importance'] ?? 0;
+    $views       = $title_data['en_views'] ?? 0;
+    //---
+    $sql_qids = get_td_or_sql_qids();
     $qid   = $sql_qids[$title] ?? "";
     //---
-    if (empty($asse)) $asse = 'Unknown';
+    if (empty($importance)) $importance = 'Unknown';
     //---
     $tab = [
         'word'  => $word,
         'refs'  => $refs,
-        'asse'  => $asse,
+        'asse'  => $importance,
         'views' => $views,
         'qid'   => $qid,
         'target' => $target
@@ -42,8 +41,17 @@ function one_item_props_exists($title, $target)
     return $tab;
 }
 
-function make_one_row_exists($title, $cnt, $langcode, $cat, $camp, $props, $global_username, $user_coord)
-{
+function make_one_row_exists(
+    $title,
+    $cnt,
+    $langcode,
+    $cat,
+    $camp,
+    $props,
+    $global_username,
+    $user_coord,
+    $endpoint
+) {
     //---
     $words = $props['word'];
     $refs  = $props['refs'];
@@ -69,7 +77,14 @@ function make_one_row_exists($title, $cnt, $langcode, $cat, $camp, $props, $glob
         $target_tab2 = make_wikipedia_url_blank($target_before, $langcode);
     }
     //---
-    $translate_url = make_ContentTranslation_url($title, $langcode, $cat, $camp, 'lead');
+    $translate_url = make_ContentTranslation_url(
+        $title,
+        $langcode,
+        $cat,
+        $camp,
+        'lead',
+        $endpoint
+    );
     //---
     $tab = (!empty($global_username) && $user_coord) ? <<<HTML
         <div class='inline'>
@@ -121,8 +136,16 @@ function make_one_row_exists($title, $cnt, $langcode, $cat, $camp, $props, $glob
     return $td_rows;
 }
 
-function make_results_table_exists($items, $langcode, $cat, $camp, $global_username, $user_coord)
-{
+function make_results_table_exists(
+    $items,
+    $langcode,
+    $cat,
+    $camp,
+    $global_username,
+    $user_coord,
+    $titles_infos_items,
+    $endpoint
+) {
     //---
     $list = "";
     //---
@@ -136,6 +159,8 @@ function make_results_table_exists($items, $langcode, $cat, $camp, $global_usern
         // ---
         $title = str_replace('_', ' ', $title);
         //---
+        $title_data = $titles_infos_items[$title] ?? [];
+        //---
         // $target_td = $exists_targets[$title] ?? null;
         // $target_before = $exists_targets_before[$title] ?? null;
         //---
@@ -146,10 +171,20 @@ function make_results_table_exists($items, $langcode, $cat, $camp, $global_usern
         //---
         $count_translated_before += empty($target_td) && !empty($target_before);
         //---
-        $props = one_item_props_exists($title, $target_td);
+        $props = one_item_props_exists($title, $target_td, $title_data);
         $props["target_before"] = $target_before;
         //---
-        $row = make_one_row_exists($title, $cnt, $langcode, $cat, $camp, $props, $global_username, $user_coord);
+        $row = make_one_row_exists(
+            $title,
+            $cnt,
+            $langcode,
+            $cat,
+            $camp,
+            $props,
+            $global_username,
+            $user_coord,
+            $endpoint
+        );
         //---
         $list .= $row;
         //---

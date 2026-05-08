@@ -11,7 +11,6 @@ use function Results\ResultsIndex\results_loader;
 */
 
 //---
-use Tables\SqlTables\TablesSql;
 use function Results\GetResults\get_results;
 use function Results\GetResults\get_results_new;
 use function Results\ResultsTable\make_results_table;
@@ -20,6 +19,9 @@ use function Results\ResultsTableExists\make_results_table_exists;
 use function SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
 use function TD\Render\admin_text;
 use function SQLorAPI\GetDataTab\get_td_or_sql_translate_type;
+use function SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
+use function SQLorAPI\GetDataTab\get_td_or_sql_qids;
+use function SQLorAPI\GetDataTab\get_endpoint;
 
 function load_translate_type($ty)
 {
@@ -65,8 +67,17 @@ function card_result($title, $text, $title2 = "")
     HTML;
 }
 
-function Results_tables($tab, $show_exists, $translation_button, $full_tr_user)
-{
+function Results_tables(
+    $tab,
+    $show_exists,
+    $translation_button,
+    $full_tr_user,
+    $titles_infos,
+    $nolead_translates,
+    $translates_full,
+    $sql_qids,
+    $endpoint
+) {
     //---
     $camp       = $tab["camp"];
     $code       = $tab["code"];
@@ -96,8 +107,7 @@ function Results_tables($tab, $show_exists, $translation_button, $full_tr_user)
     //---
     if (!empty($test)) $res_line .= 'test:';
     //---
-    $nolead_translates = load_translate_type('no');
-    $translates_full = load_translate_type('full');
+    $titles_infos_items = array_column($titles_infos, null, 'title');
     //---
     $table = make_results_table(
         $missing,
@@ -108,7 +118,10 @@ function Results_tables($tab, $show_exists, $translation_button, $full_tr_user)
         $full_tr_user,
         $global_username,
         $nolead_translates,
-        $translates_full
+        $translates_full,
+        $titles_infos,
+        $sql_qids,
+        $endpoint
     );
     //---
     $title_x = <<<HTML
@@ -131,7 +144,9 @@ function Results_tables($tab, $show_exists, $translation_button, $full_tr_user)
             $camp,
             $translation_button,
             $full_tr_user,
-            $global_username
+            $global_username,
+            $titles_infos_items,
+            $endpoint
         );
         //---
         $html_result .= card_result("In process: ($len_inprocess)", $table_2);
@@ -141,7 +156,16 @@ function Results_tables($tab, $show_exists, $translation_button, $full_tr_user)
     //---
     if ($len_exists > 1 && $show_exists) {
         //---
-        $table_3 = make_results_table_exists($exists, $code, $cat, $camp, $global_username, $user_coord);
+        $table_3 = make_results_table_exists(
+            $exists,
+            $code,
+            $cat,
+            $camp,
+            $global_username,
+            $user_coord,
+            $titles_infos_items,
+            $endpoint
+        );
         //---
         $html_result .= card_result("Exists: ($len_exists)", $table_3);
     };
@@ -154,18 +178,20 @@ function Results_tables($tab, $show_exists, $translation_button, $full_tr_user)
 function results_loader($data)
 {
     // ---
+    $endpoint = get_endpoint();
+    // ---
     $camp        = $data["camp"];
     $code        = $data["code"];
     $cat         = $data["cat"];
+    $depth       = $data["depth"] ?? 1;
+    // ---
     $show_exists = $data["show_exists"];
+    $category2 = $data["category2"] ?? "";
     // ---
     $global_username  = $data["global_username"];
     $filter_sparql    = $data["filter_sparql"];
     $new_result       = $data["new_result"];
     $translate_button = $data["translation_button"];
-    // ---
-    $depth  = TablesSql::$s_camp_input_depth[$camp] ?? 1;
-    $cat2   = TablesSql::$s_camps_cat2[$camp] ?? '';
     // ---
     $full_translators = get_td_or_sql_full_translators();
     $full_translators = array_column($full_translators, 'is_active', 'user');
@@ -174,9 +200,9 @@ function results_loader($data)
     $full_tr_user = ($full_translators[$global_username] ?? 0) == 1;
     //---
     if ($new_result) {
-        $results_list = get_results_new($cat, $camp, $depth, $code, $filter_sparql, $cat2);
+        $results_list = get_results_new($cat, $camp, $depth, $code, $filter_sparql, $category2);
     } else {
-        $results_list = get_results($cat, $camp, $depth, $code, $filter_sparql, $cat2);
+        $results_list = get_results($cat, $camp, $depth, $code, $filter_sparql, $category2);
     }
     //---
     $tab = [
@@ -191,5 +217,20 @@ function results_loader($data)
         "test" => $data["test"]
     ];
     //---
-    return Results_tables($tab, $show_exists, $translate_button, $full_tr_user);
+    $titles_infos = get_td_or_sql_titles_infos();
+    $nolead_translates = load_translate_type('no');
+    $translates_full = load_translate_type('full');
+    $sql_qids = get_td_or_sql_qids();
+    //---
+    return Results_tables(
+        $tab,
+        $show_exists,
+        $translate_button,
+        $full_tr_user,
+        $titles_infos,
+        $nolead_translates,
+        $translates_full,
+        $sql_qids,
+        $endpoint
+    );
 }

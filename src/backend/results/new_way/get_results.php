@@ -11,14 +11,14 @@ use function Results\GetResults\get_results_new; // get_results_new($cat, $camp,
 
 use function Results\FetchCatDataNew\get_cat_exists_and_missing_new;
 use function Results\SparqlBot\filter_existing_out_new;
-use function TD\Render\TestPrint\test_print;
-use function SQLorAPI\Process\get_lang_in_process;
-use function SQLorAPI\Funcs\get_lang_pages_by_cat;
 use function Results\ResultsHelps\filter_items_missing_cat2;
 use function Results\ResultsHelps\create_summary;
+use function SQLorAPI\Process\get_lang_in_process;
+use function SQLorAPI\Funcs\get_lang_pages_by_cat;
 use function SQLorAPI\Funcs\exists_by_qids_query;
 use function SQLorAPI\GetDataTab\get_qids;
 use function SQLorAPI\GetDataTab\get_camps_to_cat;
+use function TD\Render\TestPrint\test_print;
 
 
 function make_exists_targets_new($exists, $code, $exists_targets_before)

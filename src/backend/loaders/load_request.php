@@ -6,52 +6,52 @@ Usage:
 use function Loaders\LoadRequest\load_request;
 */
 
-if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
+if (isset($_REQUEST["test"]) || isset($_COOKIE["test"])) {
+    ini_set("display_errors", 1);
+    ini_set("display_startup_errors", 1);
     error_reporting(E_ALL);
 }
 
-use Tables\SqlTables\TablesSql;
-use Tables\Langs\LangsTables;
-use function SQLorAPI\GetDataTab\get_camps_to_cat;
+use function Tables\Langs\get_lang_code;
+use function Tables\Langs\get_lang_title;
 
-function load_request($campaigns_input_list, $allow_whole_translate)
-{
+function load_request(
+    $campaigns_input_list,
+    $allow_whole_translate,
+    $camps_data,
+    $cats_data
+) {
     //---
     $errors = [];
     //---
-    $test = htmlspecialchars($_GET['test'] ?? '', ENT_QUOTES, 'UTF-8');
-    $doit = htmlspecialchars($_GET['doit'] ?? '', ENT_QUOTES, 'UTF-8');
-    $code = htmlspecialchars($_GET['code'] ?? '', ENT_QUOTES, 'UTF-8');
-    $filter_sparql = !empty($_GET['filter_sparql'] ?? '') ? true : false;
+    $test = htmlspecialchars($_GET["test"] ?? "", ENT_QUOTES, "UTF-8");
+    $doit = htmlspecialchars($_GET["doit"] ?? "", ENT_QUOTES, "UTF-8");
+    $code = htmlspecialchars($_GET["code"] ?? "", ENT_QUOTES, "UTF-8");
+    $filter_sparql = !empty($_GET["filter_sparql"] ?? "") ? true : false;
     //---
-    if ($code == 'undefined') $code = "";
+    if ($code == "undefined") $code = "";
     //---
     $code = trim($code);
     //---
-    $code = LangsTables::$L_lang_to_code[$code] ?? $code;
+    $code = get_lang_code($code) ?? $code;
+    $code_lang_name = get_lang_title($code) ?? "";
     //---
-    $code_lang_name = LangsTables::$L_code_to_lang[$code] ?? '';
+    $cat  = htmlspecialchars($_GET["cat"] ?? "", ENT_QUOTES, "UTF-8");
+    if ($cat == "undefined") $cat = "";
     //---
-    $cat  = htmlspecialchars($_GET['cat'] ?? '', ENT_QUOTES, 'UTF-8');
-    if ($cat == 'undefined') $cat = "";
-    //---
-    $camp = htmlspecialchars($_GET['camp'] ?? '', ENT_QUOTES, 'UTF-8');
+    $camp = htmlspecialchars($_GET["camp"] ?? "", ENT_QUOTES, "UTF-8");
     //---
     $camp = trim($camp);
     //---
     if (empty($cat) && !empty($camp)) {
-        $s_camp_to_cat = get_camps_to_cat();
-        $cat = $s_camp_to_cat[$camp] ?? $cat;
+        $cat = $camps_data[$camp]["category"] ?? $cat;
     }
     //---
     if (!empty($cat) && empty($camp)) {
-        $camp = TablesSql::$s_cat_to_camp[$cat] ?? $camp;
+        $camp = $cats_data[$cat] ?? $camp;
     }
-    // if (empty($cat)) $cat = "RTT";
     //---
-    $tra_type = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
+    $tra_type = filter_input(INPUT_GET, "type", FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? "";
     //---
     $doit = $doit !== "";
     //---
@@ -63,7 +63,7 @@ function load_request($campaigns_input_list, $allow_whole_translate)
         $errors[] = "code ($code) not valid wiki.";
         $code = "";
     } elseif (!empty($code)) {
-        $_SESSION['code'] = $code;
+        $_SESSION["code"] = $code;
     }
     //---
     if ($camp && !in_array($camp, $campaigns_input_list)) {
@@ -71,19 +71,19 @@ function load_request($campaigns_input_list, $allow_whole_translate)
         $camp = "";
     }
     //---
-    if ($allow_whole_translate == '0') {
-        $tra_type = 'lead';
+    if ($allow_whole_translate == "0") {
+        $tra_type = "lead";
     }
     //---
     return [
-        'test' => !empty($test),
-        'doit' => $doit,
-        'code' => $code,
-        'cat' => $cat,
-        'camp' => $camp,
-        'tra_type' => $tra_type,
-        'filter_sparql' => $filter_sparql,
-        'code_lang_name' => $code_lang_name,
-        'errors' => $errors,
+        "test" => !empty($test),
+        "doit" => $doit,
+        "code" => $code,
+        "cat" => $cat,
+        "camp" => $camp,
+        "tra_type" => $tra_type,
+        "filter_sparql" => $filter_sparql,
+        "code_lang_name" => $code_lang_name,
+        "errors" => $errors,
     ];
 }

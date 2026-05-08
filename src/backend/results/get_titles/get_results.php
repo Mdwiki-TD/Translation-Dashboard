@@ -9,16 +9,20 @@ use function Results\GetResults\get_results;
 
 */
 
+use function TD\Render\TestPrint\test_print;
+
 use function Results\FetchCatData\get_cat_exists_and_missing;
 use function Results\SparqlBot\filter_existing_out;
-use function TD\Render\TestPrint\test_print;
-use function SQLorAPI\Process\get_lang_in_process_by_cat;
-use function SQLorAPI\Funcs\get_lang_pages_by_cat;
+
 use function Results\ResultsHelps\make_exists_targets;
 use function Results\ResultsHelps\filter_items_missing_cat2;
 use function Results\ResultsHelps\create_summary;
+
 use function SQLorAPI\GetDataTab\get_qids;
 use function SQLorAPI\GetDataTab\get_camps_to_cat;
+use function SQLorAPI\Funcs\exists_by_qids_query;
+use function SQLorAPI\Process\get_lang_in_process_by_cat;
+use function SQLorAPI\Funcs\get_lang_pages_by_cat;
 
 
 function getinprocess($missing, $code, $cat)
@@ -37,9 +41,19 @@ function getinprocess($missing, $code, $cat)
     return $titles;
 }
 
-function get_results($cat, $camp, $depth, $code, $filter_sparql, $cat2): array
-{
+function get_results(
+    $cat,
+    $camp,
+    $depth,
+    $code,
+    $filter_sparql,
+    $cat2
+): array {
     // Get existing and missing pages
+    // ---
+    $exists_targets_before = exists_by_qids_query($code);
+    // $exists_targets_before = array_column($exists_targets_before, 'target', 'title');
+    $exists_targets_before = array_column($exists_targets_before, null, 'title');
     // ---
     if (empty($cat) && !empty($camp)) {
         $s_camp_to_cat = get_camps_to_cat();
@@ -59,7 +73,12 @@ function get_results($cat, $camp, $depth, $code, $filter_sparql, $cat2): array
         [$items_exists, $items_missing] = filter_existing_out($missings, $items_exists, $code, $with_qids);
     }
     // ---
-    $items_exists = make_exists_targets($exists_via_td, $items_exists, $code);
+    $items_exists = make_exists_targets(
+        $exists_via_td,
+        $items_exists,
+        $code,
+        $exists_targets_before
+    );
     // ---
     test_print("Items missing: " . count($items_missing));
 
