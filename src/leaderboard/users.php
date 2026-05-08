@@ -17,7 +17,6 @@ use function Leaderboard\SubGraph\graph_data_new;
 use function Leaderboard\Subs\FilterForm\lead_row;
 use function SQLorAPI\TopData\get_td_or_sql_top_lang_of_users;
 
-// users_html($mainlang, $mainuser, $year_y, $camp)
 function users_html(
     $mainlang,
     $year_y,
@@ -26,7 +25,8 @@ function users_html(
     $user_to_html,
     $global_username,
     $lead_words_table,
-    $cats_data
+    $cats_data,
+    $endpoint
 ) {
     //---
     $output = '';
@@ -54,7 +54,8 @@ function users_html(
         $table_of_views,
         $user_is_global_username,
         $lead_words_table,
-        $cats_data
+        $cats_data,
+        $endpoint
     );
     //---
     $user_link = ($user_langs) ? make_wikipedia_url_blank("User:$user_to_curl", $user_langs, $user_to_html) : make_mdwiki_user_url($user_to_html);
@@ -98,7 +99,8 @@ function users_html(
         $table_of_views,
         $user_is_global_username,
         $lead_words_table,
-        $cats_data
+        $cats_data,
+        $endpoint
     );
     //---
     $output .= <<<HTML

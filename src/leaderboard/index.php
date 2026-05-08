@@ -55,7 +55,8 @@ if ($get == 'users' || !empty($user_to_curl)) {
         $user_to_html,
         $global_username,
         $lead_words_table,
-        $cats_data
+        $cats_data,
+        $endpoint
     );
     // ---
 } elseif ($get == 'langs' || !empty($langcode)) {

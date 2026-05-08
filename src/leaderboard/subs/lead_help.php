@@ -302,7 +302,8 @@ function make_users_lead(
     $views_table,
     $user_is_global_username,
     $lead_words_table,
-    $cats_data
+    $cats_data,
+    $endpoint
 ) {
     //---
     [$_, $table_pnd] = make_table_lead(
