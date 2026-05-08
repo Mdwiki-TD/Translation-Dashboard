@@ -103,7 +103,7 @@ $req = load_request(
 $test              = $req['test'] ?? '';
 $code              = $req['code'] ?? '';
 $tra_type          = $req['tra_type'] ?? '';
-$filter_sparql     = $req['filter_sparql_x'] ?? true;
+$filter_sparql     = $req['filter_sparql'] ?? false;
 $code_lang_name    = $req['code_lang_name'] ?? '';
 $errors            = $req['errors'];
 
