@@ -10,9 +10,6 @@ use function Leaderboard\LeaderTables\makeLangTable;
 
 */
 
-use OAuth\Settings\Settings;
-use function SQLorAPI\GetDataTab\get_td_or_sql_langs;
-
 function createNumbersTable($c_user, $c_articles, $c_words, $c_langs, $c_views)
 {
     $Numbers_table = <<<HTML
@@ -36,18 +33,17 @@ function createNumbersTable($c_user, $c_articles, $c_words, $c_langs, $c_views)
     return $Numbers_table;
 };
 
-function makeLangTable($lang_table)
-{
+function makeLangTable(
+    $lang_table,
+    $langs_data,
+    $addcat
+) {
     // ---
     // sort new_data by [lang][count]
     uasort($lang_table, function ($a, $b) {
         return $b["count"] <=> $a["count"];
     });
     // ---
-
-    $settings = Settings::getInstance();
-    $addcat = !$settings->is_production() && (isset($_GET['nocat']));
-
     $cac = ($addcat == true) ? '<th>cat</th>' : '';
 
     $text = <<<HTML
@@ -66,11 +62,10 @@ function makeLangTable($lang_table)
 
     $numb = 0;
 
-    $langs_table = get_td_or_sql_langs();
     foreach ($lang_table as $langcode => $tab) {
         $comp = $tab['count'];
         $views = $tab['views'];
-        $langname = $tab['lang_name'] ?? $langs_table[$langcode]['name'] ?? $langcode;
+        $langname = $tab['lang_name'] ?? $langs_data[$langcode]['name'] ?? $langcode;
         # Get the Articles numbers
 
         if ($comp < 1) continue;

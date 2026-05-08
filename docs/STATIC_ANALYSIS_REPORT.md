@@ -386,7 +386,7 @@ private const CACHE_TTL_SECONDS = self::CACHE_TTL_HOURS * 3600;
 ```php
 function execute_query($sql_query, $params = null, $table_name = null)
 {
-    $db = new Database($_SERVER['SERVER_NAME'] ?? 'localhost', $dbname);
+    $db = new Database('DB_NAME');
     // ... query ...
     $db = null; // Connection destroyed
 }
