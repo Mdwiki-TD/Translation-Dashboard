@@ -13,19 +13,13 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 	error_reporting(E_ALL);
 };
 
-use OAuth\Settings\Settings;
 use function TD\Render\TestPrint\test_print;
 
-function open_td_tables_file($path, $echo = true)
+function open_td_tables_file($file_path, $echo = true)
 {
 	//---
 	// $home_dir = getenv("HOME") ?: 'I:/MD_TOOLS/MDWIKI_MAIN_REPO';
 	// $tables_path = $home_dir . '/public_html/td/Tables';
-	//---
-	$settings = Settings::getInstance();
-	$tables_path = $settings->TablesPath;
-	//---
-	$file_path = "$tables_path/jsons/$path";
 	//---
 	if (!is_file($file_path)) {
 		test_print("---- open_td_tables_file: file $file_path does not exist");

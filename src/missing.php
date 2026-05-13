@@ -7,6 +7,7 @@ use Tables\Langs\LangsTables;
 use function Tables\TablesDir\open_td_tables_file;
 use function SQLorAPI\TopData\get_td_or_sql_top_langs;
 use function SQLorAPI\GetDataTab\get_td_or_sql_langs;
+use OAuth\Settings\Settings;
 
 if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     ini_set('display_errors', 1);
@@ -14,7 +15,11 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     error_reporting(E_ALL);
 };
 
-$MIS = open_td_tables_file("missing.json"); //{'all' : len(listenew), 'date' : Day_History, 'langs' : {} }
+$settings = Settings::getInstance();
+$tables_path = $settings->TablesPath;
+
+//{'all' : len(listenew), 'date' : Day_History, 'langs' : {} }
+$MIS = open_td_tables_file("$tables_path/jsons/missing.json");
 
 //$length = file_get_contents("len.csv");
 $length = $MIS['all'] ?? 0;
