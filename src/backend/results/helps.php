@@ -26,7 +26,7 @@ function get_lang_exists_pages_from_cache($code)
     $settings = Settings::getInstance();
     $tables_path = $settings->TablesPath;
     //---
-    $exists = open_td_tables_file("$tables_path/jsons/cash_exists/$code.json");
+    $exists = open_td_tables_file("$tables_path/cash_exists/$code.json");
 
     return $exists;
 }
