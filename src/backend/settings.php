@@ -51,7 +51,7 @@ final class Settings
         $cookieKey      = $this->envVar('COOKIE_KEY');
         $decryptKey     = $this->envVar('DECRYPT_KEY');
         $jwtKey         = $this->envVar('JWT_KEY');
-        $TablesPath = $this->envVar('JSON_TABLES_PATH');
+        $TablesPath = $this->envVar('TABLES_PATH');
 
         if ($appEnv === 'production' && (
             empty($consumerKey) || empty($consumerSecret) ||

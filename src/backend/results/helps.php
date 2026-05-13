@@ -17,13 +17,16 @@ use function Tables\TablesDir\open_td_tables_file;
 use function Results\GetCats\get_mdwiki_cat_members;
 use function TD\Render\Html\make_mdwiki_cat_url;
 
+use OAuth\Settings\Settings;
 
 function get_lang_exists_pages_from_cache($code)
 {
     // example of result like: [ "Spontaneous bacterial peritonitis", "Dronedarone", ... ]
     // ---
-    $json_file = "cash_exists/$code.json";
-    $exists = open_td_tables_file($json_file);
+    $settings = Settings::getInstance();
+    $tables_path = $settings->TablesPath;
+    //---
+    $exists = open_td_tables_file("$tables_path/cash_exists/$code.json");
 
     return $exists;
 }
