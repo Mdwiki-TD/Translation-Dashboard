@@ -113,17 +113,17 @@ function get_missing_exists_statics($category)
             FROM category_members
             WHERE category = ?
         ) total
-        LEFT JOIN langs la ON la.code = a.code
+        JOIN langs la ON la.code = a.code
         WHERE
             a.article_id IN (
                 SELECT c.article_id
                 FROM category_members c
                 WHERE c.category = ?
             )
+        AND la.autonym IS NOT NULL
         GROUP BY
             a.code, la.autonym, la.name, total.total_rtt
-        ORDER BY
-            available_title_count DESC;
+        ORDER BY 4 DESC;
     SQL;
     // ---
     $params = [$category, $category];
