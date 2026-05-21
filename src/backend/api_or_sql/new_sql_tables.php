@@ -145,17 +145,22 @@ function missing_by_lang_and_category($lang_code, $category)
         SELECT
             c.article_id AS title,
             c.category AS category,
-            ti.importance,
-            ti.r_lead_refs,
-            ti.r_all_refs,
-            ti.en_views,
-            ti.w_lead_words,
-            ti.w_all_words,
-            ti.qid
+            ase.importance,
+            rc.r_lead_refs,
+            rc.r_all_refs,
+            ep.en_views,
+            q.qid,
+            w.w_lead_words,
+            w.w_all_words
         FROM
             category_members c
-        LEFT JOIN
-            titles_infos ti ON ti.title = c.article_id
+
+        left join assessments ase on ase.title = c.article_id
+        left join enwiki_pageviews ep on ep.title = c.article_id
+        left join qids q on q.title = c.article_id
+        left join refs_counts rc on rc.r_title = c.article_id
+        left join words w on w.w_title = c.article_id
+
         WHERE
             c.category = ?
         AND NOT EXISTS (
@@ -174,7 +179,7 @@ function missing_by_lang_and_category($lang_code, $category)
                 all_qids_exists aqe
             WHERE
                 aqe.code = ?
-                AND aqe.qid = ti.qid
+                AND aqe.qid = q.qid
         )
         /* to work with valid langs */
         AND EXISTS ( SELECT 1 FROM langs la WHERE la.code = ? )
@@ -196,22 +201,27 @@ function exists_by_lang_and_category($lang_code, $category)
         SELECT
             c.article_id AS title,
             c.category AS category,
-            ti.importance,
-            ti.r_lead_refs,
-            ti.r_all_refs,
-            ti.en_views,
-            ti.w_lead_words,
-            ti.w_all_words,
-            ti.qid,
+            ase.importance,
+            rc.r_lead_refs,
+            rc.r_all_refs,
+            ep.en_views,
+            q.qid,
+            w.w_lead_words,
+            w.w_all_words,
             aq.target
         FROM
             category_members c
         JOIN
             all_exists t ON t.article_id = c.article_id
+
+        left join assessments ase on ase.title = c.article_id
+        left join enwiki_pageviews ep on ep.title = c.article_id
+        left join qids q on q.title = c.article_id
+        left join refs_counts rc on rc.r_title = c.article_id
+        left join words w on w.w_title = c.article_id
+
         LEFT JOIN
-            titles_infos ti ON ti.title = c.article_id
-        LEFT JOIN
-            all_qids_exists aq ON aq.qid = ti.qid
+            all_qids_exists aq ON aq.qid = q.qid
         WHERE
             c.category = ?
         AND t.code = ?
