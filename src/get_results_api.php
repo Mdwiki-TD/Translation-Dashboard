@@ -15,7 +15,7 @@ $camp  = $_GET['camp'] ?? "";
 $depth = $_GET['depth'] ?? "1";
 $code  = $_GET['code'] ?? "";
 
-$filter_sparql  = $_GET['filter_sparql'] ?? true;
+$filter_sparql  = $_GET['filter_sparql'] ?? false;
 $new  = $_GET['new'] ?? false;
 
 $example = '';

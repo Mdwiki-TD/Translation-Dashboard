@@ -119,8 +119,6 @@ function get_results_new($cat, $camp, $depth, $code, $filter_sparql, $cat2): arr
     $exists_targets_before = exists_by_qids_query($code);
     $exists_targets_before = array_column($exists_targets_before, null, 'title');
     // ---
-    test_print("Items missing before filter_sparql " . count($items_missing));
-    // ---
     $exists_1 = exists_expends($items_missing, $exists_targets_before);
     // ---
     if ($exists_1) {
@@ -129,7 +127,11 @@ function get_results_new($cat, $camp, $depth, $code, $filter_sparql, $cat2): arr
         $items_exists = array_merge($items_exists, $exists_1);
     }
     // ---
+    test_print(">>>> Items missing " . count($items_missing));
+    // ---
     if (!empty($filter_sparql)) {
+        // ---
+        test_print(">>>> Items missing before filter_sparql " . count($items_missing));
         // ---
         $missings = array_values($items_missing);
         $qids_tab = get_qids($missings);
@@ -145,6 +147,7 @@ function get_results_new($cat, $camp, $depth, $code, $filter_sparql, $cat2): arr
             // ---
             $items_exists = array_merge($items_exists, $exists_add);
         }
+        test_print(">>>> Items missing after filter_sparql " . count($items_missing));
     }
     // ---
     test_print("Items missing: " . count($items_missing));
