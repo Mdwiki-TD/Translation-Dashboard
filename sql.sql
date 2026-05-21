@@ -107,6 +107,21 @@ CREATE TABLE
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE
+    `category_members` (
+        `id` int NOT NULL AUTO_INCREMENT,
+        `category` varchar(120) CHARACTER
+        SET
+            utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+            `article_id` varchar(255) CHARACTER
+        SET
+            utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+            PRIMARY KEY (`id`),
+            UNIQUE KEY `category_article_id` (`category`, `article_id`),
+            KEY `article_id` (`article_id`),
+            CONSTRAINT `category_members_ibfk_1` FOREIGN KEY (`category`) REFERENCES `categories` (`category`)
+    ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+
+CREATE TABLE
     `coordinators` (
         `id` int unsigned NOT NULL AUTO_INCREMENT,
         `username` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
