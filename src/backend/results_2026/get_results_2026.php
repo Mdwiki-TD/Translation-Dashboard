@@ -9,7 +9,7 @@ use function Results\GetResults2026\get_results_2026; // get_results_2026($cat, 
 
 */
 
-use function Results\ResultsHelps\create_summary;
+use function TD\Render\Html\make_mdwiki_cat_url;
 use function SQLorAPI\Process\get_lang_in_process;
 use function SQLorAPI\Funcs\get_lang_pages_by_cat;
 use function Results\GetCats\get_mdwiki_cat_members;
@@ -164,4 +164,18 @@ function get_results_2026($cat, $code): array
         "exists" => $items_exists,
         "missing" => $missing,
     ];
+}
+
+function create_summary($code, $cat, $len_inprocess, $len_missing, $len_of_exists_pages)
+{
+
+    $len_of_all = $len_of_exists_pages + $len_missing + $len_inprocess;
+
+    // Prepare category URL
+    $caturl = make_mdwiki_cat_url($cat, "Category");
+
+    // Generate summary message
+    $summary = "Found $len_of_all pages in $caturl, $len_of_exists_pages exists, and $len_missing missing in (<a href='https://$code.wikipedia.org' target='_blank'>$code</a>), $len_inprocess In process.";
+    // ---
+    return $summary;
 }
