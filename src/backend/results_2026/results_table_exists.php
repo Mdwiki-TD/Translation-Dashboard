@@ -14,7 +14,7 @@ use function TD\Render\Html\make_mdwiki_article_url_blank;
 use function TD\Render\Html\make_wikipedia_url_blank;
 use function TD\Render\Html\make_wikidata_url_blank;
 
-function make_one_row_exists(
+function make_one_row_exists_2026(
     $title,
     $cnt,
     $langcode,
@@ -109,7 +109,7 @@ function make_one_row_exists(
     return $td_rows;
 }
 
-function make_results_table_exists(
+function make_results_table_exists_2026(
     $items,
     $langcode,
     $cat,
@@ -137,7 +137,7 @@ function make_results_table_exists(
             $count_translated_before += 1;
         }
         //---
-        $row = make_one_row_exists(
+        $row = make_one_row_exists_2026(
             $title,
             $cnt,
             $langcode,

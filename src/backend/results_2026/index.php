@@ -13,12 +13,11 @@ use function Results\GetResults2026\results_loader;
 use function Results\GetResults2026\get_results_2026;
 use function Results\GetResults2026\make_results_table_2026;
 use function Results\GetResults2026\make_results_table_inprocess;
-use function Results\GetResults2026\make_results_table_exists;
+use function Results\GetResults2026\make_results_table_exists_2026;
 
 use function SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
 use function SQLorAPI\GetDataTab\get_td_or_sql_translate_type;
 use function SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
-use function SQLorAPI\GetDataTab\get_td_or_sql_qids;
 use function SQLorAPI\GetDataTab\get_endpoint;
 
 function load_translate_type($ty)
@@ -65,7 +64,7 @@ function card_result($title, $text, $title2 = "")
     HTML;
 }
 
-function Results_tables(
+function Results_tables_2026(
     $tab,
     $show_exists,
     $translation_button,
@@ -73,7 +72,6 @@ function Results_tables(
     $titles_infos,
     $nolead_translates,
     $translates_full,
-    $sql_qids,
     $endpoint
 ) {
     //---
@@ -117,10 +115,7 @@ function Results_tables(
         $full_tr_user,
         $global_username,
         $nolead_translates,
-        $translates_full,
-        // $titles_infos,
-        // $sql_qids,
-        $endpoint
+        $translates_full
     );
     //---
     $title_x = <<<HTML
@@ -155,14 +150,13 @@ function Results_tables(
     //---
     if ($len_exists > 1 && $show_exists) {
         //---
-        $table_3 = make_results_table_exists(
+        $table_3 = make_results_table_exists_2026(
             $exists,
             $code,
             $cat,
             $camp,
             $global_username,
             $user_coord,
-            // $titles_infos_items,
             $endpoint
         );
         //---
@@ -176,8 +170,6 @@ function Results_tables(
 
 function results_loader_2026($data)
 {
-    // ---
-    $endpoint = get_endpoint();
     // ---
     $camp        = $data["camp"];
     $code        = $data["code"];
@@ -210,9 +202,9 @@ function results_loader_2026($data)
     $titles_infos = get_td_or_sql_titles_infos();
     $nolead_translates = load_translate_type('no');
     $translates_full = load_translate_type('full');
-    $sql_qids = get_td_or_sql_qids();
+    $endpoint = get_endpoint();
     //---
-    return Results_tables(
+    return Results_tables_2026(
         $tab,
         $show_exists,
         $translate_button,
@@ -220,7 +212,6 @@ function results_loader_2026($data)
         $titles_infos,
         $nolead_translates,
         $translates_full,
-        $sql_qids,
         $endpoint
     );
 }

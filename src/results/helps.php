@@ -6,7 +6,6 @@ namespace Results\Helps;
 Usage:
 
 use function Results\Helps\make_translate_urls;
-use function Results\Helps\sort_py_PageViews;
 use function Results\Helps\sort_py_importance;
 use function Results\Helps\normalizeItems;
 
@@ -17,18 +16,6 @@ use function TD\Render\Html\make_mdwiki_href;
 use function Results\TrLink\make_ContentTranslation_url;
 
 function sort_py_pageviews_rows($items, $en_views_tab)
-{
-    $dd = [];
-    foreach ($items as $t) {
-        $t = str_replace('_', ' ', $t);
-        $kry = $en_views_tab[$t] ?? 0;
-        $dd[$t] = $kry;
-    }
-    arsort($dd);
-    return $dd;
-}
-
-function sort_py_PageViews($items, $en_views_tab)
 {
     $dd = [];
     foreach ($items as $t) {

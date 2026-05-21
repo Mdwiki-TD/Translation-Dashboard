@@ -12,26 +12,76 @@ use function Results\GetResults2026\make_results_table;
 use function TD\Render\Html\make_mdwiki_href;
 use function TD\Render\Html\make_wikidata_url_blank;
 use function Results\ResultsTableHtml\make_table_start;
-use function Results\Helps\make_translate_urls;
-use function Results\Helps\sort_py_PageViews;
-use function Results\Helps\get_item_properties;
+use function Results\TrLink\make_tr_link_medwiki;
 
-function make_td_rows_responsive($full, $inprocess, $tds)
-{
+function _make_one_row_results(
+    $title,
+    $tra_type,
+    $cnt,
+    $langcode,
+    $cat,
+    $camp,
+    $full,
+    $full_tr_user,
+    $global_username,
+    $title_data
+) {
     //---
-    $mdwiki_url = $tds["mdwiki_url"];
-    $cnt    = $tds["cnt"];
-    $tab    = $tds["tab"];
-    $pviews = $tds["pageviews"];
-    $asse   = $tds["asse"];
-    $words  = $tds["words"];
-    $refs   = $tds["refs"];
-    $qid    = $tds["qid"];
-    $title  = $tds["title"];
-    $_user_ = $tds["user"];
-    $_date_ = $tds["date"];
+    if (empty($tra_type)) {
+        $tra_type = 'lead';
+    }
     //---
-    // $cnt2 = $full ? "$cnt.Full" : $cnt;
+    $is_video = false;
+    //---
+    if (strtolower(substr($title, 0, 6)) == 'video:') {
+        $is_video = true;
+        $tra_type = 'all';
+    };
+    //---
+    $words     = $title_data['w_lead_words'] ?? 0;
+    $refs     = $title_data['r_lead_refs'] ?? 0;
+    $asse     = $title_data['importance'] ?? "";
+    $en_views = $title_data['en_views'] ?? "";
+    $qid      = $title_data['qid'] ?? "";
+    //---
+    if ($tra_type == 'all') {
+        $words  = $title_data['w_all_words'] ?? 0;
+        $refs  = $title_data['r_all_refs'] ?? 0;
+    }
+    //---
+    if (empty($asse)) $asse = 'Unknown';
+    //---
+    $qid_url = make_wikidata_url_blank($qid);
+    //---
+    $mdwiki_url = make_mdwiki_href($title);
+    //---
+    $tab = "";
+    //---
+    if (empty($global_username)) {
+        //---
+        $tab = <<<HTML
+            <a role='button' class='btn btn-outline-primary' href='/auth/login.php'>
+                <i class='fas fa-sign-in-alt fa-sm fa-fw mr-1'></i><span class='navtitles'>Login</span>
+            </a>
+            HTML;
+    } else {
+        //---
+        $full_translate_url = make_tr_link_medwiki($title, $langcode, $cat, $camp, "all", $words);
+        $translate_url = make_tr_link_medwiki($title, $langcode, $cat, $camp, $tra_type, $words);
+        //---
+        $tab = "<a href='$translate_url' class='btn btn-outline-primary btn-sm' target='_blank'>Translate</a>";
+        //---
+        if ($full_tr_user && !$is_video) {
+            $tab = <<<HTML
+            <div class='inline'>
+                <a href='$translate_url' class='btn btn-outline-primary btn-sm' target='_blank'>Lead</a>
+                <a href='$full_translate_url' class='btn btn-outline-primary btn-sm' target='_blank'>Full</a>
+            </div>
+        HTML;
+        }
+        //---
+    }
+    //---
     $cnt2 = $full && (strtolower(substr($title, 0, 6)) != 'video:') ? "$cnt.Full" : $cnt;
     //---
     $td_rows = <<<HTML
@@ -45,7 +95,7 @@ function make_td_rows_responsive($full, $inprocess, $tds)
             $tab
         </th>
         <td class='num' style="text-align: left">
-            $pviews
+            $en_views
         </td>
         <td class='num' style="text-align: left">
             $asse
@@ -57,94 +107,13 @@ function make_td_rows_responsive($full, $inprocess, $tds)
             $refs
         </td>
         <td>
-            $qid
+            $qid_url
         </td>
     HTML;
-    //---
-    if ($inprocess) {
-        $td_rows .= <<<HTML
-            <td>
-                $_user_
-            </td>
-            <td>
-                $_date_
-            </td>
-        HTML;
-    };
     //---
     $td_rows = "<tr class=''>$td_rows</tr>";
     //---
     return $td_rows;
-}
-
-function make_one_row_results(
-    $title,
-    $tra_type,
-    $cnt,
-    $langcode,
-    $cat,
-    $camp,
-    $full,
-    $full_tr_user,
-    $global_username,
-    $title_data,
-    $endpoint
-) {
-    //---
-    $props = get_item_properties($title, $tra_type, $title_data);
-    //---
-    $qid = $props['qid'];
-    //---
-    // $qid_url = (!empty($qid)) ? "<a class='inline' target='_blank' href='https://wikidata.org/wiki/$qid'>$qid</a>" : '&nbsp;';
-    $qid_url = make_wikidata_url_blank($qid);
-    //---
-    // $mdwiki_url = "//mdwiki.org/wiki/" . str_replace('+', '_', rawurlEncode($title));
-    $mdwiki_url = make_mdwiki_href($title);
-    //---
-    $tab = "";
-    //---
-    $translate_url = $mdwiki_url;
-    $full_translate_url = $mdwiki_url;
-    //---
-    if (empty($global_username)) {
-        //---
-        $tab = <<<HTML
-            <a role='button' class='btn btn-outline-primary' href='/auth/login.php'>
-                <i class='fas fa-sign-in-alt fa-sm fa-fw mr-1'></i><span class='navtitles'>Login</span>
-            </a>
-            HTML;
-    } else {
-        [$tab, $translate_url, $full_translate_url] = make_translate_urls(
-            $title,
-            $tra_type,
-            $props['word'],
-            $langcode,
-            $cat,
-            $camp,
-            false,
-            "",
-            "",
-            $full_tr_user,
-            false,
-            $endpoint
-        );
-    }
-    //---
-    $tds = [
-        "translate_url" => $translate_url,
-        "mdwiki_url" => $mdwiki_url,
-        "cnt" => $cnt,
-        "title" => $title,
-        "tab" => $tab,
-        "pageviews" => $props['views'],
-        "asse" => $props['asse'],
-        "words" => $props['word'],
-        "refs" => $props['refs'],
-        "qid" => $qid_url,
-        "user" => "",
-        "date" => ""
-    ];
-    return make_td_rows_responsive($full, false, $tds);
 }
 
 function make_results_table_2026(
@@ -156,8 +125,7 @@ function make_results_table_2026(
     $full_tr_user,
     $global_username,
     $nolead_translates,
-    $translates_full,
-    $endpoint
+    $translates_full
 ) {
     //---
     $do_full   = ($tra_type == 'all') ? false : true;
@@ -189,7 +157,7 @@ function make_results_table_2026(
             $tra_type = 'all';
         };
         //---
-        $row = make_one_row_results(
+        $row = _make_one_row_results(
             $title,
             $tra_type,
             $cnt2,
@@ -199,8 +167,7 @@ function make_results_table_2026(
             false,
             $full_tr_user,
             $global_username,
-            $title_data,
-            $endpoint
+            $title_data
         );
         //---
         // if full translates not allowed
@@ -225,7 +192,7 @@ function make_results_table_2026(
         }
         //---
         if ($full) {
-            $list .= make_one_row_results(
+            $list .= _make_one_row_results(
                 $title,
                 'all',
                 $cnt2,
@@ -235,8 +202,7 @@ function make_results_table_2026(
                 true,
                 $full_tr_user,
                 $global_username,
-                $title_data,
-                $endpoint
+                $title_data
             );
         }
         //---
