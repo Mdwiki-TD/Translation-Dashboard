@@ -72,7 +72,7 @@ function Results_tables(
     $show_exists,
     $translation_button,
     $full_tr_user,
-    $titles_infos,
+    $_titles_infos,
     $nolead_translates,
     $translates_full,
     $sql_qids,
@@ -107,7 +107,7 @@ function Results_tables(
     //---
     if (!empty($test)) $res_line .= 'test:';
     //---
-    $titles_infos_items = array_column($titles_infos, null, 'title');
+    $titles_infos_items = array_column($_titles_infos, null, 'title');
     //---
     $table = make_results_table(
         $missing,
@@ -119,7 +119,7 @@ function Results_tables(
         $global_username,
         $nolead_translates,
         $translates_full,
-        $titles_infos,
+        $_titles_infos,
         $sql_qids,
         $endpoint
     );
@@ -217,7 +217,7 @@ function results_loader($data)
         "test" => $data["test"]
     ];
     //---
-    $titles_infos = get_td_or_sql_titles_infos();
+    $_titles_infos = get_td_or_sql_titles_infos();
     $nolead_translates = load_translate_type('no');
     $translates_full = load_translate_type('full');
     $sql_qids = get_td_or_sql_qids();
@@ -227,7 +227,7 @@ function results_loader($data)
         $show_exists,
         $translate_button,
         $full_tr_user,
-        $titles_infos,
+        $_titles_infos,
         $nolead_translates,
         $translates_full,
         $sql_qids,

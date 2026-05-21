@@ -40,19 +40,19 @@ function print_cat_table(
     $month
 ): string {
     // ---
-    $users_list = get_td_or_sql_top_users($year, $user_group, $cat, $month);
+    $users = get_td_or_sql_top_users($year, $user_group, $cat, $month);
     // ---
     $lang_table = get_td_or_sql_top_langs($year, $user_group, $cat, $month);
     // ---
-    $articles_all = number_format(array_sum(array_column($users_list, 'count')));
+    $articles_all = number_format(array_sum(array_column($users, 'count')));
     // ---
-    // sum all $users_list[user]["words"] values
-    $all_Words = number_format(array_sum(array_column($users_list, 'words')));
+    // sum all $users[user]["words"] values
+    $all_Words = number_format(array_sum(array_column($users, 'words')));
     // ---
-    $all_views = number_format(array_sum(array_column($users_list, 'views')));
+    $all_views = number_format(array_sum(array_column($users, 'views')));
     // ---
     $numbersTable = createNumbersTable(
-        count($users_list),
+        count($users),
         $articles_all,
         $all_Words,
         count($lang_table),
@@ -66,9 +66,9 @@ function print_cat_table(
 
     $numbersCol = makeCol('Numbers', $numbersTable, $graph_html);
 
-    $usersTable = makeUsersTable($users_list);
+    $usersTable = makeUsersTable($users);
 
-    $users = array_keys($users_list);
+    $users = array_keys($users);
 
     $users_tab = get_td_or_sql_top_lang_of_users($users);
 

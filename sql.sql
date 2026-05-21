@@ -40,13 +40,6 @@ CREATE TABLE
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE
-    `all_articles_titles` (
-        `qid` varchar(120),
-        `title` varchar(255),
-        `category` varchar(255)
-    );
-
-CREATE TABLE
     `all_exists` (
         `id` int NOT NULL AUTO_INCREMENT,
         `article_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -369,15 +362,6 @@ CREATE TABLE
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE
-    `users_list` (
-        `user_id` int,
-        `username` varchar(255),
-        `wiki` varchar(255),
-        `user_group` varchar(120),
-        `reg_date` timestamp
-    );
-
-CREATE TABLE
     `users_no_inprocess` (
         `id` int unsigned NOT NULL AUTO_INCREMENT,
         `user` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -427,19 +411,6 @@ CREATE TABLE
         KEY `idx_words_w_title` (`w_title`)
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
-DROP TABLE IF EXISTS `all_articles_titles`;
-
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `all_articles_titles` AS
-select
-    `q`.`qid` AS `qid`,
-    `aa`.`article_id` AS `title`,
-    `aa`.`category` AS `category`
-from
-    (
-        `all_articles` `aa`
-        left join `qids` `q` on ((`aa`.`article_id` = `q`.`title`))
-    );
-
 DROP TABLE IF EXISTS `all_qids_titles`;
 
 CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `all_qids_titles` AS
@@ -482,18 +453,6 @@ from
         )
         left join `words` `w` on ((`w`.`w_title` = `ase`.`title`))
     );
-
-DROP TABLE IF EXISTS `users_list`;
-
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `users_list` AS
-select
-    `users`.`user_id` AS `user_id`,
-    `users`.`username` AS `username`,
-    `users`.`wiki` AS `wiki`,
-    `users`.`user_group` AS `user_group`,
-    `users`.`reg_date` AS `reg_date`
-from
-    `users`;
 
 DROP TABLE IF EXISTS `views_new_all`;
 

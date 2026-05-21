@@ -168,7 +168,7 @@ function make_results_table(
     $global_username,
     $nolead_translates,
     $translates_full,
-    $titles_infos,
+    $_titles_infos,
     $sql_qids,
     $endpoint
 ) {
@@ -177,9 +177,9 @@ function make_results_table(
     //---
     $frist = make_table_start(false, false);
     //---
-    $enwiki_pageviews_table = array_column($titles_infos, 'en_views', 'title');
+    $enwiki_pageviews_table = array_column($_titles_infos, 'en_views', 'title');
     //---
-    $titles_infos_items = array_column($titles_infos, null, 'title');
+    $titles_infos_items = array_column($_titles_infos, null, 'title');
     //---
     $dd = sort_py_PageViews($items, $enwiki_pageviews_table);
     //---

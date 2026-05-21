@@ -69,7 +69,7 @@ function Results_tables_2026(
     $show_exists,
     $translation_button,
     $full_tr_user,
-    $titles_infos,
+    $_titles_infos,
     $nolead_translates,
     $translates_full,
     $endpoint
@@ -104,7 +104,7 @@ function Results_tables_2026(
     //---
     if (!empty($test)) $res_line .= 'test:';
     //---
-    $titles_infos_items = array_column($titles_infos, null, 'title');
+    $titles_infos_items = array_column($_titles_infos, null, 'title');
     //---
     $table = make_results_table_2026(
         $missing,
@@ -199,7 +199,7 @@ function results_loader_2026($data)
         "test" => $data["test"]
     ];
     //---
-    $titles_infos = get_td_or_sql_titles_infos();
+    $_titles_infos = get_td_or_sql_titles_infos();
     $nolead_translates = load_translate_type('no');
     $translates_full = load_translate_type('full');
     $endpoint = get_endpoint();
@@ -209,7 +209,7 @@ function results_loader_2026($data)
         $show_exists,
         $translate_button,
         $full_tr_user,
-        $titles_infos,
+        $_titles_infos,
         $nolead_translates,
         $translates_full,
         $endpoint
