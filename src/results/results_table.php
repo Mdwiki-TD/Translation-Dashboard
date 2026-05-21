@@ -13,7 +13,6 @@ use function TD\Render\Html\make_mdwiki_href;
 use function TD\Render\Html\make_wikidata_url_blank;
 use function Results\ResultsTableHtml\make_table_start;
 use function Results\Helps\make_translate_urls;
-use function Results\Helps\sort_py_PageViews;
 use function Results\Helps\get_item_properties;
 
 function make_td_rows_responsive($full, $inprocess, $tds)
@@ -147,6 +146,18 @@ function make_one_row_results(
     return make_td_rows_responsive($full, false, $tds);
 }
 
+function sort_py_PageViews($items, $en_views_tab)
+{
+    $dd = [];
+    foreach ($items as $t) {
+        $t = str_replace('_', ' ', $t);
+        $kry = $en_views_tab[$t] ?? 0;
+        $dd[$t] = $kry;
+    }
+    arsort($dd);
+    return $dd;
+}
+
 function make_results_table(
     $items,
     $langcode,
@@ -157,7 +168,7 @@ function make_results_table(
     $global_username,
     $nolead_translates,
     $translates_full,
-    $titles_infos,
+    $_titles_infos,
     $sql_qids,
     $endpoint
 ) {
@@ -166,11 +177,18 @@ function make_results_table(
     //---
     $frist = make_table_start(false, false);
     //---
-    $enwiki_pageviews_table = array_column($titles_infos, 'en_views', 'title');
+    $enwiki_pageviews_table = array_column($_titles_infos, 'en_views', 'title');
     //---
-    $titles_infos_items = array_column($titles_infos, null, 'title');
+    $titles_infos_items = array_column($_titles_infos, null, 'title');
     //---
     $dd = sort_py_PageViews($items, $enwiki_pageviews_table);
+    //---
+    usort($items, function ($a, $b) {
+        $viewsA = $a['en_views'] ?? 0;
+        $viewsB = $b['en_views'] ?? 0;
+
+        return $viewsB <=> $viewsA;
+    });
     //---
     $list = "";
     $cnt = 1;

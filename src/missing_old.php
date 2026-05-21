@@ -3,7 +3,11 @@
 include_once __DIR__ . '/include_all.php';
 include_once __DIR__ . '/header.php';
 
-use function SQLorAPI\Funcs\get_missing_exists_statics;
+use Tables\Langs\LangsTables;
+use function Tables\TablesDir\open_td_tables_file;
+use function SQLorAPI\TopData\get_td_or_sql_top_langs;
+use function SQLorAPI\GetDataTab\get_td_or_sql_langs;
+use OAuth\Settings\Settings;
 
 if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     ini_set('display_errors', 1);
@@ -11,30 +15,62 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     error_reporting(E_ALL);
 };
 
+$settings = Settings::getInstance();
+$tables_path = $settings->TablesPath;
+
+//{'all' : len(listenew), 'date' : Day_History, 'langs' : {} }
+$MIS = open_td_tables_file("$tables_path/jsons/missing.json");
+
+//$length = file_get_contents("len.csv");
+$length = $MIS['all'] ?? 0;
+
+//$date = '15-05-2021';
+$date = $MIS['date'] ?? "";
+
+$langs_missing_data = $MIS['langs'] ?? [];
+
+$langs_table = get_td_or_sql_langs();
 
 $text = "";
 $num = 0;
+$tab_done = [];
 
-$data = get_missing_exists_statics("RTT");
+$translated_data = get_td_or_sql_top_langs("", "", "");
+$translated_data = array_column($translated_data, 'targets', 'lang');
 
-$length = 0;
+foreach ($langs_table as $_ => $lang_info) {
+    $langcode = $lang_info['code'] ?? '';
+    $langcode = LangsTables::$L_change_codes[$langcode] ?? $langcode;
 
-foreach ($data as $row) {
-    // { "language_code": "ar", "autonym": "العربية", "language_name": "Arabic", "available_title_count": 3132, "missing_title_count": 4, "total": 3136 }
-    $langcode = $row['language_code'] ?? '';
-    $autonym = $row['autonym'] ?? '';
-    $langname = $row['language_name'] ?? "";
+    if (in_array($langcode, LangsTables::$L_skip_codes)) {
+        continue;
+    };
 
-    $missing = $row['missing_title_count'] ?? "0";
-    $exists = $row['available_title_count'] ?? "0";
+    $translated = $translated_data[$langcode] ?? 0;
+    $translated_url = ($translated > 0) ? "<a href='leaderboard.php?get=langs&langcode=$langcode'>$translated</a>" : 0;
 
-    if ($length == 0) $length = $row['total'] ?? "0";
+    if (isset($tab_done[$langcode])) continue;
+    $tab_done[$langcode] = true;
 
     $num += 1;
 
+    $redirects = $lang_info['redirects'] ?? [];
+    $autonym = $lang_info['autonym'] ?? '';
+
     if (empty($autonym)) $autonym = "! autonym";
+
+    $langname = $lang_info['name'] ?? "";
+
     if (empty($langname)) $langname = "! langname";
 
+    $exists = $langs_missing_data[$langcode]['exists'] ?? 0;
+    if ($exists === 0) {
+        foreach ($redirects as $redirect) {
+            $exists = $langs_missing_data[$redirect]['exists'] ?? 0;
+            if ($exists > 0) break;
+        }
+    }
+    $missing = (int)$length - (int)$exists;
     $missing_numb = number_format($missing);
 
     $text .= <<<HTML
@@ -51,6 +87,7 @@ foreach ($data as $row) {
             <td data-content="Autonym">
                 $autonym
             </td>
+            <td data-content="Translated Articles" data-search="$translated">$translated_url</td>
             <td data-content="Exists Articles">$exists</td>
             <td data-content="Missing Articles" data-search="$missing_numb">
                 <a href="index.php?cat=RTT&depth=1&doit=Do+it&code=$langcode&type=lead">$missing_numb</a>
@@ -61,7 +98,7 @@ foreach ($data as $row) {
 
 echo <<<HTML
         <div align=center>
-        <h4>Top languages by missing Articles</h4>
+        <h4>Top languages by missing Articles ($date)</h4>
         <h5>Number of pages in Category:RTT : $length</h5>
     </div>
     <div class='card'>
@@ -73,6 +110,7 @@ echo <<<HTML
                         <th class="spannowrap">Language Name</th>
                         <th class="spannowrap">Code</th>
                         <th class="spannowrap">Autonym</th>
+                        <th>Translated Articles</th>
                         <th>Exists Articles</th>
                         <th>Missing Articles</th>
                     </tr>

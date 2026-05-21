@@ -35,26 +35,22 @@ function get_td_or_sql_titles_infos()
     // ---
     $api_params = ['get' => 'titles'];
     // ---
-    $qua_old = <<<SQL
-        SELECT
-            ase.title,
-            ase.importance,
-            rc.r_lead_refs,
-            rc.r_all_refs,
-            ep.en_views,
-            w.w_lead_words,
-            w.w_all_words,
-            q.qid
-        FROM assessments ase
-        LEFT JOIN enwiki_pageviews ep ON ase.title = ep.title
-        LEFT JOIN qids q ON q.title = ase.title
-        LEFT JOIN refs_counts rc ON rc.r_title = ase.title
-        LEFT JOIN words w ON w.w_title = ase.title
-    SQL;
-    // ---
     $qua = <<<SQL
-        SELECT *
-        FROM titles_infos
+        select
+            ase.title AS title,
+            ase.importance AS importance,
+            rc.r_lead_refs AS r_lead_refs,
+            rc.r_all_refs AS r_all_refs,
+            ep.en_views AS en_views,
+            w.w_lead_words AS w_lead_words,
+            w.w_all_words AS w_all_words,
+            q.qid AS qid
+        from
+            assessments ase
+            left join enwiki_pageviews ep on ase.title = ep.title
+            left join qids q on q.title = ase.title
+            left join refs_counts rc on rc.r_title = ase.title
+            left join words w on w.w_title = ase.title
     SQL;
     // ---
     $data = super_function($api_params, [], $qua);

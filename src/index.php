@@ -23,6 +23,7 @@ use function Results\ResultsIndex\results_loader;
 use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
 use function SQLorAPI\GetDataTab\get_td_or_sql_settings;
 use function SQLorAPI\GetDataTab\get_td_or_sql_langs;
+use function Results\GetResults2026\results_loader_2026;
 
 
 function make_drop($uxutable, $code)
@@ -75,6 +76,7 @@ $settings = array_column($settings, 'value', 'title');
 
 $allow_whole_translate = $settings['allow_type_of_translate'] ?? '1';
 $load_new_result       = $settings['load_new_result'] ?? '';
+$load_new_result_2026  = $settings['load_new_result_2026'] ?? '';
 
 $campaigns_input_list = [];
 
@@ -278,16 +280,19 @@ if ($camp && $code) {
         "global_username" => $global_username,
         "filter_sparql" => $filter_sparql,
         "new_result" => $load_new_result,
+        "new_result_2026" => $load_new_result_2026,
         "user_coord" => $user_coord,
 
         "show_exists" => $show_exists,
         "translation_button" => $translation_button,
-
         "test" => $test
     ];
     // ---
-
-    echo results_loader($data);
+    if ($load_new_result_2026) {
+        echo results_loader_2026($data);
+    } else {
+        echo results_loader($data);
+    }
 }
 
 echo "</div><br>";

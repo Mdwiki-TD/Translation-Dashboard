@@ -42,10 +42,10 @@ $camp     = filter_input(INPUT_GET, 'camp', FILTER_SANITIZE_FULL_SPECIAL_CHARS) 
 // ---
 $global_username = $GLOBALS['global_username'] ?? "";
 // ---
-$titles_infos   = get_td_or_sql_titles_infos();
+$_titles_infos   = get_td_or_sql_titles_infos();
 $categories_tab = get_td_or_sql_categories();
 //---
-$lead_words_table = array_column($titles_infos, 'w_lead_words', 'title');
+$lead_words_table = array_column($_titles_infos, 'w_lead_words', 'title');
 $cats_data = array_column($categories_tab, "campaign", "category");
 //---
 // ---
