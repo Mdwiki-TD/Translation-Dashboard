@@ -167,11 +167,20 @@ function missing_by_lang_and_category($lang_code, $category)
                 t.article_id = c.article_id
                 AND t.code = ?
         )
+        AND NOT EXISTS (
+            SELECT
+                1
+            FROM
+                all_qids_exists aqe
+            WHERE
+                aqe.code = ?
+                AND aqe.qid = ti.qid
+        )
         /* to work with valid langs */
         AND EXISTS ( SELECT 1 FROM langs la WHERE la.code = ? )
     SQL;
     // ---
-    $params = [$category, $lang_code, $lang_code];
+    $params = [$category, $lang_code, $lang_code, $lang_code];
     // ---
     $u_data = super_function($api_params, $params, $query, "category_members");
     // ---
