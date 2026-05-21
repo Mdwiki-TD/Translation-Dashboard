@@ -9,7 +9,7 @@ use function Results\GetResults2026\results_loader;
 
 */
 
-//---x
+//---
 use function Results\GetResults2026\get_results_2026;
 use function Results\GetResults2026\make_results_table_2026;
 use function Results\GetResults2026\make_results_table_inprocess;

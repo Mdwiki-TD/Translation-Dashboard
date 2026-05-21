@@ -32,41 +32,6 @@ function _create_summary($code, $cat, $len_inprocess, $len_missing, $len_of_exis
     return $summary;
 }
 
-function exists_expends($items_missing, $exists_targets_before)
-{
-    //---
-    test_print("++ exists_expends:");
-    test_print("++ before ++ items_missing " . count($items_missing));
-    // ---
-    // { "qid": "Q133005500", "title": "Video:Abdominal thrusts", "category": "RTTVideo", "code": "ar", "target": "ويكيبيديا:فيديوويكي\/ضغطات البطن" }
-    //---
-    $items_exists = [];
-    $missing_new = [];
-    //---
-    foreach ($items_missing as $title) {
-        // ---
-        $before_link = $exists_targets_before[$title] ?? [];
-        $target = $before_link['target'] ?? "";
-        // ---
-        if ($target) {
-            // ---
-            $items_exists[$title] = [
-                "qid" => $before_link['qid'] ?? "",
-                "title" => $before_link['title'] ?? "",
-                "target" => $target,
-                "via" => "before"
-            ];
-        } else {
-            $missing_new[] = $title;
-        }
-    }
-    //---
-    test_print("++ after ++ items_exists " . count($items_exists));
-    test_print("++ after ++ items_missing " . count($missing_new));
-    //---
-    return $items_exists;
-}
-
 function getinprocess_n($missing, $code)
 {
     $res = get_lang_in_process($code);
