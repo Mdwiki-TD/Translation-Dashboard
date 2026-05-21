@@ -9,11 +9,13 @@ Usage:
 use function SQLorAPI\Funcs\exists_by_qids_query_and_category;
 use function SQLorAPI\Funcs\exists_by_qids_query;
 use function SQLorAPI\Funcs\get_missing_exists_statics;
+use function SQLorAPI\Funcs\missing_by_lang_and_category;
+use function SQLorAPI\Funcs\exists_by_lang_and_category;
 
 */
 
 use function SQLorAPI\Get\super_function;
-use function SQLorAPI\Get\isvalid;
+// use function SQLorAPI\Get\isvalid;
 
 
 function exists_by_qids_query_and_category($lang, $category)
@@ -129,6 +131,87 @@ function get_missing_exists_statics($category)
     $u_data = super_function($api_params, $params, $query, "category_members");
     // ---
     $data2[$category] = $u_data;
+    // ---
+    return $u_data;
+}
+
+
+function missing_by_lang_and_category($lang_code, $category)
+{
+    // ---
+    $api_params = ['get' => 'missing_by_lang_and_category', 'category' => $category, 'lang' => $lang_code];
+    // ---
+    $query = <<<SQL
+        SELECT
+            c.article_id AS title,
+            c.category AS category,
+            ti.importance,
+            ti.r_lead_refs,
+            ti.r_all_refs,
+            ti.en_views,
+            ti.w_lead_words,
+            ti.w_all_words,
+            ti.qid
+        FROM
+            category_members c
+        LEFT JOIN
+            titles_infos ti ON ti.title = c.article_id
+        WHERE
+            c.category = ?
+        AND NOT EXISTS (
+            SELECT
+                1
+            FROM
+                all_exists t
+            WHERE
+                t.article_id = c.article_id
+                AND t.code = ?
+        )
+        /* to work with valid langs */
+        AND EXISTS ( SELECT 1 FROM langs la WHERE la.code = ? )
+    SQL;
+    // ---
+    $params = [$category, $lang_code, $lang_code];
+    // ---
+    $u_data = super_function($api_params, $params, $query, "category_members");
+    // ---
+    return $u_data;
+}
+
+function exists_by_lang_and_category($lang_code, $category)
+{
+    // ---
+    $api_params = ['get' => 'exists_by_lang_and_category', 'category' => $category, 'lang' => $lang_code];
+    // ---
+    $query = <<<SQL
+        SELECT
+            c.article_id AS title,
+            c.category AS category,
+            ti.importance,
+            ti.r_lead_refs,
+            ti.r_all_refs,
+            ti.en_views,
+            ti.w_lead_words,
+            ti.w_all_words,
+            ti.qid,
+            aq.target
+        FROM
+            category_members c
+        JOIN
+            all_exists t ON t.article_id = c.article_id
+        LEFT JOIN
+            titles_infos ti ON ti.title = c.article_id
+        LEFT JOIN
+            all_qids_exists aq ON aq.qid = ti.qid
+        WHERE
+            c.category = ?
+        AND t.code = ?
+        AND t.code = aq.code
+    SQL;
+    // ---
+    $params = [$category, $lang_code];
+    // ---
+    $u_data = super_function($api_params, $params, $query, "category_members");
     // ---
     return $u_data;
 }

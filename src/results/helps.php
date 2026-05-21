@@ -16,6 +16,18 @@ use function Results\TrLink\make_tr_link_medwiki;
 use function TD\Render\Html\make_mdwiki_href;
 use function Results\TrLink\make_ContentTranslation_url;
 
+function sort_py_pageviews_rows($items, $en_views_tab)
+{
+    $dd = [];
+    foreach ($items as $t) {
+        $t = str_replace('_', ' ', $t);
+        $kry = $en_views_tab[$t] ?? 0;
+        $dd[$t] = $kry;
+    }
+    arsort($dd);
+    return $dd;
+}
+
 function sort_py_PageViews($items, $en_views_tab)
 {
     $dd = [];
@@ -137,6 +149,7 @@ function make_translate_urls(
 function get_item_properties($title, $tra_type, $title_data)
 {
     //---
+    // inprocess_table = { "title": "Andes virus infection", "user": "Mr. Ibrahem", "lang": "ar", "cat": "RTT", "translate_type": "all", "word": 0, "add_date": "2026-05-21 00:00:00", "campaign": "Main", "autonym": "العربية" }
     $word     = $title_data['w_lead_words'] ?? 0;
     $refs     = $title_data['r_lead_refs'] ?? 0;
     $asse     = $title_data['importance'] ?? "";

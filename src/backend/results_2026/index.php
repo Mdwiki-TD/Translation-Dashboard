@@ -1,23 +1,21 @@
 <?PHP
 
-namespace Results\ResultsIndex;
+namespace Results\GetResults2026;
 //---
 /*
 Usage:
 
-use function Results\ResultsIndex\Results_tables;
-use function Results\ResultsIndex\results_loader;
+use function Results\GetResults2026\results_loader;
 
 */
 
-//---
-use function Results\GetResults\get_results;
-use function Results\GetResults\get_results_new;
-use function Results\ResultsTable\make_results_table;
-use function Results\ResultsTableInprocess\make_results_table_inprocess;
-use function Results\ResultsTableExists\make_results_table_exists;
+//---x
+use function Results\GetResults2026\get_results_2026;
+use function Results\GetResults2026\make_results_table_2026;
+use function Results\GetResults2026\make_results_table_inprocess;
+use function Results\GetResults2026\make_results_table_exists;
+
 use function SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
-use function TD\Render\admin_text;
 use function SQLorAPI\GetDataTab\get_td_or_sql_translate_type;
 use function SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
 use function SQLorAPI\GetDataTab\get_td_or_sql_qids;
@@ -99,8 +97,9 @@ function Results_tables(
     //---
     $p_inprocess = $results_list['inprocess'];
     $missing     = $results_list['missing'];
-    $ix          = admin_text($results_list['ix']);
+    $ix          = $results_list['ix'];
     //---
+    // { "title": "11p deletion syndrome", "category": "RTT", "importance": "", "r_lead_refs": 5, "r_all_refs": 14, "en_views": 838, "w_lead_words": 221, "w_all_words": 547, "qid": "Q1892153", "target": "متلازمة واجر" }
     $exists      = $results_list['exists'];
     //---
     $res_line = " Results: (" . count($results_list['missing']) . ")";
@@ -109,7 +108,7 @@ function Results_tables(
     //---
     $titles_infos_items = array_column($titles_infos, null, 'title');
     //---
-    $table = make_results_table(
+    $table = make_results_table_2026(
         $missing,
         $code,
         $cat,
@@ -119,8 +118,8 @@ function Results_tables(
         $global_username,
         $nolead_translates,
         $translates_full,
-        $titles_infos,
-        $sql_qids,
+        // $titles_infos,
+        // $sql_qids,
         $endpoint
     );
     //---
@@ -163,7 +162,7 @@ function Results_tables(
             $camp,
             $global_username,
             $user_coord,
-            $titles_infos_items,
+            // $titles_infos_items,
             $endpoint
         );
         //---
@@ -175,7 +174,7 @@ function Results_tables(
     return $html_result;
 }
 
-function results_loader($data)
+function results_loader_2026($data)
 {
     // ---
     $endpoint = get_endpoint();
@@ -183,27 +182,18 @@ function results_loader($data)
     $camp        = $data["camp"];
     $code        = $data["code"];
     $cat         = $data["cat"];
-    $depth       = $data["depth"] ?? 1;
     // ---
     $show_exists = $data["show_exists"];
-    $category2   = $data["category2"] ?? "";
     // ---
     $global_username  = $data["global_username"];
-    $filter_sparql    = $data["filter_sparql"];
-    $new_result       = $data["new_result"];
     $translate_button = $data["translation_button"];
     // ---
     $full_translators = get_td_or_sql_full_translators();
     $full_translators = array_column($full_translators, 'is_active', 'user');
     //---
-    // $full_tr_user = in_array($global_username, $full_translators);
     $full_tr_user = ($full_translators[$global_username] ?? 0) == 1;
     //---
-    if ($new_result) {
-        $results_list = get_results_new($cat, $camp, $depth, $code, $filter_sparql, $category2);
-    } else {
-        $results_list = get_results($cat, $camp, $depth, $code, $filter_sparql, $category2);
-    }
+    $results_list = get_results_2026($cat, $code);
     //---
     $tab = [
         "code" => $code,
