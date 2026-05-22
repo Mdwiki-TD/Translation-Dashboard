@@ -124,11 +124,11 @@ function missing_by_lang_and_category($lang_code, $category)
         FROM
             category_members c
 
-        left join assessments ase on ase.title = c.article_id
-        left join enwiki_pageviews ep on ep.title = c.article_id
-        left join qids q on q.title = c.article_id
-        left join refs_counts rc on rc.r_title = c.article_id
-        left join words w on w.w_title = c.article_id
+        LEFT JOIN assessments ase       ON ase.title = c.article_id
+        LEFT JOIN enwiki_pageviews ep   ON ep.title = c.article_id
+        LEFT JOIN qids q                ON q.title = c.article_id
+        LEFT JOIN refs_counts rc        ON rc.r_title = c.article_id
+        LEFT JOIN words w               ON w.w_title = c.article_id
 
         WHERE
             c.category = ?
@@ -183,14 +183,12 @@ function exists_by_lang_and_category($lang_code, $category)
         JOIN
             all_exists t ON t.article_id = c.article_id
 
-        left join assessments ase on ase.title = c.article_id
-        left join enwiki_pageviews ep on ep.title = c.article_id
-        left join qids q on q.title = c.article_id
-        left join refs_counts rc on rc.r_title = c.article_id
-        left join words w on w.w_title = c.article_id
-
-        LEFT JOIN
-            all_qids_exists aq ON aq.qid = q.qid
+        LEFT JOIN assessments ase       ON ase.title = c.article_id
+        LEFT JOIN enwiki_pageviews ep   ON ep.title = c.article_id
+        LEFT JOIN qids q                ON q.title = c.article_id
+        LEFT JOIN refs_counts rc        ON rc.r_title = c.article_id
+        LEFT JOIN words w               ON w.w_title = c.article_id
+        JOIN all_qids_exists aq    ON aq.qid = q.qid
         WHERE
             c.category = ?
         AND t.code = ?
