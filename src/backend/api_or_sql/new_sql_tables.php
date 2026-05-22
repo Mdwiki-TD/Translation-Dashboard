@@ -43,15 +43,14 @@ function exists_by_qids_query($lang)
     // ---
     $query = <<<SQL
         SELECT
-            qq.qid AS qid,
+            t.qid AS qid,
             q.title AS title,
             aa.category AS category,
             t.code AS code,
             t.target AS target
-        FROM all_qids qq
-            LEFT JOIN qids q            ON qq.qid = q.qid
+        FROM qids q
+            JOIN all_qids_exists t      ON t.qid = q.qid
             LEFT JOIN all_articles aa   ON aa.article_id = q.title
-            JOIN all_qids_exists t      ON t.qid = qq.qid
         WHERE t.code = ?
 
         AND (t.target != '' AND t.target IS NOT NULL)
@@ -139,37 +138,22 @@ function missing_by_lang_and_category($lang_code, $category)
         FROM
             category_members c
 
-        LEFT JOIN assessments ase       ON ase.title = c.article_id
-        LEFT JOIN enwiki_pageviews ep   ON ep.title = c.article_id
-        LEFT JOIN qids q                ON q.title = c.article_id
-        LEFT JOIN refs_counts rc        ON rc.r_title = c.article_id
-        LEFT JOIN words w               ON w.w_title = c.article_id
+        JOIN qids q                     ON q.title      = c.article_id
+        LEFT JOIN all_qids_exists aq    ON aq.qid       = q.qid AND aq.code = ?
 
+        LEFT JOIN assessments ase       ON ase.title    = c.article_id
+        LEFT JOIN enwiki_pageviews ep   ON ep.title     = c.article_id
+        LEFT JOIN refs_counts rc        ON rc.r_title   = c.article_id
+        LEFT JOIN words w               ON w.w_title    = c.article_id
         WHERE
             c.category = ?
-        AND NOT EXISTS (
-            SELECT
-                1
-            FROM
-                all_exists t
-            WHERE
-                t.article_id = c.article_id
-                AND t.code = ?
-        )
-        AND NOT EXISTS (
-            SELECT
-                1
-            FROM
-                all_qids_exists aqe
-            WHERE
-                aqe.code = ?
-                AND aqe.qid = q.qid
-        )
+        AND aq.target IS NULL
+
         /* to work with valid langs */
         AND EXISTS ( SELECT 1 FROM langs la WHERE la.code = ? )
     SQL;
     // ---
-    $params = [$category, $lang_code, $lang_code, $lang_code];
+    $params = [$lang_code, $category, $lang_code];
     // ---
     $u_data = super_function($api_params, $params, $query, "category_members");
     // ---
@@ -195,22 +179,23 @@ function exists_by_lang_and_category($lang_code, $category)
             aq.target
         FROM
             category_members c
-        JOIN
-            all_exists t ON t.article_id = c.article_id
 
-        LEFT JOIN assessments ase       ON ase.title = c.article_id
-        LEFT JOIN enwiki_pageviews ep   ON ep.title = c.article_id
-        LEFT JOIN qids q                ON q.title = c.article_id
-        LEFT JOIN refs_counts rc        ON rc.r_title = c.article_id
-        LEFT JOIN words w               ON w.w_title = c.article_id
-        JOIN all_qids_exists aq    ON aq.qid = q.qid
+        JOIN qids q                ON q.title = c.article_id
+        LEFT JOIN all_qids_exists aq    ON aq.qid = q.qid AND aq.code = ?
+
+        LEFT JOIN assessments ase       ON ase.title    = c.article_id
+        LEFT JOIN enwiki_pageviews ep   ON ep.title     = c.article_id
+        LEFT JOIN refs_counts rc        ON rc.r_title   = c.article_id
+        LEFT JOIN words w               ON w.w_title    = c.article_id
         WHERE
             c.category = ?
-        AND t.code = ?
-        AND t.code = aq.code
+        AND aq.target IS NOT NULL
+
+        /* to work with valid langs */
+        AND EXISTS ( SELECT 1 FROM langs la WHERE la.code = ? )
     SQL;
     // ---
-    $params = [$category, $lang_code];
+    $params = [$lang_code, $category, $lang_code];
     // ---
     $u_data = super_function($api_params, $params, $query, "category_members");
     // ---

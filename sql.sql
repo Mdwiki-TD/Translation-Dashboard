@@ -40,25 +40,6 @@ CREATE TABLE
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE
-    `all_exists` (
-        `id` int NOT NULL AUTO_INCREMENT,
-        `article_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-        `code` varchar(25) COLLATE utf8mb4_unicode_ci NOT NULL,
-        PRIMARY KEY (`id`),
-        UNIQUE KEY `article_id_code` (`article_id`, `code`),
-        CONSTRAINT `all_exists_ibfk_1` FOREIGN KEY (`article_id`) REFERENCES `all_articles` (`article_id`)
-    ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
-
-CREATE TABLE
-    `all_qids` (
-        `qid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-        `category` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-        `id` int NOT NULL AUTO_INCREMENT,
-        PRIMARY KEY (`id`),
-        UNIQUE KEY `qid` (`qid`)
-    ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
-
-CREATE TABLE
     `all_qids_exists` (
         `id` int NOT NULL AUTO_INCREMENT,
         `qid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -66,15 +47,7 @@ CREATE TABLE
         `target` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
         PRIMARY KEY (`id`),
         UNIQUE KEY `qid_code` (`qid`, `code`),
-        CONSTRAINT `all_qids_exists_ibfk_1` FOREIGN KEY (`qid`) REFERENCES `all_qids` (`qid`)
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
-
-CREATE TABLE
-    `all_qids_titles` (
-        `qid` varchar(255),
-        `title` varchar(120),
-        `category` varchar(255)
-    );
 
 CREATE TABLE
     `assessments` (
@@ -318,18 +291,6 @@ CREATE TABLE
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE
-    `titles_infos` (
-        `title` varchar(120),
-        `importance` varchar(120),
-        `r_lead_refs` int,
-        `r_all_refs` int,
-        `en_views` int,
-        `w_lead_words` int,
-        `w_all_words` int,
-        `qid` varchar(120)
-    );
-
-CREATE TABLE
     `translate_type` (
         `tt_id` int unsigned NOT NULL AUTO_INCREMENT,
         `tt_title` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -380,17 +341,6 @@ CREATE TABLE
     );
 
 CREATE TABLE
-    `wddone` (
-        `id` int unsigned NOT NULL AUTO_INCREMENT,
-        `mdtitle` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
-        `target` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
-        `lang` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
-        `user` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
-        PRIMARY KEY (`id`),
-        KEY `idx_target` (`target`)
-    ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
-
-CREATE TABLE
     `words` (
         `w_id` int unsigned NOT NULL AUTO_INCREMENT,
         `w_title` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -401,60 +351,17 @@ CREATE TABLE
         KEY `idx_words_w_title` (`w_title`)
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
-DROP TABLE IF EXISTS `all_qids_titles`;
+DROP TABLE IF EXISTS views_new_all;
 
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `all_qids_titles` AS
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW views_new_all AS
 select
-    `qq`.`qid` AS `qid`,
-    `q`.`title` AS `title`,
-    `aa`.`category` AS `category`
+    v.target AS target,
+    v.lang AS lang,
+    sumv.views AS views
 from
-    (
-        (
-            `all_qids` `qq`
-            left join `qids` `q` on ((`qq`.`qid` = `q`.`qid`))
-        )
-        left join `all_articles` `aa` on ((`aa`.`article_id` = `q`.`title`))
-    );
-
-DROP TABLE IF EXISTS `titles_infos`;
-
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `titles_infos` AS
-select
-    `ase`.`title` AS `title`,
-    `ase`.`importance` AS `importance`,
-    `rc`.`r_lead_refs` AS `r_lead_refs`,
-    `rc`.`r_all_refs` AS `r_all_refs`,
-    `ep`.`en_views` AS `en_views`,
-    `w`.`w_lead_words` AS `w_lead_words`,
-    `w`.`w_all_words` AS `w_all_words`,
-    `q`.`qid` AS `qid`
-from
-    (
-        (
-            (
-                (
-                    `assessments` `ase`
-                    left join `enwiki_pageviews` `ep` on ((`ase`.`title` = `ep`.`title`))
-                )
-                left join `qids` `q` on ((`q`.`title` = `ase`.`title`))
-            )
-            left join `refs_counts` `rc` on ((`rc`.`r_title` = `ase`.`title`))
-        )
-        left join `words` `w` on ((`w`.`w_title` = `ase`.`title`))
-    );
-
-DROP TABLE IF EXISTS `views_new_all`;
-
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `views_new_all` AS
-select
-    `v`.`target` AS `target`,
-    `v`.`lang` AS `lang`,
-    sum(`v`.`views`) AS `views`
-from
-    `views_new` `v`
+    views_new v
 group by
-    `v`.`target`,
-    `v`.`lang`;
+    v.target,
+    v.lang;
 
 -- 2026-05-21 02:23:09 UTC
