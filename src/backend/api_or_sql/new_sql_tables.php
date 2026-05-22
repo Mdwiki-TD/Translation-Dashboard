@@ -7,7 +7,7 @@ namespace SQLorAPI\Funcs;
 Usage:
 
 use function SQLorAPI\Funcs\exists_by_qids_query;
-use function SQLorAPI\Funcs\get_missing_exists_statics;
+use function SQLorAPI\Funcs\exists_statics_by_category;
 use function SQLorAPI\Funcs\missing_by_lang_and_category;
 use function SQLorAPI\Funcs\exists_by_lang_and_category;
 
@@ -64,60 +64,6 @@ function exists_by_qids_query($lang)
     // ---
     return $u_data;
 }
-
-
-function get_missing_exists_statics($category)
-{
-    // ---
-    if ($category === null) {
-        $category = "RTT";
-    }
-    // ---
-    static $data2 = [];
-    // ---
-    if (!empty($data2[$category] ?? [])) {
-        return $data2[$category];
-    }
-    // ---
-    $api_params = ['get' => 'missing_exists_statics', 'category' => $category];
-    // ---
-    $query = <<<SQL
-        SELECT
-            a.code AS language_code,
-            la.autonym AS autonym,
-            la.name AS language_name,
-            COUNT(a.article_id) AS available_title_count,
-            (total.total_rtt - COUNT(a.article_id)) AS missing_title_count,
-            total.total_rtt as total
-        FROM
-            all_exists a
-        CROSS JOIN (
-            SELECT COUNT(DISTINCT article_id) AS total_rtt
-            FROM category_members
-            WHERE category = ?
-        ) total
-        JOIN langs la ON la.code = a.code
-        WHERE
-            a.article_id IN (
-                SELECT c.article_id
-                FROM category_members c
-                WHERE c.category = ?
-            )
-        AND la.autonym IS NOT NULL
-        GROUP BY
-            a.code, la.autonym, la.name, total.total_rtt
-        ORDER BY 4 DESC;
-    SQL;
-    // ---
-    $params = [$category, $category];
-    // ---
-    $u_data = super_function($api_params, $params, $query, "category_members");
-    // ---
-    $data2[$category] = $u_data;
-    // ---
-    return $u_data;
-}
-
 
 function missing_by_lang_and_category($lang_code, $category)
 {
@@ -198,6 +144,51 @@ function exists_by_lang_and_category($lang_code, $category)
     $params = [$lang_code, $category, $lang_code];
     // ---
     $u_data = super_function($api_params, $params, $query, "category_members");
+    // ---
+    return $u_data;
+}
+
+function exists_statics_by_category($category)
+{
+    // ---
+    if ($category === null) {
+        $category = "RTT";
+    }
+    // ---
+    static $data2 = [];
+    // ---
+    if (!empty($data2[$category] ?? [])) {
+        return $data2[$category];
+    }
+    // ---
+    $api_params = ['get' => 'exists_statics_by_category', 'category' => $category];
+    // ---
+    $query = <<<SQL
+        SELECT
+            la.code AS language_code,
+            la.autonym AS autonym,
+            la.name AS language_name,
+            count(*) AS total,
+            SUM(CASE WHEN aq.target IS NULL THEN 1 ELSE 0 END) AS missing_title_count,
+            SUM(CASE WHEN aq.target IS NOT NULL THEN 1 ELSE 0 END) AS available_title_count
+        FROM
+            category_members c
+
+        JOIN langs la
+        LEFT JOIN qids q                ON q.title = c.article_id
+        LEFT JOIN all_qids_exists aq    ON aq.qid = q.qid AND la.code = aq.code
+
+        WHERE
+            c.category = ?
+        GROUP BY 1, 2, 3
+        ORDER BY 3 ASC;
+    SQL;
+    // ---
+    $params = [$category];
+    // ---
+    $u_data = super_function($api_params, $params, $query, "category_members");
+    // ---
+    $data2[$category] = $u_data;
     // ---
     return $u_data;
 }
