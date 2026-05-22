@@ -166,22 +166,36 @@ function exists_statics_by_category($category)
     $query = <<<SQL
         SELECT
             la.code AS language_code,
-            la.autonym AS autonym,
+            la.autonym,
             la.name AS language_name,
-            count(*) AS total,
-            SUM(CASE WHEN aq.target IS NULL THEN 1 ELSE 0 END) AS missing_title_count,
-            SUM(CASE WHEN aq.target IS NOT NULL THEN 1 ELSE 0 END) AS available_title_count
-        FROM
-            category_members c
 
-        JOIN langs la
-        LEFT JOIN qids q                ON q.title = c.article_id
-        LEFT JOIN all_qids_exists aq    ON aq.qid = q.qid AND la.code = aq.code
+            COUNT(*) AS total,
 
-        WHERE
-            c.category = ?
-        GROUP BY 1, 2, 3
-        ORDER BY 3 ASC;
+            COUNT(aq.qid) AS available_title_count,
+
+            COUNT(*) - COUNT(aq.qid) AS missing_title_count
+
+        FROM langs la
+
+        CROSS JOIN (
+            SELECT DISTINCT article_id
+            FROM category_members
+            WHERE category = ?
+        ) c
+
+        LEFT JOIN qids q
+            ON q.title = c.article_id
+
+        LEFT JOIN all_qids_exists aq
+            ON aq.qid = q.qid
+        AND aq.code = la.code
+
+        GROUP BY
+            la.code,
+            la.autonym,
+            la.name
+
+        ORDER BY available_title_count ASC;
     SQL;
     // ---
     $params = [$category];

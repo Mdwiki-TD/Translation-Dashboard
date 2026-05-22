@@ -22,13 +22,13 @@ $length = 0;
 foreach ($data as $row) {
     // { "language_code": "ar", "autonym": "العربية", "language_name": "Arabic", "available_title_count": 3132, "missing_title_count": 4, "total": 3136 }
     $langcode = $row['language_code'] ?? '';
-    $autonym = $row['autonym'] ?? '';
+    $autonym  = $row['autonym'] ?? '';
     $langname = $row['language_name'] ?? "";
 
     $missing = $row['missing_title_count'] ?? "0";
-    $exists = $row['available_title_count'] ?? "0";
+    $exists  = $row['available_title_count'] ?? "0";
 
-    if ($length == 0) $length = $row['total'] ?? "0";
+    if ($length == 0) $length = $row['total'] ?? 0;
 
     $num += 1;
 
