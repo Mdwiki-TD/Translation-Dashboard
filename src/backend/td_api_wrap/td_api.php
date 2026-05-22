@@ -40,7 +40,7 @@ function compare_it($t1, $t2)
 
 function post_url(string $endPoint, array $params = []): string
 {
-    if (empty($params)) return false;
+    if (empty($params)) return "";
     // ---
     $time_start = microtime(true);
     $usr_agent = "WikiProjectMed Translation Dashboard/1.0 (https://mdwiki.toolforge.org/; tools.mdwiki@toolforge.org)";
