@@ -27,24 +27,39 @@ function exists_by_qids_query($lang)
         return $data2[$lang];
     }
     // ---
-    $api_params = ['get' => 'exists_by_qids', 'lang' => $lang, 'target' => 'not_empty'];
+    // ---
+    // exists_by_qids
+    // ---
+    /*
+        [
+            { "name": "lang", "column": "t.code", "type": "text", "placeholder": "Language code", "no_mt_options": true },
+            { "name": "category", "column": "aa.category", "type": "text", "placeholder": "Category", "no_mt_options": true },
+            { "name": "campaign", "column": "campaign", "type": "text", "placeholder": "Campaign" },
+            { "name": "order", "column": "order", "type": "text", "placeholder": "Order by", "no_select": true }
+        ]
+      */
+    // ---
+    $api_params = ['get' => 'exists_by_qids', 'lang' => $lang];
     // ---
     $query = <<<SQL
         SELECT
-            a.qid AS qid,
-            a.title AS title,
-            a.category AS category,
+            qq.qid AS qid,
+            q.title AS title,
+            aa.category AS category,
             t.code AS code,
             t.target AS target
-        FROM all_qids_titles a
-            JOIN all_qids_exists t ON t.qid = a.qid
+        FROM all_qids qq
+            LEFT JOIN qids q            ON qq.qid = q.qid
+            LEFT JOIN all_articles aa   ON aa.article_id = q.title
+            JOIN all_qids_exists t      ON t.qid = qq.qid
         WHERE t.code = ?
+
         AND (t.target != '' AND t.target IS NOT NULL)
     SQL;
     // ---
     $params = [$lang];
     // ---
-    $u_data = super_function($api_params, $params, $query, "all_qids_titles");
+    $u_data = super_function($api_params, $params, $query, "all_qids_exists");
     // ---
     $data2[$lang] = $u_data;
     // ---
