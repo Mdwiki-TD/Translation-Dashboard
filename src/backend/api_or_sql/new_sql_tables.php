@@ -33,7 +33,7 @@ function exists_by_qids_query($lang)
     /*
         [
             { "name": "lang", "column": "t.code", "type": "text", "placeholder": "Language code", "no_mt_options": true },
-            { "name": "category", "column": "aa.category", "type": "text", "placeholder": "Category", "no_mt_options": true },
+            { "name": "category", "column": "cm.category", "type": "text", "placeholder": "Category", "no_mt_options": true },
             { "name": "campaign", "column": "campaign", "type": "text", "placeholder": "Campaign" },
             { "name": "order", "column": "order", "type": "text", "placeholder": "Order by", "no_select": true }
         ]
@@ -45,12 +45,12 @@ function exists_by_qids_query($lang)
         SELECT
             t.qid AS qid,
             q.title AS title,
-            aa.category AS category,
+            cm.category AS category,
             t.code AS code,
             t.target AS target
         FROM qids q
-            JOIN all_qids_exists t      ON t.qid = q.qid
-            LEFT JOIN all_articles aa   ON aa.article_id = q.title
+            JOIN all_qids_exists t        ON t.qid = q.qid
+            LEFT JOIN category_members cm ON cm.article_id = q.title
         WHERE t.code = ?
 
         AND (t.target != '' AND t.target IS NOT NULL)
