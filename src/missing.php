@@ -3,7 +3,7 @@
 include_once __DIR__ . '/include_all.php';
 include_once __DIR__ . '/header.php';
 
-use function SQLorAPI\Funcs\get_missing_exists_statics;
+use function SQLorAPI\Funcs\exists_statics_by_category;
 
 if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     ini_set('display_errors', 1);
@@ -15,7 +15,7 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 $text = "";
 $num = 0;
 
-$data = get_missing_exists_statics("RTT");
+$data = exists_statics_by_category("RTT");
 
 $length = 0;
 

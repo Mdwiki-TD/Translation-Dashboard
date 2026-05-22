@@ -47,10 +47,10 @@ function get_td_or_sql_titles_infos()
             q.qid AS qid
         from
             assessments ase
-            left join enwiki_pageviews ep on ase.title = ep.title
-            left join qids q on q.title = ase.title
-            left join refs_counts rc on rc.r_title = ase.title
-            left join words w on w.w_title = ase.title
+            left join enwiki_pageviews ep   on ep.title   = ase.title
+            left join qids q                on q.title    = ase.title
+            left join refs_counts rc        on rc.r_title = ase.title
+            left join words w               on w.w_title  = ase.title
     SQL;
     // ---
     $data = super_function($api_params, [], $qua);

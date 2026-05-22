@@ -12,82 +12,24 @@ use function Results\GetResults2026\get_results_2026; // get_results_2026($cat, 
 use function TD\Render\Html\make_mdwiki_cat_url;
 use function SQLorAPI\Process\get_lang_in_process;
 use function SQLorAPI\Funcs\get_lang_pages_by_cat;
-use function Results\GetCats\get_mdwiki_cat_members;
 
 use function SQLorAPI\Funcs\missing_by_lang_and_category;
 use function SQLorAPI\Funcs\exists_by_lang_and_category;
 
 use function TD\Render\TestPrint\test_print;
 
-function get_cat_exists_and_missing_new($exists_via_td, $cat, $depth, $code, $use_cache = true): array
+function _create_summary($code, $cat, $len_inprocess, $len_missing, $len_of_exists_pages)
 {
-    // ---
-    // Fetch category members
-    $members = get_mdwiki_cat_members($cat, $depth, $use_cache);
-    // ---
-    test_print("get_cat_exists and_missing Members size: " . count($members));
-    // ---
-    // pages that exist in $exists and $members
-    // ---
-    $exists = array_filter($exists_via_td, function ($item) use ($members) {
-        return in_array($item['title'], $members);
-    });
-    // ---
-    $func = function ($item) {
-        return [
-            "qid" => $item["qid"] ?? "",
-            "title" => $item["title"] ?? "",
-            "target" => $item["target"] ?? "",
-            "via" => "td",
-            "pupdate" => $item["pupdate"] ?? "",
-            "user" => $item["user"] ?? ""
-        ];
-    };
-    // ---
-    $exists = array_map($func, $exists);
-    // ---
-    // Find missing members
-    $missing = array_diff($members, array_keys($exists));
-    // ---
-    $missing = array_values(array_unique($missing));
-    // ---
-    // test_print("End of get_cat exists_and_missing <br>===============================");
-    return [$exists, $missing];
-}
 
-function exists_expends($items_missing, $exists_targets_before)
-{
-    //---
-    test_print("++ exists_expends:");
-    test_print("++ before ++ items_missing " . count($items_missing));
+    $len_of_all = $len_of_exists_pages + $len_missing + $len_inprocess;
+
+    // Prepare category URL
+    $caturl = make_mdwiki_cat_url($cat, "Category");
+
+    // Generate summary message
+    $summary = "Found $len_of_all pages in $caturl, $len_of_exists_pages exists, and $len_missing missing in (<a href='https://$code.wikipedia.org' target='_blank'>$code</a>), $len_inprocess In process.";
     // ---
-    // { "qid": "Q133005500", "title": "Video:Abdominal thrusts", "category": "RTTVideo", "code": "ar", "target": "ويكيبيديا:فيديوويكي\/ضغطات البطن" }
-    //---
-    $items_exists = [];
-    $missing_new = [];
-    //---
-    foreach ($items_missing as $title) {
-        // ---
-        $before_link = $exists_targets_before[$title] ?? [];
-        $target = $before_link['target'] ?? "";
-        // ---
-        if ($target) {
-            // ---
-            $items_exists[$title] = [
-                "qid" => $before_link['qid'] ?? "",
-                "title" => $before_link['title'] ?? "",
-                "target" => $target,
-                "via" => "before"
-            ];
-        } else {
-            $missing_new[] = $title;
-        }
-    }
-    //---
-    test_print("++ after ++ items_exists " . count($items_exists));
-    test_print("++ after ++ items_missing " . count($missing_new));
-    //---
-    return $items_exists;
+    return $summary;
 }
 
 function getinprocess_n($missing, $code)
@@ -153,7 +95,7 @@ function get_results_2026($cat, $code): array
         });
     }
 
-    $summary = create_summary($code, $cat, count($inprocess), count($missing), $len_of_exists_pages);
+    $summary = _create_summary($code, $cat, count($inprocess), count($missing), $len_of_exists_pages);
 
     // sort $items_exists by keys
     ksort($items_exists);
@@ -164,18 +106,4 @@ function get_results_2026($cat, $code): array
         "exists" => $items_exists,
         "missing" => $missing,
     ];
-}
-
-function create_summary($code, $cat, $len_inprocess, $len_missing, $len_of_exists_pages)
-{
-
-    $len_of_all = $len_of_exists_pages + $len_missing + $len_inprocess;
-
-    // Prepare category URL
-    $caturl = make_mdwiki_cat_url($cat, "Category");
-
-    // Generate summary message
-    $summary = "Found $len_of_all pages in $caturl, $len_of_exists_pages exists, and $len_missing missing in (<a href='https://$code.wikipedia.org' target='_blank'>$code</a>), $len_inprocess In process.";
-    // ---
-    return $summary;
 }

@@ -6,9 +6,8 @@ namespace SQLorAPI\Funcs;
 
 Usage:
 
-use function SQLorAPI\Funcs\exists_by_qids_query_and_category;
 use function SQLorAPI\Funcs\exists_by_qids_query;
-use function SQLorAPI\Funcs\get_missing_exists_statics;
+use function SQLorAPI\Funcs\exists_statics_by_category;
 use function SQLorAPI\Funcs\missing_by_lang_and_category;
 use function SQLorAPI\Funcs\exists_by_lang_and_category;
 
@@ -16,38 +15,6 @@ use function SQLorAPI\Funcs\exists_by_lang_and_category;
 
 use function SQLorAPI\Get\super_function;
 // use function SQLorAPI\Get\isvalid;
-
-
-function exists_by_qids_query_and_category($lang, $category)
-{
-    // ---
-    // http://localhost:9001/api.php?get=exists_by_qids&lang=ar&category=RTT&target=not_empty
-    static $data2 = [];
-    // ---
-    if (!empty($data2[$lang . $category] ?? [])) {
-        return $data2[$lang . $category];
-    }
-    // ---
-    $api_params = ['get' => 'exists_by_qids', 'lang' => $lang, 'category' => $category, 'target' => 'not_empty'];
-    // ---
-    $query = <<<SQL
-        SELECT a.qid, a.title, a.category, t.code, t.target
-            FROM all_qids_titles a
-            JOIN all_qids_exists t
-            ON t.qid = a.qid
-        WHERE t.code = ?
-        AND a.category = ?
-        AND (t.target != '' AND t.target IS NOT NULL)
-    SQL;
-    // ---
-    $params = [$lang, $category];
-    // ---
-    $u_data = super_function($api_params, $params, $query, "all_qids_titles");
-    // ---
-    $data2[$lang . $category] = $u_data;
-    // ---
-    return $u_data;
-}
 
 function exists_by_qids_query($lang)
 {
@@ -60,13 +27,30 @@ function exists_by_qids_query($lang)
         return $data2[$lang];
     }
     // ---
-    $api_params = ['get' => 'exists_by_qids', 'lang' => $lang, 'target' => 'not_empty'];
+    // ---
+    // exists_by_qids
+    // ---
+    /*
+        [
+            { "name": "lang", "column": "t.code", "type": "text", "placeholder": "Language code", "no_mt_options": true },
+            { "name": "category", "column": "aa.category", "type": "text", "placeholder": "Category", "no_mt_options": true },
+            { "name": "campaign", "column": "campaign", "type": "text", "placeholder": "Campaign" },
+            { "name": "order", "column": "order", "type": "text", "placeholder": "Order by", "no_select": true }
+        ]
+      */
+    // ---
+    $api_params = ['get' => 'exists_by_qids', 'lang' => $lang];
     // ---
     $query = <<<SQL
-        SELECT a.qid, a.title, a.category, t.code, t.target
-            FROM all_qids_titles a
-            JOIN all_qids_exists t
-            ON t.qid = a.qid
+        SELECT
+            t.qid AS qid,
+            q.title AS title,
+            aa.category AS category,
+            t.code AS code,
+            t.target AS target
+        FROM qids q
+            JOIN all_qids_exists t      ON t.qid = q.qid
+            LEFT JOIN all_articles aa   ON aa.article_id = q.title
         WHERE t.code = ?
 
         AND (t.target != '' AND t.target IS NOT NULL)
@@ -74,67 +58,12 @@ function exists_by_qids_query($lang)
     // ---
     $params = [$lang];
     // ---
-    $u_data = super_function($api_params, $params, $query, "all_qids_titles");
+    $u_data = super_function($api_params, $params, $query, "all_qids_exists");
     // ---
     $data2[$lang] = $u_data;
     // ---
     return $u_data;
 }
-
-
-function get_missing_exists_statics($category)
-{
-    // ---
-    if ($category === null) {
-        $category = "RTT";
-    }
-    // ---
-    // http://localhost:9001/api.php?get=exists_by_qids&lang=ar&category=RTT&target=not_empty
-    static $data2 = [];
-    // ---
-    if (!empty($data2[$category] ?? [])) {
-        return $data2[$category];
-    }
-    // ---
-    $api_params = ['get' => 'missing_exists_statics', 'category' => $category];
-    // ---
-    $query = <<<SQL
-        SELECT
-            a.code AS language_code,
-            la.autonym AS autonym,
-            la.name AS language_name,
-            COUNT(a.article_id) AS available_title_count,
-            (total.total_rtt - COUNT(a.article_id)) AS missing_title_count,
-            total.total_rtt as total
-        FROM
-            all_exists a
-        CROSS JOIN (
-            SELECT COUNT(DISTINCT article_id) AS total_rtt
-            FROM category_members
-            WHERE category = ?
-        ) total
-        JOIN langs la ON la.code = a.code
-        WHERE
-            a.article_id IN (
-                SELECT c.article_id
-                FROM category_members c
-                WHERE c.category = ?
-            )
-        AND la.autonym IS NOT NULL
-        GROUP BY
-            a.code, la.autonym, la.name, total.total_rtt
-        ORDER BY 4 DESC;
-    SQL;
-    // ---
-    $params = [$category, $category];
-    // ---
-    $u_data = super_function($api_params, $params, $query, "category_members");
-    // ---
-    $data2[$category] = $u_data;
-    // ---
-    return $u_data;
-}
-
 
 function missing_by_lang_and_category($lang_code, $category)
 {
@@ -155,37 +84,22 @@ function missing_by_lang_and_category($lang_code, $category)
         FROM
             category_members c
 
-        left join assessments ase on ase.title = c.article_id
-        left join enwiki_pageviews ep on ep.title = c.article_id
-        left join qids q on q.title = c.article_id
-        left join refs_counts rc on rc.r_title = c.article_id
-        left join words w on w.w_title = c.article_id
+        JOIN qids q                     ON q.title      = c.article_id
+        LEFT JOIN all_qids_exists aq    ON aq.qid       = q.qid AND aq.code = ?
 
+        LEFT JOIN assessments ase       ON ase.title    = c.article_id
+        LEFT JOIN enwiki_pageviews ep   ON ep.title     = c.article_id
+        LEFT JOIN refs_counts rc        ON rc.r_title   = c.article_id
+        LEFT JOIN words w               ON w.w_title    = c.article_id
         WHERE
             c.category = ?
-        AND NOT EXISTS (
-            SELECT
-                1
-            FROM
-                all_exists t
-            WHERE
-                t.article_id = c.article_id
-                AND t.code = ?
-        )
-        AND NOT EXISTS (
-            SELECT
-                1
-            FROM
-                all_qids_exists aqe
-            WHERE
-                aqe.code = ?
-                AND aqe.qid = q.qid
-        )
+        AND aq.target IS NULL
+
         /* to work with valid langs */
         AND EXISTS ( SELECT 1 FROM langs la WHERE la.code = ? )
     SQL;
     // ---
-    $params = [$category, $lang_code, $lang_code, $lang_code];
+    $params = [$lang_code, $category, $lang_code];
     // ---
     $u_data = super_function($api_params, $params, $query, "category_members");
     // ---
@@ -211,26 +125,70 @@ function exists_by_lang_and_category($lang_code, $category)
             aq.target
         FROM
             category_members c
-        JOIN
-            all_exists t ON t.article_id = c.article_id
 
-        left join assessments ase on ase.title = c.article_id
-        left join enwiki_pageviews ep on ep.title = c.article_id
-        left join qids q on q.title = c.article_id
-        left join refs_counts rc on rc.r_title = c.article_id
-        left join words w on w.w_title = c.article_id
+        JOIN qids q                ON q.title = c.article_id
+        LEFT JOIN all_qids_exists aq    ON aq.qid = q.qid AND aq.code = ?
 
-        LEFT JOIN
-            all_qids_exists aq ON aq.qid = q.qid
+        LEFT JOIN assessments ase       ON ase.title    = c.article_id
+        LEFT JOIN enwiki_pageviews ep   ON ep.title     = c.article_id
+        LEFT JOIN refs_counts rc        ON rc.r_title   = c.article_id
+        LEFT JOIN words w               ON w.w_title    = c.article_id
         WHERE
             c.category = ?
-        AND t.code = ?
-        AND t.code = aq.code
+        AND aq.target IS NOT NULL
+
+        /* to work with valid langs */
+        AND EXISTS ( SELECT 1 FROM langs la WHERE la.code = ? )
     SQL;
     // ---
-    $params = [$category, $lang_code];
+    $params = [$lang_code, $category, $lang_code];
     // ---
     $u_data = super_function($api_params, $params, $query, "category_members");
+    // ---
+    return $u_data;
+}
+
+function exists_statics_by_category($category)
+{
+    // ---
+    if ($category === null) {
+        $category = "RTT";
+    }
+    // ---
+    static $data2 = [];
+    // ---
+    if (!empty($data2[$category] ?? [])) {
+        return $data2[$category];
+    }
+    // ---
+    $api_params = ['get' => 'exists_statics_by_category', 'category' => $category];
+    // ---
+    $query = <<<SQL
+        SELECT
+            la.code AS language_code,
+            la.autonym AS autonym,
+            la.name AS language_name,
+            count(*) AS total,
+            SUM(CASE WHEN aq.target IS NULL THEN 1 ELSE 0 END) AS missing_title_count,
+            SUM(CASE WHEN aq.target IS NOT NULL THEN 1 ELSE 0 END) AS available_title_count
+        FROM
+            category_members c
+
+        JOIN langs la
+        LEFT JOIN qids q                ON q.title = c.article_id
+        LEFT JOIN all_qids_exists aq    ON aq.qid = q.qid AND la.code = aq.code
+
+        WHERE
+            c.category = ?
+        GROUP BY 1, 2, 3
+        ORDER BY 3 ASC;
+    SQL;
+    // ---
+    $params = [$category];
+    // ---
+    $u_data = super_function($api_params, $params, $query, "category_members");
+    // ---
+    $data2[$category] = $u_data;
     // ---
     return $u_data;
 }
