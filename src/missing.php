@@ -3,7 +3,9 @@
 include_once __DIR__ . '/include_all.php';
 include_once __DIR__ . '/header.php';
 
-use function SQLorAPI\Funcs\exists_statics_by_category;
+use function SQLorAPI\Funcs\statics_by_category;
+use function SQLorAPI\GetDataTab\get_td_or_sql_langs;
+use function SQLorAPI\Funcs\count_category_members;
 
 if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     ini_set('display_errors', 1);
@@ -15,20 +17,25 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 $text = "";
 $num = 0;
 
-$data = exists_statics_by_category("RTT");
+$data = statics_by_category("RTT");
 
+$length_tab = count_category_members("RTT");
 $length = 0;
+foreach ($length_tab as $row) {
+    $length = $row['members'] ?? 0;
+}
+
+$langs_data = get_td_or_sql_langs();
 
 foreach ($data as $row) {
     // { "language_code": "ar", "autonym": "العربية", "language_name": "Arabic", "available_title_count": 3132, "missing_title_count": 4, "total": 3136 }
     $langcode = $row['language_code'] ?? '';
-    $autonym  = $row['autonym'] ?? '';
-    $langname = $row['language_name'] ?? "";
+    $lang_data = $langs_data[$langcode] ?? [];
+    $autonym  = $lang_data['autonym'] ?? '';
+    $langname = $lang_data['name'] ?? "";
 
-    $missing = $row['missing_title_count'] ?? "0";
     $exists  = $row['available_title_count'] ?? "0";
-
-    if ($length == 0) $length = $row['total'] ?? 0;
+    $missing = (int)$length - (int)$exists;
 
     $num += 1;
 

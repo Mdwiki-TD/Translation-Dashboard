@@ -7,9 +7,9 @@ namespace SQLorAPI\Funcs;
 Usage:
 
 use function SQLorAPI\Funcs\exists_by_qids_query;
-use function SQLorAPI\Funcs\exists_statics_by_category;
 use function SQLorAPI\Funcs\missing_by_lang_and_category;
 use function SQLorAPI\Funcs\exists_by_lang_and_category;
+use function SQLorAPI\Funcs\count_category_members;
 
 */
 
@@ -148,7 +148,38 @@ function exists_by_lang_and_category($lang_code, $category)
     return $u_data;
 }
 
-function exists_statics_by_category($category)
+function count_category_members($category)
+{
+    // ---
+    if ($category === null) {
+        $category = "RTT";
+    }
+    // ---
+    static $data2 = [];
+    // ---
+    if (!empty($data2[$category] ?? [])) {
+        return $data2[$category];
+    }
+    // ---`
+    $query = <<<SQL
+        SELECT
+            COUNT(c.article_id) AS members
+        FROM
+            category_members c
+        where c.category = ?
+    SQL;
+    // ---
+    $params = [$category];
+    // ---
+    $u_data = super_function([], $params, $query, "category_members");
+    // ---
+    $data2[$category] = $u_data;
+    // ---
+    return $u_data;
+}
+
+
+function statics_by_category($category)
 {
     // ---
     if ($category === null) {
@@ -161,41 +192,22 @@ function exists_statics_by_category($category)
         return $data2[$category];
     }
     // ---
-    $api_params = ['get' => 'exists_statics_by_category', 'category' => $category];
+    $api_params = ['get' => 'statics_by_category', 'category' => $category];
     // ---
     $query = <<<SQL
         SELECT
-            la.code AS language_code,
-            la.autonym,
-            la.name AS language_name,
-
-            COUNT(*) AS total,
-
-            COUNT(aq.qid) AS available_title_count,
-
-            COUNT(*) - COUNT(aq.qid) AS missing_title_count
-
-        FROM langs la
-
-        CROSS JOIN (
-            SELECT DISTINCT article_id
-            FROM category_members
-            WHERE category = ?
-        ) c
-
-        LEFT JOIN qids q
-            ON q.title = c.article_id
-
-        LEFT JOIN all_qids_exists aq
-            ON aq.qid = q.qid
-        AND aq.code = la.code
-
+            aq.code AS language_code,
+            COUNT(*) AS available_title_count
+        FROM
+            category_members c
+            JOIN qids q ON q.title = c.article_id
+            JOIN all_qids_exists aq ON aq.qid = q.qid
+        WHERE
+            c.category = ?
         GROUP BY
-            la.code,
-            la.autonym,
-            la.name
-
-        ORDER BY available_title_count ASC;
+            aq.code
+        ORDER BY
+            available_title_count ASC;
     SQL;
     // ---
     $params = [$category];
