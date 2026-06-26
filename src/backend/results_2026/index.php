@@ -5,7 +5,7 @@ namespace Results\GetResults2026;
 /*
 Usage:
 
-use function Results\GetResults2026\results_loader;
+use function Results\GetResults2026\results_loader_2026;
 
 */
 

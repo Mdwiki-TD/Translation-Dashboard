@@ -8,7 +8,7 @@ use function Leaderboard\Camps\get_articles_to_camps;
 
 */
 
-use function Results\GetCats\get_cats_from_cache;
+use function SQLorAPI\GetDataTab\get_td_or_sql_categories_members;
 use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
 
 function get_articles_to_camps()
@@ -27,9 +27,11 @@ function get_articles_to_camps()
     // ---
     foreach ($cats_data as $cat => $camp) {
         // ---
-        $members = get_cats_from_cache($cat);
+        $members = get_td_or_sql_categories_members($cat);
         // ---
         foreach ($members as $member) {
+            // ---
+            if (empty($member)) continue;
             // ---
             if (!isset($articles_to_camps[$member])) $articles_to_camps[$member] = [];
             // ---

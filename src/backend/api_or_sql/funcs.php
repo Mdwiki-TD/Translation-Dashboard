@@ -18,7 +18,6 @@ use function SQLorAPI\Funcs\get_user_views;
 use function SQLorAPI\Funcs\get_user_pages;
 use function SQLorAPI\Funcs\get_coordinators;
 use function SQLorAPI\Funcs\get_lang_pages_by_cat;
-use function SQLorAPI\Funcs\exists_by_qids_query;
 
 */
 

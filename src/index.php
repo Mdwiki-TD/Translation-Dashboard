@@ -19,7 +19,6 @@ include_once __DIR__ . '/header.php';
 include_once __DIR__ . '/backend/loaders/load_request.php';
 
 use function Loaders\LoadRequest\load_request;
-use function Results\ResultsIndex\results_loader;
 use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
 use function SQLorAPI\GetDataTab\get_td_or_sql_settings;
 use function SQLorAPI\GetDataTab\get_td_or_sql_langs;
@@ -75,8 +74,6 @@ $cats_data = array_column($categories_tab, "campaign", "category");
 $settings = array_column($settings, 'value', 'title');
 
 $allow_whole_translate = $settings['allow_type_of_translate'] ?? '1';
-$load_new_result       = $settings['load_new_result'] ?? '';
-$load_new_result_2026  = $settings['load_new_result_2026'] ?? '';
 
 $campaigns_input_list = [];
 
@@ -279,8 +276,6 @@ if ($camp && $code) {
         "tra_type" => $tra_type,
         "global_username" => $global_username,
         "filter_sparql" => $filter_sparql,
-        "new_result" => $load_new_result,
-        "new_result_2026" => $load_new_result_2026,
         "user_coord" => $user_coord,
 
         "show_exists" => $show_exists,
@@ -288,11 +283,7 @@ if ($camp && $code) {
         "test" => $test
     ];
     // ---
-    if ($load_new_result_2026) {
-        echo results_loader_2026($data);
-    } else {
-        echo results_loader($data);
-    }
+    echo results_loader_2026($data);
 }
 
 echo "</div><br>";
