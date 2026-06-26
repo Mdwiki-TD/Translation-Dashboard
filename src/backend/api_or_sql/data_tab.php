@@ -18,6 +18,7 @@ use function SQLorAPI\GetDataTab\get_td_or_sql_views;
 use function SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
 use function SQLorAPI\GetDataTab\get_td_or_sql_count_pages;
 use function SQLorAPI\GetDataTab\get_td_or_sql_langs;
+use function SQLorAPI\GetDataTab\get_td_or_sql_categories_members;
 
 */
 
@@ -160,6 +161,18 @@ function get_td_or_sql_categories()
     return $categories;
 }
 
+function get_td_or_sql_categories_members($category)
+{
+    // ---
+    $api_params = ['get' => 'category_members', 'cat' => $category];
+    $query = "SELECT article_id FROM category_members where category = ?";
+    // ---
+    $data = super_function($api_params, [$category], $query);
+    // ---
+    $result = array_column($data, 'article_id');
+    // ---
+    return $result;
+}
 function get_td_or_sql_qids()
 {
     // ---

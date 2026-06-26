@@ -6,7 +6,6 @@ namespace SQLorAPI\Funcs;
 
 Usage:
 
-use function SQLorAPI\Funcs\exists_by_qids_query;
 use function SQLorAPI\Funcs\missing_by_lang_and_category;
 use function SQLorAPI\Funcs\exists_by_lang_and_category;
 use function SQLorAPI\Funcs\count_category_members;
@@ -45,15 +44,22 @@ function exists_by_qids_query($lang)
         SELECT
             t.qid AS qid,
             q.title AS title,
-            aa.category AS category,
+            MIN(aa.category) AS category,
             t.code AS code,
             t.target AS target
-        FROM qids q
-            JOIN all_qids_exists t      ON t.qid = q.qid
-            LEFT JOIN all_articles aa   ON aa.article_id = q.title
-        WHERE t.code = ?
-
-        AND (t.target != '' AND t.target IS NOT NULL)
+        FROM
+            qids q
+            JOIN all_qids_exists t ON t.qid = q.qid
+            LEFT JOIN category_members aa ON aa.article_id = q.title
+        WHERE
+            t.code = ?
+            AND t.target != ''
+            AND t.target IS NOT NULL
+        GROUP BY
+            t.qid,
+            q.title,
+            t.code,
+            t.target
     SQL;
     // ---
     $params = [$lang];

@@ -43,4 +43,5 @@ foreach (glob(__DIR__ . "/backend/others/*.php") as $filename) {
 
 include_once __DIR__ . '/leaderboard/include_leaderboards.php';
 
-include_once __DIR__ . '/results/include.php';
+include_once __DIR__ . "/backend/results_2026/include.php";
+
