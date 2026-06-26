@@ -21,7 +21,7 @@ function use_td_api_or_sql()
     if ($use_td_api === null) {
         $settings_tabe = array_column(get_td_api(['get' => 'settings']), 'value', 'title');
         // var_dump(json_encode($settings_tabe, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
-        // "{ "allow_type_of_translate": 0, "translation_button_in_progress_table": 1, "fix_ref_in_text": 0, "use_medwiki": 1, "use_td_api": 1, "use_mdwikicx": 1}"
+        // "{ "allow_type_of_translate": 0, "translation_button_in_progress_table": 1, "fix_ref_in_text": 0, "use_td_api": 1, "use_mdwikicx": 1}"
         $use_td_api  = (($settings_tabe['use_td_api'] ?? "") == "1") ? true : false;
         // ---
         if (isset($_GET['use_td_api'])) {

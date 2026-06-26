@@ -317,7 +317,7 @@ function get_camps_to_cat()
     return $s_camp_to_cat;
 }
 
-function get_endpoint()
+function get_endpoint_old()
 {
     // ---
     static $settings1 = [];
@@ -335,5 +335,12 @@ function get_endpoint()
         $endpoint = "https://mdwikicx.toolforge.org/w/index.php";
     };
     // ---
+    return $endpoint;
+}
+
+function get_endpoint()
+{
+    // ---
+    $endpoint = "https://mdwikicx.toolforge.org/w/index.php";
     return $endpoint;
 }
