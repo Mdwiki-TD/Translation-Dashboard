@@ -157,6 +157,59 @@ The [**Coordinator Tools**](https://github.com/Mdwiki-TD/tdc) module is a specia
 
 # End points
 
-| Endpoint | Method | Description |
-| -------- | ------ | ----------- |
-| `/`      | GET    | Main entry  |
+### Page Routes
+
+| Endpoint                                     | Method | Description                                                               |
+| -------------------------------------------- | ------ | ------------------------------------------------------------------------- |
+| `/`                                          | GET    | Main dashboard — search for missing translations by campaign and language |
+| `/leaderboard.php`                           | GET    | Leaderboard — translation stats per user, language, and campaign          |
+| `/leaderboard.php?get=users&user={user}`     | GET    | User-specific translation statistics                                      |
+| `/leaderboard.php?get=langs&langcode={code}` | GET    | Language-specific translation statistics                                  |
+| `/leaderboard.php?camps=1`                   | GET    | Campaign and article statistics tables                                    |
+| `/leaderboard.php?graph=1`                   | GET    | Translation timeline graph (server-rendered)                              |
+| `/leaderboard.php?graph_api=1`               | GET    | Translation timeline graph (API-driven JS)                                |
+| `/missing.php`                               | GET    | Missing articles — top languages by missing article count                 |
+| `/sitelinks.php`                             | GET    | Wikidata sitelinks report                                                 |
+| `/translate.php`                             | GET    | Redirect to Content Translation tool                                      |
+| `/x.php`                                     | GET    | AJAX-based leaderboard using DataTables                                   |
+| `/auth.php`                                  | GET    | Redirect to authentication                                                |
+| `/coordinator.php`                           | GET    | Redirect to coordinator tools                                             |
+| `/404.php`                                   | GET    | 404 error page                                                            |
+
+### API Endpoints
+
+All API calls use `/api.php` with a `get=` query parameter to indicate the operation.
+
+| Endpoint                                    | Method   | Description                                |
+| ------------------------------------------- | -------- | ------------------------------------------ |
+| `/api.php?get=settings`                     | GET/POST | Platform settings                          |
+| `/api.php?get=categories`                   | GET/POST | Campaign categories                        |
+| `/api.php?get=pages`                        | GET/POST | Pages by language and category             |
+| `/api.php?get=pages_by_user_or_lang`        | GET/POST | Pages filtered by user or language         |
+| `/api.php?get=graph_data`                   | GET/POST | Monthly translation counts                 |
+| `/api.php?get=coordinators`                 | GET/POST | Coordinator users                          |
+| `/api.php?get=lang_views2`                  | GET/POST | Views per language                         |
+| `/api.php?get=user_views2`                  | GET/POST | Views per user                             |
+| `/api.php?get=user_status`                  | GET/POST | User year and language data                |
+| `/api.php?get=user_lang_status`             | GET/POST | Language year data                         |
+| `/api.php?get=top_users`                    | GET/POST | Top users leaderboard data                 |
+| `/api.php?get=top_langs`                    | GET/POST | Top languages leaderboard data             |
+| `/api.php?get=top_lang_of_users`            | GET/POST | Top language per user                      |
+| `/api.php?get=status`                       | GET/POST | Translation timeline status                |
+| `/api.php?get=missing_by_lang_and_category` | GET/POST | Missing articles by language and category  |
+| `/api.php?get=exists_by_lang_and_category`  | GET/POST | Existing articles by language and category |
+| `/api.php?get=statics_by_category`          | GET/POST | Statistics by category                     |
+| `/api.php?get=titles`                       | GET/POST | Article metadata                           |
+| `/api.php?get=views_new`                    | GET/POST | Page views                                 |
+| `/api.php?get=projects`                     | GET/POST | User groups and projects                   |
+| `/api.php?get=qids`                         | GET/POST | Wikidata QID mapping                       |
+| `/api.php?get=users`                        | GET/POST | Username autocomplete                      |
+| `/api.php?get=lang_names`                   | GET/POST | Language code autocomplete                 |
+| `/api.php?get=users_no_inprocess`           | GET/POST | Users excluded from process tracking       |
+| `/api.php?get=full_translators`             | GET/POST | Full-translate-enabled users               |
+| `/api.php?get=translate_type`               | GET/POST | Translation type configuration             |
+| `/api.php?get=count_pages`                  | GET/POST | Page counts per user                       |
+| `/api.php?get=langs`                        | GET/POST | Language list                              |
+| `/api.php?get=in_process`                   | GET/POST | In-process translations                    |
+| `/api.php?get=category_members`             | GET/POST | Category member IDs                        |
+| `/api.php?get=leaderboard_table`            | GET/POST | Leaderboard table data (deprecated)        |
