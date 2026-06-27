@@ -10,9 +10,9 @@ use function Results\GetResults2026\get_results_2026; // get_results_2026($cat, 
 */
 
 use function TD\Render\Html\make_mdwiki_cat_url;
-use function SQLorAPI\Process\get_lang_in_process;
-use function SQLorAPI\Funcs\get_lang_pages_by_cat;
 
+use function SQLorAPI\Funcs\get_lang_pages_by_cat;
+use function SQLorAPI\Process\get_lang_in_process;
 use function SQLorAPI\Funcs\missing_by_lang_and_category;
 use function SQLorAPI\Funcs\exists_by_lang_and_category;
 

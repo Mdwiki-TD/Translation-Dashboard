@@ -13,63 +13,6 @@ use function SQLorAPI\Funcs\count_category_members;
 */
 
 use function SQLorAPI\Get\super_function;
-// use function SQLorAPI\Get\isvalid;
-
-function exists_by_qids_query($lang)
-{
-    // ---
-    // http://localhost:9001/api.php?get=exists_by_qids&lang=ar&target=not_empty
-    // ---
-    static $data2 = [];
-    // ---
-    if (!empty($data2[$lang] ?? [])) {
-        return $data2[$lang];
-    }
-    // ---
-    // ---
-    // exists_by_qids
-    // ---
-    /*
-        [
-            { "name": "lang", "column": "t.code", "type": "text", "placeholder": "Language code", "no_mt_options": true },
-            { "name": "category", "column": "aa.category", "type": "text", "placeholder": "Category", "no_mt_options": true },
-            { "name": "campaign", "column": "campaign", "type": "text", "placeholder": "Campaign" },
-            { "name": "order", "column": "order", "type": "text", "placeholder": "Order by", "no_select": true }
-        ]
-      */
-    // ---
-    $api_params = ['get' => 'exists_by_qids', 'lang' => $lang];
-    // ---
-    $query = <<<SQL
-        SELECT
-            t.qid AS qid,
-            q.title AS title,
-            MIN(aa.category) AS category,
-            t.code AS code,
-            t.target AS target
-        FROM
-            qids q
-            JOIN all_qids_exists t ON t.qid = q.qid
-            LEFT JOIN category_members aa ON aa.article_id = q.title
-        WHERE
-            t.code = ?
-            AND t.target != ''
-            AND t.target IS NOT NULL
-        GROUP BY
-            t.qid,
-            q.title,
-            t.code,
-            t.target
-    SQL;
-    // ---
-    $params = [$lang];
-    // ---
-    $u_data = super_function($api_params, $params, $query, "all_qids_exists");
-    // ---
-    $data2[$lang] = $u_data;
-    // ---
-    return $u_data;
-}
 
 function missing_by_lang_and_category($lang_code, $category)
 {
