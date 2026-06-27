@@ -62,3 +62,4 @@ src/load_env.php
 /.phpunit.cache
 /build/coverage-html
 /src_
+/.commandcode
