@@ -191,20 +191,6 @@ function make_results_table_2026(
             $list .= $row;
         }
         //---
-        if ($full) {
-            $list .= _make_one_row_results(
-                $title,
-                'all',
-                $cnt2,
-                $langcode,
-                $cat,
-                $camp,
-                true,
-                $full_tr_user,
-                $global_username,
-                $title_data
-            );
-        }
         //---
         $cnt++;
     };
