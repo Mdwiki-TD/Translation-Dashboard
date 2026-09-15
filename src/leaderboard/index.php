@@ -15,6 +15,21 @@ use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
 use function SQLorAPI\GetDataTab\get_endpoint;
 use function SQLorAPI\GetDataTab\get_td_or_sql_langs;
 use function SQLorAPI\Funcs\get_graph_data;
+use function SQLorAPI\Process\delete_in_process_entry;
+
+$global_username = $GLOBALS['global_username'] ?? "";
+
+if (($_POST['action'] ?? '') === 'delete_in_process') {
+    $req_title = filter_input(INPUT_POST, 'title', FILTER_UNSAFE_RAW) ?? '';
+    $req_lang  = filter_input(INPUT_POST, 'lang', FILTER_UNSAFE_RAW) ?? '';
+    $req_user  = filter_input(INPUT_POST, 'user', FILTER_UNSAFE_RAW) ?? '';
+
+    if (!empty($global_username) && $global_username === $req_user) {
+        delete_in_process_entry($req_user, $req_title, $req_lang);
+        header("Location: leaderboard.php?get=users&user=" . rawurlencode($req_user));
+        exit;
+    }
+}
 
 $endpoint = get_endpoint();
 
@@ -39,9 +54,6 @@ $year_y   = filter_input(INPUT_GET, 'year', FILTER_SANITIZE_FULL_SPECIAL_CHARS) 
 $month_y  = filter_input(INPUT_GET, 'month', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
 $camp     = filter_input(INPUT_GET, 'camp', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'All';
 
-// ---
-$global_username = $GLOBALS['global_username'] ?? "";
-// ---
 $_titles_infos   = get_td_or_sql_titles_infos();
 $categories_tab = get_td_or_sql_categories();
 //---

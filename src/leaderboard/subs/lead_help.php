@@ -125,6 +125,7 @@ function make_td_fo_user(
     //---
     $udate = $pupdate;
     $complete   = '';
+    $action_td  = '';
     //---
     $target = "";
     //---
@@ -142,6 +143,19 @@ function make_td_fo_user(
             $endpoint
         );
         $complete   = ($user_is_global_username) ? "<td data-content='complete'><a target='_blank' href='$tralink'>complete</a></td>" : '';
+        if ($user_is_global_username) {
+            $mdtitle_attr = htmlspecialchars($mdtitle, ENT_QUOTES, 'UTF-8');
+            $lang_attr = htmlspecialchars($lang, ENT_QUOTES, 'UTF-8');
+            $user_attr = htmlspecialchars($user, ENT_QUOTES, 'UTF-8');
+            $action_td = "<td data-content='action'>" .
+                "<form method='post' action='leaderboard.php' style='display:inline;' onsubmit='return confirm(\"Are you sure you want to delete this in-process translation?\");'>" .
+                "<input type='hidden' name='action' value='delete_in_process'>" .
+                "<input type='hidden' name='title' value='$mdtitle_attr'>" .
+                "<input type='hidden' name='lang' value='$lang_attr'>" .
+                "<input type='hidden' name='user' value='$user_attr'>" .
+                "<button type='submit' class='btn btn-danger btn-sm'>Delete</button>" .
+                "</form></td>";
+        }
     } else {
         $target  = trim($tabb['target']);
         //---
@@ -183,6 +197,7 @@ function make_td_fo_user(
             </td>
             $td_views
             $complete
+            $action_td
         </tr>
         HTML;
     //---
@@ -213,6 +228,7 @@ function make_table_lead(
     $tab_views  = ($tab_type == 'pending') ? '' : '<th>Views</th>';
     $th_Date    = ($tab_type == 'pending') ? 'Start date' : 'Date';
     $complete   = ($tab_type == 'pending' && $user_is_global_username) ? '<th>complete!</th>' : '';
+    $action_th  = ($tab_type == 'pending' && $user_is_global_username) ? '<th>action</th>' : '';
     //---
     $leadtable = ($tab_type == 'pending') ? 'leadtable2' : 'leadtable';
     //---
@@ -230,6 +246,7 @@ function make_table_lead(
                     <th>$th_Date</th>
                     $tab_views
                     $complete
+                    $action_th
                 </tr>
             </thead>
             <tbody>

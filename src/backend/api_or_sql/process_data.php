@@ -15,6 +15,7 @@ use function SQLorAPI\Process\get_lang_in_process_by_year;
 
 use function SQLorAPI\Get\super_function;
 use function SQLorAPI\Get\isvalid;
+use function APICalls\MdwikiSql\execute_query;
 
 function get_process_data(): array
 {
@@ -151,4 +152,15 @@ function get_lang_in_process($code): array
     $cache[$code] = $data;
     //---
     return $data;
+}
+
+function delete_in_process_entry(string $user, string $title, string $lang): bool
+{
+    if (empty($user) || empty($title) || empty($lang)) {
+        return false;
+    }
+    $query = "DELETE FROM in_process WHERE user = ? AND title = ? AND lang = ?";
+    $params = [$user, $title, $lang];
+    $result = execute_query($query, $params);
+    return $result !== false;
 }
