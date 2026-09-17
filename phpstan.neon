@@ -4,6 +4,9 @@
 parameters:
     level: 5
 
+    parallel:
+        maximumNumberOfProcesses: 1
+
     paths:
         - src
 
