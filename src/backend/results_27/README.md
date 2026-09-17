@@ -74,7 +74,7 @@ class ResultsFetcher
 
         // Missing pages
         $itemsMissing = missing_by_lang_and_category($code, $cat);
-        $this->log('Items missing', count($itemsMissing));
+        $this->log("Items missing", count($itemsMissing));
 
         // Existing pages
         $itemsExists = exists_by_lang_and_category($code, $cat);
@@ -86,7 +86,7 @@ class ResultsFetcher
         }
         unset($item);
 
-        $this->log('Items exists', count($itemsExists));
+        $this->log("Items exists", count($itemsExists));
 
         $lenExists = count($itemsExists);
 
@@ -153,7 +153,7 @@ class ResultsFetcher
         $catUrl = make_mdwiki_cat_url($cat, "Category");
 
         return sprintf(
-            "Found %d pages in %s, %d exists, and %d missing in (<a href='https://%s.wikipedia.org' target="_blank">%s</a>), %d In process.",
+            "Found %d pages in %s, %d exists, and %d missing in (<a href="https://%s.wikipedia.org" target="_blank">%s</a>), %d In process.",
             $total,
             $catUrl,
             $lenExists,
@@ -329,7 +329,7 @@ class MissingRowBuilder
             $traType = "lead";
         }
 
-        $isVideo = str_starts_with(strtolower($title), 'video:');
+        $isVideo = str_starts_with(strtolower($title), "video:");
         if ($isVideo) {
             $traType = "all";
         }
@@ -462,7 +462,7 @@ class MissingTable extends AbstractResultsTable
                 continue;
             }
 
-            $title = str_replace("_", ' ', $title);
+            $title = str_replace("_", " ", $title);
 
             $row = $this->rowBuilder->build(
                 $title,
@@ -652,7 +652,7 @@ class ExistsTable extends AbstractResultsTable
                 continue;
             }
 
-            $title = str_replace("_", ' ', $title);
+            $title = str_replace("_", " ", $title);
 
             if (($data["via"] ?? '') === "td") {
                 $countTranslated++;
@@ -771,15 +771,15 @@ class InProcessRowBuilder
         );
 
         // Keep only the date part if datetime is present
-        if (str_contains($date, ':')) {
-            $date = explode(' ', $date)[0];
+        if (str_contains($date, ":")) {
+            $date = explode(" ", $date)[0];
         }
 
         if (empty($globalUsername)) {
             $buttons = '';
         }
 
-        $displayCounter = ($isFullRow && !str_starts_with(strtolower($title), 'video:'))
+        $displayCounter = ($isFullRow && !str_starts_with(strtolower($title), "video:"))
             ? "{$counter}.Full"
             : $counter;
 
@@ -864,13 +864,13 @@ class InProcessTable extends AbstractResultsTable
                 continue;
             }
 
-            $title = str_replace("_", ' ', $title);
+            $title = str_replace("_", " ", $title);
             $titleData = $this->titlesInfos[$title] ?? [];
 
             $traType = $inProcessData["translate_type"] ?? "lead";
             $isFull  = false;
 
-            if (str_starts_with(strtolower($title), 'video:')) {
+            if (str_starts_with(strtolower($title), "video:")) {
                 $traType = "all";
                 $isFull  = true;
             }
@@ -975,9 +975,9 @@ class ResultsLoader
         );
 
         $missingHtml = $missingTable->render($results["missing"]);
-        $resLine = ' Results: (' . count($results["missing"]) . ')';
+        $resLine = " Results: (" . count($results["missing"]) . ")";
         if ($test) {
-            $resLine .= ' test:';
+            $resLine .= " test:";
         }
 
         $html .= CardRenderer::render($resLine, $missingHtml, $results["ix"]);
@@ -1072,27 +1072,27 @@ function results_loader_2026(array $data): string
 <?php
 
 // Data layer
-include_once __DIR__ . '/Data/ResultsFetcher.php';
+include_once __DIR__ . "/Data/ResultsFetcher.php";
 
 // Helpers
-include_once __DIR__ . '/Helpers/CardRenderer.php';
-include_once __DIR__ . '/Helpers/TranslateTypeLoader.php';
+include_once __DIR__ . "/Helpers/CardRenderer.php";
+include_once __DIR__ . "/Helpers/TranslateTypeLoader.php";
 
 // Rows
-include_once __DIR__ . '/Rows/MissingRowBuilder.php';
-include_once __DIR__ . '/Rows/ExistsRowBuilder.php';
-include_once __DIR__ . '/Rows/InProcessRowBuilder.php';
+include_once __DIR__ . "/Rows/MissingRowBuilder.php";
+include_once __DIR__ . "/Rows/ExistsRowBuilder.php";
+include_once __DIR__ . "/Rows/InProcessRowBuilder.php";
 
 // Tables
-include_once __DIR__ . '/Tables/AbstractResultsTable.php';
-include_once __DIR__ . '/Tables/MissingTable.php';
-include_once __DIR__ . '/Tables/ExistsTable.php';
-include_once __DIR__ . '/Tables/InProcessTable.php';
+include_once __DIR__ . "/Tables/AbstractResultsTable.php";
+include_once __DIR__ . "/Tables/MissingTable.php";
+include_once __DIR__ . "/Tables/ExistsTable.php";
+include_once __DIR__ . "/Tables/InProcessTable.php";
 
 // Main loader
-include_once __DIR__ . '/ResultsLoader.php';
-include_once __DIR__ . '/get_results_2026.php';
-include_once __DIR__ . '/index.php';
+include_once __DIR__ . "/ResultsLoader.php";
+include_once __DIR__ . "/get_results_2026.php";
+include_once __DIR__ . "/index.php";
 ```
 
 ---

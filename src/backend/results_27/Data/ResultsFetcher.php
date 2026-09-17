@@ -41,7 +41,7 @@ class ResultsFetcher
 
         // Missing pages
         $itemsMissing = missing_by_lang_and_category($code, $cat);
-        $this->log('Items missing', count($itemsMissing));
+        $this->log("Items missing", count($itemsMissing));
 
         // Existing pages
         $itemsExists = exists_by_lang_and_category($code, $cat);
@@ -53,7 +53,7 @@ class ResultsFetcher
         }
         unset($item);
 
-        $this->log('Items exists', count($itemsExists));
+        $this->log("Items exists", count($itemsExists));
 
         $lenExists = count($itemsExists);
 
@@ -120,7 +120,7 @@ class ResultsFetcher
         $catUrl = make_mdwiki_cat_url($cat, "Category");
 
         return sprintf(
-            "Found %d pages in %s, %d exists, and %d missing in (<a href='https://%s.wikipedia.org' target="_blank">%s</a>), %d In process.",
+            "Found %d pages in %s, %d exists, and %d missing in (<a href="https://%s.wikipedia.org" target="_blank">%s</a>), %d In process.",
             $total,
             $catUrl,
             $lenExists,

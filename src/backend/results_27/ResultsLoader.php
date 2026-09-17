@@ -67,9 +67,9 @@ class ResultsLoader
         );
 
         $missingHtml = $missingTable->render($results["missing"]);
-        $resLine = ' Results: (' . count($results["missing"]) . ')';
+        $resLine = " Results: (" . count($results["missing"]) . ")";
         if ($test) {
-            $resLine .= ' test:';
+            $resLine .= " test:";
         }
 
         $html .= CardRenderer::render($resLine, $missingHtml, $results["ix"]);

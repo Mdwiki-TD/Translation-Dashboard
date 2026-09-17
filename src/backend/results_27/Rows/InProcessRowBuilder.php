@@ -66,15 +66,15 @@ class InProcessRowBuilder
         );
 
         // Keep only the date part if datetime is present
-        if (str_contains($date, ':')) {
-            $date = explode(' ', $date)[0];
+        if (str_contains($date, ":")) {
+            $date = explode(" ", $date)[0];
         }
 
         if (empty($globalUsername)) {
             $buttons = '';
         }
 
-        $displayCounter = ($isFullRow && !str_starts_with(strtolower($title), 'video:'))
+        $displayCounter = ($isFullRow && !str_starts_with(strtolower($title), "video:"))
             ? "{$counter}.Full"
             : $counter;
 

@@ -27,7 +27,7 @@ class MissingRowBuilder
             $traType = "lead";
         }
 
-        $isVideo = str_starts_with(strtolower($title), 'video:');
+        $isVideo = str_starts_with(strtolower($title), "video:");
         if ($isVideo) {
             $traType = "all";
         }
