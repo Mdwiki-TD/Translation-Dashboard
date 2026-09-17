@@ -42,7 +42,7 @@ class MissingTable extends AbstractResultsTable
 
     public function render(array $items): string
     {
-        $doFull = ($this->traType == 'all') ? false : true;
+        $isFullMode = ($this->traType === 'all');
 
         // Sort by English page views (descending)
         usort($items, static function (array $a, array $b): int {
@@ -75,8 +75,8 @@ class MissingTable extends AbstractResultsTable
                 $titleData
             );
 
-            // Special handling when full translation is restricted
-            if (!$doFull || $this->fullTrUser) {
+            // Skip lead filtering when full translation applies or user is allowed full access
+            if ($isFullMode || $this->fullTrUser) {
                 $html .= $row;
                 $counter++;
                 continue;
@@ -85,10 +85,10 @@ class MissingTable extends AbstractResultsTable
             // if title in no_lead_translates array then $noLead = true
             $noLead = (in_array($title, $this->noLeadTranslates)) ? true : false;
 
-            // if title in full_translates array then $isFull = true
-            $isFull   = (in_array($title, $this->fullTranslates)) ? true : false;
+            // if title in full_translates array then $TitleCanFullTranslated = true
+            $TitleCanFullTranslated   = in_array($title, $this->fullTranslates, true);
 
-            if ($noLead && !$isFull) {
+            if ($noLead && !$TitleCanFullTranslated) {
                 continue;
             }
 
@@ -96,8 +96,8 @@ class MissingTable extends AbstractResultsTable
                 $html .= $row;
             }
 
-            if ($isFull) {
-                $html .= $this->rowBuilder->build(
+            if ($TitleCanFullTranslated) {
+                $row = $this->rowBuilder->build(
                     $title,
                     "all",
                     $counter,
@@ -109,6 +109,7 @@ class MissingTable extends AbstractResultsTable
                     $this->globalUsername,
                     $titleData
                 );
+                $html .= $row;
             }
 
             $counter++;
