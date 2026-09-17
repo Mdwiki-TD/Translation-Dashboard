@@ -163,7 +163,8 @@ function make_results_table_inprocess(
     $full_tr_user,
     $global_username,
     $titles_infos_items,
-    $endpoint
+    $endpoint,
+    $user_coord
 ) {
     //---
     // $inprocess_table = normalizeItems($inprocess_table);
@@ -204,7 +205,8 @@ function make_results_table_inprocess(
             $full_tr_user,
             $global_username,
             $title_data,
-            $endpoint
+            $endpoint,
+            $user_coord
         );
         //--
         $list .= $row;
