@@ -48,7 +48,7 @@ class ExistsTable extends AbstractResultsTable
 
             $title = str_replace("_", " ", $title);
 
-            if (($data["via"] ?? '') === "td") {
+            if (($data["via"] ?? "") === "td") {
                 $countTranslated++;
             } else {
                 $countTranslatedBefore++;
