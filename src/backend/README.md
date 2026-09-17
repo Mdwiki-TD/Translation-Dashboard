@@ -14,7 +14,7 @@ The `src/backend/` directory is the core business logic layer of the WikiProject
 - **Language code mapping** between codes, names, and autonyms
 
 ### Technologies
-- PHP 8.2+ (strict types in config classes)
+- PHP 8.4+ (strict types in config classes)
 - PDO (MySQL driver)
 - cURL (HTTP client for external APIs)
 - `defuse/php-encryption` v2.4+ (symmetric encryption for cookies/keys)

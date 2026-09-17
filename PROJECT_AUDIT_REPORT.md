@@ -10,7 +10,7 @@
 
 The WikiProjectMed Translation Dashboard is a custom PHP web application that facilitates translation of medical articles from mdwiki.org into Wikipedia languages. It integrates with MediaWiki's ContentTranslation tool, Wikidata SPARQL, and tracks translation progress via a leaderboard system.
 
-**Technologies:** PHP 8.2+, Bootstrap 5, jQuery, DataTables, Chart.js, PDO/MySQL, APCu, cURL, `defuse/php-encryption`, Wikidata SPARQL.
+**Technologies:** PHP 8.4+, Bootstrap 5, jQuery, DataTables, Chart.js, PDO/MySQL, APCu, cURL, `defuse/php-encryption`, Wikidata SPARQL.
 
 **Architecture:** Procedural page-controller pattern with layered modules. No framework. Include-based composition with glob autoloading. Global state via `$GLOBALS`.
 

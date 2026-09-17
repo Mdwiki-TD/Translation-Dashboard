@@ -86,7 +86,7 @@ Tests use PHPUnit 11.x with bootstrap at `tests/bootstrap.php`. The test suite:
 GitHub Actions workflow (`.github/workflows/d.yaml`) triggers on push to main branch and deploys via SSH using `appleboy/ssh-action`.
 
 ## Development Notes
-- PHP 8.2+ required
+- PHP 8.4+ required
 - Add `?test=1` or set `test` cookie to enable error reporting for debugging
 - The application uses Bootstrap 5 for frontend styling
 - Coordinator tools are in a separate repository (tdc)

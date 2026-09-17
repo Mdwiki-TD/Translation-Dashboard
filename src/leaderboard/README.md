@@ -15,7 +15,7 @@ The `src/leaderboard/` directory implements the translation leaderboard system. 
 - **MassMessage copy modal** -- Copy target syntax for Wikimedia MassMessage
 
 ### Technologies
-- PHP 8.2+
+- PHP 8.4+
 - Bootstrap 5 (cards, forms, grid, modals)
 - Chart.js (bar/line charts)
 - jQuery DataTables (sortable tables)

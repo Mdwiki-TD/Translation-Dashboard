@@ -11,7 +11,7 @@ The `src/translate_med/` directory handles translation initiation. When a user c
 - **Multiple redirect mechanisms** -- JavaScript, meta refresh, and noscript fallback
 
 ### Technologies
-- PHP 8.2+
+- PHP 8.4+
 - PDO (database inserts)
 - `defuse/php-encryption` (via auth system)
 - Bootstrap 5 (UI components)
