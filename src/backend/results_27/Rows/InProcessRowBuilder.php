@@ -1,6 +1,6 @@
 <?php
 
-namespace Results\GetResults2026\Rows;
+namespace Results\GetResults27\Rows;
 
 use function TD\Render\Html\make_mdwiki_href;
 use function TD\Render\Html\make_wikidata_url_blank;

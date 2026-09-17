@@ -1,6 +1,6 @@
 <?php
 
-namespace Results\GetResults2026\Rows;
+namespace Results\GetResults27\Rows;
 
 use function Results\TrLink\make_ContentTranslation_url;
 use function TD\Render\Html\make_mdwiki_article_url_blank;
