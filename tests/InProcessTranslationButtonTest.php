@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 use function Results\Helps\make_translate_urls;
 use function Results\GetResults2026\make_one_row_new_inprocess;
 use function Results\ResultsTableHtml\make_table_start;
+use function Leaderboard\Subs\LeadHelp\make_td_fo_user;
 
 class InProcessTranslationButtonTest extends TestCase
 {
@@ -57,7 +58,7 @@ class InProcessTranslationButtonTest extends TestCase
         $this::assertStringContainsString('mdwikicx.toolforge.org', $translate_url);
     }
 
-    public function testMakeOneRowNewInprocessShowsTranslateButtonForCoordinator(): void
+    public function testMakeOneRowNewInprocessShowsTranslateButtonAndTypeForCoordinator(): void
     {
         $inprocessTable = [
             'user' => 'Mr. Ibrahem',
@@ -93,6 +94,45 @@ class InProcessTranslationButtonTest extends TestCase
 
         $this::assertStringContainsString('Translate', $html);
         $this::assertStringContainsString('Mr. Ibrahem', $html);
+        $this::assertStringContainsString('lead', $html);
+    }
+
+    public function testMakeOneRowNewInprocessHidesTranslateButtonForLoggedOutUser(): void
+    {
+        $inprocessTable = [
+            'user' => 'Mr. Ibrahem',
+            'date' => '2026-09-17',
+            'translate_type' => 'lead'
+        ];
+
+        $titleData = [
+            'w_lead_words' => 361,
+            'r_lead_refs' => 12,
+            'importance' => 'Unknown',
+            'en_views' => 22158,
+            'qid' => 'Q389735'
+        ];
+
+        // Non-logged-in user ($global_username = '')
+        $html = make_one_row_new_inprocess(
+            'Cardiovascular disease',
+            'lead',
+            1,
+            'als',
+            'RTT',
+            'Occupational Health',
+            $inprocessTable,
+            '1', // even if setting is 1
+            false,
+            false,
+            '', // empty $global_username
+            $titleData,
+            'https://mdwikicx.toolforge.org/w/index.php',
+            false
+        );
+
+        $this::assertStringNotContainsString('Translate', $html);
+        $this::assertStringContainsString('lead', $html);
     }
 
     public function testMakeOneRowNewInprocessShowsTranslateButtonForSameTranslator(): void
@@ -131,6 +171,7 @@ class InProcessTranslationButtonTest extends TestCase
 
         $this::assertStringContainsString('Translate', $html);
         $this::assertStringContainsString('Mr. Ibrahem', $html);
+        $this::assertStringContainsString('lead', $html);
     }
 
     public function testMakeOneRowNewInprocessHidesTranslateButtonForOtherUserWhenDisabled(): void
@@ -171,10 +212,40 @@ class InProcessTranslationButtonTest extends TestCase
         $this::assertStringContainsString('OtherUser', $html);
     }
 
-    public function testMakeTableStartIncludesTranslateHeader(): void
+    public function testMakeTableStartIncludesTranslateAndTypeHeaderForInProcess(): void
     {
         $headerHtml = make_table_start(true, '0');
         $this::assertStringContainsString('<th><span>Translate</span></th>', $headerHtml);
+        $this::assertStringContainsString('>Type</th>', $headerHtml);
+    }
+
+    public function testMakeTdFoUserIncludesTypeCell(): void
+    {
+        $tabb = [
+            'title' => 'Cardiovascular disease',
+            'user' => 'Mr. Ibrahem',
+            'lang' => 'ar',
+            'cat' => 'RTT',
+            'translate_type' => 'lead',
+            'word' => 361,
+            'date' => '2026-09-17',
+            'target' => 'أمراض القلب'
+        ];
+
+        $rowHtml = make_td_fo_user(
+            $tabb,
+            1,
+            100,
+            361,
+            'users',
+            'pending',
+            true,
+            [],
+            'https://mdwikicx.toolforge.org/w/index.php'
+        );
+
+        $this::assertStringContainsString('data-content="Type" data-filter="lead"', $rowHtml);
+        $this::assertStringContainsString('lead', $rowHtml);
     }
 
     public function testSettingsArrayColumnLookup(): void

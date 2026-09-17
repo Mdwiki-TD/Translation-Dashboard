@@ -20,6 +20,7 @@ function make_tds_rows_responsive($full, $tds)
     $mdwiki_url = $tds["mdwiki_url"];
     $cnt    = $tds["cnt"];
     $tab    = $tds["tab"];
+    $tra_type = $tds["tra_type"] ?? "";
     $pviews = $tds["pageviews"];
     $asse   = $tds["asse"];
     $words  = $tds["words"];
@@ -42,6 +43,9 @@ function make_tds_rows_responsive($full, $tds)
             <th class=''>
                 $tab
             </th>
+            <td class='' style="text-align: center">
+                $tra_type
+            </td>
             <td class='num' style="text-align: left">
                 $pviews
             </td>
@@ -128,6 +132,10 @@ function make_one_row_new_inprocess(
         $_date_ = explode(' ', $_date_)[0];
     };
     //---
+    if (empty($global_username)) {
+        $tab = "";
+    }
+    //---
     $tds = [
         "in_progress_translation_button" => $in_progress_translation_button,
         "translate_url" => $translate_url,
@@ -135,6 +143,7 @@ function make_one_row_new_inprocess(
         "cnt" => $cnt,
         "title" => $title,
         "tab" => $tab,
+        "tra_type" => $tra_type,
         "pageviews" => $en_views,
         "asse" => $importance,
         "words" => $word,
