@@ -1,15 +1,7 @@
 <?PHP
 
 namespace Results\GetResults2026;
-//---
-/*
-Usage:
 
-use function Results\GetResults2026\results_loader_2026;
-
-*/
-
-//---
 use function Results\GetResults2026\get;
 use function Results\GetResults2026\Tables\make_results_table_2026;
 use function Results\GetResults2026\make_results_table_inprocess;
@@ -18,8 +10,6 @@ use function Results\GetResults2026\make_results_table_exists_2026;
 use function SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
 use function SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
 use function SQLorAPI\GetDataTab\get_endpoint;
-
-
 
 function Results_tables_2026(
     $tab,
