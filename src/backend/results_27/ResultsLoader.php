@@ -23,19 +23,19 @@ class ResultsLoader
      */
     public function load(array $data): string
     {
-        $camp         = $data['camp'] ?? '';
-        $code         = $data['code'] ?? '';
-        $cat          = $data['cat'] ?? '';
-        $showExists   = (bool)($data['show_exists'] ?? false);
-        $globalUser   = $data['global_username'] ?? null;
-        $inProgressBtn = (bool)($data['in_progress_translation_button'] ?? false);
-        $traType      = $data['tra_type'] ?? 'lead';
-        $userCoord    = (bool)($data['user_coord'] ?? false);
-        $test         = !empty($data['test']);
+        $camp         = $data["camp"] ?? '';
+        $code         = $data["code"] ?? '';
+        $cat          = $data["cat"] ?? '';
+        $showExists   = (bool)($data["show_exists"] ?? false);
+        $globalUser   = $data["global_username"] ?? null;
+        $inProgressBtn = (bool)($data["in_progress_translation_button"] ?? false);
+        $traType      = $data["tra_type"] ?? "lead";
+        $userCoord    = (bool)($data["user_coord"] ?? false);
+        $test         = !empty($data["test"]);
 
         // Full translator check
         $fullTranslators = get_td_or_sql_full_translators();
-        $fullTranslators = array_column($fullTranslators, 'is_active', 'user');
+        $fullTranslators = array_column($fullTranslators, "is_active", "user");
         $fullTrUser = ($fullTranslators[$globalUser] ?? 0) == 1;
 
         // Fetch data
@@ -43,15 +43,15 @@ class ResultsLoader
         $results = $fetcher->get($cat, $code);
 
         // Helper data
-        $titlesInfos     = array_column(get_td_or_sql_titles_infos(), null, 'title');
-        $noLeadTranslates = TranslateTypeLoader::load('no');
-        $fullTranslates   = TranslateTypeLoader::load('full');
+        $titlesInfos     = array_column(get_td_or_sql_titles_infos(), null, "title");
+        $noLeadTranslates = TranslateTypeLoader::load("no");
+        $fullTranslates   = TranslateTypeLoader::load("full");
         $endpoint         = get_endpoint();
 
         $html = '';
 
         if ($test) {
-            $html .= "code:{$code}<br>code_lang_name:" . ($data['code_lang_name'] ?? '') . "<br>";
+            $html .= "code:{$code}<br>code_lang_name:" . ($data["code_lang_name"] ?? '') . "<br>";
         }
 
         // ----- Missing table -----
@@ -66,16 +66,16 @@ class ResultsLoader
             $fullTranslates
         );
 
-        $missingHtml = $missingTable->render($results['missing']);
-        $resLine = ' Results: (' . count($results['missing']) . ')';
+        $missingHtml = $missingTable->render($results["missing"]);
+        $resLine = " Results: (" . count($results["missing"]) . ")";
         if ($test) {
-            $resLine .= ' test:';
+            $resLine .= " test:";
         }
 
-        $html .= CardRenderer::render($resLine, $missingHtml, $results['ix']);
+        $html .= CardRenderer::render($resLine, $missingHtml, $results["ix"]);
 
         // ----- In-process table -----
-        $lenInProcess = count($results['inprocess']);
+        $lenInProcess = count($results["inprocess"]);
         if ($lenInProcess > 0) {
             $inProcessTable = new InProcessTable(
                 $code,
@@ -91,12 +91,12 @@ class ResultsLoader
 
             $html .= CardRenderer::render(
                 "In process: ({$lenInProcess})",
-                $inProcessTable->render($results['inprocess'])
+                $inProcessTable->render($results["inprocess"])
             );
         }
 
         // ----- Exists table -----
-        $lenExists = count($results['exists']);
+        $lenExists = count($results["exists"]);
         if ($lenExists > 1 && $showExists) {
             $existsTable = new ExistsTable(
                 $code,
@@ -109,7 +109,7 @@ class ResultsLoader
 
             $html .= CardRenderer::render(
                 "Exists: ({$lenExists})",
-                $existsTable->render($results['exists'])
+                $existsTable->render($results["exists"])
             );
         }
 
