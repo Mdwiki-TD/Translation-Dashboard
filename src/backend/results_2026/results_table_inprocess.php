@@ -81,7 +81,8 @@ function make_one_row_new_inprocess(
     $full_tr_user,
     $global_username,
     $title_data,
-    $endpoint
+    $endpoint,
+    $user_coord
 ) {
     //---
     // inprocess_table = { "title": "Andes virus infection", "user": "Mr. Ibrahem", "lang": "ar", "cat": "RTT", "translate_type": "all", "word": 0, "add_date": "2026-05-21 00:00:00", "campaign": "Main", "autonym": "العربية" }
@@ -103,7 +104,7 @@ function make_one_row_new_inprocess(
     //---
     $qid_url = make_wikidata_url_blank($qid);
     //---
-    $login_user_is_the_translator = $_user_ == $global_username;
+    $login_user_is_the_translator = $_user_ == $global_username || $user_coord;
     //---
     $mdwiki_url = make_mdwiki_href($title);
     //---
