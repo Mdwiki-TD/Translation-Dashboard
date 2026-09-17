@@ -20,6 +20,7 @@ function make_tds_rows_responsive($full, $tds)
     $mdwiki_url = $tds["mdwiki_url"];
     $cnt    = $tds["cnt"];
     $tab    = $tds["tab"];
+    $tra_type = $tds["tra_type"] ?? "";
     $pviews = $tds["pageviews"];
     $asse   = $tds["asse"];
     $words  = $tds["words"];
@@ -42,6 +43,9 @@ function make_tds_rows_responsive($full, $tds)
             <th class=''>
                 $tab
             </th>
+            <td class='' style="text-align: center">
+                $tra_type
+            </td>
             <td class='num' style="text-align: left">
                 $pviews
             </td>
@@ -104,37 +108,33 @@ function make_one_row_new_inprocess(
     //---
     $qid_url = make_wikidata_url_blank($qid);
     //---
-    $login_user_is_the_translator = $_user_ == $global_username || $user_coord;
+    $login_user_is_the_translator = (!empty($global_username) && $_user_ == $global_username) || $user_coord;
     //---
     $mdwiki_url = make_mdwiki_href($title);
     //---
-    $tab = "";
-    //---
-    $translate_url = $mdwiki_url;
-    //---
-    if ($in_progress_translation_button != 1) {
-        $translate_url = "";
-    } elseif (!empty($global_username)) {
-        [$tab, $translate_url, $_] = make_translate_urls(
-            $title,
-            $tra_type,
-            $word,
-            $langcode,
-            $cat,
-            $camp,
-            true,
-            $in_progress_translation_button,
-            $_user_,
-            $full_tr_user,
-            $login_user_is_the_translator,
-            $endpoint
-        );
-    }
+    [$tab, $translate_url, $_] = make_translate_urls(
+        $title,
+        $tra_type,
+        $word,
+        $langcode,
+        $cat,
+        $camp,
+        true,
+        $in_progress_translation_button,
+        $_user_,
+        $full_tr_user,
+        $login_user_is_the_translator,
+        $endpoint
+    );
     //---
     // if $_date_ has : then split before first space
     if (strpos($_date_, ':') !== false) {
         $_date_ = explode(' ', $_date_)[0];
     };
+    //---
+    if (empty($global_username)) {
+        $tab = "";
+    }
     //---
     $tds = [
         "in_progress_translation_button" => $in_progress_translation_button,
@@ -143,6 +143,7 @@ function make_one_row_new_inprocess(
         "cnt" => $cnt,
         "title" => $title,
         "tab" => $tab,
+        "tra_type" => $tra_type,
         "pageviews" => $en_views,
         "asse" => $importance,
         "words" => $word,

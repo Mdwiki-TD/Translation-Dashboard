@@ -172,6 +172,9 @@ function make_td_fo_user(
             <td data-content="Campaign" data-filter="$campaign_data">
                 $cat_or_camp_link
             </td>
+            <td data-content="Type" data-filter="$tran_type">
+                $tran_type
+            </td>
             <td data-content="Words" data-filter="$word">
                 $word
             </td>
@@ -225,6 +228,7 @@ function make_table_lead(
                     <th data-priority="1">$user_or_lang</th>
                     <th data-priority="2">Title</th>
                     <th>Campaign</th>
+                    <th>Type</th>
                     <th>Words</th>
                     <th data-priority="3">Translated</th>
                     <th>$th_Date</th>

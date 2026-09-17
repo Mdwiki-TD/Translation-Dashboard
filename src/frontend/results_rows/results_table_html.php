@@ -13,10 +13,7 @@ function make_table_start($inprocess, $in_progress_translation_button)
 {
 
     $Translate_th = "<th><span>Translate</span></th>";
-    //---
-    if ($inprocess && $in_progress_translation_button != 1) {
-        $Translate_th = '<th></th>';
-    };
+    $type_th = ($inprocess) ? '<th class="spannowrap" style="text-align: center">Type</th>' : '';
     //---
     $table_classes = "display table_responsive_main";
     //---
@@ -32,6 +29,7 @@ function make_table_start($inprocess, $in_progress_translation_button)
                     <th class="spannowrap" style="text-align: center">
                         Title
                     $Translate_th
+                    $type_th
                     <th class="spannowrap" style="text-align: center">
                         <span data-bs-toggle="tooltip" data-bs-title="Page views in last month in English Wikipedia">Views</span>
                     </th>
