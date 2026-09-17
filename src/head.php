@@ -149,7 +149,7 @@ function print_full_head(): string
                 .table_text_left>tbody>tr>td,
                 .table_text_left>thead>tr>td,
                 .table_text_left>thead>tr>th {
-                    text-align: left !important;
+                    text-align:left !important;
                 }
 
                 .leaderboard_tables>tbody>tr>td,
