@@ -90,8 +90,8 @@ function make_one_row_new_inprocess(
 ) {
     //---
     // inprocess_table = { "title": "Andes virus infection", "user": "Mr. Ibrahem", "lang": "ar", "cat": "RTT", "translate_type": "all", "word": 0, "add_date": "2026-05-21 00:00:00", "campaign": "Main", "autonym": "العربية" }
-    $_user_ = $inprocess_table['user'] ?? '';
-    $_date_ = $inprocess_table['date'] ?? $inprocess_table['add_date'] ?? '';
+    $_user_ = $inprocess_table['user'] ?? "";
+    $_date_ = $inprocess_table['date'] ?? $inprocess_table['add_date'] ?? "";
     //---
     $word     = $title_data['w_lead_words'] ?? 0;
     $refs     = $title_data['r_lead_refs'] ?? 0;
@@ -184,7 +184,7 @@ function make_results_table_inprocess(
         $title_data = $titles_infos_items[$title] ?? [];
         //---
         // { "title": "Andes virus infection", "user": "Mr. Ibrahem", "lang": "ar", "cat": "RTT", "translate_type": "all", "word": 0, "add_date": "2026-05-21 00:00:00", "campaign": "Main", "autonym": "العربية" }
-        $tra_type = $title_tab['translate_type'] ?? '';
+        $tra_type = $title_tab['translate_type'] ?? "";
         //---
         $full = false;
         //---

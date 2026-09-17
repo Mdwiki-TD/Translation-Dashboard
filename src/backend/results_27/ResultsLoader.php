@@ -23,9 +23,9 @@ class ResultsLoader
      */
     public function load(array $data): string
     {
-        $camp         = $data["camp"] ?? '';
-        $code         = $data["code"] ?? '';
-        $cat          = $data["cat"] ?? '';
+        $camp         = $data["camp"] ?? "";
+        $code         = $data["code"] ?? "";
+        $cat          = $data["cat"] ?? "";
         $showExists   = (bool)($data["show_exists"] ?? false);
         $globalUser   = $data["global_username"] ?? null;
         $inProgressBtn = (bool)($data["in_progress_translation_button"] ?? false);
@@ -51,7 +51,7 @@ class ResultsLoader
         $html = '';
 
         if ($test) {
-            $html .= "code:{$code}<br>code_lang_name:" . ($data["code_lang_name"] ?? '') . "<br>";
+            $html .= "code:{$code}<br>code_lang_name:" . ($data["code_lang_name"] ?? "") . "<br>";
         }
 
         // ----- Missing table -----

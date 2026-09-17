@@ -35,8 +35,8 @@ class MissingRowBuilder
         $words    = $titleData["w_lead_words"] ?? 0;
         $refs     = $titleData["r_lead_refs"] ?? 0;
         $importance = $titleData["importance"] ?? "Unknown";
-        $enViews  = $titleData["en_views"] ?? '';
-        $qid      = $titleData["qid"] ?? '';
+        $enViews  = $titleData["en_views"] ?? "";
+        $qid      = $titleData["qid"] ?? "";
 
         if ($traType === "all") {
             $words = $titleData["w_all_words"] ?? 0;

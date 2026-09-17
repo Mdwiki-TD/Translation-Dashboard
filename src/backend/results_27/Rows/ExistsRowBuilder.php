@@ -24,8 +24,8 @@ class ExistsRowBuilder
         string $endpoint
     ): string {
         $importance = $titleData["importance"] ?? "Unknown";
-        $qid        = $titleData["qid"] ?? '';
-        $target     = $titleData["target"] ?? '';
+        $qid        = $titleData["qid"] ?? "";
+        $target     = $titleData["target"] ?? "";
         $via        = $titleData["via"] ?? "before";
 
         $mdwikiLink = make_mdwiki_article_url_blank($title);
