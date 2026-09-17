@@ -587,7 +587,7 @@ class ExistsRowBuilder
 
         return <<<HTML
         <tr>
-            <th class="" scope="row" style="text-align:center">{$counter}</th>
+            <th scope="row" style="text-align:center">{$counter}</th>
             <td class="link_container spannowrap">{$mdwikiLink}</td>
             <td>{$translateButton}</td>
             <td>{$targetTd}</td>

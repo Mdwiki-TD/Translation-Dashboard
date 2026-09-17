@@ -4,26 +4,45 @@ namespace Results\GetResults2026\Helpers;
 
 use function SQLorAPI\GetDataTab\get_td_or_sql_translate_type;
 
-function load_translate_type($ty)
+/**
+ * Loads and caches lists of titles that require full translation
+ * or do not allow lead-only translation.
+ */
+class TranslateTypeLoader
 {
-    static $fullTranslates = [];
-    static $noLeadTranslates = [];
+    private static array $fullTranslates = [];
+    private static array $noLeadTranslates = [];
+    private static bool $loaded = false;
 
-    if (empty($fullTranslates)) {
+    /**
+     * @param string $type  "full" or "no"
+     * @return string[]
+     */
+    public static function load(string $type): array
+    {
+        if (!self::$loaded) {
+            self::loadData();
+        }
+
+        return $type === "full" ? self::$fullTranslates : self::$noLeadTranslates;
+    }
+
+    private static function loadData(): void
+    {
         $rows = get_td_or_sql_translate_type();
 
         foreach ($rows as $k => $tab) {
+            // $normalizedTitle = str_replace("_", " ", $tab["tt_title"] ?? '');
+            $normalizedTitle = $tab['tt_title'];
             // if tt_full == 1 then add tt_title to $fullTranslates
-            if ($tab['tt_full'] == 1) {
-                $fullTranslates[] = $tab['tt_title'];
+            if (($tab["tt_full"] ?? 0) == 1) {
+                self::$fullTranslates[] = $normalizedTitle;
             }
-            if ($tab['tt_lead'] == 0) {
-                $noLeadTranslates[] = $tab['tt_title'];
+            if (($tab["tt_lead"] ?? 1) == 0) {
+                self::$noLeadTranslates[] = $normalizedTitle;
             }
         }
+
+        self::$loaded = true;
     }
-
-    $tab = ($ty == 'full') ? $fullTranslates : $noLeadTranslates;
-
-    return $tab;
 }

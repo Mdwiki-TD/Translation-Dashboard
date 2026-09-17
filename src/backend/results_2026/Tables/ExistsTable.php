@@ -1,6 +1,7 @@
 <?PHP
 
 namespace Results\GetResults2026;
+use function Results\GetResults2026\Rows\make_one_row_exists_2026;
 
 function make_results_table_exists_2026(
     $items,

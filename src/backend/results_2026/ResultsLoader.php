@@ -7,8 +7,9 @@ use function Results\GetResults2026\Tables\make_results_table_2026;
 use function Results\GetResults2026\make_results_table_inprocess;
 use function Results\GetResults2026\make_results_table_exists_2026;
 
-use function Results\GetResults2026\Helpers\load_translate_type;
+use Results\GetResults2026\Helpers\TranslateTypeLoader;
 use function Results\GetResults2026\Helpers\render;
+
 use function SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
 use function SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
 use function SQLorAPI\GetDataTab\get_endpoint;
@@ -45,8 +46,8 @@ function results_loader_2026($data)
     ];
 
     $_titles_infos = get_td_or_sql_titles_infos();
-    $noLeadTranslates = load_translate_type('no');
-    $fullTranslates = load_translate_type('full');
+    $noLeadTranslates = TranslateTypeLoader::load('no');
+    $fullTranslates = TranslateTypeLoader::load('full');
     $endpoint = get_endpoint();
 
     return Results_tables_2026(
