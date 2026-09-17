@@ -6,7 +6,7 @@ The code keeps the same public behavior while being cleaner, typed, and better o
 ### Directory structure
 
 ```
-src/backend/results_2026/
+src/backend/results_27/
 ├── Data/
 │   └── ResultsFetcher.php
 ├── Helpers/

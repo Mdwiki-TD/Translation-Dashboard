@@ -53,8 +53,8 @@ class InProcessTable extends AbstractResultsTable
                 continue;
             }
 
-            $title = str_replace('_', ' ', $title);
             $titleData = $this->titlesInfos[$title] ?? [];
+            $title = str_replace('_', ' ', $title);
 
             $traType = $inProcessData['translate_type'] ?? 'lead';
             $isFull  = false;

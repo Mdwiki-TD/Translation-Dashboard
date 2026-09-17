@@ -32,11 +32,12 @@ class TranslateTypeLoader
         $rows = get_td_or_sql_translate_type();
 
         foreach ($rows as $tab) {
+            $normalizedTitle = str_replace('_', ' ', $tab['tt_title'] ?? '');
             if (($tab['tt_full'] ?? 0) == 1) {
-                self::$fullTranslates[] = $tab['tt_title'];
+                self::$fullTranslates[] = $normalizedTitle;
             }
             if (($tab['tt_lead'] ?? 1) == 0) {
-                self::$noLeadTranslates[] = $tab['tt_title'];
+                self::$noLeadTranslates[] = $normalizedTitle;
             }
         }
 
