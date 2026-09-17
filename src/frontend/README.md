@@ -11,7 +11,7 @@ The `src/frontend/` directory is the HTML generation layer (presentation layer) 
 - Font Awesome and Bootstrap Icons integration
 
 ### Technologies
-- PHP 8.2+
+- PHP 8.4+
 - Bootstrap 5 (CSS framework)
 - Font Awesome 5 (icons)
 - Bootstrap Icons (icons)
