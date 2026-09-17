@@ -1,14 +1,15 @@
-<?PHP
+<?php
 
 namespace Results\GetResults2026;
 
+use Results\GetResults2026\Data\ResultsFetcher;
+use Results\GetResults2026\Helpers\CardRenderer;
 use function Results\GetResults2026\get;
-use function Results\GetResults2026\Tables\make_results_table_2026;
-use function Results\GetResults2026\make_results_table_inprocess;
+use function Results\GetResults2026\Tables\make_results_table_inprocess;
 use function Results\GetResults2026\make_results_table_exists_2026;
 
 use Results\GetResults2026\Helpers\TranslateTypeLoader;
-use function Results\GetResults2026\Helpers\render;
+use Results\GetResults2026\Tables\MissingTable;
 
 use function SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
 use function SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
@@ -91,10 +92,6 @@ function Results_tables_2026(
 
     $results = $tab["results_list"];
 
-    $pInprocess = $results['inprocess'];
-    $missing     = $results['missing'];
-    $ix          = $results['ix'];
-
     // { "title": "11p deletion syndrome", "category": "RTT", "importance": "", "r_lead_refs": 5, "r_all_refs": 14, "en_views": 838, "w_lead_words": 221, "w_all_words": 547, "qid": "Q1892153", "target": "متلازمة واجر" }
     $exists      = $results['exists'];
 
@@ -102,10 +99,10 @@ function Results_tables_2026(
 
     if (!empty($test)) $resLine .= 'test:';
 
-    $titlesInfos = array_column($_titles_infos, null, 'title');
+    $titlesInfos = array_column($_titles_infos, null, "title");
 
-    $table = make_results_table_2026(
-        $missing,
+    // ----- Missing table -----
+    $missingTable = new MissingTable(
         $code,
         $cat,
         $camp,
@@ -116,14 +113,9 @@ function Results_tables_2026(
         $fullTranslates
     );
 
-    $title_x = <<<HTML
-        <!-- <span class='only_on_mobile'><b>Click the article name to translate</b></span> -->
-        $ix
-    HTML;
+    $missingHtml = $missingTable->render($results["missing"]);
 
-    $html .= render($resLine, $table, $title_x);
-
-    $lenInProcess = count($pInprocess);
+    $html .= CardRenderer::render($resLine, $missingHtml, $results["ix"]);
 
     // ----- In-process table -----
     $lenInProcess = count($results['inprocess']);
@@ -132,7 +124,7 @@ function Results_tables_2026(
         // $inProgressButton = ($userCoord) ? $inProgressButton : false;
 
         $inProcessTable = make_results_table_inprocess(
-            $pInprocess,
+            $results["inprocess"],
             $code,
             $cat,
             $camp,
@@ -144,15 +136,13 @@ function Results_tables_2026(
             $userCoord
         );
 
-        $html .= render("In process: ($lenInProcess)", $inProcessTable);
+        $html .= CardRenderer::render("In process: ($lenInProcess)", $inProcessTable);
     };
 
-    $lenExists = count($exists);
-
+    $lenExists = count($results['exists']);
     if ($lenExists > 1 && $showExists) {
-
-        $table_3 = make_results_table_exists_2026(
-            $exists,
+        $existsTable = make_results_table_exists_2026(
+            $results['exists'],
             $code,
             $cat,
             $camp,
@@ -161,7 +151,7 @@ function Results_tables_2026(
             $endpoint
         );
 
-        $html .= render("Exists: ($lenExists)", $table_3);
+        $html .= CardRenderer::render("Exists: ($lenExists)", $existsTable);
     };
 
     return $html;

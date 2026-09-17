@@ -17,21 +17,19 @@ function get(string $cat, string $code): array
     $existsViaTd = array_column($existsViaTd, null, "title");
     test_print("exists_via_td " . count($existsViaTd));
 
+    // Missing pages
     // { "title": "Alpha-gal syndrome", "category": "RTT", "importance": "Mid", "r_lead_refs": 0, "r_all_refs": 0, "en_views": 15, "w_lead_words": 0, "w_all_words": 0, "qid": "Q16242785" }
     $itemsMissing = missing_by_lang_and_category($code, $cat);
-    // $itemsMissing = array_column($itemsMissing, "title");
-    // --
+
+    // Existing pages
     // { "title": "11p deletion syndrome", "category": "RTT", "importance": "", "r_lead_refs": 5, "r_all_refs": 14, "en_views": 838, "w_lead_words": 221, "w_all_words": 547, "qid": "Q1892153", "target": "متلازمة واجر" }
-    $itemsExists  = exists_by_lang_and_category($code, $cat);
+    $itemsExists = exists_by_lang_and_category($code, $cat);
     $itemsExists = array_column($itemsExists, null, "title");
 
+    // Mark origin of each existing page
     // add column to all $itemsExists ("via" => "before") or ("via" => "td") if title in $existsViaTd
     foreach ($itemsExists as $title => &$item) {
-        if (isset($existsViaTd[$title])) {
-            $item['via'] = 'td';
-        } else {
-            $item['via'] = 'before';
-        }
+        $item["via"] = isset($existsViaTd[$title]) ? "td" : "before";
     }
     unset($item);
 
@@ -42,18 +40,17 @@ function get(string $cat, string $code): array
     $lenExists = count($itemsExists);
     test_print("Length of existing pages: $lenExists");
 
-    // Get in-process items
+    // In-process items that are still in the missing list
     $missingTitles = array_column($itemsMissing, "title");
     $inProcess = getInProcess($missingTitles, $code);
 
+    // Remove in-process titles from the missing list
     $missing = $itemsMissing;
 
-    // Remove in-process items from missing list
-    if (count($inProcess) > 0) {
-        $inProcessTitles = array_flip(array_column($inProcess, 'title'));
-
-        $missing = array_filter($itemsMissing, function ($item) use ($inProcessTitles) {
-            return !isset($inProcessTitles[$item['title']]);
+    if (!empty($inProcess)) {
+        $inProcessTitles = array_flip(array_column($inProcess, "title"));
+        $missing = array_filter($itemsMissing, static function (array $item) use ($inProcessTitles): bool {
+            return !isset($inProcessTitles[$item["title"]]);
         });
     }
 
@@ -76,21 +73,26 @@ function get(string $cat, string $code): array
     ];
 }
 
+/**
+ * Filter in-process records that belong to the current missing list.
+ */
 function getInProcess(array $missingTitles, string $code): array
 {
     $res = get_lang_in_process($code);
-
     $result = [];
 
     foreach ($res as $row) {
-        if (in_array($row['title'], $missingTitles)) {
-            $result[$row['title']] = $row;
+        if (in_array($row["title"], $missingTitles)) {
+            $result[$row["title"]] = $row;
         }
     }
 
     return $result;
 }
 
+/**
+ * Build the human-readable summary string.
+ */
 function createSummary(
         string $code,
         string $cat,
@@ -99,13 +101,20 @@ function createSummary(
         int $lenExists
     ): string {
 
-    $total = $lenExists + $lenMissing + $lenInProcess;
+    $total  = $lenExists + $lenMissing + $lenInProcess;
 
     // Prepare category URL
     $catUrl = make_mdwiki_cat_url($cat, "Category");
 
     // Generate summary message
-    $summary = "Found $total pages in $catUrl, $lenExists exists, and $lenMissing missing in (<a href='https://$code.wikipedia.org' target='_blank'>$code</a>), $lenInProcess In process.";
-
-    return $summary;
+    return sprintf(
+        "Found %d pages in %s, %d exists, and %d missing in (<a href='https://%s.wikipedia.org' target='_blank'>%s</a>), %d In process.",
+        $total,
+        $catUrl,
+        $lenExists,
+        $lenMissing,
+        $code,
+        $code,
+        $lenInProcess
+    );
 }

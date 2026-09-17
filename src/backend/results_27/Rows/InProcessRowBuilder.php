@@ -27,14 +27,15 @@ class InProcessRowBuilder
         string $endpoint,
         bool $userCoord
     ): string {
-        $user = $inProcessData["user"] ?? '';
-        $date = $inProcessData["date"] ?? $inProcessData["add_date"] ?? '';
+        // inProcessData = { "title": "Andes virus infection", "user": "Mr. Ibrahem", "lang": "ar", "cat": "RTT", "translate_type": "all", "word": 0, "add_date": "2026-05-21 00:00:00", "campaign": "Main", "autonym": "العربية" }
+        $user = $inProcessData["user"] ?? "";
+        $date = $inProcessData["date"] ?? $inProcessData["add_date"] ?? "";
 
         $words      = $titleData["w_lead_words"] ?? 0;
         $refs       = $titleData["r_lead_refs"] ?? 0;
         $importance = $titleData["importance"] ?? "Unknown";
-        $enViews    = $titleData["en_views"] ?? '';
-        $qid        = $titleData["qid"] ?? '';
+        $enViews    = $titleData["en_views"] ?? "";
+        $qid        = $titleData["qid"] ?? "";
 
         if ($traType === "all") {
             $words = $titleData["w_all_words"] ?? 0;
@@ -50,7 +51,7 @@ class InProcessRowBuilder
 
         $loginUserIsTranslator = (!empty($globalUsername) && $user === $globalUsername) || $userCoord;
 
-        [$buttons] = make_translate_urls(
+        [$buttons, $_, $_] = make_translate_urls(
             $title,
             $traType,
             $words,
@@ -71,7 +72,7 @@ class InProcessRowBuilder
         }
 
         if (empty($globalUsername)) {
-            $buttons = '';
+            $buttons = "";
         }
 
         $displayCounter = ($isFullRow && !str_starts_with(strtolower($title), "video:"))

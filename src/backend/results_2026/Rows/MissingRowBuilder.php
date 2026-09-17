@@ -1,4 +1,4 @@
-<?PHP
+<?php
 
 namespace Results\GetResults2026;
 
@@ -18,7 +18,7 @@ function _make_one_row_results(
     $fullTrUser,
     $globalUsername,
     $titleData
-) {
+): string {
 
     if (empty($traType)) {
         $traType = 'lead';
@@ -31,10 +31,10 @@ function _make_one_row_results(
         $traType = 'all';
     };
 
-    $words     = $titleData['w_lead_words'] ?? 0;
+    $words    = $titleData['w_lead_words'] ?? 0;
     $refs     = $titleData['r_lead_refs'] ?? 0;
     $asse     = $titleData['importance'] ?? "";
-    $enViews = $titleData['en_views'] ?? "";
+    $enViews  = $titleData['en_views'] ?? "";
     $qid      = $titleData['qid'] ?? "";
 
     if ($traType == 'all') {
@@ -87,16 +87,16 @@ function _make_one_row_results(
         <th>
             $tab
         </th>
-        <td class='num' style="text-align: left">
+        <td class='num' style="text-align:left">
             $enViews
         </td>
-        <td class='num' style="text-align: left">
+        <td class='num' style="text-align:left">
             $asse
         </td>
-        <td class='num' style="text-align: left">
+        <td class='num' style="text-align:left">
             $words
         </td>
-        <td class='num' style="text-align: left">
+        <td class='num' style="text-align:left">
             $refs
         </td>
         <td>

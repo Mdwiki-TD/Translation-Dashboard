@@ -7,7 +7,7 @@ namespace MyLibrary\Tests;
 use PHPUnit\Framework\TestCase;
 
 use function Results\Helps\make_translate_urls;
-use function Results\GetResults2026\make_one_row_new_inprocess;
+use function Results\GetResults2026\Rows\make_one_row_new_inprocess;
 use function Results\ResultsTableHtml\make_table_start;
 use function Leaderboard\Subs\LeadHelp\make_td_fo_user;
 

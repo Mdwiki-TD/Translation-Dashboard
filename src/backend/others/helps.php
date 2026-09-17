@@ -111,10 +111,10 @@ function make_translate_urls(
         $translate_url = make_tr_link_medwiki($title, $langcode, $cat, $camp, $tra_type, $words);
     }
     //---
-    $tab = "<a href='$translate_url' class='btn btn-outline-primary btn-sm' target='_blank'>Translate</a>";
+    $buttons = "<a href='$translate_url' class='btn btn-outline-primary btn-sm' target='_blank'>Translate</a>";
     //---
     if ($full_tr_user && !$is_video) {
-        $tab = <<<HTML
+        $buttons = <<<HTML
             <div class='inline'>
                 <a href='$translate_url' class='btn btn-outline-primary btn-sm' target='_blank'>Lead</a>
                 <a href='$full_translate_url' class='btn btn-outline-primary btn-sm' target='_blank'>Full</a>
@@ -124,13 +124,13 @@ function make_translate_urls(
     //---
     if ($inprocess) {
         if ($in_progress_translation_button != 1 && !$login_user_is_the_translator) {
-            $tab = '';
+            $buttons = '';
             $translate_url = $mdwiki_url;
             $full_translate_url = $mdwiki_url;
         };
     };
     // ---
-    return [$tab, $translate_url, $full_translate_url];
+    return [$buttons, $translate_url, $full_translate_url];
 }
 
 function get_item_properties($title, $tra_type, $title_data)

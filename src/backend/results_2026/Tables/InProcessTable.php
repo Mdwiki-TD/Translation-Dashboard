@@ -1,32 +1,37 @@
-<?PHP
+<?php
 
-namespace Results\GetResults2026;
+namespace Results\GetResults2026\Tables;
 
 use function Results\ResultsTableHtml\make_table_start;
 use function Results\GetResults2026\Rows\make_one_row_new_inprocess;
 
+use Results\GetResults2026\Rows\InProcessRowBuilder;
+
+/**
+ * Renders the table of pages currently being translated.
+ */
 function make_results_table_inprocess(
-    $inprocessTable,
-    $langCode,
-    $cat,
-    $camp,
-    $inProgressButton,
-    $fullTrUser,
-    $globalUsername,
-    $titlesInfos,
-    $endpoint,
-    $userCoord
+    $inProcessData,
+    string $langCode,
+        string $cat,
+        string $camp,
+        bool $inProgressButton,
+        bool $fullTrUser,
+        ?string $globalUsername,
+        array $titlesInfos,
+    string $endpoint,
+    bool $userCoord
 ): string {
 
-    // $inprocessTable = normalizeItems($inprocessTable);
+    // $inProcessData = normalizeItems($inProcessData);
 
     $frist = make_table_start(true, $inProgressButton);
 
-    $list = "";
+    $rowBuilder       = new InProcessRowBuilder();
+    $html = "";
     $counter = 1;
 
-    foreach ($inprocessTable as $title => $titleTab) {
-
+    foreach ($inProcessData as $title => $inProcessData) {
         if (empty($title)) {
             continue;
         }
@@ -36,7 +41,7 @@ function make_results_table_inprocess(
         $titleData = $titlesInfos[$title] ?? [];
 
         // { "title": "Andes virus infection", "user": "Mr. Ibrahem", "lang": "ar", "cat": "RTT", "translate_type": "all", "word": 0, "add_date": "2026-05-21 00:00:00", "campaign": "Main", "autonym": "العربية" }
-        $traType = $titleTab['translate_type'] ?? '';
+        $traType = $inProcessData['translate_type'] ?? '';
 
         $isFull = false;
 
@@ -45,14 +50,14 @@ function make_results_table_inprocess(
             $isFull = true;
         };
 
-        $row = make_one_row_new_inprocess(
+        $html .= $rowBuilder->build(
             $title,
             $traType,
             $counter,
             $langCode,
             $cat,
             $camp,
-            $titleTab,
+            $inProcessData,
             $inProgressButton,
             $isFull,
             $fullTrUser,
@@ -61,8 +66,6 @@ function make_results_table_inprocess(
             $endpoint,
             $userCoord
         );
-        //--
-        $list .= $row;
 
         $counter++;
     };
@@ -72,5 +75,5 @@ function make_results_table_inprocess(
     </table>
     HTML;
 
-    return $frist . $list . $last;
+    return $frist . $html . $last;
 }

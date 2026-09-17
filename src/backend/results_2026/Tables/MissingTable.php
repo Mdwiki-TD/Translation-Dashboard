@@ -2,110 +2,120 @@
 
 namespace Results\GetResults2026\Tables;
 
-use function Results\ResultsTableHtml\make_table_start;
+use Results\GetResults2026\Rows\MissingRowBuilder;
 use function Results\GetResults2026\_make_one_row_results;
 
 /**
  * Renders the table of missing pages.
  */
-function make_results_table_2026(
-    $items,
-    $langCode,
-    $cat,
-    $camp,
-    $traType,
-    $fullTrUser,
-    $globalUsername,
-    $noLeadTranslates,
-    $fullTranslates
-) {
+class MissingTable extends AbstractResultsTable
+{
+    private MissingRowBuilder $rowBuilder;
+    private string $langCode;
+    private string $cat;
+    private string $camp;
+    private string $traType;
+    private bool $fullTrUser;
+    private ?string $globalUsername;
+    private array $noLeadTranslates;
+    private array $fullTranslates;
 
-    $doFull   = ($traType == 'all') ? false : true;
+    public function __construct(
+        string $langCode,
+        string $cat,
+        string $camp,
+        string $traType,
+        bool $fullTrUser,
+        ?string $globalUsername,
+        array $noLeadTranslates,
+        array $fullTranslates
+    ) {
+        $this->rowBuilder       = new MissingRowBuilder();
+        $this->langCode         = $langCode;
+        $this->cat              = $cat;
+        $this->camp             = $camp;
+        $this->traType          = $traType;
+        $this->fullTrUser       = $fullTrUser;
+        $this->globalUsername   = $globalUsername;
+        $this->noLeadTranslates = $noLeadTranslates;
+        $this->fullTranslates   = $fullTranslates;
+    }
 
-    $frist = make_table_start(false, false);
+    public function render(array $items): string
+    {
+        $doFull = ($this->$traType == 'all') ? false : true;
 
-    usort($items, function ($a, $b) {
-        $viewsA = $a['en_views'] ?? 0;
-        $viewsB = $b['en_views'] ?? 0;
+        // Sort by English page views (descending)
+        usort($items, static function (array $a, array $b): int {
+            return ($b["en_views"] ?? 0) <=> ($a["en_views"] ?? 0);
+        });
 
-        return $viewsB <=> $viewsA;
-    });
+        // { "title": "11p deletion syndrome", "category": "RTT", "importance": "", "r_lead_refs": 5, "r_all_refs": 14, "en_views": 838, "w_lead_words": 221, "w_all_words": 547, "qid": "Q1892153", "target": "متلازمة واجر" }
+        $items = array_column($items, null, "title");
 
-    // { "title": "11p deletion syndrome", "category": "RTT", "importance": "", "r_lead_refs": 5, "r_all_refs": 14, "en_views": 838, "w_lead_words": 221, "w_all_words": 547, "qid": "Q1892153", "target": "متلازمة واجر" }
-    $items = array_column($items, null, "title");
+        $html = $this->startTable(false, false);
+        $counter = 1;
 
-    $html = "";
-    $counter = 1;
-
-    foreach ($items as $title => $titleData) {
-
-        if (empty($title)) {
+        foreach ($items as $title => $titleData) {
+            if (empty($title)) {
                 continue;
             }
 
             $title = str_replace("_", " ", $title);
 
-
-        if (strtolower(substr($title, 0, 6)) == 'video:') {
-            $traType = 'all';
-        };
-
-        $row = _make_one_row_results(
-            $title,
-            $traType,
-            $counter,
-            $langCode,
-            $cat,
-            $camp,
-            false,
-            $fullTrUser,
-            $globalUsername,
-            $titleData
-        );
-
-        // if full translates not allowed
-        if (!$doFull || $fullTrUser) {
-            $html .= $row;
-            $counter++;
-            continue;
-        }
-
-        // if title in no_lead_translates array then $noLead = true
-        $noLead = (in_array($title, $noLeadTranslates)) ? true : false;
-
-        // if title in full_translates array then $isFull = true
-        $isFull = (in_array($title, $fullTranslates)) ? true : false;
-
-        if ($noLead && !$isFull) {
-            continue;
-        }
-
-        if (!$noLead) {
-            $html .= $row;
-        }
-
-        if ($isFull) {
-            $html .= _make_one_row_results(
+            $row = _make_one_row_results(
                 $title,
-                "all",
+                $this->traType,
                 $counter,
-                $langCode,
-                $cat,
-                $camp,
-                true,
-                $fullTrUser,
-                $globalUsername,
+                $this->langCode,
+                $this->cat,
+                $this->camp,
+                false,
+                $this->fullTrUser,
+                $this->globalUsername,
                 $titleData
             );
+
+            // Special handling when full translation is restricted
+            if (!$doFull || $this->$fullTrUser) {
+                $html .= $row;
+                $counter++;
+                continue;
+            }
+
+            // if title in no_lead_translates array then $noLead = true
+            $noLead = (in_array($title, $this->$noLeadTranslates)) ? true : false;
+
+            // if title in full_translates array then $isFull = true
+            $isFull   = (in_array($title, $this->$fullTranslates)) ? true : false;
+
+            if ($noLead && !$isFull) {
+                continue;
+            }
+
+            if (!$noLead) {
+                $html .= $row;
+            }
+
+            if ($isFull) {
+                $html .= _make_one_row_results(
+                    $title,
+                    "all",
+                    $counter,
+                    $this->langCode,
+                    $this->cat,
+                    $this->camp,
+                    true,
+                    $this->fullTrUser,
+                    $this->globalUsername,
+                    $titleData
+                );
+            }
+
+            $counter++;
         }
 
-        $counter++;
-    };
-
-    $last = <<<HTML
-        </tbody>
-    </table>
-    HTML;
-
-    return $frist . $html . $last;
+        $html .= $this->endTable();
+        return $html;
+    }
 }

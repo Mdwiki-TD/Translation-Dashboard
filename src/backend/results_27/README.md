@@ -69,7 +69,7 @@ class ResultsFetcher
     {
         // Pages that already exist via Translation Dashboard
         $existsViaTd = get_lang_pages_by_cat($code, $cat);
-        $existsViaTd = array_column($existsViaTd, null, 'title');
+        $existsViaTd = array_column($existsViaTd, null, "title");
         $this->log('exists_via_td', count($existsViaTd));
 
         // Missing pages
@@ -78,7 +78,7 @@ class ResultsFetcher
 
         // Existing pages
         $itemsExists = exists_by_lang_and_category($code, $cat);
-        $itemsExists = array_column($itemsExists, null, 'title');
+        $itemsExists = array_column($itemsExists, null, "title");
 
         // Mark origin of each existing page
         foreach ($itemsExists as $title => &$item) {
@@ -91,15 +91,15 @@ class ResultsFetcher
         $lenExists = count($itemsExists);
 
         // In-process items that are still in the missing list
-        $missingTitles = array_column($itemsMissing, 'title');
+        $missingTitles = array_column($itemsMissing, "title");
         $inProcess = $this->getInProcess($missingTitles, $code);
 
         // Remove in-process titles from the missing list
         $missing = $itemsMissing;
         if (!empty($inProcess)) {
-            $inProcessTitles = array_flip(array_column($inProcess, 'title'));
+            $inProcessTitles = array_flip(array_column($inProcess, "title"));
             $missing = array_filter($itemsMissing, static function (array $item) use ($inProcessTitles): bool {
-                return !isset($inProcessTitles[$item['title']]);
+                return !isset($inProcessTitles[$item["title"]]);
             });
         }
 
@@ -131,8 +131,8 @@ class ResultsFetcher
         $result = [];
 
         foreach ($res as $row) {
-            if (in_array($row['title'], $missingTitles, true)) {
-                $result[$row['title']] = $row;
+            if (in_array($row["title"], $missingTitles, true)) {
+                $result[$row["title"]] = $row;
             }
         }
 
@@ -452,7 +452,7 @@ class MissingTable extends AbstractResultsTable
             return ($b['en_views'] ?? 0) <=> ($a['en_views'] ?? 0);
         });
 
-        $items = array_column($items, null, 'title');
+        $items = array_column($items, null, "title");
 
         $html = $this->startTable(false, false);
         $counter = 1;
@@ -951,7 +951,7 @@ class ResultsLoader
         $results = $fetcher->get($cat, $code);
 
         // Helper data
-        $titlesInfos     = array_column(get_td_or_sql_titles_infos(), null, 'title');
+        $titlesInfos     = array_column(get_td_or_sql_titles_infos(), null, "title");
         $noLeadTranslates = TranslateTypeLoader::load('no');
         $fullTranslates   = TranslateTypeLoader::load('full');
         $endpoint         = get_endpoint();
