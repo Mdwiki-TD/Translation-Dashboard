@@ -50,14 +50,14 @@ class ResultsFetcher
         $itemsExists = array_column($itemsExists, null, "title");
 
         // Mark origin of each existing page
+        // add column to all $itemsExists ("via" => "before") or ("via" => "td") if title in $existsViaTd
         foreach ($itemsExists as $title => &$item) {
             $item["via"] = isset($existsViaTd[$title]) ? "td" : "before";
         }
         unset($item);
 
-        $this->log("Items exists", count($itemsExists));
-
         $lenExists = count($itemsExists);
+        $this->log("Items exists", $lenExists);
 
         // In-process items that are still in the missing list
         $missingTitles = array_column($itemsMissing, "title");

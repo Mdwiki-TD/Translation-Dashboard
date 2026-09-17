@@ -8,6 +8,7 @@ use function Results\Helps\make_translate_urls;
 
 /**
  * Builds a single row for the In-process results table.
+ * make_one_row_new_inprocess
  */
 class InProcessRowBuilder
 {

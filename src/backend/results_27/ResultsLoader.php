@@ -23,9 +23,9 @@ class ResultsLoader
      */
     public function load(array $data): string
     {
-        $camp         = $data["camp"] ?? '';
-        $code         = $data["code"] ?? '';
-        $cat          = $data["cat"] ?? '';
+        $camp         = $data["camp"] ?? "";
+        $code         = $data["code"] ?? "";
+        $cat          = $data["cat"] ?? "";
         $showExists   = (bool)($data["show_exists"] ?? false);
         $globalUser   = $data["global_username"] ?? null;
         $inProgressButton = (bool)($data["in_progress_translation_button"] ?? false);
@@ -43,15 +43,15 @@ class ResultsLoader
         $results = $fetcher->get($cat, $code);
 
         // Helper data
-        $titlesInfos     = array_column(get_td_or_sql_titles_infos(), null, "title");
+        $titlesInfos      = array_column(get_td_or_sql_titles_infos(), null, "title");
         $noLeadTranslates = TranslateTypeLoader::load("no");
         $fullTranslates   = TranslateTypeLoader::load("full");
         $endpoint         = get_endpoint();
 
-        $html = '';
+        $html = "";
 
         if ($test) {
-            $html .= "code:{$code}<br>code_lang_name:" . ($data["code_lang_name"] ?? '') . "<br>";
+            $html .= "code:{$code}<br>code_lang_name:" . ($data["code_lang_name"] ?? "") . "<br>";
         }
 
         // ----- Missing table -----
@@ -77,6 +77,8 @@ class ResultsLoader
         // ----- In-process table -----
         $lenInProcess = count($results["inprocess"]);
         if ($lenInProcess > 0) {
+
+            // $inProgressButton = ($userCoord) ? $inProgressButton : false;
             $inProcessTable = new InProcessTable(
                 $code,
                 $cat,
@@ -88,10 +90,10 @@ class ResultsLoader
                 $endpoint,
                 $userCoord
             );
-
+            $inProcessHtml = $inProcessTable->render($results["inprocess"]);
             $html .= CardRenderer::render(
                 "In process: ({$lenInProcess})",
-                $inProcessTable->render($results["inprocess"])
+                $inProcessHtml
             );
         }
 
@@ -106,10 +108,11 @@ class ResultsLoader
                 $userCoord,
                 $endpoint
             );
+            $existsHtml = $existsTable->render($results["exists"]);
 
             $html .= CardRenderer::render(
                 "Exists: ({$lenExists})",
-                $existsTable->render($results["exists"])
+                $existsHtml
             );
         }
 

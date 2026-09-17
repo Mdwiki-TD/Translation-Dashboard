@@ -3,7 +3,6 @@
 namespace Results\GetResults2026\Tables;
 
 use Results\GetResults2026\Rows\MissingRowBuilder;
-use function Results\GetResults2026\_make_one_row_results;
 
 /**
  * Renders the table of missing pages.
@@ -43,7 +42,7 @@ class MissingTable extends AbstractResultsTable
 
     public function render(array $items): string
     {
-        $doFull = ($this->$traType == 'all') ? false : true;
+        $doFull = ($this->traType == 'all') ? false : true;
 
         // Sort by English page views (descending)
         usort($items, static function (array $a, array $b): int {
@@ -63,7 +62,7 @@ class MissingTable extends AbstractResultsTable
 
             $title = str_replace("_", " ", $title);
 
-            $row = _make_one_row_results(
+            $row = $this->rowBuilder->build(
                 $title,
                 $this->traType,
                 $counter,
@@ -77,17 +76,17 @@ class MissingTable extends AbstractResultsTable
             );
 
             // Special handling when full translation is restricted
-            if (!$doFull || $this->$fullTrUser) {
+            if (!$doFull || $this->fullTrUser) {
                 $html .= $row;
                 $counter++;
                 continue;
             }
 
             // if title in no_lead_translates array then $noLead = true
-            $noLead = (in_array($title, $this->$noLeadTranslates)) ? true : false;
+            $noLead = (in_array($title, $this->noLeadTranslates)) ? true : false;
 
             // if title in full_translates array then $isFull = true
-            $isFull   = (in_array($title, $this->$fullTranslates)) ? true : false;
+            $isFull   = (in_array($title, $this->fullTranslates)) ? true : false;
 
             if ($noLead && !$isFull) {
                 continue;
@@ -98,7 +97,7 @@ class MissingTable extends AbstractResultsTable
             }
 
             if ($isFull) {
-                $html .= _make_one_row_results(
+                $html .= $this->rowBuilder->build(
                     $title,
                     "all",
                     $counter,

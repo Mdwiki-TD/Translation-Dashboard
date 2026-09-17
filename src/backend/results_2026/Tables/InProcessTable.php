@@ -9,6 +9,7 @@ use Results\GetResults2026\Rows\InProcessRowBuilder;
 
 /**
  * Renders the table of pages currently being translated.
+ *
  */
 function make_results_table_inprocess(
     $items,
@@ -41,15 +42,16 @@ function make_results_table_inprocess(
         $titleData = $titlesInfos[$title] ?? [];
 
         // { "title": "Andes virus infection", "user": "Mr. Ibrahem", "lang": "ar", "cat": "RTT", "translate_type": "all", "word": 0, "add_date": "2026-05-21 00:00:00", "campaign": "Main", "autonym": "العربية" }
-        $traType = $inProcessData['translate_type'] ?? '';
+        $traType = $inProcessData["translate_type"] ?? "";
 
-        $isFull = false;
+        $isFull  = false;
 
-        if (strtolower(substr($title, 0, 6)) == 'video:') {
-            $traType = 'all';
-            $isFull = true;
-        };
+        if (strtolower(substr($title, 0, 6)) == "video:") {
+            $traType = "all";
+            $isFull  = true;
+        }
 
+        // $html .= make_one_row_new_inprocess(
         $html .= $rowBuilder->build(
             $title,
             $traType,
@@ -76,4 +78,57 @@ function make_results_table_inprocess(
     HTML;
 
     return $frist . $html . $last;
+}
+
+class InProcessTable extends AbstractResultsTable
+{
+    private InProcessRowBuilder $rowBuilder;
+    private string $langCode;
+    private string $cat;
+    private string $camp;
+    private bool $inProgressButton;
+    private bool $fullTrUser;
+    private ?string $globalUsername;
+    private array $titlesInfos;
+    private string $endpoint;
+    private bool $userCoord;
+
+    public function __construct(
+        string $langCode,
+        string $cat,
+        string $camp,
+        bool $inProgressButton,
+        bool $fullTrUser,
+        ?string $globalUsername,
+        array $titlesInfos,
+        string $endpoint,
+        bool $userCoord
+    ) {
+        $this->rowBuilder       = new InProcessRowBuilder();
+        $this->langCode         = $langCode;
+        $this->cat              = $cat;
+        $this->camp             = $camp;
+        $this->inProgressButton = $inProgressButton;
+        $this->fullTrUser       = $fullTrUser;
+        $this->globalUsername   = $globalUsername;
+        $this->titlesInfos      = $titlesInfos;
+        $this->endpoint         = $endpoint;
+        $this->userCoord        = $userCoord;
+    }
+
+    public function render(array $items): string
+    {
+        return make_results_table_inprocess(
+            $items,
+            $this->langCode,
+            $this->cat,
+            $this->camp,
+            $this->inProgressButton,
+            $this->fullTrUser,
+            $this->globalUsername,
+            $this->titlesInfos,
+            $this->endpoint,
+            $this->userCoord
+        );
+    }
 }

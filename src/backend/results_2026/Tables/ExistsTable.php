@@ -95,3 +95,47 @@ function make_results_table_exists_2026(
         </table>
     HTML;
 }
+
+/**
+ * Renders the table of already existing pages.
+ */
+class ExistsTable extends AbstractResultsTable
+{
+    private ExistsRowBuilder $rowBuilder;
+    private string $langCode;
+    private string $cat;
+    private string $camp;
+    private ?string $globalUsername;
+    private bool $userCoord;
+    private string $endpoint;
+
+    public function __construct(
+        string $langCode,
+        string $cat,
+        string $camp,
+        ?string $globalUsername,
+        bool $userCoord,
+        string $endpoint
+    ) {
+        $this->rowBuilder     = new ExistsRowBuilder();
+        $this->langCode       = $langCode;
+        $this->cat            = $cat;
+        $this->camp           = $camp;
+        $this->globalUsername = $globalUsername;
+        $this->userCoord      = $userCoord;
+        $this->endpoint       = $endpoint;
+    }
+
+    public function render(array $items): string
+    {
+        return make_results_table_exists_2026(
+            $items,
+            $this->langCode,
+            $this->cat,
+            $this->camp,
+            $this->globalUsername,
+            $this->userCoord,
+            $this->endpoint
+        );
+    }
+}
