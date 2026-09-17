@@ -27,22 +27,22 @@ class InProcessRowBuilder
         string $endpoint,
         bool $userCoord
     ): string {
-        $user = $inProcessData['user'] ?? '';
-        $date = $inProcessData['date'] ?? $inProcessData['add_date'] ?? '';
+        $user = $inProcessData["user"] ?? '';
+        $date = $inProcessData["date"] ?? $inProcessData["add_date"] ?? '';
 
-        $words      = $titleData['w_lead_words'] ?? 0;
-        $refs       = $titleData['r_lead_refs'] ?? 0;
-        $importance = $titleData['importance'] ?? 'Unknown';
-        $enViews    = $titleData['en_views'] ?? '';
-        $qid        = $titleData['qid'] ?? '';
+        $words      = $titleData["w_lead_words"] ?? 0;
+        $refs       = $titleData["r_lead_refs"] ?? 0;
+        $importance = $titleData["importance"] ?? "Unknown";
+        $enViews    = $titleData["en_views"] ?? '';
+        $qid        = $titleData["qid"] ?? '';
 
-        if ($traType === 'all') {
-            $words = $titleData['w_all_words'] ?? 0;
-            $refs  = $titleData['r_all_refs'] ?? 0;
+        if ($traType === "all") {
+            $words = $titleData["w_all_words"] ?? 0;
+            $refs  = $titleData["r_all_refs"] ?? 0;
         }
 
         if (empty($importance)) {
-            $importance = 'Unknown';
+            $importance = "Unknown";
         }
 
         $qidUrl    = make_wikidata_url_blank($qid);
@@ -66,15 +66,15 @@ class InProcessRowBuilder
         );
 
         // Keep only the date part if datetime is present
-        if (str_contains($date, ':')) {
-            $date = explode(' ', $date)[0];
+        if (str_contains($date, ":")) {
+            $date = explode(" ", $date)[0];
         }
 
         if (empty($globalUsername)) {
             $buttons = '';
         }
 
-        $displayCounter = ($isFullRow && !str_starts_with(strtolower($title), 'video:'))
+        $displayCounter = ($isFullRow && !str_starts_with(strtolower($title), "video:"))
             ? "{$counter}.Full"
             : $counter;
 
