@@ -62,7 +62,7 @@ function make_translate_urls(
     $cat,
     $camp,
     $inprocess,
-    $tra_btn,
+    $in_progress_translation_button,
     $_user_,
     $full_tr_user,
     $_user_no_as_global_username,
@@ -123,7 +123,7 @@ function make_translate_urls(
     }
     //---
     if ($inprocess) {
-        if ($tra_btn != 1 && $_user_no_as_global_username) {
+        if ($in_progress_translation_button != 1 && $_user_no_as_global_username) {
             $tab = '';
             $translate_url = $mdwiki_url;
             $full_translate_url = $mdwiki_url;
