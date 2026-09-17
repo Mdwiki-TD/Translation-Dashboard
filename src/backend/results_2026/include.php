@@ -20,5 +20,4 @@ include_once __DIR__ . "/Tables/InProcessTable.php";
 
 // Main loader
 include_once __DIR__ . "/ResultsLoader.php";
-include_once __DIR__ . "/get_results_2026.php";
 include_once __DIR__ . "/index.php";
