@@ -111,7 +111,7 @@ function make_one_row_new_inprocess(
     //---
     $translate_url = $mdwiki_url;
     //---
-    if ($in_progress_translation_button != '1') {
+    if ($in_progress_translation_button != 1) {
         $translate_url = "";
     } elseif (!empty($global_username)) {
         [$tab, $translate_url, $_] = make_translate_urls(
