@@ -15,7 +15,7 @@ class TranslateTypeLoader
     private static bool $loaded = false;
 
     /**
-     * @param string $type  'full' or 'no'
+     * @param string $type  "full" or "no"
      * @return string[]
      */
     public static function load(string $type): array
@@ -24,7 +24,7 @@ class TranslateTypeLoader
             self::loadData();
         }
 
-        return $type === 'full' ? self::$fullTranslates : self::$noLeadTranslates;
+        return $type === "full" ? self::$fullTranslates : self::$noLeadTranslates;
     }
 
     private static function loadData(): void
@@ -32,11 +32,11 @@ class TranslateTypeLoader
         $rows = get_td_or_sql_translate_type();
 
         foreach ($rows as $tab) {
-            $normalizedTitle = str_replace('_', ' ', $tab['tt_title'] ?? '');
-            if (($tab['tt_full'] ?? 0) == 1) {
+            $normalizedTitle = str_replace("_", " ", $tab["tt_title"] ?? '');
+            if (($tab["tt_full"] ?? 0) == 1) {
                 self::$fullTranslates[] = $normalizedTitle;
             }
-            if (($tab['tt_lead'] ?? 1) == 0) {
+            if (($tab["tt_lead"] ?? 1) == 0) {
                 self::$noLeadTranslates[] = $normalizedTitle;
             }
         }
