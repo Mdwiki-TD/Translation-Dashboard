@@ -1,13 +1,13 @@
 <?php
 
-namespace Results\GetResults2026;
+namespace Results\GetResults27;
 
-use Results\GetResults2026\Data\ResultsFetcher;
-use Results\GetResults2026\Helpers\CardRenderer;
-use Results\GetResults2026\Helpers\TranslateTypeLoader;
-use Results\GetResults2026\Tables\MissingTable;
-use Results\GetResults2026\Tables\ExistsTable;
-use Results\GetResults2026\Tables\InProcessTable;
+use Results\GetResults27\Data\ResultsFetcher;
+use Results\GetResults27\Helpers\CardRenderer;
+use Results\GetResults27\Helpers\TranslateTypeLoader;
+use Results\GetResults27\Tables\MissingTable;
+use Results\GetResults27\Tables\ExistsTable;
+use Results\GetResults27\Tables\InProcessTable;
 
 use function SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
 use function SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
