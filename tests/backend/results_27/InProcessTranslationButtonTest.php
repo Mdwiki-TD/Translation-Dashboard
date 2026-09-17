@@ -7,7 +7,7 @@ namespace MyLibrary\Tests;
 use PHPUnit\Framework\TestCase;
 
 use function Results\Helps\make_translate_urls;
-use function Results\GetResults2026\make_one_row_new_inprocess;
+use Results\GetResults27\Rows\InProcessRowBuilder;
 use function Results\ResultsTableHtml\make_table_start;
 use function Leaderboard\Subs\LeadHelp\make_td_fo_user;
 
@@ -73,9 +73,9 @@ class InProcessTranslationButtonTest extends TestCase
             'en_views' => 22158,
             'qid' => 'Q389735'
         ];
-
+        $builder = new InProcessRowBuilder();
         // User is coordinator ($user_coord = true) and in_progress_translation_button = '0'
-        $html = make_one_row_new_inprocess(
+        $html = $builder->build(
             'Cardiovascular disease',
             'lead',
             1,
@@ -83,7 +83,7 @@ class InProcessTranslationButtonTest extends TestCase
             'RTT',
             'Occupational Health',
             $inprocessTable,
-            '0', // $in_progress_translation_button setting disabled
+            false, // $in_progress_translation_button setting disabled
             false,
             false,
             'Mr. Ibrahem', // $global_username
@@ -114,7 +114,8 @@ class InProcessTranslationButtonTest extends TestCase
         ];
 
         // Non-logged-in user ($global_username = '')
-        $html = make_one_row_new_inprocess(
+        $builder = new InProcessRowBuilder();
+        $html = $builder->build(
             'Cardiovascular disease',
             'lead',
             1,
@@ -122,7 +123,7 @@ class InProcessTranslationButtonTest extends TestCase
             'RTT',
             'Occupational Health',
             $inprocessTable,
-            '1', // even if setting is 1
+            true, // even if setting is 1
             false,
             false,
             '', // empty $global_username
@@ -152,7 +153,8 @@ class InProcessTranslationButtonTest extends TestCase
         ];
 
         // User is same as translator ($_user_ == $global_username), not coord, setting = '0'
-        $html = make_one_row_new_inprocess(
+        $builder = new InProcessRowBuilder();
+        $html = $builder->build(
             'Cardiovascular disease',
             'lead',
             1,
@@ -160,7 +162,7 @@ class InProcessTranslationButtonTest extends TestCase
             'RTT',
             'Occupational Health',
             $inprocessTable,
-            '0',
+            false,
             false,
             false,
             'Mr. Ibrahem',
@@ -191,7 +193,8 @@ class InProcessTranslationButtonTest extends TestCase
         ];
 
         // Logged in as Mr. Ibrahem, item is assigned to OtherUser, not coord, setting = '0'
-        $html = make_one_row_new_inprocess(
+        $builder = new InProcessRowBuilder();
+        $html = $builder->build(
             'Cardiovascular disease',
             'lead',
             1,
@@ -199,7 +202,7 @@ class InProcessTranslationButtonTest extends TestCase
             'RTT',
             'Occupational Health',
             $inprocessTable,
-            '0',
+            false,
             false,
             false,
             'Mr. Ibrahem',
