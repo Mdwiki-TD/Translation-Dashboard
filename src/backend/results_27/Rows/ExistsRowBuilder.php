@@ -23,10 +23,10 @@ class ExistsRowBuilder
         bool $userCoord,
         string $endpoint
     ): string {
-        $importance = $titleData['importance'] ?? 'Unknown';
-        $qid        = $titleData['qid'] ?? '';
-        $target     = $titleData['target'] ?? '';
-        $via        = $titleData['via'] ?? 'before';
+        $importance = $titleData["importance"] ?? "Unknown";
+        $qid        = $titleData["qid"] ?? '';
+        $target     = $titleData["target"] ?? '';
+        $via        = $titleData["via"] ?? "before";
 
         $mdwikiLink = make_mdwiki_article_url_blank($title);
         $qidUrl     = make_wikidata_url_blank($qid);
@@ -35,7 +35,7 @@ class ExistsRowBuilder
         $targetTd2 = '';
 
         if ($target) {
-            if ($via === 'td') {
+            if ($via === "td") {
                 $targetTd = make_wikipedia_url_blank($target, $langCode);
             } else {
                 $targetTd2 = make_wikipedia_url_blank($target, $langCode);
@@ -49,7 +49,7 @@ class ExistsRowBuilder
                 $langCode,
                 $cat,
                 $camp,
-                'lead',
+                "lead",
                 $endpoint
             );
             $translateButton = <<<HTML

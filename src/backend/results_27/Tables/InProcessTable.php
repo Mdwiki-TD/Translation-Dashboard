@@ -54,13 +54,13 @@ class InProcessTable extends AbstractResultsTable
             }
 
             $titleData = $this->titlesInfos[$title] ?? [];
-            $title = str_replace('_', ' ', $title);
+            $title = str_replace("_", ' ', $title);
 
-            $traType = $inProcessData['translate_type'] ?? 'lead';
+            $traType = $inProcessData["translate_type"] ?? "lead";
             $isFull  = false;
 
             if (str_starts_with(strtolower($title), 'video:')) {
-                $traType = 'all';
+                $traType = "all";
                 $isFull  = true;
             }
 

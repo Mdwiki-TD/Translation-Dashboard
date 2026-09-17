@@ -36,8 +36,8 @@ class ResultsFetcher
     {
         // Pages that already exist via Translation Dashboard
         $existsViaTd = get_lang_pages_by_cat($code, $cat);
-        $existsViaTd = array_column($existsViaTd, null, 'title');
-        $this->log('exists_via_td', count($existsViaTd));
+        $existsViaTd = array_column($existsViaTd, null, "title");
+        $this->log("exists_via_td", count($existsViaTd));
 
         // Missing pages
         $itemsMissing = missing_by_lang_and_category($code, $cat);
@@ -45,11 +45,11 @@ class ResultsFetcher
 
         // Existing pages
         $itemsExists = exists_by_lang_and_category($code, $cat);
-        $itemsExists = array_column($itemsExists, null, 'title');
+        $itemsExists = array_column($itemsExists, null, "title");
 
         // Mark origin of each existing page
         foreach ($itemsExists as $title => &$item) {
-            $item['via'] = isset($existsViaTd[$title]) ? 'td' : 'before';
+            $item["via"] = isset($existsViaTd[$title]) ? "td" : "before";
         }
         unset($item);
 
@@ -58,15 +58,15 @@ class ResultsFetcher
         $lenExists = count($itemsExists);
 
         // In-process items that are still in the missing list
-        $missingTitles = array_column($itemsMissing, 'title');
+        $missingTitles = array_column($itemsMissing, "title");
         $inProcess = $this->getInProcess($missingTitles, $code);
 
         // Remove in-process titles from the missing list
         $missing = $itemsMissing;
         if (!empty($inProcess)) {
-            $inProcessTitles = array_flip(array_column($inProcess, 'title'));
+            $inProcessTitles = array_flip(array_column($inProcess, "title"));
             $missing = array_filter($itemsMissing, static function (array $item) use ($inProcessTitles): bool {
-                return !isset($inProcessTitles[$item['title']]);
+                return !isset($inProcessTitles[$item["title"]]);
             });
         }
 
@@ -82,10 +82,10 @@ class ResultsFetcher
         ksort($itemsExists);
 
         return [
-            'ix'        => $summary,
-            'inprocess' => $inProcess,
-            'exists'    => $itemsExists,
-            'missing'   => array_values($missing),
+            "ix"        => $summary,
+            "inprocess" => $inProcess,
+            "exists"    => $itemsExists,
+            "missing"   => array_values($missing),
         ];
     }
 
@@ -98,8 +98,8 @@ class ResultsFetcher
         $result = [];
 
         foreach ($res as $row) {
-            if (in_array($row['title'], $missingTitles, true)) {
-                $result[$row['title']] = $row;
+            if (in_array($row["title"], $missingTitles, true)) {
+                $result[$row["title"]] = $row;
             }
         }
 
@@ -117,10 +117,10 @@ class ResultsFetcher
         int $lenExists
     ): string {
         $total  = $lenExists + $lenMissing + $lenInProcess;
-        $catUrl = make_mdwiki_cat_url($cat, 'Category');
+        $catUrl = make_mdwiki_cat_url($cat, "Category");
 
         return sprintf(
-            "Found %d pages in %s, %d exists, and %d missing in (<a href='https://%s.wikipedia.org' target='_blank'>%s</a>), %d In process.",
+            "Found %d pages in %s, %d exists, and %d missing in (<a href='https://%s.wikipedia.org' target="_blank">%s</a>), %d In process.",
             $total,
             $catUrl,
             $lenExists,

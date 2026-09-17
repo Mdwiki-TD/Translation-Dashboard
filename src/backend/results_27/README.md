@@ -1,6 +1,6 @@
 **Complete restructured code for `results_2026`**
 
-All comments are in English.  
+All comments are in English.
 The code keeps the same public behavior while being cleaner, typed, and better organized.
 
 ### Directory structure
@@ -69,8 +69,8 @@ class ResultsFetcher
     {
         // Pages that already exist via Translation Dashboard
         $existsViaTd = get_lang_pages_by_cat($code, $cat);
-        $existsViaTd = array_column($existsViaTd, null, 'title');
-        $this->log('exists_via_td', count($existsViaTd));
+        $existsViaTd = array_column($existsViaTd, null, "title");
+        $this->log("exists_via_td", count($existsViaTd));
 
         // Missing pages
         $itemsMissing = missing_by_lang_and_category($code, $cat);
@@ -78,11 +78,11 @@ class ResultsFetcher
 
         // Existing pages
         $itemsExists = exists_by_lang_and_category($code, $cat);
-        $itemsExists = array_column($itemsExists, null, 'title');
+        $itemsExists = array_column($itemsExists, null, "title");
 
         // Mark origin of each existing page
         foreach ($itemsExists as $title => &$item) {
-            $item['via'] = isset($existsViaTd[$title]) ? 'td' : 'before';
+            $item["via"] = isset($existsViaTd[$title]) ? "td" : "before";
         }
         unset($item);
 
@@ -91,15 +91,15 @@ class ResultsFetcher
         $lenExists = count($itemsExists);
 
         // In-process items that are still in the missing list
-        $missingTitles = array_column($itemsMissing, 'title');
+        $missingTitles = array_column($itemsMissing, "title");
         $inProcess = $this->getInProcess($missingTitles, $code);
 
         // Remove in-process titles from the missing list
         $missing = $itemsMissing;
         if (!empty($inProcess)) {
-            $inProcessTitles = array_flip(array_column($inProcess, 'title'));
+            $inProcessTitles = array_flip(array_column($inProcess, "title"));
             $missing = array_filter($itemsMissing, static function (array $item) use ($inProcessTitles): bool {
-                return !isset($inProcessTitles[$item['title']]);
+                return !isset($inProcessTitles[$item["title"]]);
             });
         }
 
@@ -115,10 +115,10 @@ class ResultsFetcher
         ksort($itemsExists);
 
         return [
-            'ix'        => $summary,
-            'inprocess' => $inProcess,
-            'exists'    => $itemsExists,
-            'missing'   => array_values($missing),
+            "ix"        => $summary,
+            "inprocess" => $inProcess,
+            "exists"    => $itemsExists,
+            "missing"   => array_values($missing),
         ];
     }
 
@@ -131,8 +131,8 @@ class ResultsFetcher
         $result = [];
 
         foreach ($res as $row) {
-            if (in_array($row['title'], $missingTitles, true)) {
-                $result[$row['title']] = $row;
+            if (in_array($row["title"], $missingTitles, true)) {
+                $result[$row["title"]] = $row;
             }
         }
 
@@ -150,10 +150,10 @@ class ResultsFetcher
         int $lenExists
     ): string {
         $total  = $lenExists + $lenMissing + $lenInProcess;
-        $catUrl = make_mdwiki_cat_url($cat, 'Category');
+        $catUrl = make_mdwiki_cat_url($cat, "Category");
 
         return sprintf(
-            "Found %d pages in %s, %d exists, and %d missing in (<a href='https://%s.wikipedia.org' target='_blank'>%s</a>), %d In process.",
+            "Found %d pages in %s, %d exists, and %d missing in (<a href='https://%s.wikipedia.org' target="_blank">%s</a>), %d In process.",
             $total,
             $catUrl,
             $lenExists,
@@ -198,7 +198,7 @@ class TranslateTypeLoader
     private static bool $loaded = false;
 
     /**
-     * @param string $type  'full' or 'no'
+     * @param string $type  "full" or "no"
      * @return string[]
      */
     public static function load(string $type): array
@@ -207,7 +207,7 @@ class TranslateTypeLoader
             self::loadData();
         }
 
-        return $type === 'full' ? self::$fullTranslates : self::$noLeadTranslates;
+        return $type === "full" ? self::$fullTranslates : self::$noLeadTranslates;
     }
 
     private static function loadData(): void
@@ -215,11 +215,11 @@ class TranslateTypeLoader
         $rows = get_td_or_sql_translate_type();
 
         foreach ($rows as $tab) {
-            if (($tab['tt_full'] ?? 0) == 1) {
-                self::$fullTranslates[] = $tab['tt_title'];
+            if (($tab["tt_full"] ?? 0) == 1) {
+                self::$fullTranslates[] = $tab["tt_title"];
             }
-            if (($tab['tt_lead'] ?? 1) == 0) {
-                self::$noLeadTranslates[] = $tab['tt_title'];
+            if (($tab["tt_lead"] ?? 1) == 0) {
+                self::$noLeadTranslates[] = $tab["tt_title"];
             }
         }
 
@@ -326,27 +326,27 @@ class MissingRowBuilder
         array $titleData
     ): string {
         if (empty($traType)) {
-            $traType = 'lead';
+            $traType = "lead";
         }
 
         $isVideo = str_starts_with(strtolower($title), 'video:');
         if ($isVideo) {
-            $traType = 'all';
+            $traType = "all";
         }
 
-        $words    = $titleData['w_lead_words'] ?? 0;
-        $refs     = $titleData['r_lead_refs'] ?? 0;
-        $importance = $titleData['importance'] ?? 'Unknown';
-        $enViews  = $titleData['en_views'] ?? '';
-        $qid      = $titleData['qid'] ?? '';
+        $words    = $titleData["w_lead_words"] ?? 0;
+        $refs     = $titleData["r_lead_refs"] ?? 0;
+        $importance = $titleData["importance"] ?? "Unknown";
+        $enViews  = $titleData["en_views"] ?? '';
+        $qid      = $titleData["qid"] ?? '';
 
-        if ($traType === 'all') {
-            $words = $titleData['w_all_words'] ?? 0;
-            $refs  = $titleData['r_all_refs'] ?? 0;
+        if ($traType === "all") {
+            $words = $titleData["w_all_words"] ?? 0;
+            $refs  = $titleData["r_all_refs"] ?? 0;
         }
 
         if (empty($importance)) {
-            $importance = 'Unknown';
+            $importance = "Unknown";
         }
 
         $qidUrl    = make_wikidata_url_blank($qid);
@@ -361,7 +361,7 @@ class MissingRowBuilder
                 </a>
             HTML;
         } else {
-            $fullUrl = make_tr_link_medwiki($title, $langCode, $cat, $camp, 'all', $words);
+            $fullUrl = make_tr_link_medwiki($title, $langCode, $cat, $camp, "all", $words);
             $leadUrl = make_tr_link_medwiki($title, $langCode, $cat, $camp, $traType, $words);
 
             if ($fullTrUser && !$isVideo) {
@@ -445,14 +445,14 @@ class MissingTable extends AbstractResultsTable
 
     public function render(array $items): string
     {
-        $doFull = ($this->traType !== 'all');
+        $doFull = ($this->traType !== "all");
 
         // Sort by English page views (descending)
         usort($items, static function (array $a, array $b): int {
-            return ($b['en_views'] ?? 0) <=> ($a['en_views'] ?? 0);
+            return ($b["en_views"] ?? 0) <=> ($a["en_views"] ?? 0);
         });
 
-        $items = array_column($items, null, 'title');
+        $items = array_column($items, null, "title");
 
         $html = $this->startTable(false, false);
         $counter = 1;
@@ -462,7 +462,7 @@ class MissingTable extends AbstractResultsTable
                 continue;
             }
 
-            $title = str_replace('_', ' ', $title);
+            $title = str_replace("_", ' ', $title);
 
             $row = $this->rowBuilder->build(
                 $title,
@@ -498,7 +498,7 @@ class MissingTable extends AbstractResultsTable
             if ($full) {
                 $html .= $this->rowBuilder->build(
                     $title,
-                    'all',
+                    "all",
                     $counter,
                     $this->langCode,
                     $this->cat,
@@ -549,10 +549,10 @@ class ExistsRowBuilder
         bool $userCoord,
         string $endpoint
     ): string {
-        $importance = $titleData['importance'] ?? 'Unknown';
-        $qid        = $titleData['qid'] ?? '';
-        $target     = $titleData['target'] ?? '';
-        $via        = $titleData['via'] ?? 'before';
+        $importance = $titleData["importance"] ?? "Unknown";
+        $qid        = $titleData["qid"] ?? '';
+        $target     = $titleData["target"] ?? '';
+        $via        = $titleData["via"] ?? "before";
 
         $mdwikiLink = make_mdwiki_article_url_blank($title);
         $qidUrl     = make_wikidata_url_blank($qid);
@@ -561,7 +561,7 @@ class ExistsRowBuilder
         $targetTd2 = '';
 
         if ($target) {
-            if ($via === 'td') {
+            if ($via === "td") {
                 $targetTd = make_wikipedia_url_blank($target, $langCode);
             } else {
                 $targetTd2 = make_wikipedia_url_blank($target, $langCode);
@@ -575,7 +575,7 @@ class ExistsRowBuilder
                 $langCode,
                 $cat,
                 $camp,
-                'lead',
+                "lead",
                 $endpoint
             );
             $translateButton = <<<HTML
@@ -652,9 +652,9 @@ class ExistsTable extends AbstractResultsTable
                 continue;
             }
 
-            $title = str_replace('_', ' ', $title);
+            $title = str_replace("_", ' ', $title);
 
-            if (($data['via'] ?? '') === 'td') {
+            if (($data["via"] ?? '') === "td") {
                 $countTranslated++;
             } else {
                 $countTranslatedBefore++;
@@ -732,22 +732,22 @@ class InProcessRowBuilder
         string $endpoint,
         bool $userCoord
     ): string {
-        $user = $inProcessData['user'] ?? '';
-        $date = $inProcessData['date'] ?? $inProcessData['add_date'] ?? '';
+        $user = $inProcessData["user"] ?? '';
+        $date = $inProcessData["date"] ?? $inProcessData["add_date"] ?? '';
 
-        $words      = $titleData['w_lead_words'] ?? 0;
-        $refs       = $titleData['r_lead_refs'] ?? 0;
-        $importance = $titleData['importance'] ?? 'Unknown';
-        $enViews    = $titleData['en_views'] ?? '';
-        $qid        = $titleData['qid'] ?? '';
+        $words      = $titleData["w_lead_words"] ?? 0;
+        $refs       = $titleData["r_lead_refs"] ?? 0;
+        $importance = $titleData["importance"] ?? "Unknown";
+        $enViews    = $titleData["en_views"] ?? '';
+        $qid        = $titleData["qid"] ?? '';
 
-        if ($traType === 'all') {
-            $words = $titleData['w_all_words'] ?? 0;
-            $refs  = $titleData['r_all_refs'] ?? 0;
+        if ($traType === "all") {
+            $words = $titleData["w_all_words"] ?? 0;
+            $refs  = $titleData["r_all_refs"] ?? 0;
         }
 
         if (empty($importance)) {
-            $importance = 'Unknown';
+            $importance = "Unknown";
         }
 
         $qidUrl    = make_wikidata_url_blank($qid);
@@ -864,14 +864,14 @@ class InProcessTable extends AbstractResultsTable
                 continue;
             }
 
-            $title = str_replace('_', ' ', $title);
+            $title = str_replace("_", ' ', $title);
             $titleData = $this->titlesInfos[$title] ?? [];
 
-            $traType = $inProcessData['translate_type'] ?? 'lead';
+            $traType = $inProcessData["translate_type"] ?? "lead";
             $isFull  = false;
 
             if (str_starts_with(strtolower($title), 'video:')) {
-                $traType = 'all';
+                $traType = "all";
                 $isFull  = true;
             }
 
@@ -931,19 +931,19 @@ class ResultsLoader
      */
     public function load(array $data): string
     {
-        $camp         = $data['camp'] ?? '';
-        $code         = $data['code'] ?? '';
-        $cat          = $data['cat'] ?? '';
-        $showExists   = (bool)($data['show_exists'] ?? false);
-        $globalUser   = $data['global_username'] ?? null;
-        $inProgressBtn = (bool)($data['in_progress_translation_button'] ?? false);
-        $traType      = $data['tra_type'] ?? 'lead';
-        $userCoord    = (bool)($data['user_coord'] ?? false);
-        $test         = !empty($data['test']);
+        $camp         = $data["camp"] ?? '';
+        $code         = $data["code"] ?? '';
+        $cat          = $data["cat"] ?? '';
+        $showExists   = (bool)($data["show_exists"] ?? false);
+        $globalUser   = $data["global_username"] ?? null;
+        $inProgressBtn = (bool)($data["in_progress_translation_button"] ?? false);
+        $traType      = $data["tra_type"] ?? "lead";
+        $userCoord    = (bool)($data["user_coord"] ?? false);
+        $test         = !empty($data["test"]);
 
         // Full translator check
         $fullTranslators = get_td_or_sql_full_translators();
-        $fullTranslators = array_column($fullTranslators, 'is_active', 'user');
+        $fullTranslators = array_column($fullTranslators, "is_active", "user");
         $fullTrUser = ($fullTranslators[$globalUser] ?? 0) == 1;
 
         // Fetch data
@@ -951,15 +951,15 @@ class ResultsLoader
         $results = $fetcher->get($cat, $code);
 
         // Helper data
-        $titlesInfos     = array_column(get_td_or_sql_titles_infos(), null, 'title');
-        $noLeadTranslates = TranslateTypeLoader::load('no');
-        $fullTranslates   = TranslateTypeLoader::load('full');
+        $titlesInfos     = array_column(get_td_or_sql_titles_infos(), null, "title");
+        $noLeadTranslates = TranslateTypeLoader::load("no");
+        $fullTranslates   = TranslateTypeLoader::load("full");
         $endpoint         = get_endpoint();
 
         $html = '';
 
         if ($test) {
-            $html .= "code:{$code}<br>code_lang_name:" . ($data['code_lang_name'] ?? '') . "<br>";
+            $html .= "code:{$code}<br>code_lang_name:" . ($data["code_lang_name"] ?? '') . "<br>";
         }
 
         // ----- Missing table -----
@@ -974,16 +974,16 @@ class ResultsLoader
             $fullTranslates
         );
 
-        $missingHtml = $missingTable->render($results['missing']);
-        $resLine = ' Results: (' . count($results['missing']) . ')';
+        $missingHtml = $missingTable->render($results["missing"]);
+        $resLine = ' Results: (' . count($results["missing"]) . ')';
         if ($test) {
             $resLine .= ' test:';
         }
 
-        $html .= CardRenderer::render($resLine, $missingHtml, $results['ix']);
+        $html .= CardRenderer::render($resLine, $missingHtml, $results["ix"]);
 
         // ----- In-process table -----
-        $lenInProcess = count($results['inprocess']);
+        $lenInProcess = count($results["inprocess"]);
         if ($lenInProcess > 0) {
             $inProcessTable = new InProcessTable(
                 $code,
@@ -999,12 +999,12 @@ class ResultsLoader
 
             $html .= CardRenderer::render(
                 "In process: ({$lenInProcess})",
-                $inProcessTable->render($results['inprocess'])
+                $inProcessTable->render($results["inprocess"])
             );
         }
 
         // ----- Exists table -----
-        $lenExists = count($results['exists']);
+        $lenExists = count($results["exists"]);
         if ($lenExists > 1 && $showExists) {
             $existsTable = new ExistsTable(
                 $code,
@@ -1017,7 +1017,7 @@ class ResultsLoader
 
             $html .= CardRenderer::render(
                 "Exists: ({$lenExists})",
-                $existsTable->render($results['exists'])
+                $existsTable->render($results["exists"])
             );
         }
 

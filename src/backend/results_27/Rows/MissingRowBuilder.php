@@ -24,27 +24,27 @@ class MissingRowBuilder
         array $titleData
     ): string {
         if (empty($traType)) {
-            $traType = 'lead';
+            $traType = "lead";
         }
 
         $isVideo = str_starts_with(strtolower($title), 'video:');
         if ($isVideo) {
-            $traType = 'all';
+            $traType = "all";
         }
 
-        $words    = $titleData['w_lead_words'] ?? 0;
-        $refs     = $titleData['r_lead_refs'] ?? 0;
-        $importance = $titleData['importance'] ?? 'Unknown';
-        $enViews  = $titleData['en_views'] ?? '';
-        $qid      = $titleData['qid'] ?? '';
+        $words    = $titleData["w_lead_words"] ?? 0;
+        $refs     = $titleData["r_lead_refs"] ?? 0;
+        $importance = $titleData["importance"] ?? "Unknown";
+        $enViews  = $titleData["en_views"] ?? '';
+        $qid      = $titleData["qid"] ?? '';
 
-        if ($traType === 'all') {
-            $words = $titleData['w_all_words'] ?? 0;
-            $refs  = $titleData['r_all_refs'] ?? 0;
+        if ($traType === "all") {
+            $words = $titleData["w_all_words"] ?? 0;
+            $refs  = $titleData["r_all_refs"] ?? 0;
         }
 
         if (empty($importance)) {
-            $importance = 'Unknown';
+            $importance = "Unknown";
         }
 
         $qidUrl    = make_wikidata_url_blank($qid);
@@ -59,8 +59,8 @@ class MissingRowBuilder
                 </a>
             HTML;
         } else {
-            $fullWords = $titleData['w_all_words'] ?? 0;
-            $fullUrl = make_tr_link_medwiki($title, $langCode, $cat, $camp, 'all', $fullWords);
+            $fullWords = $titleData["w_all_words"] ?? 0;
+            $fullUrl = make_tr_link_medwiki($title, $langCode, $cat, $camp, "all", $fullWords);
             $leadUrl = make_tr_link_medwiki($title, $langCode, $cat, $camp, $traType, $words);
 
             if ($fullTrUser && !$isVideo) {
