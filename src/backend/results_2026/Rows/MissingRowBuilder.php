@@ -9,7 +9,7 @@ use function Results\TrLink\make_tr_link_medwiki;
 
 function _make_one_row_results(
     $title,
-    $tra_type,
+    $traType,
     $cnt,
     $langcode,
     $cat,
@@ -20,15 +20,15 @@ function _make_one_row_results(
     $title_data
 ) {
     //---
-    if (empty($tra_type)) {
-        $tra_type = 'lead';
+    if (empty($traType)) {
+        $traType = 'lead';
     }
     //---
     $is_video = false;
     //---
     if (strtolower(substr($title, 0, 6)) == 'video:') {
         $is_video = true;
-        $tra_type = 'all';
+        $traType = 'all';
     };
     //---
     $words     = $title_data['w_lead_words'] ?? 0;
@@ -37,7 +37,7 @@ function _make_one_row_results(
     $en_views = $title_data['en_views'] ?? "";
     $qid      = $title_data['qid'] ?? "";
     //---
-    if ($tra_type == 'all') {
+    if ($traType == 'all') {
         $words  = $title_data['w_all_words'] ?? 0;
         $refs  = $title_data['r_all_refs'] ?? 0;
     }
@@ -60,7 +60,7 @@ function _make_one_row_results(
     } else {
         //---
         $full_translate_url = make_tr_link_medwiki($title, $langcode, $cat, $camp, "all", $words);
-        $translate_url = make_tr_link_medwiki($title, $langcode, $cat, $camp, $tra_type, $words);
+        $translate_url = make_tr_link_medwiki($title, $langcode, $cat, $camp, $traType, $words);
         //---
         $tab = "<a href='$translate_url' class='btn btn-outline-primary btn-sm' target='_blank'>Translate</a>";
         //---

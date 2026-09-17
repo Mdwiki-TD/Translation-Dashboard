@@ -10,14 +10,14 @@ function make_results_table_2026(
     $langcode,
     $cat,
     $camp,
-    $tra_type,
+    $traType,
     $full_tr_user,
     $global_username,
-    $nolead_translates,
-    $translates_full
+    $noLeadTranslates,
+    $fullTranslates
 ) {
     //---
-    $do_full   = ($tra_type == 'all') ? false : true;
+    $do_full   = ($traType == 'all') ? false : true;
     //---
     $frist = make_table_start(false, false);
     //---
@@ -43,12 +43,12 @@ function make_results_table_2026(
         $cnt2 = $cnt;
         //---
         if (strtolower(substr($title, 0, 6)) == 'video:') {
-            $tra_type = 'all';
+            $traType = 'all';
         };
         //---
         $row = _make_one_row_results(
             $title,
-            $tra_type,
+            $traType,
             $cnt2,
             $langcode,
             $cat,
@@ -67,10 +67,10 @@ function make_results_table_2026(
         }
         //---
         // if title in no_lead_translates array then $no_lead = true
-        $no_lead = (in_array($title, $nolead_translates)) ? true : false;
+        $no_lead = (in_array($title, $noLeadTranslates)) ? true : false;
         //---
         // if title in full_translates array then $full = true
-        $full = (in_array($title, $translates_full)) ? true : false;
+        $full = (in_array($title, $fullTranslates)) ? true : false;
         //---
         if ($no_lead && !$full) {
             continue;

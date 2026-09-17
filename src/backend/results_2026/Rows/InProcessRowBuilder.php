@@ -12,7 +12,7 @@ function make_tds_rows_responsive($full, $tds)
     $mdwiki_url = $tds["mdwiki_url"];
     $cnt    = $tds["cnt"];
     $tab    = $tds["tab"];
-    $tra_type = $tds["tra_type"] ?? "";
+    $traType = $tds["tra_type"] ?? "";
     $pviews = $tds["pageviews"];
     $asse   = $tds["asse"];
     $words  = $tds["words"];
@@ -36,7 +36,7 @@ function make_tds_rows_responsive($full, $tds)
                 $tab
             </th>
             <td class='' style="text-align: center">
-                $tra_type
+                $traType
             </td>
             <td class='num' style="text-align: left">
                 $pviews
@@ -66,13 +66,13 @@ function make_tds_rows_responsive($full, $tds)
 
 function make_one_row_new_inprocess(
     $title,
-    $tra_type,
+    $traType,
     $cnt,
     $langcode,
     $cat,
     $camp,
     $inprocess_table,
-    $in_progress_translation_button,
+    $inProgressBtn,
     $full,
     $full_tr_user,
     $global_username,
@@ -91,7 +91,7 @@ function make_one_row_new_inprocess(
     $en_views = $title_data['en_views'] ?? "";
     $qid      = $title_data['qid'] ?? "";
     //---
-    if ($tra_type == 'all') {
+    if ($traType == 'all') {
         $word  = $title_data['w_all_words'] ?? 0;
         $refs  = $title_data['r_all_refs'] ?? 0;
     }
@@ -106,13 +106,13 @@ function make_one_row_new_inprocess(
     //---
     [$tab, $translate_url, $_] = make_translate_urls(
         $title,
-        $tra_type,
+        $traType,
         $word,
         $langcode,
         $cat,
         $camp,
         true,
-        $in_progress_translation_button,
+        $inProgressBtn,
         $_user_,
         $full_tr_user,
         $login_user_is_the_translator,
@@ -129,13 +129,13 @@ function make_one_row_new_inprocess(
     }
     //---
     $tds = [
-        "in_progress_translation_button" => $in_progress_translation_button,
+        "in_progress_translation_button" => $inProgressBtn,
         "translate_url" => $translate_url,
         "mdwiki_url" => $mdwiki_url,
         "cnt" => $cnt,
         "title" => $title,
         "tab" => $tab,
-        "tra_type" => $tra_type,
+        "tra_type" => $traType,
         "pageviews" => $en_views,
         "asse" => $importance,
         "words" => $word,

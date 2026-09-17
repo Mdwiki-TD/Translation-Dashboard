@@ -10,17 +10,17 @@ function make_results_table_inprocess(
     $langcode,
     $cat,
     $camp,
-    $in_progress_translation_button,
+    $inProgressBtn,
     $full_tr_user,
     $global_username,
-    $titles_infos_items,
+    $titlesInfos,
     $endpoint,
     $user_coord
 ): string {
     //---
     // $inprocess_table = normalizeItems($inprocess_table);
     //---
-    $frist = make_table_start(true, $in_progress_translation_button);
+    $frist = make_table_start(true, $inProgressBtn);
     //---
     $list = "";
     $cnt = 1;
@@ -31,27 +31,27 @@ function make_results_table_inprocess(
         // ---
         $title = str_replace('_', ' ', $title);
         //---
-        $title_data = $titles_infos_items[$title] ?? [];
+        $title_data = $titlesInfos[$title] ?? [];
         //---
         // { "title": "Andes virus infection", "user": "Mr. Ibrahem", "lang": "ar", "cat": "RTT", "translate_type": "all", "word": 0, "add_date": "2026-05-21 00:00:00", "campaign": "Main", "autonym": "العربية" }
-        $tra_type = $title_tab['translate_type'] ?? '';
+        $traType = $title_tab['translate_type'] ?? '';
         //---
         $full = false;
         //---
         if (strtolower(substr($title, 0, 6)) == 'video:') {
-            $tra_type = 'all';
+            $traType = 'all';
             $full = true;
         };
         //---
         $row = make_one_row_new_inprocess(
             $title,
-            $tra_type,
+            $traType,
             $cnt,
             $langcode,
             $cat,
             $camp,
             $title_tab,
-            $in_progress_translation_button,
+            $inProgressBtn,
             $full,
             $full_tr_user,
             $global_username,
