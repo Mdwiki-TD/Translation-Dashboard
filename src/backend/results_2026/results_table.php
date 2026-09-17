@@ -94,16 +94,16 @@ function _make_one_row_results(
         <th class=''>
             $tab
         </th>
-        <td class='num' style="text-align: left">
+        <td class='num' style="text-align:left">
             $en_views
         </td>
-        <td class='num' style="text-align: left">
+        <td class='num' style="text-align:left">
             $asse
         </td>
-        <td class='num' style="text-align: left">
+        <td class='num' style="text-align:left">
             $words
         </td>
-        <td class='num' style="text-align: left">
+        <td class='num' style="text-align:left">
             $refs
         </td>
         <td>

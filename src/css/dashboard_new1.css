@@ -95,17 +95,17 @@ thead {
 }
 
 .alignleft {
-	text-align: left;
+	text-align:left;
 	vertical-align: middle
 }
 
 .alignright {
-	text-align: right;
+	text-align:right;
 	vertical-align: middle
 }
 
 .aligncenter {
-	text-align: center;
+	text-align:center;
 	vertical-align: middle
 }
 
@@ -260,7 +260,7 @@ a {
 .btn-tool {
 	display: inline-block;
 	font-weight: 400;
-	text-align: center;
+	text-align:center;
 	vertical-align: middle;
 	-webkit-user-select: none;
 	-moz-user-select: none;

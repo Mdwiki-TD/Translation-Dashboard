@@ -43,19 +43,19 @@ function make_tds_rows_responsive($full, $tds)
             <th class=''>
                 $tab
             </th>
-            <td class='' style="text-align: center">
+            <td class='' style="text-align:center">
                 $tra_type
             </td>
-            <td class='num' style="text-align: left">
+            <td class='num' style="text-align:left">
                 $pviews
             </td>
-            <td class='num' style="text-align: left">
+            <td class='num' style="text-align:left">
                 $asse
             </td>
-            <td class='num' style="text-align: left">
+            <td class='num' style="text-align:left">
                 $words
             </td>
-            <td class='num' style="text-align: left">
+            <td class='num' style="text-align:left">
                 $refs
             </td>
             <td>

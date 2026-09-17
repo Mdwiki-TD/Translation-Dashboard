@@ -83,7 +83,7 @@ function make_one_row_exists_2026(
     $td22 = "";
     //---
     $td_rows = <<<HTML
-        <th class='' scope="row" style="text-align: center">
+        <th class='' scope="row" style="text-align:center">
             $cnt
         </th>
         <td class='link_container spannowrap'>
@@ -155,16 +155,16 @@ function make_results_table_exists_2026(
     };
     // ---
     $th22 = <<<HTML
-        <th class="spannowrap" style="text-align: center">
+        <th class="spannowrap" style="text-align:center">
             <span data-bs-toggle="tooltip" data-bs-title="Page views in last month in English Wikipedia">Views</span>
         </th>
-        <th class="spannowrap" style="text-align: center">
+        <th class="spannowrap" style="text-align:center">
             <span data-bs-toggle="tooltip" data-bs-title="Page important from medicine project in English Wikipedia">Importance</span>
         </th>
-        <th class="spannowrap" style="text-align: center">
+        <th class="spannowrap" style="text-align:center">
             <span data-bs-toggle="tooltip" data-bs-title="number of words of the article in mdwiki.org">Words</span>
         </th>
-        <th class="spannowrap" style="text-align: center">
+        <th class="spannowrap" style="text-align:center">
             <span data-bs-toggle="tooltip" data-bs-title="number of references of the article in mdwiki.org">Refs.</span>
         </th>
     HTML;
@@ -178,7 +178,7 @@ function make_results_table_exists_2026(
                     <th class="num">
                         #
                     </th>
-                    <th class="spannowrap" style="text-align: center">
+                    <th class="spannowrap" style="text-align:center">
                         Title
                     </th>
                     <th class="">
@@ -191,7 +191,7 @@ function make_results_table_exists_2026(
                         Translated before ($count_translated_before)
                     </th>
                     $th22
-                    <th class="spannowrap" style="text-align: center">
+                    <th class="spannowrap" style="text-align:center">
                         <span data-bs-toggle="tooltip" data-bs-title="Wikidata identifier">Qid</span>
                     </th>
                 </tr>
