@@ -13,38 +13,38 @@ use function TD\Render\Html\make_wikidata_url_blank;
 class ExistsRowBuilder
 {
     public function build(
-        $title,
-        $counter,
-        $langCode,
-        $cat,
-        $camp,
-        $titleData,
-        $globalUsername,
-        $userCoord,
-        $endpoint
-    ) {
+        string $title,
+        int $counter,
+        string $langCode,
+        string $cat,
+        string $camp,
+        array $titleData,
+        ?string $globalUsername,
+        bool $userCoord,
+        string $endpoint
+    ): string {
 
         // target_tab = { "title": "11p deletion syndrome", "category": "RTT", "importance": "", "r_lead_refs": 5, "r_all_refs": 14, "en_views": 838, "w_lead_words": 221, "w_all_words": 547, "qid": "Q1892153", "target": "متلازمة واجر" , "via":td" }
 
-        $importance  = $titleData['importance'] ?? "Unknown";
+        $importance  = $titleData["importance"] ?? "Unknown";
 
-        $words = $titleData['w_lead_words'] ?? 0;
-        $refs  = $titleData['r_lead_refs'] ?? 0;
-        $pageviews = $titleData['en_views'] ?? 0;
-        $qid = $titleData['qid'] ?? "";
+        $words = $titleData["w_lead_words"] ?? 0;
+        $refs  = $titleData["r_lead_refs"] ?? 0;
+        $pageviews = $titleData["en_views"] ?? 0;
+        $qid = $titleData["qid"] ?? "";
 
-        $mdwiki_a_tag = make_mdwiki_article_url_blank($title);
+        $mdwikiLink = make_mdwiki_article_url_blank($title);
 
         $qidUrl = make_wikidata_url_blank($qid);
 
-        $targetTab = "";
-        $targetTab2 = "";
+        $targetTd = "";
+        $targetTd2 = "";
 
-        if ($titleData['target']) {
+        if ($titleData["target"]) {
             if ($titleData["via"] === "td") {
-                $targetTab = make_wikipedia_url_blank($titleData['target'], $langCode);
+                $targetTd = make_wikipedia_url_blank($titleData["target"], $langCode);
             } else {
-                $targetTab2 = make_wikipedia_url_blank($titleData['target'], $langCode);
+                $targetTd2 = make_wikipedia_url_blank($titleData["target"], $langCode);
             }
         }
 
@@ -53,27 +53,27 @@ class ExistsRowBuilder
             $langCode,
             $cat,
             $camp,
-            'lead',
+            "lead",
             $endpoint
         );
 
         $tab = (!empty($globalUsername) && $userCoord) ? <<<HTML
-            <div class='inline'>
-                <a href='$translateUrl' class='btn btn-outline-primary btn-sm' target='_blank'>Translate</a>
+            <div class="inline">
+                <a href="$translateUrl" class="btn btn-outline-primary btn-sm" target="_blank">Translate</a>
             </div>
         HTML : "";
 
         $td22 = <<<HTML
-                <td class='num'>
+                <td class="num">
                 $pageviews
             </td>
-            <td class='num'>
+            <td class="num">
                 $importance
             </td>
-            <td class='num'>
+            <td class="num">
                 $words
             </td>
-            <td class='num'>
+            <td class="num">
                 $refs
             </td>
         HTML;
@@ -84,17 +84,17 @@ class ExistsRowBuilder
             <th scope="row" style="text-align:center">
                 $counter
             </th>
-            <td class='link_container spannowrap'>
-                $mdwiki_a_tag
+            <td class="link_container spannowrap">
+                $mdwikiLink
             </td>
             <td>
                 $tab
             </td>
             <td>
-                $targetTab
+                $targetTd
             </td>
             <td>
-                $targetTab2
+                $targetTd2
             </td>
             $td22
             <td>

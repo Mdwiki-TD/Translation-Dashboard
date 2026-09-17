@@ -24,15 +24,15 @@ class ExistsRowBuilder
         string $endpoint
     ): string {
         $importance = $titleData["importance"] ?? "Unknown";
-        $qid        = $titleData["qid"] ?? '';
-        $target     = $titleData["target"] ?? '';
+        $qid        = $titleData["qid"] ?? "";
+        $target     = $titleData["target"] ?? "";
         $via        = $titleData["via"] ?? "before";
 
         $mdwikiLink = make_mdwiki_article_url_blank($title);
         $qidUrl     = make_wikidata_url_blank($qid);
 
-        $targetTd  = '';
-        $targetTd2 = '';
+        $targetTd  = "";
+        $targetTd2 = "";
 
         if ($target) {
             if ($via === "td") {
@@ -42,7 +42,7 @@ class ExistsRowBuilder
             }
         }
 
-        $translateButton = '';
+        $translateButton = "";
         if (!empty($globalUsername) && $userCoord) {
             $translateUrl = make_ContentTranslation_url(
                 $title,
