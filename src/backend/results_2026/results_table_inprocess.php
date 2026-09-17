@@ -103,7 +103,7 @@ function make_one_row_new_inprocess(
     //---
     $qid_url = make_wikidata_url_blank($qid);
     //---
-    $_user_no_as_global_username = $_user_ != $global_username;
+    $login_user_is_the_translator = $_user_ == $global_username;
     //---
     $mdwiki_url = make_mdwiki_href($title);
     //---
@@ -125,7 +125,7 @@ function make_one_row_new_inprocess(
             $in_progress_translation_button,
             $_user_,
             $full_tr_user,
-            $_user_no_as_global_username,
+            !$login_user_is_not_the_translator,
             $endpoint
         );
     }
