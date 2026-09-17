@@ -42,14 +42,14 @@ class MissingTable extends AbstractResultsTable
 
     public function render(array $items): string
     {
-        $doFull = ($this->traType !== 'all');
+        $doFull = ($this->traType !== "all");
 
         // Sort by English page views (descending)
         usort($items, static function (array $a, array $b): int {
-            return ($b['en_views'] ?? 0) <=> ($a['en_views'] ?? 0);
+            return ($b["en_views"] ?? 0) <=> ($a["en_views"] ?? 0);
         });
 
-        $items = array_column($items, null, 'title');
+        $items = array_column($items, null, "title");
 
         $html = $this->startTable(false, false);
         $counter = 1;
@@ -59,7 +59,7 @@ class MissingTable extends AbstractResultsTable
                 continue;
             }
 
-            $title = str_replace('_', ' ', $title);
+            $title = str_replace("_", " ", $title);
 
             $row = $this->rowBuilder->build(
                 $title,
@@ -95,7 +95,7 @@ class MissingTable extends AbstractResultsTable
             if ($full) {
                 $html .= $this->rowBuilder->build(
                     $title,
-                    'all',
+                    "all",
                     $counter,
                     $this->langCode,
                     $this->cat,
