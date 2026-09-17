@@ -11,19 +11,19 @@ use Results\GetResults2026\Rows\InProcessRowBuilder;
  * Renders the table of pages currently being translated.
  */
 function make_results_table_inprocess(
-    $inProcessData,
+    $items,
     string $langCode,
-        string $cat,
-        string $camp,
-        bool $inProgressButton,
-        bool $fullTrUser,
-        ?string $globalUsername,
-        array $titlesInfos,
+    string $cat,
+    string $camp,
+    bool $inProgressButton,
+    bool $fullTrUser,
+    ?string $globalUsername,
+    array $titlesInfos,
     string $endpoint,
     bool $userCoord
 ): string {
 
-    // $inProcessData = normalizeItems($inProcessData);
+    // $items = normalizeItems($items);
 
     $frist = make_table_start(true, $inProgressButton);
 
@@ -31,7 +31,7 @@ function make_results_table_inprocess(
     $html = "";
     $counter = 1;
 
-    foreach ($inProcessData as $title => $inProcessData) {
+    foreach ($items as $title => $inProcessData) {
         if (empty($title)) {
             continue;
         }
