@@ -59,7 +59,8 @@ class MissingRowBuilder
                 </a>
             HTML;
         } else {
-            $fullUrl = make_tr_link_medwiki($title, $langCode, $cat, $camp, 'all', $words);
+            $fullWords = $titleData['w_all_words'] ?? 0;
+            $fullUrl = make_tr_link_medwiki($title, $langCode, $cat, $camp, 'all', $fullWords);
             $leadUrl = make_tr_link_medwiki($title, $langCode, $cat, $camp, $traType, $words);
 
             if ($fullTrUser && !$isVideo) {
