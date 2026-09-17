@@ -8,7 +8,7 @@ use function Results\Helps\make_translate_urls;
 
 /**
  * Builds a single row for the In-process results table.
- * make_one_row_new_inprocess
+ * Replace old make_one_row_new_inprocess function.
  */
 class InProcessRowBuilder
 {
@@ -68,6 +68,7 @@ class InProcessRowBuilder
         );
 
         // Keep only the date part if datetime is present
+        // if $_date_ has : then split before first space
         if (str_contains($date, ":")) {
             $date = explode(" ", $date)[0];
         }
@@ -76,26 +77,25 @@ class InProcessRowBuilder
             $buttons = "";
         }
 
-        $displayCounter = ($isFullRow && !str_starts_with(strtolower($title), "video:"))
-            ? "{$counter}.Full"
-            : $counter;
+        $isVideo = str_starts_with(strtolower($title), "video:");
+        $displayCounter = ($isFullRow && !$isVideo) ? "{$counter}.Full" : $counter;
 
         return <<<HTML
-        <tr>
-            <th class="num" scope="row">{$displayCounter}</th>
-            <td class="link_container">
-                <a target="_blank" href="{$mdwikiUrl}">{$title}</a>
-            </td>
-            <th>{$buttons}</th>
-            <td style="text-align:center">{$traType}</td>
-            <td class="num" style="text-align:left">{$enViews}</td>
-            <td class="num" style="text-align:left">{$importance}</td>
-            <td class="num" style="text-align:left">{$words}</td>
-            <td class="num" style="text-align:left">{$refs}</td>
-            <td>{$qidUrl}</td>
-            <td>{$user}</td>
-            <td>{$date}</td>
-        </tr>
+            <tr>
+                <th class="num" scope="row">{$displayCounter}</th>
+                <td class="link_container">
+                    <a target="_blank" href="{$mdwikiUrl}">{$title}</a>
+                </td>
+                <th>{$buttons}</th>
+                <td style="text-align:center">{$traType}</td>
+                <td class="num" style="text-align:left">{$enViews}</td>
+                <td class="num" style="text-align:left">{$importance}</td>
+                <td class="num" style="text-align:left">{$words}</td>
+                <td class="num" style="text-align:left">{$refs}</td>
+                <td>{$qidUrl}</td>
+                <td>{$user}</td>
+                <td>{$date}</td>
+            </tr>
         HTML;
     }
 }

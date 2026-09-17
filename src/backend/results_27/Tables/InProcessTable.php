@@ -45,6 +45,7 @@ class InProcessTable extends AbstractResultsTable
 
     public function render(array $items): string
     {
+        // $items = normalizeItems($items);
         $html = $this->startTable(true, $this->inProgressButton);
         $counter = 1;
 
@@ -53,6 +54,7 @@ class InProcessTable extends AbstractResultsTable
                 continue;
             }
 
+            // { "title": "Andes virus infection", "user": "Mr. Ibrahem", "lang": "ar", "cat": "RTT", "translate_type": "all", "word": 0, "add_date": "2026-05-21 00:00:00", "campaign": "Main", "autonym": "العربية" }
             $titleData = $this->titlesInfos[$title] ?? [];
             $title = str_replace("_", " ", $title);
 
