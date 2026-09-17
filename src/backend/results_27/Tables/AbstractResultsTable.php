@@ -1,6 +1,6 @@
 <?php
 
-namespace Results\GetResults2026\Tables;
+namespace Results\GetResults27\Tables;
 
 use function Results\ResultsTableHtml\make_table_start;
 

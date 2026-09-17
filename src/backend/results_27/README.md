@@ -22,7 +22,7 @@ src/backend/results_27/
 │   ├── ExistsRowBuilder.php
 │   └── InProcessRowBuilder.php
 ├── ResultsLoader.php          ← Main entry point
-├── get_results_2026.php       ← Backward-compatible wrapper
+├── get_results_27.php       ← Backward-compatible wrapper
 └── include.php
 ```
 
@@ -33,7 +33,7 @@ src/backend/results_27/
 ```php
 <?php
 
-namespace Results\GetResults2026\Data;
+namespace Results\GetResults27\Data;
 
 use function TD\Render\Html\make_mdwiki_cat_url;
 use function SQLorAPI\Funcs\get_lang_pages_by_cat;
@@ -183,7 +183,7 @@ class ResultsFetcher
 ```php
 <?php
 
-namespace Results\GetResults2026\Helpers;
+namespace Results\GetResults27\Helpers;
 
 use function SQLorAPI\GetDataTab\get_td_or_sql_translate_type;
 
@@ -235,7 +235,7 @@ class TranslateTypeLoader
 ```php
 <?php
 
-namespace Results\GetResults2026\Helpers;
+namespace Results\GetResults27\Helpers;
 
 /**
  * Renders a Bootstrap card used for result sections.
@@ -272,7 +272,7 @@ class CardRenderer
 ```php
 <?php
 
-namespace Results\GetResults2026\Tables;
+namespace Results\GetResults27\Tables;
 
 use function Results\ResultsTableHtml\make_table_start;
 
@@ -302,7 +302,7 @@ abstract class AbstractResultsTable
 ```php
 <?php
 
-namespace Results\GetResults2026\Rows;
+namespace Results\GetResults27\Rows;
 
 use function TD\Render\Html\make_mdwiki_href;
 use function TD\Render\Html\make_wikidata_url_blank;
@@ -403,9 +403,9 @@ class MissingRowBuilder
 ```php
 <?php
 
-namespace Results\GetResults2026\Tables;
+namespace Results\GetResults27\Tables;
 
-use Results\GetResults2026\Rows\MissingRowBuilder;
+use Results\GetResults27\Rows\MissingRowBuilder;
 
 /**
  * Renders the table of missing pages.
@@ -526,7 +526,7 @@ class MissingTable extends AbstractResultsTable
 ```php
 <?php
 
-namespace Results\GetResults2026\Rows;
+namespace Results\GetResults27\Rows;
 
 use function Results\TrLink\make_ContentTranslation_url;
 use function TD\Render\Html\make_mdwiki_article_url_blank;
@@ -606,9 +606,9 @@ class ExistsRowBuilder
 ```php
 <?php
 
-namespace Results\GetResults2026\Tables;
+namespace Results\GetResults27\Tables;
 
-use Results\GetResults2026\Rows\ExistsRowBuilder;
+use Results\GetResults27\Rows\ExistsRowBuilder;
 
 /**
  * Renders the table of already existing pages.
@@ -705,7 +705,7 @@ class ExistsTable extends AbstractResultsTable
 ```php
 <?php
 
-namespace Results\GetResults2026\Rows;
+namespace Results\GetResults27\Rows;
 
 use function TD\Render\Html\make_mdwiki_href;
 use function TD\Render\Html\make_wikidata_url_blank;
@@ -811,9 +811,9 @@ class InProcessRowBuilder
 ```php
 <?php
 
-namespace Results\GetResults2026\Tables;
+namespace Results\GetResults27\Tables;
 
-use Results\GetResults2026\Rows\InProcessRowBuilder;
+use Results\GetResults27\Rows\InProcessRowBuilder;
 
 /**
  * Renders the table of pages currently being translated.
@@ -908,14 +908,14 @@ class InProcessTable extends AbstractResultsTable
 ```php
 <?php
 
-namespace Results\GetResults2026;
+namespace Results\GetResults27;
 
-use Results\GetResults2026\Data\ResultsFetcher;
-use Results\GetResults2026\Helpers\CardRenderer;
-use Results\GetResults2026\Helpers\TranslateTypeLoader;
-use Results\GetResults2026\Tables\MissingTable;
-use Results\GetResults2026\Tables\ExistsTable;
-use Results\GetResults2026\Tables\InProcessTable;
+use Results\GetResults27\Data\ResultsFetcher;
+use Results\GetResults27\Helpers\CardRenderer;
+use Results\GetResults27\Helpers\TranslateTypeLoader;
+use Results\GetResults27\Tables\MissingTable;
+use Results\GetResults27\Tables\ExistsTable;
+use Results\GetResults27\Tables\InProcessTable;
 
 use function SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
 use function SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
@@ -1030,19 +1030,19 @@ class ResultsLoader
 
 ### 12. Backward-compatible wrappers
 
-**`get_results_2026.php`**
+**`get_results_27.php`**
 
 ```php
 <?php
 
-namespace Results\GetResults2026;
+namespace Results\GetResults27;
 
-use Results\GetResults2026\Data\ResultsFetcher;
+use Results\GetResults27\Data\ResultsFetcher;
 
 /**
  * Backward-compatible function.
  */
-function get_results_2026(string $cat, string $code, bool $debug = false): array
+function get_results_27(string $cat, string $code, bool $debug = false): array
 {
     return (new ResultsFetcher($debug))->get($cat, $code);
 }
@@ -1053,12 +1053,12 @@ function get_results_2026(string $cat, string $code, bool $debug = false): array
 ```php
 <?php
 
-namespace Results\GetResults2026;
+namespace Results\GetResults27;
 
 /**
  * Public entry point – keeps the old function name.
  */
-function results_loader_2026(array $data): string
+function results_loader_27(array $data): string
 {
     return (new ResultsLoader())->load($data);
 }
@@ -1091,7 +1091,7 @@ include_once __DIR__ . "/Tables/InProcessTable.php";
 
 // Main loader
 include_once __DIR__ . "/ResultsLoader.php";
-include_once __DIR__ . "/get_results_2026.php";
+include_once __DIR__ . "/get_results_27.php";
 include_once __DIR__ . "/index.php";
 ```
 

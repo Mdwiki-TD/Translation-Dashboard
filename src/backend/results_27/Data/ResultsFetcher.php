@@ -1,6 +1,6 @@
 <?php
 
-namespace Results\GetResults2026\Data;
+namespace Results\GetResults27\Data;
 
 use function TD\Render\Html\make_mdwiki_cat_url;
 use function SQLorAPI\Funcs\get_lang_pages_by_cat;

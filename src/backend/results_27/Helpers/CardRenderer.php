@@ -1,6 +1,6 @@
 <?php
 
-namespace Results\GetResults2026\Helpers;
+namespace Results\GetResults27\Helpers;
 
 /**
  * Renders a Bootstrap card used for result sections.

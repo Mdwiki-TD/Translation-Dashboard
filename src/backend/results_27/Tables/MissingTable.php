@@ -1,8 +1,8 @@
 <?php
 
-namespace Results\GetResults2026\Tables;
+namespace Results\GetResults27\Tables;
 
-use Results\GetResults2026\Rows\MissingRowBuilder;
+use Results\GetResults27\Rows\MissingRowBuilder;
 
 /**
  * Renders the table of missing pages.

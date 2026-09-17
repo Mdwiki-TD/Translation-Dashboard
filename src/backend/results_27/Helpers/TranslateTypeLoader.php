@@ -1,6 +1,6 @@
 <?php
 
-namespace Results\GetResults2026\Helpers;
+namespace Results\GetResults27\Helpers;
 
 use function SQLorAPI\GetDataTab\get_td_or_sql_translate_type;
 
