@@ -2,9 +2,6 @@
 
 namespace Results\GetResults2026\Helpers;
 
-/**
- * Renders a Bootstrap card used for result sections.
- */
 class CardRenderer
 {
     public static function render(string $title, string $body, string $extraHeader = ''): string

@@ -7,52 +7,54 @@ use function Results\GetResults2026\Rows\make_one_row_new_inprocess;
 
 function make_results_table_inprocess(
     $inprocessTable,
-    $langcode,
+    $langCode,
     $cat,
     $camp,
-    $inProgressBtn,
+    $inProgressButton,
     $fullTrUser,
     $globalUsername,
     $titlesInfos,
     $endpoint,
     $userCoord
 ): string {
-    //---
+
     // $inprocessTable = normalizeItems($inprocessTable);
-    //---
-    $frist = make_table_start(true, $inProgressBtn);
-    //---
+
+    $frist = make_table_start(true, $inProgressButton);
+
     $list = "";
-    $cnt = 1;
-    //---
+    $counter = 1;
+
     foreach ($inprocessTable as $title => $titleTab) {
 
-        if (empty($title)) continue;
+        if (empty($title)) {
+            continue;
+        }
 
-        $title = str_replace('_', ' ', $title);
-        //---
+        $title = str_replace("_", " ", $title);
+
         $titleData = $titlesInfos[$title] ?? [];
-        //---
+
         // { "title": "Andes virus infection", "user": "Mr. Ibrahem", "lang": "ar", "cat": "RTT", "translate_type": "all", "word": 0, "add_date": "2026-05-21 00:00:00", "campaign": "Main", "autonym": "العربية" }
         $traType = $titleTab['translate_type'] ?? '';
-        //---
-        $full = false;
-        //---
+
+        $isFull = false;
+
         if (strtolower(substr($title, 0, 6)) == 'video:') {
             $traType = 'all';
-            $full = true;
+            $isFull = true;
         };
-        //---
+
         $row = make_one_row_new_inprocess(
             $title,
             $traType,
-            $cnt,
-            $langcode,
+            $counter,
+            $langCode,
             $cat,
             $camp,
             $titleTab,
-            $inProgressBtn,
-            $full,
+            $inProgressButton,
+            $isFull,
             $fullTrUser,
             $globalUsername,
             $titleData,
@@ -61,8 +63,8 @@ function make_results_table_inprocess(
         );
         //--
         $list .= $row;
-        //---
-        $cnt++;
+
+        $counter++;
     };
 
     $last = <<<HTML

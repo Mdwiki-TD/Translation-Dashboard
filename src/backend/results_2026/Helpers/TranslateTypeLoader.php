@@ -1,6 +1,6 @@
-<?PHP
+<?php
 
-namespace Results\GetResults2026;
+namespace Results\GetResults2026\Helpers;
 
 use function SQLorAPI\GetDataTab\get_td_or_sql_translate_type;
 
@@ -10,9 +10,9 @@ function load_translate_type($ty)
     static $noLeadTranslates = [];
 
     if (empty($fullTranslates)) {
-        $rere = get_td_or_sql_translate_type();
-        //---
-        foreach ($rere as $k => $tab) {
+        $rows = get_td_or_sql_translate_type();
+
+        foreach ($rows as $k => $tab) {
             // if tt_full == 1 then add tt_title to $fullTranslates
             if ($tab['tt_full'] == 1) {
                 $fullTranslates[] = $tab['tt_title'];

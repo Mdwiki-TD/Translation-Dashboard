@@ -19,7 +19,7 @@ function sort_py_pageviews_rows($items, $en_views_tab)
 {
     $dd = [];
     foreach ($items as $t) {
-        $t = str_replace('_', ' ', $t);
+        $t = str_replace("_", " ", $t);
         $kry = $en_views_tab[$t] ?? 0;
         $dd[$t] = $kry;
     }
@@ -42,7 +42,7 @@ function sort_py_importance($items, $Assessment_table)
     $empty = $Assessment_fff['Unknown'];
     $dd = [];
     foreach ($items as $t) {
-        $t = str_replace('_', ' ', $t);
+        $t = str_replace("_", " ", $t);
         $aa = $Assessment_table[$t] ?? null;
         $kry = $empty;
         if (isset($aa)) {

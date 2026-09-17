@@ -7,6 +7,8 @@ use function Results\GetResults2026\Tables\make_results_table_2026;
 use function Results\GetResults2026\make_results_table_inprocess;
 use function Results\GetResults2026\make_results_table_exists_2026;
 
+use function Results\GetResults2026\Helpers\load_translate_type;
+use function Results\GetResults2026\Helpers\render;
 use function SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
 use function SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
 use function SQLorAPI\GetDataTab\get_endpoint;
@@ -21,7 +23,7 @@ function results_loader_2026($data)
     $showExists = $data["show_exists"];
 
     $globalUsername  = $data["global_username"];
-    $inProgressBtn = $data["in_progress_translation_button"];
+    $inProgressButton = $data["in_progress_translation_button"];
 
     $fullTranslators = get_td_or_sql_full_translators();
     $fullTranslators = array_column($fullTranslators, 'is_active', 'user');
@@ -50,7 +52,7 @@ function results_loader_2026($data)
     return Results_tables_2026(
         $tab,
         $showExists,
-        $inProgressBtn,
+        $inProgressButton,
         $fullTrUser,
         $_titles_infos,
         $noLeadTranslates,
@@ -62,7 +64,7 @@ function results_loader_2026($data)
 function Results_tables_2026(
     $tab,
     $showExists,
-    $inProgressBtn,
+    $inProgressButton,
     $fullTrUser,
     $_titles_infos,
     $noLeadTranslates,
@@ -118,7 +120,7 @@ function Results_tables_2026(
         $ix
     HTML;
 
-    $html .= card_result($resLine, $table, $title_x);
+    $html .= render($resLine, $table, $title_x);
 
     $lenInProcess = count($pInprocess);
 
@@ -126,14 +128,14 @@ function Results_tables_2026(
     $lenInProcess = count($results['inprocess']);
     if ($lenInProcess > 0) {
 
-        // $inProgressBtn = ($userCoord) ? $inProgressBtn : false;
+        // $inProgressButton = ($userCoord) ? $inProgressButton : false;
 
         $inProcessTable = make_results_table_inprocess(
             $pInprocess,
             $code,
             $cat,
             $camp,
-            $inProgressBtn,
+            $inProgressButton,
             $fullTrUser,
             $globalUser,
             $titlesInfos,
@@ -141,7 +143,7 @@ function Results_tables_2026(
             $userCoord
         );
 
-        $html .= card_result("In process: ($lenInProcess)", $inProcessTable);
+        $html .= render("In process: ($lenInProcess)", $inProcessTable);
     };
 
     $lenExists = count($exists);
@@ -158,7 +160,7 @@ function Results_tables_2026(
             $endpoint
         );
 
-        $html .= card_result("Exists: ($lenExists)", $table_3);
+        $html .= render("Exists: ($lenExists)", $table_3);
     };
 
     return $html;

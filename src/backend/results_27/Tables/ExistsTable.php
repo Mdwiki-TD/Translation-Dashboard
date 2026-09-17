@@ -73,11 +73,21 @@ class ExistsTable extends AbstractResultsTable
         <table class="table compact table-striped table_100 table_text_left table_responsive display">
             <thead>
                 <tr>
-                    <th class="num">#</th>
-                    <th class="spannowrap" style="text-align:center">Title</th>
-                    <th>Translate</th>
-                    <th>Translated ({$countTranslated})</th>
-                    <th>Translated before ({$countTranslatedBefore})</th>
+                    <th class="num">
+                        #
+                    </th>
+                    <th class="spannowrap" style="text-align:center">
+                        Title
+                    </th>
+                    <th>
+                        Translate
+                    </th>
+                    <th>
+                        Translated ({$countTranslated})
+                    </th>
+                    <th>
+                        Translated before ({$countTranslatedBefore})
+                    </th>
                     <th class="spannowrap" style="text-align:center">
                         <span data-bs-toggle="tooltip" data-bs-title="Wikidata identifier">Qid</span>
                     </th>

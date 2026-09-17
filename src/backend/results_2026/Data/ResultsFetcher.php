@@ -1,14 +1,12 @@
 <?php
 
-namespace Results\GetResults2026;
+namespace Results\GetResults2026\Data;
 
 use function TD\Render\Html\make_mdwiki_cat_url;
-
 use function SQLorAPI\Funcs\get_lang_pages_by_cat;
 use function SQLorAPI\Process\get_lang_in_process;
 use function SQLorAPI\Funcs\missing_by_lang_and_category;
 use function SQLorAPI\Funcs\exists_by_lang_and_category;
-
 use function TD\Render\TestPrint\test_print;
 
 function get(string $cat, string $code): array
@@ -71,13 +69,12 @@ function get(string $cat, string $code): array
     ksort($itemsExists);
 
     return [
-        "ix" => $summary,
+        "ix"        => $summary,
         "inprocess" => $inProcess,
-        "exists" => $itemsExists,
-        "missing" => $itemsMissing,
+        "exists"    => $itemsExists,
+        "missing"   => $itemsMissing,
     ];
 }
-
 
 function getInProcess(array $missingTitles, string $code): array
 {

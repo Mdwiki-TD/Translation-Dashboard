@@ -1,7 +1,8 @@
 <?php
 
+namespace Results\GetResults2026\Helpers;
 
-function card_result($title, $text, $title2 = ""): string
+function render(string $title, string $body, string $extraHeader = ''): string
 {
     return <<<HTML
     <br>
@@ -10,13 +11,13 @@ function card_result($title, $text, $title2 = ""): string
             <span class="card-title h5">
                 $title
             </span>
-            $title2
+            $extraHeader
             <div class="card-tools">
                 <button type="button" class="btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
             </div>
         </div>
         <div class='card-body1 card2'>
-            $text
+            $body
         </div>
     </div>
     HTML;

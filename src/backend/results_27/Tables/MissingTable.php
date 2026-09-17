@@ -82,9 +82,9 @@ class MissingTable extends AbstractResultsTable
             }
 
             $noLead = in_array($title, $this->noLeadTranslates, true);
-            $full   = in_array($title, $this->fullTranslates, true);
+            $isFull   = in_array($title, $this->fullTranslates, true);
 
-            if ($noLead && !$full) {
+            if ($noLead && !$isFull) {
                 continue;
             }
 
@@ -92,7 +92,7 @@ class MissingTable extends AbstractResultsTable
                 $html .= $row;
             }
 
-            if ($full) {
+            if ($isFull) {
                 $html .= $this->rowBuilder->build(
                     $title,
                     "all",

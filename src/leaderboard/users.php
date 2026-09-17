@@ -31,7 +31,7 @@ function users_html(
     //---
     $output = '';
     //---
-    $mainlang = rawurldecode(str_replace('_', ' ', $mainlang));
+    $mainlang = rawurldecode(str_replace("_", " ", $mainlang));
     //---
     // '[{"user":"Mr. Ibrahem","lang":"ar","cnt":14}]'
     $user_most_langs = get_td_or_sql_top_lang_of_users([$user_to_curl]);

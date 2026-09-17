@@ -1,6 +1,6 @@
 **Complete restructured code for `results_2026`**
 
-All comments are in English.  
+All comments are in English.
 The code keeps the same public behavior while being cleaner, typed, and better organized.
 
 ### Directory structure
@@ -462,7 +462,7 @@ class MissingTable extends AbstractResultsTable
                 continue;
             }
 
-            $title = str_replace('_', ' ', $title);
+            $title = str_replace("_", " ", $title);
 
             $row = $this->rowBuilder->build(
                 $title,
@@ -485,9 +485,9 @@ class MissingTable extends AbstractResultsTable
             }
 
             $noLead = in_array($title, $this->noLeadTranslates, true);
-            $full   = in_array($title, $this->fullTranslates, true);
+            $isFull   = in_array($title, $this->fullTranslates, true);
 
-            if ($noLead && !$full) {
+            if ($noLead && !$isFull) {
                 continue;
             }
 
@@ -495,7 +495,7 @@ class MissingTable extends AbstractResultsTable
                 $html .= $row;
             }
 
-            if ($full) {
+            if ($isFull) {
                 $html .= $this->rowBuilder->build(
                     $title,
                     'all',
@@ -587,7 +587,7 @@ class ExistsRowBuilder
 
         return <<<HTML
         <tr>
-            <th class="" scope="row" style="text-align:center">{$counter}</th>
+            <th scope="row" style="text-align:center">{$counter}</th>
             <td class="link_container spannowrap">{$mdwikiLink}</td>
             <td>{$translateButton}</td>
             <td>{$targetTd}</td>
@@ -652,7 +652,7 @@ class ExistsTable extends AbstractResultsTable
                 continue;
             }
 
-            $title = str_replace('_', ' ', $title);
+            $title = str_replace("_", " ", $title);
 
             if (($data['via'] ?? '') === 'td') {
                 $countTranslated++;
@@ -864,7 +864,7 @@ class InProcessTable extends AbstractResultsTable
                 continue;
             }
 
-            $title = str_replace('_', ' ', $title);
+            $title = str_replace("_", " ", $title);
             $titleData = $this->titlesInfos[$title] ?? [];
 
             $traType = $inProcessData['translate_type'] ?? 'lead';
@@ -936,7 +936,7 @@ class ResultsLoader
         $cat          = $data['cat'] ?? '';
         $showExists   = (bool)($data['show_exists'] ?? false);
         $globalUser   = $data['global_username'] ?? null;
-        $inProgressBtn = (bool)($data['in_progress_translation_button'] ?? false);
+        $inProgressButton = (bool)($data['in_progress_translation_button'] ?? false);
         $traType      = $data['tra_type'] ?? 'lead';
         $userCoord    = (bool)($data['user_coord'] ?? false);
         $test         = !empty($data['test']);
@@ -989,7 +989,7 @@ class ResultsLoader
                 $code,
                 $cat,
                 $camp,
-                $inProgressBtn,
+                $inProgressButton,
                 $fullTrUser,
                 $globalUser,
                 $titlesInfos,
@@ -1096,4 +1096,3 @@ include_once __DIR__ . '/index.php';
 ```
 
 ---
-

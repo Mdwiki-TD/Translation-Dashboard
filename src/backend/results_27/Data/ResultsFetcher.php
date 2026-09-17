@@ -120,7 +120,7 @@ class ResultsFetcher
         $catUrl = make_mdwiki_cat_url($cat, "Category");
 
         return sprintf(
-            "Found %d pages in %s, %d exists, and %d missing in (<a href="https://%s.wikipedia.org" target="_blank">%s</a>), %d In process.",
+            "Found %d pages in %s, %d exists, and %d missing in (<a href='https://%s.wikipedia.org' target='_blank'>%s</a>), %d In process.",
             $total,
             $catUrl,
             $lenExists,
