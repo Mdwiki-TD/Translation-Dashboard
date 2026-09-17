@@ -166,7 +166,7 @@ function make_results_table_inprocess(
     $titles_infos_items,
     $endpoint,
     $user_coord
-) {
+): string {
     //---
     // $inprocess_table = normalizeItems($inprocess_table);
     //---
