@@ -43,19 +43,19 @@ function make_tds_rows_responsive($full, $tds)
             <th class=''>
                 $tab
             </th>
-            <td class='' style="text-align: center">
+            <td class='' style="text-align:center">
                 $tra_type
             </td>
-            <td class='num' style="text-align: left">
+            <td class='num' style="text-align:left">
                 $pviews
             </td>
-            <td class='num' style="text-align: left">
+            <td class='num' style="text-align:left">
                 $asse
             </td>
-            <td class='num' style="text-align: left">
+            <td class='num' style="text-align:left">
                 $words
             </td>
-            <td class='num' style="text-align: left">
+            <td class='num' style="text-align:left">
                 $refs
             </td>
             <td>
@@ -90,8 +90,8 @@ function make_one_row_new_inprocess(
 ) {
     //---
     // inprocess_table = { "title": "Andes virus infection", "user": "Mr. Ibrahem", "lang": "ar", "cat": "RTT", "translate_type": "all", "word": 0, "add_date": "2026-05-21 00:00:00", "campaign": "Main", "autonym": "العربية" }
-    $_user_ = $inprocess_table['user'] ?? '';
-    $_date_ = $inprocess_table['date'] ?? $inprocess_table['add_date'] ?? '';
+    $_user_ = $inprocess_table['user'] ?? "";
+    $_date_ = $inprocess_table['date'] ?? $inprocess_table['add_date'] ?? "";
     //---
     $word     = $title_data['w_lead_words'] ?? 0;
     $refs     = $title_data['r_lead_refs'] ?? 0;
@@ -166,7 +166,7 @@ function make_results_table_inprocess(
     $titles_infos_items,
     $endpoint,
     $user_coord
-) {
+): string {
     //---
     // $inprocess_table = normalizeItems($inprocess_table);
     //---
@@ -179,12 +179,12 @@ function make_results_table_inprocess(
         // ---
         if (empty($title)) continue;
         // ---
-        $title = str_replace('_', ' ', $title);
+        $title = str_replace("_", " ", $title);
         //---
         $title_data = $titles_infos_items[$title] ?? [];
         //---
         // { "title": "Andes virus infection", "user": "Mr. Ibrahem", "lang": "ar", "cat": "RTT", "translate_type": "all", "word": 0, "add_date": "2026-05-21 00:00:00", "campaign": "Main", "autonym": "العربية" }
-        $tra_type = $title_tab['translate_type'] ?? '';
+        $tra_type = $title_tab['translate_type'] ?? "";
         //---
         $full = false;
         //---

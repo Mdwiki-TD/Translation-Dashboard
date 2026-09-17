@@ -25,7 +25,7 @@ function langs_html(
 ) {
     $output = '';
     //---
-    $mainlang = rawurldecode(str_replace('_', ' ', $mainlang));
+    $mainlang = rawurldecode(str_replace("_", " ", $mainlang));
     //---
     $langname = get_lang_name($mainlang) ?? $mainlang;
     //---

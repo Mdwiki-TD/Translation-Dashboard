@@ -61,7 +61,7 @@ function get_users_tables($mainuser, $year_y, $lang_y)
     };
     //---
     $user_main = $mainuser;
-    $user_main = rawurldecode(str_replace('_', ' ', $user_main));
+    $user_main = rawurldecode(str_replace("_", " ", $user_main));
     //---
     $p_tables = pages_tables($user_main, $year_y, $lang_y);
     //---

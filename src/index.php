@@ -22,6 +22,7 @@ use function Loaders\LoadRequest\load_request;
 use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
 use function SQLorAPI\GetDataTab\get_td_or_sql_settings;
 use function SQLorAPI\GetDataTab\get_td_or_sql_langs;
+// use Results\GetResults2026\ResultsLoader;
 use function Results\GetResults2026\results_loader_2026;
 
 
@@ -281,6 +282,8 @@ if ($camp && $code) {
         "test" => $test
     ];
     // ---
+    // $loader = new ResultsLoader();
+    // echo $loader->load($data);
     echo results_loader_2026($data);
 }
 

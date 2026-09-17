@@ -13,9 +13,8 @@
  Screen smaller than 760px and iPads.
  ============================================================== */
 
-
 @media only screen and (max-width: 760px),
-(min-device-width: 768px) and (max-device-width: 1024px) {
+    (min-device-width: 768px) and (max-device-width: 1024px) {
     .table-mobile-responsive [data-content]:before {
         content: attr(data-content);
     }
@@ -45,11 +44,11 @@
         left: -9999px;
     }
 
-    .table-mobile-responsive> :not(:first-child) {
+    .table-mobile-responsive > :not(:first-child) {
         border-top: none;
     }
 
-    .table-mobile-responsive>:not(caption)>*>* {
+    .table-mobile-responsive > :not(caption) > * > * {
         border-color: var(--tmr-bootstrap-border-color);
     }
 
@@ -81,11 +80,11 @@
     }
 
     /* Sided layout */
-    .table-mobile-responsive.table-mobile-sided> :not(:first-child) {
+    .table-mobile-responsive.table-mobile-sided > :not(:first-child) {
         border-top: none;
     }
 
-    .table-mobile-responsive.table-mobile-sided>:not(caption)>*>* {
+    .table-mobile-responsive.table-mobile-sided > :not(caption) > * > * {
         border-color: var(--bs-table-border-color);
     }
 
@@ -119,7 +118,10 @@
     }
 
     /* Stripped rows */
-    .table-mobile-responsive.table-mobile-striped>tbody>tr:nth-of-type(odd)>* {
+    .table-mobile-responsive.table-mobile-striped
+        > tbody
+        > tr:nth-of-type(odd)
+        > * {
         background-color: var(--tmr-stripped-row-background-color) !important;
     }
 }
