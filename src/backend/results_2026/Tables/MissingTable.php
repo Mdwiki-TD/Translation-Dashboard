@@ -35,9 +35,9 @@ function make_results_table_2026(
     $cnt = 1;
     //---
     foreach ($items as $title => $title_data) {
-        // ---
+
         if (empty($title)) continue;
-        // ---
+
         $title = str_replace('_', ' ', $title);
         //---
         $cnt2 = $cnt;
@@ -97,11 +97,11 @@ function make_results_table_2026(
         //---
         $cnt++;
     };
-    // ---
+
     $last = <<<HTML
         </tbody>
     </table>
     HTML;
-    // ---
+
     return $frist . $list . $last;
 }

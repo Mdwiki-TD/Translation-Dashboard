@@ -26,9 +26,9 @@ function make_results_table_inprocess(
     $cnt = 1;
     //---
     foreach ($inprocess_table as $title => $title_tab) {
-        // ---
+
         if (empty($title)) continue;
-        // ---
+
         $title = str_replace('_', ' ', $title);
         //---
         $title_data = $titlesInfos[$title] ?? [];
@@ -64,11 +64,11 @@ function make_results_table_inprocess(
         //---
         $cnt++;
     };
-    // ---
+
     $last = <<<HTML
         </tbody>
     </table>
     HTML;
-    // ---
+
     return $frist . $list . $last;
 }

@@ -19,9 +19,9 @@ function make_results_table_exists_2026(
     $count_translated_before = 0;
     //---
     foreach ($items as $title => $target_tab) {
-        // ---
+
         if (empty($title)) continue;
-        // ---
+
         $title = str_replace('_', ' ', $title);
         //---
         if ($target_tab["via"] === "td") {
@@ -46,7 +46,7 @@ function make_results_table_exists_2026(
         //---
         $cnt++;
     };
-    // ---
+
     $th22 = <<<HTML
         <th class="spannowrap" style="text-align: center">
             <span data-bs-toggle="tooltip" data-bs-title="Page views in last month in English Wikipedia">Views</span>
@@ -61,9 +61,9 @@ function make_results_table_exists_2026(
             <span data-bs-toggle="tooltip" data-bs-title="number of references of the article in mdwiki.org">Refs.</span>
         </th>
     HTML;
-    // ---
+
     $th22 = "";
-    // ---
+
     $table = <<<HTML
         <table class="table compact table-striped table_100 table_text_left table_responsive display">
             <thead>
@@ -94,6 +94,6 @@ function make_results_table_exists_2026(
             </tbody>
         </table>
     HTML;
-    // ---
+
     return $table;
 }

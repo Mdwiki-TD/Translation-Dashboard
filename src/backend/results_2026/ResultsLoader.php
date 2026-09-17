@@ -13,16 +13,16 @@ use function SQLorAPI\GetDataTab\get_endpoint;
 
 function results_loader_2026($data)
 {
-    // ---
+
     $camp        = $data["camp"];
     $code        = $data["code"];
     $cat         = $data["cat"];
-    // ---
+
     $showExists = $data["show_exists"];
-    // ---
+
     $globalUsername  = $data["global_username"];
     $inProgressBtn = $data["in_progress_translation_button"];
-    // ---
+
     $fullTranslators = get_td_or_sql_full_translators();
     $fullTranslators = array_column($fullTranslators, 'is_active', 'user');
 
@@ -75,11 +75,11 @@ function Results_tables_2026(
     $cat        = $tab["cat"];
     $traType   = $tab["tra_type"];
     $test       = $tab["test"];
-    // ---
+
     $codeLang_name  = $tab["code_lang_name"];
     $globalUser = $tab["global_username"];
     $userCoord      = $tab["user_coord"];
-    // ---
+
     $html = "";
 
     if (!empty($test)) {

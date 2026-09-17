@@ -22,8 +22,8 @@ function load_translate_type($ty)
             }
         }
     }
-    // ---
+
     $tab = ($ty == 'full') ? $full_translates : $no_lead_translates;
-    // ---
+
     return $tab;
 }
