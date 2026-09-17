@@ -5,21 +5,23 @@
 The `src/backend/` directory is the core business logic layer of the WikiProjectMed Translation Dashboard. It handles all data access, authentication, configuration, category fetching, results processing, and translation pipeline orchestration.
 
 ### Main Features
-- **Database abstraction** via PDO with dual-source strategy (API-first, SQL fallback)
-- **OAuth-based authentication** with encrypted cookie sessions
-- **Category member fetching** from mdwiki.org with APCu and file-based caching
-- **Results pipelines** for determining missing, existing, and in-process translations
-- **Wikidata SPARQL integration** for cross-wiki existence checking
-- **Translation URL building** for MediaWiki ContentTranslation tool
-- **Language code mapping** between codes, names, and autonyms
+
+-   **Database abstraction** via PDO with dual-source strategy (API-first, SQL fallback)
+-   **OAuth-based authentication** with encrypted cookie sessions
+-   **Category member fetching** from mdwiki.org with APCu and file-based caching
+-   **Results pipelines** for determining missing, existing, and in-process translations
+-   **Wikidata SPARQL integration** for cross-wiki existence checking
+-   **Translation URL building** for MediaWiki ContentTranslation tool
+-   **Language code mapping** between codes, names, and autonyms
 
 ### Technologies
-- PHP 8.4+ (strict types in config classes)
-- PDO (MySQL driver)
-- cURL (HTTP client for external APIs)
-- `defuse/php-encryption` v2.4+ (symmetric encryption for cookies/keys)
-- APCu (in-memory caching)
-- Wikidata SPARQL endpoint
+
+-   PHP 8.4+ (strict types in config classes)
+-   PDO (MySQL driver)
+-   cURL (HTTP client for external APIs)
+-   `defuse/php-encryption` v2.4+ (symmetric encryption for cookies/keys)
+-   APCu (in-memory caching)
+-   Wikidata SPARQL endpoint
 
 ---
 
@@ -72,16 +74,17 @@ src/backend/
 
 ### Architecture Layers
 
-| Layer | Purpose | Key Files |
-|-------|---------|-----------|
-| **Infrastructure** | Database, HTTP, SPARQL | `api_calls/`, `td_api_wrap/` |
-| **Data Orchestration** | API-or-SQL abstraction | `api_or_sql/` |
-| **Business Logic** | Results pipelines, category fetching | `results/`, `results_2026/` |
-| **Configuration** | Settings, auth, utilities | `settings.php`, `userinfos_wrap.php`, `include_first/` |
+| Layer                  | Purpose                              | Key Files                                              |
+| ---------------------- | ------------------------------------ | ------------------------------------------------------ |
+| **Infrastructure**     | Database, HTTP, SPARQL               | `api_calls/`, `td_api_wrap/`                           |
+| **Data Orchestration** | API-or-SQL abstraction               | `api_or_sql/`                                          |
+| **Business Logic**     | Results pipelines, category fetching | `results/`, `results_2026/`                            |
+| **Configuration**      | Settings, auth, utilities            | `settings.php`, `userinfos_wrap.php`, `include_first/` |
 
 ### Key Architectural Pattern: `super_function()`
 
 The central pattern is `super_function()` in `api_or_sql/index.php`:
+
 1. First tries the Translation Dashboard API (`get_td_api()`)
 2. Falls back to direct SQL query (`fetch_query()`) if API returns empty
 
@@ -92,37 +95,43 @@ This enables dual-mode operation: standalone database app or microservice with s
 ## Architecture & Code Quality Review
 
 ### Code Organization
+
 The backend follows a layered architecture with clear separation between infrastructure, data orchestration, and business logic. However, three parallel results pipelines (`get_titles/`, `new_way/`, `results_2026/`) indicate iterative development without cleanup.
 
 ### Design Patterns
-- **Singleton**: `OAuth\Settings\Settings` for configuration
-- **Strategy**: `super_function()` chooses API vs SQL at runtime
-- **Repository**: `api_or_sql/` functions abstract data sources
-- **Static Caching**: Nearly every data function uses `static` variables for in-request memoization
-- **Template Method**: `CategoryFetcher` class with DI for testability
+
+-   **Singleton**: `OAuth\Settings\Settings` for configuration
+-   **Strategy**: `super_function()` chooses API vs SQL at runtime
+-   **Repository**: `api_or_sql/` functions abstract data sources
+-   **Static Caching**: Nearly every data function uses `static` variables for in-request memoization
+-   **Template Method**: `CategoryFetcher` class with DI for testability
 
 ### SOLID Principles
-- **SRP**: Mostly adhered to, though `results_2026/` files mix business logic with HTML generation
-- **OCP**: The `super_function()` pattern allows extending data sources
-- **LSP**: Not applicable (minimal inheritance)
-- **ISP**: Not applicable (procedural functions, not interfaces)
-- **DIP**: Partially applied -- `CategoryFetcher` uses DI, but most code relies on global state
+
+-   **SRP**: Mostly adhered to, though `results_2026/` files mix business logic with HTML generation
+-   **OCP**: The `super_function()` pattern allows extending data sources
+-   **LSP**: Not applicable (minimal inheritance)
+-   **ISP**: Not applicable (procedural functions, not interfaces)
+-   **DIP**: Partially applied -- `CategoryFetcher` uses DI, but most code relies on global state
 
 ### Maintainability: 5/10
-- Three parallel results pipelines create confusion
-- Duplicate namespace declarations (`Results\GetResults` in two files)
-- Glob-based includes make dependency graph implicit
-- Mixed OOP and procedural code without consistent philosophy
+
+-   Three parallel results pipelines create confusion
+-   Duplicate namespace declarations (`Results\GetResults` in two files)
+-   Glob-based includes make dependency graph implicit
+-   Mixed OOP and procedural code without consistent philosophy
 
 ### Readability: 6/10
-- Function names are generally descriptive
-- Namespace organization mirrors directory structure
-- Variable naming is inconsistent (`$dd`, `$tabb`, `$yhu`)
+
+-   Function names are generally descriptive
+-   Namespace organization mirrors directory structure
+-   Variable naming is inconsistent (`$dd`, `$tabb`, `$yhu`)
 
 ### Scalability: 6/10
-- Static caching reduces redundant API/SQL calls
-- No database connection pooling (new PDO per query)
-- APCu caching for category data is effective
+
+-   Static caching reduces redundant API/SQL calls
+-   No database connection pooling (new PDO per query)
+-   APCu caching for category data is effective
 
 ---
 
@@ -153,25 +162,32 @@ The backend follows a layered architecture with clear separation between infrast
 ## Critical Issues
 
 ### SQL Error Disclosure (HIGH)
+
 **File**: `api_calls/mdwiki_sql.php`, lines 121, 146
+
 ```php
 echo "sql error:" . $e->getMessage() . "<br>" . $sql_query;
 ```
+
 Full SQL errors including query text are echoed to the browser. This reveals table structures, column names, and query logic.
 
 ### Pervasive XSS in HTML Rendering (HIGH)
+
 **Files**: All `results_2026/*.php`, `results/helps.php`, `api_calls/wiki_api.php`
 
 Article titles, targets, usernames, and URLs are directly interpolated into HTML templates without `htmlspecialchars()`:
+
 ```php
 // results_2026/results_table.php
 $html .= "<a target='_blank' href='$url'>$title</a>";
 ```
 
 ### Debug Mode via Cookie/GET (MEDIUM)
+
 **Files**: `include_first/test_print.php`, `api_calls/mdwiki_sql.php`
 
 Any user can enable verbose debug output by setting a `test` cookie or `?test=1` parameter:
+
 ```php
 if ($_COOKIE['test'] ?? $_REQUEST['test'] ?? '') {
     ini_set('display_errors', 1);
@@ -180,7 +196,9 @@ if ($_COOKIE['test'] ?? $_REQUEST['test'] ?? '') {
 ```
 
 ### Hardcoded Admin Username (LOW)
+
 **File**: `include_first/text_admin.php`
+
 ```php
 if ($global_username === 'Mr. Ibrahem') { return $text; }
 ```
@@ -189,25 +207,27 @@ if ($global_username === 'Mr. Ibrahem') { return $text; }
 
 ## Areas That Need Attention
 
-- **Missing tests** -- No unit tests exist for backend modules (only integration-level tests in `tests/`)
-- **Error handling** -- SQL errors should be logged, not echoed to browser
-- **Debug mode** -- Should be restricted to admin users or disabled in production
-- **Connection pooling** -- PDO instances are created and destroyed per query
-- **Dead code cleanup** -- Remove deprecated `get_leaderboard_table()`, old pipeline implementations
-- **HTML escaping** -- All HTML output should use `htmlspecialchars()` or a template engine
-- **Documentation** -- No inline PHPDoc for most functions
+-   **Missing tests** -- No unit tests exist for backend modules (only integration-level tests in `tests/`)
+-   **Error handling** -- SQL errors should be logged, not echoed to browser
+-   **Debug mode** -- Should be restricted to admin users or disabled in production
+-   **Connection pooling** -- PDO instances are created and destroyed per query
+-   **Dead code cleanup** -- Remove deprecated `get_leaderboard_table()`, old pipeline implementations
+-   **HTML escaping** -- All HTML output should use `htmlspecialchars()` or a template engine
+-   **Documentation** -- No inline PHPDoc for most functions
 
 ---
 
 ## Improvement Plan
 
 ### Quick Fixes
+
 1. Replace `echo "sql error:"` with `error_log()` in `mdwiki_sql.php`
 2. Add `htmlspecialchars()` to all HTML interpolation in `results_2026/` files
 3. Remove `?test=1` debug mode from production or restrict to admin users
 4. Fix duplicate `Results\GetResults` namespace declarations
 
 ### Medium-Term
+
 1. Consolidate three results pipelines into one (keep `results_2026/` as canonical)
 2. Implement PDO connection pooling or singleton pattern
 3. Move HTML generation out of backend into frontend templates
@@ -215,6 +235,7 @@ if ($global_username === 'Mr. Ibrahem') { return $text; }
 5. Replace glob-based includes with explicit `require_once` statements
 
 ### Long-Term
+
 1. Introduce a proper dependency injection container
 2. Create interfaces for data access layer to enable mocking/testing
 3. Implement a template engine (Twig or Plates) for HTML rendering
@@ -222,6 +243,7 @@ if ($global_username === 'Mr. Ibrahem') { return $text; }
 5. Migrate from procedural functions to service classes
 
 ### Security Hardening
+
 1. Implement CSP headers
 2. Restrict debug mode to authenticated admin users only
 3. Add rate limiting on authentication endpoints
@@ -231,25 +253,27 @@ if ($global_username === 'Mr. Ibrahem') { return $text; }
 
 ## Comprehensive Review
 
-| Metric | Score | Notes |
-|--------|-------|-------|
-| **Overall Rating** | 5/10 | Functional but has significant security and maintainability issues |
-| **Production Readiness** | Partial | Works in production but with known XSS and error disclosure risks |
-| **Security Score** | 4/10 | SQL injection protected, but XSS pervasive and error disclosure active |
-| **Technical Debt** | High | Three parallel pipelines, dead code, mixed paradigms |
-| **Maintainability** | 5/10 | Glob includes, duplicate namespaces, no tests |
-| **Risk Assessment** | Medium | XSS could be exploited if database data is compromised |
+| Metric                   | Score   | Notes                                                                  |
+| ------------------------ | ------- | ---------------------------------------------------------------------- |
+| **Overall Rating**       | 5/10    | Functional but has significant security and maintainability issues     |
+| **Production Readiness** | Partial | Works in production but with known XSS and error disclosure risks      |
+| **Security Score**       | 4/10    | SQL injection protected, but XSS pervasive and error disclosure active |
+| **Technical Debt**       | High    | Three parallel pipelines, dead code, mixed paradigms                   |
+| **Maintainability**      | 5/10    | Glob includes, duplicate namespaces, no tests                          |
+| **Risk Assessment**      | Medium  | XSS could be exploited if database data is compromised                 |
 
 ---
 
 ## Setup & Usage
 
 ### Dependencies
+
 ```bash
 composer install
 ```
 
 ### Environment Variables (via `load_env.php` or system env)
+
 ```
 APP_ENV=development|production
 DB_HOST_TOOLS=tools.db.svc.eqiad.wmflabs
@@ -265,15 +289,18 @@ TABLES_PATH=/path/to/tables
 ```
 
 ### Database
+
 Schema is defined in `td.sql` at the project root. Key tables:
-- `settings` -- Core system settings
-- `categories` -- Category and campaign mappings
-- `pages` -- Translation page records
-- `in_process` -- Active translation records
-- `langs` -- Language definitions
-- `qids` -- Wikidata QID mappings
+
+-   `settings` -- Core system settings
+-   `categories` -- Category and campaign mappings
+-   `pages` -- Translation page records
+-   `in_process` -- Active translation records
+-   `langs` -- Language definitions
+-   `qids` -- Wikidata QID mappings
 
 ### Testing
+
 ```bash
 vendor/bin/phpunit tests --testdox
 ```

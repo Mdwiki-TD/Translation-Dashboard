@@ -22,27 +22,27 @@ The WikiProjectMed Translation Dashboard is a custom PHP web application that fa
 
 ### Overall Scores
 
-| Metric | Score | Assessment |
-|--------|-------|------------|
-| **Overall Code Quality** | 5.3/10 | Functional but inconsistent |
-| **Maintainability** | 5.6/10 | Glob includes, mixed paradigms, no tests |
-| **Scalability** | 6/10 | Effective caching, but no connection pooling |
-| **Security Posture** | 4.4/10 | SQL injection prevented; XSS pervasive |
-| **Production Readiness** | 45% | Deployed but with known vulnerabilities |
+| Metric                   | Score  | Assessment                                   |
+| ------------------------ | ------ | -------------------------------------------- |
+| **Overall Code Quality** | 5.3/10 | Functional but inconsistent                  |
+| **Maintainability**      | 5.6/10 | Glob includes, mixed paradigms, no tests     |
+| **Scalability**          | 6/10   | Effective caching, but no connection pooling |
+| **Security Posture**     | 4.4/10 | SQL injection prevented; XSS pervasive       |
+| **Production Readiness** | 45%    | Deployed but with known vulnerabilities      |
 
 ### Module-Level Breakdown
 
-| Module | Rating | Security | Debt | Role |
-|--------|--------|----------|------|------|
-| `src/` (root) | 5/10 | 4/10 | High | Entry points, bootstrap, layout |
-| `src/backend/` | 5/10 | 4/10 | High | Data access, business logic, config |
-| `src/frontend/` | 5/10 | 3/10 | Low | HTML generation helpers |
-| `src/results/` | 5/10 | 3/10 | Medium | Results table presentation |
-| `src/leaderboard/` | 5/10 | 4/10 | Medium-High | Leaderboard system |
-| `src/translate/` | 7/10 | 8/10 | Low | Legacy redirect shim |
-| `src/translate_med/` | 5/10 | 5/10 | Medium | Translation initiation |
-| `src/css/` | 7/10 | N/A | Low | Stylesheets |
-| `src/js/` | 5/10 | N/A | Medium | Client-side JavaScript |
+| Module               | Rating | Security | Debt        | Role                                |
+| -------------------- | ------ | -------- | ----------- | ----------------------------------- |
+| `src/` (root)        | 5/10   | 4/10     | High        | Entry points, bootstrap, layout     |
+| `src/backend/`       | 5/10   | 4/10     | High        | Data access, business logic, config |
+| `src/frontend/`      | 5/10   | 3/10     | Low         | HTML generation helpers             |
+| `src/results/`       | 5/10   | 3/10     | Medium      | Results table presentation          |
+| `src/leaderboard/`   | 5/10   | 4/10     | Medium-High | Leaderboard system                  |
+| `src/translate/`     | 7/10   | 8/10     | Low         | Legacy redirect shim                |
+| `src/translate_med/` | 5/10   | 5/10     | Medium      | Translation initiation              |
+| `src/css/`           | 7/10   | N/A      | Low         | Stylesheets                         |
+| `src/js/`            | 5/10   | N/A      | Medium      | Client-side JavaScript              |
 
 ---
 
@@ -60,14 +60,14 @@ All modules follow the same procedural page-controller approach:
 
 ### Repeated Weaknesses (Systemic)
 
-| Weakness | Occurrences | Modules Affected |
-|----------|-------------|------------------|
+| Weakness                                   | Occurrences                | Modules Affected                                             |
+| ------------------------------------------ | -------------------------- | ------------------------------------------------------------ |
 | **No `htmlspecialchars()` in HTML output** | Every HTML-generating file | frontend, results, leaderboard, backend, root, translate_med |
-| **Debug mode via cookie/GET** | 8+ files | root, backend, leaderboard, translate_med |
-| **Cryptic variable names** | Throughout | All modules |
-| **High function parameter counts** (9-13) | 10+ functions | results, leaderboard |
-| **Dead/deprecated code retained** | 5+ instances | backend, results, leaderboard |
-| **Duplicate code** | 5+ instances | backend (3 pipelines), results, leaderboard, JS |
+| **Debug mode via cookie/GET**              | 8+ files                   | root, backend, leaderboard, translate_med                    |
+| **Cryptic variable names**                 | Throughout                 | All modules                                                  |
+| **High function parameter counts** (9-13)  | 10+ functions              | results, leaderboard                                         |
+| **Dead/deprecated code retained**          | 5+ instances               | backend, results, leaderboard                                |
+| **Duplicate code**                         | 5+ instances               | backend (3 pipelines), results, leaderboard, JS              |
 
 ### Common Technical Debt
 
@@ -83,13 +83,13 @@ All modules follow the same procedural page-controller approach:
 
 ### Dependency Issues
 
-| Issue | Impact |
-|-------|--------|
-| Chart.js v2 API used (`yAxes`/`xAxes`) | Deprecated; will break on Chart.js v4+ |
-| `sorttable.js` (2007) loaded alongside DataTables | Conflict; redundant functionality |
-| Two theme JS files (`theme.js` + `color-modes.js`) | Potential conflicts; duplicated logic |
-| Font Awesome + Bootstrap Icons both loaded | Redundant; inconsistent icon usage |
-| `defuse/php-encryption` v2.4 | Maintained but consider upgrading |
+| Issue                                              | Impact                                 |
+| -------------------------------------------------- | -------------------------------------- |
+| Chart.js v2 API used (`yAxes`/`xAxes`)             | Deprecated; will break on Chart.js v4+ |
+| `sorttable.js` (2007) loaded alongside DataTables  | Conflict; redundant functionality      |
+| Two theme JS files (`theme.js` + `color-modes.js`) | Potential conflicts; duplicated logic  |
+| Font Awesome + Bootstrap Icons both loaded         | Redundant; inconsistent icon usage     |
+| `defuse/php-encryption` v2.4                       | Maintained but consider upgrading      |
 
 ### Integration Concerns
 
@@ -247,72 +247,72 @@ Exposes `apcu_cache_info()` output with no access control. Reveals cache keys, e
 
 These require minimal code changes but address the highest-risk issues:
 
-| # | Fix | Effort | Impact |
-|---|-----|--------|--------|
-| 1 | **Replace `echo "sql error:"` with `error_log()`** in `mdwiki_sql.php` lines 121, 146 | 5 min | Eliminates SQL error disclosure |
-| 2 | **Add `exit;` after all `header("Location: ...")` calls** in `translate/medwiki.php`, `translate_med/medwiki.php`, `translate_med/index.php` | 5 min | Prevents post-redirect code execution |
-| 3 | **Delete or restrict `t.php`** — add admin check or remove file | 10 min | Eliminates cache info exposure |
-| 4 | **Move `load_env.php` credentials to `.env`** and add `.env` to `.gitignore` | 15 min | Removes credentials from repo |
-| 5 | **Remove `console.log()` calls** from `src/js/graph_api.js` | 2 min | Removes debug output from production |
+| #   | Fix                                                                                                                                          | Effort | Impact                                |
+| --- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------ | ------------------------------------- |
+| 1   | **Replace `echo "sql error:"` with `error_log()`** in `mdwiki_sql.php` lines 121, 146                                                        | 5 min  | Eliminates SQL error disclosure       |
+| 2   | **Add `exit;` after all `header("Location: ...")` calls** in `translate/medwiki.php`, `translate_med/medwiki.php`, `translate_med/index.php` | 5 min  | Prevents post-redirect code execution |
+| 3   | **Delete or restrict `t.php`** — add admin check or remove file                                                                              | 10 min | Eliminates cache info exposure        |
+| 4   | **Move `load_env.php` credentials to `.env`** and add `.env` to `.gitignore`                                                                 | 15 min | Removes credentials from repo         |
+| 5   | **Remove `console.log()` calls** from `src/js/graph_api.js`                                                                                  | 2 min  | Removes debug output from production  |
 
 ### Short-Term Improvements (Weeks 2-4)
 
-| # | Improvement | Effort | Impact |
-|---|-------------|--------|--------|
-| 6 | **Create an `e()` helper function** wrapping `htmlspecialchars($val, ENT_QUOTES, 'UTF-8')` in `frontend/html.php` | 1 hr | Foundation for XSS fix |
-| 7 | **Add `htmlspecialchars()` to all HTML output** — systematic sweep of all heredoc blocks in frontend, results, leaderboard, backend, root | 2-3 days | Eliminates XSS vulnerabilities |
-| 8 | **Restrict debug mode to admin users** — check `$GLOBALS['user_is_coordinator']` before enabling `display_errors` | 2 hrs | Prevents debug info exposure |
-| 9 | **Fix `rawurldecode()` order** in `translate_med/index.php` — decode before sanitize, not after | 30 min | Fixes sanitization bypass |
-| 10 | **Delete dead code** — `sorttable.js`, `others/index.php`, deprecated `get_leaderboard_table()`, duplicate `sort_py_PageViews()` | 1 hr | Reduces confusion |
-| 11 | **Fix typos** — `autocomplate.js` → `autocomplete.js`, `taget` → `target`, `$frist` → `$first` | 15 min | Code quality |
+| #   | Improvement                                                                                                                               | Effort   | Impact                         |
+| --- | ----------------------------------------------------------------------------------------------------------------------------------------- | -------- | ------------------------------ |
+| 6   | **Create an `e()` helper function** wrapping `htmlspecialchars($val, ENT_QUOTES, 'UTF-8')` in `frontend/html.php`                         | 1 hr     | Foundation for XSS fix         |
+| 7   | **Add `htmlspecialchars()` to all HTML output** — systematic sweep of all heredoc blocks in frontend, results, leaderboard, backend, root | 2-3 days | Eliminates XSS vulnerabilities |
+| 8   | **Restrict debug mode to admin users** — check `$GLOBALS['user_is_coordinator']` before enabling `display_errors`                         | 2 hrs    | Prevents debug info exposure   |
+| 9   | **Fix `rawurldecode()` order** in `translate_med/index.php` — decode before sanitize, not after                                           | 30 min   | Fixes sanitization bypass      |
+| 10  | **Delete dead code** — `sorttable.js`, `others/index.php`, deprecated `get_leaderboard_table()`, duplicate `sort_py_PageViews()`          | 1 hr     | Reduces confusion              |
+| 11  | **Fix typos** — `autocomplate.js` → `autocomplete.js`, `taget` → `target`, `$frist` → `$first`                                            | 15 min   | Code quality                   |
 
 ### Medium-Term Improvements (Months 1-3)
 
-| # | Improvement | Effort | Impact |
-|---|-------------|--------|--------|
-| 12 | **Consolidate results pipelines** — remove `get_titles/` and `new_way/`, keep only `results_2026/` | 1-2 days | Eliminates major duplication |
-| 13 | **Replace glob includes with explicit requires** in `include_all.php` and all `include.php` files | 1 day | Makes dependencies explicit |
-| 14 | **Align namespaces with PSR-4** — either move `html.php` to `src/renders/` or update `composer.json` | 2 hrs | Fixes autoload mismatch |
-| 15 | **Consolidate JS theme systems** — choose `theme.js` or `color-modes.js`, remove the other | 2 hrs | Eliminates conflicts |
-| 16 | **Update Chart.js API** — migrate `g.js` from v2 to v3+ scales format | 2 hrs | Prevents future breakage |
-| 17 | **Add CSRF tokens** to `translate_med/index.php` form submission | 2 hrs | Prevents CSRF attacks |
-| 18 | **Create data classes** for translation entries — replace 12+ parameter functions with structured objects | 2-3 days | Reduces complexity |
-| 19 | **Extract HTML from backend** — move `results_2026/*.php` HTML generation to frontend templates | 2-3 days | Separates concerns |
+| #   | Improvement                                                                                               | Effort   | Impact                       |
+| --- | --------------------------------------------------------------------------------------------------------- | -------- | ---------------------------- |
+| 12  | **Consolidate results pipelines** — remove `get_titles/` and `new_way/`, keep only `results_2026/`        | 1-2 days | Eliminates major duplication |
+| 13  | **Replace glob includes with explicit requires** in `include_all.php` and all `include.php` files         | 1 day    | Makes dependencies explicit  |
+| 14  | **Align namespaces with PSR-4** — either move `html.php` to `src/renders/` or update `composer.json`      | 2 hrs    | Fixes autoload mismatch      |
+| 15  | **Consolidate JS theme systems** — choose `theme.js` or `color-modes.js`, remove the other                | 2 hrs    | Eliminates conflicts         |
+| 16  | **Update Chart.js API** — migrate `g.js` from v2 to v3+ scales format                                     | 2 hrs    | Prevents future breakage     |
+| 17  | **Add CSRF tokens** to `translate_med/index.php` form submission                                          | 2 hrs    | Prevents CSRF attacks        |
+| 18  | **Create data classes** for translation entries — replace 12+ parameter functions with structured objects | 2-3 days | Reduces complexity           |
+| 19  | **Extract HTML from backend** — move `results_2026/*.php` HTML generation to frontend templates           | 2-3 days | Separates concerns           |
 
 ### Long-Term Strategic Refactoring (Months 3-6)
 
-| # | Refactoring | Effort | Impact |
-|---|-------------|--------|--------|
-| 20 | **Introduce a template engine** (Twig or Plates) for automatic HTML escaping | 1 week | Eliminates XSS class of vulnerabilities |
-| 21 | **Implement PDO connection pooling** or singleton pattern | 1 day | Reduces connection overhead |
-| 22 | **Add comprehensive unit tests** for backend modules | 2-3 weeks | Prevents regressions |
-| 23 | **Implement a simple router** (Slim or custom) for clean URLs | 1 week | Replaces direct file access |
-| 24 | **Create a dependency injection container** | 1 week | Replaces global state |
-| 25 | **Add API endpoint tests** with mock responses | 1 week | Validates external integrations |
-| 26 | **Implement CSP headers** | 1 day | Defense-in-depth for XSS |
+| #   | Refactoring                                                                  | Effort    | Impact                                  |
+| --- | ---------------------------------------------------------------------------- | --------- | --------------------------------------- |
+| 20  | **Introduce a template engine** (Twig or Plates) for automatic HTML escaping | 1 week    | Eliminates XSS class of vulnerabilities |
+| 21  | **Implement PDO connection pooling** or singleton pattern                    | 1 day     | Reduces connection overhead             |
+| 22  | **Add comprehensive unit tests** for backend modules                         | 2-3 weeks | Prevents regressions                    |
+| 23  | **Implement a simple router** (Slim or custom) for clean URLs                | 1 week    | Replaces direct file access             |
+| 24  | **Create a dependency injection container**                                  | 1 week    | Replaces global state                   |
+| 25  | **Add API endpoint tests** with mock responses                               | 1 week    | Validates external integrations         |
+| 26  | **Implement CSP headers**                                                    | 1 day     | Defense-in-depth for XSS                |
 
 ### Security Hardening Priorities
 
-| Priority | Action | Current State | Target State |
-|----------|--------|---------------|--------------|
-| **P0** | XSS elimination | 0% output encoding | 100% output encoding |
-| **P0** | SQL error disclosure | Errors echoed to browser | Errors logged only |
-| **P0** | Credential management | Hardcoded in repo | `.env` files, excluded from git |
-| **P1** | Debug mode restriction | Any user can enable | Admin-only or removed |
-| **P1** | CSRF protection | None | Tokens on all state-changing operations |
-| **P2** | CSP headers | None | Strict CSP with nonce-based scripts |
-| **P2** | Rate limiting | None | On auth and API endpoints |
+| Priority | Action                 | Current State            | Target State                            |
+| -------- | ---------------------- | ------------------------ | --------------------------------------- |
+| **P0**   | XSS elimination        | 0% output encoding       | 100% output encoding                    |
+| **P0**   | SQL error disclosure   | Errors echoed to browser | Errors logged only                      |
+| **P0**   | Credential management  | Hardcoded in repo        | `.env` files, excluded from git         |
+| **P1**   | Debug mode restriction | Any user can enable      | Admin-only or removed                   |
+| **P1**   | CSRF protection        | None                     | Tokens on all state-changing operations |
+| **P2**   | CSP headers            | None                     | Strict CSP with nonce-based scripts     |
+| **P2**   | Rate limiting          | None                     | On auth and API endpoints               |
 
 ### DevOps and Testing Recommendations
 
-| Area | Recommendation |
-|------|----------------|
-| **CI/CD** | Add PHPStan to CI pipeline (already configured as dev dependency) |
-| **Testing** | Target 80% coverage for `backend/api_or_sql/` and `backend/results/` |
-| **Linting** | Add PHP-CS-Fixer for consistent code style |
-| **Monitoring** | Add error logging (currently errors are echoed, not logged) |
-| **Dependency scanning** | Add Composer audit to CI for vulnerable packages |
-| **Code review** | Require review for changes to `api_calls/mdwiki_sql.php` and `settings.php` |
+| Area                    | Recommendation                                                              |
+| ----------------------- | --------------------------------------------------------------------------- |
+| **CI/CD**               | Add PHPStan to CI pipeline (already configured as dev dependency)           |
+| **Testing**             | Target 80% coverage for `backend/api_or_sql/` and `backend/results/`        |
+| **Linting**             | Add PHP-CS-Fixer for consistent code style                                  |
+| **Monitoring**          | Add error logging (currently errors are echoed, not logged)                 |
+| **Dependency scanning** | Add Composer audit to CI for vulnerable packages                            |
+| **Code review**         | Require review for changes to `api_calls/mdwiki_sql.php` and `settings.php` |
 
 ---
 
@@ -320,13 +320,13 @@ These require minimal code changes but address the highest-risk issues:
 
 ### Overall Project Score
 
-| Metric | Score |
-|--------|-------|
-| **Overall Score** | **5/10** |
-| **Risk Level** | **HIGH** |
-| **Technical Debt Level** | **HIGH** |
-| **Production Readiness** | **45%** |
-| **Security Score** | **4.4/10** |
+| Metric                   | Score      |
+| ------------------------ | ---------- |
+| **Overall Score**        | **5/10**   |
+| **Risk Level**           | **HIGH**   |
+| **Technical Debt Level** | **HIGH**   |
+| **Production Readiness** | **45%**    |
+| **Security Score**       | **4.4/10** |
 
 ### Summary
 
@@ -334,10 +334,10 @@ The Translation Dashboard is a functional application that serves its purpose �
 
 However, the codebase carries significant risk:
 
-- **XSS is the #1 issue** — no output encoding exists anywhere in the codebase. This is a systemic problem that requires a systematic fix (either add `htmlspecialchars()` everywhere or adopt a template engine).
-- **SQL error disclosure** and **debug mode exposure** are easily fixable but currently active.
-- **Technical debt** is concentrated in the backend, where three parallel results pipelines and glob-based creates maintenance burden.
-- **No test coverage** for backend business logic means refactoring carries high risk.
+-   **XSS is the #1 issue** — no output encoding exists anywhere in the codebase. This is a systemic problem that requires a systematic fix (either add `htmlspecialchars()` everywhere or adopt a template engine).
+-   **SQL error disclosure** and **debug mode exposure** are easily fixable but currently active.
+-   **Technical debt** is concentrated in the backend, where three parallel results pipelines and glob-based creates maintenance burden.
+-   **No test coverage** for backend business logic means refactoring carries high risk.
 
 ### Recommended Next Steps
 
@@ -351,4 +351,4 @@ The application is not production-ready by modern security standards, but the pa
 
 ---
 
-*Report generated from analysis of 10 module README files covering 80+ PHP files, 15+ JS/CSS files, and `composer.json` configuration.*
+_Report generated from analysis of 10 module README files covering 80+ PHP files, 15+ JS/CSS files, and `composer.json` configuration._
