@@ -9,7 +9,7 @@ use function Results\Helps\make_translate_urls;
 
 function make_tds_rows_responsive($full, $tds)
 {
-    $mdwiki_url = $tds["mdwiki_url"];
+    $mdwikiUrl = $tds["mdwiki_url"];
     $cnt    = $tds["cnt"];
     $tab    = $tds["tab"];
     $traType = $tds["tra_type"] ?? "";
@@ -24,13 +24,13 @@ function make_tds_rows_responsive($full, $tds)
     //---
     $cnt2 = $full && (strtolower(substr($title, 0, 6)) != 'video:') ? "$cnt.Full" : $cnt;
     //---
-    $td_rows = <<<HTML
+    $tdRows = <<<HTML
         <tr class=''>
             <th class='num' scope="row">
                 $cnt2
             </th>
             <td class='link_container'>
-                <a target='_blank' href='$mdwiki_url'>$title</a>
+                <a target='_blank' href='$mdwikiUrl'>$title</a>
             </td>
             <th class=''>
                 $tab
@@ -61,7 +61,7 @@ function make_tds_rows_responsive($full, $tds)
             </td>
         </tr>
     HTML;
-    return $td_rows;
+    return $tdRows;
 }
 
 function make_one_row_new_inprocess(
@@ -71,40 +71,40 @@ function make_one_row_new_inprocess(
     $langcode,
     $cat,
     $camp,
-    $inprocess_table,
+    $inprocessTable,
     $inProgressBtn,
     $full,
-    $full_tr_user,
-    $global_username,
-    $title_data,
+    $fullTrUser,
+    $globalUsername,
+    $titleData,
     $endpoint,
-    $user_coord
+    $userCoord
 ) {
     //---
     // inprocess_table = { "title": "Andes virus infection", "user": "Mr. Ibrahem", "lang": "ar", "cat": "RTT", "translate_type": "all", "word": 0, "add_date": "2026-05-21 00:00:00", "campaign": "Main", "autonym": "العربية" }
-    $_user_ = $inprocess_table['user'] ?? '';
-    $_date_ = $inprocess_table['date'] ?? $inprocess_table['add_date'] ?? '';
+    $_user_ = $inprocessTable['user'] ?? '';
+    $_date_ = $inprocessTable['date'] ?? $inprocessTable['add_date'] ?? '';
     //---
-    $word     = $title_data['w_lead_words'] ?? 0;
-    $refs     = $title_data['r_lead_refs'] ?? 0;
-    $importance = $title_data['importance'] ?? "";
-    $en_views = $title_data['en_views'] ?? "";
-    $qid      = $title_data['qid'] ?? "";
+    $word     = $titleData['w_lead_words'] ?? 0;
+    $refs     = $titleData['r_lead_refs'] ?? 0;
+    $importance = $titleData['importance'] ?? "";
+    $enViews = $titleData['en_views'] ?? "";
+    $qid      = $titleData['qid'] ?? "";
     //---
     if ($traType == 'all') {
-        $word  = $title_data['w_all_words'] ?? 0;
-        $refs  = $title_data['r_all_refs'] ?? 0;
+        $word  = $titleData['w_all_words'] ?? 0;
+        $refs  = $titleData['r_all_refs'] ?? 0;
     }
     //---
     if (empty($importance)) $importance = 'Unknown';
     //---
-    $qid_url = make_wikidata_url_blank($qid);
+    $qidUrl = make_wikidata_url_blank($qid);
     //---
-    $login_user_is_the_translator = (!empty($global_username) && $_user_ == $global_username) || $user_coord;
+    $loginUserIsTheTranslator = (!empty($globalUsername) && $_user_ == $globalUsername) || $userCoord;
     //---
-    $mdwiki_url = make_mdwiki_href($title);
+    $mdwikiUrl = make_mdwiki_href($title);
     //---
-    [$tab, $translate_url, $_] = make_translate_urls(
+    [$tab, $translateUrl, $_] = make_translate_urls(
         $title,
         $traType,
         $word,
@@ -114,8 +114,8 @@ function make_one_row_new_inprocess(
         true,
         $inProgressBtn,
         $_user_,
-        $full_tr_user,
-        $login_user_is_the_translator,
+        $fullTrUser,
+        $loginUserIsTheTranslator,
         $endpoint
     );
     //---
@@ -124,23 +124,23 @@ function make_one_row_new_inprocess(
         $_date_ = explode(' ', $_date_)[0];
     };
     //---
-    if (empty($global_username)) {
+    if (empty($globalUsername)) {
         $tab = "";
     }
     //---
     $tds = [
         "in_progress_translation_button" => $inProgressBtn,
-        "translate_url" => $translate_url,
-        "mdwiki_url" => $mdwiki_url,
+        "translate_url" => $translateUrl,
+        "mdwiki_url" => $mdwikiUrl,
         "cnt" => $cnt,
         "title" => $title,
         "tab" => $tab,
         "tra_type" => $traType,
-        "pageviews" => $en_views,
+        "pageviews" => $enViews,
         "asse" => $importance,
         "words" => $word,
         "refs" => $refs,
-        "qid" => $qid_url,
+        "qid" => $qidUrl,
         "user" => $_user_,
         "date" => $_date_
     ];

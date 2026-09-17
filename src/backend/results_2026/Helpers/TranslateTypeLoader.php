@@ -6,24 +6,24 @@ use function SQLorAPI\GetDataTab\get_td_or_sql_translate_type;
 
 function load_translate_type($ty)
 {
-    static $full_translates = [];
-    static $no_lead_translates = [];
+    static $fullTranslates = [];
+    static $noLeadTranslates = [];
 
-    if (empty($full_translates)) {
+    if (empty($fullTranslates)) {
         $rere = get_td_or_sql_translate_type();
         //---
         foreach ($rere as $k => $tab) {
-            // if tt_full == 1 then add tt_title to $full_translates
+            // if tt_full == 1 then add tt_title to $fullTranslates
             if ($tab['tt_full'] == 1) {
-                $full_translates[] = $tab['tt_title'];
+                $fullTranslates[] = $tab['tt_title'];
             }
             if ($tab['tt_lead'] == 0) {
-                $no_lead_translates[] = $tab['tt_title'];
+                $noLeadTranslates[] = $tab['tt_title'];
             }
         }
     }
 
-    $tab = ($ty == 'full') ? $full_translates : $no_lead_translates;
+    $tab = ($ty == 'full') ? $fullTranslates : $noLeadTranslates;
 
     return $tab;
 }

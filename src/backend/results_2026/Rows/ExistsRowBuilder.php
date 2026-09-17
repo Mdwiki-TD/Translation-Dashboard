@@ -13,37 +13,37 @@ function make_one_row_exists_2026(
     $langcode,
     $cat,
     $camp,
-    $title_data,
-    $global_username,
-    $user_coord,
+    $titleData,
+    $globalUsername,
+    $userCoord,
     $endpoint
 ) {
     //---
     // target_tab = { "title": "11p deletion syndrome", "category": "RTT", "importance": "", "r_lead_refs": 5, "r_all_refs": 14, "en_views": 838, "w_lead_words": 221, "w_all_words": 547, "qid": "Q1892153", "target": "متلازمة واجر" , "via":td" }
     //---
-    $importance  = $title_data['importance'] ?? "Unknown";
+    $importance  = $titleData['importance'] ?? "Unknown";
     //---
-    $words = $title_data['w_lead_words'] ?? 0;
-    $refs  = $title_data['r_lead_refs'] ?? 0;
-    $pageviews = $title_data['en_views'] ?? 0;
-    $qid = $title_data['qid'] ?? "";
+    $words = $titleData['w_lead_words'] ?? 0;
+    $refs  = $titleData['r_lead_refs'] ?? 0;
+    $pageviews = $titleData['en_views'] ?? 0;
+    $qid = $titleData['qid'] ?? "";
     //---
     $mdwiki_a_tag = make_mdwiki_article_url_blank($title);
     //---
-    $qid_url = make_wikidata_url_blank($qid);
+    $qidUrl = make_wikidata_url_blank($qid);
     //---
-    $target_tab = "";
-    $target_tab2 = "";
+    $targetTab = "";
+    $targetTab2 = "";
     //---
-    if ($title_data['target']) {
-        if ($title_data["via"] === "td") {
-            $target_tab = make_wikipedia_url_blank($title_data['target'], $langcode);
+    if ($titleData['target']) {
+        if ($titleData["via"] === "td") {
+            $targetTab = make_wikipedia_url_blank($titleData['target'], $langcode);
         } else {
-            $target_tab2 = make_wikipedia_url_blank($title_data['target'], $langcode);
+            $targetTab2 = make_wikipedia_url_blank($titleData['target'], $langcode);
         }
     }
     //---
-    $translate_url = make_ContentTranslation_url(
+    $translateUrl = make_ContentTranslation_url(
         $title,
         $langcode,
         $cat,
@@ -52,9 +52,9 @@ function make_one_row_exists_2026(
         $endpoint
     );
     //---
-    $tab = (!empty($global_username) && $user_coord) ? <<<HTML
+    $tab = (!empty($globalUsername) && $userCoord) ? <<<HTML
         <div class='inline'>
-            <a href='$translate_url' class='btn btn-outline-primary btn-sm' target='_blank'>Translate</a>
+            <a href='$translateUrl' class='btn btn-outline-primary btn-sm' target='_blank'>Translate</a>
         </div>
     HTML : "";
     //---
@@ -75,7 +75,7 @@ function make_one_row_exists_2026(
     //---
     $td22 = "";
     //---
-    $td_rows = <<<HTML
+    $tdRows = <<<HTML
         <th class='' scope="row" style="text-align: center">
             $cnt
         </th>
@@ -86,18 +86,18 @@ function make_one_row_exists_2026(
             $tab
         </td>
         <td>
-            $target_tab
+            $targetTab
         </td>
         <td>
-            $target_tab2
+            $targetTab2
         </td>
         $td22
         <td>
-            $qid_url
+            $qidUrl
         </td>
     HTML;
     //---
-    $td_rows = "<tr class=''>$td_rows</tr>";
+    $tdRows = "<tr class=''>$tdRows</tr>";
     //---
-    return $td_rows;
+    return $tdRows;
 }

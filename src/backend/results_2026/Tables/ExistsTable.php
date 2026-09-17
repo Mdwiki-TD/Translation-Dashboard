@@ -7,27 +7,27 @@ function make_results_table_exists_2026(
     $langcode,
     $cat,
     $camp,
-    $global_username,
-    $user_coord,
+    $globalUsername,
+    $userCoord,
     $endpoint
 ) {
     //---
     $list = "";
     //---
     $cnt = 1;
-    $count_translated = 0;
-    $count_translated_before = 0;
+    $countTranslated = 0;
+    $countTranslatedBefore = 0;
     //---
-    foreach ($items as $title => $target_tab) {
+    foreach ($items as $title => $targetTab) {
 
         if (empty($title)) continue;
 
         $title = str_replace('_', ' ', $title);
         //---
-        if ($target_tab["via"] === "td") {
-            $count_translated += 1;
+        if ($targetTab["via"] === "td") {
+            $countTranslated += 1;
         } else {
-            $count_translated_before += 1;
+            $countTranslatedBefore += 1;
         }
         //---
         $row = make_one_row_exists_2026(
@@ -36,9 +36,9 @@ function make_results_table_exists_2026(
             $langcode,
             $cat,
             $camp,
-            $target_tab,
-            $global_username,
-            $user_coord,
+            $targetTab,
+            $globalUsername,
+            $userCoord,
             $endpoint
         );
         //---
@@ -78,10 +78,10 @@ function make_results_table_exists_2026(
                         <span class=''>Translate</span>
                     </th>
                     <th class="">
-                        Translated ($count_translated)
+                        Translated ($countTranslated)
                     </th>
                     <th class="">
-                        Translated before ($count_translated_before)
+                        Translated before ($countTranslatedBefore)
                     </th>
                     $th22
                     <th class="spannowrap" style="text-align: center">

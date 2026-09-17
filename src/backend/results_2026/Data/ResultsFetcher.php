@@ -21,13 +21,13 @@ function get(string $cat, string $code): array
 
     // { "title": "Alpha-gal syndrome", "category": "RTT", "importance": "Mid", "r_lead_refs": 0, "r_all_refs": 0, "en_views": 15, "w_lead_words": 0, "w_all_words": 0, "qid": "Q16242785" }
     $itemsMissing = missing_by_lang_and_category($code, $cat);
-    // $items_missing = array_column($items_missing, "title");
+    // $itemsMissing = array_column($itemsMissing, "title");
     // --
     // { "title": "11p deletion syndrome", "category": "RTT", "importance": "", "r_lead_refs": 5, "r_all_refs": 14, "en_views": 838, "w_lead_words": 221, "w_all_words": 547, "qid": "Q1892153", "target": "متلازمة واجر" }
     $itemsExists  = exists_by_lang_and_category($code, $cat);
     $itemsExists = array_column($itemsExists, null, "title");
 
-    // add column to all $items_exists ("via" => "before") or ("via" => "td") if title in $exists_via_td
+    // add column to all $itemsExists ("via" => "before") or ("via" => "td") if title in $existsViaTd
     foreach ($itemsExists as $title => &$item) {
         if (isset($existsViaTd[$title])) {
             $item['via'] = 'td';

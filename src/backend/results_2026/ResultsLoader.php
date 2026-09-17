@@ -26,7 +26,7 @@ function results_loader_2026($data)
     $fullTranslators = get_td_or_sql_full_translators();
     $fullTranslators = array_column($fullTranslators, 'is_active', 'user');
 
-    $fullTr_user = ($fullTranslators[$globalUsername] ?? 0) == 1;
+    $fullTrUser = ($fullTranslators[$globalUsername] ?? 0) == 1;
 
     $resultsList = get($cat, $code);
 
@@ -51,7 +51,7 @@ function results_loader_2026($data)
         $tab,
         $showExists,
         $inProgressBtn,
-        $fullTr_user,
+        $fullTrUser,
         $_titles_infos,
         $noLeadTranslates,
         $fullTranslates,
@@ -76,14 +76,14 @@ function Results_tables_2026(
     $traType   = $tab["tra_type"];
     $test       = $tab["test"];
 
-    $codeLang_name  = $tab["code_lang_name"];
+    $codeLangName  = $tab["code_lang_name"];
     $globalUser = $tab["global_username"];
     $userCoord      = $tab["user_coord"];
 
     $html = "";
 
     if (!empty($test)) {
-        $html .= "code:$code<br>code_lang_name:$codeLang_name<br>";
+        $html .= "code:$code<br>code_lang_name:$codeLangName<br>";
     };
 
     $results = $tab["results_list"];

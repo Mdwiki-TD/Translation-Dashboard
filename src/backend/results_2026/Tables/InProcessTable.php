@@ -6,35 +6,35 @@ use function Results\ResultsTableHtml\make_table_start;
 use function Results\GetResults2026\Rows\make_one_row_new_inprocess;
 
 function make_results_table_inprocess(
-    $inprocess_table,
+    $inprocessTable,
     $langcode,
     $cat,
     $camp,
     $inProgressBtn,
-    $full_tr_user,
-    $global_username,
+    $fullTrUser,
+    $globalUsername,
     $titlesInfos,
     $endpoint,
-    $user_coord
+    $userCoord
 ): string {
     //---
-    // $inprocess_table = normalizeItems($inprocess_table);
+    // $inprocessTable = normalizeItems($inprocessTable);
     //---
     $frist = make_table_start(true, $inProgressBtn);
     //---
     $list = "";
     $cnt = 1;
     //---
-    foreach ($inprocess_table as $title => $title_tab) {
+    foreach ($inprocessTable as $title => $titleTab) {
 
         if (empty($title)) continue;
 
         $title = str_replace('_', ' ', $title);
         //---
-        $title_data = $titlesInfos[$title] ?? [];
+        $titleData = $titlesInfos[$title] ?? [];
         //---
         // { "title": "Andes virus infection", "user": "Mr. Ibrahem", "lang": "ar", "cat": "RTT", "translate_type": "all", "word": 0, "add_date": "2026-05-21 00:00:00", "campaign": "Main", "autonym": "العربية" }
-        $traType = $title_tab['translate_type'] ?? '';
+        $traType = $titleTab['translate_type'] ?? '';
         //---
         $full = false;
         //---
@@ -50,14 +50,14 @@ function make_results_table_inprocess(
             $langcode,
             $cat,
             $camp,
-            $title_tab,
+            $titleTab,
             $inProgressBtn,
             $full,
-            $full_tr_user,
-            $global_username,
-            $title_data,
+            $fullTrUser,
+            $globalUsername,
+            $titleData,
             $endpoint,
-            $user_coord
+            $userCoord
         );
         //--
         $list .= $row;

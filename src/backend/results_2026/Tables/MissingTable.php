@@ -11,13 +11,13 @@ function make_results_table_2026(
     $cat,
     $camp,
     $traType,
-    $full_tr_user,
-    $global_username,
+    $fullTrUser,
+    $globalUsername,
     $noLeadTranslates,
     $fullTranslates
 ) {
     //---
-    $do_full   = ($traType == 'all') ? false : true;
+    $doFull   = ($traType == 'all') ? false : true;
     //---
     $frist = make_table_start(false, false);
     //---
@@ -34,7 +34,7 @@ function make_results_table_2026(
     $list = "";
     $cnt = 1;
     //---
-    foreach ($items as $title => $title_data) {
+    foreach ($items as $title => $titleData) {
 
         if (empty($title)) continue;
 
@@ -54,29 +54,29 @@ function make_results_table_2026(
             $cat,
             $camp,
             false,
-            $full_tr_user,
-            $global_username,
-            $title_data
+            $fullTrUser,
+            $globalUsername,
+            $titleData
         );
         //---
         // if full translates not allowed
-        if (!$do_full || $full_tr_user) {
+        if (!$doFull || $fullTrUser) {
             $list .= $row;
             $cnt++;
             continue;
         }
         //---
-        // if title in no_lead_translates array then $no_lead = true
-        $no_lead = (in_array($title, $noLeadTranslates)) ? true : false;
+        // if title in no_lead_translates array then $noLead = true
+        $noLead = (in_array($title, $noLeadTranslates)) ? true : false;
         //---
         // if title in full_translates array then $full = true
         $full = (in_array($title, $fullTranslates)) ? true : false;
         //---
-        if ($no_lead && !$full) {
+        if ($noLead && !$full) {
             continue;
         }
         //---
-        if (!$no_lead) {
+        if (!$noLead) {
             $list .= $row;
         }
         //---
@@ -89,9 +89,9 @@ function make_results_table_2026(
                 $cat,
                 $camp,
                 true,
-                $full_tr_user,
-                $global_username,
-                $title_data
+                $fullTrUser,
+                $globalUsername,
+                $titleData
             );
         }
         //---
