@@ -936,7 +936,7 @@ class ResultsLoader
         $cat          = $data["cat"] ?? '';
         $showExists   = (bool)($data["show_exists"] ?? false);
         $globalUser   = $data["global_username"] ?? null;
-        $inProgressBtn = (bool)($data["in_progress_translation_button"] ?? false);
+        $inProgressButton = (bool)($data["in_progress_translation_button"] ?? false);
         $traType      = $data["tra_type"] ?? "lead";
         $userCoord    = (bool)($data["user_coord"] ?? false);
         $test         = !empty($data["test"]);
@@ -989,7 +989,7 @@ class ResultsLoader
                 $code,
                 $cat,
                 $camp,
-                $inProgressBtn,
+                $inProgressButton,
                 $fullTrUser,
                 $globalUser,
                 $titlesInfos,
@@ -1096,4 +1096,3 @@ include_once __DIR__ . "/index.php";
 ```
 
 ---
-
