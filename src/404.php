@@ -1,7 +1,7 @@
 <?php
 http_response_code(404);
 //---
-include_once __DIR__ . '/include_all.php';
+include_once __DIR__ . '/app/include_all.php';
 include_once __DIR__ . '/header.php';
 //---
 function print_h3_title($h3_title)

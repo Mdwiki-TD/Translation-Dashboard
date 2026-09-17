@@ -1,6 +1,6 @@
 <?php
 //---
-include_once __DIR__ . '/include_all.php';
+include_once __DIR__ . '/app/include_all.php';
 include_once __DIR__ . '/header.php';
 //---
 

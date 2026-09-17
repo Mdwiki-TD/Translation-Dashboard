@@ -7,10 +7,10 @@ if ($env === 'development' && file_exists(__DIR__ . '/load_env.php')) {
     include_once __DIR__ . '/load_env.php';
 }
 
-$vendorAutoload = __DIR__ . '/vendor/autoload.php';
+$vendorAutoload = dirname(__DIR__) . '/vendor/autoload.php';
 
 if (!file_exists($vendorAutoload)) {
-    $vendorAutoload = dirname(__DIR__) . '/vendor/autoload.php';
+    $vendorAutoload = dirname(dirname(__DIR__)) . '/vendor/autoload.php';
 }
 
 if (file_exists($vendorAutoload)) {

@@ -1,6 +1,6 @@
 <?PHP
 
-include_once __DIR__ . '/include_all.php';
+include_once __DIR__ . '/app/include_all.php';
 include_once __DIR__ . '/header.php';
 
 use function SQLorAPI\Funcs\statics_by_category;
