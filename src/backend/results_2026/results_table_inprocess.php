@@ -76,12 +76,13 @@ function make_one_row_new_inprocess(
     $cat,
     $camp,
     $inprocess_table,
-    $tra_btn,
+    $in_progress_translation_button,
     $full,
     $full_tr_user,
     $global_username,
     $title_data,
-    $endpoint
+    $endpoint,
+    $user_coord
 ) {
     //---
     // inprocess_table = { "title": "Andes virus infection", "user": "Mr. Ibrahem", "lang": "ar", "cat": "RTT", "translate_type": "all", "word": 0, "add_date": "2026-05-21 00:00:00", "campaign": "Main", "autonym": "العربية" }
@@ -103,7 +104,7 @@ function make_one_row_new_inprocess(
     //---
     $qid_url = make_wikidata_url_blank($qid);
     //---
-    $_user_no_as_global_username = $_user_ != $global_username;
+    $login_user_is_the_translator = $_user_ == $global_username || $user_coord;
     //---
     $mdwiki_url = make_mdwiki_href($title);
     //---
@@ -111,7 +112,7 @@ function make_one_row_new_inprocess(
     //---
     $translate_url = $mdwiki_url;
     //---
-    if ($tra_btn != '1') {
+    if ($in_progress_translation_button != 1) {
         $translate_url = "";
     } elseif (!empty($global_username)) {
         [$tab, $translate_url, $_] = make_translate_urls(
@@ -122,10 +123,10 @@ function make_one_row_new_inprocess(
             $cat,
             $camp,
             true,
-            $tra_btn,
+            $in_progress_translation_button,
             $_user_,
             $full_tr_user,
-            $_user_no_as_global_username,
+            $login_user_is_the_translator,
             $endpoint
         );
     }
@@ -136,7 +137,7 @@ function make_one_row_new_inprocess(
     };
     //---
     $tds = [
-        "tra_btn" => $tra_btn,
+        "in_progress_translation_button" => $in_progress_translation_button,
         "translate_url" => $translate_url,
         "mdwiki_url" => $mdwiki_url,
         "cnt" => $cnt,
@@ -158,16 +159,17 @@ function make_results_table_inprocess(
     $langcode,
     $cat,
     $camp,
-    $tra_btn,
+    $in_progress_translation_button,
     $full_tr_user,
     $global_username,
     $titles_infos_items,
-    $endpoint
+    $endpoint,
+    $user_coord
 ) {
     //---
     // $inprocess_table = normalizeItems($inprocess_table);
     //---
-    $frist = make_table_start(true, $tra_btn);
+    $frist = make_table_start(true, $in_progress_translation_button);
     //---
     $list = "";
     $cnt = 1;
@@ -198,12 +200,13 @@ function make_results_table_inprocess(
             $cat,
             $camp,
             $title_tab,
-            $tra_btn,
+            $in_progress_translation_button,
             $full,
             $full_tr_user,
             $global_username,
             $title_data,
-            $endpoint
+            $endpoint,
+            $user_coord
         );
         //--
         $list .= $row;

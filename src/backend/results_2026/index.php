@@ -67,7 +67,7 @@ function card_result($title, $text, $title2 = "")
 function Results_tables_2026(
     $tab,
     $show_exists,
-    $translation_button,
+    $in_progress_translation_button,
     $full_tr_user,
     $_titles_infos,
     $nolead_translates,
@@ -129,18 +129,19 @@ function Results_tables_2026(
     //---
     if ($len_inprocess > 0) {
         //---
-        $translation_button = ($user_coord) ? $translation_button : false;
+        // $in_progress_translation_button = ($user_coord) ? $in_progress_translation_button : false;
         //---
         $table_2 = make_results_table_inprocess(
             $p_inprocess,
             $code,
             $cat,
             $camp,
-            $translation_button,
+            $in_progress_translation_button,
             $full_tr_user,
             $global_username,
             $titles_infos_items,
-            $endpoint
+            $endpoint,
+            $user_coord
         );
         //---
         $html_result .= card_result("In process: ($len_inprocess)", $table_2);
@@ -178,7 +179,7 @@ function results_loader_2026($data)
     $show_exists = $data["show_exists"];
     // ---
     $global_username  = $data["global_username"];
-    $translate_button = $data["translation_button"];
+    $in_progress_translation_button = $data["in_progress_translation_button"];
     // ---
     $full_translators = get_td_or_sql_full_translators();
     $full_translators = array_column($full_translators, 'is_active', 'user');
@@ -207,7 +208,7 @@ function results_loader_2026($data)
     return Results_tables_2026(
         $tab,
         $show_exists,
-        $translate_button,
+        $in_progress_translation_button,
         $full_tr_user,
         $_titles_infos,
         $nolead_translates,

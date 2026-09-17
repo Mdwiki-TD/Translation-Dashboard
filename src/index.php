@@ -255,11 +255,9 @@ if ($camp && $code) {
     $user_coord = $GLOBALS['user_is_coordinator'] ?? false;
     $show_exists = ($user_coord || isset($_GET['exists']));
     // ---
-    $translation_button = $settings['translation_button_in_progress_table']['value'] ?? '0';
+    $in_progress_translation_button = $settings['translation_button_in_progress_table']['value'] ?? '0';
     //---
-    if ($translation_button != "0") {
-        $translation_button = $user_coord ? '1' : '0';
-    };
+    // if ($in_progress_translation_button != "0") $in_progress_translation_button = $user_coord ? '1' : '0';
     //---
     $depth     = $camps_data[$camp]["depth"] ?? 1;
     $category2 = $camps_data[$camp]["category2"] ?? "";
@@ -279,7 +277,7 @@ if ($camp && $code) {
         "user_coord" => $user_coord,
 
         "show_exists" => $show_exists,
-        "translation_button" => $translation_button,
+        "in_progress_translation_button" => $in_progress_translation_button,
         "test" => $test
     ];
     // ---
