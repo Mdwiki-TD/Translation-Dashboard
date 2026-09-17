@@ -13,7 +13,7 @@ The `src/` directory is the root of the WikiProjectMed Translation Dashboard app
 - **Coordinator tools** -- Admin tools via external `/tdc/` system
 
 ### Technologies
-- PHP 8.2+
+- PHP 8.4+
 - Bootstrap 5 (CSS framework)
 - jQuery 3.7.0 + jQuery UI 1.13.2
 - DataTables 2.2.2

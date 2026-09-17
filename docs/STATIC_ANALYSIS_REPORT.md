@@ -1,7 +1,7 @@
 # Static Analysis Report - Translation Dashboard
 
 **Generated:** 2026-02-15
-**PHP Version:** 8.2+
+**PHP Version:** 8.4+
 **Analysis Tool:** Claude Code Static Analysis
 
 ---
