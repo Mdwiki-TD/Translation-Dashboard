@@ -149,7 +149,7 @@ function make_results_table_2026(
         // ---
         if (empty($title)) continue;
         // ---
-        $title = str_replace('_', ' ', $title);
+        $title = str_replace("_", " ", $title);
         //---
         $cnt2 = $cnt;
         //---

@@ -1,11 +1,6 @@
 <?php
 
 namespace APICalls\MdwikiSql;
-/*
-Usage:
-use function APICalls\MdwikiSql\fetch_query;
-use function APICalls\MdwikiSql\execute_query;
-*/
 
 if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     ini_set('display_errors', 1);

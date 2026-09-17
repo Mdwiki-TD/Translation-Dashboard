@@ -179,7 +179,7 @@ function make_results_table_inprocess(
         // ---
         if (empty($title)) continue;
         // ---
-        $title = str_replace('_', ' ', $title);
+        $title = str_replace("_", " ", $title);
         //---
         $title_data = $titles_infos_items[$title] ?? [];
         //---

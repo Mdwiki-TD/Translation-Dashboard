@@ -129,7 +129,7 @@ function make_results_table_exists_2026(
         // ---
         if (empty($title)) continue;
         // ---
-        $title = str_replace('_', ' ', $title);
+        $title = str_replace("_", " ", $title);
         //---
         if ($target_tab["via"] === "td") {
             $count_translated += 1;
