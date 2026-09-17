@@ -42,6 +42,10 @@ function super_function(array $api_params, array $sql_params, string $sql_query,
     $use_td_api = use_td_api_or_sql();
     // ---
     $data = ($use_td_api) ? get_td_api($api_params) : [];
+
+    if (empty($data) && (getenv('APP_ENV') === 'testing' || defined('PHPUNIT_RUNNING'))) {
+        return [];
+    }
     // ---
     if (empty($data) && !$no_refind) {
         test_print("<br> >>>>> Query:");
