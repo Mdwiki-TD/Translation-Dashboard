@@ -125,7 +125,7 @@ function make_one_row_new_inprocess(
             $in_progress_translation_button,
             $_user_,
             $full_tr_user,
-            !$login_user_is_not_the_translator,
+            $login_user_is_the_translator,
             $endpoint
         );
     }
