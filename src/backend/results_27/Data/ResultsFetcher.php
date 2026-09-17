@@ -88,7 +88,8 @@ class ResultsFetcher
             "ix"        => $summary,
             "inprocess" => $inProcess,
             "exists"    => $itemsExists,
-            "missing"   => array_values($missing),
+            // "missing"   => array_values($missing), // sugested by Grok
+            "missing"   => $itemsMissing,
         ];
     }
 
@@ -101,7 +102,7 @@ class ResultsFetcher
         $result = [];
 
         foreach ($res as $row) {
-            if (in_array($row["title"], $missingTitles, true)) {
+            if (in_array($row["title"], $missingTitles)) {
                 $result[$row["title"]] = $row;
             }
         }

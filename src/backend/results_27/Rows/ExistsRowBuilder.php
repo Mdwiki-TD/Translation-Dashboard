@@ -23,7 +23,9 @@ class ExistsRowBuilder
         bool $userCoord,
         string $endpoint
     ): string {
-        $importance = $titleData["importance"] ?? "Unknown";
+
+        // target_tab = { "title": "11p deletion syndrome", "category": "RTT", "importance": "", "r_lead_refs": 5, "r_all_refs": 14, "en_views": 838, "w_lead_words": 221, "w_all_words": 547, "qid": "Q1892153", "target": "متلازمة واجر" , "via":td" }
+
         $qid        = $titleData["qid"] ?? "";
         $target     = $titleData["target"] ?? "";
         $via        = $titleData["via"] ?? "before";
@@ -31,8 +33,8 @@ class ExistsRowBuilder
         $mdwikiLink = make_mdwiki_article_url_blank($title);
         $qidUrl     = make_wikidata_url_blank($qid);
 
-        $targetTd  = "";
-        $targetTd2 = "";
+        $targetTd   = "";
+        $targetTd2  = "";
 
         if ($target) {
             if ($via === "td") {
@@ -59,15 +61,30 @@ class ExistsRowBuilder
             HTML;
         }
 
+        $importance = $titleData["importance"] ?? "Unknown";
+        $words = $titleData["w_lead_words"] ?? 0;
+        $refs  = $titleData["r_lead_refs"] ?? 0;
+        $pageviews = $titleData["en_views"] ?? 0;
+
+        $td22 = <<<HTML
+            <td class="num"> $pageviews </td>
+            <td class="num"> $importance </td>
+            <td class="num"> $words </td>
+            <td class="num"> $refs </td>
+        HTML;
+
+        $td22 = "";
+
         return <<<HTML
-        <tr>
-            <th class="" scope="row" style="text-align:center">{$counter}</th>
-            <td class="link_container spannowrap">{$mdwikiLink}</td>
-            <td>{$translateButton}</td>
-            <td>{$targetTd}</td>
-            <td>{$targetTd2}</td>
-            <td>{$qidUrl}</td>
-        </tr>
+            <tr>
+                <th scope="row" style="text-align:center">{$counter}</th>
+                <td class="link_container spannowrap">{$mdwikiLink}</td>
+                <td>{$translateButton}</td>
+                <td>{$targetTd}</td>
+                <td>{$targetTd2}</td>
+                $td22
+                <td>{$qidUrl}</td>
+            </tr>
         HTML;
     }
 }
