@@ -5,7 +5,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-include_once __DIR__ . '/../include_all.php';
+include_once dirname(__DIR__) . '/include_all.php';
 include_once __DIR__ . '/../header.php';
 //---
 use function Results\GetCats\get_mdwiki_cat_members;

@@ -6,7 +6,7 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     error_reporting(E_ALL);
 };
 
-include_once __DIR__ . '/../include_all.php';
+include_once dirname(__DIR__) . '/include_all.php';
 include_once __DIR__ . '/../header.php';
 
 use function Leaderboard\Filter\leaderboard_filter;

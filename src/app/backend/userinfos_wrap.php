@@ -4,7 +4,7 @@ use Defuse\Crypto\Crypto;
 use function APICalls\MdwikiSql\fetch_query;
 use OAuth\Settings\Settings;
 
-require_once __DIR__ . '/../include_all.php';
+require_once dirname(__DIR__) . '/include_all.php';
 
 $settings = Settings::getInstance();
 

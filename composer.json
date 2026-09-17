@@ -16,7 +16,7 @@
             "TranslateMed\\": "src/translate_med/"
         },
         "files": [
-            "src/include_all.php"
+            "src/app/include_all.php"
         ]
     },
     "authors": [

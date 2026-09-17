@@ -10,7 +10,7 @@ putenv('DB_NAME=s54732__mdwiki');
 putenv('TOOL_TOOLSDB_USER=root');
 putenv('TOOL_TOOLSDB_PASSWORD=root11');
 
-require_once __DIR__ . '/../src/include_all.php';
+require_once __DIR__ . '/../src/app/include_all.php';
 
 $vendorAutoload = __DIR__ . '/../vendor/autoload.php';
 
