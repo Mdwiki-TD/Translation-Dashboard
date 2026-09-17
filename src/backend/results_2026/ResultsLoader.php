@@ -20,15 +20,15 @@ function results_loader_2026($data)
     // ---
     $showExists = $data["show_exists"];
     // ---
-    $global_username  = $data["global_username"];
+    $globalUsername  = $data["global_username"];
     $inProgressBtn = $data["in_progress_translation_button"];
     // ---
-    $full_translators = get_td_or_sql_full_translators();
-    $full_translators = array_column($full_translators, 'is_active', 'user');
+    $fullTranslators = get_td_or_sql_full_translators();
+    $fullTranslators = array_column($fullTranslators, 'is_active', 'user');
 
-    $full_tr_user = ($full_translators[$global_username] ?? 0) == 1;
+    $fullTr_user = ($fullTranslators[$globalUsername] ?? 0) == 1;
 
-    $results_list = get($cat, $code);
+    $resultsList = get($cat, $code);
 
     $tab = [
         "code" => $code,
@@ -36,8 +36,8 @@ function results_loader_2026($data)
         "cat" => $cat,
         "tra_type" => $data["tra_type"],
         "code_lang_name" => $data["code_lang_name"],
-        "global_username" => $global_username,
-        "results_list" => $results_list,
+        "global_username" => $globalUsername,
+        "results_list" => $resultsList,
         "user_coord" => $data["user_coord"],
         "test" => $data["test"]
     ];
@@ -51,7 +51,7 @@ function results_loader_2026($data)
         $tab,
         $showExists,
         $inProgressBtn,
-        $full_tr_user,
+        $fullTr_user,
         $_titles_infos,
         $noLeadTranslates,
         $fullTranslates,
@@ -76,28 +76,28 @@ function Results_tables_2026(
     $traType   = $tab["tra_type"];
     $test       = $tab["test"];
     // ---
-    $code_lang_name  = $tab["code_lang_name"];
+    $codeLang_name  = $tab["code_lang_name"];
     $globalUser = $tab["global_username"];
     $userCoord      = $tab["user_coord"];
     // ---
     $html = "";
 
     if (!empty($test)) {
-        $html .= "code:$code<br>code_lang_name:$code_lang_name<br>";
+        $html .= "code:$code<br>code_lang_name:$codeLang_name<br>";
     };
 
     $results = $tab["results_list"];
 
-    $p_inprocess = $results['inprocess'];
+    $pInprocess = $results['inprocess'];
     $missing     = $results['missing'];
     $ix          = $results['ix'];
 
     // { "title": "11p deletion syndrome", "category": "RTT", "importance": "", "r_lead_refs": 5, "r_all_refs": 14, "en_views": 838, "w_lead_words": 221, "w_all_words": 547, "qid": "Q1892153", "target": "متلازمة واجر" }
     $exists      = $results['exists'];
 
-    $res_line = " Results: (" . count($results['missing']) . ")";
+    $resLine = " Results: (" . count($results['missing']) . ")";
 
-    if (!empty($test)) $res_line .= 'test:';
+    if (!empty($test)) $resLine .= 'test:';
 
     $titlesInfos = array_column($_titles_infos, null, 'title');
 
@@ -118,18 +118,18 @@ function Results_tables_2026(
         $ix
     HTML;
 
-    $html .= card_result($res_line, $table, $title_x);
+    $html .= card_result($resLine, $table, $title_x);
 
-    $lenInProcess = count($p_inprocess);
+    $lenInProcess = count($pInprocess);
 
     // ----- In-process table -----
     $lenInProcess = count($results['inprocess']);
     if ($lenInProcess > 0) {
 
-        // $inProgressBtn = ($user_coord) ? $inProgressBtn : false;
+        // $inProgressBtn = ($userCoord) ? $inProgressBtn : false;
 
         $inProcessTable = make_results_table_inprocess(
-            $p_inprocess,
+            $pInprocess,
             $code,
             $cat,
             $camp,
