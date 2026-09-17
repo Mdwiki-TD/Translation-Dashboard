@@ -129,7 +129,7 @@ function Results_tables_2026(
     //---
     if ($len_inprocess > 0) {
         //---
-        $in_progress_translation_button = ($user_coord) ? $in_progress_translation_button : false;
+        // $in_progress_translation_button = ($user_coord) ? $in_progress_translation_button : false;
         //---
         $table_2 = make_results_table_inprocess(
             $p_inprocess,
@@ -140,7 +140,8 @@ function Results_tables_2026(
             $full_tr_user,
             $global_username,
             $titles_infos_items,
-            $endpoint
+            $endpoint,
+            $user_coord
         );
         //---
         $html_result .= card_result("In process: ($len_inprocess)", $table_2);
