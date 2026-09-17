@@ -257,9 +257,7 @@ if ($camp && $code) {
     // ---
     $translation_button = $settings['translation_button_in_progress_table']['value'] ?? '0';
     //---
-    if ($translation_button != "0") {
-        $translation_button = $user_coord ? '1' : '0';
-    };
+    // if ($translation_button != "0") $translation_button = $user_coord ? '1' : '0';
     //---
     $depth     = $camps_data[$camp]["depth"] ?? 1;
     $category2 = $camps_data[$camp]["category2"] ?? "";
