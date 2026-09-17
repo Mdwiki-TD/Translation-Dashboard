@@ -8,6 +8,7 @@ use function Results\Helps\make_translate_urls;
 
 /**
  * Builds a single row for the In-process results table.
+ * Replace old make_one_row_new_inprocess function.
  */
 class InProcessRowBuilder
 {
@@ -27,6 +28,7 @@ class InProcessRowBuilder
         string $endpoint,
         bool $userCoord
     ): string {
+        // inProcessData = { "title": "Andes virus infection", "user": "Mr. Ibrahem", "lang": "ar", "cat": "RTT", "translate_type": "all", "word": 0, "add_date": "2026-05-21 00:00:00", "campaign": "Main", "autonym": "العربية" }
         $user = $inProcessData["user"] ?? "";
         $date = $inProcessData["date"] ?? $inProcessData["add_date"] ?? "";
 
@@ -50,7 +52,7 @@ class InProcessRowBuilder
 
         $loginUserIsTranslator = (!empty($globalUsername) && $user === $globalUsername) || $userCoord;
 
-        [$buttons] = make_translate_urls(
+        [$buttons, $_, $_] = make_translate_urls(
             $title,
             $traType,
             $words,
@@ -66,34 +68,34 @@ class InProcessRowBuilder
         );
 
         // Keep only the date part if datetime is present
+        // if $_date_ has : then split before first space
         if (str_contains($date, ":")) {
             $date = explode(" ", $date)[0];
         }
 
         if (empty($globalUsername)) {
-            $buttons = '';
+            $buttons = "";
         }
 
-        $displayCounter = ($isFullRow && !str_starts_with(strtolower($title), "video:"))
-            ? "{$counter}.Full"
-            : $counter;
+        $isVideo = str_starts_with(strtolower($title), "video:");
+        $displayCounter = ($isFullRow && !$isVideo) ? "{$counter}.Full" : $counter;
 
         return <<<HTML
-        <tr>
-            <th class="num" scope="row">{$displayCounter}</th>
-            <td class="link_container">
-                <a target="_blank" href="{$mdwikiUrl}">{$title}</a>
-            </td>
-            <th>{$buttons}</th>
-            <td style="text-align:center">{$traType}</td>
-            <td class="num" style="text-align:left">{$enViews}</td>
-            <td class="num" style="text-align:left">{$importance}</td>
-            <td class="num" style="text-align:left">{$words}</td>
-            <td class="num" style="text-align:left">{$refs}</td>
-            <td>{$qidUrl}</td>
-            <td>{$user}</td>
-            <td>{$date}</td>
-        </tr>
+            <tr>
+                <th class="num" scope="row">{$displayCounter}</th>
+                <td class="link_container">
+                    <a target="_blank" href="{$mdwikiUrl}">{$title}</a>
+                </td>
+                <th>{$buttons}</th>
+                <td style="text-align:center">{$traType}</td>
+                <td class="num" style="text-align:left">{$enViews}</td>
+                <td class="num" style="text-align:left">{$importance}</td>
+                <td class="num" style="text-align:left">{$words}</td>
+                <td class="num" style="text-align:left">{$refs}</td>
+                <td>{$qidUrl}</td>
+                <td>{$user}</td>
+                <td>{$date}</td>
+            </tr>
         HTML;
     }
 }

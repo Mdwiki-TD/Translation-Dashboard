@@ -42,13 +42,14 @@ class MissingTable extends AbstractResultsTable
 
     public function render(array $items): string
     {
-        $doFull = ($this->traType !== "all");
+        $isFullMode = ($this->traType === 'all');
 
         // Sort by English page views (descending)
         usort($items, static function (array $a, array $b): int {
             return ($b["en_views"] ?? 0) <=> ($a["en_views"] ?? 0);
         });
 
+        // { "title": "11p deletion syndrome", "category": "RTT", "importance": "", "r_lead_refs": 5, "r_all_refs": 14, "en_views": 838, "w_lead_words": 221, "w_all_words": 547, "qid": "Q1892153", "target": "متلازمة واجر" }
         $items = array_column($items, null, "title");
 
         $html = $this->startTable(false, false);
@@ -74,17 +75,20 @@ class MissingTable extends AbstractResultsTable
                 $titleData
             );
 
-            // Special handling when full translation is restricted
-            if (!$doFull || $this->fullTrUser) {
+            // Skip lead filtering when full translation applies or user is allowed full access
+            if ($isFullMode || $this->fullTrUser) {
                 $html .= $row;
                 $counter++;
                 continue;
             }
 
-            $noLead = in_array($title, $this->noLeadTranslates, true);
-            $full   = in_array($title, $this->fullTranslates, true);
+            // if title in no_lead_translates array then $noLead = true
+            $noLead = (in_array($title, $this->noLeadTranslates)) ? true : false;
 
-            if ($noLead && !$full) {
+            // if title in full_translates array then $TitleCanFullTranslated = true
+            $TitleCanFullTranslated   = in_array($title, $this->fullTranslates, true);
+
+            if ($noLead && !$TitleCanFullTranslated) {
                 continue;
             }
 
@@ -92,8 +96,8 @@ class MissingTable extends AbstractResultsTable
                 $html .= $row;
             }
 
-            if ($full) {
-                $html .= $this->rowBuilder->build(
+            if ($TitleCanFullTranslated) {
+                $row = $this->rowBuilder->build(
                     $title,
                     "all",
                     $counter,
@@ -105,6 +109,7 @@ class MissingTable extends AbstractResultsTable
                     $this->globalUsername,
                     $titleData
                 );
+                $html .= $row;
             }
 
             $counter++;

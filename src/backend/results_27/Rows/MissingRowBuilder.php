@@ -32,11 +32,11 @@ class MissingRowBuilder
             $traType = "all";
         }
 
-        $words    = $titleData["w_lead_words"] ?? 0;
-        $refs     = $titleData["r_lead_refs"] ?? 0;
+        $words      = $titleData["w_lead_words"] ?? 0;
+        $refs       = $titleData["r_lead_refs"] ?? 0;
         $importance = $titleData["importance"] ?? "Unknown";
-        $enViews  = $titleData["en_views"] ?? "";
-        $qid      = $titleData["qid"] ?? "";
+        $enViews    = $titleData["en_views"] ?? "";
+        $qid        = $titleData["qid"] ?? "";
 
         if ($traType === "all") {
             $words = $titleData["w_all_words"] ?? 0;
@@ -49,6 +49,7 @@ class MissingRowBuilder
 
         $qidUrl    = make_wikidata_url_blank($qid);
         $mdwikiUrl = make_mdwiki_href($title);
+        $buttons = "";
 
         // Translate buttons
         if (empty($globalUsername)) {
@@ -71,25 +72,25 @@ class MissingRowBuilder
                     </div>
                 HTML;
             } else {
-                $buttons = "<a href=\"{$leadUrl}\" class=\"btn btn-outline-primary btn-sm\" target=\"_blank\">Translate</a>";
+                $buttons = "<a href='{$leadUrl}' class='btn btn-outline-primary btn-sm' target='_blank'>Translate</a>";
             }
         }
 
         $displayCounter = ($isFullRow && !$isVideo) ? "{$counter}.Full" : $counter;
 
         return <<<HTML
-        <tr>
-            <th class="num" scope="row">{$displayCounter}</th>
-            <td class="link_container">
-                <a target="_blank" href="{$mdwikiUrl}">{$title}</a>
-            </td>
-            <th>{$buttons}</th>
-            <td class="num" style="text-align:left">{$enViews}</td>
-            <td class="num" style="text-align:left">{$importance}</td>
-            <td class="num" style="text-align:left">{$words}</td>
-            <td class="num" style="text-align:left">{$refs}</td>
-            <td>{$qidUrl}</td>
-        </tr>
+            <tr>
+                <th class="num" scope="row">{$displayCounter}</th>
+                <td class="link_container">
+                    <a target="_blank" href="{$mdwikiUrl}">{$title}</a>
+                </td>
+                <th>{$buttons}</th>
+                <td class="num" style="text-align:left">{$enViews}</td>
+                <td class="num" style="text-align:left">{$importance}</td>
+                <td class="num" style="text-align:left">{$words}</td>
+                <td class="num" style="text-align:left">{$refs}</td>
+                <td>{$qidUrl}</td>
+            </tr>
         HTML;
     }
 }
