@@ -104,32 +104,24 @@ function make_one_row_new_inprocess(
     //---
     $qid_url = make_wikidata_url_blank($qid);
     //---
-    $login_user_is_the_translator = $_user_ == $global_username || $user_coord;
+    $login_user_is_the_translator = (!empty($global_username) && $_user_ == $global_username) || $user_coord;
     //---
     $mdwiki_url = make_mdwiki_href($title);
     //---
-    $tab = "";
-    //---
-    $translate_url = $mdwiki_url;
-    //---
-    if ($in_progress_translation_button != 1) {
-        $translate_url = "";
-    } elseif (!empty($global_username)) {
-        [$tab, $translate_url, $_] = make_translate_urls(
-            $title,
-            $tra_type,
-            $word,
-            $langcode,
-            $cat,
-            $camp,
-            true,
-            $in_progress_translation_button,
-            $_user_,
-            $full_tr_user,
-            $login_user_is_the_translator,
-            $endpoint
-        );
-    }
+    [$tab, $translate_url, $_] = make_translate_urls(
+        $title,
+        $tra_type,
+        $word,
+        $langcode,
+        $cat,
+        $camp,
+        true,
+        $in_progress_translation_button,
+        $_user_,
+        $full_tr_user,
+        $login_user_is_the_translator,
+        $endpoint
+    );
     //---
     // if $_date_ has : then split before first space
     if (strpos($_date_, ':') !== false) {

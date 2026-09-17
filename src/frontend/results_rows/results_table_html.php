@@ -14,10 +14,6 @@ function make_table_start($inprocess, $in_progress_translation_button)
 
     $Translate_th = "<th><span>Translate</span></th>";
     //---
-    if ($inprocess && $in_progress_translation_button != 1) {
-        $Translate_th = '<th></th>';
-    };
-    //---
     $table_classes = "display table_responsive_main";
     //---
     $inprocess_first = ($inprocess) ? '<th>user</th><th>date</th>' : '';
