@@ -18,9 +18,6 @@ use function TD\Render\TestPrint\test_print;
 function open_td_tables_file($file_path, $echo = true)
 {
 	//---
-	// $home_dir = getenv("HOME") ?: 'I:/MD_TOOLS/MDWIKI_MAIN_REPO';
-	// $tables_path = $home_dir . '/public_html/td/Tables';
-	//---
 	if (!is_file($file_path)) {
 		test_print("---- open_td_tables_file: file $file_path does not exist");
 		return [];
