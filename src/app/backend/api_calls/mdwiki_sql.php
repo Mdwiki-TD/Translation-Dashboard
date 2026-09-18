@@ -7,7 +7,7 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 };
-//---
+
 use PDO;
 use PDOException;
 
@@ -171,7 +171,7 @@ function execute_query(string $sql_query, $params = null, $table_name = null)
     // Destroy the database object
     $db = null;
 
-    //---
+
     return $results;
 };
 function fetch_query(string $sql_query, $params = null, $noprint = false)
@@ -192,6 +192,6 @@ function fetch_query(string $sql_query, $params = null, $noprint = false)
     // Destroy the database object
     $db = null;
 
-    //---
+
     return $results;
 };

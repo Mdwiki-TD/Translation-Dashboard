@@ -27,7 +27,7 @@ function makeSqlQuery($year, $user_group, $cat)
             AND p.lang = v.lang
         WHERE p.target != ''
     ";
-    // ---
+
     if (isvalid($user_group)) {
         $query .= " AND u.user_group = ?";
         $params[] = $user_group;
@@ -45,7 +45,7 @@ function makeSqlQuery($year, $user_group, $cat)
 
     $query .= " \n group by v.target, v.lang \n";
     $query .= " ORDER BY 1 DESC";
-    // ---
+
     return [
         'query' => $query,
         'params' => $params
@@ -54,36 +54,36 @@ function makeSqlQuery($year, $user_group, $cat)
 
 function makeApiParams($year, $user_group, $cat)
 {
-    // ---
+
     $api_params = ['get' => 'leaderboard_table'];
     // ----
     if (isvalid($year)) {
         $api_params['year'] = $year;
     }
-    // ---
+
     if (isvalid($user_group)) {
         $api_params['user_group'] = $user_group;
     }
-    // ---
+
     if (isvalid($cat)) {
         $api_params['cat'] = $cat;
     }
-    // ---
+
     return $api_params;
 }
 
 # @deprecated
 function get_leaderboard_table($year, $user_group, $cat)
 {
-    // ---
+
     $api_params = makeApiParams($year, $user_group, $cat);
-    // ---
+
     $qua_data = makeSqlQuery($year, $user_group, $cat);
-    // ---
+
     $qua_query = $qua_data['query'];
     $qua_params = $qua_data['params'];
-    // ---
+
     $data = super_function($api_params, $qua_params, $qua_query);
-    // ---
+
     return $data;
 }

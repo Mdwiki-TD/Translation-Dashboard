@@ -20,47 +20,47 @@ function module_copy_data($users_tab)
         // get first item in $langs
         $user = $tab['user'];
         $lang = $tab['lang'];
-        // ---
+
         if (empty($lang) || empty($user)) continue;
-        // ---
+
         $lal .= "#{{#target:User:$user|$lang.wikipedia.org}}\n";
     }
-    //---
+
     $lal .= '</textarea>';
-    //---
+
     $modal = make_modal_fade('', $lal, 'targets', '<a class="btn btn-outline-primary" onclick="copy_target_text(\'users_targets\')">Copy</a>');
-    //---
+
     return $modal;
 }
 
 function makeUsersTable($users, $min = 2)
 {
-    //---
+
     // sort new_data by [lang][count]
     uasort($users, function ($a, $b) {
         return $b["count"] <=> $a["count"];
     });
-    // ---
+
     $numb = 0;
     $trs = "";
-    //---
+
     foreach ($users as $user => $tab) {
         // if ($usercount < $min && $numb > 15) continue;
         $numb += 1;
-        // ---
+
         // type of $usercount // integer
-        // ---
+
         $usercount = number_format($tab['count'] ?? 0);
         $views = number_format($tab['views'] ?? 0);
-        // ---
+
         $words = $tab['words'] ?? 0;
-        // ---
+
         // type of $words // string
         // echo gettype($words) . "<br>";
-        // ---
+
         // make words str from float
         $words = number_format($words);
-        // ---
+
         $use = rawurlEncode($user);
         $use = str_replace('+', '_', $use);
 
@@ -93,6 +93,6 @@ function makeUsersTable($users, $min = 2)
             </tfoot>
         </table>
     HTML;
-    //---
+
     return $text;
 }

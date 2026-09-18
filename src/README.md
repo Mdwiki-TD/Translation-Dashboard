@@ -97,7 +97,7 @@ The application follows a **procedural page-controller pattern** with layered mo
 5. Includes `backend/include_first/include.php` (utilities)
 6. **Glob-includes** all PHP from `backend/api_calls/`, `backend/td_api_wrap/`, `backend/api_or_sql/`, `backend/others/`
 7. Includes `backend/tables/langcode.php`
-8. Includes `leaderboard/include_leaderboards.php`
+8. Includes `leaderboard/include.php`
 9. Includes `results/include.php`
 
 ### Design Patterns

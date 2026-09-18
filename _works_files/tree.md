@@ -69,7 +69,7 @@ src/
 │   │   │   └── users_sub.php
 │   │   ├── camps.php
 │   │   ├── graph.php
-│   │   ├── include_leaderboards.php
+│   │   ├── include.php
 │   │   ├── index.php
 │   │   ├── lang_user_graph.php
 │   │   ├── langs.php

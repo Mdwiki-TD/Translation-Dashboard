@@ -38,12 +38,12 @@ function makeLangTable(
     $langs_data,
     $addcat
 ) {
-    // ---
+
     // sort new_data by [lang][count]
     uasort($lang_table, function ($a, $b) {
         return $b["count"] <=> $a["count"];
     });
-    // ---
+
     $cac = ($addcat == true) ? '<th>cat</th>' : '';
 
     $text = <<<HTML
@@ -71,9 +71,9 @@ function makeLangTable(
         if ($comp < 1) continue;
         $comp = number_format($comp);
         $numb++;
-        // ---
+
         $view = number_format($views);
-        // ---
+
         $cach = <<<HTML
             <td><a target="_blank" href="https://$langcode.wikipedia.org/wiki/Category:Translated_from_MDWiki">cat</a></td>
         HTML;

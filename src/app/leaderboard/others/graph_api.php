@@ -14,15 +14,15 @@ use function Leaderboard\Graph2\print_graph_api;
 
 function graph_new_html($params, $no_card = false)
 {
-    // ---
+
     $graph_id = 'chart_' . uniqid();
-    // ---
+
     $canvas = <<<HTML
         <div class="position-relative">
             <canvas id="$graph_id" height="200" class="invert-on-dark"></canvas>
         </div>
     HTML;
-    //---
+
     $graph =  <<<HTML
         <div class="card">
             <div class="card-header aligncenter" style="font-weight:bold;">
@@ -34,15 +34,15 @@ function graph_new_html($params, $no_card = false)
             </div>
         </div>
     HTML;
-    //---
+
     if ($no_card) {
         $graph = $canvas;
     }
-    //---
+
     $graph .= '<script src="/Translation_Dashboard/js/graph_api.js"></script>';
-    //---
+
     $graph .= "<script>graph_js_params('$graph_id', " . json_encode($params) . ")</script>";
-    //---
+
     return "\n" . $graph . "\n";
 }
 

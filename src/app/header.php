@@ -1,36 +1,36 @@
 <?php
-//---
+
 $time_start = microtime(true);
-//---
+
 if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 	ini_set('display_errors', 1);
 	ini_set('display_startup_errors', 1);
 	error_reporting(E_ALL);
 }
-//---
+
 ini_set('session.use_strict_mode', '1');
-//---
+
 use function TD\Render\Html\banner_alert;
 use function SQLorAPI\Funcs\get_coordinators;
-//---
+
 include_once __DIR__ . '/backend/userinfos_wrap.php';
-//---
+
 include_once __DIR__ . '/frontend/include.php';
 include_once __DIR__ . '/backend/include_first/include.php';
-//---
+
 include_once __DIR__ . '/head.php';
-//---
+
 echo print_full_head();
-//---
+
 $coordinators = array_column(get_coordinators(), 'is_active', 'username');
 $GLOBALS['user_is_coordinator'] = (($coordinators[$GLOBALS['global_username']] ?? 0) == 1);
 
 $coord_tools = "";
-//---
+
 if ($GLOBALS['user_is_coordinator'] === true) {
 	$coord_tools = '<a href="/tdc/index.php" class="nav-link py-2 px-0 px-lg-2"><span class="navtitles"></span> <i class="bi bi-tools me-1"></i> Coordinator Tools</a>';
 };
-//---
+
 $li_user = <<<HTML
 	<li class="nav-item col-lg-auto col-md-4 col-sm-6 col-6">
 		<!-- <button type="submit"
@@ -46,7 +46,7 @@ $li_user = <<<HTML
 		</a>
 	</li>
 HTML;
-//---
+
 if (!empty($GLOBALS['global_username'] ?? "")) {
 	$u_name = $GLOBALS['global_username'];
 	$li_user = <<<HTML
@@ -62,20 +62,20 @@ if (!empty($GLOBALS['global_username'] ?? "")) {
 		</li>
 	HTML;
 };
-//---
+
 // get php file name from url http://localhost:9001/Translation_Dashboard/leaderboard.php?get=langs&langcode=zh
 function is_active($url)
 {
 	$file_name = basename($_SERVER['PHP_SELF']);
 	// echo "file_name: $file_name <br>";
-	//---
+
 	if ($file_name == $url) {
 		return 'active';
 	}
-	//---
+
 	return '';
 }
-//---
+
 ?>
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none;">
 	<symbol id="logo-xtools" viewBox="0 0 742 319">
@@ -182,7 +182,7 @@ function is_active($url)
 	<?php
 
 	$aal = banner_alert("Tool is down due to cultural and technical reasons since Aug 3 2024. Work is ongoing to get it functional again");
-	// ---
+
 	?>
 	<main id="body">
 		<!-- <div id="maindiv" class="container-fluid"> -->

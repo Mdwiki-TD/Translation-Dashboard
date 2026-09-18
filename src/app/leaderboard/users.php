@@ -28,26 +28,26 @@ function users_html(
     $cats_data,
     $endpoint
 ) {
-    //---
+
     $output = '';
-    //---
+
     $mainlang = rawurldecode(str_replace("_", " ", $mainlang));
-    //---
+
     // '[{"user":"Mr. Ibrahem","lang":"ar","cnt":14}]'
     $user_most_langs = get_td_or_sql_top_lang_of_users([$user_to_curl]);
-    //---
+
     $user_langs = $user_most_langs[0]['lang'] ?? "";
-    //---
+
     $u_tables = get_users_tables($user_to_curl, $year_y, $mainlang);
-    //---
+
     $dd = $u_tables['dd'];
     $dd_Pending = $u_tables['dd_Pending'];
     $table_of_views = $u_tables['table_of_views'];
-    //---
+
     $count_new = count($dd);
-    //---
+
     $user_is_global_username = ($global_username === $user_to_curl) ? true : false;
-    //---
+
     [$table1, $main_table] = make_users_lead(
         $dd,
         'translations',
@@ -57,11 +57,11 @@ function users_html(
         $cats_data,
         $endpoint
     );
-    //---
+
     $user_link = ($user_langs) ? make_wikipedia_url_blank("User:$user_to_curl", $user_langs, $user_to_html) : make_mdwiki_user_url($user_to_html);
-    //---
+
     $filter_data = ["user" => $user_to_curl, "lang" => $mainlang, "year" => $year_y, "camp" => $camp];
-    //---
+
     $xtools = <<<HTML
         <!-- <div class="d-flex align-items-center justify-content-between"> -->
             <a href='https://xtools.wmflabs.org/globalcontribs/$user_to_html' target='_blank'>
@@ -72,7 +72,7 @@ function users_html(
             </a>
         <!-- </div> -->
     HTML;
-    //---
+
     $user_div = <<<HTML
         <span class='h4 text-center'>
             User: $user_link
@@ -80,11 +80,11 @@ function users_html(
             $xtools
         </span>
     HTML;
-    //---
+
     $graph = graph_data_new($dd);
-    //---
+
     $output .= lead_row($table1, $graph, $user_div, $filter_data, "user");
-    //---
+
     $output .= <<<HTML
         <div class='card mt-1'>
             <div class='card-body p-1'>
@@ -92,7 +92,7 @@ function users_html(
             </div>
         </div>
     HTML;
-    //---
+
     [$_, $table_pnd] = make_users_lead(
         $dd_Pending,
         'pending',
@@ -102,7 +102,7 @@ function users_html(
         $cats_data,
         $endpoint
     );
-    //---
+
     $output .= <<<HTML
         <br>
         <div class='card'>
@@ -112,6 +112,6 @@ function users_html(
             </div>
         </div>
     HTML;
-    // ---
+
     return $output;
 }

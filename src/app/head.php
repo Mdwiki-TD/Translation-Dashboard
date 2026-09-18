@@ -10,18 +10,18 @@ use OAuth\Settings\Settings;
 
 function get_host()
 {
-    //---
+
     static $cached_host = null;
-    //---
+
     if ($cached_host !== null) {
         return $cached_host;
     }
-    //---
+
     $settings = Settings::getInstance(); // $settings->is_production()
     $hoste = ($settings->is_production())
         ? "https://tools-static.wmflabs.org/cdnjs"
         : "https://cdnjs.cloudflare.com";
-    //---
+
     if ($hoste == "https://tools-static.wmflabs.org/cdnjs") {
         $url = "https://tools-static.wmflabs.org";
         $ch = curl_init($url);
@@ -104,9 +104,9 @@ $scripts_module = [
 function head()
 {
     global $stylesheets, $scripts, $scripts_module;
-    // ---
+
     $text = "";
-    // ---
+
     foreach ($stylesheets as $css) {
         $text .= "\n\t<link rel='stylesheet' href='" . $css . "'>";
     }

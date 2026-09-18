@@ -13,9 +13,9 @@ use function Leaderboard\Camps\get_articles_to_camps;
 
 function camps_list()
 {
-    // ---
+
     $articles_to_camps = get_articles_to_camps();
-    // ---
+
     $table = <<<HTML
         <table class='table table-striped sortable'>
             <thead>
@@ -27,13 +27,13 @@ function camps_list()
             </thead>
             <tbody>
     HTML;
-    // ---
+
     foreach ($articles_to_camps as $member => $camps) {
-        // ---
+
         sort($camps);
-        // ---
+
         $count = count($camps);
-        // ---
+
         $table .= <<<HTML
             <tr>
                 <td>$member</td>
@@ -41,26 +41,26 @@ function camps_list()
                 <td>
                     <ul>
         HTML;
-        // ---
+
         foreach ($camps as $camp) {
             $table .= "<li>$camp</li>";
         };
-        // ---
+
         $table .= <<<HTML
                     </ul>
                 </td>
             </tr>
         HTML;
-        // ---
+
     };
-    // ---
+
     $table .= <<<HTML
             </tbody>
         </table>
     HTML;
-    // ---
+
     echo $table;
-    // ---
+
 }
 
 function camps_list2()
@@ -199,7 +199,7 @@ function campaigns_with_articles_table()
 function echo_html()
 {
     echo camps_list2();
-    // ---
+
     echo campaigns_with_articles_table();
 
     echo <<<HTML

@@ -28,11 +28,11 @@ if (isset($GLOBALS['time_start'])) {
 	$time_end = microtime(true);
 	$time_diff = $time_end - $time_start;
 	$time_diff = round($time_diff, 3);
-	//---
+
 	$line = "Load Time: " . $time_diff . " seconds";
-	//---
+
 	$script = "$('.tool_title').attr('title', '$line');";
-	//---
+
 	echo "\n<script>\n\t $script</script>";
 }
 ?>

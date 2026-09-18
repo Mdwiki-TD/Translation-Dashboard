@@ -63,28 +63,28 @@ function make_modal_fade($label, $text, $id, $button = '')
 
 function makeDropdown($tab, $cat, $id, $add)
 {
-    //---
+
     $options = "";
-    //---
+
     foreach ($tab as $dd) {
         $se = ($cat == $dd) ? 'selected' : '';
-        //---
+
         if (empty($dd)) continue;
-        //---
+
         $options .= <<<HTML
             <option value='$dd' $se>$dd</option>
         HTML;
     };
-    //---
+
     $sel_line = "";
-    //---
+
     if (!empty($add)) {
         $add2 = ($add == 'all') ? 'All' : $add;
         $sel = "";
         if ($cat == $add) $sel = "selected";
         $sel_line = "<option value='$add' $sel>$add2</option>";
     }
-    //---
+
     return <<<HTML
         <select dir="ltr" id="$id" name="$id" class="form-select" data-bs-theme="auto">
             $sel_line
@@ -150,7 +150,7 @@ function makeCol($title, $table, $table2)
 function make_drop($uxutable, $code)
 {
     $options  =  "";
-    //---
+
     foreach ($uxutable as $name => $cod) {
         if (empty($cod)) continue;
         $cdcdc = $code == $cod ? "selected" : "";
@@ -159,38 +159,38 @@ function make_drop($uxutable, $code)
 
 		HTML;
     };
-    //---
+
     return $options;
 };
 
 function make_mdwiki_href($title)
 {
     if (empty($title)) return $title;
-    // ---
+
     return "https://mdwiki.org/wiki/" . rawurlencode(str_replace(' ', '_', $title));
 }
 
 function make_mdwiki_article_url_blank($title, $name = null)
 {
     if (empty($title)) return $title;
-    // ---
+
     $display_name = $name ? $name : $title;
-    // ---
+
     $encoded_title = rawurlencode(str_replace(' ', '_', $title));
-    // ---
+
     return "<a target='_blank' href='https://mdwiki.org/wiki/$encoded_title'>$display_name</a>";
 }
 
 function make_mdwiki_cat_url($category, $name = null)
 {
     if (empty($category)) return $category;
-    // ---
+
     $new_cat = str_replace('Category:', '', $category);
-    // ---
+
     $display_name = $name ? $name : $new_cat;
-    // ---
+
     $encoded_category = rawurlencode(str_replace(' ', '_', $new_cat));
-    // ---
+
     return "<a target='_blank' href='https://mdwiki.org/wiki/Category:$encoded_category'>$display_name</a>";
 }
 
@@ -205,29 +205,29 @@ function make_mdwiki_user_url($user)
 
 function make_wikipedia_url_blank($target, $lang, $name = '', $deleted = false)
 {
-    //---
+
     if (empty($target)) return $target;
-    //---
+
     $display_name = (!empty($name)) ? $name : $target;
-    //---
+
     $encoded_target = rawurlencode(str_replace(' ', '_', $target));
-    //---
+
     $link = "<a target='_blank' href='https://$lang.wikipedia.org/wiki/$encoded_target'>$display_name</a>";
-    //---
+
     if ($deleted == 1) {
         $link .= ' <span class="text-danger">(DELETED)</span>';
     }
-    //---
+
     return $link;
 }
 
 function make_wikidata_url_blank($qid, $name = '', $default = '')
 {
     if (empty($qid)) return $default;
-    // ---
+
     $display_name = (!empty($name)) ? $name : $qid;
-    //---
+
     $url = "https://wikidata.org/wiki/" . rawurlencode(str_replace(' ', '_', $qid));
-    //---
+
     return "<a class='inline' target='_blank' href='$url'>$display_name</a>";
 }

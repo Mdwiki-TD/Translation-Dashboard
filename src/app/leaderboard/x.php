@@ -1,5 +1,5 @@
 <?PHP
-//---
+
 if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
@@ -11,7 +11,7 @@ include_once dirname(__DIR__) . '/header.php';
 
 use function Leaderboard\Filter\leaderboard_filter;
 
-//---
+
 $year  = strtolower(filter_input(INPUT_GET, 'year', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'all');
 $month = strtolower(filter_input(INPUT_GET, 'month', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '');
 $camp  = strtolower(filter_input(INPUT_GET, 'camp', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'all');
@@ -19,9 +19,9 @@ $camp  = strtolower(filter_input(INPUT_GET, 'camp', FILTER_SANITIZE_FULL_SPECIAL
 $user_group = filter_input(INPUT_GET, 'project', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
     ?? filter_input(INPUT_GET, 'user_group', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
     ?? 'all';
-//---
+
 $user_group = strtolower($user_group);
-//---
+
 $filter_form = leaderboard_filter($year, $month, $user_group, $camp, 'x.php');
 
 echo <<<HTML
@@ -181,9 +181,9 @@ HTML;
             info: false,
             searching: false
         });
-        // ---
+
         const campaign_to_categories = {};
-        // ---
+
         async function get_categories() {
             const response = await fetch('/api.php?get=categories');
             const data = await response.json();
@@ -192,26 +192,26 @@ HTML;
                 campaign_to_categories[item.campaign] = item.category;
             });
         }
-        // ---
+
         function getFormData(d) {
             // d['get'] = 'top_users';
-            // ---
+
             // '/api.php?get=top_users&year=&user_group=&cat=';
-            // ---
+
             const formData = $('#leaderboard_filter').serializeArray();
             formData.forEach(field => {
                 if (field.value.trim()) {
                     d[field.name] = field.value;
                 }
             });
-            // ---
+
             d["cat"] = campaign_to_categories[d["camp"]] ?? '';
-            // ---
+
             return d;
         }
-        // ---
+
         await get_categories();
-        // ---
+
         $('#Topusers').DataTable({
             stateSave: true,
             paging: false,
@@ -280,9 +280,9 @@ HTML;
                 }
             ]
         });
-        // ---
+
         graph_js_params('chart09', getFormData({}))
-        // ---
+
         $('#Toplangs').DataTable({
             stateSave: true,
             paging: false,
@@ -330,7 +330,7 @@ HTML;
                 }
             ]
         });
-        // ---
+
     })
 </script>
 </body>

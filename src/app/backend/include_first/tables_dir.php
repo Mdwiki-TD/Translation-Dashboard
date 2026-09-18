@@ -17,7 +17,7 @@ use function TD\Render\TestPrint\test_print;
 
 function open_td_tables_file($file_path, $echo = true)
 {
-	//---
+
 	if (!is_file($file_path)) {
 		test_print("---- open_td_tables_file: file $file_path does not exist");
 		return [];
@@ -37,7 +37,7 @@ function open_td_tables_file($file_path, $echo = true)
 	} elseif ($echo) {
 		$len = count($result);
 		if (isset($result['list'])) $len = count($result['list']);
-		// ---
+
 		test_print("---- open_td_tables_file File: $file_path: Exists size: $len");
 	}
 

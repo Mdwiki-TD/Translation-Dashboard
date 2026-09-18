@@ -29,7 +29,7 @@ function sort_py_pageviews_rows($items, $en_views_tab)
 
 function sort_py_importance($items, $Assessment_table)
 {
-    // ---
+
     $Assessment_fff = [
         'Top' => 1,
         'High' => 2,
@@ -38,7 +38,7 @@ function sort_py_importance($items, $Assessment_table)
         'Unknown' => 5,
         '' => 5
     ];
-    // ---
+
     $empty = $Assessment_fff['Unknown'];
     $dd = [];
     foreach ($items as $t) {
@@ -68,25 +68,25 @@ function make_translate_urls(
     $login_user_is_the_translator,
     $endpoint
 ) {
-    //---
+
     // if $inprocess and $tra_btn is 1 then show the translate button for
-    //---
+
     // $mdwiki_url = "//mdwiki.org/wiki/" . str_replace('+', '_', rawurlEncode($title));
     $mdwiki_url = make_mdwiki_href($title);
-    //---
+
     // if lower $title startswith video
     // $tra_type = "lead";
     if (empty($tra_type)) {
         $tra_type = 'lead';
     }
-    //---
+
     $is_video = false;
-    //---
+
     if (strtolower(substr($title, 0, 6)) == 'video:') {
         $is_video = true;
         $tra_type = 'all';
     };
-    //---
+
     if ($inprocess) {
         // links directly to ContentTranslation
         $full_translate_url = make_ContentTranslation_url(
@@ -110,9 +110,9 @@ function make_translate_urls(
         $full_translate_url = make_tr_link_medwiki($title, $langcode, $cat, $camp, "all", $words);
         $translate_url = make_tr_link_medwiki($title, $langcode, $cat, $camp, $tra_type, $words);
     }
-    //---
+
     $buttons = "<a href='$translate_url' class='btn btn-outline-primary btn-sm' target='_blank'>Translate</a>";
-    //---
+
     if ($full_tr_user && !$is_video) {
         $buttons = <<<HTML
             <div class='inline'>
@@ -121,7 +121,7 @@ function make_translate_urls(
             </div>
         HTML;
     }
-    //---
+
     if ($inprocess) {
         if ($in_progress_translation_button != 1 && !$login_user_is_the_translator) {
             $buttons = '';
@@ -129,27 +129,27 @@ function make_translate_urls(
             $full_translate_url = $mdwiki_url;
         };
     };
-    // ---
+
     return [$buttons, $translate_url, $full_translate_url];
 }
 
 function get_item_properties($title, $tra_type, $title_data)
 {
-    //---
+
     // inprocess_table = { "title": "Andes virus infection", "user": "Mr. Ibrahem", "lang": "ar", "cat": "RTT", "translate_type": "all", "word": 0, "add_date": "2026-05-21 00:00:00", "campaign": "Main", "autonym": "العربية" }
     $word     = $title_data['w_lead_words'] ?? 0;
     $refs     = $title_data['r_lead_refs'] ?? 0;
     $asse     = $title_data['importance'] ?? "";
     $en_views = $title_data['en_views'] ?? "";
     $qid      = $title_data['qid'] ?? "";
-    //---
+
     if ($tra_type == 'all') {
         $word  = $title_data['w_all_words'] ?? 0;
         $refs  = $title_data['r_all_refs'] ?? 0;
     }
-    //---
+
     if (empty($asse)) $asse = 'Unknown';
-    //---
+
     $tab = [
         'word'  => $word,
         'refs'  => $refs,
@@ -158,7 +158,7 @@ function get_item_properties($title, $tra_type, $title_data)
         'qid'   => $qid,
         'target' => ""
     ];
-    //---
+
     return $tab;
 }
 

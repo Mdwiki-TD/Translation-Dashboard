@@ -5,21 +5,23 @@
 The `src/leaderboard/` directory implements the translation leaderboard system. It displays translation statistics by user, language, and campaign, with interactive charts, sortable tables, and filtering capabilities.
 
 ### Main Features
-- **Main leaderboard** -- Summary stats, top users, top languages, translation graph
-- **User detail view** -- Per-user translation history with charts
-- **Language detail view** -- Per-language translation history with charts
-- **Campaign view** -- Campaign grouping and statistics
-- **Chart.js graphs** -- Time-series visualization of translation activity
-- **DataTables integration** -- Sortable, searchable tables
-- **Filter system** -- Filter by campaign, year, month, user, language
-- **MassMessage copy modal** -- Copy target syntax for Wikimedia MassMessage
+
+-   **Main leaderboard** -- Summary stats, top users, top languages, translation graph
+-   **User detail view** -- Per-user translation history with charts
+-   **Language detail view** -- Per-language translation history with charts
+-   **Campaign view** -- Campaign grouping and statistics
+-   **Chart.js graphs** -- Time-series visualization of translation activity
+-   **DataTables integration** -- Sortable, searchable tables
+-   **Filter system** -- Filter by campaign, year, month, user, language
+-   **MassMessage copy modal** -- Copy target syntax for Wikimedia MassMessage
 
 ### Technologies
-- PHP 8.4+
-- Bootstrap 5 (cards, forms, grid, modals)
-- Chart.js (bar/line charts)
-- jQuery DataTables (sortable tables)
-- Font Awesome (icons)
+
+-   PHP 8.4+
+-   Bootstrap 5 (cards, forms, grid, modals)
+-   Chart.js (bar/line charts)
+-   jQuery DataTables (sortable tables)
+-   Font Awesome (icons)
 
 ---
 
@@ -38,7 +40,7 @@ src/leaderboard/
 ├── leader_filter.php               # Main filter form
 ├── leader_tables.php               # Summary stats + language table
 ├── leader_tables_users.php         # Users table + copy modal
-├── include_leaderboards.php        # Central loader
+├── include.php        # Central loader
 ├── subs/
 │   ├── filter_form.php             # Sub-page filter form
 │   ├── langs_sub.php               # Language data retrieval
@@ -62,47 +64,51 @@ src/leaderboard/
 
 ### Namespace Map
 
-| Namespace | File | Role |
-|-----------|------|------|
-| `Leaderboard\Index` | `main.php` | Main composition |
-| `Leaderboard\Filter` | `leader_filter.php` | Filter form |
-| `Leaderboard\LeaderTables` | `leader_tables.php` | Summary + language table |
-| `Leaderboard\LeaderTabUsers` | `leader_tables_users.php` | Users table + modal |
-| `Leaderboard\Graph` | `graph.php` | Server-data charts |
-| `Leaderboard\Graph2` | `others/graph_api.php` | API-data charts |
-| `Leaderboard\SubGraph` | `lang_user_graph.php` | Time-series builder |
-| `Leaderboard\Camps` | `camps.php` | Article-campaign mapping |
-| `Leaderboard\CampText` | `others/camps_text.php` | Campaign display |
-| `Leaderboard\Langs` | `langs.php` | Language view |
-| `Leaderboard\Users` | `users.php` | User view |
-| `Leaderboard\Subs\LeadHelp` | `subs/lead_help.php` | Row/table builder |
-| `Leaderboard\Subs\SubLangs` | `subs/langs_sub.php` | Language data |
-| `Leaderboard\Subs\SubUsers` | `subs/users_sub.php` | User data |
-| `Leaderboard\Subs\FilterForm` | `subs/filter_form.php` | Sub-page filters |
+| Namespace                     | File                      | Role                     |
+| ----------------------------- | ------------------------- | ------------------------ |
+| `Leaderboard\Index`           | `main.php`                | Main composition         |
+| `Leaderboard\Filter`          | `leader_filter.php`       | Filter form              |
+| `Leaderboard\LeaderTables`    | `leader_tables.php`       | Summary + language table |
+| `Leaderboard\LeaderTabUsers`  | `leader_tables_users.php` | Users table + modal      |
+| `Leaderboard\Graph`           | `graph.php`               | Server-data charts       |
+| `Leaderboard\Graph2`          | `others/graph_api.php`    | API-data charts          |
+| `Leaderboard\SubGraph`        | `lang_user_graph.php`     | Time-series builder      |
+| `Leaderboard\Camps`           | `camps.php`               | Article-campaign mapping |
+| `Leaderboard\CampText`        | `others/camps_text.php`   | Campaign display         |
+| `Leaderboard\Langs`           | `langs.php`               | Language view            |
+| `Leaderboard\Users`           | `users.php`               | User view                |
+| `Leaderboard\Subs\LeadHelp`   | `subs/lead_help.php`      | Row/table builder        |
+| `Leaderboard\Subs\SubLangs`   | `subs/langs_sub.php`      | Language data            |
+| `Leaderboard\Subs\SubUsers`   | `subs/users_sub.php`      | User data                |
+| `Leaderboard\Subs\FilterForm` | `subs/filter_form.php`    | Sub-page filters         |
 
 ---
 
 ## Architecture & Code Quality Review
 
 ### Code Organization
+
 Clean namespace organization mirrors directory structure. The router (`index.php`) dispatches to view handlers which compose sub-components.
 
 ### Design Patterns
-- **Procedural with namespaces** -- No classes, all functions
-- **Function-based composition** -- Views assembled from function return values
-- **Memoization** -- `camps.php` uses static variable caching
-- **Dual rendering** -- Server-side (`main.php`) vs AJAX (`x.php`)
+
+-   **Procedural with namespaces** -- No classes, all functions
+-   **Function-based composition** -- Views assembled from function return values
+-   **Memoization** -- `camps.php` uses static variable caching
+-   **Dual rendering** -- Server-side (`main.php`) vs AJAX (`x.php`)
 
 ### Maintainability: 5/10
-- Code duplication between `langs_sub.php` and `users_sub.php`
-- `make_td_fo_user()` has 9 parameters
-- Glob-based auto-inclusion of `subs/` and `others/`
-- Empty file (`others/index.php`)
+
+-   Code duplication between `langs_sub.php` and `users_sub.php`
+-   `make_td_fo_user()` has 9 parameters
+-   Glob-based auto-inclusion of `subs/` and `others/`
+-   Empty file (`others/index.php`)
 
 ### Readability: 6/10
-- Descriptive function names in most places
-- Cryptic variables in some files (`$dd`, `$tabb`, `$Taab`)
-- Arabic comments in some files
+
+-   Descriptive function names in most places
+-   Cryptic variables in some files (`$dd`, `$tabb`, `$Taab`)
+-   Arabic comments in some files
 
 ---
 
@@ -148,36 +154,40 @@ graph_js([$keys], [$values], "$graph_id")
 ### Debug Mode Exposure (MEDIUM)
 
 Multiple files enable debug output via `test` cookie/parameter:
-- `main.php` (lines 5-9)
-- `x.php` (lines 3-7)
-- `leader_filter.php` (lines 11-15)
+
+-   `main.php` (lines 5-9)
+-   `x.php` (lines 3-7)
+-   `leader_filter.php` (lines 11-15)
 
 ---
 
 ## Areas That Need Attention
 
-- **Add output encoding** -- `htmlspecialchars()` on all HTML interpolation
-- **Refactor duplicate code** -- Extract shared logic from `langs_sub.php`/`users_sub.php`
-- **Reduce parameter counts** -- Use data arrays or context objects
-- **Remove empty files** -- Delete `others/index.php`
-- **Restrict debug mode** -- Admin-only or remove from production
-- **Fix inconsistent returns** -- `camps_list()` should return, not echo
+-   **Add output encoding** -- `htmlspecialchars()` on all HTML interpolation
+-   **Refactor duplicate code** -- Extract shared logic from `langs_sub.php`/`users_sub.php`
+-   **Reduce parameter counts** -- Use data arrays or context objects
+-   **Remove empty files** -- Delete `others/index.php`
+-   **Restrict debug mode** -- Admin-only or remove from production
+-   **Fix inconsistent returns** -- `camps_list()` should return, not echo
 
 ---
 
 ## Improvement Plan
 
 ### Quick Fixes
+
 1. Add `htmlspecialchars()` to all HTML output
 2. Remove empty `others/index.php`
 3. Fix `camps_list()` to return instead of echo
 
 ### Medium-Term
+
 1. Extract shared logic from `langs_sub.php`/`users_sub.php` into a common function
 2. Replace glob includes with explicit requires
 3. Restrict debug mode to admin users
 
 ### Long-Term
+
 1. Introduce data classes for translation entries (reduce parameter counts)
 2. Add unit tests for data retrieval and rendering functions
 3. Consolidate graph implementations (server-side vs API)
@@ -186,14 +196,14 @@ Multiple files enable debug output via `test` cookie/parameter:
 
 ## Comprehensive Review
 
-| Metric | Score | Notes |
-|--------|-------|-------|
-| **Overall Rating** | 5/10 | Functional but has security and duplication issues |
-| **Production Readiness** | Partial | Works but vulnerable to XSS |
-| **Security Score** | 4/10 | Input sanitized but output not encoded |
-| **Technical Debt** | Medium-High | Duplication, dead code, debug mode |
-| **Maintainability** | 5/10 | Glob includes, high param counts |
-| **Risk Assessment** | High | XSS via database data |
+| Metric                   | Score       | Notes                                              |
+| ------------------------ | ----------- | -------------------------------------------------- |
+| **Overall Rating**       | 5/10        | Functional but has security and duplication issues |
+| **Production Readiness** | Partial     | Works but vulnerable to XSS                        |
+| **Security Score**       | 4/10        | Input sanitized but output not encoded             |
+| **Technical Debt**       | Medium-High | Duplication, dead code, debug mode                 |
+| **Maintainability**      | 5/10        | Glob includes, high param counts                   |
+| **Risk Assessment**      | High        | XSS via database data                              |
 
 ---
 
@@ -211,7 +221,8 @@ include_once 'footer.php';
 ```
 
 ### URL Parameters
-- `?get=users&user=Username` -- User detail view
-- `?get=langs&langcode=ar` -- Language detail view
-- `?get=camps` -- Campaign view
-- `?year=2024&camp=RTT` -- Filter by year/campaign
+
+-   `?get=users&user=Username` -- User detail view
+-   `?get=langs&langcode=ar` -- Language detail view
+-   `?get=camps` -- Campaign view
+-   `?year=2024&camp=RTT` -- Filter by year/campaign

@@ -29,9 +29,9 @@ function make_tds_rows_responsive($full, $tds)
     $title  = $tds["title"];
     $_user_ = $tds["user"];
     $_date_ = $tds["date"];
-    //---
+
     $cnt2 = $full && (strtolower(substr($title, 0, 6)) != 'video:') ? "$cnt.Full" : $cnt;
-    //---
+
     $td_rows = <<<HTML
         <tr class=''>
             <th class='num' scope="row">
@@ -88,30 +88,30 @@ function make_one_row_new_inprocess(
     $endpoint,
     $user_coord
 ) {
-    //---
+
     // inprocess_table = { "title": "Andes virus infection", "user": "Mr. Ibrahem", "lang": "ar", "cat": "RTT", "translate_type": "all", "word": 0, "add_date": "2026-05-21 00:00:00", "campaign": "Main", "autonym": "العربية" }
     $_user_ = $inprocess_table['user'] ?? "";
     $_date_ = $inprocess_table['date'] ?? $inprocess_table['add_date'] ?? "";
-    //---
+
     $word     = $title_data['w_lead_words'] ?? 0;
     $refs     = $title_data['r_lead_refs'] ?? 0;
     $importance = $title_data['importance'] ?? "";
     $en_views = $title_data['en_views'] ?? "";
     $qid      = $title_data['qid'] ?? "";
-    //---
+
     if ($tra_type == 'all') {
         $word  = $title_data['w_all_words'] ?? 0;
         $refs  = $title_data['r_all_refs'] ?? 0;
     }
-    //---
+
     if (empty($importance)) $importance = 'Unknown';
-    //---
+
     $qid_url = make_wikidata_url_blank($qid);
-    //---
+
     $login_user_is_the_translator = (!empty($global_username) && $_user_ == $global_username) || $user_coord;
-    //---
+
     $mdwiki_url = make_mdwiki_href($title);
-    //---
+
     [$tab, $translate_url, $_] = make_translate_urls(
         $title,
         $tra_type,
@@ -126,16 +126,16 @@ function make_one_row_new_inprocess(
         $login_user_is_the_translator,
         $endpoint
     );
-    //---
+
     // if $_date_ has : then split before first space
     if (strpos($_date_, ':') !== false) {
         $_date_ = explode(' ', $_date_)[0];
     };
-    //---
+
     if (empty($global_username)) {
         $tab = "";
     }
-    //---
+
     $tds = [
         "in_progress_translation_button" => $in_progress_translation_button,
         "translate_url" => $translate_url,
@@ -167,32 +167,32 @@ function make_results_table_inprocess(
     $endpoint,
     $user_coord
 ): string {
-    //---
+
     // $inprocess_table = normalizeItems($inprocess_table);
-    //---
+
     $frist = make_table_start(true, $in_progress_translation_button);
-    //---
+
     $list = "";
     $cnt = 1;
-    //---
+
     foreach ($inprocess_table as $title => $title_tab) {
-        // ---
+
         if (empty($title)) continue;
-        // ---
+
         $title = str_replace("_", " ", $title);
-        //---
+
         $title_data = $titles_infos_items[$title] ?? [];
-        //---
+
         // { "title": "Andes virus infection", "user": "Mr. Ibrahem", "lang": "ar", "cat": "RTT", "translate_type": "all", "word": 0, "add_date": "2026-05-21 00:00:00", "campaign": "Main", "autonym": "العربية" }
         $tra_type = $title_tab['translate_type'] ?? "";
-        //---
+
         $full = false;
-        //---
+
         if (strtolower(substr($title, 0, 6)) == 'video:') {
             $tra_type = 'all';
             $full = true;
         };
-        //---
+
         $row = make_one_row_new_inprocess(
             $title,
             $tra_type,
@@ -211,14 +211,14 @@ function make_results_table_inprocess(
         );
         //--
         $list .= $row;
-        //---
+
         $cnt++;
     };
-    // ---
+
     $last = <<<HTML
         </tbody>
     </table>
     HTML;
-    // ---
+
     return $frist . $list . $last;
 }

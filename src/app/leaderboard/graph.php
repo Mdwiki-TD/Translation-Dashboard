@@ -10,19 +10,19 @@ use function Leaderboard\Graph\print_graph_for_table;
 use function Leaderboard\Graph\print_graph_tab;
 
 */
-//---
-// ---
+
+
 function graph_html($keys, $values, $no_card = false)
 {
-    // ---
+
     $graph_id = 'chart_' . uniqid();
-    // ---
+
     $canvas = <<<HTML
         <div class="position-relative">
             <canvas id="$graph_id" height="200" class="invert-on-dark"></canvas>
         </div>
     HTML;
-    //---
+
     $graph =  <<<HTML
         <div class="card">
             <div class="card-header " style="font-weight:bold;">
@@ -36,11 +36,11 @@ function graph_html($keys, $values, $no_card = false)
             </div>
         </div>
     HTML;
-    //---
+
     if ($no_card) {
         $graph = $canvas;
     }
-    //---
+
     $graph .=  <<<HTML
         <script>
             graph_js(
@@ -54,45 +54,45 @@ function graph_html($keys, $values, $no_card = false)
 }
 function print_graph_for_table($table, $no_card = false)
 {
-    //---
+
     // sort $table by keys
     ksort($table);
-    //---
+
     $ms = "";
     $cs = "";
-    //---
+
     foreach ($table as $key => $value) {
-        //---
+
         $ms .= "'$key',";
         $cs .= "$value,";
     }
     $ms = substr($ms, 0, -1);
     $cs = substr($cs, 0, -1);
-    //---
+
     $graph = graph_html($ms, $cs, $no_card);
-    //---
+
     return $graph;
 }
 
 function print_graph_from_sql($data)
 {
-    //---
+
     $ms = "";
     $cs = "";
-    //---
+
     foreach ($data as $yhu => $Taab) {
-        //---
+
         $m = $Taab['m'] ?? "";
         $c = $Taab['c'] ?? "";
-        //---
+
         $ms .= "'$m',";
         $cs .= "$c,";
     }
     $ms = substr($ms, 0, -1);
     $cs = substr($cs, 0, -1);
-    //---
+
     $graph =  graph_html($ms, $cs);
-    //---
+
     return $graph;
 }
 

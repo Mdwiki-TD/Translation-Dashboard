@@ -19,9 +19,9 @@ use function SQLorAPI\GetDataTab\get_endpoint;
 
 function go_to_translate_url($title_o, $coden, $tr_type, $cat, $camp, $endpoint)
 {
-    // ---
+
     $test = $_GET['test'] ?? '';
-    // ---
+
     $url = make_ContentTranslation_url(
         $title_o,
         $coden,
@@ -30,14 +30,14 @@ function go_to_translate_url($title_o, $coden, $tr_type, $cat, $camp, $endpoint)
         $tr_type,
         $endpoint
     );
-    // ---
+
     echo <<<HTML
         <br>
         <h2>
             <a target="_blank" href='$url'>Click here to go to ContentTranslation in medwiki</a>
         </h2>
     HTML;
-    // ---
+
     if (empty($test)) {
         echo <<<HTML
             <script type='text/javascript'>
@@ -73,41 +73,41 @@ if (empty($useree)) {
 }
 
 if (!empty($title_o) && !empty($coden)) {
-    // ---
+
     // use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
     $categories_tab = get_td_or_sql_categories();
     $cats_data = array_column($categories_tab, "campaign", "category");
-    // ---
+
     $users_no_inprocess = get_td_or_sql_users_no_inprocess();
     $users_no_inprocess = array_column($users_no_inprocess, 'is_active', 'user');
-    // ---
+
     $title_o = trim($title_o);
     $coden   = trim($coden);
     $useree  = trim($useree);
     //  title=COVID-19&code=ady&cat=RTTCovid&camp=COVID&type=lead
-    // ---
+
     $cat = filter_input(INPUT_GET, 'cat', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
     $camp = filter_input(INPUT_GET, 'camp', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
     $tr_type = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'lead';
     $word = filter_input(INPUT_GET, 'word', FILTER_VALIDATE_INT, [
         'options' => ['default' => 0, 'min_range' => 0]
     ]);
-    // ---
+
     if (empty($camp) && !empty($cat)) {
         $camp = $cats_data[$cat] ?? "";
     }
-    // ---
+
     $user_decoded  = rawurldecode($useree);
     $cat     = rawurldecode($cat);
     $title_o = rawurldecode($title_o);
-    // ---
+
     $camp    = rawurldecode($camp);
     if (($users_no_inprocess[$useree] ?? 0) != 1) {
         insertPage_inprocess($title_o, $word, $tr_type, $cat, $coden, $user_decoded);
     }
-    // ---
+
     $endpoint = get_endpoint();
-    // ---
+
     go_to_translate_url(
         $title_o,
         $coden,
@@ -117,7 +117,7 @@ if (!empty($title_o) && !empty($coden)) {
         $endpoint
     );
 }
-// ---
+
 echo <<<HTML
     </div>
 

@@ -23,7 +23,7 @@ function use_td_api_or_sql()
         // var_dump(json_encode($settings_tabe, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
         // "{ "allow_type_of_translate": 0, "translation_button_in_progress_table": 1, "fix_ref_in_text": 0, "use_td_api": 1, "use_mdwikicx": 1}"
         $use_td_api  = (($settings_tabe['use_td_api'] ?? "") == "1") ? true : false;
-        // ---
+
         if (isset($_GET['use_td_api'])) {
             $use_td_api  = $_GET['use_td_api'] != "x";
         }
@@ -40,17 +40,17 @@ function isvalid($str)
 function super_function(array $api_params, array $sql_params, string $sql_query, $table_name = null, $no_refind = false): array
 {
     $use_td_api = use_td_api_or_sql();
-    // ---
+
     $data = ($use_td_api) ? get_td_api($api_params) : [];
-    // ---
+
     if (empty($data) && (getenv('APP_ENV') === 'testing' || defined('PHPUNIT_RUNNING'))) {
         return [];
     }
-    // ---
+
     if (empty($data) && !$no_refind) {
         test_print("<br> >>>>> Query:");
         $data = fetch_query($sql_query, $sql_params);
     }
-    // ---
+
     return $data;
 }
