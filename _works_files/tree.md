@@ -79,7 +79,7 @@ src/
 │   │   ├── main.php
 │   │   ├── README.md
 │   │   ├── users.php
-│   │   └── x.php
+│   │   └── leaderboard_js.php
 │   ├── footer.php
 │   ├── head.php
 │   ├── header.php

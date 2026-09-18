@@ -6,8 +6,8 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     error_reporting(E_ALL);
 };
 
-include_once dirname(__DIR__) . '/include_all.php';
-include_once dirname(__DIR__) . '/header.php';
+include_once __DIR__ . '/app/include_all.php';
+include_once __DIR__ . '/app/header.php';
 
 use function Leaderboard\Filter\leaderboard_filter;
 
@@ -176,7 +176,7 @@ HTML;
     // when page ready
     $(document).ready(async function() {
         $('.sortable').DataTable({
-            stateSave: true,
+            stateSave: false,
             paging: false,
             info: false,
             searching: false
@@ -213,7 +213,7 @@ HTML;
         await get_categories();
 
         $('#Topusers').DataTable({
-            stateSave: true,
+            stateSave: false,
             paging: false,
             info: false,
             searching: false,
@@ -284,7 +284,8 @@ HTML;
         graph_js_params('chart09', getFormData({}))
 
         $('#Toplangs').DataTable({
-            stateSave: true,
+            stateSave: false,
+            // order: [ [2, 'desc'] ],
             paging: false,
             info: false,
             searching: false,
@@ -294,7 +295,6 @@ HTML;
                 dataSrc: function(json) {
                     let total = json.results.length;
                     $('#c_lang').text(total);
-
                     return json.results;
                 }
             },

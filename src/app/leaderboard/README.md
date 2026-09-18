@@ -31,7 +31,7 @@ The `src/leaderboard/` directory implements the translation leaderboard system. 
 src/leaderboard/
 ├── index.php                       # Router / entry point
 ├── main.php                        # Main leaderboard composition
-├── x.php                           # AJAX-driven alternative leaderboard
+├── leaderboard_js.php                           # AJAX-driven alternative leaderboard
 ├── camps.php                       # Campaign-to-article mapping
 ├── langs.php                       # Language detail view
 ├── users.php                       # User detail view
@@ -95,7 +95,7 @@ Clean namespace organization mirrors directory structure. The router (`index.php
 -   **Procedural with namespaces** -- No classes, all functions
 -   **Function-based composition** -- Views assembled from function return values
 -   **Memoization** -- `camps.php` uses static variable caching
--   **Dual rendering** -- Server-side (`main.php`) vs AJAX (`x.php`)
+-   **Dual rendering** -- Server-side (`main.php`) vs AJAX (`leaderboard_js.php`)
 
 ### Maintainability: 5/10
 
@@ -156,7 +156,7 @@ graph_js([$keys], [$values], "$graph_id")
 Multiple files enable debug output via `test` cookie/parameter:
 
 -   `main.php` (lines 5-9)
--   `x.php` (lines 3-7)
+-   `leaderboard_js.php` (lines 3-7)
 -   `leader_filter.php` (lines 11-15)
 
 ---
