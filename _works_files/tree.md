@@ -110,6 +110,12 @@ src/
 │   ├── sorttable.js
 │   ├── theme.js
 │   └── to.js
+├── static/
+│   └── xtools.svg
+├── templates/
+│   ├── footer.php
+│   ├── head.php
+│   └── header.php
 ├── translate/
 │   └── medwiki.php
 ├── translate_med/
@@ -120,9 +126,6 @@ src/
 ├── auth.php
 ├── coordinator.php
 ├── favicon.svg
-├── footer.php
-├── head.php
-├── header.php
 ├── include_all.php
 ├── index.php
 ├── leaderboard.php
@@ -131,7 +134,6 @@ src/
 ├── README.md
 ├── sitelinks.php
 ├── tools.php
-├── translate.php
-└── xtools.svg
+└── translate.php
 
 ```

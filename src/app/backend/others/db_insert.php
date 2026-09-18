@@ -2,10 +2,6 @@
 
 namespace TranslateMed\Inserter;
 
-
-
-// include_once dirname(__DIR__) . '/actions/mdwiki_sql.php';
-
 use function TD\Render\TestPrint\test_print;
 use function APICalls\MdwikiSql\execute_query;
 

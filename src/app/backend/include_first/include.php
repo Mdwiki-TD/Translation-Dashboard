@@ -1,6 +1,5 @@
 <?php
 
-foreach (glob(__DIR__ . "/*.php") as $filename) {
-    if ($filename == __FILE__) continue;
-    include_once $filename;
-}
+include_once __DIR__ . '/tables_dir.php';
+include_once __DIR__ . '/test_print.php';
+include_once __DIR__ . '/text_admin.php';

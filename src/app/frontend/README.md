@@ -5,17 +5,19 @@
 The `src/app/frontend/` directory is the HTML generation layer (presentation layer) of the Translation Dashboard. It provides reusable, pure functions that output Bootstrap 5 HTML strings for cards, modals, dropdowns, links, and table structures.
 
 ### Main Features
-- Bootstrap 5 component generators (alerts, modals, dropdowns, cards, columns)
-- URL builders for mdwiki.org, Wikipedia, and Wikidata links
-- Results table HTML scaffold generation
-- Font Awesome and Bootstrap Icons integration
+
+-   Bootstrap 5 component generators (alerts, modals, dropdowns, cards, columns)
+-   URL builders for mdwiki.org, Wikipedia, and Wikidata links
+-   Results table HTML scaffold generation
+-   Font Awesome and Bootstrap Icons integration
 
 ### Technologies
-- PHP 8.4+
-- Bootstrap 5 (CSS framework)
-- Font Awesome 5 (icons)
-- Bootstrap Icons (icons)
-- DataTables (table plugin)
+
+-   PHP 8.4+
+-   Bootstrap 5 (CSS framework)
+-   Font Awesome 5 (icons)
+-   Bootstrap Icons (icons)
+-   DataTables (table plugin)
 
 ---
 
@@ -25,62 +27,67 @@ The `src/app/frontend/` directory is the HTML generation layer (presentation lay
 src/app/frontend/
 ├── include.php                     # Aggregator bootstrap
 ├── html.php                        # Core HTML helper functions (TD\Render\Html)
-└── results_rows/
-    └── results_table_html.php      # Table scaffold generator (Results\ResultsTableHtml)
+└── results_table_html.php      # Table scaffold generator (Results\ResultsTableHtml)
 ```
 
 ### File Roles
 
-| File | Namespace | Purpose |
-|------|-----------|---------|
-| `include.php` | None | Loads all frontend files via `include_once` |
-| `html.php` | `TD\Render\Html` | 13 utility functions for HTML generation |
-| `results_rows/results_table_html.php` | `Results\ResultsTableHtml` | Table `<table>` + `<thead>` skeleton |
+| File                                  | Namespace                  | Purpose                                     |
+| ------------------------------------- | -------------------------- | ------------------------------------------- |
+| `include.php`                         | None                       | Loads all frontend files via `include_once` |
+| `html.php`                            | `TD\Render\Html`           | 13 utility functions for HTML generation    |
+| `results_table_html.php` | `Results\ResultsTableHtml` | Table `<table>` + `<thead>` skeleton        |
 
 ### Functions in `html.php`
 
-| Function | Purpose |
-|----------|---------|
-| `banner_alert($text)` | Bootstrap alert-danger div |
-| `make_modal_fade(...)` | Bootstrap modal dialog |
-| `makeDropdown(...)` | `<select>` dropdown with options |
-| `makeColSm4(...)` | Bootstrap column with card + table |
-| `makeCol(...)` | Narrower Bootstrap column |
-| `make_drop(...)` | `<option>` elements for dropdowns |
-| `make_mdwiki_href($title)` | Raw mdwiki.org URL |
-| `make_mdwiki_article_url_blank(...)` | `<a>` tag to mdwiki article |
-| `make_mdwiki_cat_url(...)` | `<a>` tag to mdwiki category |
-| `make_mdwiki_user_url($user)` | `<a>` tag to mdwiki user page |
-| `make_wikipedia_url_blank(...)` | `<a>` tag to Wikipedia article |
-| `make_wikidata_url_blank(...)` | `<a>` tag to Wikidata entity |
+| Function                             | Purpose                            |
+| ------------------------------------ | ---------------------------------- |
+| `banner_alert($text)`                | Bootstrap alert-danger div         |
+| `make_modal_fade(...)`               | Bootstrap modal dialog             |
+| `makeDropdown(...)`                  | `<select>` dropdown with options   |
+| `makeColSm4(...)`                    | Bootstrap column with card + table |
+| `makeCol(...)`                       | Narrower Bootstrap column          |
+| `make_drop(...)`                     | `<option>` elements for dropdowns  |
+| `make_mdwiki_href($title)`           | Raw mdwiki.org URL                 |
+| `make_mdwiki_article_url_blank(...)` | `<a>` tag to mdwiki article        |
+| `make_mdwiki_cat_url(...)`           | `<a>` tag to mdwiki category       |
+| `make_mdwiki_user_url($user)`        | `<a>` tag to mdwiki user page      |
+| `make_wikipedia_url_blank(...)`      | `<a>` tag to Wikipedia article     |
+| `make_wikidata_url_blank(...)`       | `<a>` tag to Wikidata entity       |
 
 ---
 
 ## Architecture & Code Quality Review
 
 ### Code Organization
+
 Clean separation -- all HTML helpers are in one file, table scaffolding in another. The `include.php` aggregator provides a single entry point.
 
 ### Design Patterns
-- **Pure functions** -- Every function is stateless, side-effect-free (input -> HTML string)
-- **Facade via include** -- Single `include.php` loads everything
+
+-   **Pure functions** -- Every function is stateless, side-effect-free (input -> HTML string)
+-   **Facade via include** -- Single `include.php` loads everything
 
 ### SOLID Principles
-- Functions are simple and focused (good SRP)
-- No inheritance to evaluate
+
+-   Functions are simple and focused (good SRP)
+-   No inheritance to evaluate
 
 ### Maintainability: 7/10
-- Small, focused files
-- Clear function names
-- Stale documentation in comments (8 phantom function references)
+
+-   Small, focused files
+-   Clear function names
+-   Stale documentation in comments (8 phantom function references)
 
 ### Readability: 7/10
-- Heredoc syntax is readable for HTML generation
-- Inconsistent variable naming (`$cdcdc`, `$uxutable`)
+
+-   Heredoc syntax is readable for HTML generation
+-   Inconsistent variable naming (`$cdcdc`, `$uxutable`)
 
 ### Scalability: 8/10
-- Pure functions scale well
-- No state to manage
+
+-   Pure functions scale well
+-   No state to manage
 
 ---
 
@@ -131,27 +138,30 @@ The namespace `TD\Render\Html` doesn't match the PSR-4 autoload path `src/render
 
 ## Areas That Need Attention
 
-- **Add `htmlspecialchars()` to all output functions** -- This is the highest priority fix
-- **Fix typo** -- `taget` -> `target` in `make_mdwiki_user_url()`
-- **Clean up stale comments** -- Remove references to non-existent functions
-- **Standardize icon framework** -- Choose either Font Awesome or Bootstrap Icons
-- **Align namespaces with PSR-4** -- Either move files or update `composer.json` mappings
+-   **Add `htmlspecialchars()` to all output functions** -- This is the highest priority fix
+-   **Fix typo** -- `taget` -> `target` in `make_mdwiki_user_url()`
+-   **Clean up stale comments** -- Remove references to non-existent functions
+-   **Standardize icon framework** -- Choose either Font Awesome or Bootstrap Icons
+-   **Align namespaces with PSR-4** -- Either move files or update `composer.json` mappings
 
 ---
 
 ## Improvement Plan
 
 ### Quick Fixes
+
 1. Add `htmlspecialchars($var, ENT_QUOTES, 'UTF-8')` to all parameter interpolation
 2. Fix `taget` typo in `make_mdwiki_user_url()`
 3. Remove stale function references from comments
 
 ### Medium-Term
+
 1. Create an `e()` helper function for consistent HTML escaping
 2. Align namespace `TD\Render\` with actual file path or update `composer.json`
 3. Standardize on one icon framework
 
 ### Long-Term
+
 1. Consider a template engine (Twig/Plates) for automatic escaping
 2. Add unit tests for all HTML helper functions
 3. Create a design system documentation for consistent component usage
@@ -160,14 +170,14 @@ The namespace `TD\Render\Html` doesn't match the PSR-4 autoload path `src/render
 
 ## Comprehensive Review
 
-| Metric | Score | Notes |
-|--------|-------|-------|
-| **Overall Rating** | 5/10 | Good design but critical XSS vulnerabilities |
-| **Production Readiness** | Partial | Works but needs output encoding |
-| **Security Score** | 3/10 | No output encoding anywhere |
-| **Technical Debt** | Low | Small codebase, simple functions |
-| **Maintainability** | 7/10 | Clean, focused files |
-| **Risk Assessment** | High | XSS exploitable if database data is compromised |
+| Metric                   | Score   | Notes                                           |
+| ------------------------ | ------- | ----------------------------------------------- |
+| **Overall Rating**       | 5/10    | Good design but critical XSS vulnerabilities    |
+| **Production Readiness** | Partial | Works but needs output encoding                 |
+| **Security Score**       | 3/10    | No output encoding anywhere                     |
+| **Technical Debt**       | Low     | Small codebase, simple functions                |
+| **Maintainability**      | 7/10    | Clean, focused files                            |
+| **Risk Assessment**      | High    | XSS exploitable if database data is compromised |
 
 ---
 
