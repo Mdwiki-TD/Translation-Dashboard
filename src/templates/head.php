@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php
 
 namespace TDC\Head;
