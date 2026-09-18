@@ -172,8 +172,6 @@ The [**Coordinator Tools**](https://github.com/Mdwiki-TD/tdc) module is a specia
 | `/sitelinks.php`                             | GET    | Wikidata sitelinks report                                                 |
 | `/translate.php`                             | GET    | Redirect to Content Translation tool                                      |
 | `/x.php`                                     | GET    | AJAX-based leaderboard using DataTables                                   |
-| `/auth.php`                                  | GET    | Redirect to authentication                                                |
-| `/coordinator.php`                           | GET    | Redirect to coordinator tools                                             |
 | `/404.php`                                   | GET    | 404 error page                                                            |
 
 ### API Endpoints

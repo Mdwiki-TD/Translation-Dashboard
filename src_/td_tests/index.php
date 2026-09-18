@@ -5,7 +5,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 include_once dirname(__DIR__) . '/include_all.php';
-include_once __DIR__ . '/../header.php';
+include_once dirname(__DIR__) . '/header.php';
 echo <<<HTML
     <div class='container'>
     <div class='card'>
@@ -31,4 +31,4 @@ echo <<<HTML
     <br>
     HTML;
 //---
-include_once __DIR__ . '/../footer.php';
+include_once dirname(__DIR__) . '/footer.php';

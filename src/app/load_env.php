@@ -20,4 +20,4 @@ putenv('DECRYPT_KEY=def000001358577eb292b944a354cfe446413d532d4c18c963597a88ec1d
 putenv('JWT_KEY=c963597a884269ff04c443b5155c071');
 
 # paths keys
-putenv('TABLES_PATH=I:/MD_TOOLS/MDWIKI_MAIN_REPO/public_html/td/Tables');
+putenv('TABLES_PATH=I:/MD_TOOLS/MDWIKI_MAIN_REPO/src/public_html/td/Tables');

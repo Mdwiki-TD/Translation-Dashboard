@@ -13,10 +13,10 @@ ini_set('session.use_strict_mode', '1');
 use function TD\Render\Html\banner_alert;
 use function SQLorAPI\Funcs\get_coordinators;
 //---
-include_once __DIR__ . '/app/backend/userinfos_wrap.php';
+include_once __DIR__ . '/backend/userinfos_wrap.php';
 //---
-include_once __DIR__ . '/app/frontend/include.php';
-include_once __DIR__ . '/app/backend/include_first/include.php';
+include_once __DIR__ . '/frontend/include.php';
+include_once __DIR__ . '/backend/include_first/include.php';
 //---
 include_once __DIR__ . '/head.php';
 //---

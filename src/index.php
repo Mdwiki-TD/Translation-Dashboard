@@ -15,7 +15,7 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 // Includes
 // =======================
 include_once __DIR__ . '/app/include_all.php';
-include_once __DIR__ . '/header.php';
+include_once __DIR__ . '/app/header.php';
 include_once __DIR__ . '/app/backend/loaders/load_request.php';
 
 use function Loaders\LoadRequest\load_request;
@@ -290,4 +290,4 @@ echo "</div><br>";
 // =======================
 // Footer
 // =======================
-require_once __DIR__ . '/footer.php';
+include_once __DIR__ . '/app/footer.php';

@@ -6,9 +6,9 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     error_reporting(E_ALL);
 }
 
-include_once __DIR__ . '/../backend/userinfos_wrap.php';
+include_once dirname(__DIR__) . '/app/backend/userinfos_wrap.php';
 include_once dirname(__DIR__) . '/include_all.php';
-include_once __DIR__ . '/../backend/others/db_insert.php';
+include_once dirname(__DIR__) . '/app/backend/others/db_insert.php';
 
 use function Results\TrLink\make_ContentTranslation_url;
 // use function TranslateMed\Inserter\insertPage;

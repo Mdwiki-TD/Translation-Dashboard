@@ -1,7 +1,7 @@
 <?php
 //---
 include_once __DIR__ . '/app/include_all.php';
-include_once __DIR__ . '/header.php';
+include_once __DIR__ . '/app/header.php';
 //---
 
 use function TD\Render\TestPrint\test_print;
@@ -146,4 +146,4 @@ foreach ($qids_o as $qid => $tab) {
 }
 
 echo "</tbody></table>";
-include_once __DIR__ . '/footer.php';
+include_once __DIR__ . '/app/footer.php';
