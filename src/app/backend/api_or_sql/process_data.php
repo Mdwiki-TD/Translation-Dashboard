@@ -43,7 +43,7 @@ function get_user_process_new(string $user, string $year_y = "all")
         $api_params['year'] = $year_y;
     }
 
-    $data = super_function($api_params, $params, $query, "in_process", true);
+    $data = super_function($api_params, $params, $query, true);
 
     $cache[$user] = $data;
 
@@ -89,7 +89,7 @@ function get_lang_in_process_by_cat($code, $category): array
 
     $params = [$code, $category];
 
-    $data = super_function($api_params, $params, $query, "in_process");
+    $data = super_function($api_params, $params, $query);
 
     $cache[$code][$category] = $data;
 
@@ -115,7 +115,7 @@ function get_lang_in_process_by_year($code, $year_y = "all"): array
         $api_params['year'] = $year_y;
     }
 
-    $data = super_function($api_params, $params, $query, "in_process");
+    $data = super_function($api_params, $params, $query);
 
     $cache[$code][$year_y] = $data;
 
@@ -135,7 +135,7 @@ function get_lang_in_process($code): array
 
     $params = [$code];
 
-    $data = super_function($api_params, $params, $query, "in_process");
+    $data = super_function($api_params, $params, $query);
 
     $cache[$code] = $data;
 

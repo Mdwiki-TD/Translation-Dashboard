@@ -40,7 +40,7 @@ function missing_by_lang_and_category($lang_code, $category)
 
     $params = [$lang_code, $category, $lang_code];
 
-    $u_data = super_function($api_params, $params, $query, "category_members");
+    $u_data = super_function($api_params, $params, $query);
 
     return $u_data;
 }
@@ -82,7 +82,7 @@ function exists_by_lang_and_category($lang_code, $category)
 
     $params = [$lang_code, $category, $lang_code];
 
-    $u_data = super_function($api_params, $params, $query, "category_members");
+    $u_data = super_function($api_params, $params, $query);
 
     return $u_data;
 }
@@ -110,7 +110,7 @@ function count_category_members($category)
 
     $params = [$category];
 
-    $u_data = super_function([], $params, $query, "category_members");
+    $u_data = super_function([], $params, $query);
 
     $data2[$category] = $u_data;
 
@@ -151,7 +151,7 @@ function statics_by_category($category)
 
     $params = [$category];
 
-    $u_data = super_function($api_params, $params, $query, "category_members");
+    $u_data = super_function($api_params, $params, $query);
 
     $data2[$category] = $u_data;
 

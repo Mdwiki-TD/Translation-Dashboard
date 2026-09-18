@@ -86,7 +86,6 @@ function get_td_api(array $params): array
 {
     $settings = Settings::getInstance();
 
-    // $endPoint = (getenv('APP_ENV') === 'production') ? 'https://mdwiki.toolforge.org' : 'http://localhost:9001';
     $endPoint = $settings->ServerUrl;
 
     $endPoint .= '/api.php';
@@ -103,10 +102,8 @@ function get_td_api(array $params): array
 
     if (isset($result['error'])) {
         test_print_o('Error:' . json_encode($result['error'], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
-        $result = [];
+        $results = [];
     }
 
-    // var_dump(json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
-
-    return $result;
+    return $results;
 }
