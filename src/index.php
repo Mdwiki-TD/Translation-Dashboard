@@ -14,16 +14,15 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 // =======================
 // Includes
 // =======================
-include_once __DIR__ . '/include_all.php';
-include_once __DIR__ . '/header.php';
-include_once __DIR__ . '/backend/loaders/load_request.php';
+include_once __DIR__ . '/app/include_all.php';
+include_once __DIR__ . '/app/header.php';
+include_once __DIR__ . '/app/backend/loaders/load_request.php';
 
 use function Loaders\LoadRequest\load_request;
 use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
 use function SQLorAPI\GetDataTab\get_td_or_sql_settings;
 use function SQLorAPI\GetDataTab\get_td_or_sql_langs;
-// use Results\GetResults2026\ResultsLoader;
-use function Results\GetResults2026\results_loader_2026;
+use Results\GetResults27\ResultsLoader;
 
 
 function make_drop($uxutable, $code)
@@ -282,9 +281,8 @@ if ($camp && $code) {
         "test" => $test
     ];
     // ---
-    // $loader = new ResultsLoader();
-    // echo $loader->load($data);
-    echo results_loader_2026($data);
+    $loader = new ResultsLoader();
+    echo $loader->load($data);
 }
 
 echo "</div><br>";
@@ -292,4 +290,4 @@ echo "</div><br>";
 // =======================
 // Footer
 // =======================
-require_once __DIR__ . '/footer.php';
+include_once __DIR__ . '/app/footer.php';
