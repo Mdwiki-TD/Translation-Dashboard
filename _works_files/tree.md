@@ -58,11 +58,10 @@ src/
 │   │   ├── settings.php
 │   │   └── userinfos_wrap.php
 │   ├── frontend/
-│   │   ├── results_rows/
-│   │   │   └── results_table_html.php
 │   │   ├── html.php
 │   │   ├── include.php
-│   │   └── README.md
+│   │   ├── README.md
+│   │   └── results_table_html.php
 │   ├── leaderboard/
 │   │   ├── others/
 │   │   │   ├── camps_text.php
@@ -87,7 +86,6 @@ src/
 │   │   └── users.php
 │   ├── include_all.php
 │   ├── index.php
-│   ├── load_env.php
 │   ├── missing.php
 │   └── sitelinks.php
 ├── css/
