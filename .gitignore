@@ -12,7 +12,6 @@ vendor/**
 /src_
 /tests_backup
 composer.lock
-src/t.php
 .phpunit.result.cache
 _works_files/tree.py
 load_env.php
