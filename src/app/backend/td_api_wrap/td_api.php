@@ -12,24 +12,12 @@ function test_print_o($s)
     }
     $print_t = (isset($_REQUEST['test']) || isset($_COOKIE['test'])) ? true : false;
 
-    if ($print_t && gettype($s) == 'string') {
+    if ($print_t && is_string($s)) {
         echo "\n<br>\n$s";
     } elseif ($print_t) {
         echo "\n<br>\n";
         print_r($s);
     }
-}
-
-function compare_it($t1, $t2)
-{
-    echo "<br>fetch _query:<br>";
-    // //---
-    var_dump(json_encode($t1, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-    // //---
-    echo "<br>get_td_api:<br>";
-    // //---
-    var_dump(json_encode($t2, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-
 }
 
 function post_url(string $endPoint, array $params = []): string
@@ -85,7 +73,6 @@ function post_url(string $endPoint, array $params = []): string
 function get_td_api(array $params): array
 {
     $settings = Settings::getInstance();
-
     $endPoint = $settings->ServerUrl;
 
     $endPoint .= '/api.php';

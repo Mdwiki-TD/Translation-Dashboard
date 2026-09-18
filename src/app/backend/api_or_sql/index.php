@@ -4,7 +4,6 @@ namespace SQLorAPI\Get;
 
 use function APICalls\MdwikiSql\fetch_query;
 use function APICalls\TDApi\get_td_api;
-use function TD\Render\TestPrint\test_print;
 
 function use_td_api_or_sql(): bool
 {
@@ -12,10 +11,10 @@ function use_td_api_or_sql(): bool
     if ($use_td_api === null) {
         // var_dump(json_encode($settings_tabe, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
         // "{ "allow_type_of_translate": 0, "translation_button_in_progress_table": 1, "fix_ref_in_text": 0, "use_td_api": 1, "use_mdwikicx": 1}"
-        $data = get_td_api(['get' => 'settings']);
-        $result = $data['results'] ?? [];
+        $api_results = get_td_api(['get' => 'settings']);
+        $data = $api_results['results'] ?? [];
 
-        $settings_tabe = array_column($result, 'value', 'title');
+        $settings_tabe = array_column($data, 'value', 'title');
 
         $use_td_api  = (($settings_tabe['use_td_api'] ?? "") == "1") ? true : false;
 
@@ -37,25 +36,28 @@ function super_function(
     string $sql_query,
     bool $no_refind = false
 ): array {
+    $api_data = [];
+
     $use_td_api = use_td_api_or_sql();
+    if ($use_td_api) {
+        $api_results = get_td_api($api_params);
 
-    $api_data = ($use_td_api) ? get_td_api($api_params) : [];
-    $data = $api_data['results'] ?? [];
+        $api_data = $api_results['results'] ?? [];
 
-    if (empty($data) && (getenv('APP_ENV') === 'testing' || defined('PHPUNIT_RUNNING'))) {
-        return [];
-    }
-    $length = $api_data['length'];
+        if (empty($api_data) && (getenv('APP_ENV') === 'testing' || defined('PHPUNIT_RUNNING'))) {
+            return [];
+        }
+        $length = $api_results['length'] ?? null;
 
-    if ($length === 0) {
-        // API return empty list. no need to check sql.
-        return [];
-    }
-
-    if (empty($data) && !$no_refind) {
-        test_print("<br> >>>>> Query:");
-        $data = fetch_query($sql_query, $sql_params);
+        if ($length === 0) {
+            // API return empty list. no need to check sql.
+            return $api_data;
+        }
     }
 
-    return $data;
+    if (empty($api_data) && !$no_refind) {
+        $api_data = fetch_query($sql_query, $sql_params);
+    }
+
+    return $api_data;
 }
