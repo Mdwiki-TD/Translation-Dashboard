@@ -1,7 +1,7 @@
 <?PHP
 
 include_once __DIR__ . '/app/include_all.php';
-include_once __DIR__ . '/header.php';
+include_once __DIR__ . '/templates/header.php';
 
 use function Leaderboard\Filter\leaderboard_filter;
 

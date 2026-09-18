@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-The `src/leaderboard/` directory implements the translation leaderboard system. It displays translation statistics by user, language, and campaign, with interactive charts, sortable tables, and filtering capabilities.
+The `src/app/leaderboard/` directory implements the translation leaderboard system. It displays translation statistics by user, language, and campaign, with interactive charts, sortable tables, and filtering capabilities.
 
 ### Main Features
 
@@ -28,7 +28,7 @@ The `src/leaderboard/` directory implements the translation leaderboard system. 
 ## Project Structure
 
 ```
-src/leaderboard/
+src/app/leaderboard/
 ├── index.php                       # Router / entry point
 ├── main.php                        # Main leaderboard composition
 ├── leaderboard_js.php                           # AJAX-driven alternative leaderboard

@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-The `src/frontend/` directory is the HTML generation layer (presentation layer) of the Translation Dashboard. It provides reusable, pure functions that output Bootstrap 5 HTML strings for cards, modals, dropdowns, links, and table structures.
+The `src/app/frontend/` directory is the HTML generation layer (presentation layer) of the Translation Dashboard. It provides reusable, pure functions that output Bootstrap 5 HTML strings for cards, modals, dropdowns, links, and table structures.
 
 ### Main Features
 - Bootstrap 5 component generators (alerts, modals, dropdowns, cards, columns)
@@ -22,7 +22,7 @@ The `src/frontend/` directory is the HTML generation layer (presentation layer) 
 ## Project Structure
 
 ```
-src/frontend/
+src/app/frontend/
 ├── include.php                     # Aggregator bootstrap
 ├── html.php                        # Core HTML helper functions (TD\Render\Html)
 └── results_rows/

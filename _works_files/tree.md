@@ -18,8 +18,6 @@ src/
 │   │   │   ├── tables_dir.php
 │   │   │   ├── test_print.php
 │   │   │   └── text_admin.php
-│   │   ├── loaders/
-│   │   │   └── load_request.php
 │   │   ├── others/
 │   │   │   ├── db_insert.php
 │   │   │   ├── helps.php
@@ -55,6 +53,7 @@ src/
 │   │   │   └── langcode.php
 │   │   ├── td_api_wrap/
 │   │   │   └── td_api.php
+│   │   ├── include.php
 │   │   ├── README.md
 │   │   ├── settings.php
 │   │   └── userinfos_wrap.php
@@ -86,9 +85,6 @@ src/
 │   │   ├── main.php
 │   │   ├── README.md
 │   │   └── users.php
-│   ├── footer.php
-│   ├── head.php
-│   ├── header.php
 │   ├── include_all.php
 │   ├── index.php
 │   ├── load_env.php
@@ -124,6 +120,9 @@ src/
 ├── auth.php
 ├── coordinator.php
 ├── favicon.svg
+├── footer.php
+├── head.php
+├── header.php
 ├── include_all.php
 ├── index.php
 ├── leaderboard.php
@@ -132,6 +131,7 @@ src/
 ├── README.md
 ├── sitelinks.php
 ├── tools.php
-└── translate.php
+├── translate.php
+└── xtools.svg
 
 ```

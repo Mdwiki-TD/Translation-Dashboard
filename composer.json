@@ -12,7 +12,7 @@
             "SQLorAPI\\": "src/api_or_sql/",
             "Tables\\": "src/Tables/",
             "Results\\": "src/results/",
-            "Leaderboard\\": "src/leaderboard/",
+            "Leaderboard\\": "src/app/leaderboard/",
             "TranslateMed\\": "src/translate_med/"
         },
         "files": [

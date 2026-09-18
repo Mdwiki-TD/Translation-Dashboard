@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-The `src/backend/` directory is the core business logic layer of the WikiProjectMed Translation Dashboard. It handles all data access, authentication, configuration, category fetching, results processing, and translation pipeline orchestration.
+The `src/app/backend/` directory is the core business logic layer of the WikiProjectMed Translation Dashboard. It handles all data access, authentication, configuration, category fetching, results processing, and translation pipeline orchestration.
 
 ### Main Features
 
@@ -28,7 +28,7 @@ The `src/backend/` directory is the core business logic layer of the WikiProject
 ## Project Structure
 
 ```
-src/backend/
+src/app/backend/
 ├── settings.php                    # Singleton configuration (OAuth\Settings)
 ├── userinfos_wrap.php              # Authentication bootstrap
 ├── api_calls/                      # Infrastructure layer (DB, HTTP)
