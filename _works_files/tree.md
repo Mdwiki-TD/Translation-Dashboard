@@ -24,6 +24,13 @@ src/
 │   │   │   ├── db_insert.php
 │   │   │   ├── helps.php
 │   │   │   └── tr_link.php
+│   │   ├── results_2026/
+│   │   │   ├── include.php
+│   │   │   ├── index.php
+│   │   │   ├── results_table.php
+│   │   │   ├── results_table_exists.php
+│   │   │   ├── results_table_inprocess.php
+│   │   │   └── ResultsLoader.php
 │   │   ├── results_27/
 │   │   │   ├── Data/
 │   │   │   │   └── ResultsFetcher.php
@@ -78,13 +85,15 @@ src/
 │   │   ├── leader_tables_users.php
 │   │   ├── main.php
 │   │   ├── README.md
-│   │   ├── users.php
-│   │   └── leaderboard_js.php
+│   │   └── users.php
 │   ├── footer.php
 │   ├── head.php
 │   ├── header.php
 │   ├── include_all.php
-│   └── load_env.php
+│   ├── index.php
+│   ├── load_env.php
+│   ├── missing.php
+│   └── sitelinks.php
 ├── css/
 │   ├── dashboard_new1.css
 │   ├── mobile_format.css
@@ -105,18 +114,24 @@ src/
 │   ├── sorttable.js
 │   ├── theme.js
 │   └── to.js
+├── translate/
+│   └── medwiki.php
 ├── translate_med/
 │   ├── index.php
+│   ├── medwiki.php
 │   └── README.md
 ├── 404.php
 ├── auth.php
+├── coordinator.php
 ├── favicon.svg
 ├── include_all.php
 ├── index.php
 ├── leaderboard.php
+├── leaderboard_js.php
 ├── missing.php
 ├── README.md
 ├── sitelinks.php
-└── tools.php
+├── tools.php
+└── translate.php
 
 ```

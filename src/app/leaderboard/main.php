@@ -2,20 +2,6 @@
 
 namespace Leaderboard\Index;
 
-if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
-}
-
-/*
-
-Usage:
-
-use function Leaderboard\Index\main_leaderboard;
-
-*/
-
 use function TD\Render\Html\makeColSm4;
 use function TD\Render\Html\makeCol;
 use function Leaderboard\Graph\print_graph_for_table;

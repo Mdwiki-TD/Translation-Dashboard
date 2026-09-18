@@ -4,17 +4,8 @@ use Defuse\Crypto\Crypto;
 use function APICalls\MdwikiSql\fetch_query;
 use OAuth\Settings\Settings;
 
-require_once dirname(__DIR__) . '/include_all.php';
+// require_once dirname(__DIR__) . '/include_all.php';
 
-$settings = Settings::getInstance();
-
-if ($settings->is_production()) {
-    if (session_status() === PHP_SESSION_NONE) {
-        session_name("mdwikitoolforgeoauth");
-        // Ensure $domain is defined, fallback to server name
-        session_set_cookie_params(0, "/", $settings->domain, true, true);
-    }
-}
 
 function decode_value($value, $key_type = "cookie")
 {
@@ -78,32 +69,45 @@ function ba_alert($text)
 	HTML;
 }
 
-if (session_status() === PHP_SESSION_NONE) session_start();
+function load_user()
+{
 
-$username = get_from_cookies('username');
+    $settings = Settings::getInstance();
 
-if ($settings->is_development()) {
-    $username = $_SESSION['username'] ?? '';
-}
-
-if ($settings->is_production() && !empty($username)) {
-    $access = get_access_from_db($username);
-    if (empty($access)) {
-        echo ba_alert("No access keys found. Login again.");
-        setcookie('username', '', [
-            'expires' => time() - 3600,
-            'path' => '/',
-            'domain' => $settings->domain,
-            'secure' => true,
-            'httponly' => true,
-            'samesite' => 'Lax',
-        ]);
-        $username = '';
-        unset($_SESSION['username']);
+    if ($settings->is_production()) {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_name("mdwikitoolforgeoauth");
+            // Ensure $domain is defined, fallback to server name
+            session_set_cookie_params(0, "/", $settings->domain, true, true);
+        }
     }
+    if (session_status() === PHP_SESSION_NONE) session_start();
+
+    $username = get_from_cookies('username');
+
+    if ($settings->is_development()) {
+        $username = $_SESSION['username'] ?? '';
+    }
+
+    if ($settings->is_production() && !empty($username)) {
+        $access = get_access_from_db($username);
+        if (empty($access)) {
+            echo ba_alert("No access keys found. Login again.");
+            setcookie('username', '', [
+                'expires' => time() - 3600,
+                'path' => '/',
+                'domain' => $settings->domain,
+                'secure' => true,
+                'httponly' => true,
+                'samesite' => 'Lax',
+            ]);
+            $username = '';
+            unset($_SESSION['username']);
+        }
+    }
+
+    $global_username = $username;
+
+    define('global_username', $global_username);
+    $GLOBALS['global_username'] = $global_username;
 }
-
-$global_username = $username;
-
-define('global_username', $global_username);
-$GLOBALS['global_username'] = $global_username;

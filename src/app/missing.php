@@ -1,18 +1,9 @@
 <?PHP
 
-include_once __DIR__ . '/include_all.php';
-include_once __DIR__ . '/header.php';
 
 use function SQLorAPI\Funcs\statics_by_category;
 use function SQLorAPI\GetDataTab\get_td_or_sql_langs;
 use function SQLorAPI\Funcs\count_category_members;
-
-if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
-};
-
 
 $text = "";
 $num = 0;
@@ -93,4 +84,3 @@ echo <<<HTML
 </div>
 HTML;
 
-include_once __DIR__ . '/footer.php';

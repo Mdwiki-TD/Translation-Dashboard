@@ -1,5 +1,11 @@
 <?PHP
 
+if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
+	ini_set('display_errors', 1);
+	ini_set('display_startup_errors', 1);
+	error_reporting(E_ALL);
+}
+
 // don't use OAuth\Settings\Settings here, Instance is not created yet
 $env = getenv('APP_ENV') ?: ($_ENV['APP_ENV'] ?? 'development');
 
@@ -19,29 +25,8 @@ if (file_exists($vendorAutoload)) {
     die("Vendor autoload not found. Please run 'composer install' in the project root.");
 }
 
+include_once __DIR__ . '/backend/include.php';
+include_once __DIR__ . '/backend/userinfos_wrap.php';
 include_once __DIR__ . '/frontend/include.php';
-include_once __DIR__ . '/backend/settings.php';
-include_once __DIR__ . '/backend/include_first/include.php';
-
-foreach (glob(__DIR__ . "/backend/api_calls/*.php") as $filename) {
-    include_once $filename;
-}
-
-foreach (glob(__DIR__ . "/backend/td_api_wrap/*.php") as $filename) {
-    include_once $filename;
-}
-
-foreach (glob(__DIR__ . "/backend/api_or_sql/*.php") as $filename) {
-    include_once $filename;
-}
-
-include_once __DIR__ . '/backend/tables/langcode.php';
-
-foreach (glob(__DIR__ . "/backend/others/*.php") as $filename) {
-    include_once $filename;
-}
-
 include_once __DIR__ . '/leaderboard/include.php';
-
-include_once __DIR__ . "/backend/results_27/include.php";
 

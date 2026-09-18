@@ -2,18 +2,6 @@
 
 namespace Leaderboard\Filter;
 
-/*
-Usage:
-use function Leaderboard\Filter\leaderboard_filter;
-use function Leaderboard\Filter\input_group;
-*/
-
-if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
-};
-
 use function TD\Render\Html\makeDropdown;
 use function SQLorAPI\Funcs\get_pages_with_pupdate;
 use function SQLorAPI\TopData\get_td_or_sql_status;

@@ -1,9 +1,5 @@
 <?php
 
-include_once __DIR__ . '/include_all.php';
-include_once __DIR__ . '/header.php';
-
-
 use function TD\Render\TestPrint\test_print;
 use function Tables\TablesDir\open_td_tables_file;
 use OAuth\Settings\Settings;
@@ -146,4 +142,3 @@ foreach ($qids_o as $qid => $tab) {
 }
 
 echo "</tbody></table>";
-include_once __DIR__ . '/footer.php';

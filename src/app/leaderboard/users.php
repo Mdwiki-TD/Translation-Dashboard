@@ -65,10 +65,8 @@ function users_html(
     $xtools = <<<HTML
         <!-- <div class="d-flex align-items-center justify-content-between"> -->
             <a href='https://xtools.wmflabs.org/globalcontribs/$user_to_html' target='_blank'>
+                <img class="splash-logo" src="/Translation_Dashboard/xtools.svg" alt="XTools" width="80" height="35" title="Xtools">
                 <!-- <span class='h4'>(XTools)</span> -->
-                <svg width="80" height="35" title="Xtools">
-                    <use href="#logo-xtools" />
-                </svg>
             </a>
         <!-- </div> -->
     HTML;

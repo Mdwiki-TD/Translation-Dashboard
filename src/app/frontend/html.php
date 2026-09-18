@@ -1,41 +1,6 @@
 <?php
 
 namespace TD\Render\Html;
-/*
-https://live.datatables.net/lopevege/1/edit
-
-Usage:
-use function TD\Render\Html\banner_alert;
-use function TD\Render\Html\makeCard;
-use function TD\Render\Html\makeColSm4;
-use function TD\Render\Html\makeDropdown;
-use function TD\Render\Html\make_mdwiki_cat_url;
-use function TD\Render\Html\make_col_sm_body;
-use function TD\Render\Html\make_datalist_options;
-use function TD\Render\Html\make_drop;
-use function TD\Render\Html\make_input_group;
-use function TD\Render\Html\make_input_group_no_col;
-use function TD\Render\Html\make_mdwiki_article_url_blank;
-use function TD\Render\Html\make_mdwiki_user_url;
-use function TD\Render\Html\make_modal_fade;
-use function TD\Render\Html\make_project_to_user;
-use function TD\Render\Html\make_talk_url;
-use function TD\Render\Html\make_wikipedia_url_blank;
-use function TD\Render\Html\make_translation_url;
-use function TD\Render\Html\make_wikidata_url_blank;
-*/
-
-
-function banner_alert($text)
-{
-    return <<<HTML
-	<div class='container'>
-		<div class="alert alert-danger" role="alert">
-			<i class="bi bi-exclamation-triangle"></i> $text
-		</div>
-	</div>
-	HTML;
-}
 
 function make_modal_fade($label, $text, $id, $button = '')
 {
