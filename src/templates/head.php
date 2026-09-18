@@ -17,7 +17,8 @@ $stylesheets = [
     "$hoste/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css",
 
     // "$hoste/ajax/libs/datatables.net-bs5/1.13.5/dataTables.bootstrap5.min.css",
-    "$hoste/ajax/libs/datatables.net-bs5/2.2.2/dataTables.bootstrap5.min.css",
+    "$hoste/ajax/libs/datatables.net-bs5/2.3.4/dataTables.bootstrap5.min.css",
+
     "$hoste/ajax/libs/datatables.net-responsive-bs5/3.0.4/responsive.bootstrap5.min.css",
 
     "/Translation_Dashboard/css/mobile_format.css",
@@ -34,8 +35,8 @@ $scripts = [
 
     // "$hoste/ajax/libs/datatables.net/2.1.1/jquery.dataTables.min.js",
     // "$hoste/ajax/libs/datatables.net-bs5/1.13.5/dataTables.bootstrap5.min.js",
-    "$hoste/ajax/libs/datatables.net/2.2.2/dataTables.min.js",
-    "$hoste/ajax/libs/datatables.net-bs5/2.2.2/dataTables.bootstrap5.min.js",
+    "$hoste/ajax/libs/datatables.net/2.3.4/dataTables.min.js",
+    "$hoste/ajax/libs/datatables.net-bs5/2.3.4/dataTables.bootstrap5.min.js",
 
     // "$hoste/ajax/libs/datatables.net-fixedheader/3.4.0/dataTables.fixedHeader.min.js",
     "$hoste/ajax/libs/datatables-responsive/3.0.4/dataTables.responsive.min.js",
@@ -115,6 +116,13 @@ function print_full_head(): string
                     text-decoration: none;
                     word-break: break-all !important;
                 }
+                .logo-text {
+                    background: linear-gradient(45deg, #6b8cff, #8b9fff);
+                    -webkit-background-clip: text;
+                    background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    transition: opacity 0.3s ease;
+                }
             </style>
         </head>
     HTML;
@@ -144,10 +152,10 @@ function write_body(string $coord_tools, string $li_user): string
         <header class="mb-3 border-bottom">
             <nav class="navbar navbar-expand-lg bg-body-tertiary shadow" id="mainnav">
                 <div class="container-fluid" id="navbardiv">
-                    <a class="navbar-brand mb-0 h1" href="index.php" style="color:#0d6efd;">
+                    <a class="navbar-brand mb-0 h1" href="/Translation_Dashboard/index.php" style="color:#0d6efd;">
                         <img class='med-logo' width="40px" height="40px" src='/favicon.svg' decoding='async' alt='Wiki Project Med Foundation logo'>
-                        <span class='d-none d-sm-inline tool_title' title=''>WikiProjectMed Translation Dashboard</span>
-                        <span class='d-inline d-sm-none tool_title'>WikiProjectMed TD</span>
+                        <span class='d-none d-md-inline tool_title'>WikiProjectMed Translation Dashboard</span>
+                        <span class='d-inline d-md-none tool_title'>WikiProjectMed TD</span>
                     </a>
 
                     <div class="d-flex align-items-center order-lg-last">
@@ -162,7 +170,7 @@ function write_body(string $coord_tools, string $li_user): string
                     <div class="collapse navbar-collapse" id="collapsibleNavbar">
                         <ul class="navbar-nav flex-row flex-wrap bd-navbar-nav">
                             <li class="nav-item col-lg-auto col-md-4 col-sm-6 col-6 {$leaderboard_active}" id="leaderboard">
-                                <a class="nav-link py-2 px-0 px-lg-2" href="leaderboard.php">
+                                <a class="nav-link py-2 px-0 px-lg-2" href="/Translation_Dashboard/leaderboard.php">
                                     <span class="navtitles"> <i class="bi bi-bar-chart-line me-1"></i> Leaderboard</span>
                                 </a>
                             </li>
@@ -174,7 +182,7 @@ function write_body(string $coord_tools, string $li_user): string
                                 </a>
                             </li>
                             <li class="nav-item col-lg-auto col-md-4 col-sm-6 col-6 {$missing_active}" id="missing">
-                                <a class="nav-link py-2 px-0 px-lg-2" href="missing.php">
+                                <a class="nav-link py-2 px-0 px-lg-2" href="/Translation_Dashboard/missing.php">
                                     <span class="navtitles">
                                         <i class="bi bi-card-list me-1"></i> Missing
                                     </span>

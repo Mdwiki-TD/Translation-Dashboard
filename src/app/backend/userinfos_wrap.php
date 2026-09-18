@@ -1,7 +1,6 @@
 <?php
 
 use Defuse\Crypto\Crypto;
-use Defuse\Crypto\Key;
 use function APICalls\MdwikiSql\fetch_query;
 use function SQLorAPI\Funcs\get_coordinators;
 use OAuth\Settings\Settings;

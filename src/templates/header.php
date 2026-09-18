@@ -35,7 +35,7 @@ HTML;
 if (!empty($username)) {
 	$li_user = <<<HTML
 		<li class="nav-item col-lg-auto col-md-4 col-sm-6 col-6">
-			<a href="leaderboard.php?get=users&user={$username}" class="nav-link py-2 px-0 px-lg-2">
+			<a href="/Translation_Dashboard/leaderboard.php?get=users&user={$username}" class="nav-link py-2 px-0 px-lg-2">
 				<i class="fas fa-user fa-sm fa-fw mr-2"></i> <span class="navtitles">{$username}</span>
 			</a>
 		</li>
