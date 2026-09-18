@@ -72,30 +72,6 @@ function get_users_process_new(): array
     return $process_new;
 }
 
-function get_lang_in_process_by_cat($code, $category): array
-{
-
-    static $cache = [];
-
-    if (!isvalid($category)) {
-        return [];
-    }
-
-    if (!empty($cache[$code][$category] ?? [])) return $cache[$code][$category];
-
-    $query = "select * from in_process where lang = ? AND cat = ?";
-
-    $api_params = ['get' => 'in_process', 'lang' => $code, 'cat' => $category];
-
-    $params = [$code, $category];
-
-    $data = super_function($api_params, $params, $query);
-
-    $cache[$code][$category] = $data;
-
-    return $cache[$code][$category];
-}
-
 function get_lang_in_process_by_year($code, $year_y = "all"): array
 {
 

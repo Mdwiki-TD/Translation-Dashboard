@@ -26,7 +26,6 @@ function use_td_api_or_sql(): bool
     return $use_td_api;
 }
 
-
 function isvalid($str)
 {
     return !empty($str) && strtolower($str) != "all";

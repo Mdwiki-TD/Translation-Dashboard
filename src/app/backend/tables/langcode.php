@@ -1,7 +1,6 @@
-<?PHP
+<?php
 
 namespace Tables\Langs;
-
 
 
 /*

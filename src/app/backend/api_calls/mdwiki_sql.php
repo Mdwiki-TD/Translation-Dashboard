@@ -61,7 +61,7 @@ class Database
 
         $print_t = (isset($_REQUEST['test']) || isset($_COOKIE['test'])) ? true : false;
 
-        if ($print_t && gettype($s) == 'string') {
+        if ($print_t && is_string($s)) {
             echo "\n<br>\n$s";
         } elseif ($print_t) {
             echo "\n<br>\n";
@@ -112,13 +112,9 @@ class Database
         }
     }
 
-    public function fetchquery($sql_query, $params = null, $noprint = false)
+    public function fetchquery($sql_query, $params = null)
     {
         try {
-            if ($noprint == false) {
-                $this->test_print($sql_query);
-            }
-
             $this->disableFullGroupByMode($sql_query);
 
             $q = $this->db->prepare($sql_query);
@@ -144,11 +140,8 @@ class Database
     }
 }
 
-function execute_query(string $sql_query, $params = null, $table_name = null)
+function execute_query(string $sql_query, $params = null)
 {
-
-
-
     // Create a new database object
     $db = new Database('DB_NAME');
 
@@ -173,11 +166,15 @@ function fetch_query(string $sql_query, $params = null, $noprint = false)
     // Create a new database object
     $db = new Database('DB_NAME');
 
+    if ($noprint == false) {
+        $db->test_print($sql_query);
+    }
+
     // Execute a SQL query
     if ($params) {
-        $results = $db->fetchquery($sql_query, $params, $noprint);
+        $results = $db->fetchquery($sql_query, $params);
     } else {
-        $results = $db->fetchquery($sql_query, null, $noprint);
+        $results = $db->fetchquery($sql_query, null);
     }
 
     // Print the results
