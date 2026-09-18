@@ -88,8 +88,7 @@ class ResultsFetcher
             "ix"        => $summary,
             "inprocess" => $inProcess,
             "exists"    => $itemsExists,
-            // "missing"   => array_values($missing), // sugested by Grok
-            "missing"   => $itemsMissing,
+            "missing"   => array_values($missing),
         ];
     }
 
