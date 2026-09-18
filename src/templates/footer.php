@@ -24,22 +24,26 @@ if (!empty($GLOBALS['global_username'] ?? "")) {
 	}
 }
 
+// Calculate and display page load time
 if (isset($GLOBALS['time_start'])) {
-	$time_start = $GLOBALS['time_start'];
+	$time_start = (float)$GLOBALS['time_start'];
 	$time_end = microtime(true);
-	$time_diff = $time_end - $time_start;
-	$time_diff = round($time_diff, 3);
+	$time_diff = round($time_end - $time_start, 3);
 
-	$line = "Load Time: " . $time_diff . " seconds";
+	$line = "Load Time: {$time_diff} seconds";
 
-	$script = "$('.tool_title').attr('title', '$line');";
+	// Escape for JavaScript
+	$escaped_line = addslashes($line);
+	$script = "$('.tool_title').attr('title', '{$escaped_line}');";
 
-	echo "\n<script>\n\t $script</script>";
+	echo "\n<script>\n\t{$script}</script>";
 }
 ?>
 
 </div>
 </main>
+
+<!-- Common JavaScript -->
 <script src="/Translation_Dashboard/js/c.js"></script>
 <script>
 	function acceptCookieAlert() {
@@ -52,26 +56,44 @@ if (isset($GLOBALS['time_start'])) {
 		document.execCommand("copy");
 	}
 
+	// Initialize simple sortable tables
 	$('.sortable').DataTable({
 		stateSave: true,
 		paging: false,
 		info: false,
 		searching: false
 	});
+
+	// Initialize paginated sortable tables
 	$('.sortable2').DataTable({
 		stateSave: true,
 		lengthMenu: [
 			[25, 50, 100, 200],
 			[25, 50, 100, 200]
-		],
+		]
 	});
+
 	$(document).ready(function() {
 		// Call get_views() function
 		get_views();
 
-		// $('[data-toggle="tooltip"]').tooltip();
+		// Initialize Bootstrap tooltips
 		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-		const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+		const tooltipList = [...tooltipTriggerList].map(
+			tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl)
+		);
+
+		// Initialize responsive tables with slight delay for DOM stability
+		setTimeout(function() {
+			$('.soro').DataTable({
+				stateSave: true,
+				lengthMenu: [
+					[25, 50, 100, 200],
+					[25, 50, 100, 200]
+				]
+			});
+		}, 200);
+
 
 		// $('.card').CardWidget('toggle')
 		$('.table_responsive').DataTable({
@@ -98,15 +120,6 @@ if (isset($GLOBALS['time_start'])) {
 			}
 		});
 
-		setTimeout(function() {
-			$('.soro').DataTable({
-				stateSave: true,
-				lengthMenu: [
-					[25, 50, 100, 200],
-					[25, 50, 100, 200]
-				],
-			});
-		}, 200);
 	});
 </script>
 </body>

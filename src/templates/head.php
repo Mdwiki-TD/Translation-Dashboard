@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-
 <?php
+
+namespace TDC\Head;
+
 $hoste = (getenv('APP_ENV') === 'production')
     ? "https://tools-static.wmflabs.org/cdnjs"
     : "https://cdnjs.cloudflare.com";
@@ -49,8 +51,7 @@ $scripts_module = [
     "/Translation_Dashboard/js/color-modes.js",
 ];
 
-
-function head()
+function head(): string
 {
     global $stylesheets, $scripts, $scripts_module;
 
@@ -98,7 +99,7 @@ function print_full_head(): string
                 .table_text_left>tbody>tr>td,
                 .table_text_left>thead>tr>td,
                 .table_text_left>thead>tr>th {
-                    text-align:left !important;
+                    text-align: left !important;
                 }
 
                 .leaderboard_tables>tbody>tr>td,
@@ -116,7 +117,6 @@ function print_full_head(): string
                     word-break: break-all !important;
                 }
             </style>
-
         </head>
     HTML;
 
@@ -126,14 +126,14 @@ function print_full_head(): string
 
 function is_active($url)
 {
-	$file_name = basename($_SERVER['PHP_SELF']);
-	// echo "file_name: $file_name <br>";
+    $file_name = basename($_SERVER['PHP_SELF']);
+    // echo "file_name: $file_name <br>";
 
-	if ($file_name == $url) {
-		return 'active';
-	}
+    if ($file_name == $url) {
+        return 'active';
+    }
 
-	return '';
+    return '';
 }
 
 function write_body(string $coord_tools, string $li_user): string

@@ -1,6 +1,7 @@
 <?php
 
 use Defuse\Crypto\Crypto;
+use Defuse\Crypto\Key;
 use function APICalls\MdwikiSql\fetch_query;
 use function SQLorAPI\Funcs\get_coordinators;
 use OAuth\Settings\Settings;
@@ -89,12 +90,14 @@ function clear_user_cookie(string $domain): void
 function load_user(Settings $settings): array
 {
 
+    $cookieDomain = $settings->domain;
+
     // 1. Initialize session if not already active
     if (session_status() === PHP_SESSION_NONE) {
         // Set custom session configuration only in production environment
         if ($settings->is_production()) {
             session_name("mdwikitoolforgeoauth");
-            session_set_cookie_params(0, "/", $settings->domain, true, true);
+            session_set_cookie_params(0, "/", $cookieDomain, true, true);
         }
 
         // Start the PHP session
@@ -102,6 +105,7 @@ function load_user(Settings $settings): array
     }
 
     $cookie_key  = get_key($settings, "cookie");
+
     // 2. Fetch initial username based on environment
     $username = get_from_cookies('username', $cookie_key);
 
@@ -119,7 +123,7 @@ function load_user(Settings $settings): array
             echo ba_alert("No access keys found. Login again.");
 
             // Clear identity
-            clear_user_cookie($settings->domain);
+            clear_user_cookie($cookieDomain);
             unset($_SESSION['username']);
             $username = '';
         }
