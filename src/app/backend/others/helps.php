@@ -2,14 +2,7 @@
 
 namespace Results\Helps;
 
-/*
-Usage:
 
-use function Results\Helps\make_translate_urls;
-use function Results\Helps\sort_py_importance;
-use function Results\Helps\normalizeItems;
-
-*/
 
 use function Results\TrLink\make_tr_link_medwiki;
 use function TD\Render\Html\make_mdwiki_href;

@@ -2,17 +2,6 @@
 
 namespace SQLorAPI\TopData;
 
-/*
-
-Usage:
-
-use function SQLorAPI\TopData\get_td_or_sql_top_lang_of_users;
-use function SQLorAPI\TopData\get_td_or_sql_top_users;
-use function SQLorAPI\TopData\get_td_or_sql_top_langs;
-use function SQLorAPI\TopData\get_td_or_sql_status;
-
-*/
-
 use function SQLorAPI\Get\super_function;
 use function SQLorAPI\Get\isvalid;
 

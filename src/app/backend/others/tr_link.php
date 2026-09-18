@@ -2,13 +2,7 @@
 
 namespace Results\TrLink;
 
-/*
-Usage:
 
-use function Results\TrLink\make_ContentTranslation_url; // make_ContentTranslation_url($title, $cod, $cat, $camp, $tra_type)
-use function Results\TrLink\make_tr_link_medwiki;
-
-*/
 
 function make_ContentTranslation_url(
     $title,

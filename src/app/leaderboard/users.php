@@ -2,12 +2,7 @@
 
 namespace Leaderboard\Users;
 
-/*
-Usage:
 
-use function Leaderboard\Users\users_html;
-
-*/
 
 use function Leaderboard\Subs\LeadHelp\make_users_lead;
 use function TD\Render\Html\make_mdwiki_user_url;

@@ -2,11 +2,7 @@
 
 namespace Leaderboard\Subs\SubLangs;
 
-/*
-Usage:
-use function Leaderboard\Subs\SubLangs\get_langs_tables;
 
-*/
 
 use function SQLorAPI\Funcs\get_lang_pages;
 use function SQLorAPI\Process\get_lang_in_process_by_year;

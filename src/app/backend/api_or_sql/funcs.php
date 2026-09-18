@@ -2,25 +2,6 @@
 
 namespace SQLorAPI\Funcs;
 
-/*
-
-Usage:
-
-use function SQLorAPI\Funcs\get_lang_years;
-use function SQLorAPI\Funcs\get_user_years;
-use function SQLorAPI\Funcs\get_user_langs;
-use function SQLorAPI\Funcs\get_user_camps;
-use function SQLorAPI\Funcs\get_lang_views;
-use function SQLorAPI\Funcs\get_lang_pages;
-use function SQLorAPI\Funcs\get_graph_data;
-use function SQLorAPI\Funcs\get_pages_with_pupdate;
-use function SQLorAPI\Funcs\get_user_views;
-use function SQLorAPI\Funcs\get_user_pages;
-use function SQLorAPI\Funcs\get_coordinators;
-use function SQLorAPI\Funcs\get_lang_pages_by_cat;
-
-*/
-
 use function SQLorAPI\Get\super_function;
 use function SQLorAPI\Get\isvalid;
 

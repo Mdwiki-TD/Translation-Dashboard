@@ -2,17 +2,7 @@
 
 namespace Tables\Langs;
 
-/*
-Usage:
-use function Tables\Langs\get_lang_title;
-use function Tables\Langs\get_lang_name;
-use function Tables\Langs\get_lang_code;
 
-
-(\$)(skip_codes|change_codes|code_to_wikiname|lang_to_code|code_to_lang)\b
-LangsTables::$1L_$2
-
-*/
 
 /*
 "gswsgs": "bat-smg",

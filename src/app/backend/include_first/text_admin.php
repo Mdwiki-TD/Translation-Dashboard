@@ -1,10 +1,7 @@
 <?php
 
 namespace TD\Render;
-/*
-Usage:
-use function TD\Render\admin_text;
-*/
+
 
 function admin_text($text)
 {

@@ -2,12 +2,7 @@
 
 namespace Results\GetResults2026;
 
-/*
-Usage:
 
-use function Results\GetResults2026\get_results_2026; // get_results_2026($cat, $camp, $depth, $code)
-
-*/
 
 use function TD\Render\Html\make_mdwiki_cat_url;
 

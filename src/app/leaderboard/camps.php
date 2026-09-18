@@ -2,11 +2,7 @@
 
 namespace Leaderboard\Camps;
 
-/*
-Usage:
-use function Leaderboard\Camps\get_articles_to_camps;
 
-*/
 
 use function SQLorAPI\GetDataTab\get_td_or_sql_categories_members;
 use function SQLorAPI\GetDataTab\get_td_or_sql_categories;

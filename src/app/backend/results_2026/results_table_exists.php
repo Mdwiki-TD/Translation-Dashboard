@@ -2,12 +2,7 @@
 
 namespace Results\GetResults2026;
 
-/*
-Usage:
 
-use function Results\GetResults2026\make_results_table_exists;
-
-*/
 
 use function Results\TrLink\make_ContentTranslation_url;
 use function TD\Render\Html\make_mdwiki_article_url_blank;

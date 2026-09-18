@@ -2,15 +2,6 @@
 
 namespace SQLorAPI\Get;
 
-/*
-
-Usage:
-
-use function SQLorAPI\Get\super_function;
-use function SQLorAPI\Get\isvalid;
-
-*/
-
 use function APICalls\MdwikiSql\fetch_query;
 use function APICalls\TDApi\get_td_api;
 use function TD\Render\TestPrint\test_print;

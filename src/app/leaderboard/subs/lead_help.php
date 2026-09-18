@@ -2,16 +2,7 @@
 
 namespace Leaderboard\Subs\LeadHelp;
 
-/*
-Usage:
 
-use function Leaderboard\Subs\LeadHelp\make_key;
-use function Leaderboard\Subs\LeadHelp\make_td_fo_user;
-use function Leaderboard\Subs\LeadHelp\make_table_lead;
-use function Leaderboard\Subs\LeadHelp\make_langs_lead;
-use function Leaderboard\Subs\LeadHelp\make_users_lead;
-
-*/
 
 use function APICalls\WikiApi\make_view_by_number;
 use function TD\Render\Html\make_mdwiki_cat_url;

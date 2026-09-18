@@ -2,12 +2,7 @@
 
 namespace Leaderboard\CampText;
 
-/*
-Usage:
 
-use function Leaderboard\CampText\echo_html;
-
-*/
 
 use function Leaderboard\Camps\get_articles_to_camps;
 

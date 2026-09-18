@@ -3,13 +3,6 @@
 namespace Leaderboard\Graph2;
 /*
 http://localhost:9001/Translation_Dashboard/leaderboard.php?graph_api=1&test=1
-
-Usage:
-
-use function Leaderboard\Graph2\print_graph_tab_2_new;
-use function Leaderboard\Graph2\graph_new_html;
-use function Leaderboard\Graph2\print_graph_api;
-
 */
 
 function graph_new_html($params, $no_card = false)

@@ -2,12 +2,7 @@
 
 namespace Results\ResultsTableHtml;
 
-/*
-Usage:
 
-use function Results\ResultsTableHtml\make_table_start;
-
-*/
 
 function make_table_start($inprocess, $in_progress_translation_button)
 {

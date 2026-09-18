@@ -2,16 +2,6 @@
 
 namespace SQLorAPI\Funcs;
 
-/*
-
-Usage:
-
-use function SQLorAPI\Funcs\missing_by_lang_and_category;
-use function SQLorAPI\Funcs\exists_by_lang_and_category;
-use function SQLorAPI\Funcs\count_category_members;
-
-*/
-
 use function SQLorAPI\Get\super_function;
 
 function missing_by_lang_and_category($lang_code, $category)

@@ -1,12 +1,7 @@
 <?PHP
 
 namespace Leaderboard\Subs\FilterForm;
-/*
-Usage:
 
-use function Leaderboard\Subs\FilterForm\lead_row;
-
-*/
 
 
 use function SQLorAPI\Funcs\get_lang_years;

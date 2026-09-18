@@ -1,15 +1,7 @@
 <?PHP
 
 namespace Leaderboard\Graph;
-/*
-Usage:
 
-use function Leaderboard\Graph\graph_html;
-use function Leaderboard\Graph\print_graph_from_sql;
-use function Leaderboard\Graph\print_graph_for_table;
-use function Leaderboard\Graph\print_graph_tab;
-
-*/
 
 
 function graph_html($keys, $values, $no_card = false)

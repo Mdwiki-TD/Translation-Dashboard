@@ -2,14 +2,6 @@
 
 namespace SQLorAPI\GetLead;
 
-/*
-
-Usage:
-
-use function SQLorAPI\GetLead\get_leaderboard_table;
-
-*/
-
 use function SQLorAPI\Get\super_function;
 use function SQLorAPI\Get\isvalid;
 

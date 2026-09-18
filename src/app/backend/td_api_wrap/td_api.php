@@ -1,13 +1,7 @@
 <?php
 
 namespace APICalls\TDApi;
-/*
-Usage:
 
-use function APICalls\TDApi\get_td_api;
-use function APICalls\TDApi\compare_it;
-
-*/
 
 use OAuth\Settings\Settings;
 

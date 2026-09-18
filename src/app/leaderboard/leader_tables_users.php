@@ -2,13 +2,7 @@
 
 namespace Leaderboard\LeaderTabUsers;
 
-/*
-Usage:
 
-use function Leaderboard\LeaderTabUsers\makeUsersTable;
-use function Leaderboard\LeaderTabUsers\module_copy_data;
-
-*/
 
 use function TD\Render\Html\make_modal_fade;
 

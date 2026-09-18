@@ -2,11 +2,7 @@
 
 namespace Leaderboard\Subs\SubUsers;
 
-/*
-Usage:
-use function Leaderboard\Subs\SubUsers\get_users_tables;
 
-*/
 
 use function SQLorAPI\Funcs\get_user_pages;
 use function SQLorAPI\Process\get_user_process_new;

@@ -1,12 +1,7 @@
 <?PHP
 
 namespace Leaderboard\SubGraph;
-/*
-Usage:
-use function Leaderboard\SubGraph\graph_data_new;
-use function Leaderboard\SubGraph\make_graph_data;
 
-*/
 
 function make_table($data, $len)
 {

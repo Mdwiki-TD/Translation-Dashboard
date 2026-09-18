@@ -2,12 +2,7 @@
 
 namespace Leaderboard\Langs;
 
-/*
-Usage:
 
-use function Leaderboard\Langs\langs_html;
-
-*/
 
 use function Leaderboard\Subs\LeadHelp\make_langs_lead;
 use function Leaderboard\Subs\SubLangs\get_langs_tables;

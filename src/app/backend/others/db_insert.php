@@ -2,13 +2,7 @@
 
 namespace TranslateMed\Inserter;
 
-/*
-Usage:
 
-use function TranslateMed\Inserter\insertPage;
-use function TranslateMed\Inserter\insertPage_inprocess;
-
-*/
 
 // include_once dirname(__DIR__) . '/actions/mdwiki_sql.php';
 

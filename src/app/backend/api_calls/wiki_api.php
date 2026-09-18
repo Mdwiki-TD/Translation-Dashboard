@@ -1,11 +1,7 @@
 <?php
 
 namespace APICalls\WikiApi;
-/*
-Usage:
-use function APICalls\WikiApi\make_view_by_number;
-use function APICalls\WikiApi\get_views;
-*/
+
 
 function make_view_by_number($target, $numb, $lang, $pupdate)
 {

@@ -2,26 +2,6 @@
 
 namespace SQLorAPI\GetDataTab;
 
-/*
-
-Usage:
-
-use function SQLorAPI\GetDataTab\get_camps_to_cat;
-use function SQLorAPI\GetDataTab\get_td_or_sql_translate_type;
-use function SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
-use function SQLorAPI\GetDataTab\get_td_or_sql_users_no_inprocess;
-use function SQLorAPI\GetDataTab\get_td_or_sql_qids;
-use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
-use function SQLorAPI\GetDataTab\get_td_or_sql_projects;
-use function SQLorAPI\GetDataTab\get_td_or_sql_settings;
-use function SQLorAPI\GetDataTab\get_td_or_sql_views;
-use function SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
-use function SQLorAPI\GetDataTab\get_td_or_sql_count_pages;
-use function SQLorAPI\GetDataTab\get_td_or_sql_langs;
-use function SQLorAPI\GetDataTab\get_td_or_sql_categories_members;
-
-*/
-
 use function SQLorAPI\Get\super_function;
 use function SQLorAPI\Get\isvalid;
 

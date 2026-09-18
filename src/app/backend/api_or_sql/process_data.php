@@ -2,17 +2,6 @@
 
 namespace SQLorAPI\Process;
 
-/*
-
-Usage:
-
-use function SQLorAPI\Process\get_process_data;
-use function SQLorAPI\Process\get_user_process_new;
-use function SQLorAPI\Process\get_users_process_new;
-use function SQLorAPI\Process\get_lang_in_process_by_cat;
-use function SQLorAPI\Process\get_lang_in_process_by_year;
-*/
-
 use function SQLorAPI\Get\super_function;
 use function SQLorAPI\Get\isvalid;
 

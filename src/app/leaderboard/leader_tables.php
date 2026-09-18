@@ -2,13 +2,7 @@
 
 namespace Leaderboard\LeaderTables;
 
-/*
-Usage:
 
-use function Leaderboard\LeaderTables\createNumbersTable;
-use function Leaderboard\LeaderTables\makeLangTable;
-
-*/
 
 function createNumbersTable($c_user, $c_articles, $c_words, $c_langs, $c_views)
 {
