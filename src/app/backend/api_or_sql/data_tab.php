@@ -201,7 +201,7 @@ function get_td_or_sql_full_translators($column = null)
     return $full_tr;
 }
 
-function get_td_or_sql_translate_type()
+function get_td_or_sql_translate_type(): array
 {
 
     static $translate_type = [];
