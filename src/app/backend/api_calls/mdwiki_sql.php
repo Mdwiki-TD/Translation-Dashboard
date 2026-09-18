@@ -1,10 +1,69 @@
 <?php
 
+/**
+ * Database Abstraction Layer for MDWiki SQL Operations
+ *
+ * Provides a secure, PDO-based database abstraction layer for interacting
+ * with MySQL/MariaDB databases in the Translation Dashboard application.
+ * Supports both local development and Wikimedia Toolforge environments.
+ *
+ * Features:
+ * - Automatic environment detection (localhost vs production)
+ * - Prepared statement support for SQL injection prevention
+ * - Configurable database suffix for multi-database support
+ * - Automatic SQL mode adjustment for GROUP BY compatibility
+ * - Secure credential management via external configuration
+ *
+ * Security Considerations:
+ * - Credentials are loaded from external configuration file, never hardcoded
+ * - All queries use prepared statements
+ * - Error messages are logged, not displayed in production
+ * - Database connections are properly closed after use
+ *
+ * Usage Example:
+ * ```php
+ * use function APICalls\MdwikiSql\fetch_query;
+ * use function APICalls\MdwikiSql\execute_query;
+ *
+ * // Fetch results (SELECT queries)
+ * $users = fetch_query("SELECT * FROM users WHERE is_active = ?", [1]);
+ *
+ * // Execute queries (INSERT, UPDATE, DELETE)
+ * execute_query("UPDATE settings SET value = ? WHERE id = ?", ['new_value', 5]);
+ * ```
+ *
+ * Configuration:
+ * Database credentials are stored in ~/confs/db.ini:
+ * ```ini
+ * user = your_toolforge_username
+ * password = your_database_password
+ * ```
+ *
+ * @package    APICalls
+ * @subpackage MdwikiSql
+ * @author     Translation Dashboard Team
+ * @version    2.0.0
+ * @since      1.0.0
+ * @license    GPL-3.0-or-later
+ *
+ * @see https://www.php.net/manual/en/book.pdo.php
+ * @see https://wikitech.wikimedia.org/wiki/Help:Toolforge/Database
+ */
+
 namespace APICalls\MdwikiSql;
 
 use PDO;
 use PDOException;
+use RuntimeException;
 
+/**
+ * Database Connection and Query Management Class
+ *
+ * Encapsulates PDO database operations with automatic connection management,
+ * error handling, and environment-specific configuration.
+ *
+ * @package APICalls\MdwikiSql
+ */
 class Database
 {
 

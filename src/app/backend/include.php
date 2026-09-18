@@ -11,12 +11,13 @@ include_once __DIR__ . '/api_calls/wiki_api.php';
 include_once __DIR__ . '/td_api_wrap/td_api.php';
 
 # api_or_sql
-include_once __DIR__ . '/api_or_sql/data_tab.php';
 include_once __DIR__ . '/api_or_sql/funcs.php';
-include_once __DIR__ . '/api_or_sql/get_lead.php';
 include_once __DIR__ . '/api_or_sql/index.php';
-include_once __DIR__ . '/api_or_sql/new_sql_tables.php';
 include_once __DIR__ . '/api_or_sql/process_data.php';
+
+include_once __DIR__ . '/api_or_sql/data_tab.php';
+include_once __DIR__ . '/api_or_sql/get_lead.php';
+include_once __DIR__ . '/api_or_sql/new_sql_tables.php';
 include_once __DIR__ . '/api_or_sql/top.php';
 
 # tables
