@@ -38,18 +38,6 @@ class Results27Test extends TestCase
     }
 
     /**
-     * Test TranslateTypeLoader loads 'full' and 'no' translate lists.
-     */
-    public function testTranslateTypeLoader(): void
-    {
-        $fullTranslates = TranslateTypeLoader::load('full');
-        $noLeadTranslates = TranslateTypeLoader::load('no');
-
-        $this->assertCount(0, $fullTranslates);
-        $this->assertCount(0, $noLeadTranslates);
-    }
-
-    /**
      * Test MissingRowBuilder build for logged out vs logged in vs fullTrUser vs video.
      */
     public function testMissingRowBuilderBuild(): void

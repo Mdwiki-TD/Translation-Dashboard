@@ -1,5 +1,7 @@
 <?PHP
-//---
+/*
+ * Deprecated
+*/
 $stats = http_build_query($_GET, '', '&', PHP_QUERY_RFC3986);
-//---
+
 HEADER("Location: /tdc/index.php?$stats");

@@ -1,6 +1,6 @@
 
 function add_it(item, data) {
-	// ---
+
 	var view = 0;
 	var items = data.items;
 
@@ -9,10 +9,10 @@ function add_it(item, data) {
 		view += aa['views'];
 		// console.log(view);
 	});
-	//---
+
 	item.text(view.toLocaleString());
 	item.parent().attr('data-sort', view);
-	//---
+
 	var p = $('#hrefjsontoadd').text();
 	p = p.replace(',', '');
 
@@ -31,12 +31,12 @@ function get_views() {
 		console.log('dont load get_views() in localhost');
 		// return;
 	}
-	// ---
+
 	$("[data-json-url]").each(function () {
 		var item = $(this);
 		var datajsonurl = item.attr("data-json-url");
 		// get the data from the data-json-url then add it to the value
-		// ---
+
 		fetch(datajsonurl)
 			.then(response => {
 				if (!response.ok) {
@@ -51,6 +51,6 @@ function get_views() {
 				console.log('error get_views()');
 				console.error(error);
 			});
-		// ---
+
 	});
 };
