@@ -44,15 +44,16 @@ function super_function(
 
         $api_data = $api_results['results'] ?? [];
 
-        if (empty($api_data) && (getenv('APP_ENV') === 'testing' || defined('PHPUNIT_RUNNING'))) {
-            return [];
-        }
         $length = $api_results['length'] ?? null;
 
         if ($length === 0) {
             // API return empty list. no need to check sql.
             return $api_data;
         }
+    }
+
+    if (empty($api_data) && (getenv('APP_ENV') === 'testing' || defined('PHPUNIT_RUNNING'))) {
+        return [];
     }
 
     if (empty($api_data) && !$no_refind) {
