@@ -6,6 +6,8 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 	error_reporting(E_ALL);
 }
 
+ini_set('session.use_strict_mode', '1');
+
 // don't use OAuth\Settings\Settings here, Instance is not created yet
 $env = getenv('APP_ENV') ?: ($_ENV['APP_ENV'] ?? 'development');
 

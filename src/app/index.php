@@ -310,7 +310,6 @@ echo "<div class='container-fluid'>";
 // $doit     = $req['doit'] ?? false;
 // if ($doit) {
 if ($camp && $code) {
-    $user_coord = $GLOBALS['user_is_coordinator'] ?? false;
     $show_exists = ($user_coord || isset($_GET['exists']));
 
     $in_progress_translation_button = $settings['translation_button_in_progress_table'] ?? '0';
@@ -344,7 +343,3 @@ if ($camp && $code) {
 }
 
 echo "</div><br>";
-
-// =======================
-// Footer
-// =======================

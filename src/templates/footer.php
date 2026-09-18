@@ -23,6 +23,7 @@ if (!empty($GLOBALS['global_username'] ?? "")) {
 		HTML;
 	}
 }
+
 if (isset($GLOBALS['time_start'])) {
 	$time_start = $GLOBALS['time_start'];
 	$time_end = microtime(true);

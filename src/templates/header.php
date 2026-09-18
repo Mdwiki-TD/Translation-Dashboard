@@ -2,47 +2,35 @@
 
 $time_start = microtime(true);
 
-ini_set('session.use_strict_mode', '1');
-
-use function SQLorAPI\Funcs\get_coordinators;
+use OAuth\Settings\Settings;
 
 include_once __DIR__ . '/head.php';
 
 echo print_full_head();
 
-load_user();
+$settings = Settings::getInstance();
 
-$coordinators = array_column(get_coordinators(), 'is_active', 'username');
-$GLOBALS['user_is_coordinator'] = (($coordinators[$GLOBALS['global_username']] ?? 0) == 1);
+[$username, $user_is_coordinator] = load_user($settings);
 
 $coord_tools = "";
 
-if ($GLOBALS['user_is_coordinator'] === true) {
+if ($user_is_coordinator === true) {
 	$coord_tools = '<a href="/tdc/index.php" class="nav-link py-2 px-0 px-lg-2"><span class="navtitles"></span> <i class="bi bi-tools me-1"></i> Coordinator Tools</a>';
 };
 
 $li_user = <<<HTML
 	<li class="nav-item col-lg-auto col-md-4 col-sm-6 col-6">
-		<!-- <button type="submit"
-				form="mainForm"
-				formaction="/auth/login.php"
-				formmethod="get"
-				formnovalidate
-				class="nav-link py-2 px-0 px-lg-2 btn btn-link">
-			<i class="fas fa-sign-in-alt fa-sm fa-fw mr-2"></i> Login
-		</button> -->
 		<a href="/auth/login.php" class="nav-link py-2 px-0 px-lg-2">
 			<i class="fas fa-sign-in-alt fa-sm fa-fw mr-2"></i> Login
 		</a>
 	</li>
 HTML;
 
-if (!empty($GLOBALS['global_username'] ?? "")) {
-	$u_name = $GLOBALS['global_username'];
+if (!empty($username)) {
 	$li_user = <<<HTML
 		<li class="nav-item col-lg-auto col-md-4 col-sm-6 col-6">
-			<a href="leaderboard.php?get=users&user=$u_name" class="nav-link py-2 px-0 px-lg-2">
-				<i class="fas fa-user fa-sm fa-fw mr-2"></i> <span class="navtitles">$u_name</span>
+			<a href="leaderboard.php?get=users&user=$username" class="nav-link py-2 px-0 px-lg-2">
+				<i class="fas fa-user fa-sm fa-fw mr-2"></i> <span class="navtitles">$username</span>
 			</a>
 		</li>
 		<li class="nav-item col-lg-auto col-md-4 col-sm-6 col-6">
@@ -53,101 +41,10 @@ if (!empty($GLOBALS['global_username'] ?? "")) {
 	HTML;
 };
 
-// get php file name from url http://localhost:9001/Translation_Dashboard/leaderboard.php?get=langs&langcode=zh
-function is_active($url)
-{
-	$file_name = basename($_SERVER['PHP_SELF']);
-	// echo "file_name: $file_name <br>";
+echo "<body>";
 
-	if ($file_name == $url) {
-		return 'active';
-	}
+echo write_body($coord_tools, $li_user);
 
-	return '';
-}
+echo "<main id='body'><div id='maindiv' class='container-fluid'>";
 
 ?>
-
-<body>
-	<header class="mb-3 border-bottom">
-		<nav class="navbar navbar-expand-lg bg-body-tertiary shadow" id="mainnav">
-			<div class="container-fluid" id="navbardiv">
-				<a class="navbar-brand mb-0 h1" href="index.php" style="color:#0d6efd;">
-					<img class='med-logo' width="40px" height="40px" src='/favicon.svg' decoding='async' alt='Wiki Project Med Foundation logo'>
-					<span class='d-none d-sm-inline tool_title' title=''>WikiProjectMed Translation Dashboard</span>
-					<span class='d-inline d-sm-none tool_title'>WikiProjectMed TD</span>
-				</a>
-
-				<div class="d-flex align-items-center order-lg-last">
-					<button class="navbar-toggler me_ms_by_dir" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar"
-						aria-controls="collapsibleNavbar" aria-expanded="false" aria-label="Toggle navigation">
-						<span class="navbar-toggler-icon"></span>
-					</button>
-					<button class="theme-toggle btn btn-link me-ms-auto" aria-label="Toggle theme">
-						<i class="bi bi-moon-stars-fill"></i>
-					</button>
-				</div>
-				<div class="collapse navbar-collapse" id="collapsibleNavbar">
-					<ul class="navbar-nav flex-row flex-wrap bd-navbar-nav">
-						<li class="nav-item col-lg-auto col-md-4 col-sm-6 col-6 <?php echo is_active('leaderboard.php'); ?>" id="leaderboard">
-							<a class="nav-link py-2 px-0 px-lg-2" href="leaderboard.php">
-								<span class="navtitles"> <i class="bi bi-bar-chart-line me-1"></i> Leaderboard</span>
-							</a>
-						</li>
-						<li class="nav-item col-lg-auto col-md-4 col-sm-6 col-6" id="Prior">
-							<a class="nav-link py-2 px-0 px-lg-2" target="_blank" href="/prior">
-								<span class="navtitles">
-									<i class="bi bi-bar-chart me-1"></i> Prior
-								</span>
-							</a>
-						</li>
-						<li class="nav-item col-lg-auto col-md-4 col-sm-6 col-6 <?php echo is_active('missing.php'); ?>" id="missing">
-							<a class="nav-link py-2 px-0 px-lg-2" href="missing.php">
-								<span class="navtitles">
-									<i class="bi bi-card-list me-1"></i> Missing
-								</span>
-							</a>
-						</li>
-						<li class="nav-item col-lg-auto col-md-4 col-sm-6 col-6" id="coord">
-							<?php echo $coord_tools; ?>
-						</li>
-
-						<li class="nav-item col-lg-auto col-md-4 col-sm-6 col-6">
-							<a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/MrIbrahem/Translation-Dashboard" target="_blank">
-								<span class="navtitles">
-									<i class="bi bi-github me-1"></i> Github
-								</span>
-							</a>
-						</li>
-						<li class="nav-item col-lg-auto col-md-4 col-sm-6 col-6">
-							<span class="nav-link py-2 px-0 px-lg-2" id="load_time"></span>
-						</li>
-					</ul>
-					<hr class="d-lg-none text-dark-subtle text-50">
-					<ul class="navbar-nav flex-row flex-wrap bd-navbar-nav ms-lg-auto">
-						<?php echo $li_user; ?>
-					</ul>
-				</div>
-			</div>
-		</nav>
-		<!-- Logout Modal-->
-		<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h6 class="modal-title" id="exampleModalLabel">Ready to Leave?</h6>
-						<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-					</div>
-					<div class="modal-body">Select &quot;Logout&quot; below if you are ready to end your current session.</div>
-					<div class="modal-footer">
-						<button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
-						<a class="btn btn-outline-primary" href="/auth/logout.php">Logout</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</header>
-
-	<main id="body">
-		<!-- <div id="maindiv" class="container-fluid"> -->
-		<div id="maindiv" class="container-fluid">
