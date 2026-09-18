@@ -100,7 +100,9 @@ function load_user(Settings $settings): array
         }
 
         // Start the PHP session
-        session_start();
+        if (!headers_sent()) {
+            session_start();
+        }
     }
 
     $cookie_key  = get_key($settings, "cookie");
