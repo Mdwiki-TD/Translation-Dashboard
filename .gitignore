@@ -14,3 +14,4 @@ vendor/**
 composer.lock
 src/t.php
 .phpunit.result.cache
+/_works_files
