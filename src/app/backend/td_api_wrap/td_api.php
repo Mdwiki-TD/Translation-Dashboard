@@ -2,10 +2,9 @@
 
 namespace APICalls\TDApi;
 
-
 use OAuth\Settings\Settings;
 
-function test_print_o($s)
+function test_print_z($s): void
 {
     if (isset($_COOKIE['test']) && $_COOKIE['test'] == 'x') {
         return;
@@ -50,20 +49,20 @@ function post_url(string $endPoint, array $params = []): string
     $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
     if ($http_code !== 200) {
-        test_print_o('post_url: Error: API request failed with status code ' . $http_code);
+        test_print_z('post_url: Error: API request failed with status code ' . $http_code);
     }
 
     $execution_time = (microtime(true) - $time_start);
     $execution_time = round($execution_time, 4);
 
-    test_print_o("post_url (time: $execution_time s): (http_code: $http_code) $url2");
+    test_print_z("post_url (time: $execution_time s): (http_code: $http_code) $url2");
 
     if ($output === FALSE) {
-        test_print_o("post_url: cURL Error: " . curl_error($ch));
+        test_print_z("post_url: cURL Error: " . curl_error($ch));
     }
 
     if (curl_errno($ch)) {
-        test_print_o('post_url: Error:' . curl_error($ch));
+        test_print_z('post_url: Error:' . curl_error($ch));
     }
 
     curl_close($ch);
@@ -79,18 +78,17 @@ function get_td_api(array $params): array
 
     $out = post_url($endPoint, $params);
 
-    $results = json_decode($out, true);
+    $api_results = json_decode($out, true);
 
-    if (!is_array($results)) {
-        $results = [];
+    if (!is_array($api_results)) {
+        $api_results = [];
     }
 
-    $result = $results['results'] ?? [];
+    $result = $api_results['results'] ?? [];
 
     if (isset($result['error'])) {
-        test_print_o('Error:' . json_encode($result['error'], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
-        $results = [];
+        test_print_z('Error:' . json_encode($result['error'], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
     }
 
-    return $results;
+    return $api_results;
 }
