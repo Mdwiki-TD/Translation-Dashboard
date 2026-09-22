@@ -1,48 +1,5 @@
 <?PHP
-
-// don't use OAuth\Settings\Settings here, Instance is not created yet
-$env = getenv('APP_ENV') ?: ($_ENV['APP_ENV'] ?? 'development');
-
-if ($env === 'development' && file_exists(__DIR__ . '/load_env.php')) {
-    include_once __DIR__ . '/load_env.php';
-}
-
-$vendorAutoload = __DIR__ . '/vendor/autoload.php';
-
-if (!file_exists($vendorAutoload)) {
-    $vendorAutoload = dirname(__DIR__) . '/vendor/autoload.php';
-}
-
-if (file_exists($vendorAutoload)) {
-    require_once $vendorAutoload;
-} else {
-    die("Vendor autoload not found. Please run 'composer install' in the project root.");
-}
-
-include_once __DIR__ . '/frontend/include.php';
-include_once __DIR__ . '/backend/settings.php';
-include_once __DIR__ . '/backend/include_first/include.php';
-
-foreach (glob(__DIR__ . "/backend/api_calls/*.php") as $filename) {
-    include_once $filename;
-}
-
-foreach (glob(__DIR__ . "/backend/td_api_wrap/*.php") as $filename) {
-    include_once $filename;
-}
-
-foreach (glob(__DIR__ . "/backend/api_or_sql/*.php") as $filename) {
-    include_once $filename;
-}
-
-include_once __DIR__ . '/backend/tables/langcode.php';
-
-foreach (glob(__DIR__ . "/backend/others/*.php") as $filename) {
-    include_once $filename;
-}
-
-include_once __DIR__ . '/leaderboard/include_leaderboards.php';
-
-include_once __DIR__ . "/backend/results_2026/include.php";
-include_once __DIR__ . "/backend/results_27/include.php";
-
+/*
+ * Keep this file. its used in local vendor files.
+*/
+include_once __DIR__ . '/app/include_all.php';

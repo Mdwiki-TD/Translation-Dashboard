@@ -5,9 +5,9 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-include_once __DIR__ . '/../include_all.php';
-include_once __DIR__ . '/../header.php';
-include_once __DIR__ . '/../results/include.php';
+include_once dirname(__DIR__) . '/include_all.php';
+include_once dirname(__DIR__) . '/header.php';
+include_once dirname(__DIR__) . '/results/include.php';
 //---
 use function Results\FetchCatDataNew\get_cat_exists_and_missing_new;
 //---
@@ -91,4 +91,4 @@ if (!empty($Category)) {
     HTML;
 }
 //---
-include_once __DIR__ . '/../footer.php';
+include_once dirname(__DIR__) . '/footer.php';

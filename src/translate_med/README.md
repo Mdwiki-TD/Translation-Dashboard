@@ -5,16 +5,18 @@
 The `src/translate_med/` directory handles translation initiation. When a user clicks "translate" on an article, this module authenticates the user, records the translation attempt in the database, and redirects to the MediaWiki ContentTranslation tool.
 
 ### Main Features
-- **Authentication check** -- Requires logged-in user, shows login button if not
-- **Translation tracking** -- Records in-process translations in database
-- **ContentTranslation redirect** -- Builds and redirects to MediaWiki CX tool
-- **Multiple redirect mechanisms** -- JavaScript, meta refresh, and noscript fallback
+
+-   **Authentication check** -- Requires logged-in user, shows login button if not
+-   **Translation tracking** -- Records in-process translations in database
+-   **ContentTranslation redirect** -- Builds and redirects to MediaWiki CX tool
+-   **Multiple redirect mechanisms** -- JavaScript, meta refresh, and noscript fallback
 
 ### Technologies
-- PHP 8.4+
-- PDO (database inserts)
-- `defuse/php-encryption` (via auth system)
-- Bootstrap 5 (UI components)
+
+-   PHP 8.4+
+-   PDO (database inserts)
+-   `defuse/php-encryption` (via auth system)
+-   Bootstrap 5 (UI components)
 
 ---
 
@@ -22,8 +24,7 @@ The `src/translate_med/` directory handles translation initiation. When a user c
 
 ```
 src/translate_med/
-├── index.php                       # Main translation initiation logic
-└── medwiki.php                     # Redirect shim (legacy)
+└── index.php                       # Main translation initiation logic
 ```
 
 ### Data Flow
@@ -48,26 +49,28 @@ translate_med/index.php
 |----------|---------|
 | `go_to_translate_url(...)` | Build CT URL, output HTML link + JS/meta redirect |
 
-**`medwiki.php`** -- Redirect shim to `index.php` (5 lines)
-
 ---
 
 ## Architecture & Code Quality Review
 
 ### Code Organization
+
 Single-file controller handling the entire request lifecycle: input parsing, auth check, database insert, URL construction, and redirect output.
 
 ### Design Pattern
+
 Procedural page controller. No classes.
 
 ### Maintainability: 5/10
-- Mixed concerns (auth, DB, URL building, HTML, JS in one file)
-- Global namespace function (`go_to_translate_url`)
-- `rawurldecode()` undermines `FILTER_SANITIZE_FULL_SPECIAL_CHARS`
+
+-   Mixed concerns (auth, DB, URL building, HTML, JS in one file)
+-   Global namespace function (`go_to_translate_url`)
+-   `rawurldecode()` undermines `FILTER_SANITIZE_FULL_SPECIAL_CHARS`
 
 ### Readability: 6/10
-- Logic flow is clear
-- Triple redundant redirect mechanisms (JS + meta + noscript)
+
+-   Logic flow is clear
+-   Triple redundant redirect mechanisms (JS + meta + noscript)
 
 ---
 
@@ -87,7 +90,6 @@ Procedural page controller. No classes.
 3. **`rawurldecode()` after sanitization** -- Undoes `FILTER_SANITIZE_FULL_SPECIAL_CHARS`
 4. **Missing `exit` after redirect** -- In both redirect files
 5. **No CSRF protection** -- State-changing operation on GET request
-6. **Duplicate redirect files** -- `src/translate/medwiki.php` and `medwiki.php` do the same thing
 
 ---
 
@@ -123,27 +125,29 @@ The `test` cookie/parameter enables `display_errors = 1` globally, potentially e
 
 ## Areas That Need Attention
 
-- **Add `htmlspecialchars()` to URL output** -- For HTML attribute context
-- **Remove `rawurldecode()` calls** -- Or apply decoding before sanitization
-- **Add `exit` after redirects** -- In all three redirect files
-- **Restrict debug mode** -- Admin-only or remove
-- **Consolidate redirect files** -- Remove `src/translate/medwiki.php` and `medwiki.php` if unused
+-   **Add `htmlspecialchars()` to URL output** -- For HTML attribute context
+-   **Remove `rawurldecode()` calls** -- Or apply decoding before sanitization
+-   **Add `exit` after redirects** -- In all three redirect files
+-   **Restrict debug mode** -- Admin-only or remove
 
 ---
 
 ## Improvement Plan
 
 ### Quick Fixes
+
 1. Add `exit;` after all `header("Location: ...")` calls
 2. HTML-encode the URL before inserting into `href` and `window.open()`
 3. Fix sanitization order: decode first, then sanitize
 
 ### Medium-Term
+
 1. Extract database insert logic into a service function
 2. Move HTML output to a template file
 3. Add CSRF token validation for the state-changing operation
 
 ### Long-Term
+
 1. Implement proper MVC separation
 2. Add unit tests for URL building and database insertion
 3. Use a router instead of direct file access
@@ -152,33 +156,36 @@ The `test` cookie/parameter enables `display_errors = 1` globally, potentially e
 
 ## Comprehensive Review
 
-| Metric | Score | Notes |
-|--------|-------|-------|
-| **Overall Rating** | 5/10 | Functional but has security concerns |
-| **Production Readiness** | Partial | Works but needs XSS fixes |
-| **Security Score** | 5/10 | Auth required, but XSS and debug mode issues |
-| **Technical Debt** | Medium | Mixed concerns, duplicate files |
-| **Maintainability** | 5/10 | Single monolithic file |
-| **Risk Assessment** | Medium | XSS via crafted URL parameters |
+| Metric                   | Score   | Notes                                        |
+| ------------------------ | ------- | -------------------------------------------- |
+| **Overall Rating**       | 5/10    | Functional but has security concerns         |
+| **Production Readiness** | Partial | Works but needs XSS fixes                    |
+| **Security Score**       | 5/10    | Auth required, but XSS and debug mode issues |
+| **Technical Debt**       | Medium  | Mixed concerns, duplicate files              |
+| **Maintainability**      | 5/10    | Single monolithic file                       |
+| **Risk Assessment**      | Medium  | XSS via crafted URL parameters               |
 
 ---
 
 ## Setup & Usage
 
 ### URL Parameters
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `title` | string | Article title to translate |
-| `code` | string | Target language code (e.g., `ar`) |
-| `cat` | string | Category name |
-| `camp` | string | Campaign name |
-| `type` | string | Translation type (`lead` or `full`) |
-| `word` | int | Word count |
+
+| Parameter | Type   | Description                         |
+| --------- | ------ | ----------------------------------- |
+| `title`   | string | Article title to translate          |
+| `code`    | string | Target language code (e.g., `ar`)   |
+| `cat`     | string | Category name                       |
+| `camp`    | string | Campaign name                       |
+| `type`    | string | Translation type (`lead` or `full`) |
+| `word`    | int    | Word count                          |
 
 ### Example
+
 ```
 /translate_med/index.php?title=Diabetes&code=ar&cat=RTT&camp=RTT&type=lead&word=5000
 ```
 
 ### Authentication
+
 Requires a valid OAuth session. If not authenticated, redirects to `/auth/index.php`.

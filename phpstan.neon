@@ -4,13 +4,16 @@
 parameters:
     level: 5
 
+    parallel:
+        maximumNumberOfProcesses: 1
+
     paths:
         - src
 
     excludePaths:
         - src_
         - src_/*
-        - src/backend/results/sparql_bots/*
+        - src/app/backend/results/sparql_bots/*
 
     # Treat phpdoc types as assertions for runtime safety
     treatPhpDocTypesAsCertain: true
@@ -31,4 +34,4 @@ parameters:
 
     # Scan files for class definitions
     scanFiles:
-        - src/include_all.php
+        - src/app/include_all.php
