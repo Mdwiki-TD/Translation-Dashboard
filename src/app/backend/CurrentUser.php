@@ -1,6 +1,7 @@
 <?php
 
 use Defuse\Crypto\Crypto;
+use Defuse\Crypto\Key;
 use function APICalls\MdwikiSql\fetch_query;
 use function SQLorAPI\Funcs\get_coordinators;
 use OAuth\Settings\Settings;
@@ -82,14 +83,14 @@ class CurrentUser
         }
     }
 
-    private function getKey(string $key_type = 'cookie'): ?string
+    private function getKey(string $key_type = 'cookie'): ?Key
     {
         return $key_type === 'decrypt'
             ? $this->settings->decryptKey
             : $this->settings->cookieKey;
     }
 
-    private function decodeValue(string $value, ?string $use_key): string
+    private function decodeValue(string $value, ?Key $use_key): string
     {
         if ($use_key === null || trim($value) === '') {
             return '';
@@ -102,7 +103,7 @@ class CurrentUser
         }
     }
 
-    private function getFromCookies(string $key, ?string $cookie_key): string
+    private function getFromCookies(string $key, ?Key $cookie_key): string
     {
         if (!isset($_COOKIE[$key])) {
             return '';
@@ -117,7 +118,7 @@ class CurrentUser
         return $value;
     }
 
-    private function getAccessFromDb(string $user, ?string $decrypt_key): array
+    private function getAccessFromDb(string $user, ?Key $decrypt_key): array
     {
         $user = trim($user);
 

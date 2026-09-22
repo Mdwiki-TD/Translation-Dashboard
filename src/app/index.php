@@ -172,8 +172,8 @@ $camp = $req['camp'] ?: $main_camp;
 // =======================
 
 
-$global_username = $GLOBALS['global_username'] ?? '';
-$user_coord      = $GLOBALS['user_is_coordinator'] ?? false;
+$global_username = isset($currentUser) ? $currentUser->getUsername() : ($GLOBALS['global_username'] ?? '');
+$user_coord      = isset($currentUser) ? $currentUser->isCoordinator() : ($GLOBALS['user_is_coordinator'] ?? false);
 
 // =======================
 // UI

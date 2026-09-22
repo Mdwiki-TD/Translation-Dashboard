@@ -40,7 +40,7 @@ $month_y  = filter_input(INPUT_GET, 'month', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
 $camp     = filter_input(INPUT_GET, 'camp', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'All';
 
 
-$global_username = $GLOBALS['global_username'] ?? "";
+$global_username = isset($currentUser) ? $currentUser->getUsername() : ($GLOBALS['global_username'] ?? "");
 
 $_titles_infos   = get_td_or_sql_titles_infos();
 $categories_tab = get_td_or_sql_categories();

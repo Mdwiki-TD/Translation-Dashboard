@@ -14,12 +14,20 @@ echo print_full_head();
 
 $settings = Settings::getInstance();
 
-[$username, $user_is_coordinator] = load_user($settings);
+require_once __DIR__ . '/../app/backend/CurrentUser.php';
+$currentUser = new CurrentUser($settings);
+
+if ($msg = $currentUser->getAlertMessage()) {
+	echo ba_alert($msg);
+}
+
+$username = $currentUser->getUsername();
+$user_is_coordinator = $currentUser->isCoordinator();
 
 $coord_tools = "";
 
 // Check if current user is a coordinator
-if ($user_is_coordinator === true) {
+if ($currentUser->isCoordinator()) {
 	$coord_tools = '<a href="/tdc/index.php" class="nav-link py-2 px-0 px-lg-2"><span class="navtitles"></span> <i class="bi bi-tools me-1"></i> Coordinator Tools</a>';
 }
 
@@ -32,7 +40,7 @@ $li_user = <<<HTML
 	</li>
 HTML;
 
-if (!empty($username)) {
+if ($currentUser->isLoggedIn()) {
 	$li_user = <<<HTML
 		<li class="nav-item col-lg-auto col-md-4 col-sm-6 col-6">
 			<a href="/Translation_Dashboard/leaderboard.php?get=users&user={$username}" class="nav-link py-2 px-0 px-lg-2">

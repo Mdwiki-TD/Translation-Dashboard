@@ -46,7 +46,7 @@ function go_to_translate_url($title_o, $coden, $tr_type, $cat, $camp, $endpoint)
 
 $coden = strtolower(filter_input(INPUT_GET, 'code', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '');
 $title_o = filter_input(INPUT_GET, 'title', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
-$useree = !empty($GLOBALS['global_username']) ? $GLOBALS['global_username'] : '';
+$useree = isset($currentUser) ? $currentUser->getUsername() : ($GLOBALS['global_username'] ?? '');
 
 if (empty($useree)) {
     echo <<<HTML

@@ -86,6 +86,9 @@ function clear_user_cookie(string $domain): void
     ]);
 }
 
+/**
+ * @deprecated Use CurrentUser class instead
+ */
 function load_user(Settings $settings): array
 {
 

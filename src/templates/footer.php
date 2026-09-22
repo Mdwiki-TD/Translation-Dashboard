@@ -1,6 +1,6 @@
 <?php
 
-if (!empty($GLOBALS['global_username'] ?? "")) {
+if (isset($currentUser) && $currentUser->isLoggedIn()) {
 
 	if (!isset($_COOKIE['cookie_alert_dismissed1'])) {
 		echo <<<HTML
