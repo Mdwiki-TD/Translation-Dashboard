@@ -1,7 +1,10 @@
 <?php
 
-if (!empty($GLOBALS['global_username'] ?? "")) {
+use User\CurrentUser;
 
+$currentUser = CurrentUser::getInstance();
+
+if ($currentUser->isLoggedIn()) {
 	if (!isset($_COOKIE['cookie_alert_dismissed1'])) {
 		echo <<<HTML
 			<div id="cookie-alert" class="alert alert-dismissible fade show" role="alert">

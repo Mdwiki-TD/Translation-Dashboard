@@ -3,12 +3,17 @@
 include_once dirname(__DIR__) . '/include_all.php';
 include_once dirname(__DIR__) . '/app/backend/others/db_insert.php';
 
+use User\CurrentUser;
 use function Results\TrLink\make_ContentTranslation_url;
 // use function TranslateMed\Inserter\insertPage;
 use function TranslateMed\Inserter\insertPage_inprocess;
 use function SQLorAPI\GetDataTab\get_td_or_sql_users_no_inprocess;
 use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
 use function SQLorAPI\GetDataTab\get_endpoint;
+
+$currentUser = CurrentUser::getInstance();
+
+$useree = $currentUser->getUsername();
 
 function go_to_translate_url($title_o, $coden, $tr_type, $cat, $camp, $endpoint)
 {
@@ -46,7 +51,6 @@ function go_to_translate_url($title_o, $coden, $tr_type, $cat, $camp, $endpoint)
 
 $coden = strtolower(filter_input(INPUT_GET, 'code', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '');
 $title_o = filter_input(INPUT_GET, 'title', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
-$useree = !empty($GLOBALS['global_username']) ? $GLOBALS['global_username'] : '';
 
 if (empty($useree)) {
     echo <<<HTML

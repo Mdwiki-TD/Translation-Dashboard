@@ -15,6 +15,10 @@ use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
 use function SQLorAPI\GetDataTab\get_endpoint;
 use function SQLorAPI\GetDataTab\get_td_or_sql_langs;
 use function SQLorAPI\Funcs\get_graph_data;
+use User\CurrentUser;
+
+$currentUser = CurrentUser::getInstance();
+$global_username = $currentUser->getUsername();
 
 $endpoint = get_endpoint();
 
@@ -38,9 +42,6 @@ $user_to_curl = filter_input(INPUT_GET, 'user', FILTER_UNSAFE_RAW) ?? '';
 $year_y   = filter_input(INPUT_GET, 'year', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'All';
 $month_y  = filter_input(INPUT_GET, 'month', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
 $camp     = filter_input(INPUT_GET, 'camp', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'All';
-
-
-$global_username = $GLOBALS['global_username'] ?? "";
 
 $_titles_infos   = get_td_or_sql_titles_infos();
 $categories_tab = get_td_or_sql_categories();

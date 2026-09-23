@@ -1,5 +1,7 @@
 <?php
 
+namespace User;
+
 use Defuse\Crypto\Crypto;
 use Defuse\Crypto\Key;
 use function APICalls\MdwikiSql\fetch_query;

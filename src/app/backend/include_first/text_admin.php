@@ -1,13 +1,13 @@
 <?php
 
 namespace TD\Render;
-
+use User\CurrentUser;
 
 function admin_text($text)
 {
-    // $user_is_coordinator = (($coordinators[$GLOBALS['global_username']] ?? 0) == 1);
-
-    $is_ibrahem = ($GLOBALS['global_username'] ?? "") === "Mr. Ibrahem";
+    $currentUser = CurrentUser::getInstance();
+    $global_username = $currentUser->getUsername();
+    $is_ibrahem = $global_username === "Mr. Ibrahem";
 
     if (!$is_ibrahem) {
         return "";

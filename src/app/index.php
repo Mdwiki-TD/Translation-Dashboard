@@ -6,9 +6,14 @@ use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
 use function SQLorAPI\GetDataTab\get_td_or_sql_settings;
 use function SQLorAPI\GetDataTab\get_td_or_sql_langs;
 use Results\GetResults27\ResultsLoader;
+use User\CurrentUser;
 
 use function Tables\Langs\get_lang_code;
 use function Tables\Langs\get_lang_title;
+
+$currentUser = CurrentUser::getInstance();
+$global_username = $currentUser->getUsername();
+$user_is_coordinator = $currentUser->isCoordinator();
 
 function load_request(
     $campaigns_input_list,
@@ -171,10 +176,6 @@ $camp = $req['camp'] ?: $main_camp;
 // Normalize Data
 // =======================
 
-
-$global_username = $GLOBALS['global_username'] ?? '';
-$user_coord      = $GLOBALS['user_is_coordinator'] ?? false;
-
 // =======================
 // UI
 // =======================
@@ -310,11 +311,9 @@ echo "<div class='container-fluid'>";
 // $doit     = $req['doit'] ?? false;
 // if ($doit) {
 if ($camp && $code) {
-    $show_exists = ($user_coord || isset($_GET['exists']));
+    $show_exists = ($user_is_coordinator || isset($_GET['exists']));
 
     $in_progress_translation_button = $settings['translation_button_in_progress_table'] ?? '0';
-
-    // if ($in_progress_translation_button != "0") $in_progress_translation_button = $user_coord ? '1' : '0';
 
     $depth     = $camps_data[$camp]["depth"] ?? 1;
     $category2 = $camps_data[$camp]["category2"] ?? "";
@@ -331,7 +330,7 @@ if ($camp && $code) {
         "tra_type" => $tra_type,
         "global_username" => $global_username,
         "filter_sparql" => $filter_sparql,
-        "user_coord" => $user_coord,
+        "user_coord" => $user_is_coordinator,
 
         "show_exists" => $show_exists,
         "in_progress_translation_button" => $in_progress_translation_button,
