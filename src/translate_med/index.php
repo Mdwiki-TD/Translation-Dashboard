@@ -3,8 +3,8 @@
 include_once dirname(__DIR__) . '/include_all.php';
 include_once dirname(__DIR__) . '/app/backend/others/db_insert.php';
 
+use User\CurrentUser;
 use function Results\TrLink\make_ContentTranslation_url;
-// use function TranslateMed\Inserter\insertPage;
 use function TranslateMed\Inserter\insertPage_inprocess;
 use function SQLorAPI\GetDataTab\get_td_or_sql_users_no_inprocess;
 use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
@@ -44,11 +44,13 @@ function go_to_translate_url($title_o, $coden, $tr_type, $cat, $camp, $endpoint)
     }
 }
 
+$currentUser = CurrentUser::getInstance();
+
+
 $coden = strtolower(filter_input(INPUT_GET, 'code', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '');
 $title_o = filter_input(INPUT_GET, 'title', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
-$useree = !empty($GLOBALS['global_username']) ? $GLOBALS['global_username'] : '';
 
-if (empty($useree)) {
+if (!$currentUser->isLoggedIn()) {
     echo <<<HTML
         <div class='card' style='font-weight: bold;'>
             <div class='card-body'>
@@ -65,6 +67,8 @@ if (empty($useree)) {
     exit;
 }
 
+$useree = $currentUser->getUsername();
+
 if (!empty($title_o) && !empty($coden)) {
 
     // use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
@@ -76,7 +80,6 @@ if (!empty($title_o) && !empty($coden)) {
 
     $title_o = trim($title_o);
     $coden   = trim($coden);
-    $useree  = trim($useree);
     //  title=COVID-19&code=ady&cat=RTTCovid&camp=COVID&type=lead
 
     $cat = filter_input(INPUT_GET, 'cat', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
@@ -112,11 +115,5 @@ if (!empty($title_o) && !empty($coden)) {
 }
 
 echo <<<HTML
-    </div>
-
-    </div>
-    </main>
-</body>
-
-</html>
+    </div> </div> </main> </body> </html>
 HTML;
