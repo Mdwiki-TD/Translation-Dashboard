@@ -1,6 +1,7 @@
 <?php
 
 use Defuse\Crypto\Crypto;
+use Defuse\Crypto\Key;
 use function APICalls\MdwikiSql\fetch_query;
 use function SQLorAPI\Funcs\get_coordinators;
 use OAuth\Settings\Settings;
@@ -12,9 +13,11 @@ use OAuth\Settings\Settings;
  */
 class CurrentUser
 {
+    private static ?self $instance = null;
+
     private Settings $settings;
 
-    private string $username = '';
+    private string $username = "";
     private bool $isCoordinator = false;
     private ?string $alertMessage = null;
 
@@ -24,6 +27,16 @@ class CurrentUser
         $this->ensureSessionStarted();
         $this->resolveUsername();
         $this->resolveCoordinatorStatus();
+        self::$instance = $this;
+    }
+
+    public static function getInstance(?Settings $settings = null): self
+    {
+        if (self::$instance === null) {
+            $settings = $settings ?? Settings::getInstance();
+            self::$instance = new self($settings);
+        }
+        return self::$instance;
     }
 
     // ------------------------------------------------------------------
@@ -42,7 +55,7 @@ class CurrentUser
 
     public function isLoggedIn(): bool
     {
-        return $this->username !== '';
+        return $this->username !== "";
     }
 
     /**
@@ -66,58 +79,59 @@ class CurrentUser
         }
 
         $sessionOptions = [
-            'use_strict_mode'   => true,
-            'use_cookies'       => true,
-            'use_only_cookies'  => true,
-            'cookie_httponly'   => true,
-            'cookie_samesite'   => 'Strict',
+            "use_strict_mode"   => true,
+            "use_cookies"       => true,
+            "use_only_cookies"  => true,
+            "cookie_httponly"   => true,
+            "cookie_samesite"   => "Strict",
         ];
 
-        if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
-            $sessionOptions['cookie_secure'] = true;
+        // Enable secure flag in production (HTTPS)
+        if (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] !== "off") {
+            $sessionOptions["cookie_secure"] = true;
         }
-
+        // Start the PHP session
         if (!headers_sent()) {
             session_start($sessionOptions);
         }
     }
 
-    private function getKey(string $key_type = 'cookie'): ?string
+    private function getKey(string $key_type = "cookie"): ?Key
     {
-        return $key_type === 'decrypt'
+        return $key_type === "decrypt"
             ? $this->settings->decryptKey
             : $this->settings->cookieKey;
     }
 
-    private function decodeValue(string $value, ?string $use_key): string
+    private function decodeValue(string $value, ?Key $use_key): string
     {
-        if ($use_key === null || trim($value) === '') {
-            return '';
+        if ($use_key === null || trim($value) === "") {
+            return "";
         }
 
         try {
             return Crypto::decrypt($value, $use_key);
         } catch (\Throwable $e) {
-            return '';
+            return "";
         }
     }
 
-    private function getFromCookies(string $key, ?string $cookie_key): string
+    private function getFromCookies(string $key, ?Key $cookie_key): string
     {
         if (!isset($_COOKIE[$key])) {
-            return '';
+            return "";
         }
 
         $value = $this->decodeValue($_COOKIE[$key], $cookie_key);
 
-        if ($key === 'username') {
-            $value = str_replace('+', ' ', $value);
+        if ($key === "username") {
+            $value = str_replace("+", " ", $value);
         }
 
         return $value;
     }
 
-    private function getAccessFromDb(string $user, ?string $decrypt_key): array
+    private function getAccessFromDb(string $user, ?Key $decrypt_key): array
     {
         $user = trim($user);
 
@@ -127,48 +141,48 @@ class CurrentUser
             WHERE user_name = ? or user_name_hash = ?;
         SQL;
 
-        $result = fetch_query($query, [$user, hash('sha256', $user)], true);
+        $result = fetch_query($query, [$user, hash("sha256", $user)], true);
 
         if (!$result) {
             return [];
         }
 
         return [
-            'access_key'    => $this->decodeValue($result[0]['access_key'], $decrypt_key),
-            'access_secret' => $this->decodeValue($result[0]['access_secret'], $decrypt_key),
+            "access_key"    => $this->decodeValue($result[0]["access_key"], $decrypt_key),
+            "access_secret" => $this->decodeValue($result[0]["access_secret"], $decrypt_key),
         ];
     }
 
     private function clearUserCookie(): void
     {
-        setcookie('username', '', [
-            'expires'  => time() - 3600,
-            'path'     => '/',
-            'domain'   => $this->settings->domain,
-            'secure'   => true,
-            'httponly' => true,
-            'samesite' => 'Lax',
+        setcookie("username", "", [
+            "expires"  => time() - 3600,
+            "path"     => "/",
+            "domain"   => $this->settings->domain,
+            "secure"   => true,
+            "httponly" => true,
+            "samesite" => "Lax",
         ]);
     }
 
     private function resolveUsername(): void
     {
-        $cookie_key = $this->getKey('cookie');
-        $username   = $this->getFromCookies('username', $cookie_key);
+        $cookie_key = $this->getKey("cookie");
+        $username   = $this->getFromCookies("username", $cookie_key);
 
         if ($this->settings->is_development()) {
-            $username = $_SESSION['username'] ?? $username;
+            $username = $_SESSION["username"] ?? $username;
         }
 
-        if ($this->settings->is_production() && $username !== '') {
-            $decrypt_key = $this->getKey('decrypt');
+        if ($this->settings->is_production() && $username !== "") {
+            $decrypt_key = $this->getKey("decrypt");
             $access      = $this->getAccessFromDb($username, $decrypt_key);
 
             if (empty($access)) {
-                $this->alertMessage = 'No access keys found. Login again.';
+                $this->alertMessage = "No access keys found. Login again.";
                 $this->clearUserCookie();
-                unset($_SESSION['username']);
-                $username = '';
+                unset($_SESSION["username"]);
+                $username = "";
             }
         }
 
@@ -177,11 +191,11 @@ class CurrentUser
 
     private function resolveCoordinatorStatus(): void
     {
-        if ($this->username === '') {
+        if ($this->username === "") {
             return;
         }
 
-        $coordinators = array_column(get_coordinators(), 'is_active', 'username');
+        $coordinators = array_column(get_coordinators(), "is_active", "username");
         $this->isCoordinator = (($coordinators[$this->username] ?? 0) == 1);
     }
 }
