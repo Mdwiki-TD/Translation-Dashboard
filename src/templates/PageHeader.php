@@ -9,7 +9,6 @@ use OAuth\Settings\Settings;
 use function TDC\Head\print_full_head;
 use function TDC\Head\write_body;
 
-include_once __DIR__ . '/head.php';
 
 function ba_alert(string $text): string
 {
