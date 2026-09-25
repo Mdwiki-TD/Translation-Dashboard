@@ -5,9 +5,10 @@ use App\Templates\PageHeader;
 use App\Templates\PageFooter;
 
 use App\User\CurrentUser;
-// use App\AppRouter;
+use App\AppRouter;
 
 include_once __DIR__ . '/app/include_all.php';
+include_once __DIR__ . '/app/index.php';
 
 require_once __DIR__ . '/templates/PageHead.php';
 include_once __DIR__ . '/templates/PageHeader.php';
@@ -20,9 +21,8 @@ $pageHeader = new PageHeader($currentUser);
 $pageHeader->render();
 
 // Instantiate and execute application router
-include_once __DIR__ . '/app/index.php';
-// $router = new AppRouter($currentUser);
-// $router->handleRequest();
+$router = new AppRouter($currentUser);
+$router->handleRequest();
 
 $timeStart = $pageHeader->getLoadStartTime();
 
