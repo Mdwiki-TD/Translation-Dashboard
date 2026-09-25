@@ -1,7 +1,7 @@
 <?php
 
 use function App\Render\TestPrint\test_print;
-use function Tables\TablesDir\open_td_tables_file;
+use function App\Tables\TablesDir\open_td_tables_file;
 use App\Settings\Settings;
 
 // Get request parameters with defaults

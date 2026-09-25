@@ -1,6 +1,6 @@
 <?PHP
 
-namespace Tables\TablesDir;
+namespace App\Tables\TablesDir;
 
 use function App\Render\TestPrint\test_print;
 

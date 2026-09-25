@@ -23,8 +23,8 @@ function post_url(string $endPoint, array $params = []): string
 {
     if (empty($params)) return "";
 
-    $time_start = microtime(true);
-    $usr_agent = "WikiProjectMed Translation Dashboard/1.0 (https://mdwiki.toolforge.org/; tools.mdwiki@toolforge.org)";
+    $timeStart = microtime(true);
+    $usrAgent = "WikiProjectMed Translation Dashboard/1.0 (https://mdwiki.toolforge.org/; tools.mdwiki@toolforge.org)";
 
     $ch = curl_init();
 
@@ -33,7 +33,7 @@ function post_url(string $endPoint, array $params = []): string
     curl_setopt_array($ch, [
         CURLOPT_URL => $url,
         CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_USERAGENT => $usr_agent,
+        CURLOPT_USERAGENT => $usrAgent,
         // CURLOPT_COOKIEJAR => "cookie.txt",
         // CURLOPT_COOKIEFILE => "cookie.txt",
         CURLOPT_CONNECTTIMEOUT => 10,
@@ -46,16 +46,16 @@ function post_url(string $endPoint, array $params = []): string
     $url2 = str_replace('&format=json', '', $url);
     $url2 = "<a target='_blank' href='$url2'>$url2</a>";
 
-    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-    if ($http_code !== 200) {
-        test_print_z('post_url: Error: API request failed with status code ' . $http_code);
+    if ($httpCode !== 200) {
+        test_print_z('post_url: Error: API request failed with status code ' . $httpCode);
     }
 
-    $execution_time = (microtime(true) - $time_start);
-    $execution_time = round($execution_time, 4);
+    $executionTime = (microtime(true) - $timeStart);
+    $executionTime = round($executionTime, 4);
 
-    test_print_z("post_url (time: $execution_time s): (http_code: $http_code) $url2");
+    test_print_z("post_url (time: $executionTime s): (http_code: $httpCode) $url2");
 
     if ($output === FALSE) {
         test_print_z("post_url: cURL Error: " . curl_error($ch));
@@ -78,17 +78,17 @@ function get_td_api(array $params): array
 
     $out = post_url($endPoint, $params);
 
-    $api_results = json_decode($out, true);
+    $apiResults = json_decode($out, true);
 
-    if (!is_array($api_results)) {
-        $api_results = [];
+    if (!is_array($apiResults)) {
+        $apiResults = [];
     }
 
-    $result = $api_results['results'] ?? [];
+    $result = $apiResults['results'] ?? [];
 
     if (isset($result['error'])) {
         test_print_z('Error:' . json_encode($result['error'], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
     }
 
-    return $api_results;
+    return $apiResults;
 }

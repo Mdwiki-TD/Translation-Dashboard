@@ -94,7 +94,7 @@ if ($get == 'users' || !empty($user_to_curl)) {
     $langs_data = get_td_or_sql_langs();
 
     $settings = Settings::getInstance();
-    $addcat = !$settings->is_production() && (isset($_GET['nocat']));
+    $addcat = !$settings->isProduction() && (isset($_GET['nocat']));
 
     echo main_leaderboard($year_y, $camp, $user_group, $langs_data, $addcat, $month_y);
 }

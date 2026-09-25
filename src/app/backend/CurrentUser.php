@@ -5,7 +5,7 @@ namespace App\User;
 use Defuse\Crypto\Crypto;
 use Defuse\Crypto\Key;
 use App\Settings\Settings;
-use function App\APICalls\MdwikiSql\fetch_query;
+use function App\MdwikiSql\fetch_query;
 use function App\SQLorAPI\Funcs\get_coordinators;
 
 /**
@@ -98,33 +98,33 @@ class CurrentUser
         }
     }
 
-    private function getKey(string $key_type = "cookie"): ?Key
+    private function getKey(string $keyType = "cookie"): ?Key
     {
-        return $key_type === "decrypt"
+        return $keyType === "decrypt"
             ? $this->settings->decryptKey
             : $this->settings->cookieKey;
     }
 
-    private function decodeValue(string $value, ?Key $use_key): string
+    private function decodeValue(string $value, ?Key $useKey): string
     {
-        if ($use_key === null || trim($value) === "") {
+        if ($useKey === null || trim($value) === "") {
             return "";
         }
 
         try {
-            return Crypto::decrypt($value, $use_key);
+            return Crypto::decrypt($value, $useKey);
         } catch (\Throwable $e) {
             return "";
         }
     }
 
-    private function getFromCookies(string $key, ?Key $cookie_key): string
+    private function getFromCookies(string $key, ?Key $cookieKey): string
     {
         if (!isset($_COOKIE[$key])) {
             return "";
         }
 
-        $value = $this->decodeValue($_COOKIE[$key], $cookie_key);
+        $value = $this->decodeValue($_COOKIE[$key], $cookieKey);
 
         if ($key === "username") {
             $value = str_replace("+", " ", $value);
@@ -133,7 +133,7 @@ class CurrentUser
         return $value;
     }
 
-    private function getAccessFromDb(string $user, ?Key $decrypt_key): array
+    private function getAccessFromDb(string $user, ?Key $decryptKey): array
     {
         $user = trim($user);
 
@@ -150,8 +150,8 @@ class CurrentUser
         }
 
         return [
-            "access_key"    => $this->decodeValue($result[0]["access_key"], $decrypt_key),
-            "access_secret" => $this->decodeValue($result[0]["access_secret"], $decrypt_key),
+            "access_key"    => $this->decodeValue($result[0]["access_key"], $decryptKey),
+            "access_secret" => $this->decodeValue($result[0]["access_secret"], $decryptKey),
         ];
     }
 
@@ -169,16 +169,16 @@ class CurrentUser
 
     private function resolveUsername(): void
     {
-        $cookie_key = $this->getKey("cookie");
-        $username   = $this->getFromCookies("username", $cookie_key);
+        $cookieKey = $this->getKey("cookie");
+        $username   = $this->getFromCookies("username", $cookieKey);
 
-        if ($this->settings->is_development()) {
+        if ($this->settings->isDevelopment()) {
             $username = $_SESSION["username"] ?? $username;
         }
 
-        if ($this->settings->is_production() && $username !== "") {
-            $decrypt_key = $this->getKey("decrypt");
-            $access      = $this->getAccessFromDb($username, $decrypt_key);
+        if ($this->settings->isProduction() && $username !== "") {
+            $decryptKey = $this->getKey("decrypt");
+            $access      = $this->getAccessFromDb($username, $decryptKey);
 
             if (empty($access)) {
                 $this->alertMessage = "No access keys found. Login again.";

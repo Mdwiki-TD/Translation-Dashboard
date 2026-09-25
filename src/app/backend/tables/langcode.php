@@ -1,6 +1,6 @@
 <?php
 
-namespace Tables\Langs;
+namespace App\Tables\Langs;
 
 
 /*

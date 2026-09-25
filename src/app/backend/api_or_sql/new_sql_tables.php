@@ -7,7 +7,7 @@ use function App\SQLorAPI\Get\super_function;
 function missing_by_lang_and_category($lang_code, $category)
 {
 
-    $api_params = ['get' => 'missing_by_lang_and_category', 'category' => $category, 'lang' => $lang_code];
+    $apiParams = ['get' => 'missing_by_lang_and_category', 'category' => $category, 'lang' => $lang_code];
 
     $query = <<<SQL
         SELECT
@@ -40,7 +40,7 @@ function missing_by_lang_and_category($lang_code, $category)
 
     $params = [$lang_code, $category, $lang_code];
 
-    $u_data = super_function($api_params, $params, $query);
+    $u_data = super_function($apiParams, $params, $query);
 
     return $u_data;
 }
@@ -48,7 +48,7 @@ function missing_by_lang_and_category($lang_code, $category)
 function exists_by_lang_and_category($lang_code, $category)
 {
 
-    $api_params = ['get' => 'exists_by_lang_and_category', 'category' => $category, 'lang' => $lang_code];
+    $apiParams = ['get' => 'exists_by_lang_and_category', 'category' => $category, 'lang' => $lang_code];
 
     $query = <<<SQL
         SELECT
@@ -82,7 +82,7 @@ function exists_by_lang_and_category($lang_code, $category)
 
     $params = [$lang_code, $category, $lang_code];
 
-    $u_data = super_function($api_params, $params, $query);
+    $u_data = super_function($apiParams, $params, $query);
 
     return $u_data;
 }
@@ -131,7 +131,7 @@ function statics_by_category($category)
         return $data2[$category];
     }
 
-    $api_params = ['get' => 'statics_by_category', 'category' => $category];
+    $apiParams = ['get' => 'statics_by_category', 'category' => $category];
 
     $query = <<<SQL
         SELECT
@@ -151,7 +151,7 @@ function statics_by_category($category)
 
     $params = [$category];
 
-    $u_data = super_function($api_params, $params, $query);
+    $u_data = super_function($apiParams, $params, $query);
 
     $data2[$category] = $u_data;
 

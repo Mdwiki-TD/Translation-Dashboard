@@ -115,7 +115,7 @@ function leaderboard_filter($year, $month, $user_group, $camp, $action = "leader
     };
 
     $test_line = (isset($_REQUEST['test']) != '') ? '<input type="hidden" name="test" value="1" />' : "";
-    $test_line .= (isset($_GET['use_td_api']) != '') ? "<input type='hidden' name='use_td_api' value='" . htmlspecialchars($_GET['use_td_api'], ENT_QUOTES, 'UTF-8') . "'/>" : "";
+    $test_line .= (isset($_GET['useTdApi']) != '') ? "<input type='hidden' name='useTdApi' value='" . htmlspecialchars($_GET['useTdApi'], ENT_QUOTES, 'UTF-8') . "'/>" : "";
 
     return <<<HTML
         <form method="get" action="$action" id="leaderboard_filter">

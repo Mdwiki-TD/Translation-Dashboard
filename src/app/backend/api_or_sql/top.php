@@ -10,7 +10,7 @@ function get_td_or_sql_top_lang_of_users($users_original)
 
     $users = (count($users_original) > 50) ? [] : $users_original;
 
-    $api_params = ['get' => 'top_lang_of_users', 'users' => $users];
+    $apiParams = ['get' => 'top_lang_of_users', 'users' => $users];
 
     $query_params = [];
     $query_line = "";
@@ -36,7 +36,7 @@ function get_td_or_sql_top_lang_of_users($users_original)
         ORDER BY cnt DESC;
     SQL;
 
-    $data = super_function($api_params, $query_params, $query);
+    $data = super_function($apiParams, $query_params, $query);
 
     // [{"user":"Subas Chandra Rout","lang":"or","cnt":1906},{"user":"Pranayraj1985","lang":"te","cnt":401} ...
     // var_export(json_encode($data));
@@ -119,7 +119,7 @@ function get_td_or_sql_top_users($year, $user_group, $cat, $month = null)
         "month" => $month,
     ];
 
-    $api_params = [
+    $apiParams = [
         'get' => 'top_users',
         'year' => $year,
         'user_group' => $user_group,
@@ -133,7 +133,7 @@ function get_td_or_sql_top_users($year, $user_group, $cat, $month = null)
 
     $query .= " GROUP BY p.user ORDER BY 2 DESC";
 
-    $data = super_function($api_params, $params, $query);
+    $data = super_function($apiParams, $params, $query);
 
     $new_data = [];
 
@@ -155,7 +155,7 @@ function get_td_or_sql_top_langs($year, $user_group, $cat, $month = null): array
         'month' => $month,
     ];
 
-    $api_params = [
+    $apiParams = [
         'get' => 'top_langs',
         'year' => $year,
         'user_group' => $user_group,
@@ -169,7 +169,7 @@ function get_td_or_sql_top_langs($year, $user_group, $cat, $month = null): array
 
     $query .= " GROUP BY p.lang ORDER BY 2 DESC";
 
-    $data = super_function($api_params, $params, $query);
+    $data = super_function($apiParams, $params, $query);
 
     $new_data = [];
 
@@ -186,7 +186,7 @@ function get_td_or_sql_status($year, $user_group, $cat): array
 
     $to_add = ["year" => $year, "user_group" => $user_group, "cat" => $cat];
 
-    $api_params = ['get' => 'status', 'year' => $year, 'user_group' => $user_group, 'cat' => $cat];
+    $apiParams = ['get' => 'status', 'year' => $year, 'user_group' => $user_group, 'cat' => $cat];
 
     $query = <<<SQL
         SELECT LEFT(p.pupdate, 7) as date, COUNT(*) as count
@@ -204,7 +204,7 @@ function get_td_or_sql_status($year, $user_group, $cat): array
 
     $query .= " GROUP BY 1 ORDER BY 1 ASC";
 
-    $data = super_function($api_params, $params, $query);
+    $data = super_function($apiParams, $params, $query);
 
     // var_export(json_encode($params));
     // echo $query . "<br>";

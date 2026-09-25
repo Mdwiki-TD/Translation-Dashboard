@@ -47,35 +47,35 @@ function makeSqlQuery($year, $user_group, $cat)
 function makeApiParams($year, $user_group, $cat)
 {
 
-    $api_params = ['get' => 'leaderboard_table'];
+    $apiParams = ['get' => 'leaderboard_table'];
     // ----
     if (isvalid($year)) {
-        $api_params['year'] = $year;
+        $apiParams['year'] = $year;
     }
 
     if (isvalid($user_group)) {
-        $api_params['user_group'] = $user_group;
+        $apiParams['user_group'] = $user_group;
     }
 
     if (isvalid($cat)) {
-        $api_params['cat'] = $cat;
+        $apiParams['cat'] = $cat;
     }
 
-    return $api_params;
+    return $apiParams;
 }
 
 # @deprecated
 function get_leaderboard_table($year, $user_group, $cat)
 {
 
-    $api_params = makeApiParams($year, $user_group, $cat);
+    $apiParams = makeApiParams($year, $user_group, $cat);
 
     $qua_data = makeSqlQuery($year, $user_group, $cat);
 
     $qua_query = $qua_data['query'];
     $qua_params = $qua_data['params'];
 
-    $data = super_function($api_params, $qua_params, $qua_query);
+    $data = super_function($apiParams, $qua_params, $qua_query);
 
     return $data;
 }

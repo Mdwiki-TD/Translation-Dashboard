@@ -9,8 +9,8 @@ use function App\SQLorAPI\GetDataTab\get_td_or_sql_categories;
 use function App\SQLorAPI\GetDataTab\get_td_or_sql_settings;
 use function App\SQLorAPI\GetDataTab\get_td_or_sql_langs;
 
-use function Tables\Langs\get_lang_code;
-use function Tables\Langs\get_lang_title;
+use function App\Tables\Langs\get_lang_code;
+use function App\Tables\Langs\get_lang_title;
 
 /**
  * Class AppRouter
@@ -18,7 +18,7 @@ use function Tables\Langs\get_lang_title;
  */
 class AppRouter
 {
-    private $currentUser;
+	private CurrentUser $currentUser;
     private $global_username;
     private $user_is_coordinator;
 

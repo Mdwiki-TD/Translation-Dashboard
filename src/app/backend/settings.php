@@ -104,15 +104,15 @@ final class Settings
     }
     /**
      */
-    public function is_development()
+    public function isDevelopment()
     {
         return $this->appEnv === "development";
     }
-    public function is_production()
+    public function isProduction()
     {
         return $this->appEnv === "production";
     }
-    public function is_testing()
+    public function isTesting()
     {
         return $this->appEnv === "testing";
     }

@@ -4,8 +4,12 @@ include_once __DIR__ . '/CurrentUser.php';
 include_once __DIR__ . '/settings.php';
 include_once __DIR__ . '/include_first/include.php';
 
+# MdwikiSql
+include_once __DIR__ . '/MdwikiSql/Database.php';
+include_once __DIR__ . '/MdwikiSql/mdwiki_sql.php';
+include_once __DIR__ . '/MdwikiSql/db_insert.php';
+
 # api_calls
-include_once __DIR__ . '/api_calls/mdwiki_sql.php';
 include_once __DIR__ . '/api_calls/wiki_api.php';
 
 # td_api_wrap
@@ -25,7 +29,6 @@ include_once __DIR__ . '/api_or_sql/top.php';
 include_once __DIR__ . '/tables/langcode.php';
 
 # others
-include_once __DIR__ . '/others/db_insert.php';
 include_once __DIR__ . '/others/helps.php';
 include_once __DIR__ . '/others/tr_link.php';
 
