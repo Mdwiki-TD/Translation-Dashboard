@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace OAuth\Settings;
+namespace App\Settings;
 
 use Defuse\Crypto\Key;
 

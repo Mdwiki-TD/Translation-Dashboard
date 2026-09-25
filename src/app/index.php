@@ -2,11 +2,11 @@
 
 namespace TD;
 
+use App\User\CurrentUser;
 use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
 use function SQLorAPI\GetDataTab\get_td_or_sql_settings;
 use function SQLorAPI\GetDataTab\get_td_or_sql_langs;
 use Results\GetResults27\ResultsLoader;
-use User\CurrentUser;
 
 use function Tables\Langs\get_lang_code;
 use function Tables\Langs\get_lang_title;

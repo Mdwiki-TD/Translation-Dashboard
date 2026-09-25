@@ -1,8 +1,8 @@
 <?PHP
 
 
-use OAuth\Settings\Settings;
-
+use App\User\CurrentUser;
+use App\Settings\Settings;
 use function Leaderboard\Graph\print_graph_tab;
 use function Leaderboard\Graph2\print_graph_tab_2_new;
 use function Leaderboard\Index\main_leaderboard;
@@ -15,7 +15,6 @@ use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
 use function SQLorAPI\GetDataTab\get_endpoint;
 use function SQLorAPI\GetDataTab\get_td_or_sql_langs;
 use function SQLorAPI\Funcs\get_graph_data;
-use User\CurrentUser;
 
 $currentUser = CurrentUser::getInstance();
 $global_username = $currentUser->getUsername();

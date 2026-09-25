@@ -3,7 +3,7 @@
 include_once dirname(__DIR__) . '/include_all.php';
 include_once dirname(__DIR__) . '/app/backend/others/db_insert.php';
 
-use User\CurrentUser;
+use App\User\CurrentUser;
 use function Results\TrLink\make_ContentTranslation_url;
 use function TranslateMed\Inserter\insertPage_inprocess;
 use function SQLorAPI\GetDataTab\get_td_or_sql_users_no_inprocess;

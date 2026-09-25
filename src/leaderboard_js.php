@@ -1,10 +1,17 @@
 <?PHP
 
-include_once __DIR__ . '/app/include_all.php';
-include_once __DIR__ . '/templates/header.php';
-
+use App\Templates\PageHeader;
+use App\User\CurrentUser;
 use function Leaderboard\Filter\leaderboard_filter;
 
+include_once __DIR__ . '/app/include_all.php';
+include_once __DIR__ . '/PageHead.php';
+include_once __DIR__ . '/PageHeader.php';
+
+$currentUser = CurrentUser::getInstance();
+
+$pageHeader = new PageHeader($currentUser);
+$pageHeader->render();
 
 $year  = strtolower(filter_input(INPUT_GET, 'year', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'all');
 $month = strtolower(filter_input(INPUT_GET, 'month', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '');

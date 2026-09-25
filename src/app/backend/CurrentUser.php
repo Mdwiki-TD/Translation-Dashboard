@@ -1,12 +1,12 @@
 <?php
 
-namespace User;
+namespace App\User;
 
 use Defuse\Crypto\Crypto;
 use Defuse\Crypto\Key;
+use App\Settings\Settings;
 use function APICalls\MdwikiSql\fetch_query;
 use function SQLorAPI\Funcs\get_coordinators;
-use OAuth\Settings\Settings;
 
 /**
  * Represents the current user: handles session initialization, reading

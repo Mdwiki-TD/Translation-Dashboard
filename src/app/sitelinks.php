@@ -2,7 +2,7 @@
 
 use function TD\Render\TestPrint\test_print;
 use function Tables\TablesDir\open_td_tables_file;
-use OAuth\Settings\Settings;
+use App\Settings\Settings;
 
 // Get request parameters with defaults
 $site = htmlspecialchars($_GET['site'] ?? 'all', ENT_QUOTES, 'UTF-8');

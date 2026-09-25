@@ -1,8 +1,21 @@
-<?php
+<?PHP
 http_response_code(404);
 
 include_once __DIR__ . '/app/include_all.php';
-include_once __DIR__ . '/templates/header.php';
+
+use App\Templates\PageHeader;
+use App\Templates\PageFooter;
+use App\User\CurrentUser;
+
+include_once __DIR__ . '/templates/PageHead.php';
+include_once __DIR__ . '/templates/PageHeader.php';
+include_once __DIR__ . '/templates/PageFooter.php';
+
+$currentUser = CurrentUser::getInstance();
+
+$pageHeader = new PageHeader($currentUser);
+$pageHeader->render();
+
 
 function print_h3_title($h3_title)
 {
@@ -23,3 +36,9 @@ echo <<<HTML
 	</div>
 </div>
 HTML;
+
+
+$timeStart = $pageHeader->getLoadStartTime();
+
+$pageFooter = new PageFooter($currentUser);
+$pageFooter->render($timeStart);

@@ -29,7 +29,7 @@ The `src/app/backend/` directory is the core business logic layer of the WikiPro
 
 ```
 src/app/backend/
-├── settings.php                    # Singleton configuration (OAuth\Settings)
+├── settings.php                    # Singleton configuration (App\Settings)
 ├── userinfos_wrap.php              # Authentication bootstrap
 ├── api_calls/                      # Infrastructure layer (DB, HTTP)
 │   ├── mdwiki_sql.php              # PDO database wrapper
@@ -100,7 +100,7 @@ The backend follows a layered architecture with clear separation between infrast
 
 ### Design Patterns
 
--   **Singleton**: `OAuth\Settings\Settings` for configuration
+-   **Singleton**: `App\Settings\Settings` for configuration
 -   **Strategy**: `super_function()` chooses API vs SQL at runtime
 -   **Repository**: `api_or_sql/` functions abstract data sources
 -   **Static Caching**: Nearly every data function uses `static` variables for in-request memoization
