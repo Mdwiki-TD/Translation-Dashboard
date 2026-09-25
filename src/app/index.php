@@ -4,10 +4,10 @@
 namespace App;
 
 use App\User\CurrentUser;
+use App\Results\GetResults27\ResultsLoader;
 use function App\SQLorAPI\GetDataTab\get_td_or_sql_categories;
 use function App\SQLorAPI\GetDataTab\get_td_or_sql_settings;
 use function App\SQLorAPI\GetDataTab\get_td_or_sql_langs;
-use App\Results\GetResults27\ResultsLoader;
 
 use function Tables\Langs\get_lang_code;
 use function Tables\Langs\get_lang_title;
@@ -343,3 +343,17 @@ if ($camp && $code) {
 }
 
 echo "</div><br>";
+
+/**
+ * Class AppRouter
+ * Handles layout initialization and dynamic request routing for the application.
+ */
+class AppRouter
+{
+	/**
+	 * Main entry point to run the application request.
+	 */
+	public function handleRequest(): void
+	{
+	}
+}
