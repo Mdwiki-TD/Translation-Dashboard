@@ -4,11 +4,11 @@ include_once dirname(__DIR__) . '/include_all.php';
 include_once dirname(__DIR__) . '/app/backend/others/db_insert.php';
 
 use App\User\CurrentUser;
-use function Results\TrLink\make_ContentTranslation_url;
+use function App\Results\TrLink\make_ContentTranslation_url;
 use function TranslateMed\Inserter\insertPage_inprocess;
-use function SQLorAPI\GetDataTab\get_td_or_sql_users_no_inprocess;
-use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
-use function SQLorAPI\GetDataTab\get_endpoint;
+use function App\SQLorAPI\GetDataTab\get_td_or_sql_users_no_inprocess;
+use function App\SQLorAPI\GetDataTab\get_td_or_sql_categories;
+use function App\SQLorAPI\GetDataTab\get_endpoint;
 
 function go_to_translate_url($title_o, $coden, $tr_type, $cat, $camp, $endpoint)
 {
@@ -71,7 +71,7 @@ $useree = $currentUser->getUsername();
 
 if (!empty($title_o) && !empty($coden)) {
 
-    // use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
+    // use function App\SQLorAPI\GetDataTab\get_td_or_sql_categories;
     $categories_tab = get_td_or_sql_categories();
     $cats_data = array_column($categories_tab, "campaign", "category");
 

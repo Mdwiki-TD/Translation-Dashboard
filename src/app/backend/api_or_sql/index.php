@@ -1,9 +1,9 @@
 <?php
 
-namespace SQLorAPI\Get;
+namespace App\SQLorAPI\Get;
 
-use function APICalls\MdwikiSql\fetch_query;
-use function APICalls\TDApi\get_td_api;
+use function App\APICalls\MdwikiSql\fetch_query;
+use function App\APICalls\TDApi\get_td_api;
 
 function use_td_api_or_sql(): bool
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace SQLorAPI\Process;
+namespace App\SQLorAPI\Process;
 
-use function SQLorAPI\Get\super_function;
-use function SQLorAPI\Get\isvalid;
+use function App\SQLorAPI\Get\super_function;
+use function App\SQLorAPI\Get\isvalid;
 
 function get_process_data(): array
 {

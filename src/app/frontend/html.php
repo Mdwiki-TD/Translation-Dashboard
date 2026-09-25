@@ -1,6 +1,6 @@
 <?php
 
-namespace TD\Render\Html;
+namespace App\Render\Html;
 
 function make_modal_fade($label, $text, $id, $button = '')
 {

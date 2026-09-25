@@ -1,13 +1,13 @@
 <?PHP
 
-namespace Leaderboard\Filter;
+namespace App\Leaderboard\Filter;
 
-use function TD\Render\Html\makeDropdown;
-use function SQLorAPI\Funcs\get_pages_with_pupdate;
-use function SQLorAPI\TopData\get_td_or_sql_status;
-use function SQLorAPI\GetDataTab\get_td_or_sql_projects;
-use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
-use function SQLorAPI\GetDataTab\get_camps_to_cat;
+use function App\Render\Html\makeDropdown;
+use function App\SQLorAPI\Funcs\get_pages_with_pupdate;
+use function App\SQLorAPI\TopData\get_td_or_sql_status;
+use function App\SQLorAPI\GetDataTab\get_td_or_sql_projects;
+use function App\SQLorAPI\GetDataTab\get_td_or_sql_categories;
+use function App\SQLorAPI\GetDataTab\get_camps_to_cat;
 
 function input_group($title, $rows): string
 {

@@ -1,13 +1,13 @@
 <?PHP
 
-namespace Leaderboard\Langs;
+namespace App\Leaderboard\Langs;
 
 
 
-use function Leaderboard\Subs\LeadHelp\make_langs_lead;
-use function Leaderboard\Subs\SubLangs\get_langs_tables;
-use function Leaderboard\SubGraph\graph_data_new;
-use function Leaderboard\Subs\FilterForm\lead_row;
+use function App\Leaderboard\Subs\LeadHelp\make_langs_lead;
+use function App\Leaderboard\Subs\SubLangs\get_langs_tables;
+use function App\Leaderboard\SubGraph\graph_data_new;
+use function App\Leaderboard\Subs\FilterForm\lead_row;
 use function Tables\Langs\get_lang_name;
 
 function langs_html(

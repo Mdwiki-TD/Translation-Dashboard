@@ -1,11 +1,11 @@
 <?php
 
-namespace Results\GetResults27\Rows;
+namespace App\Results\GetResults27\Rows;
 
-use function Results\TrLink\make_ContentTranslation_url;
-use function TD\Render\Html\make_mdwiki_article_url_blank;
-use function TD\Render\Html\make_wikipedia_url_blank;
-use function TD\Render\Html\make_wikidata_url_blank;
+use function App\Results\TrLink\make_ContentTranslation_url;
+use function App\Render\Html\make_mdwiki_article_url_blank;
+use function App\Render\Html\make_wikipedia_url_blank;
+use function App\Render\Html\make_wikidata_url_blank;
 
 /**
  * Builds a single row for the Exists results table.

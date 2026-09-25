@@ -1,6 +1,6 @@
 <?php
 
-namespace Results\TrLink;
+namespace App\Results\TrLink;
 
 
 

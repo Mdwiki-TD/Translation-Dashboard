@@ -1,20 +1,20 @@
 <?PHP
 
-namespace Leaderboard\Index;
+namespace App\Leaderboard\Index;
 
-use function TD\Render\Html\makeColSm4;
-use function TD\Render\Html\makeCol;
-use function Leaderboard\Graph\print_graph_for_table;
-use function Leaderboard\LeaderTables\createNumbersTable;
-use function Leaderboard\LeaderTables\makeLangTable;
-use function Leaderboard\LeaderTabUsers\makeUsersTable;
-use function Leaderboard\LeaderTabUsers\module_copy_data;
-use function Leaderboard\Filter\leaderboard_filter;
-use function SQLorAPI\TopData\get_td_or_sql_top_lang_of_users;
-use function SQLorAPI\TopData\get_td_or_sql_top_langs;
-use function SQLorAPI\TopData\get_td_or_sql_top_users;
-use function SQLorAPI\TopData\get_td_or_sql_status;
-use function SQLorAPI\GetDataTab\get_camps_to_cat;
+use function App\Render\Html\makeColSm4;
+use function App\Render\Html\makeCol;
+use function App\Leaderboard\Graph\print_graph_for_table;
+use function App\Leaderboard\LeaderTables\createNumbersTable;
+use function App\Leaderboard\LeaderTables\makeLangTable;
+use function App\Leaderboard\LeaderTabUsers\makeUsersTable;
+use function App\Leaderboard\LeaderTabUsers\module_copy_data;
+use function App\Leaderboard\Filter\leaderboard_filter;
+use function App\SQLorAPI\TopData\get_td_or_sql_top_lang_of_users;
+use function App\SQLorAPI\TopData\get_td_or_sql_top_langs;
+use function App\SQLorAPI\TopData\get_td_or_sql_top_users;
+use function App\SQLorAPI\TopData\get_td_or_sql_status;
+use function App\SQLorAPI\GetDataTab\get_camps_to_cat;
 
 function print_cat_table(
     $year,

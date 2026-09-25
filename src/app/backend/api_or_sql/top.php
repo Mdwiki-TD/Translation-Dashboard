@@ -1,9 +1,9 @@
 <?php
 
-namespace SQLorAPI\TopData;
+namespace App\SQLorAPI\TopData;
 
-use function SQLorAPI\Get\super_function;
-use function SQLorAPI\Get\isvalid;
+use function App\SQLorAPI\Get\super_function;
+use function App\SQLorAPI\Get\isvalid;
 
 function get_td_or_sql_top_lang_of_users($users_original)
 {

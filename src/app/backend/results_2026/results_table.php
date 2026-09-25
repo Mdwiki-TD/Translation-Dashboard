@@ -1,13 +1,13 @@
 <?PHP
 
-namespace Results\GetResults2026;
+namespace App\Results\GetResults2026;
 
 
 
-use function TD\Render\Html\make_mdwiki_href;
-use function TD\Render\Html\make_wikidata_url_blank;
-use function Results\ResultsTableHtml\make_table_start;
-use function Results\TrLink\make_tr_link_medwiki;
+use function App\Render\Html\make_mdwiki_href;
+use function App\Render\Html\make_wikidata_url_blank;
+use function App\Results\ResultsTableHtml\make_table_start;
+use function App\Results\TrLink\make_tr_link_medwiki;
 
 function _make_one_row_results(
     $title,

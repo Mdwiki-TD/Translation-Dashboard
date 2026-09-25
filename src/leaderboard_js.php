@@ -2,7 +2,7 @@
 
 use App\Templates\PageHeader;
 use App\User\CurrentUser;
-use function Leaderboard\Filter\leaderboard_filter;
+use function App\Leaderboard\Filter\leaderboard_filter;
 
 include_once __DIR__ . '/app/include_all.php';
 include_once __DIR__ . '/PageHead.php';

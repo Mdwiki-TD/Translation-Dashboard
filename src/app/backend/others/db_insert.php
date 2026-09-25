@@ -2,8 +2,8 @@
 
 namespace TranslateMed\Inserter;
 
-use function TD\Render\TestPrint\test_print;
-use function APICalls\MdwikiSql\execute_query;
+use function App\Render\TestPrint\test_print;
+use function App\APICalls\MdwikiSql\execute_query;
 
 function insertPage($title_o, $word, $tr_type, $cat, $coden, $useree)
 {

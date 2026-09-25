@@ -1,9 +1,9 @@
 <?php
 
-namespace SQLorAPI\Funcs;
+namespace App\SQLorAPI\Funcs;
 
-use function SQLorAPI\Get\super_function;
-use function SQLorAPI\Get\isvalid;
+use function App\SQLorAPI\Get\super_function;
+use function App\SQLorAPI\Get\isvalid;
 
 function get_lang_pages_by_cat($lang, $cat)
 {

@@ -3,18 +3,18 @@
 
 use App\User\CurrentUser;
 use App\Settings\Settings;
-use function Leaderboard\Graph\print_graph_tab;
-use function Leaderboard\Graph2\print_graph_tab_2_new;
-use function Leaderboard\Index\main_leaderboard;
-use function Leaderboard\CampText\echo_html;
-use function Leaderboard\Langs\langs_html;
-use function Leaderboard\Users\users_html;
+use function App\Leaderboard\Graph\print_graph_tab;
+use function App\Leaderboard\Graph2\print_graph_tab_2_new;
+use function App\Leaderboard\Index\main_leaderboard;
+use function App\Leaderboard\CampText\echo_html;
+use function App\Leaderboard\Langs\langs_html;
+use function App\Leaderboard\Users\users_html;
 
-use function SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
-use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
-use function SQLorAPI\GetDataTab\get_endpoint;
-use function SQLorAPI\GetDataTab\get_td_or_sql_langs;
-use function SQLorAPI\Funcs\get_graph_data;
+use function App\SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
+use function App\SQLorAPI\GetDataTab\get_td_or_sql_categories;
+use function App\SQLorAPI\GetDataTab\get_endpoint;
+use function App\SQLorAPI\GetDataTab\get_td_or_sql_langs;
+use function App\SQLorAPI\Funcs\get_graph_data;
 
 $currentUser = CurrentUser::getInstance();
 $global_username = $currentUser->getUsername();

@@ -1,15 +1,15 @@
 <?PHP
 
-namespace Leaderboard\Subs\LeadHelp;
+namespace App\Leaderboard\Subs\LeadHelp;
 
 
 
-use function APICalls\WikiApi\make_view_by_number;
-use function TD\Render\Html\make_mdwiki_cat_url;
-use function TD\Render\Html\make_mdwiki_article_url_blank;
-use function TD\Render\Html\make_wikipedia_url_blank;
-use function Results\TrLink\make_ContentTranslation_url;
-use function Leaderboard\Camps\get_articles_to_camps;
+use function App\APICalls\WikiApi\make_view_by_number;
+use function App\Render\Html\make_mdwiki_cat_url;
+use function App\Render\Html\make_mdwiki_article_url_blank;
+use function App\Render\Html\make_wikipedia_url_blank;
+use function App\Results\TrLink\make_ContentTranslation_url;
+use function App\Leaderboard\Camps\get_articles_to_camps;
 
 function make_key($Taab)
 {

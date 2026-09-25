@@ -1,9 +1,9 @@
 <?php
 
-namespace SQLorAPI\GetLead;
+namespace App\SQLorAPI\GetLead;
 
-use function SQLorAPI\Get\super_function;
-use function SQLorAPI\Get\isvalid;
+use function App\SQLorAPI\Get\super_function;
+use function App\SQLorAPI\Get\isvalid;
 
 function makeSqlQuery($year, $user_group, $cat)
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace APICalls\TDApi;
+namespace App\APICalls\TDApi;
 
 use App\Settings\Settings;
 

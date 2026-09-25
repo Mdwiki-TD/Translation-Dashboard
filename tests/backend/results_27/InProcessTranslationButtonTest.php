@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace MyLibrary\Tests;
+namespace Tests;
 
 use PHPUnit\Framework\TestCase;
 
-use function Results\Helps\make_translate_urls;
-use Results\GetResults27\Rows\InProcessRowBuilder;
-use function Results\ResultsTableHtml\make_table_start;
-use function Leaderboard\Subs\LeadHelp\make_td_fo_user;
+use function App\Results\Helps\make_translate_urls;
+use App\Results\GetResults27\Rows\InProcessRowBuilder;
+use function App\Results\ResultsTableHtml\make_table_start;
+use function App\Leaderboard\Subs\LeadHelp\make_td_fo_user;
 
 class InProcessTranslationButtonTest extends TestCase
 {

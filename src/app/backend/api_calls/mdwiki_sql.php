@@ -22,8 +22,8 @@
  *
  * Usage Example:
  * ```php
- * use function APICalls\MdwikiSql\fetch_query;
- * use function APICalls\MdwikiSql\execute_query;
+ * use function App\APICalls\MdwikiSql\fetch_query;
+ * use function App\APICalls\MdwikiSql\execute_query;
  *
  * // Fetch results (SELECT queries)
  * $users = fetch_query("SELECT * FROM users WHERE is_active = ?", [1]);
@@ -50,7 +50,7 @@
  * @see https://wikitech.wikimedia.org/wiki/Help:Toolforge/Database
  */
 
-namespace APICalls\MdwikiSql;
+namespace App\APICalls\MdwikiSql;
 
 use PDO;
 use PDOException;
@@ -62,7 +62,7 @@ use RuntimeException;
  * Encapsulates PDO database operations with automatic connection management,
  * error handling, and environment-specific configuration.
  *
- * @package APICalls\MdwikiSql
+ * @package App\APICalls\MdwikiSql
  */
 class Database
 {

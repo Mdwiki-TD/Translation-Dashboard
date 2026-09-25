@@ -1,10 +1,10 @@
 <?PHP
 
-namespace Leaderboard\CampText;
+namespace App\Leaderboard\CampText;
 
 
 
-use function Leaderboard\Camps\get_articles_to_camps;
+use function App\Leaderboard\Camps\get_articles_to_camps;
 
 function camps_list()
 {

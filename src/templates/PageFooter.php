@@ -9,7 +9,7 @@ class PageFooter
 {
 	private currentUser $currentUser;
 
-	public function __construct(currentUser $currentUser)
+	public function __construct(CurrentUser $currentUser)
 	{
 		$this->currentUser = $currentUser;
 	}

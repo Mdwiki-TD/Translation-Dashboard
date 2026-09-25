@@ -1,8 +1,8 @@
 <?php
 
-namespace SQLorAPI\Funcs;
+namespace App\SQLorAPI\Funcs;
 
-use function SQLorAPI\Get\super_function;
+use function App\SQLorAPI\Get\super_function;
 
 function missing_by_lang_and_category($lang_code, $category)
 {

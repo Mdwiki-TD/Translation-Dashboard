@@ -1,6 +1,6 @@
 <?PHP
 
-namespace Leaderboard\SubGraph;
+namespace App\Leaderboard\SubGraph;
 
 
 function make_table($data, $len)

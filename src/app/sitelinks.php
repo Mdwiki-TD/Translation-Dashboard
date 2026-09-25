@@ -1,6 +1,6 @@
 <?php
 
-use function TD\Render\TestPrint\test_print;
+use function App\Render\TestPrint\test_print;
 use function Tables\TablesDir\open_td_tables_file;
 use App\Settings\Settings;
 
