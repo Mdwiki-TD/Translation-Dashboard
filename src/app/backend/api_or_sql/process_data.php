@@ -53,10 +53,10 @@ function get_user_process_new(string $user, string $year_y = "all")
 function get_users_process_new(): array
 {
 
-    static $process_new = [];
+    static $processNew = [];
 
-    if (!empty($process_new)) {
-        return $process_new;
+    if (!empty($processNew)) {
+        return $processNew;
     }
 
     // ttp://localhost:9002/api.php?get=in_process&distinct=true&limit=50&group=user&order=count&select=count
@@ -67,9 +67,9 @@ function get_users_process_new(): array
 
     $tab = super_function($apiParams, [], $sql_t);
 
-    $process_new = array_column($tab, 'count', 'user');
+    $processNew = array_column($tab, 'count', 'user');
 
-    return $process_new;
+    return $processNew;
 }
 
 function get_lang_in_process_by_year($code, $year_y = "all"): array

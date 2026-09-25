@@ -34,4 +34,5 @@
             <directory>tests</directory>
         </exclude>
     </source>
+
 </phpunit>
