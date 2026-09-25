@@ -1,14 +1,11 @@
 <?PHP
 
-include_once __DIR__ . '/app/include_all.php';
-
 use App\Templates\PageHeader;
 use App\Templates\PageFooter;
 use App\User\CurrentUser;
 
-include_once __DIR__ . '/templates/PageHead.php';
-include_once __DIR__ . '/templates/PageHeader.php';
-include_once __DIR__ . '/templates/PageFooter.php';
+include_once __DIR__ . '/app/include_all.php';
+include_once __DIR__ . '/templates/include.php';
 
 $currentUser = CurrentUser::getInstance();
 
