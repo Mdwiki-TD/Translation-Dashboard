@@ -3,7 +3,6 @@ src/
 ├── app/
 │   ├── backend/
 │   │   ├── api_calls/
-│   │   │   ├── mdwiki_sql.php
 │   │   │   └── wiki_api.php
 │   │   ├── api_or_sql/
 │   │   │   ├── data_tab.php
@@ -16,10 +15,12 @@ src/
 │   │   ├── include_first/
 │   │   │   ├── include.php
 │   │   │   ├── tables_dir.php
-│   │   │   ├── test_print.php
-│   │   │   └── text_admin.php
-│   │   ├── others/
+│   │   │   └── test_print.php
+│   │   ├── MdwikiSql/
+│   │   │   ├── Database.php
 │   │   │   ├── db_insert.php
+│   │   │   └── mdwiki_sql.php
+│   │   ├── others/
 │   │   │   ├── helps.php
 │   │   │   └── tr_link.php
 │   │   ├── results_2026/
@@ -53,10 +54,10 @@ src/
 │   │   │   └── langcode.php
 │   │   ├── td_api_wrap/
 │   │   │   └── td_api.php
+│   │   ├── CurrentUser.php
 │   │   ├── include.php
 │   │   ├── README.md
-│   │   ├── settings.php
-│   │   └── userinfos_wrap.php
+│   │   └── settings.php
 │   ├── frontend/
 │   │   ├── html.php
 │   │   ├── include.php
@@ -76,6 +77,7 @@ src/
 │   │   ├── graph.php
 │   │   ├── include.php
 │   │   ├── index.php
+│   │   ├── index_js.php
 │   │   ├── lang_user_graph.php
 │   │   ├── langs.php
 │   │   ├── leader_filter.php
@@ -100,6 +102,7 @@ src/
 │   ├── c.js
 │   ├── codes.js
 │   ├── color-modes.js
+│   ├── footer.js
 │   ├── g.js
 │   ├── graph_api.js
 │   ├── leadtable.js
@@ -111,9 +114,10 @@ src/
 ├── static/
 │   └── xtools.svg
 ├── templates/
-│   ├── footer.php
-│   ├── head.php
-│   └── header.php
+│   ├── include.php
+│   ├── PageFooter.php
+│   ├── PageHead.php
+│   └── PageHeader.php
 ├── translate/
 │   └── medwiki.php
 ├── translate_med/
