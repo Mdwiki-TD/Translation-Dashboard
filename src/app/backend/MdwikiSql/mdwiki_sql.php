@@ -22,7 +22,6 @@ function execute_query(string $sqlQuery, $params = null)
     // Destroy the database object
     $db = null;
 
-
     return $results;
 };
 function fetch_query(string $sqlQuery, $params = null, $noprint = false)
