@@ -1,6 +1,6 @@
 <?php
 
-namespace TranslateMed\Inserter;
+namespace App\TranslateMed\Inserter;
 
 use function App\Render\TestPrint\test_print;
 use function App\MdwikiSql\execute_query;

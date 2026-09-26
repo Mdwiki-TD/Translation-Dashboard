@@ -5,7 +5,7 @@ include_once dirname(__DIR__) . '/app/backend/others/db_insert.php';
 
 use App\User\CurrentUser;
 use function App\Results\TrLink\make_ContentTranslation_url;
-use function TranslateMed\Inserter\insertPage_inprocess;
+use function App\TranslateMed\Inserter\insertPage_inprocess;
 use function App\SQLorAPI\GetDataTab\get_td_or_sql_users_no_inprocess;
 use function App\SQLorAPI\GetDataTab\get_td_or_sql_categories;
 use function App\SQLorAPI\GetDataTab\get_endpoint;

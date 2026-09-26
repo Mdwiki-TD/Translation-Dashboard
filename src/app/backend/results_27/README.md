@@ -33,14 +33,14 @@ src/app/backend/results_27/
 ```php
 <?php
 
-namespace Results\GetResults27\Data;
+namespace App\Results\GetResults27\Data;
 
-use function TD\Render\Html\make_mdwiki_cat_url;
-use function SQLorAPI\Funcs\get_lang_pages_by_cat;
-use function SQLorAPI\Process\get_lang_in_process;
-use function SQLorAPI\Funcs\missing_by_lang_and_category;
-use function SQLorAPI\Funcs\exists_by_lang_and_category;
-use function TD\Render\TestPrint\test_print;
+use function App\Render\Html\make_mdwiki_cat_url;
+use function App\SQLorAPI\Funcs\get_lang_pages_by_cat;
+use function App\SQLorAPI\Process\get_lang_in_process;
+use function App\SQLorAPI\Funcs\missing_by_lang_and_category;
+use function App\SQLorAPI\Funcs\exists_by_lang_and_category;
+use function App\Render\TestPrint\test_print;
 
 /**
  * Responsible for fetching and preparing all result data
@@ -183,9 +183,9 @@ class ResultsFetcher
 ```php
 <?php
 
-namespace Results\GetResults27\Helpers;
+namespace App\Results\GetResults27\Helpers;
 
-use function SQLorAPI\GetDataTab\get_td_or_sql_translate_type;
+use function App\SQLorAPI\GetDataTab\get_td_or_sql_translate_type;
 
 /**
  * Loads and caches lists of titles that require full translation
@@ -235,7 +235,7 @@ class TranslateTypeLoader
 ```php
 <?php
 
-namespace Results\GetResults27\Helpers;
+namespace App\Results\GetResults27\Helpers;
 
 /**
  * Renders a Bootstrap card used for result sections.
@@ -272,9 +272,9 @@ class CardRenderer
 ```php
 <?php
 
-namespace Results\GetResults27\Tables;
+namespace App\Results\GetResults27\Tables;
 
-use function Results\ResultsTableHtml\make_table_start;
+use function App\Results\ResultsTableHtml\make_table_start;
 
 /**
  * Base class for all result tables.
@@ -302,11 +302,11 @@ abstract class AbstractResultsTable
 ```php
 <?php
 
-namespace Results\GetResults27\Rows;
+namespace App\Results\GetResults27\Rows;
 
-use function TD\Render\Html\make_mdwiki_href;
-use function TD\Render\Html\make_wikidata_url_blank;
-use function Results\TrLink\make_tr_link_medwiki;
+use function App\Render\Html\make_mdwiki_href;
+use function App\Render\Html\make_wikidata_url_blank;
+use function App\Results\TrLink\make_tr_link_medwiki;
 
 /**
  * Builds a single row for the Missing results table.
@@ -403,9 +403,9 @@ class MissingRowBuilder
 ```php
 <?php
 
-namespace Results\GetResults27\Tables;
+namespace App\Results\GetResults27\Tables;
 
-use Results\GetResults27\Rows\MissingRowBuilder;
+use App\Results\GetResults27\Rows\MissingRowBuilder;
 
 /**
  * Renders the table of missing pages.
@@ -526,12 +526,12 @@ class MissingTable extends AbstractResultsTable
 ```php
 <?php
 
-namespace Results\GetResults27\Rows;
+namespace App\Results\GetResults27\Rows;
 
-use function Results\TrLink\make_ContentTranslation_url;
-use function TD\Render\Html\make_mdwiki_article_url_blank;
-use function TD\Render\Html\make_wikipedia_url_blank;
-use function TD\Render\Html\make_wikidata_url_blank;
+use function App\Results\TrLink\make_ContentTranslation_url;
+use function App\Render\Html\make_mdwiki_article_url_blank;
+use function App\Render\Html\make_wikipedia_url_blank;
+use function App\Render\Html\make_wikidata_url_blank;
 
 /**
  * Builds a single row for the Exists results table.
@@ -606,9 +606,9 @@ class ExistsRowBuilder
 ```php
 <?php
 
-namespace Results\GetResults27\Tables;
+namespace App\Results\GetResults27\Tables;
 
-use Results\GetResults27\Rows\ExistsRowBuilder;
+use App\Results\GetResults27\Rows\ExistsRowBuilder;
 
 /**
  * Renders the table of already existing pages.
@@ -705,11 +705,11 @@ class ExistsTable extends AbstractResultsTable
 ```php
 <?php
 
-namespace Results\GetResults27\Rows;
+namespace App\Results\GetResults27\Rows;
 
-use function TD\Render\Html\make_mdwiki_href;
-use function TD\Render\Html\make_wikidata_url_blank;
-use function Results\Helps\make_translate_urls;
+use function App\Render\Html\make_mdwiki_href;
+use function App\Render\Html\make_wikidata_url_blank;
+use function App\Results\Helps\make_translate_urls;
 
 /**
  * Builds a single row for the In-process results table.
@@ -811,9 +811,9 @@ class InProcessRowBuilder
 ```php
 <?php
 
-namespace Results\GetResults27\Tables;
+namespace App\Results\GetResults27\Tables;
 
-use Results\GetResults27\Rows\InProcessRowBuilder;
+use App\Results\GetResults27\Rows\InProcessRowBuilder;
 
 /**
  * Renders the table of pages currently being translated.
@@ -908,18 +908,18 @@ class InProcessTable extends AbstractResultsTable
 ```php
 <?php
 
-namespace Results\GetResults27;
+namespace App\Results\GetResults27;
 
-use Results\GetResults27\Data\ResultsFetcher;
-use Results\GetResults27\Helpers\CardRenderer;
-use Results\GetResults27\Helpers\TranslateTypeLoader;
-use Results\GetResults27\Tables\MissingTable;
-use Results\GetResults27\Tables\ExistsTable;
-use Results\GetResults27\Tables\InProcessTable;
+use App\Results\GetResults27\Data\ResultsFetcher;
+use App\Results\GetResults27\Helpers\CardRenderer;
+use App\Results\GetResults27\Helpers\TranslateTypeLoader;
+use App\Results\GetResults27\Tables\MissingTable;
+use App\Results\GetResults27\Tables\ExistsTable;
+use App\Results\GetResults27\Tables\InProcessTable;
 
-use function SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
-use function SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
-use function SQLorAPI\GetDataTab\get_endpoint;
+use function App\SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
+use function App\SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
+use function App\SQLorAPI\GetDataTab\get_endpoint;
 
 /**
  * Main entry point for the 2026 results module.
@@ -1035,9 +1035,9 @@ class ResultsLoader
 ```php
 <?php
 
-namespace Results\GetResults27;
+namespace App\Results\GetResults27;
 
-use Results\GetResults27\Data\ResultsFetcher;
+use App\Results\GetResults27\Data\ResultsFetcher;
 
 /**
  * Backward-compatible function.
@@ -1053,7 +1053,7 @@ function get_results_27(string $cat, string $code, bool $debug = false): array
 ```php
 <?php
 
-namespace Results\GetResults27;
+namespace App\Results\GetResults27;
 
 /**
  * Public entry point – keeps the old function name.

@@ -186,8 +186,8 @@ The namespace `TD\Render\Html` doesn't match the PSR-4 autoload path `src/render
 Functions are available throughout the application via the include chain:
 
 ```php
-use function TD\Render\Html\make_mdwiki_article_url_blank;
-use function TD\Render\Html\makeDropdown;
+use function App\Render\Html\make_mdwiki_article_url_blank;
+use function App\Render\Html\makeDropdown;
 
 // Generate a link
 echo make_mdwiki_article_url_blank('Article_Title', 'Display Name');
