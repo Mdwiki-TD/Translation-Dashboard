@@ -84,7 +84,9 @@ if (!empty($title_o) && !empty($coden)) {
 
     $cat = filter_input(INPUT_GET, 'cat', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
     $camp = filter_input(INPUT_GET, 'camp', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
-    $tr_type = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'lead';
+
+    $tr_type = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? filter_input(INPUT_GET, 'tr_type', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'lead';
+
     $word = filter_input(INPUT_GET, 'word', FILTER_VALIDATE_INT, [
         'options' => ['default' => 0, 'min_range' => 0]
     ]);
