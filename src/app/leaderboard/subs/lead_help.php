@@ -2,8 +2,6 @@
 
 namespace App\Leaderboard\Subs\LeadHelp;
 
-
-
 use function App\APICalls\WikiApi\make_view_by_number;
 use function App\Render\Html\make_mdwiki_cat_url;
 use function App\Render\Html\make_mdwiki_article_url_blank;
