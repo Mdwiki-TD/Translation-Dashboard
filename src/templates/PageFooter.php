@@ -89,7 +89,3 @@ class PageFooter
         HTML;
 	}
 }
-
-// Usage (replaces the old procedural src/templates/footer.php):
-// $pageFooter = new PageFooter($currentUser);
-// $pageFooter->render($pageHeader->getLoadStartTime());
