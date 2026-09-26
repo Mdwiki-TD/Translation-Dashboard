@@ -1,6 +1,7 @@
 <?php
 
 include_once dirname(__DIR__) . '/include_all.php';
+include_once dirname(__DIR__) . '/app/backend/others/db_insert.php';
 
 use App\User\CurrentUser;
 use function App\Results\TrLink\make_ContentTranslation_url;
