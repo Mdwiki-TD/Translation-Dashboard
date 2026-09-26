@@ -1,13 +1,13 @@
 <?PHP
 
-namespace Leaderboard\Subs\FilterForm;
+namespace App\Leaderboard\Subs\FilterForm;
 
 
 
-use function SQLorAPI\Funcs\get_lang_years;
-use function SQLorAPI\Funcs\get_user_years;
-use function SQLorAPI\Funcs\get_user_langs;
-use function SQLorAPI\Funcs\get_user_camps;
+use function App\SQLorAPI\Funcs\get_lang_years;
+use function App\SQLorAPI\Funcs\get_user_years;
+use function App\SQLorAPI\Funcs\get_user_langs;
+use function App\SQLorAPI\Funcs\get_user_camps;
 
 function DropdownNew($title, $tab, $cat, $id)
 {

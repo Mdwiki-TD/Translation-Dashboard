@@ -1,19 +1,19 @@
 <?PHP
 
-namespace Results\GetResults2026;
+namespace App\Results\GetResults2026;
 
 
 
 
-use function Results\GetResults2026\get_results_2026;
-use function Results\GetResults2026\make_results_table_2026;
-use function Results\GetResults2026\make_results_table_inprocess;
-use function Results\GetResults2026\make_results_table_exists_2026;
+use function App\Results\GetResults2026\get_results_2026;
+use function App\Results\GetResults2026\make_results_table_2026;
+use function App\Results\GetResults2026\make_results_table_inprocess;
+use function App\Results\GetResults2026\make_results_table_exists_2026;
 
-use function SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
-use function SQLorAPI\GetDataTab\get_td_or_sql_translate_type;
-use function SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
-use function SQLorAPI\GetDataTab\get_endpoint;
+use function App\SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
+use function App\SQLorAPI\GetDataTab\get_td_or_sql_translate_type;
+use function App\SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
+use function App\SQLorAPI\GetDataTab\get_endpoint;
 
 function load_translate_type($ty)
 {

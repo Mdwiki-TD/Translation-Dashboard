@@ -1,6 +1,6 @@
 <?php
 
-namespace TD\Render\TestPrint;
+namespace App\Render\TestPrint;
 
 function test_print($s)
 {

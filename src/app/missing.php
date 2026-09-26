@@ -1,9 +1,9 @@
 <?PHP
 
 
-use function SQLorAPI\Funcs\statics_by_category;
-use function SQLorAPI\GetDataTab\get_td_or_sql_langs;
-use function SQLorAPI\Funcs\count_category_members;
+use function App\SQLorAPI\Funcs\statics_by_category;
+use function App\SQLorAPI\GetDataTab\get_td_or_sql_langs;
+use function App\SQLorAPI\Funcs\count_category_members;
 
 $text = "";
 $num = 0;

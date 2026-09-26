@@ -1,9 +1,9 @@
 <?php
 
-namespace SQLorAPI\Process;
+namespace App\SQLorAPI\Process;
 
-use function SQLorAPI\Get\super_function;
-use function SQLorAPI\Get\isvalid;
+use function App\SQLorAPI\Get\super_function;
+use function App\SQLorAPI\Get\isvalid;
 
 function get_process_data(): array
 {
@@ -14,10 +14,10 @@ function get_process_data(): array
         return $process_all;
     }
 
-    $api_params = ['get' => 'in_process', 'limit' => "100", "order" => 'add_date'];
+    $apiParams = ['get' => 'in_process', 'limit' => "100", "order" => 'add_date'];
     $sql_t = "select * from in_process ORDER BY add_date DESC limit 100";
 
-    $process_all = super_function($api_params, [], $sql_t);
+    $process_all = super_function($apiParams, [], $sql_t);
 
     return $process_all;
 }
@@ -31,7 +31,7 @@ function get_user_process_new(string $user, string $year_y = "all")
         return $cache[$user];
     }
 
-    $api_params = ['get' => 'in_process', 'user' => $user];
+    $apiParams = ['get' => 'in_process', 'user' => $user];
 
     $query = "select * from in_process where user = ?";
 
@@ -40,10 +40,10 @@ function get_user_process_new(string $user, string $year_y = "all")
     if (isvalid($year_y)) {
         $query .= " AND YEAR(add_date) = ?";
         $params[] = $year_y;
-        $api_params['year'] = $year_y;
+        $apiParams['year'] = $year_y;
     }
 
-    $data = super_function($api_params, $params, $query, true);
+    $data = super_function($apiParams, $params, $query, true);
 
     $cache[$user] = $data;
 
@@ -53,23 +53,23 @@ function get_user_process_new(string $user, string $year_y = "all")
 function get_users_process_new(): array
 {
 
-    static $process_new = [];
+    static $processNew = [];
 
-    if (!empty($process_new)) {
-        return $process_new;
+    if (!empty($processNew)) {
+        return $processNew;
     }
 
     // ttp://localhost:9002/api.php?get=in_process&distinct=true&limit=50&group=user&order=count&select=count
 
-    $api_params = ['get' => 'in_process', 'distinct' => 'true', "select" => 'user', 'group' => 'user', "order" => '2', "count" => '*'];
+    $apiParams = ['get' => 'in_process', 'distinct' => 'true', "select" => 'user', 'group' => 'user', "order" => '2', "count" => '*'];
 
     $sql_t = 'select DISTINCT user, count(*) as count from in_process group by user order by count desc';
 
-    $tab = super_function($api_params, [], $sql_t);
+    $tab = super_function($apiParams, [], $sql_t);
 
-    $process_new = array_column($tab, 'count', 'user');
+    $processNew = array_column($tab, 'count', 'user');
 
-    return $process_new;
+    return $processNew;
 }
 
 function get_lang_in_process_by_year($code, $year_y = "all"): array
@@ -81,17 +81,17 @@ function get_lang_in_process_by_year($code, $year_y = "all"): array
 
     $query = "select * from in_process where lang = ?";
 
-    $api_params = ['get' => 'in_process', 'lang' => $code];
+    $apiParams = ['get' => 'in_process', 'lang' => $code];
 
     $params = [$code];
 
     if (isvalid($year_y)) {
         $query .= " AND YEAR(add_date) = ?";
         $params[] = $year_y;
-        $api_params['year'] = $year_y;
+        $apiParams['year'] = $year_y;
     }
 
-    $data = super_function($api_params, $params, $query);
+    $data = super_function($apiParams, $params, $query);
 
     $cache[$code][$year_y] = $data;
 
@@ -107,11 +107,11 @@ function get_lang_in_process($code): array
 
     $query = "select * from in_process where lang = ?";
 
-    $api_params = ['get' => 'in_process', 'lang' => $code];
+    $apiParams = ['get' => 'in_process', 'lang' => $code];
 
     $params = [$code];
 
-    $data = super_function($api_params, $params, $query);
+    $data = super_function($apiParams, $params, $query);
 
     $cache[$code] = $data;
 

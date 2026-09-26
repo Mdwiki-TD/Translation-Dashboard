@@ -1,6 +1,6 @@
 <?PHP
 
-namespace Results\ResultsTableHtml;
+namespace App\Results\ResultsTableHtml;
 
 
 function make_table_start($inprocess, $in_progress_translation_button): string

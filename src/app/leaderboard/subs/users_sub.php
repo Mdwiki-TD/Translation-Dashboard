@@ -1,12 +1,12 @@
 <?php
 
-namespace Leaderboard\Subs\SubUsers;
+namespace App\Leaderboard\Subs\SubUsers;
 
 
 
-use function SQLorAPI\Funcs\get_user_pages;
-use function SQLorAPI\Process\get_user_process_new;
-use function Leaderboard\Subs\LeadHelp\make_key;
+use function App\SQLorAPI\Funcs\get_user_pages;
+use function App\SQLorAPI\Process\get_user_process_new;
+use function App\Leaderboard\Subs\LeadHelp\make_key;
 
 function add_inp($dd_Pending, $user, $year_y)
 {

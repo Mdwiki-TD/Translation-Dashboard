@@ -1,12 +1,12 @@
 <?php
 
-namespace Leaderboard\Subs\SubLangs;
+namespace App\Leaderboard\Subs\SubLangs;
 
 
 
-use function SQLorAPI\Funcs\get_lang_pages;
-use function SQLorAPI\Process\get_lang_in_process_by_year;
-use function Leaderboard\Subs\LeadHelp\make_key;
+use function App\SQLorAPI\Funcs\get_lang_pages;
+use function App\SQLorAPI\Process\get_lang_in_process_by_year;
+use function App\Leaderboard\Subs\LeadHelp\make_key;
 
 function add_inp($dd_Pending, $mainlang, $year_y)
 {

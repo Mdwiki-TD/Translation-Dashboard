@@ -1,8 +1,8 @@
 <?php
 
-namespace Results\GetResults27\Tables;
+namespace App\Results\GetResults27\Tables;
 
-use Results\GetResults27\Rows\InProcessRowBuilder;
+use App\Results\GetResults27\Rows\InProcessRowBuilder;
 
 /**
  * Renders the table of pages currently being translated.
