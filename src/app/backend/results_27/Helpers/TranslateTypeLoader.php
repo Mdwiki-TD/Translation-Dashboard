@@ -1,8 +1,8 @@
 <?php
 
-namespace Results\GetResults27\Helpers;
+namespace App\Results\GetResults27\Helpers;
 
-use function SQLorAPI\GetDataTab\get_td_or_sql_translate_type;
+use function App\SQLorAPI\GetDataTab\get_td_or_sql_translate_type;
 
 /**
  * Loads and caches lists of titles that require full translation

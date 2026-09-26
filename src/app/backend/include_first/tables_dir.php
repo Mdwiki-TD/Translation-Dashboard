@@ -1,8 +1,8 @@
 <?PHP
 
-namespace Tables\TablesDir;
+namespace App\Tables\TablesDir;
 
-use function TD\Render\TestPrint\test_print;
+use function App\Render\TestPrint\test_print;
 
 function open_td_tables_file($file_path, $echo = true)
 {

@@ -1,17 +1,17 @@
 <?php
 
-namespace Results\GetResults27;
+namespace App\Results\GetResults27;
 
-use Results\GetResults27\Data\ResultsFetcher;
-use Results\GetResults27\Helpers\CardRenderer;
-use Results\GetResults27\Helpers\TranslateTypeLoader;
-use Results\GetResults27\Tables\MissingTable;
-use Results\GetResults27\Tables\ExistsTable;
-use Results\GetResults27\Tables\InProcessTable;
+use App\Results\GetResults27\Data\ResultsFetcher;
+use App\Results\GetResults27\Helpers\CardRenderer;
+use App\Results\GetResults27\Helpers\TranslateTypeLoader;
+use App\Results\GetResults27\Tables\MissingTable;
+use App\Results\GetResults27\Tables\ExistsTable;
+use App\Results\GetResults27\Tables\InProcessTable;
 
-use function SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
-use function SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
-use function SQLorAPI\GetDataTab\get_endpoint;
+use function App\SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
+use function App\SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
+use function App\SQLorAPI\GetDataTab\get_endpoint;
 
 /**
  * Main entry point for the 2026 results module.

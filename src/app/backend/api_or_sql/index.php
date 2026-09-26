@@ -1,28 +1,28 @@
 <?php
 
-namespace SQLorAPI\Get;
+namespace App\SQLorAPI\Get;
 
-use function APICalls\MdwikiSql\fetch_query;
-use function APICalls\TDApi\get_td_api;
+use function App\MdwikiSql\fetch_query;
+use function App\APICalls\TDApi\get_td_api;
 
 function use_td_api_or_sql(): bool
 {
-    static $use_td_api = null;
-    if ($use_td_api === null) {
-        // var_dump(json_encode($settings_tabe, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+    static $useTdApi = null;
+    if ($useTdApi === null) {
+        // var_dump(json_encode($settingsTabe, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
         // "{ "allow_type_of_translate": 0, "translation_button_in_progress_table": 1, "fix_ref_in_text": 0, "use_td_api": 1, "use_mdwikicx": 1}"
-        $api_results = get_td_api(['get' => 'settings']);
-        $data = $api_results['results'] ?? [];
+        $apiResults = get_td_api(['get' => 'settings']);
+        $data = $apiResults['results'] ?? [];
 
-        $settings_tabe = array_column($data, 'value', 'title');
+        $settingsTabe = array_column($data, 'value', 'title');
 
-        $use_td_api  = (($settings_tabe['use_td_api'] ?? "") == "1") ? true : false;
+        $useTdApi  = (($settingsTabe['use_td_api'] ?? "") == "1") ? true : false;
 
         if (isset($_GET['use_td_api'])) {
-            $use_td_api  = $_GET['use_td_api'] != "x";
+            $useTdApi  = $_GET['use_td_api'] != "x";
         }
     }
-    return $use_td_api;
+    return $useTdApi;
 }
 
 function isvalid($str)
@@ -31,34 +31,34 @@ function isvalid($str)
 }
 
 function super_function(
-    array $api_params,
-    array $sql_params,
-    string $sql_query,
-    bool $no_refind = false
+    array $apiParams,
+    array $sqlParams,
+    string $sqlQuery,
+    bool $noRefind = false
 ): array {
-    $api_data = [];
+    $apiData = [];
 
-    $use_td_api = use_td_api_or_sql();
-    if ($use_td_api) {
-        $api_results = get_td_api($api_params);
+    $useTdApi = use_td_api_or_sql();
+    if ($useTdApi) {
+        $apiResults = get_td_api($apiParams);
 
-        $api_data = $api_results['results'] ?? [];
+        $apiData = $apiResults['results'] ?? [];
 
-        $length = $api_results['length'] ?? null;
+        $length = $apiResults['length'] ?? null;
 
         if ($length === 0) {
             // API return empty list. no need to check sql.
-            return $api_data;
+            return $apiData;
         }
     }
 
-    if (empty($api_data) && (getenv('APP_ENV') === 'testing' || defined('PHPUNIT_RUNNING'))) {
+    if (empty($apiData) && (getenv('APP_ENV') === 'testing' || defined('PHPUNIT_RUNNING'))) {
         return [];
     }
 
-    if (empty($api_data) && !$no_refind) {
-        $api_data = fetch_query($sql_query, $sql_params);
+    if (empty($apiData) && !$noRefind) {
+        $apiData = fetch_query($sqlQuery, $sqlParams);
     }
 
-    return $api_data;
+    return $apiData;
 }

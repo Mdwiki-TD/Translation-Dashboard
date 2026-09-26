@@ -1,14 +1,13 @@
 <?php
 
 include_once dirname(__DIR__) . '/include_all.php';
-include_once dirname(__DIR__) . '/app/backend/others/db_insert.php';
 
-use User\CurrentUser;
-use function Results\TrLink\make_ContentTranslation_url;
-use function TranslateMed\Inserter\insertPage_inprocess;
-use function SQLorAPI\GetDataTab\get_td_or_sql_users_no_inprocess;
-use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
-use function SQLorAPI\GetDataTab\get_endpoint;
+use App\User\CurrentUser;
+use function App\Results\TrLink\make_ContentTranslation_url;
+use function App\TranslateMed\Inserter\insertPage_inprocess;
+use function App\SQLorAPI\GetDataTab\get_td_or_sql_users_no_inprocess;
+use function App\SQLorAPI\GetDataTab\get_td_or_sql_categories;
+use function App\SQLorAPI\GetDataTab\get_endpoint;
 
 function go_to_translate_url($title_o, $coden, $tr_type, $cat, $camp, $endpoint)
 {
@@ -71,7 +70,7 @@ $useree = $currentUser->getUsername();
 
 if (!empty($title_o) && !empty($coden)) {
 
-    // use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
+    // use function App\SQLorAPI\GetDataTab\get_td_or_sql_categories;
     $categories_tab = get_td_or_sql_categories();
     $cats_data = array_column($categories_tab, "campaign", "category");
 
@@ -84,7 +83,9 @@ if (!empty($title_o) && !empty($coden)) {
 
     $cat = filter_input(INPUT_GET, 'cat', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
     $camp = filter_input(INPUT_GET, 'camp', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
-    $tr_type = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'lead';
+
+    $tr_type = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? filter_input(INPUT_GET, 'tr_type', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'lead';
+
     $word = filter_input(INPUT_GET, 'word', FILTER_VALIDATE_INT, [
         'options' => ['default' => 0, 'min_range' => 0]
     ]);

@@ -1,11 +1,11 @@
 <?PHP
 
-namespace Leaderboard\Camps;
+namespace App\Leaderboard\Camps;
 
 
 
-use function SQLorAPI\GetDataTab\get_td_or_sql_categories_members;
-use function SQLorAPI\GetDataTab\get_td_or_sql_categories;
+use function App\SQLorAPI\GetDataTab\get_td_or_sql_categories_members;
+use function App\SQLorAPI\GetDataTab\get_td_or_sql_categories;
 
 function get_articles_to_camps()
 {

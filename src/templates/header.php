@@ -4,10 +4,10 @@
 // Track page load time for performance monitoring
 $time_start = microtime(true);
 
-use User\CurrentUser;
-use OAuth\Settings\Settings;
-use function TDC\Head\print_full_head;
-use function TDC\Head\write_body;
+use App\User\CurrentUser;
+use App\Settings\Settings;
+use function App\TDC\Head\print_full_head;
+use function App\TDC\Head\write_body;
 
 include_once __DIR__ . '/head.php';
 

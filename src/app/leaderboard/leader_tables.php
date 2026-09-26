@@ -1,6 +1,6 @@
 <?PHP
 
-namespace Leaderboard\LeaderTables;
+namespace App\Leaderboard\LeaderTables;
 
 
 

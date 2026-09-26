@@ -1,14 +1,14 @@
 <?PHP
 
-namespace Results\GetResults2026;
+namespace App\Results\GetResults2026;
 
 
 
-use function TD\Render\Html\make_mdwiki_href;
-use function TD\Render\Html\make_wikidata_url_blank;
-use function Results\ResultsTableHtml\make_table_start;
+use function App\Render\Html\make_mdwiki_href;
+use function App\Render\Html\make_wikidata_url_blank;
+use function App\Results\ResultsTableHtml\make_table_start;
 
-use function Results\Helps\make_translate_urls;
+use function App\Results\Helps\make_translate_urls;
 
 function make_tds_rows_responsive($full, $tds)
 {

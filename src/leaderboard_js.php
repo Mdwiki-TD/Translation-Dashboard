@@ -3,7 +3,7 @@
 include_once __DIR__ . '/app/include_all.php';
 include_once __DIR__ . '/templates/header.php';
 
-use function Leaderboard\Filter\leaderboard_filter;
+use function App\Leaderboard\Filter\leaderboard_filter;
 
 
 $year  = strtolower(filter_input(INPUT_GET, 'year', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'all');

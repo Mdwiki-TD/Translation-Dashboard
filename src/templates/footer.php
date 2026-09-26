@@ -1,6 +1,6 @@
 <?php
 
-use User\CurrentUser;
+use App\User\CurrentUser;
 
 $currentUser = CurrentUser::getInstance();
 

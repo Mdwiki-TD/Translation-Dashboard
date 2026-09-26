@@ -1,6 +1,6 @@
 <?PHP
 
-namespace Leaderboard\Graph;
+namespace App\Leaderboard\Graph;
 
 
 

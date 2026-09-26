@@ -1,6 +1,6 @@
 <?PHP
 
-namespace Leaderboard\Graph2;
+namespace App\Leaderboard\Graph2;
 /*
 http://localhost:9001/Translation_Dashboard/leaderboard.php?graph_api=1&test=1
 */

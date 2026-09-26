@@ -1,10 +1,10 @@
 <?php
 
-namespace Results\GetResults27\Rows;
+namespace App\Results\GetResults27\Rows;
 
-use function TD\Render\Html\make_mdwiki_href;
-use function TD\Render\Html\make_wikidata_url_blank;
-use function Results\TrLink\make_tr_link_medwiki;
+use function App\Render\Html\make_mdwiki_href;
+use function App\Render\Html\make_wikidata_url_blank;
+use function App\Results\TrLink\make_tr_link_medwiki;
 
 /**
  * Builds a single row for the Missing results table.

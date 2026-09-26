@@ -1,6 +1,6 @@
 <?php
 
-namespace Tables\Langs;
+namespace App\Tables\Langs;
 
 
 /*
@@ -34,7 +34,7 @@ https://db-names.toolforge.org/
 "zh-yue" : "yue"
 */
 
-use function SQLorAPI\GetDataTab\get_td_or_sql_langs;
+use function App\SQLorAPI\GetDataTab\get_td_or_sql_langs;
 
 $L_code_to_wikiname = [
     "aa"    =>    "Afar",

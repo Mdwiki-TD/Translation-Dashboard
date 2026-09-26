@@ -1,10 +1,10 @@
 <?php
 
-namespace Results\GetResults27\Rows;
+namespace App\Results\GetResults27\Rows;
 
-use function TD\Render\Html\make_mdwiki_href;
-use function TD\Render\Html\make_wikidata_url_blank;
-use function Results\Helps\make_translate_urls;
+use function App\Render\Html\make_mdwiki_href;
+use function App\Render\Html\make_wikidata_url_blank;
+use function App\Results\Helps\make_translate_urls;
 
 /**
  * Builds a single row for the In-process results table.

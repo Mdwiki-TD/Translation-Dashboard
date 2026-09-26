@@ -1,10 +1,10 @@
 <?PHP
 
-namespace Leaderboard\LeaderTabUsers;
+namespace App\Leaderboard\LeaderTabUsers;
 
 
 
-use function TD\Render\Html\make_modal_fade;
+use function App\Render\Html\make_modal_fade;
 
 function module_copy_data($users_tab)
 {
