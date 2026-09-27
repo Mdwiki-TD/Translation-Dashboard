@@ -107,7 +107,7 @@ class Database
         }
     }
 
-    public function fetchquery(string $sqlQuery, $params = null): array
+    public function fetchquery(string $sqlQuery, ?array $params = null): array
     {
         if ($this->db === null) {
             error_log("Database connection is not established.");
@@ -137,7 +137,7 @@ class Database
             return [];
         }
     }
-    public function executequery(string $sqlQuery, $params = null)
+    public function executequery(string $sqlQuery, ?array $params = null): bool
     {
         if ($this->db === null) {
             error_log("Database connection is not established.");
