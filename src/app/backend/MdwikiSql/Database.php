@@ -165,6 +165,76 @@ class Database
         }
     }
 
+    // ------------------------------------------------------------------
+    // Transactions
+    // ------------------------------------------------------------------
+
+    /**
+     * Starts a PDO transaction. Returns false (and logs) if there is no
+     * live connection or a transaction is already active, instead of
+     * letting PDO throw.
+     */
+    public function beginTransaction(): bool
+    {
+        if ($this->db === null) {
+            error_log("Database connection is not established.");
+            return false;
+        }
+
+        if ($this->db->inTransaction()) {
+            return true;
+        }
+
+        try {
+            return $this->db->beginTransaction();
+        } catch (PDOException $e) {
+            error_log("SQL Error in beginTransaction: " . $e->getMessage());
+            if (getenv('APP_ENV') === 'testing') {
+                throw $e;
+            }
+            return false;
+        }
+    }
+
+    public function commit(): bool
+    {
+        if ($this->db === null || !$this->db->inTransaction()) {
+            return false;
+        }
+
+        try {
+            return $this->db->commit();
+        } catch (PDOException $e) {
+            error_log("SQL Error in commit: " . $e->getMessage());
+            if (getenv('APP_ENV') === 'testing') {
+                throw $e;
+            }
+            return false;
+        }
+    }
+
+    public function rollback(): bool
+    {
+        if ($this->db === null || !$this->db->inTransaction()) {
+            return false;
+        }
+
+        try {
+            return $this->db->rollBack();
+        } catch (PDOException $e) {
+            error_log("SQL Error in rollback: " . $e->getMessage());
+            if (getenv('APP_ENV') === 'testing') {
+                throw $e;
+            }
+            return false;
+        }
+    }
+
+    public function inTransaction(): bool
+    {
+        return $this->db !== null && $this->db->inTransaction();
+    }
+
     public function __destruct()
     {
         $this->db = null;

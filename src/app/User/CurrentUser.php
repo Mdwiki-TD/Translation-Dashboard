@@ -1,35 +1,54 @@
 <?php
-// src/app/CurrentUser.php
+// src/app/User/CurrentUser.php
 
 namespace App\User;
 
 use App\Settings;
 use App\MdwikiSql\Database;
 
-/**
- * Represents the current user: handles session initialization, reading
- * identity from cookies/session, validating access in the database,
- * and determining coordinator status.
- */
+use App\User\UserCookieService;
+use App\User\SessionManager;
+use App\User\AccessKeyRepository;
+use App\User\CoordinatorRepository;
 
+/**
+ * Represents the current user. Coordinates SessionManager, UserCookieService,
+ * AccessKeyRepository and CoordinatorRepository to resolve identity and
+ * expose it to the rest of the app. Holds no session/cookie/SQL logic of
+ * its own anymore — that lives in the collaborators below.
+ */
 class CurrentUser
 {
     private static ?self $instance = null;
 
     private Settings $settings;
-    private Database $db;
+    private UserCookieService $cookies;
+    private AccessKeyRepository $accessKeys;
+    private CoordinatorRepository $coordinators;
 
     private string $username = "";
     private bool $isCoordinator = false;
     private ?string $alertMessage = null;
 
-    public function __construct(Settings $settings)
-    {
+    public function __construct(
+        Settings $settings,
+        ?UserCookieService $cookies = null,
+        ?AccessKeyRepository $accessKeys = null,
+        ?CoordinatorRepository $coordinators = null
+    ) {
         $this->settings = $settings;
-        $this->db = new Database('DB_NAME');
-        $this->ensureSessionStarted();
+
+        // Collaborators are injectable (for testing) but default to the
+        // real implementations so existing call sites keep working.
+        $db = new Database('DB_NAME');
+        $this->cookies      = $cookies ?? new UserCookieService($settings);
+        $this->accessKeys   = $accessKeys ?? new AccessKeyRepository($db, $settings);
+        $this->coordinators = $coordinators ?? new CoordinatorRepository($db);
+
+        SessionManager::ensureStarted();
         $this->resolveUsername();
         $this->resolveCoordinatorStatus();
+
         self::$instance = $this;
     }
 
@@ -71,112 +90,42 @@ class CurrentUser
         return $this->alertMessage;
     }
 
-    // ------------------------------------------------------------------
-    // Internal helpers
-    // ------------------------------------------------------------------
-
+    /**
+     * Kept for backward compatibility with existing call sites that call
+     * CurrentUser::ensureSessionStarted() directly.
+     */
     public static function ensureSessionStarted(): void
     {
-        if (session_status() !== PHP_SESSION_NONE) {
-            return;
-        }
-
-        $sessionOptions = [
-            "use_strict_mode"   => true,
-            "use_cookies"       => true,
-            "use_only_cookies"  => true,
-            "cookie_httponly"   => true,
-            "cookie_samesite"   => "Lax",
-        ];
-
-        // Enable secure flag in production (HTTPS)
-        if (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] !== "off") {
-            $sessionOptions["cookie_secure"] = true;
-        }
-
-        if (headers_sent()) {
-            error_log("OAuth Error: Cannot start session, headers already sent.");
-            return;
-        }
-
-        session_start($sessionOptions);
-
-        if (session_id() === '') {
-            error_log("OAuth Error: Session failed to start.");
-        }
+        SessionManager::ensureStarted();
     }
 
-    private function getFromCookies(string $key): string
+    public function destroy(): void
     {
-        if (!isset($_COOKIE[$key])) {
-            return "";
-        }
-
-        $cookieKey = $this->settings->getKey("cookie");
-        $value = $this->settings->decodeValue($_COOKIE[$key], $cookieKey);
-
-        if ($key === "username") {
-            $value = str_replace("+", " ", $value);
-        }
-
-        return $value;
+        SessionManager::destroy();
+        $this->cookies->clear();
+        $this->username = "";
+        $this->isCoordinator = false;
     }
 
-    private function getAccessFromDb(string $user): array
-    {
-        $user = trim($user);
-
-        $query = <<<SQL
-            SELECT access_key, access_secret
-            FROM access_keys
-            WHERE user_name = ? or user_name_hash = ?;
-        SQL;
-
-        $result = $this->db->fetchquery($query, [$user, hash("sha256", $user)]);
-
-        if (!$result) {
-            return [];
-        }
-
-        $decryptKey = $this->settings->getKey("decrypt");
-        return [
-            "access_key"    => $this->settings->decodeValue($result[0]["access_key"], $decryptKey),
-            "access_secret" => $this->settings->decodeValue($result[0]["access_secret"], $decryptKey),
-        ];
-    }
-
-    public function Logout(): void
-    {
-        $_SESSION = [];
-        session_destroy();
-        $this->clearUserCookie();
-    }
     public function clearUserCookie(): void
     {
-        setcookie("username", "", [
-            "expires"  => time() - 3600,
-            "path"     => "/",
-            "domain"   => $this->settings->domain,
-            "secure"   => true,
-            "httponly" => true,
-            "samesite" => "Lax",
-        ]);
+        $this->cookies->clear();
     }
 
     private function resolveUsername(): void
     {
-        $username   = $this->getFromCookies("username");
+        $username = $this->cookies->read();
 
         if ($this->settings->isDevelopment()) {
             $username = $_SESSION["username"] ?? $username;
         }
 
         if ($this->settings->isProduction() && $username !== "") {
-            $access      = $this->getAccessFromDb($username);
+            $access = $this->accessKeys->findByUser($username);
 
             if (empty($access)) {
                 $this->alertMessage = "No access keys found. Login again.";
-                $this->clearUserCookie();
+                $this->cookies->clear();
                 unset($_SESSION["username"]);
                 $username = "";
             }
@@ -184,95 +133,19 @@ class CurrentUser
 
         $this->username = $username;
     }
-    public function addUsernameToCookies(string $username): void
-    {
-        $_SESSION["username"] = $username;
-
-        $cookieKey = $this->settings->getKey("cookie");
-        $value      = $this->settings->encodeValue($username, $cookieKey);
-
-        if ($value === "") {
-            return;
-        }
-
-        $twoYears = time() + 60 * 60 * 24 * 365 * 2;
-        $secure   = isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] !== "off";
-
-        setcookie(
-            "username",
-            $value,
-            [
-                "expires"  => $twoYears,
-                "path"     => "/",
-                "domain"   => $this->settings->domain,
-                "secure"   => $secure,
-                "httponly" => true,
-                "samesite" => "Lax",
-            ]
-        );
-
-        $this->username = $username;
-
-        $this->resolveCoordinatorStatus();
-    }
-    private function sqlAddUser(string $userName): bool
-    {
-        $query = <<<SQL
-            INSERT INTO users (username) SELECT ?
-            WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = ?)
-        SQL;
-
-        return $this->db->executequery($query, [$userName, $userName]);
-    }
-
-    private function addAccessToDb(string $user, string $accessKey, string $accessSecret): bool
-    {
-        $decryptKey = $this->settings->getKey("decrypt");
-
-        $params = [
-            $user,
-            hash("sha256", $user),
-            $this->settings->encodeValue($accessKey, $decryptKey),
-            $this->settings->encodeValue($accessSecret, $decryptKey),
-        ];
-
-        // ---
-        // user_name_hash = SHA2(user_name, 256)
-        // ---
-        $query = <<<SQL
-            INSERT INTO access_keys (user_name, user_name_hash, access_key, access_secret)
-            VALUES (?, ?, ?, ?)
-            ON DUPLICATE KEY UPDATE
-                access_key = VALUES(access_key),
-                access_secret = VALUES(access_secret),
-                updated_at = NOW();
-        SQL;
-
-        return $this->db->executequery($query, $params);
-    }
-
-    public function addUserData(string $user, string $accessKey, string $accessSecret): void
-    {
-        $user = trim($user);
-
-        $userAdded = $this->sqlAddUser($user);
-        $accessAdded = $this->addAccessToDb($user, $accessKey, $accessSecret);
-
-        if (!$userAdded || !$accessAdded) {
-            throw new \RuntimeException("Failed to write user data or access keys to database.");
-        }
-    }
 
     private function resolveCoordinatorStatus(): void
     {
-        if ($this->username === "") {
-            return;
-        }
+        $this->isCoordinator = $this->coordinators->isCoordinator($this->username);
+    }
 
-        $query = "SELECT id, username, is_active FROM coordinators order by id";
-        $dbResult = $this->db->fetchquery($query);
+    public function addUsernameToCookies(string $username): void
+    {
+        $this->cookies->write($username);
+    }
 
-        $coordinators = array_column($dbResult, "is_active", "username");
-        $this->isCoordinator = (($coordinators[$this->username] ?? 0) == 1);
+    public function saveUserData(string $user, string $accessKey, string $accessSecret): void
+    {
+        $this->accessKeys->saveUserData($user, $accessKey, $accessSecret);
     }
 }
