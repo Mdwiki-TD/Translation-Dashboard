@@ -214,8 +214,7 @@ class CurrentUser
 
         $this->username = $username;
 
-        $coordinators = array_column(get_coordinators(), "is_active", "username");
-        $this->isCoordinator = (($coordinators[$this->username] ?? 0) == 1);
+        $this->resolveCoordinatorStatus();
     }
     private function sqlAddUser(string $userName): bool
     {
@@ -263,5 +262,15 @@ class CurrentUser
         if (!$userAdded || !$accessAdded) {
             throw new \RuntimeException("Failed to write user data or access keys to database.");
         }
+    }
+
+    private function resolveCoordinatorStatus(): void
+    {
+        if ($this->username === "") {
+            return;
+        }
+
+        $coordinators = array_column(get_coordinators(), "is_active", "username");
+        $this->isCoordinator = (($coordinators[$this->username] ?? 0) == 1);
     }
 }
