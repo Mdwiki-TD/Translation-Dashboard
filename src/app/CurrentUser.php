@@ -5,7 +5,6 @@ namespace App\User;
 
 use App\Settings;
 use App\MdwikiSql\Database;
-use function App\SQLorAPI\Funcs\get_coordinators;
 
 /**
  * Represents the current user: handles session initialization, reading
@@ -270,7 +269,10 @@ class CurrentUser
             return;
         }
 
-        $coordinators = array_column(get_coordinators(), "is_active", "username");
+        $query = "SELECT id, username, is_active FROM coordinators order by id";
+        $dbResult = $this->db->fetchquery($query);
+
+        $coordinators = array_column($dbResult, "is_active", "username");
         $this->isCoordinator = (($coordinators[$this->username] ?? 0) == 1);
     }
 }
