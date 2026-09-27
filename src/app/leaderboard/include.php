@@ -1,4 +1,4 @@
-<?PHP
+<?php
 
 include_once __DIR__ . '/leader_tables.php';
 include_once __DIR__ . '/leader_tables_users.php';
@@ -16,6 +16,7 @@ include_once __DIR__ . '/lang_user_graph.php';
 include_once __DIR__ . '/camps.php';
 include_once __DIR__ . '/users.php';
 include_once __DIR__ . '/langs.php';
+include_once __DIR__ . '/main.php';
 
 # others
 include_once __DIR__ . '/others/camps_text.php';

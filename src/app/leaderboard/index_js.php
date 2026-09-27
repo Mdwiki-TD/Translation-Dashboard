@@ -1,25 +1,31 @@
-<?PHP
+<?php
+
+namespace App\Leaderboard\IndexJs;
 
 use function App\Leaderboard\Filter\leaderboard_filter;
 
-$year  = strtolower(filter_input(INPUT_GET, 'year', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'all');
-$month = strtolower(filter_input(INPUT_GET, 'month', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '');
-$camp  = strtolower(filter_input(INPUT_GET, 'camp', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'all');
+class IndexJsLeaderboard
+{
+    public function render(): void
+    {
+        $year  = strtolower(filter_input(INPUT_GET, 'year', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'all');
+        $month = strtolower(filter_input(INPUT_GET, 'month', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '');
+        $camp  = strtolower(filter_input(INPUT_GET, 'camp', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'all');
 
-$user_group = filter_input(INPUT_GET, 'project', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
-    ?? filter_input(INPUT_GET, 'user_group', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
-    ?? 'all';
+        $user_group = filter_input(INPUT_GET, 'project', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
+            ?? filter_input(INPUT_GET, 'user_group', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
+            ?? 'all';
 
-$user_group = strtolower($user_group);
+        $user_group = strtolower($user_group);
 
-$filter_form = leaderboard_filter($year, $month, $user_group, $camp, 'x.php');
+        $filter_form = leaderboard_filter($year, $month, $user_group, $camp, 'x.php');
 
-?>
+        ?>
 <main id="body">
     <div id="maindiv" class="container-fluid">
         <script src="/Translation_Dashboard/js/g.js"></script>
         <script src="/Translation_Dashboard/js/graph_api.js"></script>
-        <?PHP echo $filter_form; ?>
+        <?php echo $filter_form; ?>
         <hr />
         <div class="container-fluid">
             <div class="row g-3">
@@ -318,3 +324,6 @@ $filter_form = leaderboard_filter($year, $month, $user_group, $camp, 'x.php');
 
             })
         </script>
+        <?php
+    }
+}
