@@ -58,16 +58,17 @@ class Database
             $this->db = new PDO("mysql:host=$this->host;dbname=$this->dbname", $this->user, $this->password);
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
+            $this->db = null;
+            $this->testPrint($e->getMessage());
             // Log the error message
             error_log($e->getMessage());
             // Display a generic message
             echo "Unable to connect to the database. Please try again later.";
             throw new \RuntimeException('Database connection failed');
-            // exit();
         }
     }
 
-    public function test_print($s)
+    public function testPrint($s)
     {
         if (isset($_COOKIE['test']) && $_COOKIE['test'] == 'x') {
             return;
@@ -83,7 +84,7 @@ class Database
         }
     }
 
-    public function disableFullGroupByMode($sqlQuery)
+    public function disableFullGroupByMode(string $sqlQuery): void
     {
         // if the query contains "GROUP BY", disable ONLY_FULL_GROUP_BY, strtoupper() is for case insensitive
         if (strpos(strtoupper($sqlQuery), 'GROUP BY') !== false && !$this->groupByModeDisabled) {
@@ -98,36 +99,13 @@ class Database
         }
     }
 
-    public function executequery($sqlQuery, $params = null)
+    public function fetchquery(string $sqlQuery, $params = null): array
     {
-        try {
-            $this->disableFullGroupByMode($sqlQuery);
+        if ($this->db === null) {
+            error_log("Database connection is not established.");
+            return [];
+        };
 
-            $q = $this->db->prepare($sqlQuery);
-            if ($params) {
-                $q->execute($params);
-            } else {
-                $q->execute();
-            }
-
-            // Check if the query starts with "SELECT"
-            $queryType = strtoupper(substr(trim((string) $sqlQuery), 0, 6));
-            if ($queryType === 'SELECT') {
-                // Fetch the results if it's a SELECT query
-                $result = $q->fetchAll(PDO::FETCH_ASSOC);
-                return $result;
-            } else {
-                // Otherwise, return null
-                return [];
-            }
-        } catch (PDOException $e) {
-            echo "sql error:" . $e->getMessage() . "<br>" . $sqlQuery;
-            return false;
-        }
-    }
-
-    public function fetchquery($sqlQuery, $params = null)
-    {
         try {
             $this->disableFullGroupByMode($sqlQuery);
 
@@ -143,9 +121,47 @@ class Database
             return $result;
         } catch (PDOException $e) {
             echo "SQL Error:" . $e->getMessage() . "<br>" . $sqlQuery;
-            // error_log("SQL Error: " . $e->getMessage() . " | Query: " . $sqlQuery);
+            error_log("SQL Error in fetchquery: " . $e->getMessage() . " | Query: " . $sqlQuery);
             return [];
         }
+    }
+
+    public function executequery(string $sqlQuery, $params = null)
+    {
+        if ($this->db === null) {
+            error_log("Database connection is not established.");
+            return false;
+        };
+        try {
+            $this->disableFullGroupByMode($sqlQuery);
+
+            $q = $this->db->prepare($sqlQuery);
+            if ($params) {
+                $q->execute($params);
+            } else {
+                $q->execute();
+            }
+            error_log("Rows affected: " . $q->rowCount());
+            return true;
+        } catch (PDOException $e) {
+            echo "sql error:" . $e->getMessage() . "<br>" . $sqlQuery;
+            error_log("SQL Error in executequery: " . $e->getMessage() . " | Query: " . $sqlQuery);
+            $this->testPrint("SQL Error in executequery: " . $e->getMessage() . " | Query: " . $sqlQuery);
+            return false;
+        }
+    }
+
+    public function executQqueryOrFail(string $sqlQuery, $params = null): void
+    {
+        $this->disableFullGroupByMode($sqlQuery);
+
+        $q = $this->db->prepare($sqlQuery);
+        if ($params) {
+            $q->execute($params);
+        } else {
+            $q->execute();
+        }
+        error_log("Rows affected: " . $q->rowCount());
     }
 
     public function __destruct()

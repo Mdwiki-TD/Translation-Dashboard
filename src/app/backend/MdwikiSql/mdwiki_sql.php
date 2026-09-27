@@ -22,7 +22,6 @@ function execute_query(string $sqlQuery, $params = null)
     // Destroy the database object
     $db = null;
 
-
     return $results;
 };
 function fetch_query(string $sqlQuery, $params = null, $noprint = false)
@@ -31,7 +30,7 @@ function fetch_query(string $sqlQuery, $params = null, $noprint = false)
     $db = new Database('DB_NAME');
 
     if ($noprint == false) {
-        $db->test_print($sqlQuery);
+        $db->testPrint($sqlQuery);
     }
 
     // Execute a SQL query
