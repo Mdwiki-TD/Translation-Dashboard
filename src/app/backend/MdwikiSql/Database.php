@@ -67,7 +67,7 @@ class Database
         }
     }
 
-    public function test_print($s)
+    public function testPrint($s)
     {
         if (isset($_COOKIE['test']) && $_COOKIE['test'] == 'x') {
             return;
@@ -136,7 +136,7 @@ class Database
         } catch (PDOException $e) {
             echo "sql error:" . $e->getMessage() . "<br>" . $sqlQuery;
             error_log("SQL Error in executequery: " . $e->getMessage() . " | Query: " . $sqlQuery);
-            $this->test_print("SQL Error in executequery: " . $e->getMessage() . " | Query: " . $sqlQuery);
+            $this->testPrint("SQL Error in executequery: " . $e->getMessage() . " | Query: " . $sqlQuery);
             return false;
         }
     }
