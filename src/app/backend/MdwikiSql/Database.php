@@ -48,15 +48,43 @@ class Database
 
         return "";
     }
+    private function buildDsn(string $dbnameVar): string
+    {
+        // Load host and database name from environment variables, falling back to a default host
+        $this->host   = $this->envVar('DB_HOST_TOOLS') ?: 'tools.db.svc.wikimedia.cloud';
+        $this->dbname = $this->envVar($dbnameVar);
+
+        // Build the PDO Data Source Name (DSN) string for MySQL connection
+        return "mysql:host={$this->host};dbname={$this->dbname}";
+    }
+
+    private function hasValidCredentials(): bool
+    {
+        // Check whether all required connection credentials are present
+        return !empty($this->host) && !empty($this->dbname) && !empty($this->user) && !empty($this->password);
+    }
+
     private function setDb(string $dbnameVar)
     {
-        $this->host = $this->envVar('DB_HOST_TOOLS') ?: 'tools.db.svc.wikimedia.cloud';
-        $this->dbname = $this->envVar($dbnameVar);
-        $this->user = $this->envVar('TOOL_TOOLSDB_USER');
+        // Build the DSN and populate $this->host / $this->dbname along the way
+        $dsn = $this->buildDsn($dbnameVar);
+
+        // Load remaining credentials from environment variables
+        $this->user     = $this->envVar('TOOL_TOOLSDB_USER');
         $this->password = $this->envVar('TOOL_TOOLSDB_PASSWORD');
 
+        // If any required credential is missing, skip the connection attempt entirely
+        // instead of letting PDO fail with a connection error
+        if (!$this->hasValidCredentials()) {
+            $this->db = null;
+            error_log('Database credentials are not fully configured; skipping DB connection.');
+            $this->testPrint('Database credentials are not fully configured; skipping DB connection.');
+            return;
+        }
+
         try {
-            $this->db = new PDO("mysql:host=$this->host;dbname=$this->dbname", $this->user, $this->password);
+            // Attempt to establish the database connection
+            $this->db = new PDO($dsn, $this->user, $this->password);
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
             $this->db = null;
@@ -71,7 +99,6 @@ class Database
             throw new \RuntimeException('Database connection failed');
         }
     }
-
     public function testPrint($s)
     {
         if (isset($_COOKIE['test']) && $_COOKIE['test'] == 'x') {
