@@ -69,7 +69,7 @@ if (file_exists($vendorAutoload)) {
 
 
 // Load security module first
-include_once __DIR__ . '/CurrentUser.php';
+include_once __DIR__ . '/User/include.php';
 include_once __DIR__ . '/Settings.php';
 
 include_once __DIR__ . '/backend/include.php';
