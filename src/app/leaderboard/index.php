@@ -2,7 +2,7 @@
 
 
 use App\User\CurrentUser;
-use App\Settings\Settings;
+use App\Settings;
 use function App\Leaderboard\Graph\print_graph_tab;
 use function App\Leaderboard\Graph2\print_graph_tab_2_new;
 use function App\Leaderboard\Index\main_leaderboard;
