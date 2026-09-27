@@ -3,10 +3,8 @@
 
 namespace App\User;
 
-use Defuse\Crypto\Crypto;
-use Defuse\Crypto\Key;
-use App\Settings\Settings;
-use function App\MdwikiSql\fetch_query;
+use App\Settings;
+use App\MdwikiSql\Database;
 use function App\SQLorAPI\Funcs\get_coordinators;
 
 /**
@@ -14,11 +12,13 @@ use function App\SQLorAPI\Funcs\get_coordinators;
  * identity from cookies/session, validating access in the database,
  * and determining coordinator status.
  */
+
 class CurrentUser
 {
     private static ?self $instance = null;
 
     private Settings $settings;
+    private Database $db;
 
     private string $username = "";
     private bool $isCoordinator = false;
@@ -27,6 +27,7 @@ class CurrentUser
     public function __construct(Settings $settings)
     {
         $this->settings = $settings;
+        $this->db = new Database('DB_NAME');
         $this->ensureSessionStarted();
         $this->resolveUsername();
         $this->resolveCoordinatorStatus();
@@ -106,33 +107,14 @@ class CurrentUser
         }
     }
 
-    private function getKey(string $keyType = "cookie"): ?Key
-    {
-        return $keyType === "decrypt"
-            ? $this->settings->decryptKey
-            : $this->settings->cookieKey;
-    }
-
-    private function decodeValue(string $value, ?Key $useKey): string
-    {
-        if ($useKey === null || trim($value) === "") {
-            return "";
-        }
-
-        try {
-            return Crypto::decrypt($value, $useKey);
-        } catch (\Throwable $e) {
-            return "";
-        }
-    }
-
-    private function getFromCookies(string $key, ?Key $cookieKey): string
+    private function getFromCookies(string $key): string
     {
         if (!isset($_COOKIE[$key])) {
             return "";
         }
 
-        $value = $this->decodeValue($_COOKIE[$key], $cookieKey);
+        $cookieKey = $this->settings->getKey("cookie");
+        $value = $this->settings->decodeValue($_COOKIE[$key], $cookieKey);
 
         if ($key === "username") {
             $value = str_replace("+", " ", $value);
@@ -141,7 +123,7 @@ class CurrentUser
         return $value;
     }
 
-    private function getAccessFromDb(string $user, ?Key $decryptKey): array
+    private function getAccessFromDb(string $user): array
     {
         $user = trim($user);
 
@@ -151,25 +133,31 @@ class CurrentUser
             WHERE user_name = ? or user_name_hash = ?;
         SQL;
 
-        $result = fetch_query($query, [$user, hash("sha256", $user)], true);
+        $result = $this->db->fetchquery($query, [$user, hash("sha256", $user)]);
 
         if (!$result) {
             return [];
         }
 
+        $decryptKey = $this->settings->getKey("decrypt");
         return [
-            "access_key"    => $this->decodeValue($result[0]["access_key"], $decryptKey),
-            "access_secret" => $this->decodeValue($result[0]["access_secret"], $decryptKey),
+            "access_key"    => $this->settings->decodeValue($result[0]["access_key"], $decryptKey),
+            "access_secret" => $this->settings->decodeValue($result[0]["access_secret"], $decryptKey),
         ];
     }
 
+    public function Logout(): void
+    {
+        $_SESSION = [];
+        session_destroy();
+        $this->clearUserCookie();
+    }
     public function clearUserCookie(): void
     {
         setcookie("username", "", [
             "expires"  => time() - 3600,
             "path"     => "/",
             "domain"   => $this->settings->domain,
-            // Fix: reuse the same $secure computation here (and note httponly => $secure in addUsernameToCookies means httponly is off on plain HTTP — httponly should basically always be true).
             "secure"   => true,
             "httponly" => true,
             "samesite" => "Lax",
@@ -178,16 +166,14 @@ class CurrentUser
 
     private function resolveUsername(): void
     {
-        $cookieKey = $this->getKey("cookie");
-        $username   = $this->getFromCookies("username", $cookieKey);
+        $username   = $this->getFromCookies("username");
 
         if ($this->settings->isDevelopment()) {
             $username = $_SESSION["username"] ?? $username;
         }
 
         if ($this->settings->isProduction() && $username !== "") {
-            $decryptKey = $this->getKey("decrypt");
-            $access      = $this->getAccessFromDb($username, $decryptKey);
+            $access      = $this->getAccessFromDb($username);
 
             if (empty($access)) {
                 $this->alertMessage = "No access keys found. Login again.";
@@ -199,14 +185,83 @@ class CurrentUser
 
         $this->username = $username;
     }
-
-    private function resolveCoordinatorStatus(): void
+    public function addUsernameToCookies(string $username): void
     {
-        if ($this->username === "") {
+        $_SESSION["username"] = $username;
+
+        $cookieKey = $this->settings->getKey("cookie");
+        $value      = $this->settings->encodeValue($username, $cookieKey);
+
+        if ($value === "") {
             return;
         }
 
+        $twoYears = time() + 60 * 60 * 24 * 365 * 2;
+        $secure   = isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] !== "off";
+
+        setcookie(
+            "username",
+            $value,
+            [
+                "expires"  => $twoYears,
+                "path"     => "/",
+                "domain"   => $this->settings->domain,
+                "secure"   => $secure,
+                "httponly" => true,
+                "samesite" => "Lax",
+            ]
+        );
+
+        $this->username = $username;
+
         $coordinators = array_column(get_coordinators(), "is_active", "username");
         $this->isCoordinator = (($coordinators[$this->username] ?? 0) == 1);
+    }
+    private function sqlAddUser(string $userName): bool
+    {
+        $query = <<<SQL
+            INSERT INTO users (username) SELECT ?
+            WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = ?)
+        SQL;
+
+        return $this->db->executequery($query, [$userName, $userName]);
+    }
+
+    private function addAccessToDb(string $user, string $accessKey, string $accessSecret): bool
+    {
+        $decryptKey = $this->settings->getKey("decrypt");
+
+        $params = [
+            $user,
+            hash("sha256", $user),
+            $this->settings->encodeValue($accessKey, $decryptKey),
+            $this->settings->encodeValue($accessSecret, $decryptKey),
+        ];
+
+        // ---
+        // user_name_hash = SHA2(user_name, 256)
+        // ---
+        $query = <<<SQL
+            INSERT INTO access_keys (user_name, user_name_hash, access_key, access_secret)
+            VALUES (?, ?, ?, ?)
+            ON DUPLICATE KEY UPDATE
+                access_key = VALUES(access_key),
+                access_secret = VALUES(access_secret),
+                updated_at = NOW();
+        SQL;
+
+        return $this->db->executequery($query, $params);
+    }
+
+    public function addUserData(string $user, string $accessKey, string $accessSecret): void
+    {
+        $user = trim($user);
+
+        $userAdded = $this->sqlAddUser($user);
+        $accessAdded = $this->addAccessToDb($user, $accessKey, $accessSecret);
+
+        if (!$userAdded || !$accessAdded) {
+            throw new \RuntimeException("Failed to write user data or access keys to database.");
+        }
     }
 }

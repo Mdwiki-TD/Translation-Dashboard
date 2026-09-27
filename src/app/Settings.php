@@ -1,9 +1,11 @@
 <?php
+// src/app/Settings.php
 
 declare(strict_types=1);
 
 namespace App\Settings;
 
+use Defuse\Crypto\Crypto;
 use Defuse\Crypto\Key;
 
 /**
@@ -16,7 +18,6 @@ use Defuse\Crypto\Key;
  * @property string $appEnv
  * @property Key|null $cookieKey
  * @property Key|null $decryptKey
- * @property string $jwtKey
  * @property string $TablesPath
  */
 final class Settings
@@ -32,7 +33,6 @@ final class Settings
     public string $appEnv;
     public ?Key   $cookieKey;
     public ?Key   $decryptKey;
-    public string $jwtKey;
     public string $TablesPath;
 
     private static ?self $instance = null;
@@ -50,17 +50,17 @@ final class Settings
         $consumerSecret = $this->envVar('CONSUMER_SECRET');
         $cookieKey      = $this->envVar('COOKIE_KEY');
         $decryptKey     = $this->envVar('DECRYPT_KEY');
-        $jwtKey         = $this->envVar('JWT_KEY');
         $TablesPath = $this->envVar('TABLES_PATH');
 
         if ($appEnv === 'production' && (
             empty($consumerKey) || empty($consumerSecret) ||
-            empty($cookieKey)   || empty($decryptKey)     || empty($jwtKey)
+            empty($cookieKey)   || empty($decryptKey)
         )) {
             http_response_code(500);
             error_log('Required configuration directives not found in environment variables!');
             echo 'Required configuration directives not found';
             // exit(0);
+            // Fix: wrap the entry points (or each handle()) in a try/catch that logs and renders the generic 500 page, restoring the graceful behaviour the old exit() gave.
             throw new \RuntimeException('Required configuration directives not found in environment variables!');
         }
 
@@ -70,7 +70,6 @@ final class Settings
         $this->cookieKey      = $cookieKey  ? Key::loadFromAsciiSafeString($cookieKey)  : null;
         $this->decryptKey     = $decryptKey ? Key::loadFromAsciiSafeString($decryptKey) : null;
 
-        $this->jwtKey         = $jwtKey;
         $this->TablesPath = $TablesPath;
     }
 
@@ -181,7 +180,38 @@ final class Settings
 
         return self::$instance;
     }
+    public function getKey(string $keyType = "cookie"): ?Key
+    {
+        return $keyType === "decrypt"
+            ? $this->decryptKey
+            : $this->cookieKey;
+    }
 
+
+    public function decodeValue(string $value, ?Key $useKey): string
+    {
+        if ($useKey === null || trim($value) === "") {
+            return "";
+        }
+
+        try {
+            return Crypto::decrypt($value, $useKey);
+        } catch (\Throwable $e) {
+            return "";
+        }
+    }
+    public function encodeValue(string $value, ?Key $useKey): string
+    {
+        if ($useKey === null || trim($value) === "") {
+            return "";
+        }
+
+        try {
+            return Crypto::encrypt($value, $useKey);
+        } catch (\Throwable $e) {
+            return "";
+        }
+    }
     // Prevent cloning and unserialization of the singleton instance
     private function __clone() {}
 
