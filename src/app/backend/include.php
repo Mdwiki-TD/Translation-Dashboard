@@ -1,7 +1,5 @@
 <?PHP
-include_once __DIR__ . '/CurrentUser.php';
 
-include_once __DIR__ . '/settings.php';
 include_once __DIR__ . '/include_first/include.php';
 
 # MdwikiSql

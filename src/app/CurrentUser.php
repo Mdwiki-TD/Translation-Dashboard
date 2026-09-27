@@ -1,4 +1,5 @@
 <?php
+// src/app/CurrentUser.php
 
 namespace App\User;
 
@@ -174,7 +175,7 @@ class CurrentUser
             "samesite" => "Lax",
         ]);
     }
-    
+
     private function resolveUsername(): void
     {
         $cookieKey = $this->getKey("cookie");
