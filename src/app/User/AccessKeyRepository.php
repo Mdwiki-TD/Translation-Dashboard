@@ -42,10 +42,10 @@ class AccessKeyRepository
             return [];
         }
 
-        $decryptKey = $this->settings->getKey("decrypt");
+        $cryptKey = $this->settings->getKey("crypt");
         return [
-            "access_key"    => $this->settings->decodeValue($result[0]["access_key"], $decryptKey),
-            "access_secret" => $this->settings->decodeValue($result[0]["access_secret"], $decryptKey),
+            "access_key"    => $this->settings->decodeValue($result[0]["access_key"], $cryptKey),
+            "access_secret" => $this->settings->decodeValue($result[0]["access_secret"], $cryptKey),
         ];
     }
 
@@ -61,13 +61,13 @@ class AccessKeyRepository
 
     public function upsertAccess(string $user, string $accessKey, string $accessSecret): bool
     {
-        $decryptKey = $this->settings->getKey("decrypt");
+        $cryptKey = $this->settings->getKey("crypt");
 
         $params = [
             $user,
             $this->hashUsername($user),
-            $this->settings->encodeValue($accessKey, $decryptKey),
-            $this->settings->encodeValue($accessSecret, $decryptKey),
+            $this->settings->encodeValue($accessKey, $cryptKey),
+            $this->settings->encodeValue($accessSecret, $cryptKey),
         ];
 
         // ---

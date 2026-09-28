@@ -284,7 +284,6 @@ CONSUMER_KEY=oauth_key
 CONSUMER_SECRET=oauth_secret
 COOKIE_KEY=encryption_key
 DECRYPT_KEY=decryption_key
-JWT_KEY=jwt_secret
 TABLES_PATH=/path/to/tables
 ```
 
