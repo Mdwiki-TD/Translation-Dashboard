@@ -48,15 +48,43 @@ class Database
 
         return "";
     }
+    private function buildDsn(string $dbnameVar): string
+    {
+        // Load host and database name from environment variables, falling back to a default host
+        $this->host   = $this->envVar('DB_HOST_TOOLS') ?: 'tools.db.svc.wikimedia.cloud';
+        $this->dbname = $this->envVar($dbnameVar);
+
+        // Build the PDO Data Source Name (DSN) string for MySQL connection
+        return "mysql:host={$this->host};dbname={$this->dbname}";
+    }
+
+    private function hasValidCredentials(): bool
+    {
+        // Check whether all required connection credentials are present
+        return !empty($this->host) && !empty($this->dbname) && !empty($this->user) && !empty($this->password);
+    }
+
     private function setDb(string $dbnameVar)
     {
-        $this->host = $this->envVar('DB_HOST_TOOLS') ?: 'tools.db.svc.wikimedia.cloud';
-        $this->dbname = $this->envVar($dbnameVar);
-        $this->user = $this->envVar('TOOL_TOOLSDB_USER');
+        // Build the DSN and populate $this->host / $this->dbname along the way
+        $dsn = $this->buildDsn($dbnameVar);
+
+        // Load remaining credentials from environment variables
+        $this->user     = $this->envVar('TOOL_TOOLSDB_USER');
         $this->password = $this->envVar('TOOL_TOOLSDB_PASSWORD');
 
+        // If any required credential is missing, skip the connection attempt entirely
+        // instead of letting PDO fail with a connection error
+        if (!$this->hasValidCredentials()) {
+            $this->db = null;
+            error_log('Database credentials are not fully configured; skipping DB connection.');
+            $this->testPrint('Database credentials are not fully configured; skipping DB connection.');
+            return;
+        }
+
         try {
-            $this->db = new PDO("mysql:host=$this->host;dbname=$this->dbname", $this->user, $this->password);
+            // Attempt to establish the database connection
+            $this->db = new PDO($dsn, $this->user, $this->password);
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
             $this->db = null;
@@ -71,7 +99,6 @@ class Database
             throw new \RuntimeException('Database connection failed');
         }
     }
-
     public function testPrint($s)
     {
         if (isset($_COOKIE['test']) && $_COOKIE['test'] == 'x') {
@@ -107,7 +134,7 @@ class Database
         }
     }
 
-    public function fetchquery(string $sqlQuery, $params = null): array
+    public function fetchquery(string $sqlQuery, ?array $params = null): array
     {
         if ($this->db === null) {
             error_log("Database connection is not established.");
@@ -137,7 +164,7 @@ class Database
             return [];
         }
     }
-    public function executequery(string $sqlQuery, $params = null)
+    public function executequery(string $sqlQuery, ?array $params = null): bool
     {
         if ($this->db === null) {
             error_log("Database connection is not established.");
@@ -163,6 +190,76 @@ class Database
             }
             return false;
         }
+    }
+
+    // ------------------------------------------------------------------
+    // Transactions
+    // ------------------------------------------------------------------
+
+    /**
+     * Starts a PDO transaction. Returns false (and logs) if there is no
+     * live connection or a transaction is already active, instead of
+     * letting PDO throw.
+     */
+    public function beginTransaction(): bool
+    {
+        if ($this->db === null) {
+            error_log("Database connection is not established.");
+            return false;
+        }
+
+        if ($this->db->inTransaction()) {
+            return true;
+        }
+
+        try {
+            return $this->db->beginTransaction();
+        } catch (PDOException $e) {
+            error_log("SQL Error in beginTransaction: " . $e->getMessage());
+            if (getenv('APP_ENV') === 'testing') {
+                throw $e;
+            }
+            return false;
+        }
+    }
+
+    public function commit(): bool
+    {
+        if ($this->db === null || !$this->db->inTransaction()) {
+            return false;
+        }
+
+        try {
+            return $this->db->commit();
+        } catch (PDOException $e) {
+            error_log("SQL Error in commit: " . $e->getMessage());
+            if (getenv('APP_ENV') === 'testing') {
+                throw $e;
+            }
+            return false;
+        }
+    }
+
+    public function rollback(): bool
+    {
+        if ($this->db === null || !$this->db->inTransaction()) {
+            return false;
+        }
+
+        try {
+            return $this->db->rollBack();
+        } catch (PDOException $e) {
+            error_log("SQL Error in rollback: " . $e->getMessage());
+            if (getenv('APP_ENV') === 'testing') {
+                throw $e;
+            }
+            return false;
+        }
+    }
+
+    public function inTransaction(): bool
+    {
+        return $this->db !== null && $this->db->inTransaction();
     }
 
     public function __destruct()
