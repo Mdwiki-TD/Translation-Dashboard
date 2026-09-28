@@ -18,7 +18,6 @@ use Defuse\Crypto\Key;
  * @property string $appEnv
  * @property Key|null $cookieKey
  * @property Key|null $cryptKey
- * @property Key|null $encryptkey
  * @property string $TablesPath
  */
 final class Settings
@@ -34,7 +33,6 @@ final class Settings
     public string $appEnv;
     public ?Key   $cookieKey;
     public ?Key   $cryptKey;
-    public ?Key   $encryptkey;
     public string $TablesPath;
 
     private static ?self $instance = null;
@@ -52,7 +50,6 @@ final class Settings
         $consumerSecret = $this->envVar('CONSUMER_SECRET');
         $cookieKey      = $this->envVar('COOKIE_KEY');
         $cryptKey       = $this->envVar('DECRYPT_KEY');
-        $encryptkey     = $this->envVar('ENCRYPT_KEY');
         $TablesPath = $this->envVar('TABLES_PATH');
 
         if ($appEnv === 'production' && (
@@ -72,7 +69,6 @@ final class Settings
         $this->consumerSecret = $consumerSecret;
         $this->cookieKey      = $cookieKey  ? Key::loadFromAsciiSafeString($cookieKey)  : null;
         $this->cryptKey       = $cryptKey ? Key::loadFromAsciiSafeString($cryptKey) : null;
-        $this->encryptkey     = $encryptkey ? Key::loadFromAsciiSafeString($encryptkey) : null;
 
         $this->TablesPath = $TablesPath;
     }
