@@ -28,10 +28,12 @@ class Database
     private $user;
     private $password;
     private $dbname;
+    private $appEnv;
     private $groupByModeDisabled = false;
 
     public function __construct(string $dbnameVar = 'DB_NAME')
     {
+        $this->appEnv = $this->envVar('APP_ENV');
         $this->setDb($dbnameVar);
     }
 
@@ -91,7 +93,7 @@ class Database
             $this->testPrint($e->getMessage());
             // Log the error message
             error_log($e->getMessage());
-            if (getenv('APP_ENV') === 'testing') {
+            if ($this->appEnv === 'testing') {
                 return;
             }
             // Display a generic message
@@ -158,7 +160,7 @@ class Database
             error_log("SQL Error in fetchquery: " . $e->getMessage() . " | Query: " . $sqlQuery);
             $this->testPrint("SQL Error in fetchquery: " . $e->getMessage() . " | Query: " . $sqlQuery);
             // In testing mode, re-throw to allow tests to skip
-            if (getenv('APP_ENV') === 'testing') {
+            if ($this->appEnv === 'testing') {
                 throw $e;
             }
             return [];
@@ -185,7 +187,7 @@ class Database
             error_log("SQL Error in executequery: " . $e->getMessage() . " | Query: " . $sqlQuery);
             $this->testPrint("SQL Error in executequery: " . $e->getMessage() . " | Query: " . $sqlQuery);
             // In testing mode, re-throw to allow tests to skip
-            if (getenv('APP_ENV') === 'testing') {
+            if ($this->appEnv === 'testing') {
                 throw $e;
             }
             return false;
@@ -216,7 +218,7 @@ class Database
             return $this->db->beginTransaction();
         } catch (PDOException $e) {
             error_log("SQL Error in beginTransaction: " . $e->getMessage());
-            if (getenv('APP_ENV') === 'testing') {
+            if ($this->appEnv === 'testing') {
                 throw $e;
             }
             return false;
@@ -233,7 +235,7 @@ class Database
             return $this->db->commit();
         } catch (PDOException $e) {
             error_log("SQL Error in commit: " . $e->getMessage());
-            if (getenv('APP_ENV') === 'testing') {
+            if ($this->appEnv === 'testing') {
                 throw $e;
             }
             return false;
@@ -250,7 +252,7 @@ class Database
             return $this->db->rollBack();
         } catch (PDOException $e) {
             error_log("SQL Error in rollback: " . $e->getMessage());
-            if (getenv('APP_ENV') === 'testing') {
+            if ($this->appEnv === 'testing') {
                 throw $e;
             }
             return false;
