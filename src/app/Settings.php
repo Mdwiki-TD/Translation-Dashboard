@@ -49,7 +49,7 @@ final class Settings
         $consumerKey    = $this->envVar('CONSUMER_KEY');
         $consumerSecret = $this->envVar('CONSUMER_SECRET');
         $cookieKey      = $this->envVar('COOKIE_KEY');
-        $cryptKey       = $this->envVar('DECRYPT_KEY');
+        $cryptKey       = $this->envVar('CRYPTO_KEY');
         $TablesPath = $this->envVar('TABLES_PATH');
 
         if ($appEnv === 'production' && (

@@ -283,7 +283,7 @@ TOOL_TOOLSDB_PASSWORD=password
 CONSUMER_KEY=oauth_key
 CONSUMER_SECRET=oauth_secret
 COOKIE_KEY=encryption_key
-DECRYPT_KEY=decryption_key
+CRYPTO_KEY=decryption_key
 TABLES_PATH=/path/to/tables
 ```
 
