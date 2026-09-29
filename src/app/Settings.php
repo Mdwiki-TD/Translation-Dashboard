@@ -37,7 +37,7 @@ final class Settings
 
     private static ?self $instance = null;
 
-    private function __construct()
+    public function __construct()
     {
         $this->domain    = $_SERVER['SERVER_NAME'] ?? 'localhost';
         $this->ServerUrl = $this->generateServerUrl();

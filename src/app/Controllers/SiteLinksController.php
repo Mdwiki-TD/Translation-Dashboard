@@ -4,7 +4,7 @@ namespace App\SiteLinks;
 
 use App\Logger;
 use App\Render\TemplateRenderer;
-use function App\Tables\TablesDir\open_td_tables_file;
+use function App\Utils\TablesDir\open_td_tables_file;
 use App\Settings;
 
 class SiteLinksController

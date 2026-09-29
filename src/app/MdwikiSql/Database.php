@@ -128,6 +128,7 @@ class Database
             error_log("Database connection is not established.");
             return [];
         };
+        Logger::debug("fetchquery: | Query: " . $sqlQuery);
 
         try {
             $this->disableFullGroupByMode($sqlQuery);
@@ -158,6 +159,8 @@ class Database
             error_log("Database connection is not established.");
             return false;
         };
+        Logger::debug("executequery: | Query: " . $sqlQuery);
+
         try {
             $this->disableFullGroupByMode($sqlQuery);
 
