@@ -70,6 +70,7 @@ class InProcessTable
         }
 
         $apiParams = ['get' => 'in_process', 'distinct' => 'true', "select" => 'user', 'group' => 'user', "order" => '2', "count" => '*'];
+
         $sql_t = 'select DISTINCT user, count(*) as count from in_process group by user order by count desc';
 
         $tab = $this->service->superFunction($apiParams, [], $sql_t);
@@ -84,6 +85,15 @@ class InProcessTable
         if (!empty(self::$langYearProcessCache[$codeStr][$yearY] ?? [])) {
             return self::$langYearProcessCache[$codeStr][$yearY];
         }
+        /*
+        SELECT * from in_process ip
+            WHERE NOT EXISTS (
+            SELECT p.user FROM pages p
+            where p.title = ip.title
+            and p.lang = ip.lang
+            and p.target != ""
+            )
+        */
 
         $query = "select * from in_process where lang = ?";
         $apiParams = ['get' => 'in_process', 'lang' => $codeStr];
@@ -117,29 +127,4 @@ class InProcessTable
 
         return $data;
     }
-}
-
-function getProcessData(): array
-{
-    return (new InProcessTable())->getProcessData();
-}
-
-function getUserProcessNew(string $user, string $year_y = "all")
-{
-    return (new InProcessTable())->getUserProcessNew($user, $year_y);
-}
-
-function getUsersProcessNew(): array
-{
-    return (new InProcessTable())->getUsersProcessNew();
-}
-
-function getLangInProcessByYear($code, $year_y = "all"): array
-{
-    return (new InProcessTable())->getLangInProcessByYear($code, $year_y);
-}
-
-function getLangInProcess($code): array
-{
-    return (new InProcessTable())->getLangInProcess($code);
 }

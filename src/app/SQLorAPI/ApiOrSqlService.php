@@ -92,7 +92,6 @@ function get_td_api(array $params): array
 
     return $apiResults;
 }
-
 class ApiOrSqlService
 {
     private static ?bool $useTdApi = null;
