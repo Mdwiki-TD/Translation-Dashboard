@@ -49,14 +49,13 @@ app/
 │   │   ├── InProcessTable.php
 │   │   └── MissingTable.php
 │   ├── bootstrap.php
-│   ├── index.php
 │   └── ResultsLoader.php
 ├── SQLorAPI/
 │   ├── bootstrap.php
 │   ├── data_tab.php
 │   ├── funcs.php
+│   ├── Get.php
 │   ├── get_lead.php
-│   ├── index.php
 │   ├── new_sql_tables.php
 │   ├── process_data.php
 │   ├── td_api.php
