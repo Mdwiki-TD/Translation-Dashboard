@@ -1,5 +1,7 @@
 <?php
 
+namespace App\SiteLinks;
+
 use function App\Render\TestPrint\test_print;
 use function App\Tables\TablesDir\open_td_tables_file;
 use App\Settings;
