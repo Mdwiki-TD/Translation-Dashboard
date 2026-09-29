@@ -17,7 +17,6 @@ class InProcessTable extends AbstractResultsTable
     private bool $fullTrUser;
     private ?string $globalUsername;
     private array $titlesInfos;
-    private string $endpoint;
     private bool $userCoord;
 
     public function __construct(
@@ -28,7 +27,6 @@ class InProcessTable extends AbstractResultsTable
         bool $fullTrUser,
         ?string $globalUsername,
         array $titlesInfos,
-        string $endpoint,
         bool $userCoord
     ) {
         $this->rowBuilder       = new InProcessRowBuilder();
@@ -39,7 +37,6 @@ class InProcessTable extends AbstractResultsTable
         $this->fullTrUser       = $fullTrUser;
         $this->globalUsername   = $globalUsername;
         $this->titlesInfos      = $titlesInfos;
-        $this->endpoint         = $endpoint;
         $this->userCoord        = $userCoord;
     }
 
@@ -79,7 +76,6 @@ class InProcessTable extends AbstractResultsTable
                 $this->fullTrUser,
                 $this->globalUsername,
                 $titleData,
-                $this->endpoint,
                 $this->userCoord
             );
 

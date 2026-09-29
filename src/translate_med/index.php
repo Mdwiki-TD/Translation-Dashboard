@@ -7,9 +7,8 @@ use function App\Results\TrLink\make_ContentTranslation_url;
 use function App\TranslateMed\Inserter\insertPage_inprocess;
 use function App\SQLorAPI\GetDataTab\get_td_or_sql_users_no_inprocess;
 use function App\SQLorAPI\GetDataTab\get_td_or_sql_categories;
-use function App\SQLorAPI\GetDataTab\get_endpoint;
 
-function go_to_translate_url($title_o, $coden, $tr_type, $cat, $camp, $endpoint)
+function go_to_translate_url($title_o, $coden, $tr_type, $cat, $camp)
 {
 
     $test = $_GET['test'] ?? '';
@@ -20,7 +19,6 @@ function go_to_translate_url($title_o, $coden, $tr_type, $cat, $camp, $endpoint)
         $cat,
         $camp,
         $tr_type,
-        $endpoint
     );
 
     echo <<<HTML
@@ -103,15 +101,12 @@ if (!empty($title_o) && !empty($coden)) {
         insertPage_inprocess($title_o, $word, $tr_type, $cat, $coden, $user_decoded);
     }
 
-    $endpoint = get_endpoint();
-
     go_to_translate_url(
         $title_o,
         $coden,
         $tr_type,
         $cat,
         $camp,
-        $endpoint
     );
 }
 

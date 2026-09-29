@@ -59,7 +59,6 @@ function make_translate_urls(
     $_user_,
     $full_tr_user,
     $login_user_is_the_translator,
-    $endpoint
 ) {
 
     // if $inprocess and $tra_btn is 1 then show the translate button for
@@ -88,7 +87,6 @@ function make_translate_urls(
             $cat,
             $camp,
             'all',
-            $endpoint
         );
         $translate_url = make_ContentTranslation_url(
             $title,
@@ -96,7 +94,6 @@ function make_translate_urls(
             $cat,
             $camp,
             $tra_type,
-            $endpoint
         );
     } else {
         // links to translate_med/index.php

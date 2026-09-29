@@ -316,8 +316,7 @@ function make_langs_lead(
     $lang,
     $lead_words_table,
     $cats_data,
-    $endpoint
-) {
+): array {
     [$_, $table_pnd] = make_table_lead(
         $tab,
         $tab_type,

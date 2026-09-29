@@ -14,7 +14,6 @@ use function App\Leaderboard\CampText\echo_html;
 
 use function App\SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
 use function App\SQLorAPI\GetDataTab\get_td_or_sql_categories;
-use function App\SQLorAPI\GetDataTab\get_endpoint;
 use function App\SQLorAPI\GetDataTab\get_td_or_sql_langs;
 use function App\SQLorAPI\Funcs\get_graph_data;
 

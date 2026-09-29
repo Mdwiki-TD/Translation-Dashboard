@@ -182,7 +182,6 @@ class Results27Test extends TestCase
             $titleDataBefore,
             'StandardUser',
             false, // non-coordinator
-            'https://mdwikicx.toolforge.org/w/index.php'
         );
 
         $this->assertStringNotContainsString('Translate', $htmlBefore);
@@ -224,7 +223,6 @@ class Results27Test extends TestCase
             false, // fullTrUser
             'TranslatorUser', // globalUsername
             $titleData,
-            'https://mdwikicx.toolforge.org/w/index.php',
             false // userCoord
         );
 
@@ -247,7 +245,6 @@ class Results27Test extends TestCase
             false,
             'TranslatorUser',
             $titleData,
-            'https://mdwikicx.toolforge.org/w/index.php',
             false
         );
         $this->assertStringNotContainsString('1.Full', $htmlVideo);
@@ -331,7 +328,6 @@ class Results27Test extends TestCase
             'Campaign1',
             'CoordUser',
             true,
-            'https://mdwikicx.toolforge.org/w/index.php'
         );
 
         $html = $table->render($items);
@@ -386,7 +382,6 @@ class Results27Test extends TestCase
             false,
             'User1',
             $titlesInfos,
-            'https://mdwikicx.toolforge.org/w/index.php',
             false
         );
 

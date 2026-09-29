@@ -2,9 +2,6 @@
 
 namespace App\Results\GetResults2026;
 
-
-
-
 use function App\Results\GetResults2026\get_results_2026;
 use function App\Results\GetResults2026\make_results_table_2026;
 use function App\Results\GetResults2026\make_results_table_inprocess;
@@ -13,7 +10,6 @@ use function App\Results\GetResults2026\make_results_table_exists_2026;
 use function App\SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
 use function App\SQLorAPI\GetDataTab\get_td_or_sql_translate_type;
 use function App\SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
-use function App\SQLorAPI\GetDataTab\get_endpoint;
 
 function load_translate_type($ty)
 {
@@ -67,8 +63,7 @@ function Results_tables_2026(
     $_titles_infos,
     $nolead_translates,
     $translates_full,
-    $endpoint
-) {
+): string {
 
     $camp       = $tab["camp"];
     $code       = $tab["code"];
@@ -135,7 +130,6 @@ function Results_tables_2026(
             $full_tr_user,
             $global_username,
             $titles_infos_items,
-            $endpoint,
             $user_coord
         );
 
@@ -153,7 +147,6 @@ function Results_tables_2026(
             $camp,
             $global_username,
             $user_coord,
-            $endpoint
         );
 
         $html_result .= card_result("Exists: ($len_exists)", $table_3);
@@ -198,7 +191,6 @@ function results_loader_2026($data)
     $_titles_infos = get_td_or_sql_titles_infos();
     $nolead_translates = load_translate_type('no');
     $translates_full = load_translate_type('full');
-    $endpoint = get_endpoint();
 
     return Results_tables_2026(
         $tab,
@@ -208,6 +200,5 @@ function results_loader_2026($data)
         $_titles_infos,
         $nolead_translates,
         $translates_full,
-        $endpoint
     );
 }

@@ -18,8 +18,7 @@ function make_one_row_exists_2026(
     $title_data,
     $global_username,
     $user_coord,
-    $endpoint
-) {
+): string {
 
     // target_tab = { "title": "11p deletion syndrome", "category": "RTT", "importance": "", "r_lead_refs": 5, "r_all_refs": 14, "en_views": 838, "w_lead_words": 221, "w_all_words": 547, "qid": "Q1892153", "target": "متلازمة واجر" , "via":td" }
 
@@ -51,7 +50,6 @@ function make_one_row_exists_2026(
         $cat,
         $camp,
         'lead',
-        $endpoint
     );
 
     $tab = (!empty($global_username) && $user_coord) ? <<<HTML
@@ -111,8 +109,7 @@ function make_results_table_exists_2026(
     $camp,
     $global_username,
     $user_coord,
-    $endpoint
-) {
+): string {
 
     $list = "";
 
@@ -141,7 +138,6 @@ function make_results_table_exists_2026(
             $target_tab,
             $global_username,
             $user_coord,
-            $endpoint
         );
 
         $list .= $row;

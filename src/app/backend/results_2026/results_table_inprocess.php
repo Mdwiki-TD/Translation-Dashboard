@@ -80,7 +80,6 @@ function make_one_row_new_inprocess(
     $full_tr_user,
     $global_username,
     $title_data,
-    $endpoint,
     $user_coord
 ) {
 
@@ -119,7 +118,6 @@ function make_one_row_new_inprocess(
         $_user_,
         $full_tr_user,
         $login_user_is_the_translator,
-        $endpoint
     );
 
     // if $_date_ has : then split before first space
@@ -159,7 +157,6 @@ function make_results_table_inprocess(
     $full_tr_user,
     $global_username,
     $titles_infos_items,
-    $endpoint,
     $user_coord
 ): string {
 
@@ -201,7 +198,6 @@ function make_results_table_inprocess(
             $full_tr_user,
             $global_username,
             $title_data,
-            $endpoint,
             $user_coord
         );
         //--

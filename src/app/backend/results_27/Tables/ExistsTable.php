@@ -15,7 +15,6 @@ class ExistsTable extends AbstractResultsTable
     private string $camp;
     private ?string $globalUsername;
     private bool $userCoord;
-    private string $endpoint;
 
     public function __construct(
         string $langCode,
@@ -23,7 +22,6 @@ class ExistsTable extends AbstractResultsTable
         string $camp,
         ?string $globalUsername,
         bool $userCoord,
-        string $endpoint
     ) {
         $this->rowBuilder     = new ExistsRowBuilder();
         $this->langCode       = $langCode;
@@ -31,7 +29,6 @@ class ExistsTable extends AbstractResultsTable
         $this->camp           = $camp;
         $this->globalUsername = $globalUsername;
         $this->userCoord      = $userCoord;
-        $this->endpoint       = $endpoint;
     }
 
     public function render(array $items): string
@@ -63,7 +60,6 @@ class ExistsTable extends AbstractResultsTable
                 $data,
                 $this->globalUsername,
                 $this->userCoord,
-                $this->endpoint
             );
 
             $counter++;

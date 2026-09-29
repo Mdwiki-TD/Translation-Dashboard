@@ -13,18 +13,6 @@ use App\Leaderboard\LeaderboardRouter;
 
 class LeaderboardTest extends TestCase
 {
-    public static function setUpBeforeClass(): void
-    {
-        $baseDir = dirname(__DIR__, 2) . '/src/app/leaderboard';
-
-        ob_start();
-        require_once $baseDir . '/MainLeaderboard.php';
-        require_once $baseDir . '/UsersLeaderboard.php';
-        require_once $baseDir . '/LangsLeaderboard.php';
-        require_once $baseDir . '/IndexJsLeaderboard.php';
-        require_once $baseDir . '/LeaderboardRouter.php';
-        ob_end_clean();
-    }
 
     public function testMainLeaderboardRender(): void
     {

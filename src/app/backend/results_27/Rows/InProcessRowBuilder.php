@@ -25,7 +25,6 @@ class InProcessRowBuilder
         bool $fullTrUser,
         ?string $globalUsername,
         array $titleData,
-        string $endpoint,
         bool $userCoord
     ): string {
         // inProcessData = { "title": "Andes virus infection", "user": "Mr. Ibrahem", "lang": "ar", "cat": "RTT", "translate_type": "all", "word": 0, "add_date": "2026-05-21 00:00:00", "campaign": "Main", "autonym": "العربية" }
@@ -64,7 +63,6 @@ class InProcessRowBuilder
             $user,
             $fullTrUser,
             $loginUserIsTranslator,
-            $endpoint
         );
 
         // Keep only the date part if datetime is present

@@ -19,7 +19,7 @@ function test_print_z($s): void
     }
 }
 
-function post_url(string $endPoint, array $params = []): string
+function post_url(string $ServerUrl, array $params = []): string
 {
     if (empty($params)) return "";
 
@@ -28,7 +28,7 @@ function post_url(string $endPoint, array $params = []): string
 
     $ch = curl_init();
 
-    $url = "{$endPoint}?" . http_build_query($params, '', '&', PHP_QUERY_RFC3986);
+    $url = "{$ServerUrl}?" . http_build_query($params, '', '&', PHP_QUERY_RFC3986);
 
     curl_setopt_array($ch, [
         CURLOPT_URL => $url,
@@ -72,11 +72,10 @@ function post_url(string $endPoint, array $params = []): string
 function get_td_api(array $params): array
 {
     $settings = Settings::getInstance();
-    $endPoint = $settings->ServerUrl;
 
-    $endPoint .= '/api.php';
+    $ServerUrl = $settings->ServerUrl . '/api.php';
 
-    $out = post_url($endPoint, $params);
+    $out = post_url($ServerUrl, $params);
 
     $apiResults = json_decode($out, true);
 

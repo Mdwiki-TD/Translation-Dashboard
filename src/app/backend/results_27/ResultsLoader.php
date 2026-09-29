@@ -11,7 +11,6 @@ use App\Results\GetResults27\Tables\InProcessTable;
 
 use function App\SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
 use function App\SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
-use function App\SQLorAPI\GetDataTab\get_endpoint;
 
 /**
  * Main entry point for the 2026 results module.
@@ -46,7 +45,6 @@ class ResultsLoader
         $titlesInfos      = array_column(get_td_or_sql_titles_infos(), null, "title");
         $noLeadTranslates = TranslateTypeLoader::load("no");
         $fullTranslates   = TranslateTypeLoader::load("full");
-        $endpoint         = get_endpoint();
 
         $html = "";
 
@@ -87,7 +85,6 @@ class ResultsLoader
                 $fullTrUser,
                 $globalUser,
                 $titlesInfos,
-                $endpoint,
                 $userCoord
             );
             $inProcessHtml = $inProcessTable->render($results["inprocess"]);
@@ -106,7 +103,6 @@ class ResultsLoader
                 $camp,
                 $globalUser,
                 $userCoord,
-                $endpoint
             );
             $existsHtml = $existsTable->render($results["exists"]);
 

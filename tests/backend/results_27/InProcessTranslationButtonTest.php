@@ -28,7 +28,6 @@ class InProcessTranslationButtonTest extends TestCase
             'Mr. Ibrahem',
             false,
             false, // $login_user_is_the_translator
-            'https://mdwikicx.toolforge.org/w/index.php'
         );
 
         $this::assertSame('', $tab);
@@ -50,7 +49,6 @@ class InProcessTranslationButtonTest extends TestCase
             'Mr. Ibrahem',
             false,
             true,  // $login_user_is_the_translator
-            'https://mdwikicx.toolforge.org/w/index.php'
         );
 
         $this::assertStringContainsString('Translate', $tab);
@@ -88,7 +86,6 @@ class InProcessTranslationButtonTest extends TestCase
             false,
             'Mr. Ibrahem', // $global_username
             $titleData,
-            'https://mdwikicx.toolforge.org/w/index.php',
             true // $user_coord
         );
 
@@ -128,7 +125,6 @@ class InProcessTranslationButtonTest extends TestCase
             false,
             '', // empty $global_username
             $titleData,
-            'https://mdwikicx.toolforge.org/w/index.php',
             false
         );
 
@@ -167,7 +163,6 @@ class InProcessTranslationButtonTest extends TestCase
             false,
             'Mr. Ibrahem',
             $titleData,
-            'https://mdwikicx.toolforge.org/w/index.php',
             false // $user_coord
         );
 
@@ -207,7 +202,6 @@ class InProcessTranslationButtonTest extends TestCase
             false,
             'Mr. Ibrahem',
             $titleData,
-            'https://mdwikicx.toolforge.org/w/index.php',
             false
         );
 

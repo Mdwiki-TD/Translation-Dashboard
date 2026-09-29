@@ -21,7 +21,6 @@ class ExistsRowBuilder
         array $titleData,
         ?string $globalUsername,
         bool $userCoord,
-        string $endpoint
     ): string {
 
         // target_tab = { "title": "11p deletion syndrome", "category": "RTT", "importance": "", "r_lead_refs": 5, "r_all_refs": 14, "en_views": 838, "w_lead_words": 221, "w_all_words": 547, "qid": "Q1892153", "target": "متلازمة واجر" , "via":td" }
@@ -52,7 +51,6 @@ class ExistsRowBuilder
                 $cat,
                 $camp,
                 "lead",
-                $endpoint
             );
             $translateButton = <<<HTML
                 <div class="inline">
