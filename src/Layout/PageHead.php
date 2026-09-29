@@ -55,7 +55,7 @@ class PageHead
 
             "/Translation_Dashboard/js/to.js",
             "/td/plugins/chart.js/Chart.min.js",
-            "/Translation_Dashboard/js/g.js",
+            "/Translation_Dashboard/js/graph_js.js",
             "/Translation_Dashboard/js/theme.js",
         ];
 
@@ -109,36 +109,6 @@ class PageHead
                 <meta name="theme-color" content="#eeeeee" media="(prefers-color-scheme: dark)">
                 <title>Wiki Project Med Translation Dashboard</title>
                 $headText
-                <style>
-                    .table_text_left>tbody>tr>th,
-                    .table_text_left>tbody>tr>td,
-                    .table_text_left>thead>tr>td,
-                    .table_text_left>thead>tr>th {
-                        text-align: left !important;
-                    }
-
-                    .leaderboard_tables>tbody>tr>td,
-                    .leaderboard_tables>tbody>tr>th,
-                    .leaderboard_tables>thead>tr>td,
-                    .leaderboard_tables>thead>tr>th {
-                        padding: 6px;
-                        line-height: 1.42857143;
-                        vertical-align: top;
-                        border-top: 1px solid #ddd;
-                    }
-
-                    a {
-                        text-decoration: none;
-                        word-break: break-all !important;
-                    }
-                    .logo-text {
-                        background: linear-gradient(45deg, #6b8cff, #8b9fff);
-                        -webkit-background-clip: text;
-                        background-clip: text;
-                        -webkit-text-fill-color: transparent;
-                        transition: opacity 0.3s ease;
-                    }
-                </style>
             </head>
         HTML;
     }

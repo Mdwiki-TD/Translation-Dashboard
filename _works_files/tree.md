@@ -114,7 +114,7 @@ src/
 │   ├── codes.js
 │   ├── color-modes.js
 │   ├── footer.js
-│   ├── g.js
+│   ├── graph_js.js
 │   ├── graph_api.js
 │   ├── leaderboard_index_js.js
 │   ├── leadtable.js

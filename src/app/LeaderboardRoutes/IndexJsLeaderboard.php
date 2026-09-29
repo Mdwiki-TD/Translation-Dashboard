@@ -177,7 +177,7 @@ class IndexJsLeaderboard
         $topLangsCardHtml           = $this->renderTopLangsCard();
 
         echo <<<HTML
-            <script src="/Translation_Dashboard/js/g.js"></script>
+            <script src="/Translation_Dashboard/js/graph_js.js"></script>
             <script src="/Translation_Dashboard/js/graph_api.js"></script>
             {$filterFormHtml}
             <hr />
