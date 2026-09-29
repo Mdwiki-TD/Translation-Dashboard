@@ -18,11 +18,11 @@ class LeaderboardTest extends TestCase
         $baseDir = dirname(__DIR__, 2) . '/src/app/leaderboard';
 
         ob_start();
-        require_once $baseDir . '/main.php';
+        require_once $baseDir . '/MainLeaderboard.php';
         require_once $baseDir . '/UsersLeaderboard.php';
         require_once $baseDir . '/LangsLeaderboard.php';
-        require_once $baseDir . '/index_js.php';
-        require_once $baseDir . '/index.php';
+        require_once $baseDir . '/IndexJsLeaderboard.php';
+        require_once $baseDir . '/LeaderboardRouter.php';
         ob_end_clean();
     }
 

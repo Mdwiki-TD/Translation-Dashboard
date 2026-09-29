@@ -13,9 +13,6 @@ $currentUser = CurrentUser::getInstance();
 $pageHeader = new PageHeader($currentUser);
 $pageHeader->render();
 
-include_once __DIR__ . '/app/leaderboard/main.php';
-include_once __DIR__ . '/app/leaderboard/index.php';
-
 (new LeaderboardRouter())->handleRequest();
 
 $timeStart = $pageHeader->getLoadStartTime();

@@ -12,7 +12,7 @@ $currentUser = CurrentUser::getInstance();
 $pageHeader = new PageHeader($currentUser);
 $pageHeader->render();
 
-include_once __DIR__ . '/app/leaderboard/index_js.php';
+include_once __DIR__ . '/app/leaderboard/IndexJsLeaderboard.php';
 
 $timeStart = $pageHeader->getLoadStartTime();
 
