@@ -19,7 +19,7 @@ class QidsTable
         self::$qidsCache = [];
     }
 
-    public function getQids(): array
+    public function getTitlesQids(): array
     {
         if (!empty(self::$qidsCache)) {
             return self::$qidsCache;
@@ -36,7 +36,7 @@ class QidsTable
 
     public function getQidsForList(array $list): array
     {
-        $sqQids = self::getQids();
+        $sqQids = self::getTitlesQids();
 
         $withQids = [];
         $noQids = [];
@@ -56,7 +56,7 @@ class QidsTable
         ];
     }
 
-    public function get_td_or_sql_qids_others(string $dis): array
+    public function getQidsOthers(string $dis): array
     {
 
         static $cache = [];
@@ -94,7 +94,7 @@ class QidsTable
         return $data;
     }
 
-    public function get_td_or_sql_qids(string $dis): array
+    public function getQids(string $dis): array
     {
 
         static $cache = [];

@@ -138,7 +138,7 @@ class TitlesTable
         return self::$langsCache;
     }
 
-    public function get_publish_reports_stats(): array
+    public function getPublishReportsStats(): array
     {
 
         static $statsData = [];

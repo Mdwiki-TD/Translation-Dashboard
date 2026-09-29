@@ -6,7 +6,7 @@ use App\MdwikiSql\Database;
 use App\Settings;
 use App\Logger;
 
-function fetch_query(string $sqlQuery, ?array $params = null): array
+function fetchQuery(string $sqlQuery, ?array $params = null): array
 {
     // Create a new database object
     $db = new Database();
@@ -20,7 +20,7 @@ function fetch_query(string $sqlQuery, ?array $params = null): array
 };
 
 
-function post_url(string $ServerUrl, array $params = []): string
+function postUrl(string $ServerUrl, array $params = []): string
 {
     if (empty($params)) return "";
 
@@ -50,20 +50,20 @@ function post_url(string $ServerUrl, array $params = []): string
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
     if ($httpCode !== 200) {
-        Logger::debug('post_url: Error: API request failed with status code ' . $httpCode);
+        Logger::debug('postUrl: Error: API request failed with status code ' . $httpCode);
     }
 
     $executionTime = (microtime(true) - $timeStart);
     $executionTime = round($executionTime, 4);
 
-    Logger::debug("post_url (time: $executionTime s): (http_code: $httpCode) $url2");
+    Logger::debug("postUrl (time: $executionTime s): (http_code: $httpCode) $url2");
 
     if ($output === FALSE) {
-        Logger::debug("post_url: cURL Error: " . curl_error($ch));
+        Logger::debug("postUrl: cURL Error: " . curl_error($ch));
     }
 
     if (curl_errno($ch)) {
-        Logger::debug('post_url: Error:' . curl_error($ch));
+        Logger::debug('postUrl: Error:' . curl_error($ch));
     }
 
     curl_close($ch);
@@ -85,7 +85,7 @@ class ApiOrSqlService
 
         $ServerUrl = $settings->ServerUrl . '/api.php';
 
-        $out = post_url($ServerUrl, $params);
+        $out = postUrl($ServerUrl, $params);
 
         $apiResults = json_decode($out, true);
 
@@ -148,7 +148,7 @@ class ApiOrSqlService
         }
 
         if (empty($apiData) && !$noRefind) {
-            $apiData = fetch_query($sqlQuery, $sqlParams);
+            $apiData = fetchQuery($sqlQuery, $sqlParams);
         }
 
         return $apiData;

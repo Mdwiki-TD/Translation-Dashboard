@@ -66,7 +66,7 @@ class UsersTable
         return self::$fullTranslatorsCache;
     }
 
-    public function get_users_by_last_pupdate(): array
+    public function getUsersByLastPupdate(): array
     {
         static $lastUserToTab = [];
 

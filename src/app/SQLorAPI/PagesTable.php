@@ -271,7 +271,7 @@ class PagesTable
         return self::$countPagesCacheNotEmpty;
     }
 
-    public function get_td_or_sql_page_user_not_in_users(): array
+    public function getPageUserNotInUsers(): array
     {
 
         static $users = [];
@@ -295,7 +295,7 @@ class PagesTable
         return $data;
     }
 
-    public function get_pages_langs(): array
+    public function getPagesLangs(): array
     {
 
         static $pagesLangs = [];
@@ -318,7 +318,7 @@ class PagesTable
         return $data;
     }
 
-    public function get_pages_users_langs(): array
+    public function getPagesUsersLangs(): array
     {
 
         static $pagesUsersLangs = [];
@@ -339,7 +339,7 @@ class PagesTable
         return $data;
     }
 
-    public function get_total_translations_count($lang, $cand): int
+    public function getTotalTranslationsCount($lang, $cand): int
     {
 
         $table = in_array($cand, ['pages', 'pages_users'], true) ? $cand : 'pages';
@@ -362,7 +362,7 @@ class PagesTable
         return $result;
     }
 
-    public function get_pages_users_to_main($lang): array
+    public function getPagesUsersToMain($lang): array
     {
         static $cache = [];
 
