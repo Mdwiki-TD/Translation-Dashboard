@@ -4,7 +4,7 @@ namespace App\SQLorAPI\Funcs;
 
 use function App\SQLorAPI\Get\super_function;
 
-function missing_by_lang_and_category($lang_code, $category)
+function missingByLangAndCategory($lang_code, $category)
 {
 
     $apiParams = ['get' => 'missing_by_lang_and_category', 'category' => $category, 'lang' => $lang_code];

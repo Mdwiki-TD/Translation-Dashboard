@@ -6,7 +6,7 @@ use App\Logger;
 use function App\Utils\Html\make_mdwiki_cat_url;
 use function App\SQLorAPI\Funcs\getLangPagesByCat;
 use function App\SQLorAPI\Process\getLangInProcess;
-use function App\SQLorAPI\Funcs\missing_by_lang_and_category;
+use function App\SQLorAPI\Funcs\missingByLangAndCategory;
 use function App\SQLorAPI\Funcs\existsByLangAndCategory;
 
 /**
@@ -41,7 +41,7 @@ class ResultsFetcher
 
         // Missing pages
         // { "title": "Alpha-gal syndrome", "category": "RTT", "importance": "Mid", "r_lead_refs": 0, "r_all_refs": 0, "en_views": 15, "w_lead_words": 0, "w_all_words": 0, "qid": "Q16242785" }
-        $itemsMissing = missing_by_lang_and_category($code, $cat);
+        $itemsMissing = missingByLangAndCategory($code, $cat);
         $this->log("Items missing", count($itemsMissing));
 
         // Existing pages
