@@ -6,8 +6,8 @@ use App\Logger;
 use function App\Utils\Html\make_mdwiki_cat_url;
 use function App\SQLorAPI\getLangPagesByCat;
 use function App\SQLorAPI\getLangInProcess;
-use function App\SQLorAPI\Funcs\missingByLangAndCategory;
-use function App\SQLorAPI\Funcs\existsByLangAndCategory;
+use function App\SQLorAPI\missingByLangAndCategory;
+use function App\SQLorAPI\existsByLangAndCategory;
 
 /**
  * Responsible for fetching and preparing all result data
