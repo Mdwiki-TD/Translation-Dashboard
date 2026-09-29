@@ -4,9 +4,10 @@ namespace App\Leaderboard;
 
 use App\User\CurrentUser;
 use App\Settings;
+use App\Leaderboard\MainLeaderboard;
+
 use function App\Leaderboard\Graph\print_graph_tab;
 use function App\Leaderboard\Graph2\print_graph_tab_2_new;
-use function App\Leaderboard\Index\main_leaderboard;
 use function App\Leaderboard\CampText\echo_html;
 use function App\Leaderboard\Langs\langs_html;
 use function App\Leaderboard\Users\users_html;
@@ -97,5 +98,6 @@ if ($get == 'users' || !empty($user_to_curl)) {
     $settings = Settings::getInstance();
     $addcat = !$settings->isProduction() && (isset($_GET['nocat']));
 
-    echo main_leaderboard($year_y, $camp, $user_group, $langs_data, $addcat, $month_y);
+    $controller = new MainLeaderboard();
+    echo $controller->render($year_y, $camp, $user_group, $langs_data, $addcat, $month_y);
 }
