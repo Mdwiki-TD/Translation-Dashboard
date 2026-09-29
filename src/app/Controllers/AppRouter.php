@@ -4,7 +4,7 @@
 namespace App;
 
 use App\User\CurrentUser;
-use App\Results\GetResults27\ResultsLoader;
+use App\Results27\ResultsLoader;
 use function App\SQLorAPI\GetDataTab\get_td_or_sql_categories;
 use function App\SQLorAPI\GetDataTab\get_td_or_sql_settings;
 use function App\SQLorAPI\GetDataTab\get_td_or_sql_langs;

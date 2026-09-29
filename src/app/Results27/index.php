@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Results\GetResults27;
+namespace App\Results27;
 
 /**
  * Public entry point – keeps the old function name.

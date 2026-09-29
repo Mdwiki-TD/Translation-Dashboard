@@ -45,24 +45,24 @@ src/
 │   │   ├── AppRouter.php
 │   │   ├── MissingController.php
 │   │   └── SiteLinksController.php
-│   ├── leaderboard/
-│   │   ├── others/
-│   │   │   ├── camps_text.php
-│   │   │   ├── graph_api.php
-│   │   │   └── index.php
-│   │   ├── subs/
-│   │   │   ├── filter_form.php
-│   │   │   ├── langs_sub.php
-│   │   │   ├── lead_help.php
-│   │   │   └── users_sub.php
-│   │   ├── bootstrap.php
-│   │   ├── camps.php
-│   │   ├── graph.php
-│   │   ├── lang_user_graph.php
-│   │   ├── leader_filter.php
-│   │   ├── leader_tables.php
-│   │   └── leader_tables_users.php
-│   ├── LeaderboardRoutes/
+│   ├── Leaderboard/
+│   │   ├── helpers/
+│   │   │   ├── others/
+│   │   │   │   ├── camps_text.php
+│   │   │   │   ├── graph_api.php
+│   │   │   │   └── index.php
+│   │   │   ├── subs/
+│   │   │   │   ├── filter_form.php
+│   │   │   │   ├── langs_sub.php
+│   │   │   │   ├── lead_help.php
+│   │   │   │   └── users_sub.php
+│   │   │   ├── bootstrap.php
+│   │   │   ├── camps.php
+│   │   │   ├── graph.php
+│   │   │   ├── lang_user_graph.php
+│   │   │   ├── leader_filter.php
+│   │   │   ├── leader_tables.php
+│   │   │   └── leader_tables_users.php
 │   │   ├── bootstrap.php
 │   │   ├── LangsLeaderboard.php
 │   │   ├── LeaderboardController.php

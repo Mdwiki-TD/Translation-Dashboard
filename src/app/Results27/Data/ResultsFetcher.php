@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Results\GetResults27\Data;
+namespace App\Results27\Data;
 
 use App\Logger;
 use function App\Utils\Html\make_mdwiki_cat_url;

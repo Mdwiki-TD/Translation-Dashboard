@@ -7,7 +7,7 @@ namespace Tests;
 use PHPUnit\Framework\TestCase;
 
 use function App\Results\Helps\make_translate_urls;
-use App\Results\GetResults27\Rows\InProcessRowBuilder;
+use App\Results27\Rows\InProcessRowBuilder;
 use function App\Leaderboard\Subs\LeadHelp\make_td_fo_user;
 
 class InProcessTranslationButtonTest extends TestCase

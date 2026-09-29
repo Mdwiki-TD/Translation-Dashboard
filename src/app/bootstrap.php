@@ -73,16 +73,26 @@ include_once __DIR__ . '/User/bootstrap.php';
 include_once __DIR__ . '/Settings.php';
 include_once __DIR__ . '/Logger.php';
 
+include_once __DIR__ . '/SQLorAPI/bootstrap.php';
+
+# Results27
+include_once __DIR__ . "/Results27/bootstrap.php";
+
+# Leaderboard
+include_once __DIR__ . '/Leaderboard/bootstrap.php';
+
 # MdwikiSql
 include_once __DIR__ . '/MdwikiSql/Database.php';
-
-include_once __DIR__ . '/backend/bootstrap.php';
-
-include_once __DIR__ . '/Utils/html.php';
-
-include_once __DIR__ . '/Leaderboard/bootstrap.php';
 
 # Controllers
 include_once __DIR__ . '/Controllers/AppRouter.php'; // AppRouter
 include_once __DIR__ . '/Controllers/SiteLinksController.php';
 include_once __DIR__ . '/Controllers/MissingController.php';
+
+# Utils
+include_once __DIR__ . '/Utils/html.php';
+include_once __DIR__ . '/Utils/tables_dir.php';
+include_once __DIR__ . '/Utils/wiki_api.php';
+include_once __DIR__ . '/Utils/langcode.php';
+include_once __DIR__ . '/Utils/helps.php';
+include_once __DIR__ . '/Utils/tr_link.php';

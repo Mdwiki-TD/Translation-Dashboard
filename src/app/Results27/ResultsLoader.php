@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Results\GetResults27;
+namespace App\Results27;
 
-use App\Results\GetResults27\Data\ResultsFetcher;
-use App\Results\GetResults27\Helpers\CardRenderer;
-use App\Results\GetResults27\Helpers\TranslateTypeLoader;
-use App\Results\GetResults27\Tables\MissingTable;
-use App\Results\GetResults27\Tables\ExistsTable;
-use App\Results\GetResults27\Tables\InProcessTable;
+use App\Results27\Data\ResultsFetcher;
+use App\Results27\Helpers\CardRenderer;
+use App\Results27\Helpers\TranslateTypeLoader;
+use App\Results27\Tables\MissingTable;
+use App\Results27\Tables\ExistsTable;
+use App\Results27\Tables\InProcessTable;
 
 use function App\SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
 use function App\SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;

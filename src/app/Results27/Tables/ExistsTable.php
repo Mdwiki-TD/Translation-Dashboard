@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Results\GetResults27\Tables;
+namespace App\Results27\Tables;
 
-use App\Results\GetResults27\Rows\ExistsRowBuilder;
+use App\Results27\Rows\ExistsRowBuilder;
 
 /**
  * Renders the table of already existing pages.

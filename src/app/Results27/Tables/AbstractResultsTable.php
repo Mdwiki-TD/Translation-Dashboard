@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Results\GetResults27\Tables;
+namespace App\Results27\Tables;
 
 function make_table_start(bool $inprocess): string
 {

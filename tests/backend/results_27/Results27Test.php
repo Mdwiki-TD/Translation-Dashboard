@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace Tests;
 
 use PHPUnit\Framework\TestCase;
-use App\Results\GetResults27\Data\ResultsFetcher;
-use App\Results\GetResults27\Helpers\CardRenderer;
-use App\Results\GetResults27\Helpers\TranslateTypeLoader;
-use App\Results\GetResults27\Rows\ExistsRowBuilder;
-use App\Results\GetResults27\Rows\InProcessRowBuilder;
-use App\Results\GetResults27\Rows\MissingRowBuilder;
-use App\Results\GetResults27\Tables\ExistsTable;
-use App\Results\GetResults27\Tables\InProcessTable;
-use App\Results\GetResults27\Tables\MissingTable;
-use App\Results\GetResults27\ResultsLoader;
+use App\Results27\Data\ResultsFetcher;
+use App\Results27\Helpers\CardRenderer;
+use App\Results27\Helpers\TranslateTypeLoader;
+use App\Results27\Rows\ExistsRowBuilder;
+use App\Results27\Rows\InProcessRowBuilder;
+use App\Results27\Rows\MissingRowBuilder;
+use App\Results27\Tables\ExistsTable;
+use App\Results27\Tables\InProcessTable;
+use App\Results27\Tables\MissingTable;
+use App\Results27\ResultsLoader;
 
-use function App\Results\GetResults27\results_loader_27;
+use function App\Results27\results_loader_27;
 
 class Results27Test extends TestCase
 {
