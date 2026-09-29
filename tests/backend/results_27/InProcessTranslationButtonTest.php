@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 
 use function App\Results\Helps\make_translate_urls;
 use App\Results\GetResults27\Rows\InProcessRowBuilder;
-use function App\Utils\ResultsTableHtml\make_table_start;
 use function App\Leaderboard\Subs\LeadHelp\make_td_fo_user;
 
 class InProcessTranslationButtonTest extends TestCase
@@ -209,12 +208,6 @@ class InProcessTranslationButtonTest extends TestCase
         $this::assertStringContainsString('OtherUser', $html);
     }
 
-    public function testMakeTableStartIncludesTranslateAndTypeHeaderForInProcess(): void
-    {
-        $headerHtml = make_table_start(true);
-        $this::assertStringContainsString('<span>Translate</span>', $headerHtml);
-        $this::assertStringContainsString('>Type</th>', $headerHtml);
-    }
 
     public function testMakeTdFoUserIncludesTypeCell(): void
     {

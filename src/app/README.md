@@ -12,7 +12,6 @@ app/
 │   │   ├── process_data.php
 │   │   └── top.php
 │   ├── include_first/
-│   │   ├── bootstrap.php
 │   │   ├── tables_dir.php
 │   │   └── test_print.php
 │   ├── others/
@@ -41,7 +40,8 @@ app/
 │   │   └── langcode.php
 │   ├── td_api_wrap/
 │   │   └── td_api.php
-│   └── bootstrap.php
+│   ├── bootstrap.php
+│   └── results_2026.7z
 ├── leaderboard/
 │   ├── others/
 │   │   ├── camps_text.php
@@ -52,9 +52,9 @@ app/
 │   │   ├── langs_sub.php
 │   │   ├── lead_help.php
 │   │   └── users_sub.php
+│   ├── bootstrap.php
 │   ├── camps.php
 │   ├── graph.php
-│   ├── bootstrap.php
 │   ├── lang_user_graph.php
 │   ├── leader_filter.php
 │   ├── leader_tables.php
@@ -67,9 +67,7 @@ app/
 │   ├── MainLeaderboard.php
 │   └── UsersLeaderboard.php
 ├── MdwikiSql/
-│   ├── Database.php
-│   ├── db_insert.php
-│   └── mdwiki_sql.php
+│   └── Database.php
 ├── templates/
 │   ├── Missing/
 │   │   └── missing.php
@@ -78,15 +76,13 @@ app/
 │   └── TemplateRenderer.php
 ├── User/
 │   ├── AccessKeyRepository.php
+│   ├── bootstrap.php
 │   ├── CoordinatorRepository.php
 │   ├── CurrentUser.php
-│   ├── bootstrap.php
 │   ├── SessionManager.php
 │   └── UserCookieService.php
 ├── Utils/
-│   ├── html.php
-│   ├── bootstrap.php
-│   └── results_table_html.php
+│   └── html.php
 ├── bootstrap.php
 ├── index.php
 ├── MissingController.php

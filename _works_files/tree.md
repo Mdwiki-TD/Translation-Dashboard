@@ -13,7 +13,6 @@ src/
 │   │   │   ├── process_data.php
 │   │   │   └── top.php
 │   │   ├── include_first/
-│   │   │   ├── bootstrap.php
 │   │   │   ├── tables_dir.php
 │   │   │   └── test_print.php
 │   │   ├── others/
@@ -42,7 +41,8 @@ src/
 │   │   │   └── langcode.php
 │   │   ├── td_api_wrap/
 │   │   │   └── td_api.php
-│   │   └── bootstrap.php
+│   │   ├── bootstrap.php
+│   │   └── results_2026.7z
 │   ├── leaderboard/
 │   │   ├── others/
 │   │   │   ├── camps_text.php
@@ -53,9 +53,9 @@ src/
 │   │   │   ├── langs_sub.php
 │   │   │   ├── lead_help.php
 │   │   │   └── users_sub.php
+│   │   ├── bootstrap.php
 │   │   ├── camps.php
 │   │   ├── graph.php
-│   │   ├── bootstrap.php
 │   │   ├── lang_user_graph.php
 │   │   ├── leader_filter.php
 │   │   ├── leader_tables.php
@@ -68,8 +68,7 @@ src/
 │   │   ├── MainLeaderboard.php
 │   │   └── UsersLeaderboard.php
 │   ├── MdwikiSql/
-│   │   ├── Database.php
-│   │   └── mdwiki_sql.php
+│   │   └── Database.php
 │   ├── templates/
 │   │   ├── Missing/
 │   │   │   └── missing.php
@@ -78,15 +77,13 @@ src/
 │   │   └── TemplateRenderer.php
 │   ├── User/
 │   │   ├── AccessKeyRepository.php
+│   │   ├── bootstrap.php
 │   │   ├── CoordinatorRepository.php
 │   │   ├── CurrentUser.php
-│   │   ├── bootstrap.php
 │   │   ├── SessionManager.php
 │   │   └── UserCookieService.php
 │   ├── Utils/
-│   │   ├── html.php
-│   │   ├── bootstrap.php
-│   │   └── results_table_html.php
+│   │   └── html.php
 │   ├── bootstrap.php
 │   ├── index.php
 │   ├── MissingController.php
@@ -130,7 +127,7 @@ src/
 ├── bootstrap.php
 ├── coordinator.php
 ├── favicon.svg
-├── bootstrap.php
+├── include_all.php
 ├── index.php
 ├── leaderboard.php
 ├── leaderboard_js.php

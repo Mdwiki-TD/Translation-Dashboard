@@ -78,7 +78,6 @@ include_once __DIR__ . '/MdwikiSql/Database.php';
 include_once __DIR__ . '/backend/bootstrap.php';
 
 include_once __DIR__ . '/Utils/html.php';
-include_once __DIR__ . '/Utils/results_table_html.php';
 
 include_once __DIR__ . '/LeaderboardRoutes/bootstrap.php';
 
