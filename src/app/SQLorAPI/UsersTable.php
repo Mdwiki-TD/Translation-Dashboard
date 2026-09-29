@@ -55,7 +55,7 @@ class UsersTable
     {
         if (empty(self::$fullTranslatorsCache)) {
             $apiParams = ['get' => 'full_translators'];
-            $query = "SELECT id, user, is_active FROM full_translators";
+            $query = "SELECT id, user, is_active FROM full_translators order by id";
             self::$fullTranslatorsCache = $this->service->superFunction($apiParams, [], $query);
         }
 
@@ -65,20 +65,4 @@ class UsersTable
 
         return self::$fullTranslatorsCache;
     }
-}
-
-
-function getUsersNoInprocess()
-{
-    return (new UsersTable())->getUsersNoInprocess();
-}
-
-function getFullTranslators($column = null)
-{
-    return (new UsersTable())->getFullTranslators($column);
-}
-
-function getCoordinators()
-{
-    return (new UsersTable())->getCoordinators();
 }

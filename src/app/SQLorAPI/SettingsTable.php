@@ -25,7 +25,7 @@ class SettingsTable
             return self::$sqlSettingsCache;
         }
 
-        $query = "select id, title, displayed, value, Type from settings";
+        $query = "select id, title, displayed, value, Type, ignored from settings";
         $apiParams = ['get' => 'settings'];
 
         self::$sqlSettingsCache = $this->service->superFunction($apiParams, [], $query);

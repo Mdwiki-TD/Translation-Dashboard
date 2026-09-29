@@ -9,6 +9,7 @@ class PagesTable
     private static array $pagesCache = [];
     private static array $pupdateCache = [];
     private static array $countPagesCache = [];
+    private static array $countPagesCacheNotEmpty = [];
     private static array $userYearsCache = [];
     private static array $userLangsCache = [];
     private static array $userCampsCache = [];
@@ -25,6 +26,7 @@ class PagesTable
         self::$pagesCache = [];
         self::$pupdateCache = [];
         self::$countPagesCache = [];
+        self::$countPagesCacheNotEmpty = [];
         self::$userYearsCache = [];
         self::$userLangsCache = [];
         self::$userCampsCache = [];
@@ -250,7 +252,24 @@ class PagesTable
 
         return self::$countPagesCache;
     }
+    public function getCountPagesNotEmpty(): array
+    {
+        if (!empty(self::$countPagesCacheNotEmpty)) {
+            return self::$countPagesCacheNotEmpty;
+        }
 
+        $apiParams = ['get' => 'count_pages', 'target' => 'not_empty'];
+        $query = "SELECT DISTINCT user, count(target) as count from pages where target != '' group by user order by count desc";
+
+        $data = $this->service->superFunction($apiParams, [], $query);
+        $data = array_column($data, 'count', 'user');
+
+        arsort($data);
+
+        self::$countPagesCacheNotEmpty = $data;
+
+        return self::$countPagesCacheNotEmpty;
+    }
 }
 
 

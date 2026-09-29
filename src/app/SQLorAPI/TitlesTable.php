@@ -57,6 +57,45 @@ class TitlesTable
 
         return self::$titlesInfosCache;
     }
+    public function getTitlesInfosByTitles(?array $titles): array
+    {
+        // Ensure $titles is an array
+        if (!is_array($titles)) {
+            $titles = [];
+        }
+
+        $apiParams = ['get' => 'titles', 'titles' => $titles];
+
+        $qua = <<<SQL
+            select
+                ase.title AS title,
+                ase.importance AS importance,
+                rc.r_lead_refs AS r_lead_refs,
+                rc.r_all_refs AS r_all_refs,
+                ep.en_views AS en_views,
+                w.w_lead_words AS w_lead_words,
+                w.w_all_words AS w_all_words,
+                q.qid AS qid
+            from
+                assessments ase
+                left join enwiki_pageviews ep   on ep.title   = ase.title
+                left join qids q                on q.title    = ase.title
+                left join refs_counts rc        on rc.r_title = ase.title
+                left join words w               on w.w_title  = ase.title
+        SQL;
+
+        $sqlParams = [];
+
+        if (!empty($titles)) {
+            $placeholders = rtrim(str_repeat('?,', count($titles)), ',');
+            $qua .= " WHERE ase.title IN ($placeholders)";
+            $sqlParams = $titles;              // pass to superFunction
+        }
+
+        $data = $this->service->superFunction($apiParams, $sqlParams, $qua);
+
+        return $data;
+    }
 
     public function getProjects(): array
     {
@@ -137,12 +176,6 @@ class TitlesTable
             "no_qids" => $noQids,
         ];
     }
-}
-
-
-function getTitlesInfos()
-{
-    return (new TitlesTable())->getTitlesInfos();
 }
 
 function getProjects()
