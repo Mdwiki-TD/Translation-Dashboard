@@ -286,7 +286,7 @@ class PagesTable extends BaseTable
         }
 
         $sqlParams = [];
-        $apiParams = array('get' => 'pages', 'distinct' => 1, 'select' => 'user');
+        $apiParams = ['get' => 'pages', 'distinct' => 1, 'select' => 'user'];
         $query = <<<SQL
             select DISTINCT p.user from pages AS p WHERE NOT EXISTS ( SELECT 1 FROM users AS u WHERE p.user = u.username )
         SQL;

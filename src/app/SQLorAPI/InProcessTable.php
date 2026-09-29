@@ -110,7 +110,7 @@ class InProcessTable extends BaseTable
             $apiParams['year'] = $yearY;
         }
 
-        $data = $this->service->superFunction($apiParams, $params, $query);
+        $data = $this->service->superFunction($apiParams, $params, $query, true);
         self::$langYearProcessCache[$codeStr][$yearY] = $data;
 
         return self::$langYearProcessCache[$codeStr][$yearY];

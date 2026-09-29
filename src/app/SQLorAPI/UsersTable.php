@@ -81,7 +81,7 @@ class UsersTable extends BaseTable
 
         $data = [];
 
-        $apiParams = array('get' => 'users_by_last_pupdate');
+        $apiParams = ['get' => 'users_by_last_pupdate'];
         $queryOld = <<<SQL
             select DISTINCT p1.target, p1.title, p1.user, p1.pupdate, p1.lang
             from pages p1

@@ -121,7 +121,7 @@ class RecentTable extends BaseTable
     {
 
         $sqlParams = [];
-        $apiParams = array('get' => $table, "order" => 'pupdate', 'limit' => $limit, 'offset' => $offset);
+        $apiParams = ['get' => $table, "order" => 'pupdate', 'limit' => $limit, 'offset' => $offset];
 
         $query = "SELECT * FROM $table WHERE target != ''";
 
@@ -157,19 +157,3 @@ class RecentTable extends BaseTable
     }
 
 }
-
-function getRecentPagesWithViews(string $lang): array
-{
-    return (RecentTable::getInstance())->getRecentPagesWithViews($lang);
-}
-
-function getRecentPagesUsers(string $lang): array
-{
-    return (RecentTable::getInstance())->getRecentPagesUsers($lang);
-}
-
-function getRecentTranslated(string $lang, string $table, int $limit, int $offset): array
-{
-    return (RecentTable::getInstance())->getRecentTranslated($lang, $table, $limit, $offset);
-}
-
