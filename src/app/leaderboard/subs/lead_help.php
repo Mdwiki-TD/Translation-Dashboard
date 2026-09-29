@@ -47,8 +47,7 @@ function make_td_fo_user(
     $tab_ty,
     $user_is_global_username,
     $new_camps,
-    $endpoint
-) {
+): string {
 
     // $page_type = 'users' or 'langs' only
     if ($page_type != 'users' && $page_type != 'langs') {
@@ -130,7 +129,6 @@ function make_td_fo_user(
             $cat,
             $campaign,
             $tran_type,
-            $endpoint
         );
         $complete   = ($user_is_global_username) ? "<td data-content='complete'><a target='_blank' href='$tralink'>complete</a></td>" : '';
     } else {
@@ -192,8 +190,7 @@ function make_table_lead(
     $user_is_global_username,
     $lead_words_table,
     $cats_data,
-    $endpoint
-) {
+): array {
     $total_words = 0;
     $total_views = 0;
 
@@ -275,7 +272,6 @@ function make_table_lead(
             $tab_type,
             $user_is_global_username,
             $new_camps,
-            $endpoint
         );
     };
 
@@ -298,7 +294,6 @@ function make_users_lead(
     $user_is_global_username,
     $lead_words_table,
     $cats_data,
-    $endpoint
 ) {
 
     [$_, $table_pnd] = make_table_lead(
@@ -309,7 +304,6 @@ function make_users_lead(
         $user_is_global_username,
         $lead_words_table,
         $cats_data,
-        $endpoint
     );
 
     return [$_, $table_pnd];
@@ -332,7 +326,6 @@ function make_langs_lead(
         false,
         $lead_words_table,
         $cats_data,
-        $endpoint
     );
 
     return [$_, $table_pnd];

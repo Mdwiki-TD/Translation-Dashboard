@@ -16,7 +16,6 @@ class LangsLeaderboard
         $camp,
         $lead_words_table,
         $cats_data,
-        $endpoint
     ): string {
         $output = '';
 
@@ -39,7 +38,6 @@ class LangsLeaderboard
             $mainlang,
             $lead_words_table,
             $cats_data,
-            $endpoint
         );
 
         $man = $langname;
@@ -71,7 +69,6 @@ class LangsLeaderboard
             $mainlang,
             $lead_words_table,
             $cats_data,
-            $endpoint
         );
 
         $output .= <<<HTML

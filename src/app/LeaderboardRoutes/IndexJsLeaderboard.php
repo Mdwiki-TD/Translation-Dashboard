@@ -6,42 +6,35 @@ use function App\Leaderboard\Filter\leaderboard_filter;
 
 class IndexJsLeaderboard
 {
-    public function render(): void
+    public function renderFilterForm(): string
     {
-        // TODO: Implement render() method.
+        $year  = strtolower(filter_input(INPUT_GET, 'year', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'all');
+        $month = strtolower(filter_input(INPUT_GET, 'month', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '');
+        $camp  = strtolower(filter_input(INPUT_GET, 'camp', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'all');
+
+        $user_group = filter_input(INPUT_GET, 'project', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
+            ?? filter_input(INPUT_GET, 'user_group', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
+            ?? 'all';
+
+        $user_group = strtolower($user_group);
+
+        return leaderboard_filter($year, $month, $user_group, $camp, 'x.php');
     }
-}
-$year  = strtolower(filter_input(INPUT_GET, 'year', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'all');
-$month = strtolower(filter_input(INPUT_GET, 'month', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '');
-$camp  = strtolower(filter_input(INPUT_GET, 'camp', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'all');
 
-$user_group = filter_input(INPUT_GET, 'project', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
-    ?? filter_input(INPUT_GET, 'user_group', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
-    ?? 'all';
-
-$user_group = strtolower($user_group);
-
-$filter_form = leaderboard_filter($year, $month, $user_group, $camp, 'x.php');
-
-?>
-<script src="/Translation_Dashboard/js/g.js"></script>
-<script src="/Translation_Dashboard/js/graph_api.js"></script>
-<?php echo $filter_form; ?>
-<hr />
-<div class="container-fluid">
-    <div class="row g-3">
-        <div class="col-md-3">
+    public function renderNumbersCard(): string
+    {
+        return <<<HTML
             <div class="card card2 mb-3">
                 <div class="card-header">
                     <span class="card-title" style="font-weight:bold;">
                         Numbers
                     </span>
                     <div style='float: right'>
-
                     </div>
                     <div class="card-tools">
-                        <button type="button" class="btn-tool" data-card-widget="collapse"><i
-                                class="fas fa-minus"></i></button>
+                        <button type="button" class="btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
                     </div>
                 </div>
                 <div class="card-body1 card2">
@@ -77,6 +70,12 @@ $filter_form = leaderboard_filter($year, $month, $user_group, $camp, 'x.php');
                     </table>
                 </div>
             </div>
+        HTML;
+    }
+
+    public function renderTranslationByMonthCard(): string
+    {
+        return <<<HTML
             <div class="card">
                 <div class="card-header aligncenter" style="font-weight:bold;">
                     Translation by month
@@ -91,8 +90,12 @@ $filter_form = leaderboard_filter($year, $month, $user_group, $camp, 'x.php');
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-5">
+        HTML;
+    }
+
+    public function renderTopUsersCard(): string
+    {
+        return <<<HTML
             <div class="card card2 mb-3">
                 <div class="card-header">
                     <span class="card-title" style="font-weight:bold;">
@@ -127,8 +130,12 @@ $filter_form = leaderboard_filter($year, $month, $user_group, $camp, 'x.php');
                     </table>
                 </div>
             </div>
-        </div>
-        <div class="col-md-4">
+        HTML;
+    }
+
+    public function renderTopLangsCard(): string
+    {
+        return <<<HTML
             <div class="card card2 mb-3">
                 <div class="card-header">
                     <span class="card-title" style="font-weight:bold;">
@@ -159,15 +166,42 @@ $filter_form = leaderboard_filter($year, $month, $user_group, $camp, 'x.php');
                     </table>
                 </div>
             </div>
+        HTML;
+    }
+    public function render(): void
+    {
+        $filterFormHtml             = $this->renderFilterForm();
+        $numbersCardHtml            = $this->renderNumbersCard();
+        $translationByMonthCardHtml = $this->renderTranslationByMonthCard();
+        $topUsersCardHtml           = $this->renderTopUsersCard();
+        $topLangsCardHtml           = $this->renderTopLangsCard();
 
-        </div>
-    </div>
-</div>
-<script src="/Translation_Dashboard/js/card-widget.js"></script>
-<script src="/Translation_Dashboard/js/leaderboard_index_js.js"></script>
-<script>
-    // when page ready
-    $(document).ready(async function() {
-        await renderJsLeaderboard();
-    });
-</script>
+        echo <<<HTML
+            <script src="/Translation_Dashboard/js/g.js"></script>
+            <script src="/Translation_Dashboard/js/graph_api.js"></script>
+            {$filterFormHtml}
+            <hr />
+            <div class="container-fluid">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        {$numbersCardHtml}
+                        {$translationByMonthCardHtml}
+                    </div>
+                    <div class="col-md-5">
+                        {$topUsersCardHtml}
+                    </div>
+                    <div class="col-md-4">
+                        {$topLangsCardHtml}
+                    </div>
+                </div>
+            </div>
+            <script src="/Translation_Dashboard/js/leaderboard_index_js.js"></script>
+            <script>
+                // when page ready
+                $(document).ready(async function() {
+                    await renderJsLeaderboard();
+                });
+            </script>
+            HTML;
+    }
+}

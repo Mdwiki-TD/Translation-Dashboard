@@ -2,7 +2,7 @@
 
 namespace App\Results\TrLink;
 
-
+use function App\SQLorAPI\GetDataTab\get_endpoint;
 
 function make_ContentTranslation_url(
     $title,
@@ -10,11 +10,13 @@ function make_ContentTranslation_url(
     $cat,
     $campaign,
     $tra_type,
-    $endpoint
-) {
+    $endpoint = ""
+): string {
 
     // ?title=Special:ContentTranslation&from=mdwiki&to=ary&campaign=contributionsmenu&page=Dracunculiasis&targettitle=Dracunculiasis
-
+    if (!$endpoint) {
+        $endpoint = get_endpoint();
+    };
     $title = str_replace('%20', '_', $title);
 
     $params = [

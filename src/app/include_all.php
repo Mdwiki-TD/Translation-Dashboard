@@ -74,4 +74,6 @@ include_once __DIR__ . '/Settings.php';
 
 include_once __DIR__ . '/backend/include.php';
 include_once __DIR__ . '/frontend/include.php';
+include_once __DIR__ . '/LeaderboardRoutes/include.php';
+
 include_once __DIR__ . '/leaderboard/include.php';

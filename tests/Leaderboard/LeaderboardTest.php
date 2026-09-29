@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Tests\Leaderboard;
 
 use PHPUnit\Framework\TestCase;
-use App\Leaderboard\Index\MainLeaderboard;
-use App\Leaderboard\Users\UsersLeaderboard;
+use App\Leaderboard\MainLeaderboard;
+use App\Leaderboard\UsersLeaderboard;
 use App\Leaderboard\LangsLeaderboard;
-use App\Leaderboard\IndexJs\IndexJsLeaderboard;
+use App\Leaderboard\IndexJsLeaderboard;
 use App\Leaderboard\LeaderboardRouter;
 
 class LeaderboardTest extends TestCase
@@ -48,8 +48,7 @@ class LeaderboardTest extends TestCase
             'TestUser',
             'TestUser',
             [],
-            [],
-            'https://example.org'
+            []
         );
 
         $this->assertStringContainsString('User:', $html);
@@ -65,8 +64,7 @@ class LeaderboardTest extends TestCase
             '2024',
             'all',
             [],
-            [],
-            'https://example.org'
+            []
         );
 
         $this->assertStringContainsString('Language:', $html);

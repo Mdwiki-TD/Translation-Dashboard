@@ -243,8 +243,7 @@ class InProcessTranslationButtonTest extends TestCase
             'users',
             'pending',
             true,
-            [],
-            'https://mdwikicx.toolforge.org/w/index.php'
+            []
         );
 
         $this::assertStringContainsString('data-content="Type" data-filter="lead"', $rowHtml);

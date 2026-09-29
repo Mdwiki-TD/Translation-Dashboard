@@ -21,7 +21,6 @@ class UsersLeaderboard
         $global_username,
         $lead_words_table,
         $cats_data,
-        $endpoint
     ): string {
         $output = '';
 
@@ -48,8 +47,7 @@ class UsersLeaderboard
             $table_of_views,
             $user_is_global_username,
             $lead_words_table,
-            $cats_data,
-            $endpoint
+            $cats_data
         );
 
         $user_link = ($user_langs) ? make_wikipedia_url_blank("User:$user_to_curl", $user_langs, $user_to_html) : make_mdwiki_user_url($user_to_html);
@@ -91,8 +89,7 @@ class UsersLeaderboard
             $table_of_views,
             $user_is_global_username,
             $lead_words_table,
-            $cats_data,
-            $endpoint
+            $cats_data
         );
 
         $output .= <<<HTML

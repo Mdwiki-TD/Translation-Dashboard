@@ -30,7 +30,6 @@ class LeaderboardRouter
     public function handleRequest(): void
     {
         $global_username = $this->currentUser->getUsername();
-        $endpoint = get_endpoint();
 
         $get = filter_input(INPUT_GET, 'get', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
 
@@ -50,7 +49,6 @@ class LeaderboardRouter
         $lead_words_table = array_column($_titles_infos, 'w_lead_words', 'title');
         $cats_data = array_column($categories_tab, "campaign", "category");
 
-
         if ($get == 'users' || !empty($user_to_curl)) {
 
             echo (new UsersLeaderboard())->render(
@@ -61,8 +59,7 @@ class LeaderboardRouter
                 $user_to_html,
                 $global_username,
                 $lead_words_table,
-                $cats_data,
-                $endpoint
+                $cats_data
             );
         } elseif ($get == 'langs' || !empty($langcode)) {
 
@@ -71,8 +68,7 @@ class LeaderboardRouter
                 $year_y,
                 $camp,
                 $lead_words_table,
-                $cats_data,
-                $endpoint
+                $cats_data
             );
         } elseif (!empty($_GET['camps'] ?? '')) {
             // http://localhost:9001/Translation_Dashboard/leaderboard.php?camps=1&test=1
