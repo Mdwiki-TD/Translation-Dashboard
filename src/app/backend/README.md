@@ -43,7 +43,7 @@ src/app/backend/
 │   ├── top.php                     # Aggregation/statistics
 │   └── get_lead.php                # Leaderboard data (deprecated)
 ├── include_first/                  # Cross-cutting utilities
-│   ├── include.php                 # Bootstrap
+│   ├── bootstrap.php                 # Bootstrap
 │   ├── tables_dir.php              # File-based cache reader
 │   ├── test_print.php              # Debug output helper
 │   └── text_admin.php              # Admin-only content filter
@@ -55,7 +55,7 @@ src/app/backend/
 │   ├── getcats.php                 # Category fetcher (API + cache)
 │   ├── helps.php                   # Results helper functions
 │   ├── tr_link.php                 # Translation link builders
-│   ├── include.php                 # Bootstrap
+│   ├── bootstrap.php                 # Bootstrap
 │   ├── get_titles/                 # Original results pipeline
 │   ├── new_way/                    # Optimized results pipeline
 │   └── sparql_bots/                # SPARQL-based existence checking

@@ -40,7 +40,7 @@ src/app/leaderboard/
 ├── leader_filter.php               # Main filter form
 ├── leader_tables.php               # Summary stats + language table
 ├── leader_tables_users.php         # Users table + copy modal
-├── include.php        # Central loader
+├── bootstrap.php        # Central loader
 ├── subs/
 │   ├── filter_form.php             # Sub-page filter form
 │   ├── langs_sub.php               # Language data retrieval
@@ -213,7 +213,7 @@ The leaderboard is accessed via `leaderboard.php` which includes the module:
 
 ```php
 // src/leaderboard.php
-include_once 'include_all.php';
+include_once 'bootstrap.php';
 include_once 'header.php';
 include_once 'leaderboard/main.php';
 include_once 'leaderboard/index.php';

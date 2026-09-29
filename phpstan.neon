@@ -33,4 +33,4 @@ parameters:
 
     # Scan files for class definitions
     scanFiles:
-        - src/app/include_all.php
+        - src/app/bootstrap.php

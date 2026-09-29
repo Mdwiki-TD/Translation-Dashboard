@@ -13,14 +13,14 @@ src/
 │   │   │   ├── process_data.php
 │   │   │   └── top.php
 │   │   ├── include_first/
-│   │   │   ├── include.php
+│   │   │   ├── bootstrap.php
 │   │   │   ├── tables_dir.php
 │   │   │   └── test_print.php
 │   │   ├── others/
 │   │   │   ├── helps.php
 │   │   │   └── tr_link.php
 │   │   ├── results_2026/
-│   │   │   ├── include.php
+│   │   │   ├── bootstrap.php
 │   │   │   ├── index.php
 │   │   │   ├── results_table.php
 │   │   │   ├── results_table_exists.php
@@ -41,7 +41,7 @@ src/
 │   │   │   │   ├── ExistsTable.php
 │   │   │   │   ├── InProcessTable.php
 │   │   │   │   └── MissingTable.php
-│   │   │   ├── include.php
+│   │   │   ├── bootstrap.php
 │   │   │   ├── index.php
 │   │   │   └── ResultsLoader.php
 │   │   ├── tables/
@@ -49,7 +49,7 @@ src/
 │   │   │   └── langcode.php
 │   │   ├── td_api_wrap/
 │   │   │   └── td_api.php
-│   │   └── include.php
+│   │   └── bootstrap.php
 │   ├── leaderboard/
 │   │   ├── others/
 │   │   │   ├── camps_text.php
@@ -62,13 +62,13 @@ src/
 │   │   │   └── users_sub.php
 │   │   ├── camps.php
 │   │   ├── graph.php
-│   │   ├── include.php
+│   │   ├── bootstrap.php
 │   │   ├── lang_user_graph.php
 │   │   ├── leader_filter.php
 │   │   ├── leader_tables.php
 │   │   └── leader_tables_users.php
 │   ├── LeaderboardRoutes/
-│   │   ├── include.php
+│   │   ├── bootstrap.php
 │   │   ├── LangsLeaderboard.php
 │   │   ├── LeaderboardController.php
 │   │   ├── LeaderboardJsController.php
@@ -88,14 +88,14 @@ src/
 │   │   ├── AccessKeyRepository.php
 │   │   ├── CoordinatorRepository.php
 │   │   ├── CurrentUser.php
-│   │   ├── include.php
+│   │   ├── bootstrap.php
 │   │   ├── SessionManager.php
 │   │   └── UserCookieService.php
 │   ├── Utils/
 │   │   ├── html.php
-│   │   ├── include.php
+│   │   ├── bootstrap.php
 │   │   └── results_table_html.php
-│   ├── include_all.php
+│   ├── bootstrap.php
 │   ├── index.php
 │   ├── MissingController.php
 │   ├── Settings.php
@@ -121,7 +121,7 @@ src/
 │   ├── theme.js
 │   └── to.js
 ├── Layout/
-│   ├── include.php
+│   ├── bootstrap.php
 │   ├── PageFooter.php
 │   ├── PageHead.php
 │   ├── PageHeader.php
@@ -138,7 +138,7 @@ src/
 ├── bootstrap.php
 ├── coordinator.php
 ├── favicon.svg
-├── include_all.php
+├── bootstrap.php
 ├── index.php
 ├── leaderboard.php
 ├── leaderboard_js.php
