@@ -5,7 +5,7 @@ namespace App\Missing;
 use App\Render\TemplateRenderer;
 use function App\SQLorAPI\Categories\staticsByCategory;
 use function App\SQLorAPI\Categories\countCategoryMembers;
-use function App\SQLorAPI\Titles\getLangs;
+use function App\SQLorAPI\getLangs;
 
 class MissingController
 {

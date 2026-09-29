@@ -36,8 +36,8 @@ src/app/backend/results_27/
 namespace App\Results\GetResults27\Data;
 
 use function App\Render\Html\make_mdwiki_cat_url;
-use function App\SQLorAPI\Funcs\get_lang_pages_by_cat;
-use function App\SQLorAPI\Process\get_lang_in_process;
+use function App\SQLorAPI\get_lang_pages_by_cat;
+use function App\SQLorAPI\get_lang_in_process;
 use function App\SQLorAPI\Funcs\missing_by_lang_and_category;
 use function App\SQLorAPI\Funcs\exists_by_lang_and_category;
 use function App\Render\TestPrint\test_print;
@@ -185,7 +185,7 @@ class ResultsFetcher
 
 namespace App\Results\GetResults27\Helpers;
 
-use function App\SQLorAPI\GetDataTab\get_translate_type;
+use function App\SQLorAPI\get_translate_type;
 
 /**
  * Loads and caches lists of titles that require full translation
@@ -917,9 +917,9 @@ use App\Results\GetResults27\Tables\MissingTable;
 use App\Results\GetResults27\Tables\ExistsTable;
 use App\Results\GetResults27\Tables\InProcessTable;
 
-use function App\SQLorAPI\GetDataTab\get_full_translators;
-use function App\SQLorAPI\GetDataTab\get_titles_infos;
-use function App\SQLorAPI\GetDataTab\get_endpoint;
+use function App\SQLorAPI\get_full_translators;
+use function App\SQLorAPI\get_titles_infos;
+use function App\SQLorAPI\get_endpoint;
 
 /**
  * Main entry point for the 2026 results module.

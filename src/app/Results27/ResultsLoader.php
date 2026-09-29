@@ -9,8 +9,8 @@ use App\Results27\Tables\MissingTable;
 use App\Results27\Tables\ExistsTable;
 use App\Results27\Tables\InProcessTable;
 
-use function App\SQLorAPI\GetDataTab\getFullTranslators;
-use function App\SQLorAPI\GetDataTab\getTitlesInfos;
+use function App\SQLorAPI\getFullTranslators;
+use function App\SQLorAPI\getTitlesInfos;
 
 /**
  * Main entry point for the 2026 results module.

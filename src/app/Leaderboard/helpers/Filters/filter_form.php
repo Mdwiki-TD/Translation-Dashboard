@@ -4,10 +4,10 @@ namespace App\Leaderboard\Subs\FilterForm;
 
 
 
-use function App\SQLorAPI\Funcs\getLangYears;
-use function App\SQLorAPI\Funcs\getUserYears;
-use function App\SQLorAPI\Funcs\getUserLangs;
-use function App\SQLorAPI\Funcs\getUserCamps;
+use function App\SQLorAPI\getLangYears;
+use function App\SQLorAPI\getUserYears;
+use function App\SQLorAPI\getUserLangs;
+use function App\SQLorAPI\getUserCamps;
 
 function DropdownNew($title, $tab, $cat, $id)
 {

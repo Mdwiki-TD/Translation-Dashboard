@@ -3,11 +3,11 @@
 namespace App\Leaderboard\Filter;
 
 use function App\Utils\Html\makeDropdown;
-use function App\SQLorAPI\Funcs\getPagesWithPupdate;
-use function App\SQLorAPI\TopData\getStatus;
-use function App\SQLorAPI\GetDataTab\getProjects;
-use function App\SQLorAPI\GetDataTab\getCategories;
-use function App\SQLorAPI\GetDataTab\getCampsToCat;
+use function App\SQLorAPI\getPagesWithPupdate;
+use function App\SQLorAPI\getStatus;
+use function App\SQLorAPI\getProjects;
+use function App\SQLorAPI\getCategories;
+use function App\SQLorAPI\getCampsToCat;
 
 function input_group($title, $rows): string
 {

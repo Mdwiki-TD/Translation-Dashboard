@@ -2,7 +2,7 @@
 
 namespace App\Results27\Helpers;
 
-use function App\SQLorAPI\GetDataTab\getTranslateType;
+use function App\SQLorAPI\getTranslateType;
 
 /**
  * Loads and caches lists of titles that require full translation

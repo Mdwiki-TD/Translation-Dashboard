@@ -12,10 +12,10 @@ use function App\Leaderboard\Graph\print_graph_tab;
 use function App\Leaderboard\Graph2\print_graph_tab_2_new;
 use function App\Leaderboard\CampText\echo_html;
 
-use function App\SQLorAPI\GetDataTab\getTitlesInfos;
-use function App\SQLorAPI\GetDataTab\getCategories;
-use function App\SQLorAPI\Titles\getLangs;
-use function App\SQLorAPI\Funcs\getGraphData;
+use function App\SQLorAPI\getTitlesInfos;
+use function App\SQLorAPI\getCategories;
+use function App\SQLorAPI\getLangs;
+use function App\SQLorAPI\getGraphData;
 
 class LeaderboardController
 {

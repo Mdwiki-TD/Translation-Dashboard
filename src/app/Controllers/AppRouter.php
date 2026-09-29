@@ -5,9 +5,9 @@ namespace App;
 
 use App\User\CurrentUser;
 use App\Results27\ResultsLoader;
-use function App\SQLorAPI\GetDataTab\getCategories;
-use function App\SQLorAPI\GetDataTab\getSettings;
-use function App\SQLorAPI\Titles\getLangs;
+use function App\SQLorAPI\getCategories;
+use function App\SQLorAPI\getSettings;
+use function App\SQLorAPI\getLangs;
 
 use function App\Tables\Langs\get_lang_code;
 use function App\Tables\Langs\get_lang_title;

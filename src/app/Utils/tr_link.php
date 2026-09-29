@@ -2,7 +2,7 @@
 
 namespace App\Results\TrLink;
 
-use function App\SQLorAPI\GetDataTab\getSettings;
+use function App\SQLorAPI\getSettings;
 
 function get_endpoint_old()
 {

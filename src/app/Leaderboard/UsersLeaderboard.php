@@ -8,7 +8,7 @@ use function App\Utils\Html\make_wikipedia_url_blank;
 use function App\Leaderboard\Subs\SubUsers\get_users_tables;
 use function App\Leaderboard\SubGraph\graph_data_new;
 use function App\Leaderboard\Subs\FilterForm\lead_row;
-use function App\SQLorAPI\TopData\getTopLangOfUsers;
+use function App\SQLorAPI\getTopLangOfUsers;
 
 class UsersLeaderboard
 {

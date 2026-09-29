@@ -4,8 +4,8 @@ namespace App\Leaderboard\Subs\SubLangs;
 
 
 
-use function App\SQLorAPI\Funcs\getLangPages;
-use function App\SQLorAPI\Process\getLangInProcessByYear;
+use function App\SQLorAPI\getLangPages;
+use function App\SQLorAPI\getLangInProcessByYear;
 use function App\Leaderboard\Subs\LeadHelp\make_key;
 
 function add_inp($dd_Pending, $mainlang, $year_y)

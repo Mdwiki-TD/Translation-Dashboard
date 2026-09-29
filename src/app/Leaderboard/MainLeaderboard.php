@@ -10,11 +10,11 @@ use function App\Leaderboard\LeaderTables\makeLangTable;
 use function App\Leaderboard\LeaderTabUsers\makeUsersTable;
 use function App\Leaderboard\LeaderTabUsers\module_copy_data;
 use function App\Leaderboard\Filter\leaderboard_filter;
-use function App\SQLorAPI\TopData\getTopLangOfUsers;
-use function App\SQLorAPI\TopData\getTopLangs;
-use function App\SQLorAPI\TopData\getTopUsers;
-use function App\SQLorAPI\TopData\getStatus;
-use function App\SQLorAPI\GetDataTab\getCampsToCat;
+use function App\SQLorAPI\getTopLangOfUsers;
+use function App\SQLorAPI\getTopLangs;
+use function App\SQLorAPI\getTopUsers;
+use function App\SQLorAPI\getStatus;
+use function App\SQLorAPI\getCampsToCat;
 
 class MainLeaderboard
 {

@@ -4,8 +4,8 @@ namespace App\Leaderboard\Subs\SubUsers;
 
 
 
-use function App\SQLorAPI\Funcs\getUserPages;
-use function App\SQLorAPI\Process\getUserProcessNew;
+use function App\SQLorAPI\getUserPages;
+use function App\SQLorAPI\getUserProcessNew;
 use function App\Leaderboard\Subs\LeadHelp\make_key;
 
 function add_inp($dd_Pending, $user, $year_y)

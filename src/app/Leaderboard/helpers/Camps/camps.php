@@ -4,8 +4,8 @@ namespace App\Leaderboard\Camps;
 
 
 
-use function App\SQLorAPI\GetDataTab\getCategoriesMembers;
-use function App\SQLorAPI\GetDataTab\getCategories;
+use function App\SQLorAPI\getCategoriesMembers;
+use function App\SQLorAPI\getCategories;
 
 function get_articles_to_camps()
 {
