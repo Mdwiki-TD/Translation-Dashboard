@@ -62,7 +62,7 @@ class PageFooter
         <script src="/Translation_Dashboard/js/footer.js"></script>
 
         <!-- Common JavaScript -->
-        <script src="/Translation_Dashboard/js/c.js"></script>
+        <script src="/Translation_Dashboard/js/card-widget.js"></script>
         </body>
 
         </html>
