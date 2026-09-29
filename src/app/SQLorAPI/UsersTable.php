@@ -2,21 +2,16 @@
 
 namespace App\SQLorAPI;
 
-use App\SQLorAPI\ApiOrSqlService;
+use App\SQLorAPI\BaseTable;
 
-class UsersTable
+class UsersTable extends BaseTable
 {
     private static array $coordinatorsCache = [];
     private static array $usersNoInprocessCache = [];
     private static array $fullTranslatorsCache = [];
 
-    private ApiOrSqlService $service;
-    private static ?self $instance = null;
-    public function __construct(?ApiOrSqlService $service = null)
-    {
-        $this->service = $service ?? new ApiOrSqlService();
-    }
 
+    private static ?self $instance = null;
     public static function getInstance(): self
     {
         if (self::$instance === null) {

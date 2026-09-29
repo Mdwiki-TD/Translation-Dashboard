@@ -2,22 +2,16 @@
 
 namespace App\SQLorAPI;
 
-use App\SQLorAPI\ApiOrSqlService;
+use App\SQLorAPI\BaseTable;
 
-class CategoriesTable
+class CategoriesTable extends BaseTable
 {
     private static array $categoriesCache = [];
     private static array $campsToCatCache = [];
     private static array $countMembersCache = [];
     private static array $staticsCache = [];
 
-    private ApiOrSqlService $service;
     private static ?self $instance = null;
-    public function __construct(?ApiOrSqlService $service = null)
-    {
-        $this->service = $service ?? new ApiOrSqlService();
-    }
-
     public static function getInstance(): self
     {
         if (self::$instance === null) {
@@ -26,7 +20,6 @@ class CategoriesTable
 
         return self::$instance;
     }
-
     public static function resetCache(): void
     {
         self::$categoriesCache = [];

@@ -2,17 +2,12 @@
 
 namespace App\SQLorAPI;
 
-use App\SQLorAPI\ApiOrSqlService;
+use App\SQLorAPI\BaseTable;
 
-class LeaderboardTable
+class LeaderboardTable extends BaseTable
 {
-    private ApiOrSqlService $service;
-    private static ?self $instance = null;
-    public function __construct(?ApiOrSqlService $service = null)
-    {
-        $this->service = $service ?? new ApiOrSqlService();
-    }
 
+    private static ?self $instance = null;
     public static function getInstance(): self
     {
         if (self::$instance === null) {
@@ -21,7 +16,6 @@ class LeaderboardTable
 
         return self::$instance;
     }
-
     public function makeSqlQuery(mixed $year, mixed $userGroup, mixed $cat): array
     {
         $params = [];

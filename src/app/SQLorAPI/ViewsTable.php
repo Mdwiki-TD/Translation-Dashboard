@@ -2,22 +2,17 @@
 
 namespace App\SQLorAPI;
 
-use App\SQLorAPI\ApiOrSqlService;
+use App\SQLorAPI\BaseTable;
 
-class ViewsTable
+class ViewsTable extends BaseTable
 {
     private static array $viewsCache = [];
     private static array $userViewsCache = [];
     private static array $langViewsCache = [];
     private static array $graphDataCache = [];
 
-    private ApiOrSqlService $service;
-    private static ?self $instance = null;
-    public function __construct(?ApiOrSqlService $service = null)
-    {
-        $this->service = $service ?? new ApiOrSqlService();
-    }
 
+    private static ?self $instance = null;
     public static function getInstance(): self
     {
         if (self::$instance === null) {
@@ -26,7 +21,6 @@ class ViewsTable
 
         return self::$instance;
     }
-
     public static function resetCache(): void
     {
         self::$viewsCache = [];

@@ -2,19 +2,14 @@
 
 namespace App\SQLorAPI;
 
-use App\SQLorAPI\ApiOrSqlService;
+use App\SQLorAPI\BaseTable;
 
-class SettingsTable
+class SettingsTable extends BaseTable
 {
     private static array $sqlSettingsCache = [];
 
-    private ApiOrSqlService $service;
-    private static ?self $instance = null;
-    public function __construct(?ApiOrSqlService $service = null)
-    {
-        $this->service = $service ?? new ApiOrSqlService();
-    }
 
+    private static ?self $instance = null;
     public static function getInstance(): self
     {
         if (self::$instance === null) {

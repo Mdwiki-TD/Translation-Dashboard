@@ -1,6 +1,8 @@
 <?PHP
 
 # SQLorAPI
+include_once __DIR__ . '/BaseTable.php';
+
 include_once __DIR__ . '/ApiOrSqlService.php';
 include_once __DIR__ . '/CategoriesTable.php';
 include_once __DIR__ . '/InProcessTable.php';

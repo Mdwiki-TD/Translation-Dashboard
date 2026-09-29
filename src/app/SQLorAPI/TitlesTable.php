@@ -2,22 +2,17 @@
 
 namespace App\SQLorAPI;
 
-use App\SQLorAPI\ApiOrSqlService;
+use App\SQLorAPI\BaseTable;
 
-class TitlesTable
+class TitlesTable extends BaseTable
 {
     private static array $titlesInfosCache = [];
     private static array $projectsCache = [];
     private static array $translateTypeCache = [];
     private static array $langsCache = [];
 
-    private ApiOrSqlService $service;
-    private static ?self $instance = null;
-    public function __construct(?ApiOrSqlService $service = null)
-    {
-        $this->service = $service ?? new ApiOrSqlService();
-    }
 
+    private static ?self $instance = null;
     public static function getInstance(): self
     {
         if (self::$instance === null) {

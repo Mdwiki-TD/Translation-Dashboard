@@ -2,9 +2,9 @@
 
 namespace App\SQLorAPI;
 
-use App\SQLorAPI\ApiOrSqlService;
+use App\SQLorAPI\BaseTable;
 
-class InProcessTable
+class InProcessTable extends BaseTable
 {
     private static array $processAllCache = [];
     private static array $userProcessCache = [];
@@ -12,12 +12,7 @@ class InProcessTable
     private static array $langYearProcessCache = [];
     private static array $langProcessCache = [];
 
-    private ApiOrSqlService $service;
     private static ?self $instance = null;
-    public function __construct(?ApiOrSqlService $service = null)
-    {
-        $this->service = $service ?? new ApiOrSqlService();
-    }
 
     public static function getInstance(): self
     {
