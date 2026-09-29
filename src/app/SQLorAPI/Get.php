@@ -39,7 +39,7 @@ function isvalid($str)
     return !empty($str) && strtolower($str) != "all";
 }
 
-function super_function(
+function superFunction(
     array $apiParams,
     array $sqlParams,
     string $sqlQuery,

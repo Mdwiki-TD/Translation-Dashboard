@@ -2,7 +2,7 @@
 
 namespace App\SQLorAPI\GetDataTab;
 
-use function App\SQLorAPI\Get\super_function;
+use function App\SQLorAPI\Get\superFunction;
 use function App\SQLorAPI\Get\isvalid;
 
 function getTitlesInfos()
@@ -34,7 +34,7 @@ function getTitlesInfos()
             left join words w               on w.w_title  = ase.title
     SQL;
 
-    $data = super_function($apiParams, [], $qua);
+    $data = superFunction($apiParams, [], $qua);
 
     $titlesinfos = $data;
 
@@ -82,7 +82,7 @@ function getViews($year, $lang)
         $query2 .= " WHERE " . implode(" AND ", $query_complate);
     }
 
-    $data = super_function($apiParams, $sql_params, $query2);
+    $data = superFunction($apiParams, $sql_params, $query2);
 
     $cache[$year . $lang] = $data;
 
@@ -102,7 +102,7 @@ function getSettings()
 
     $apiParams = ['get' => 'settings'];
 
-    $sql_settings = super_function($apiParams, [], $query);
+    $sql_settings = superFunction($apiParams, [], $query);
 
     return $sql_settings;
 }
@@ -119,7 +119,7 @@ function getProjects()
     $apiParams = ['get' => 'projects'];
     $query = "select g_id, g_title from projects";
 
-    $user_groups = super_function($apiParams, [], $query);
+    $user_groups = superFunction($apiParams, [], $query);
 
     return $user_groups;
 }
@@ -136,7 +136,7 @@ function getCategories()
     $apiParams = ['get' => 'categories'];
     $query = "select id, category, category2, campaign, depth, is_default from categories";
 
-    $categories = super_function($apiParams, [], $query);
+    $categories = superFunction($apiParams, [], $query);
 
     return $categories;
 }
@@ -147,7 +147,7 @@ function getCategoriesMembers($category)
     $apiParams = ['get' => 'category_members', 'cat' => $category];
     $query = "SELECT article_id FROM category_members where category = ?";
 
-    $data = super_function($apiParams, [$category], $query);
+    $data = superFunction($apiParams, [$category], $query);
 
     $result = array_column($data, 'article_id');
 
@@ -162,7 +162,7 @@ function getQids()
 
     $apiParams = ['get' => 'qids'];
     $query = "SELECT title, qid FROM qids";
-    $data = super_function($apiParams, [], $query);
+    $data = superFunction($apiParams, [], $query);
 
     $sql_td_qids = array_column($data, 'qid', 'title');
 
@@ -178,7 +178,7 @@ function getUsersNoInprocess()
 
     $apiParams = ['get' => 'users_no_inprocess'];
     $query = "SELECT id, user, is_active FROM users_no_inprocess order by id";
-    $users = super_function($apiParams, [], $query);
+    $users = superFunction($apiParams, [], $query);
 
     return $users;
 }
@@ -192,7 +192,7 @@ function getFullTranslators($column = null)
 
     $apiParams = ['get' => 'full_translators'];
     $query = "SELECT id, user, is_active FROM full_translators";
-    $full_tr = super_function($apiParams, [], $query);
+    $full_tr = superFunction($apiParams, [], $query);
 
     if ($column) {
         return array_column($full_tr, $column);
@@ -213,7 +213,7 @@ function getTranslateType(): array
     $apiParams = ['get' => 'translate_type'];
     $query = "SELECT tt_title, tt_lead, tt_full FROM translate_type";
 
-    $data = super_function($apiParams, [], $query);
+    $data = superFunction($apiParams, [], $query);
 
     $translate_type = $data;
 
@@ -234,7 +234,7 @@ function getCountPages()
         SELECT DISTINCT user, count(target) as count from pages group by user order by count desc
     SQL;
 
-    $data = super_function($apiParams, [], $query);
+    $data = superFunction($apiParams, [], $query);
 
     $data = array_column($data, 'count', 'user');
 
@@ -257,7 +257,7 @@ function getLangs()
     $apiParams = ['get' => 'langs'];
     $query = "SELECT code, autonym, name, redirects FROM langs";
 
-    $data = super_function($apiParams, [], $query);
+    $data = superFunction($apiParams, [], $query);
 
     $langs = array_column($data, null, 'code');
 

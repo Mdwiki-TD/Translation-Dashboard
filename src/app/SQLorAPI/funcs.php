@@ -2,7 +2,7 @@
 
 namespace App\SQLorAPI\Funcs;
 
-use function App\SQLorAPI\Get\super_function;
+use function App\SQLorAPI\Get\superFunction;
 use function App\SQLorAPI\Get\isvalid;
 
 function getLangPagesByCat($lang, $cat)
@@ -20,7 +20,7 @@ function getLangPagesByCat($lang, $cat)
     $query = "select * from pages p where p.lang = ? and p.cat = ?";
     $params = [$lang, $cat];
 
-    $u_data = super_function($apiParams, $params, $query);
+    $u_data = superFunction($apiParams, $params, $query);
 
     $data[$lang . $cat] = $u_data;
 
@@ -39,7 +39,7 @@ function getCoordinators()
     $apiParams = ['get' => 'coordinators'];
     $query = "SELECT id, username, is_active FROM coordinators order by id";
 
-    $u_data = super_function($apiParams, [], $query);
+    $u_data = superFunction($apiParams, [], $query);
 
     $coordinators = $u_data;
 
@@ -85,7 +85,7 @@ function getUserPages($user_main, $year_y, $lang_y)
         $apiParams['lang'] = $lang_y;
     };
 
-    $u_data = super_function($apiParams, $sql_params, $query);
+    $u_data = superFunction($apiParams, $sql_params, $query);
 
     $data[$key] = $u_data;
 
@@ -105,7 +105,7 @@ function getPagesWithPupdate()
 
     $query = "SELECT DISTINCT YEAR(pupdate) AS year FROM pages WHERE pupdate <> ''";
 
-    $u_data = super_function($apiParams, [], $query);
+    $u_data = superFunction($apiParams, [], $query);
 
     $u_data = array_map('current', $u_data);
 
@@ -131,7 +131,7 @@ function getGraphData()
         GROUP BY LEFT(pupdate, 7)
         ORDER BY LEFT(pupdate, 7) ASC;
     SQL;
-    $u_data = super_function($apiParams, [], $query);
+    $u_data = superFunction($apiParams, [], $query);
 
     $graph_data = $u_data;
 
@@ -159,7 +159,7 @@ function getLangPages($lang, $year_y)
         $apiParams['year'] = $year_y;
     };
 
-    $u_data = super_function($apiParams, $params, $query);
+    $u_data = superFunction($apiParams, $params, $query);
 
     $data[$lang . $year_y] = $u_data;
 
@@ -195,7 +195,7 @@ function getUserViews($user, $year_y, $lang_y)
         $sql_params[] = $year_y;
     }
 
-    $u_data = super_function($apiParams, $sql_params, $query2);
+    $u_data = superFunction($apiParams, $sql_params, $query2);
 
     $table_of_views = [];
 
@@ -246,7 +246,7 @@ function getLangViews($mainlang, $year_y)
         $sql_params[] = $year_y;
     };
 
-    $u_data = super_function($apiParams, $sql_params, $query2);
+    $u_data = superFunction($apiParams, $sql_params, $query2);
 
     $table_of_views = [];
 
@@ -277,7 +277,7 @@ function getLangYears($mainlang)
     $query = "SELECT DISTINCT YEAR(p.pupdate) AS year FROM pages p WHERE p.lang = ?";
     $params = [$mainlang];
 
-    $u_data = super_function($apiParams, $params, $query);
+    $u_data = superFunction($apiParams, $params, $query);
 
     $u_data = array_map('current', $u_data);
 
@@ -304,7 +304,7 @@ function getUserYears($user)
 
     $params = [$user];
 
-    $u_data = super_function($apiParams, $params, $query);
+    $u_data = superFunction($apiParams, $params, $query);
 
     $u_data = array_map('current', $u_data);
 
@@ -335,7 +335,7 @@ function getUserLangs($user)
     $query = "SELECT DISTINCT p.lang FROM pages p WHERE p.user = ?";
     $params = [$user];
 
-    $u_data = super_function($apiParams, $params, $query);
+    $u_data = superFunction($apiParams, $params, $query);
 
     $u_data = array_map('current', $u_data);
 
@@ -369,7 +369,7 @@ function getUserCamps($user)
     ";
     $params = [$user];
 
-    $u_data = super_function($apiParams, $params, $query);
+    $u_data = superFunction($apiParams, $params, $query);
 
     $u_data = array_map('current', $u_data);
 

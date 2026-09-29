@@ -2,7 +2,7 @@
 
 namespace App\SQLorAPI\Process;
 
-use function App\SQLorAPI\Get\super_function;
+use function App\SQLorAPI\Get\superFunction;
 use function App\SQLorAPI\Get\isvalid;
 
 function getProcessData(): array
@@ -17,7 +17,7 @@ function getProcessData(): array
     $apiParams = ['get' => 'in_process', 'limit' => "100", "order" => 'add_date'];
     $sql_t = "select * from in_process ORDER BY add_date DESC limit 100";
 
-    $process_all = super_function($apiParams, [], $sql_t);
+    $process_all = superFunction($apiParams, [], $sql_t);
 
     return $process_all;
 }
@@ -43,7 +43,7 @@ function getUserProcessNew(string $user, string $year_y = "all")
         $apiParams['year'] = $year_y;
     }
 
-    $data = super_function($apiParams, $params, $query, true);
+    $data = superFunction($apiParams, $params, $query, true);
 
     $cache[$user] = $data;
 
@@ -65,7 +65,7 @@ function getUsersProcessNew(): array
 
     $sql_t = 'select DISTINCT user, count(*) as count from in_process group by user order by count desc';
 
-    $tab = super_function($apiParams, [], $sql_t);
+    $tab = superFunction($apiParams, [], $sql_t);
 
     $processNew = array_column($tab, 'count', 'user');
 
@@ -91,7 +91,7 @@ function getLangInProcessByYear($code, $year_y = "all"): array
         $apiParams['year'] = $year_y;
     }
 
-    $data = super_function($apiParams, $params, $query);
+    $data = superFunction($apiParams, $params, $query);
 
     $cache[$code][$year_y] = $data;
 
@@ -111,7 +111,7 @@ function getLangInProcess($code): array
 
     $params = [$code];
 
-    $data = super_function($apiParams, $params, $query);
+    $data = superFunction($apiParams, $params, $query);
 
     $cache[$code] = $data;
 

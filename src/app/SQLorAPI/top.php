@@ -2,7 +2,7 @@
 
 namespace App\SQLorAPI\TopData;
 
-use function App\SQLorAPI\Get\super_function;
+use function App\SQLorAPI\Get\superFunction;
 use function App\SQLorAPI\Get\isvalid;
 
 function getTopLangOfUsers($users_original)
@@ -36,7 +36,7 @@ function getTopLangOfUsers($users_original)
         ORDER BY cnt DESC;
     SQL;
 
-    $data = super_function($apiParams, $query_params, $query);
+    $data = superFunction($apiParams, $query_params, $query);
 
     // [{"user":"Subas Chandra Rout","lang":"or","cnt":1906},{"user":"Pranayraj1985","lang":"te","cnt":401} ...
     // var_export(json_encode($data));
@@ -133,7 +133,7 @@ function getTopUsers($year, $user_group, $cat, $month = null)
 
     $query .= " GROUP BY p.user ORDER BY 2 DESC";
 
-    $data = super_function($apiParams, $params, $query);
+    $data = superFunction($apiParams, $params, $query);
 
     $new_data = [];
 
@@ -169,7 +169,7 @@ function getTopLangs($year, $user_group, $cat, $month = null): array
 
     $query .= " GROUP BY p.lang ORDER BY 2 DESC";
 
-    $data = super_function($apiParams, $params, $query);
+    $data = superFunction($apiParams, $params, $query);
 
     $new_data = [];
 
@@ -204,7 +204,7 @@ function getStatus($year, $user_group, $cat): array
 
     $query .= " GROUP BY 1 ORDER BY 1 ASC";
 
-    $data = super_function($apiParams, $params, $query);
+    $data = superFunction($apiParams, $params, $query);
 
     // var_export(json_encode($params));
     // echo $query . "<br>";

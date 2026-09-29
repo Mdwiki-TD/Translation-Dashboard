@@ -2,7 +2,7 @@
 
 namespace App\SQLorAPI\Funcs;
 
-use function App\SQLorAPI\Get\super_function;
+use function App\SQLorAPI\Get\superFunction;
 
 function missingByLangAndCategory($lang_code, $category)
 {
@@ -40,7 +40,7 @@ function missingByLangAndCategory($lang_code, $category)
 
     $params = [$lang_code, $category, $lang_code];
 
-    $u_data = super_function($apiParams, $params, $query);
+    $u_data = superFunction($apiParams, $params, $query);
 
     return $u_data;
 }
@@ -82,7 +82,7 @@ function existsByLangAndCategory($lang_code, $category)
 
     $params = [$lang_code, $category, $lang_code];
 
-    $u_data = super_function($apiParams, $params, $query);
+    $u_data = superFunction($apiParams, $params, $query);
 
     return $u_data;
 }
@@ -110,7 +110,7 @@ function countCategoryMembers($category)
 
     $params = [$category];
 
-    $u_data = super_function([], $params, $query);
+    $u_data = superFunction([], $params, $query);
 
     $data2[$category] = $u_data;
 
@@ -151,7 +151,7 @@ function staticsByCategory($category)
 
     $params = [$category];
 
-    $u_data = super_function($apiParams, $params, $query);
+    $u_data = superFunction($apiParams, $params, $query);
 
     $data2[$category] = $u_data;
 
