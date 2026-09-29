@@ -66,17 +66,17 @@ function postUrl(string $ServerUrl, array $params = []): string
         Logger::debug('postUrl: Error:' . curl_error($ch));
     }
 
-    curl_close($ch);
+    // curl_close($ch);
     return $output;
 }
 
 class ApiOrSqlService
 {
-    private static ?bool $useTdApi = null;
+    public static ?bool $useTdApi = null;
 
-    public static function resetCache(): void
+    public function __construct(?bool $useTdApi = null)
     {
-        self::$useTdApi = null;
+        self::$useTdApi = $useTdApi;
     }
 
     public static function getTdApi(array $params): array

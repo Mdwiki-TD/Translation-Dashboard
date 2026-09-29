@@ -69,7 +69,6 @@ class ApiOrSqlTablesTest extends TestCase
 
     public function testResetCaches(): void
     {
-        ApiOrSqlService::resetCache();
         PagesTable::resetCache();
         ViewsTable::resetCache();
         CategoriesTable::resetCache();
