@@ -1,76 +1,67 @@
 ```
 src/
 ├── app/
-│   ├── backend/
-│   │   ├── api_calls/
-│   │   │   └── wiki_api.php
-│   │   ├── api_or_sql/
-│   │   │   ├── data_tab.php
-│   │   │   ├── funcs.php
-│   │   │   ├── get_lead.php
-│   │   │   ├── index.php
-│   │   │   ├── new_sql_tables.php
-│   │   │   ├── process_data.php
-│   │   │   └── top.php
-│   │   ├── include_first/
-│   │   ├── others/
-│   │   │   ├── helps.php
-│   │   │   └── tr_link.php
-│   │   ├── results_27/
-│   │   │   ├── Data/
-│   │   │   │   └── ResultsFetcher.php
-│   │   │   ├── Helpers/
-│   │   │   │   ├── CardRenderer.php
-│   │   │   │   └── TranslateTypeLoader.php
-│   │   │   ├── Rows/
-│   │   │   │   ├── ExistsRowBuilder.php
-│   │   │   │   ├── InProcessRowBuilder.php
-│   │   │   │   └── MissingRowBuilder.php
-│   │   │   ├── Tables/
-│   │   │   │   ├── AbstractResultsTable.php
-│   │   │   │   ├── ExistsTable.php
-│   │   │   │   ├── InProcessTable.php
-│   │   │   │   └── MissingTable.php
-│   │   │   ├── bootstrap.php
-│   │   │   ├── index.php
-│   │   │   └── ResultsLoader.php
-│   │   ├── tables/
-│   │   │   ├── lang_names.json
-│   │   │   └── langcode.php
-│   │   ├── td_api_wrap/
-│   │   │   └── td_api.php
-│   │   ├── bootstrap.php
-│   │   └── tables_dir.php
 │   ├── Controllers/
 │   │   ├── AppRouter.php
 │   │   ├── MissingController.php
 │   │   └── SiteLinksController.php
 │   ├── Leaderboard/
+│   │   ├── Controllers/
+│   │   │   ├── LeaderboardController.php
+│   │   │   └── LeaderboardJsController.php
 │   │   ├── helpers/
-│   │   │   ├── others/
-│   │   │   │   ├── camps_text.php
-│   │   │   │   ├── graph_api.php
-│   │   │   │   └── index.php
-│   │   │   ├── subs/
+│   │   │   ├── Camps/
+│   │   │   │   ├── camps.php
+│   │   │   │   └── camps_text.php
+│   │   │   ├── Filters/
 │   │   │   │   ├── filter_form.php
-│   │   │   │   ├── langs_sub.php
 │   │   │   │   ├── lead_help.php
+│   │   │   │   └── leader_filter.php
+│   │   │   ├── Graph/
+│   │   │   │   ├── graph.php
+│   │   │   │   ├── graph_api.php
+│   │   │   │   └── lang_user_graph.php
+│   │   │   ├── Langs/
+│   │   │   │   ├── langs_sub.php
+│   │   │   │   └── leader_tables_langs.php
+│   │   │   ├── Users/
+│   │   │   │   ├── leader_tables_users.php
 │   │   │   │   └── users_sub.php
-│   │   │   ├── bootstrap.php
-│   │   │   ├── camps.php
-│   │   │   ├── graph.php
-│   │   │   ├── lang_user_graph.php
-│   │   │   ├── leader_filter.php
-│   │   │   ├── leader_tables.php
-│   │   │   └── leader_tables_users.php
+│   │   │   └── bootstrap.php
 │   │   ├── bootstrap.php
 │   │   ├── LangsLeaderboard.php
-│   │   ├── LeaderboardController.php
-│   │   ├── LeaderboardJsController.php
 │   │   ├── MainLeaderboard.php
 │   │   └── UsersLeaderboard.php
 │   ├── MdwikiSql/
 │   │   └── Database.php
+│   ├── Results27/
+│   │   ├── Data/
+│   │   │   └── ResultsFetcher.php
+│   │   ├── Helpers/
+│   │   │   ├── CardRenderer.php
+│   │   │   └── TranslateTypeLoader.php
+│   │   ├── Rows/
+│   │   │   ├── ExistsRowBuilder.php
+│   │   │   ├── InProcessRowBuilder.php
+│   │   │   └── MissingRowBuilder.php
+│   │   ├── Tables/
+│   │   │   ├── AbstractResultsTable.php
+│   │   │   ├── ExistsTable.php
+│   │   │   ├── InProcessTable.php
+│   │   │   └── MissingTable.php
+│   │   ├── bootstrap.php
+│   │   ├── index.php
+│   │   └── ResultsLoader.php
+│   ├── SQLorAPI/
+│   │   ├── bootstrap.php
+│   │   ├── data_tab.php
+│   │   ├── funcs.php
+│   │   ├── get_lead.php
+│   │   ├── index.php
+│   │   ├── new_sql_tables.php
+│   │   ├── process_data.php
+│   │   ├── td_api.php
+│   │   └── top.php
 │   ├── templates/
 │   │   ├── Missing/
 │   │   │   └── missing.php
@@ -85,7 +76,13 @@ src/
 │   │   ├── SessionManager.php
 │   │   └── UserCookieService.php
 │   ├── Utils/
-│   │   └── html.php
+│   │   ├── helps.php
+│   │   ├── html.php
+│   │   ├── lang_names.json
+│   │   ├── langcode.php
+│   │   ├── tables_dir.php
+│   │   ├── tr_link.php
+│   │   └── wiki_api.php
 │   ├── bootstrap.php
 │   ├── Logger.php
 │   └── Settings.php
