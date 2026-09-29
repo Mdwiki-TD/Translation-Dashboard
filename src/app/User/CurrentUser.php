@@ -40,7 +40,7 @@ class CurrentUser
 
         // Collaborators are injectable (for testing) but default to the
         // real implementations so existing call sites keep working.
-        $db = new Database('DB_NAME');
+        $db = new Database();
         $this->cookies      = $cookies ?? new UserCookieService($settings);
         $this->accessKeys   = $accessKeys ?? new AccessKeyRepository($db, $settings);
         $this->coordinators = $coordinators ?? new CoordinatorRepository($db);

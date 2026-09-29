@@ -3,10 +3,34 @@
 include_once dirname(__DIR__) . '/bootstrap.php';
 
 use App\User\CurrentUser;
+use App\MdwikiSql\Database;
+
 use function App\Results\TrLink\make_ContentTranslation_url;
-use function App\TranslateMed\Inserter\insertPage_inprocess;
 use function App\SQLorAPI\GetDataTab\get_td_or_sql_users_no_inprocess;
 use function App\SQLorAPI\GetDataTab\get_td_or_sql_categories;
+
+function insertPageInprocess($title, $word, $tr_type, $cat, $lang, $user): bool
+{
+
+    $quae_new = <<<SQL
+        INSERT INTO in_process (title, user, lang, cat, translate_type, word, add_date)
+        SELECT ?, ?, ?, ?, ?, ?, DATE(NOW())
+        WHERE NOT EXISTS
+            (SELECT 1
+            FROM in_process
+            WHERE title = ?
+            AND lang = ?
+            AND user = ?
+        )
+    SQL;
+
+    $params = [$title, $user, $lang, $cat, $tr_type, $word, $title, $lang, $user];
+
+    $db = new Database();
+    $db->testPrint($quae_new);
+
+    return $db->executequery($quae_new, $params);
+};
 
 function go_to_translate_url($title_o, $coden, $tr_type, $cat, $camp)
 {
@@ -98,7 +122,7 @@ if (!empty($title_o) && !empty($coden)) {
 
     $camp    = rawurldecode($camp);
     if (($users_no_inprocess[$useree] ?? 0) != 1) {
-        insertPage_inprocess($title_o, $word, $tr_type, $cat, $coden, $user_decoded);
+        insertPageInprocess($title_o, $word, $tr_type, $cat, $coden, $user_decoded);
     }
 
     go_to_translate_url(

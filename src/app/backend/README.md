@@ -58,13 +58,7 @@ src/app/backend/
 │   ├── bootstrap.php                 # Bootstrap
 │   ├── get_titles/                 # Original results pipeline
 │   ├── new_way/                    # Optimized results pipeline
-│   └── sparql_bots/                # SPARQL-based existence checking
-├── results_2026/                   # Latest results pipeline
-│   ├── index.php                   # Orchestrator
-│   ├── get_results_2026.php        # Data pipeline
-│   ├── results_table.php           # Missing articles table
-│   ├── results_table_exists.php    # Existing translations table
-│   └── results_table_inprocess.php # In-process translations table
+│   └── sparql_bots/                # SPARQL-based existence checkingx
 ├── tables/                         # Static data
 │   ├── langcode.php                # Language code mappings
 │   └── lang_names.json             # Language name data

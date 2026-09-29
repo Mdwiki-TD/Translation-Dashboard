@@ -37,7 +37,7 @@ translate_med/index.php
     |
     ├── Authenticate user (userinfos_wrap.php)
     ├── Read GET parameters (title, code, cat, camp, type, word)
-    ├── INSERT into in_process table (db_insert.php)
+    ├── INSERT into in_process tablex
     ├── Build ContentTranslation URL (tr_link.php)
     └── Redirect to ContentTranslation
 ```

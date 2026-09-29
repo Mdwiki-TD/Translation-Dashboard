@@ -18,13 +18,6 @@ app/
 │   ├── others/
 │   │   ├── helps.php
 │   │   └── tr_link.php
-│   ├── results_2026/
-│   │   ├── bootstrap.php
-│   │   ├── index.php
-│   │   ├── results_table.php
-│   │   ├── results_table_exists.php
-│   │   ├── results_table_inprocess.php
-│   │   └── ResultsLoader.php
 │   ├── results_27/
 │   │   ├── Data/
 │   │   │   └── ResultsFetcher.php

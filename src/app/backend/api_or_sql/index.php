@@ -2,8 +2,21 @@
 
 namespace App\SQLorAPI\Get;
 
-use function App\MdwikiSql\fetch_query;
+use App\MdwikiSql\Database;
 use function App\APICalls\TDApi\get_td_api;
+
+function fetch_query(string $sqlQuery, ?array $params = null): array
+{
+    // Create a new database object
+    $db = new Database();
+
+    // Execute a SQL query
+    $results = $db->fetchquery($sqlQuery, $params);
+
+    // Destroy the database object
+    $db = null;
+    return $results;
+};
 
 function use_td_api_or_sql(): bool
 {
