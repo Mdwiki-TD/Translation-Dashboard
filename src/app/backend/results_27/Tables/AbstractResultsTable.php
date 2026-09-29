@@ -9,9 +9,9 @@ use function App\Utils\ResultsTableHtml\make_table_start;
  */
 abstract class AbstractResultsTable
 {
-    protected function startTable(bool $isInProcess = false, bool $showInProgressButton = false): string
+    protected function startTable(bool $isInProcess = false): string
     {
-        return make_table_start($isInProcess, $showInProgressButton);
+        return make_table_start($isInProcess);
     }
 
     protected function endTable(): string

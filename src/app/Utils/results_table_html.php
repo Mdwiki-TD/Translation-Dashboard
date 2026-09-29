@@ -3,7 +3,7 @@
 namespace App\Utils\ResultsTableHtml;
 
 
-function make_table_start($inprocess, $in_progress_translation_button): string
+function make_table_start(bool $inprocess): string
 {
 
     $type_th = ($inprocess) ? '<th class="spannowrap" style="text-align:center">Type</th>' : '';

@@ -43,7 +43,8 @@ class InProcessTable extends AbstractResultsTable
     public function render(array $items): string
     {
         // $items = normalizeItems($items);
-        $html = $this->startTable(true, $this->inProgressButton);
+        // $html = $this->startTable(true, $this->inProgressButton);
+        $html = $this->startTable(true);
         $counter = 1;
 
         foreach ($items as $title => $inProcessData) {

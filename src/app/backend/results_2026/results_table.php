@@ -121,11 +121,11 @@ function make_results_table_2026(
     $global_username,
     $nolead_translates,
     $translates_full
-) {
+): string {
 
     $do_full   = ($tra_type == 'all') ? false : true;
 
-    $frist = make_table_start(false, false);
+    $frist = make_table_start(false);
 
     usort($items, function ($a, $b) {
         $viewsA = $a['en_views'] ?? 0;

@@ -211,8 +211,8 @@ class InProcessTranslationButtonTest extends TestCase
 
     public function testMakeTableStartIncludesTranslateAndTypeHeaderForInProcess(): void
     {
-        $headerHtml = make_table_start(true, '0');
-        $this::assertStringContainsString('<th><span>Translate</span></th>', $headerHtml);
+        $headerHtml = make_table_start(true);
+        $this::assertStringContainsString('<span>Translate</span>', $headerHtml);
         $this::assertStringContainsString('>Type</th>', $headerHtml);
     }
 

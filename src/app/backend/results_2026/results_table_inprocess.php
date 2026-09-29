@@ -160,9 +160,7 @@ function make_results_table_inprocess(
     $user_coord
 ): string {
 
-    // $inprocess_table = normalizeItems($inprocess_table);
-
-    $frist = make_table_start(true, $in_progress_translation_button);
+    $frist = make_table_start(true);
 
     $list = "";
     $cnt = 1;
