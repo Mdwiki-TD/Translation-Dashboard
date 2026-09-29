@@ -18,10 +18,10 @@ class ApiOrSqlTablesTest extends TestCase
 {
     public function testApiOrSqlServiceIsValid(): void
     {
-        $this->assertTrue($this->service->isValid('ar'));
-        $this->assertFalse($this->service->isValid('all'));
-        $this->assertFalse($this->service->isValid(''));
-        $this->assertFalse($this->service->isValid(null));
+        $this->assertTrue(ApiOrSqlService::isValid('ar'));
+        $this->assertFalse(ApiOrSqlService::isValid('all'));
+        $this->assertFalse(ApiOrSqlService::isValid(''));
+        $this->assertFalse(ApiOrSqlService::isValid(null));
     }
 
     public function testSettingsTableEndpoint(): void
@@ -61,7 +61,7 @@ class ApiOrSqlTablesTest extends TestCase
 
     public function testTitlesTableGetQids(): void
     {
-        $res = (new TitlesTable())->QidsTable(['nonexistent_title_xyz']);
+        $res = (new QidsTable())->getQidsForList(['nonexistent_title_xyz']);
         $this->assertArrayHasKey('with_qids', $res);
         $this->assertArrayHasKey('no_qids', $res);
         $this->assertContains('nonexistent_title_xyz', $res['no_qids']);
