@@ -83,5 +83,7 @@ include_once __DIR__ . '/LeaderboardRoutes/include.php';
 
 include_once __DIR__ . '/leaderboard/include.php';
 
+# Controllers
+include_once __DIR__ . '/index.php'; // AppRouter
 include_once __DIR__ . '/SiteLinksController.php';
 include_once __DIR__ . '/MissingController.php';

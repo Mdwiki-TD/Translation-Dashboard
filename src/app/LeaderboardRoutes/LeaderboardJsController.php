@@ -4,7 +4,7 @@ namespace App\Leaderboard;
 
 use function App\Leaderboard\Filter\leaderboard_filter;
 
-class IndexJsLeaderboard
+class LeaderboardJsController
 {
     public function renderFilterForm(): string
     {
@@ -168,7 +168,7 @@ class IndexJsLeaderboard
             </div>
         HTML;
     }
-    public function render(): void
+    public function handleRequest(): void
     {
         $filterFormHtml             = $this->renderFilterForm();
         $numbersCardHtml            = $this->renderNumbersCard();

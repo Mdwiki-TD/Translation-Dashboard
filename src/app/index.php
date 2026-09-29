@@ -22,9 +22,9 @@ class AppRouter
     private $global_username;
     private $user_is_coordinator;
 
-    public function __construct(CurrentUser $currentUser)
+    public function __construct(?CurrentUser $currentUser = null)
     {
-        $this->currentUser = $currentUser;
+        $this->currentUser = $currentUser ?? CurrentUser::getInstance();
         $this->global_username = $this->currentUser->getUsername();
         $this->user_is_coordinator = $this->currentUser->isCoordinator();
     }

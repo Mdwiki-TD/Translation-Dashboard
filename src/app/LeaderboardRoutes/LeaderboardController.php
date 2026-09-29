@@ -17,7 +17,7 @@ use function App\SQLorAPI\GetDataTab\get_td_or_sql_categories;
 use function App\SQLorAPI\GetDataTab\get_td_or_sql_langs;
 use function App\SQLorAPI\Funcs\get_graph_data;
 
-class LeaderboardRouter
+class LeaderboardController
 {
     private CurrentUser $currentUser;
 
