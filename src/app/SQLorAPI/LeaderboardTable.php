@@ -296,3 +296,18 @@ function getStatus($year, $userGroup, $cat): array
 {
     return LeaderboardTable::getStatus($year, $userGroup, $cat);
 }
+
+function makeSqlQuery($year, $userGroup, $cat)
+{
+    return LeaderboardTable::makeSqlQuery($year, $userGroup, $cat);
+}
+
+function makeApiParams($year, $userGroup, $cat)
+{
+    return LeaderboardTable::makeApiParams($year, $userGroup, $cat);
+}
+
+function getLeaderboardTable($year, $userGroup, $cat)
+{
+    return LeaderboardTable::getLeaderboardTable($year, $userGroup, $cat);
+}
