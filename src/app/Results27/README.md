@@ -185,7 +185,7 @@ class ResultsFetcher
 
 namespace App\Results\GetResults27\Helpers;
 
-use function App\SQLorAPI\GetDataTab\get_td_or_sql_translate_type;
+use function App\SQLorAPI\GetDataTab\get_translate_type;
 
 /**
  * Loads and caches lists of titles that require full translation
@@ -212,7 +212,7 @@ class TranslateTypeLoader
 
     private static function loadData(): void
     {
-        $rows = get_td_or_sql_translate_type();
+        $rows = get_translate_type();
 
         foreach ($rows as $tab) {
             if (($tab["tt_full"] ?? 0) == 1) {
@@ -917,8 +917,8 @@ use App\Results\GetResults27\Tables\MissingTable;
 use App\Results\GetResults27\Tables\ExistsTable;
 use App\Results\GetResults27\Tables\InProcessTable;
 
-use function App\SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
-use function App\SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
+use function App\SQLorAPI\GetDataTab\get_full_translators;
+use function App\SQLorAPI\GetDataTab\get_titles_infos;
 use function App\SQLorAPI\GetDataTab\get_endpoint;
 
 /**
@@ -942,7 +942,7 @@ class ResultsLoader
         $test         = !empty($data["test"]);
 
         // Full translator check
-        $fullTranslators = get_td_or_sql_full_translators();
+        $fullTranslators = get_full_translators();
         $fullTranslators = array_column($fullTranslators, "is_active", "user");
         $fullTrUser = ($fullTranslators[$globalUser] ?? 0) == 1;
 
@@ -951,7 +951,7 @@ class ResultsLoader
         $results = $fetcher->get($cat, $code);
 
         // Helper data
-        $titlesInfos     = array_column(get_td_or_sql_titles_infos(), null, "title");
+        $titlesInfos     = array_column(get_titles_infos(), null, "title");
         $noLeadTranslates = TranslateTypeLoader::load("no");
         $fullTranslates   = TranslateTypeLoader::load("full");
         $endpoint         = get_endpoint();

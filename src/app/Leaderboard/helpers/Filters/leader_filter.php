@@ -4,9 +4,9 @@ namespace App\Leaderboard\Filter;
 
 use function App\Utils\Html\makeDropdown;
 use function App\SQLorAPI\Funcs\get_pages_with_pupdate;
-use function App\SQLorAPI\TopData\get_td_or_sql_status;
-use function App\SQLorAPI\GetDataTab\get_td_or_sql_projects;
-use function App\SQLorAPI\GetDataTab\get_td_or_sql_categories;
+use function App\SQLorAPI\TopData\get_status;
+use function App\SQLorAPI\GetDataTab\get_projects;
+use function App\SQLorAPI\GetDataTab\get_categories;
 use function App\SQLorAPI\GetDataTab\get_camps_to_cat;
 
 function input_group($title, $rows): string
@@ -24,7 +24,7 @@ function input_group($title, $rows): string
 function make_camp_dropdown($camp): string
 {
 
-    $categories_tab = get_td_or_sql_categories();
+    $categories_tab = get_categories();
     $categories_tab = array_column($categories_tab, 'campaign');
 
     $y1 = makeDropdown($categories_tab, $camp, 'camp', 'all');
@@ -37,7 +37,7 @@ function make_camp_dropdown($camp): string
 function make_project_dropdown($user_group): string
 {
 
-    $projects_tab = get_td_or_sql_projects();
+    $projects_tab = get_projects();
 
     $user_groups = array_column($projects_tab, 'g_title');
 
@@ -109,7 +109,7 @@ function leaderboard_filter($year, $month, $user_group, $camp, $action = "leader
     $monthDropdown = "";
 
     if ($year !== 'all') {
-        $graph_data = get_td_or_sql_status($year, $user_group, $cat);
+        $graph_data = get_status($year, $user_group, $cat);
 
         $monthDropdown = make_month_dropdown($month, $graph_data);
     };

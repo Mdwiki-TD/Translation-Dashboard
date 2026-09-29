@@ -5,7 +5,7 @@ namespace App\SQLorAPI\TopData;
 use function App\SQLorAPI\Get\super_function;
 use function App\SQLorAPI\Get\isvalid;
 
-function get_td_or_sql_top_lang_of_users($users_original)
+function get_top_lang_of_users($users_original)
 {
 
     $users = (count($users_original) > 50) ? [] : $users_original;
@@ -109,7 +109,7 @@ function top_query($select)
     return $query;
 }
 
-function get_td_or_sql_top_users($year, $user_group, $cat, $month = null)
+function get_top_users($year, $user_group, $cat, $month = null)
 {
 
     $to_add = [
@@ -145,7 +145,7 @@ function get_td_or_sql_top_users($year, $user_group, $cat, $month = null)
     return $new_data;
 }
 
-function get_td_or_sql_top_langs($year, $user_group, $cat, $month = null): array
+function get_top_langs($year, $user_group, $cat, $month = null): array
 {
 
     $to_add = [
@@ -181,7 +181,7 @@ function get_td_or_sql_top_langs($year, $user_group, $cat, $month = null): array
     return $new_data;
 }
 
-function get_td_or_sql_status($year, $user_group, $cat): array
+function get_status($year, $user_group, $cat): array
 {
 
     $to_add = ["year" => $year, "user_group" => $user_group, "cat" => $cat];

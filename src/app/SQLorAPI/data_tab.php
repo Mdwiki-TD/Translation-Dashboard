@@ -5,7 +5,7 @@ namespace App\SQLorAPI\GetDataTab;
 use function App\SQLorAPI\Get\super_function;
 use function App\SQLorAPI\Get\isvalid;
 
-function get_td_or_sql_titles_infos()
+function get_titles_infos()
 {
 
     static $titlesinfos = [];
@@ -41,7 +41,7 @@ function get_td_or_sql_titles_infos()
     return $titlesinfos;
 }
 
-function get_td_or_sql_views($year, $lang)
+function get_views($year, $lang)
 {
 
     static $cache = [];
@@ -89,7 +89,7 @@ function get_td_or_sql_views($year, $lang)
     return $data;
 }
 
-function get_td_or_sql_settings()
+function get_settings()
 {
 
     static $sql_settings = [];
@@ -107,7 +107,7 @@ function get_td_or_sql_settings()
     return $sql_settings;
 }
 
-function get_td_or_sql_projects()
+function get_projects()
 {
 
     static $user_groups = [];
@@ -124,7 +124,7 @@ function get_td_or_sql_projects()
     return $user_groups;
 }
 
-function get_td_or_sql_categories()
+function get_categories()
 {
 
     static $categories = [];
@@ -141,7 +141,7 @@ function get_td_or_sql_categories()
     return $categories;
 }
 
-function get_td_or_sql_categories_members($category)
+function get_categories_members($category)
 {
 
     $apiParams = ['get' => 'category_members', 'cat' => $category];
@@ -153,7 +153,7 @@ function get_td_or_sql_categories_members($category)
 
     return $result;
 }
-function get_td_or_sql_qids()
+function get_qids()
 {
 
     static $sql_td_qids = [];
@@ -169,7 +169,7 @@ function get_td_or_sql_qids()
     return $sql_td_qids;
 }
 
-function get_td_or_sql_users_no_inprocess()
+function get_users_no_inprocess()
 {
 
     static $users = [];
@@ -183,7 +183,7 @@ function get_td_or_sql_users_no_inprocess()
     return $users;
 }
 
-function get_td_or_sql_full_translators($column = null)
+function get_full_translators($column = null)
 {
 
     static $full_tr = [];
@@ -201,7 +201,7 @@ function get_td_or_sql_full_translators($column = null)
     return $full_tr;
 }
 
-function get_td_or_sql_translate_type(): array
+function get_translate_type(): array
 {
 
     static $translate_type = [];
@@ -220,7 +220,7 @@ function get_td_or_sql_translate_type(): array
     return $data;
 }
 
-function get_td_or_sql_count_pages()
+function get_count_pages()
 {
 
     static $count_pages = [];
@@ -247,7 +247,7 @@ function get_td_or_sql_count_pages()
     return $data;
 }
 
-function get_td_or_sql_langs()
+function get_langs()
 {
 
     static $langs = [];
@@ -267,7 +267,7 @@ function get_td_or_sql_langs()
 function getQidsForList($list)
 {
 
-    $sq_qids = get_td_or_sql_qids();
+    $sq_qids = get_qids();
 
     $with_qids = [];
     $no_qids = [];
@@ -291,7 +291,7 @@ function get_camps_to_cat()
     static $s_camp_to_cat = [];
     if (!empty($s_camp_to_cat)) return $s_camp_to_cat;
 
-    $categories_tab = get_td_or_sql_categories();
+    $categories_tab = get_categories();
     $s_camp_to_cat = array_column($categories_tab, "category", 'campaign');
 
     return $s_camp_to_cat;

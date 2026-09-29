@@ -12,9 +12,9 @@ use function App\Leaderboard\Graph\print_graph_tab;
 use function App\Leaderboard\Graph2\print_graph_tab_2_new;
 use function App\Leaderboard\CampText\echo_html;
 
-use function App\SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
-use function App\SQLorAPI\GetDataTab\get_td_or_sql_categories;
-use function App\SQLorAPI\GetDataTab\get_td_or_sql_langs;
+use function App\SQLorAPI\GetDataTab\get_titles_infos;
+use function App\SQLorAPI\GetDataTab\get_categories;
+use function App\SQLorAPI\GetDataTab\get_langs;
 use function App\SQLorAPI\Funcs\get_graph_data;
 
 class LeaderboardController
@@ -42,8 +42,8 @@ class LeaderboardController
         $month_y  = filter_input(INPUT_GET, 'month', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
         $camp     = filter_input(INPUT_GET, 'camp', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'All';
 
-        $_titles_infos   = get_td_or_sql_titles_infos();
-        $categories_tab = get_td_or_sql_categories();
+        $_titles_infos   = get_titles_infos();
+        $categories_tab = get_categories();
 
         $lead_words_table = array_column($_titles_infos, 'w_lead_words', 'title');
         $cats_data = array_column($categories_tab, "campaign", "category");
@@ -88,7 +88,7 @@ class LeaderboardController
                 ?? filter_input(INPUT_GET, 'user_group', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
                 ?? 'all';
 
-            $langs_data = get_td_or_sql_langs();
+            $langs_data = get_langs();
 
             $settings = Settings::getInstance();
             $addcat = !$settings->isProduction() && (isset($_GET['nocat']));

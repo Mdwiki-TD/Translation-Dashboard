@@ -5,7 +5,7 @@ namespace App\Missing;
 use App\Render\TemplateRenderer;
 use function App\SQLorAPI\Funcs\statics_by_category;
 use function App\SQLorAPI\Funcs\count_category_members;
-use function App\SQLorAPI\GetDataTab\get_td_or_sql_langs;
+use function App\SQLorAPI\GetDataTab\get_langs;
 
 class MissingController
 {
@@ -61,7 +61,7 @@ class MissingController
 	private function buildRows(string $category, int $totalPages): array
 	{
 		$stats	 = statics_by_category($category);
-		$langsData = get_td_or_sql_langs();
+		$langsData = get_langs();
 
 		$rows = [];
 		$num  = 0;
