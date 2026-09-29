@@ -2,11 +2,6 @@
 
 include_once __DIR__ . '/include_first/include.php';
 
-# MdwikiSql
-include_once __DIR__ . '/MdwikiSql/Database.php';
-include_once __DIR__ . '/MdwikiSql/mdwiki_sql.php';
-include_once __DIR__ . '/MdwikiSql/db_insert.php';
-
 # api_calls
 include_once __DIR__ . '/api_calls/wiki_api.php';
 

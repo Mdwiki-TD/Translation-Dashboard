@@ -72,6 +72,11 @@ if (file_exists($vendorAutoload)) {
 include_once __DIR__ . '/User/include.php';
 include_once __DIR__ . '/Settings.php';
 
+# MdwikiSql
+include_once __DIR__ . '/MdwikiSql/Database.php';
+include_once __DIR__ . '/MdwikiSql/mdwiki_sql.php';
+include_once __DIR__ . '/MdwikiSql/db_insert.php';
+
 include_once __DIR__ . '/backend/include.php';
 include_once __DIR__ . '/frontend/include.php';
 include_once __DIR__ . '/LeaderboardRoutes/include.php';
