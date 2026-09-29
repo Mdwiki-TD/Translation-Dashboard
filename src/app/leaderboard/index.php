@@ -1,5 +1,6 @@
-<?PHP
+<?php
 
+namespace App\Leaderboard;
 
 use App\User\CurrentUser;
 use App\Settings;

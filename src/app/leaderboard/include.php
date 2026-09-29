@@ -1,4 +1,4 @@
-<?PHP
+<?php
 
 include_once __DIR__ . '/leader_tables.php';
 include_once __DIR__ . '/leader_tables_users.php';

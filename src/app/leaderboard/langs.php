@@ -2,8 +2,6 @@
 
 namespace App\Leaderboard\Langs;
 
-
-
 use function App\Leaderboard\Subs\LeadHelp\make_langs_lead;
 use function App\Leaderboard\Subs\SubLangs\get_langs_tables;
 use function App\Leaderboard\SubGraph\graph_data_new;
