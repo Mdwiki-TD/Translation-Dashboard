@@ -2,26 +2,37 @@
 
 namespace App\SiteLinks;
 
+use App\Render\TemplateRenderer;
 use function App\Render\TestPrint\test_print;
 use function App\Tables\TablesDir\open_td_tables_file;
 use App\Settings;
 
 class SiteLinksController
 {
+	private TemplateRenderer $view;
+	public function __construct(?TemplateRenderer $view = null)
+	{
+		$this->view = $view ?? new TemplateRenderer('Sitelinks');
+	}
+
 	/**
 	 * Main entry point: read input, load data, prepare the view, render.
 	 */
 	public function handleRequest(): void
 	{
 		$params = $this->getRequestParams();
+		$data   = $this->loadData();
+		$view   = $this->prepareView($params, $data);
 
-		echo $this->renderForm($params);
+		$vars = [
+			'params' => $params,
+			'view'   => $view,
+		];
 
-		$data = $this->loadData();
-		$view = $this->prepareView($params, $data);
-
-		echo $this->renderSummary($view);
-		echo $this->renderTable($view);
+		$this->view->display('sitelinks', [
+			'params' => $params,
+			'view'   => $view,
+		]);
 	}
 
 	// ---------------------------------------------------------------
@@ -30,7 +41,6 @@ class SiteLinksController
 
 	private function getRequestParams(): array
 	{
-		// Get request parameters with defaults
 		$site = trim((string)($_GET['site'] ?? 'all'));
 		if ($site === '') {
 			$site = 'all';
@@ -92,7 +102,6 @@ class SiteLinksController
 		$withSiteNote = '';
 		$notitle	  = true; // show "O" instead of the article title
 
-		// Filter QIDs based on user selection
 		if ($params['items_with_no_links']) {
 			// Only items that have no sitelinks at all
 			$heads = [];
@@ -103,7 +112,6 @@ class SiteLinksController
 			$heads   = [$site];
 
 			$lenWithSite = count(array_filter($qidsAll, fn($tab) => !empty($tab['sitelinks'][$site])));
-
 			$noSiteLink  = $lenQidsAll - $lenWithSite;
 			$withSiteNote = " (with site: $lenWithSite, no site link: $noSiteLink)";
 		}
@@ -118,142 +126,4 @@ class SiteLinksController
 		];
 	}
 
-	// ---------------------------------------------------------------
-	// 4) Template rendering
-	// ---------------------------------------------------------------
-
-	private function renderForm(array $params): string
-	{
-		$fields = [
-			'site'		=> ['type' => 'text',   'value' => $params['site']],
-			'heads_limit' => ['type' => 'number', 'value' => $params['heads_limit']],
-			'title_limit' => ['type' => 'number', 'value' => $params['title_limit']],
-		];
-
-		$checked = $params['items_with_no_links'] ? 'checked' : '';
-
-		$html = <<<HTML
-			<div style='box-sizing:border-box;'>
-				<form class='form-inline' action='sitelinks.php' method='get'>
-					<div class="row">
-		HTML;
-
-		foreach ($fields as $key => $field) {
-			$type  = $field['type'];
-			$value = htmlspecialchars((string)$field['value'], ENT_QUOTES, 'UTF-8');
-			$html .= <<<HTML
-				<div class="col-md-3">
-					<div class="input-group mb-3">
-						<div class="input-group-prepend">
-							<span class="input-group-text">$key</span>
-						</div>
-						<input class="form-control w-50" type="$type" id="$key" name="$key" value="$value">
-					</div>
-				</div>
-			HTML;
-		}
-
-		$html .= <<<HTML
-					<div class="col-md-3">
-						<div class="form-check form-switch">
-							<input class="form-check-input" type="checkbox" id="switch2" name="items_with_no_links" role="switch" value="1" $checked>
-							<label class="check-label" for="switch2">&nbsp;Items with no links</label>
-						</div>
-					</div>
-				</div>
-				<input type='submit' value='Submit' class='btn btn-outline-primary' />
-			</form>
-		</div>
-		HTML;
-
-		return $html;
-	}
-
-	private function renderSummary(array $view): string
-	{
-		$lenHeads = $view['len_heads_all'];
-		$lenQids  = $view['len_qids_all'];
-		$note	 = $view['with_site_note'];
-
-		return <<<HTML
-		<div style='box-sizing:border-box;'>
-			<h3>Heads: $lenHeads, Qids: $lenQids $note</h3>
-		</div>
-		HTML;
-	}
-
-	private function renderTable(array $view): string
-	{
-		$heads   = $view['heads'];
-		$notitle = $view['notitle'];
-
-		$html = <<<HTML
-			<div style='box-sizing:border-box;'>
-			<table class='table table-striped compact sortable' id='table-1'>
-				<thead>
-					<tr>
-						<th>#</th>
-						<th>qid</th>
-						<th>links</th>
-						<th>mdtitle</th>
-		HTML;
-
-		foreach ($heads as $head) {
-			$formatedHead = $this->e($head);
-			$html .= "<th>$formatedHead</th>";
-		}
-
-		$html .= '</tr></thead><tbody>';
-
-		$i = 0;
-		foreach ($view['qids'] as $qid => $tab) {
-			$i++;
-			$html .= $this->renderRow($i, (string)$qid, $tab, $heads, $notitle);
-		}
-
-		return $html . '</tbody></table></div>';
-	}
-
-	private function renderRow(int $i, string $qid, array $tab, array $heads, bool $notitle): string
-	{
-		$mdtitle	= $tab['mdtitle'] ?? '';
-		$countLinks = count($tab['sitelinks']);
-
-		$qidE	 = $this->e($qid);
-		$mdtitleE = $this->e($mdtitle);
-		$mdUrl	= rawurlencode(str_replace(' ', '_', $mdtitle));
-
-		$html = <<<HTML
-		<tr>
-			<td>$i</td>
-			<td><a href='https://wikidata.org/wiki/$qidE'>$qidE</a></td>
-			<td>$countLinks</td>
-			<td><a href='https://mdwiki.org/wiki/$mdUrl'>$mdtitleE</a></td>
-		HTML;
-
-		foreach ($heads as $head) {
-			$value = $tab['sitelinks'][$head] ?? '';
-			$link = $this->renderSiteLink($head, $value, $notitle);
-			$html .= "<td>$link</td>";
-		}
-
-		return $html . '</tr>';
-	}
-
-	private function renderSiteLink(string $head, string $value, bool $notitle): string
-	{
-		if ($value === '') {
-			return '';
-		}
-
-		$url  = 'https://' . $this->e($head) . '.wikipedia.org/wiki/' . rawurlencode(str_replace(' ', '_', $value));
-		$text = $notitle ? 'O' : $this->e($value);
-
-		return "<a href='$url'>$text</a>";
-	}
-
-	private function e(string $text): string
-	{
-		return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
-	}
 }

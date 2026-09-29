@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Render\Html;
+namespace App\Utils\Html;
 
 function make_modal_fade($label, $text, $id, $button = '')
 {

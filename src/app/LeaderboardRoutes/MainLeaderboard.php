@@ -2,8 +2,8 @@
 
 namespace App\Leaderboard;
 
-use function App\Render\Html\makeColSm4;
-use function App\Render\Html\makeCol;
+use function App\Utils\Html\makeColSm4;
+use function App\Utils\Html\makeCol;
 use function App\Leaderboard\Graph\print_graph_for_table;
 use function App\Leaderboard\LeaderTables\createNumbersTable;
 use function App\Leaderboard\LeaderTables\makeLangTable;

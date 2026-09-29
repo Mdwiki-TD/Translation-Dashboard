@@ -5,9 +5,9 @@ namespace App\Leaderboard\Subs\LeadHelp;
 
 
 use function App\APICalls\WikiApi\make_view_by_number;
-use function App\Render\Html\make_mdwiki_cat_url;
-use function App\Render\Html\make_mdwiki_article_url_blank;
-use function App\Render\Html\make_wikipedia_url_blank;
+use function App\Utils\Html\make_mdwiki_cat_url;
+use function App\Utils\Html\make_mdwiki_article_url_blank;
+use function App\Utils\Html\make_wikipedia_url_blank;
 use function App\Results\TrLink\make_ContentTranslation_url;
 use function App\Leaderboard\Camps\get_articles_to_camps;
 

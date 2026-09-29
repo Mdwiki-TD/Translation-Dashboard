@@ -2,7 +2,7 @@
 
 namespace App\Leaderboard\Filter;
 
-use function App\Render\Html\makeDropdown;
+use function App\Utils\Html\makeDropdown;
 use function App\SQLorAPI\Funcs\get_pages_with_pupdate;
 use function App\SQLorAPI\TopData\get_td_or_sql_status;
 use function App\SQLorAPI\GetDataTab\get_td_or_sql_projects;

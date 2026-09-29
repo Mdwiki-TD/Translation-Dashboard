@@ -4,9 +4,9 @@ namespace App\Results\GetResults2026;
 
 
 
-use function App\Render\Html\make_mdwiki_href;
-use function App\Render\Html\make_wikidata_url_blank;
-use function App\Results\ResultsTableHtml\make_table_start;
+use function App\Utils\Html\make_mdwiki_href;
+use function App\Utils\Html\make_wikidata_url_blank;
+use function App\Utils\ResultsTableHtml\make_table_start;
 
 use function App\Results\Helps\make_translate_urls;
 

@@ -78,7 +78,7 @@ include_once __DIR__ . '/MdwikiSql/mdwiki_sql.php';
 include_once __DIR__ . '/MdwikiSql/db_insert.php';
 
 include_once __DIR__ . '/backend/include.php';
-include_once __DIR__ . '/frontend/include.php';
+include_once __DIR__ . '/Utils/include.php';
 include_once __DIR__ . '/LeaderboardRoutes/include.php';
 
 include_once __DIR__ . '/leaderboard/include.php';

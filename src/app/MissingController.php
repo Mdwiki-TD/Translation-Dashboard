@@ -2,124 +2,93 @@
 
 namespace App\Missing;
 
+use App\Render\TemplateRenderer;
 use function App\SQLorAPI\Funcs\statics_by_category;
 use function App\SQLorAPI\Funcs\count_category_members;
 use function App\SQLorAPI\GetDataTab\get_td_or_sql_langs;
-use RuntimeException;
 
 class MissingController
 {
-    private const CATEGORY = 'RTT';
+	private TemplateRenderer $view;
 
-    public function __construct(
-        private string $templatesDir = __DIR__ . '/templates'
-    ) {
-    }
+	private const CATEGORY = 'RTT';
 
-    /**
-     * Main entry point: load data, build rows, render the template.
-     */
-    public function handleRequest(): void
-    {
-        $totalPages = $this->getCategoryLength(self::CATEGORY);
-        $rows       = $this->buildRows(self::CATEGORY, $totalPages);
+	public function __construct(?TemplateRenderer $view = null)
+	{
+		$this->view = $view ?? new TemplateRenderer('Missing');
+	}
 
-        echo $this->render('missing.php', [
-            'category'    => self::CATEGORY,
-            'totalPages'  => $totalPages,
-            'rows'        => $rows,
-        ]);
-    }
+	/**
+	 * Main entry point: load data, build rows, render the template.
+	 */
+	public function handleRequest(): void
+	{
+		$totalPages = $this->getCategoryLength(self::CATEGORY);
+		$rows	   = $this->buildRows(self::CATEGORY, $totalPages);
 
-    // ---------------------------------------------------------------
-    // 1) Data loading
-    // ---------------------------------------------------------------
+		$this->view->display('missing', [
+			'category'   => self::CATEGORY,
+			'totalPages' => $totalPages,
+			'rows'       => $rows,
+		]);
+	}
 
-    /**
-     * Number of pages (members) in the category.
-     */
-    private function getCategoryLength(string $category): int
-    {
-        $length = 0;
+	// ---------------------------------------------------------------
+	// 1) Data loading
+	// ---------------------------------------------------------------
 
-        foreach (count_category_members($category) as $row) {
-            $length = (int)($row['members'] ?? 0);
-        }
+	/**
+	 * Number of pages (members) in the category.
+	 */
+	private function getCategoryLength(string $category): int
+	{
+		$length = 0;
 
-        return $length;
-    }
+		foreach (count_category_members($category) as $row) {
+			$length = (int)($row['members'] ?? 0);
+		}
 
-    // ---------------------------------------------------------------
-    // 2) Row building
-    // ---------------------------------------------------------------
+		return $length;
+	}
 
-    /**
-     * Build the table rows: one per language, with existing/missing counts.
-     */
-    private function buildRows(string $category, int $totalPages): array
-    {
-        $stats     = statics_by_category($category);
-        $langsData = get_td_or_sql_langs();
+	// ---------------------------------------------------------------
+	// 2) Row building
+	// ---------------------------------------------------------------
 
-        $rows = [];
-        $num  = 0;
+	/**
+	 * Build the table rows: one per language, with existing/missing counts.
+	 */
+	private function buildRows(string $category, int $totalPages): array
+	{
+		$stats	 = statics_by_category($category);
+		$langsData = get_td_or_sql_langs();
 
-        foreach ($stats as $row) {
-            // Example row:
-            // { "language_code": "ar", "autonym": "العربية", "language_name": "Arabic",
-            //   "available_title_count": 3132, "missing_title_count": 4, "total": 3136 }
-            $langCode = $row['language_code'] ?? '';
-            $langData = $langsData[$langCode] ?? [];
+		$rows = [];
+		$num  = 0;
 
-            $autonym  = $langData['autonym'] ?? '';
-            $langName = $langData['name'] ?? '';
+		foreach ($stats as $row) {
+			// Example row:
+			// { "language_code": "ar", "autonym": "العربية", "language_name": "Arabic",
+			//   "available_title_count": 3132, "missing_title_count": 4, "total": 3136 }
+			$langCode = $row['language_code'] ?? '';
+			$langData = $langsData[$langCode] ?? [];
 
-            $exists  = (int)($row['available_title_count'] ?? 0);
-            $missing = $totalPages - $exists;
+			$autonym  = $langData['autonym'] ?? '';
+			$langName = $langData['name'] ?? '';
 
-            $rows[] = [
-                'num'      => ++$num,
-                'code'     => $langCode,
-                'name'     => $langName !== '' ? $langName : '! langname',
-                'autonym'  => $autonym !== '' ? $autonym : '! autonym',
-                'exists'   => $exists,
-                'missing'  => $missing,
-            ];
-        }
+			$exists  = (int)($row['available_title_count'] ?? 0);
+			$missing = $totalPages - $exists;
 
-        return $rows;
-    }
+			$rows[] = [
+				'num'	  	=> ++$num,
+				'code'	 	=> $langCode,
+				'name'	 	=> $langName !== '' ? $langName : '! langname',
+				'autonym'   => $autonym !== '' ? $autonym : '! autonym',
+				'exists'    => $exists,
+				'missing'   => $missing,
+			];
+		}
 
-    // ---------------------------------------------------------------
-    // 3) Template rendering
-    // ---------------------------------------------------------------
-
-    /**
-     * Render a template file with the given variables and return the output.
-     * Helpers $e (HTML escape) and $number (number format) are always available.
-     */
-    private function render(string $template, array $vars = []): string
-    {
-        $file = rtrim($this->templatesDir, '/') . '/' . $template;
-
-        if (!is_file($file)) {
-            throw new RuntimeException("Template not found: $file");
-        }
-
-        $vars['e']      = fn(string $text): string => htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
-        $vars['number'] = fn(int $n): string => number_format($n);
-
-        // Isolated scope so templates can't touch the controller's variables
-        return (static function (string $__file, array $__vars): string {
-            extract($__vars, EXTR_SKIP);
-            ob_start();
-            try {
-                include $__file;
-                return (string)ob_get_clean();
-            } catch (\Throwable $ex) {
-                ob_end_clean();
-                throw $ex;
-            }
-        })($file, $vars);
-    }
+		return $rows;
+	}
 }

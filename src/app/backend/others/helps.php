@@ -5,7 +5,7 @@ namespace App\Results\Helps;
 
 
 use function App\Results\TrLink\make_tr_link_medwiki;
-use function App\Render\Html\make_mdwiki_href;
+use function App\Utils\Html\make_mdwiki_href;
 use function App\Results\TrLink\make_ContentTranslation_url;
 
 function sort_py_pageviews_rows($items, $en_views_tab)

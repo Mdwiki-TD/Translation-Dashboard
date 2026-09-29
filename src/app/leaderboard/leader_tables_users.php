@@ -4,7 +4,7 @@ namespace App\Leaderboard\LeaderTabUsers;
 
 
 
-use function App\Render\Html\make_modal_fade;
+use function App\Utils\Html\make_modal_fade;
 
 function module_copy_data($users_tab)
 {

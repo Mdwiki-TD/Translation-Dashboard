@@ -5,9 +5,9 @@ namespace App\Results\GetResults2026;
 
 
 use function App\Results\TrLink\make_ContentTranslation_url;
-use function App\Render\Html\make_mdwiki_article_url_blank;
-use function App\Render\Html\make_wikipedia_url_blank;
-use function App\Render\Html\make_wikidata_url_blank;
+use function App\Utils\Html\make_mdwiki_article_url_blank;
+use function App\Utils\Html\make_wikipedia_url_blank;
+use function App\Utils\Html\make_wikidata_url_blank;
 
 function make_one_row_exists_2026(
     $title,

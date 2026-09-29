@@ -2,7 +2,7 @@
 
 namespace App\Results\GetResults27\Data;
 
-use function App\Render\Html\make_mdwiki_cat_url;
+use function App\Utils\Html\make_mdwiki_cat_url;
 use function App\SQLorAPI\Funcs\get_lang_pages_by_cat;
 use function App\SQLorAPI\Process\get_lang_in_process;
 use function App\SQLorAPI\Funcs\missing_by_lang_and_category;

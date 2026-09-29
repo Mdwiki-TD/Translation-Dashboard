@@ -3,8 +3,8 @@
 namespace App\Leaderboard;
 
 use function App\Leaderboard\Subs\LeadHelp\make_users_lead;
-use function App\Render\Html\make_mdwiki_user_url;
-use function App\Render\Html\make_wikipedia_url_blank;
+use function App\Utils\Html\make_mdwiki_user_url;
+use function App\Utils\Html\make_wikipedia_url_blank;
 use function App\Leaderboard\Subs\SubUsers\get_users_tables;
 use function App\Leaderboard\SubGraph\graph_data_new;
 use function App\Leaderboard\Subs\FilterForm\lead_row;

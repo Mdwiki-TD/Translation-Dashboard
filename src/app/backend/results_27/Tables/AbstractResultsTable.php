@@ -2,7 +2,7 @@
 
 namespace App\Results\GetResults27\Tables;
 
-use function App\Results\ResultsTableHtml\make_table_start;
+use function App\Utils\ResultsTableHtml\make_table_start;
 
 /**
  * Base class for all result tables.
