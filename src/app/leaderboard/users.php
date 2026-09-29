@@ -2,8 +2,6 @@
 
 namespace App\Leaderboard\Users;
 
-
-
 use function App\Leaderboard\Subs\LeadHelp\make_users_lead;
 use function App\Render\Html\make_mdwiki_user_url;
 use function App\Render\Html\make_wikipedia_url_blank;

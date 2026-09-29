@@ -1,4 +1,6 @@
-<?PHP
+<?php
+
+namespace App\Leaderboard;
 
 use function App\Leaderboard\Filter\leaderboard_filter;
 
