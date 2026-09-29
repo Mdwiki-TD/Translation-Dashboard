@@ -204,38 +204,3 @@ class CategoriesTable
         return self::$staticsCache[$key];
     }
 }
-
-function missingByLangAndCategory($langCode, $category)
-{
-    return (new CategoriesTable())->missingByLangAndCategory($langCode, $category);
-}
-
-function existsByLangAndCategory($langCode, $category)
-{
-    return (new CategoriesTable())->existsByLangAndCategory($langCode, $category);
-}
-
-function countCategoryMembers($category)
-{
-    return (new CategoriesTable())->countCategoryMembers($category);
-}
-
-function staticsByCategory($category)
-{
-    return (new CategoriesTable())->staticsByCategory($category);
-}
-
-function getCategoriesMembers($category)
-{
-    return (new CategoriesTable())->getCategoriesMembers($category);
-}
-
-function getCategories()
-{
-    return (new CategoriesTable())->getCategories();
-}
-
-function getCampsToCat()
-{
-    return (new CategoriesTable())->getCampsToCat();
-}

@@ -53,14 +53,22 @@ class SettingsTable
     {
         return "https://mdwikicx.toolforge.org/w/index.php";
     }
-}
 
-function getSettings()
-{
-    return (new SettingsTable())->getSettings();
-}
+    function getLanguageSettings(): array
+    {
 
-function getEndpoint()
-{
-    return (new SettingsTable())->getEndpoint();
+        // language_settings (lang_code, move_dots, expend, add_en_lang)
+        static $dataLangs = [];
+
+        if (!empty($dataLangs)) return $dataLangs;
+
+        $sqlParams = [];
+        $apiParams = ['get' => 'language_settings'];
+        $query = "SELECT * FROM language_settings order by lang_code";
+
+        $dataLangs = $this->service->superFunction($apiParams, $sqlParams, $query);
+
+        return $dataLangs;
+    }
+
 }

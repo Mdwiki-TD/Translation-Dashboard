@@ -176,24 +176,3 @@ class ViewsTable
         return self::$graphDataCache;
     }
 }
-
-function getViews($year, $lang)
-{
-    return (new ViewsTable())->getViews($year, $lang);
-}
-
-function getGraphData()
-{
-    return (new ViewsTable())->getGraphData();
-}
-
-function getUserViews($user, $year_y, $lang_y)
-{
-    return (new ViewsTable())->getUserViews($user, $year_y, $lang_y);
-}
-
-function getLangViews($mainlang, $year_y)
-{
-    return (new ViewsTable())->getLangViews($mainlang, $year_y);
-}
-

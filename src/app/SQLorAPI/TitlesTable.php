@@ -137,19 +137,27 @@ class TitlesTable
 
         return self::$langsCache;
     }
-}
 
-function getProjects()
-{
-    return (new TitlesTable())->getProjects();
-}
+    public function get_publish_reports_stats(): array
+    {
 
-function getTranslateType(): array
-{
-    return (new TitlesTable())->getTranslateType();
-}
+        static $statsData = [];
 
-function getLangs()
-{
-    return (new TitlesTable())->getLangs();
+        if (!empty($statsData)) {
+            return $statsData;
+        }
+
+        $query = <<<SQL
+            SELECT DISTINCT YEAR(date) as year, MONTH(date) as month, lang, user, result
+            FROM publish_reports
+            GROUP BY year, month, lang, user, result
+        SQL;
+
+        $apiParams = ['get' => 'publish_reports_stats'];
+
+        $statsData = $this->service->superFunction($apiParams, [], $query);
+
+        return $statsData;
+    }
+
 }

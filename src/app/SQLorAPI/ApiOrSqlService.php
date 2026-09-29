@@ -70,28 +70,6 @@ function post_url(string $ServerUrl, array $params = []): string
     return $output;
 }
 
-function get_td_api(array $params): array
-{
-    $settings = Settings::getInstance();
-
-    $ServerUrl = $settings->ServerUrl . '/api.php';
-
-    $out = post_url($ServerUrl, $params);
-
-    $apiResults = json_decode($out, true);
-
-    if (!is_array($apiResults)) {
-        $apiResults = [];
-    }
-
-    $result = $apiResults['results'] ?? [];
-
-    if (isset($result['error'])) {
-        Logger::debug('Error:' . json_encode($result['error'], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
-    }
-
-    return $apiResults;
-}
 class ApiOrSqlService
 {
     private static ?bool $useTdApi = null;
@@ -101,12 +79,34 @@ class ApiOrSqlService
         self::$useTdApi = null;
     }
 
+    public static function getTdApi(array $params): array
+    {
+        $settings = Settings::getInstance();
+
+        $ServerUrl = $settings->ServerUrl . '/api.php';
+
+        $out = post_url($ServerUrl, $params);
+
+        $apiResults = json_decode($out, true);
+
+        if (!is_array($apiResults)) {
+            $apiResults = [];
+        }
+
+        $result = $apiResults['results'] ?? [];
+
+        if (isset($result['error'])) {
+            Logger::debug('Error:' . json_encode($result['error'], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        }
+
+        return $apiResults;
+    }
     public function useTdApiOrSql(): bool
     {
         if (self::$useTdApi === null) {
             // var_dump(json_encode($settingsTabe, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
             // "{ "allow_type_of_translate": 0, "translation_button_in_progress_table": 1, "fix_ref_in_text": 0, "use_td_api": 1, "use_mdwikicx": 1}"
-            $apiResults = get_td_api(['get' => 'settings']);
+            $apiResults = self::getTdApi(['get' => 'settings']);
             $data = $apiResults['results'] ?? [];
 
             $settingsTabe = array_column($data, 'value', 'title');
@@ -131,7 +131,7 @@ class ApiOrSqlService
 
         $useTdApi = self::useTdApiOrSql();
         if ($useTdApi) {
-            $apiResults = get_td_api($apiParams);
+            $apiResults = self::getTdApi($apiParams);
 
             $apiData = $apiResults['results'] ?? [];
 
