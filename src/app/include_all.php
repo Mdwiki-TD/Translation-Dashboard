@@ -26,7 +26,7 @@
  * Usage:
  * ```php
  * // Include at the start of any entry point
- * include_once __DIR__ . '/include.php';
+ * include_once __DIR__ . '/bootstrap.php';
  * ```
  *
  * @package    Core
@@ -69,7 +69,7 @@ if (file_exists($vendorAutoload)) {
 
 
 // Load security module first
-include_once __DIR__ . '/User/include.php';
+include_once __DIR__ . '/User/bootstrap.php';
 include_once __DIR__ . '/Settings.php';
 
 # MdwikiSql
@@ -77,11 +77,14 @@ include_once __DIR__ . '/MdwikiSql/Database.php';
 include_once __DIR__ . '/MdwikiSql/mdwiki_sql.php';
 include_once __DIR__ . '/MdwikiSql/db_insert.php';
 
-include_once __DIR__ . '/backend/include.php';
-include_once __DIR__ . '/Utils/include.php';
-include_once __DIR__ . '/LeaderboardRoutes/include.php';
+include_once __DIR__ . '/backend/bootstrap.php';
 
-include_once __DIR__ . '/leaderboard/include.php';
+include_once __DIR__ . '/Utils/html.php';
+include_once __DIR__ . '/Utils/results_table_html.php';
+
+include_once __DIR__ . '/LeaderboardRoutes/bootstrap.php';
+
+include_once __DIR__ . '/leaderboard/bootstrap.php';
 
 # Controllers
 include_once __DIR__ . '/index.php'; // AppRouter

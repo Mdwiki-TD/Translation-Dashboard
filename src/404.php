@@ -7,7 +7,7 @@ use App\Layout\PageHeader;
 use App\Layout\PageFooter;
 use App\User\CurrentUser;
 
-include_once __DIR__ . '/Layout/include.php';
+include_once __DIR__ . '/Layout/bootstrap.php';
 
 $currentUser = CurrentUser::getInstance();
 

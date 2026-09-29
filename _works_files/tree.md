@@ -43,20 +43,13 @@ src/
 │   │   │   │   └── MissingTable.php
 │   │   │   ├── include.php
 │   │   │   ├── index.php
-│   │   │   ├── README.md
 │   │   │   └── ResultsLoader.php
 │   │   ├── tables/
 │   │   │   ├── lang_names.json
 │   │   │   └── langcode.php
 │   │   ├── td_api_wrap/
 │   │   │   └── td_api.php
-│   │   ├── include.php
-│   │   └── README.md
-│   ├── frontend/
-│   │   ├── html.php
-│   │   ├── include.php
-│   │   ├── README.md
-│   │   └── results_table_html.php
+│   │   └── include.php
 │   ├── leaderboard/
 │   │   ├── others/
 │   │   │   ├── camps_text.php
@@ -73,13 +66,12 @@ src/
 │   │   ├── lang_user_graph.php
 │   │   ├── leader_filter.php
 │   │   ├── leader_tables.php
-│   │   ├── leader_tables_users.php
-│   │   └── README.md
+│   │   └── leader_tables_users.php
 │   ├── LeaderboardRoutes/
 │   │   ├── include.php
-│   │   ├── IndexJsLeaderboard.php
 │   │   ├── LangsLeaderboard.php
-│   │   ├── LeaderboardRouter.php
+│   │   ├── LeaderboardController.php
+│   │   ├── LeaderboardJsController.php
 │   │   ├── MainLeaderboard.php
 │   │   └── UsersLeaderboard.php
 │   ├── MdwikiSql/
@@ -87,15 +79,22 @@ src/
 │   │   ├── db_insert.php
 │   │   └── mdwiki_sql.php
 │   ├── templates/
-│   │   └── missing.php
+│   │   ├── Missing/
+│   │   │   └── missing.php
+│   │   ├── SiteLinks/
+│   │   │   └── sitelinks.php
+│   │   └── TemplateRenderer.php
 │   ├── User/
 │   │   ├── AccessKeyRepository.php
 │   │   ├── CoordinatorRepository.php
 │   │   ├── CurrentUser.php
 │   │   ├── include.php
-│   │   ├── README.md
 │   │   ├── SessionManager.php
 │   │   └── UserCookieService.php
+│   ├── Utils/
+│   │   ├── html.php
+│   │   ├── include.php
+│   │   └── results_table_html.php
 │   ├── include_all.php
 │   ├── index.php
 │   ├── MissingController.php
@@ -104,7 +103,6 @@ src/
 ├── css/
 │   ├── dashboard_new1.css
 │   ├── mobile_format.css
-│   ├── README.md
 │   ├── Responsive_Table.css
 │   ├── styles.css
 │   └── theme.css
@@ -114,39 +112,37 @@ src/
 │   ├── codes.js
 │   ├── color-modes.js
 │   ├── footer.js
-│   ├── graph_js.js
 │   ├── graph_api.js
+│   ├── graph_js.js
 │   ├── leaderboard_index_js.js
 │   ├── leadtable.js
 │   ├── main.js
-│   ├── README.md
 │   ├── sorttable.js
 │   ├── theme.js
 │   └── to.js
-├── static/
-│   └── xtools.svg
-├── templates/
+├── Layout/
 │   ├── include.php
 │   ├── PageFooter.php
 │   ├── PageHead.php
-│   └── PageHeader.php
+│   ├── PageHeader.php
+│   └── PageRunner.php
+├── static/
+│   └── xtools.svg
 ├── translate/
 │   └── medwiki.php
 ├── translate_med/
 │   ├── index.php
-│   ├── medwiki.php
-│   └── README.md
+│   └── medwiki.php
 ├── 404.php
 ├── auth.php
+├── bootstrap.php
 ├── coordinator.php
 ├── favicon.svg
 ├── include_all.php
 ├── index.php
 ├── leaderboard.php
 ├── leaderboard_js.php
-├── Logger.php
 ├── missing.php
-├── README.md
 ├── sitelinks.php
 ├── tools.php
 └── translate.php

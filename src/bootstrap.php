@@ -3,4 +3,4 @@
 
 include_once __DIR__ . '/app/include_all.php';
 include_once __DIR__ . '/app/templates/TemplateRenderer.php';
-include_once __DIR__ . '/Layout/include.php';
+include_once __DIR__ . '/Layout/bootstrap.php';
