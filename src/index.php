@@ -1,15 +1,15 @@
 <?php
 // src/index.php
 
-use App\Templates\PageHeader;
-use App\Templates\PageFooter;
+use App\Layout\PageHeader;
+use App\Layout\PageFooter;
 
 use App\User\CurrentUser;
 use App\AppRouter;
 
 include_once __DIR__ . '/app/include_all.php';
 include_once __DIR__ . '/app/index.php'; // AppRouter
-include_once __DIR__ . '/templates/include.php';
+include_once __DIR__ . '/Layout/include.php';
 
 $currentUser = CurrentUser::getInstance();
 

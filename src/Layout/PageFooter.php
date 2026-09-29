@@ -1,7 +1,7 @@
 <?php
 // src/templates/PageFooter.php
 
-namespace App\Templates;
+namespace App\Layout;
 
 use App\User\CurrentUser;
 

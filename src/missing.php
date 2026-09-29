@@ -1,19 +1,20 @@
 <?PHP
 
 
-use App\Templates\PageHeader;
-use App\Templates\PageFooter;
+use App\Layout\PageHeader;
+use App\Layout\PageFooter;
 use App\User\CurrentUser;
+use App\Missing\MissingController;
 
 include_once __DIR__ . '/app/include_all.php';
-include_once __DIR__ . '/templates/include.php';
+include_once __DIR__ . '/Layout/include.php';
 
 $currentUser = CurrentUser::getInstance();
 
 $pageHeader = new PageHeader($currentUser);
 $pageHeader->render();
 
-include_once __DIR__ . '/app/missing.php';
+(new MissingController())->handleRequest();
 
 $timeStart = $pageHeader->getLoadStartTime();
 

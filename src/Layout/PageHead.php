@@ -1,7 +1,7 @@
 <?php
 // src/templates/PageHead.php
 
-namespace App\Templates;
+namespace App\Layout;
 
 class PageHead
 {

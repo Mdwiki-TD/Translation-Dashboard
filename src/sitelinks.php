@@ -1,13 +1,13 @@
 <?PHP
 
 
-use App\Templates\PageHeader;
-use App\Templates\PageFooter;
+use App\Layout\PageHeader;
+use App\Layout\PageFooter;
 use App\User\CurrentUser;
 use App\SiteLinks\SiteLinksController;
 
 include_once __DIR__ . '/app/include_all.php';
-include_once __DIR__ . '/templates/include.php';
+include_once __DIR__ . '/Layout/include.php';
 
 $currentUser = CurrentUser::getInstance();
 

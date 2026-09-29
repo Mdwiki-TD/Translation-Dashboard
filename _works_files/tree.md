@@ -16,10 +16,6 @@ src/
 │   │   │   ├── include.php
 │   │   │   ├── tables_dir.php
 │   │   │   └── test_print.php
-│   │   ├── MdwikiSql/
-│   │   │   ├── Database.php
-│   │   │   ├── db_insert.php
-│   │   │   └── mdwiki_sql.php
 │   │   ├── others/
 │   │   │   ├── helps.php
 │   │   │   └── tr_link.php
@@ -54,10 +50,8 @@ src/
 │   │   │   └── langcode.php
 │   │   ├── td_api_wrap/
 │   │   │   └── td_api.php
-│   │   ├── CurrentUser.php
 │   │   ├── include.php
-│   │   ├── README.md
-│   │   └── settings.php
+│   │   └── README.md
 │   ├── frontend/
 │   │   ├── html.php
 │   │   ├── include.php
@@ -76,20 +70,37 @@ src/
 │   │   ├── camps.php
 │   │   ├── graph.php
 │   │   ├── include.php
-│   │   ├── index.php
-│   │   ├── index_js.php
 │   │   ├── lang_user_graph.php
-│   │   ├── langs.php
 │   │   ├── leader_filter.php
 │   │   ├── leader_tables.php
 │   │   ├── leader_tables_users.php
-│   │   ├── main.php
+│   │   └── README.md
+│   ├── LeaderboardRoutes/
+│   │   ├── include.php
+│   │   ├── IndexJsLeaderboard.php
+│   │   ├── LangsLeaderboard.php
+│   │   ├── LeaderboardRouter.php
+│   │   ├── MainLeaderboard.php
+│   │   └── UsersLeaderboard.php
+│   ├── MdwikiSql/
+│   │   ├── Database.php
+│   │   ├── db_insert.php
+│   │   └── mdwiki_sql.php
+│   ├── templates/
+│   │   └── missing.php
+│   ├── User/
+│   │   ├── AccessKeyRepository.php
+│   │   ├── CoordinatorRepository.php
+│   │   ├── CurrentUser.php
+│   │   ├── include.php
 │   │   ├── README.md
-│   │   └── users.php
+│   │   ├── SessionManager.php
+│   │   └── UserCookieService.php
 │   ├── include_all.php
 │   ├── index.php
-│   ├── missing.php
-│   └── sitelinks.php
+│   ├── MissingController.php
+│   ├── Settings.php
+│   └── SiteLinksController.php
 ├── css/
 │   ├── dashboard_new1.css
 │   ├── mobile_format.css
@@ -99,12 +110,13 @@ src/
 │   └── theme.css
 ├── js/
 │   ├── autocomplate.js
-│   ├── c.js
+│   ├── card-widget.js
 │   ├── codes.js
 │   ├── color-modes.js
 │   ├── footer.js
 │   ├── g.js
 │   ├── graph_api.js
+│   ├── leaderboard_index_js.js
 │   ├── leadtable.js
 │   ├── main.js
 │   ├── README.md
@@ -132,6 +144,7 @@ src/
 ├── index.php
 ├── leaderboard.php
 ├── leaderboard_js.php
+├── Logger.php
 ├── missing.php
 ├── README.md
 ├── sitelinks.php

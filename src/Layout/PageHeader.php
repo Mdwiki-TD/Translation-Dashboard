@@ -1,10 +1,10 @@
 <?php
 // src/templates/PageHeader.php
 
-namespace App\Templates;
+namespace App\Layout;
 
 use App\User\CurrentUser;
-use App\Templates\PageHead;
+use App\Layout\PageHead;
 
 class PageHeader
 {
