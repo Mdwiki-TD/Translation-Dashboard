@@ -6,7 +6,13 @@ use App\SQLorAPI\ApiOrSqlService;
 
 class LeaderboardTable
 {
-    public static function makeSqlQuery(mixed $year, mixed $userGroup, mixed $cat): array
+    private ApiOrSqlService $service;
+    public function __construct(?ApiOrSqlService $service = null)
+    {
+        $this->service = $service ?? new ApiOrSqlService();
+    }
+
+    public function makeSqlQuery(mixed $year, mixed $userGroup, mixed $cat): array
     {
         $params = [];
 
@@ -45,7 +51,7 @@ class LeaderboardTable
         ];
     }
 
-    public static function makeApiParams(mixed $year, mixed $userGroup, mixed $cat): array
+    public function makeApiParams(mixed $year, mixed $userGroup, mixed $cat): array
     {
         $apiParams = ['get' => 'leaderboard_table'];
 
@@ -64,15 +70,15 @@ class LeaderboardTable
         return $apiParams;
     }
 
-    public static function getLeaderboardTable(mixed $year, mixed $userGroup, mixed $cat): array
+    public function getLeaderboardTable(mixed $year, mixed $userGroup, mixed $cat): array
     {
         $apiParams = self::makeApiParams($year, $userGroup, $cat);
         $quaData = self::makeSqlQuery($year, $userGroup, $cat);
 
-        return ApiOrSqlService::superFunction($apiParams, $quaData['params'], $quaData['query']);
+        return $this->service->superFunction($apiParams, $quaData['params'], $quaData['query']);
     }
 
-    public static function getTopLangOfUsers(array $usersOriginal): array
+    public function getTopLangOfUsers(array $usersOriginal): array
     {
         $users = (count($usersOriginal) > 50) ? [] : $usersOriginal;
 
@@ -102,7 +108,7 @@ class LeaderboardTable
             ORDER BY cnt DESC;
         SQL;
 
-        $data = ApiOrSqlService::superFunction($apiParams, $queryParams, $query);
+        $data = $this->service->superFunction($apiParams, $queryParams, $query);
 
         // [{"user":"Subas Chandra Rout","lang":"or","cnt":1906},{"user":"Pranayraj1985","lang":"te","cnt":401} ...
         // var_export(json_encode($data));
@@ -116,7 +122,7 @@ class LeaderboardTable
         return $data;
     }
 
-    public static function addTopParams(string $query, array $params, array $toAdd): array
+    public function addTopParams(string $query, array $params, array $toAdd): array
     {
         $topParams = [
             "year" => "YEAR(p.pupdate)",
@@ -135,7 +141,7 @@ class LeaderboardTable
         return [$query, $params];
     }
 
-    public static function topQuery(string $select): string
+    public function topQuery(string $select): string
     {
         $selectField = ($select === 'user') ? 'p.user' : 'p.lang';
 
@@ -172,7 +178,7 @@ class LeaderboardTable
             SQL;
     }
 
-    public static function getTopUsers(mixed $year, mixed $userGroup, mixed $cat, mixed $month = null): array
+    public function getTopUsers(mixed $year, mixed $userGroup, mixed $cat, mixed $month = null): array
     {
         $toAdd = [
             "year" => $year,
@@ -193,7 +199,7 @@ class LeaderboardTable
         [$query, $params] = self::addTopParams($query, [], $toAdd);
         $query .= " GROUP BY p.user ORDER BY 2 DESC";
 
-        $data = ApiOrSqlService::superFunction($apiParams, $params, $query);
+        $data = $this->service->superFunction($apiParams, $params, $query);
 
         $newData = [];
         foreach ($data as $item) {
@@ -204,7 +210,7 @@ class LeaderboardTable
         return $newData;
     }
 
-    public static function getTopLangs(mixed $year, mixed $userGroup, mixed $cat, mixed $month = null): array
+    public function getTopLangs(mixed $year, mixed $userGroup, mixed $cat, mixed $month = null): array
     {
         $toAdd = [
             "year" => $year,
@@ -225,7 +231,7 @@ class LeaderboardTable
         [$query, $params] = self::addTopParams($query, [], $toAdd);
         $query .= " GROUP BY p.lang ORDER BY 2 DESC";
 
-        $data = ApiOrSqlService::superFunction($apiParams, $params, $query);
+        $data = $this->service->superFunction($apiParams, $params, $query);
 
         $newData = [];
         foreach ($data as $item) {
@@ -236,7 +242,7 @@ class LeaderboardTable
         return $newData;
     }
 
-    public static function getStatus(mixed $year, mixed $userGroup, mixed $cat): array
+    public function getStatus(mixed $year, mixed $userGroup, mixed $cat): array
     {
         $toAdd = ["year" => $year, "user_group" => $userGroup, "cat" => $cat];
         $apiParams = ['get' => 'status', 'year' => $year, 'user_group' => $userGroup, 'cat' => $cat];
@@ -256,7 +262,7 @@ class LeaderboardTable
         [$query, $params] = self::addTopParams($query, [], $toAdd);
         $query .= " GROUP BY 1 ORDER BY 1 ASC";
 
-        $data = ApiOrSqlService::superFunction($apiParams, $params, $query);
+        $data = $this->service->superFunction($apiParams, $params, $query);
 
         $newData = [];
         foreach ($data as $item) {
@@ -269,45 +275,45 @@ class LeaderboardTable
 
 function getTopLangOfUsers($usersOriginal)
 {
-    return LeaderboardTable::getTopLangOfUsers($usersOriginal);
+    return (new LeaderboardTable())->getTopLangOfUsers($usersOriginal);
 }
 
 function addTopParams($query, $params, $toAdd)
 {
-    return LeaderboardTable::addTopParams($query, $params, $toAdd);
+    return (new LeaderboardTable())->addTopParams($query, $params, $toAdd);
 }
 
 function topQuery($select)
 {
-    return LeaderboardTable::topQuery($select);
+    return (new LeaderboardTable())->topQuery($select);
 }
 
 function getTopUsers($year, $userGroup, $cat, $month = null)
 {
-    return LeaderboardTable::getTopUsers($year, $userGroup, $cat, $month);
+    return (new LeaderboardTable())->getTopUsers($year, $userGroup, $cat, $month);
 }
 
 function getTopLangs($year, $userGroup, $cat, $month = null): array
 {
-    return LeaderboardTable::getTopLangs($year, $userGroup, $cat, $month);
+    return (new LeaderboardTable())->getTopLangs($year, $userGroup, $cat, $month);
 }
 
 function getStatus($year, $userGroup, $cat): array
 {
-    return LeaderboardTable::getStatus($year, $userGroup, $cat);
+    return (new LeaderboardTable())->getStatus($year, $userGroup, $cat);
 }
 
 function makeSqlQuery($year, $userGroup, $cat)
 {
-    return LeaderboardTable::makeSqlQuery($year, $userGroup, $cat);
+    return (new LeaderboardTable())->makeSqlQuery($year, $userGroup, $cat);
 }
 
 function makeApiParams($year, $userGroup, $cat)
 {
-    return LeaderboardTable::makeApiParams($year, $userGroup, $cat);
+    return (new LeaderboardTable())->makeApiParams($year, $userGroup, $cat);
 }
 
 function getLeaderboardTable($year, $userGroup, $cat)
 {
-    return LeaderboardTable::getLeaderboardTable($year, $userGroup, $cat);
+    return (new LeaderboardTable())->getLeaderboardTable($year, $userGroup, $cat);
 }

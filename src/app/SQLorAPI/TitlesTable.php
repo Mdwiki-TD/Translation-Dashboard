@@ -12,6 +12,12 @@ class TitlesTable
     private static array $translateTypeCache = [];
     private static array $langsCache = [];
 
+    private ApiOrSqlService $service;
+    public function __construct(?ApiOrSqlService $service = null)
+    {
+        $this->service = $service ?? new ApiOrSqlService();
+    }
+
     public static function resetCache(): void
     {
         self::$titlesInfosCache = [];
@@ -21,7 +27,7 @@ class TitlesTable
         self::$langsCache = [];
     }
 
-    public static function getTitlesInfos(): array
+    public function getTitlesInfos(): array
     {
         if (!empty(self::$titlesInfosCache)) {
             return self::$titlesInfosCache;
@@ -47,12 +53,12 @@ class TitlesTable
                 left join words w               on w.w_title  = ase.title
         SQL;
 
-        self::$titlesInfosCache = ApiOrSqlService::superFunction($apiParams, [], $qua);
+        self::$titlesInfosCache = $this->service->superFunction($apiParams, [], $qua);
 
         return self::$titlesInfosCache;
     }
 
-    public static function getProjects(): array
+    public function getProjects(): array
     {
         if (!empty(self::$projectsCache)) {
             return self::$projectsCache;
@@ -61,12 +67,12 @@ class TitlesTable
         $apiParams = ['get' => 'projects'];
         $query = "select g_id, g_title from projects";
 
-        self::$projectsCache = ApiOrSqlService::superFunction($apiParams, [], $query);
+        self::$projectsCache = $this->service->superFunction($apiParams, [], $query);
 
         return self::$projectsCache;
     }
 
-    public static function getQids(): array
+    public function getQids(): array
     {
         if (!empty(self::$qidsCache)) {
             return self::$qidsCache;
@@ -74,14 +80,14 @@ class TitlesTable
 
         $apiParams = ['get' => 'qids'];
         $query = "SELECT title, qid FROM qids";
-        $data = ApiOrSqlService::superFunction($apiParams, [], $query);
+        $data = $this->service->superFunction($apiParams, [], $query);
 
         self::$qidsCache = array_column($data, 'qid', 'title');
 
         return self::$qidsCache;
     }
 
-    public static function getTranslateType(): array
+    public function getTranslateType(): array
     {
         if (!empty(self::$translateTypeCache)) {
             return self::$translateTypeCache;
@@ -90,12 +96,12 @@ class TitlesTable
         $apiParams = ['get' => 'translate_type'];
         $query = "SELECT tt_title, tt_lead, tt_full FROM translate_type";
 
-        self::$translateTypeCache = ApiOrSqlService::superFunction($apiParams, [], $query);
+        self::$translateTypeCache = $this->service->superFunction($apiParams, [], $query);
 
         return self::$translateTypeCache;
     }
 
-    public static function getLangs(): array
+    public function getLangs(): array
     {
         if (!empty(self::$langsCache)) {
             return self::$langsCache;
@@ -104,13 +110,13 @@ class TitlesTable
         $apiParams = ['get' => 'langs'];
         $query = "SELECT code, autonym, name, redirects FROM langs";
 
-        $data = ApiOrSqlService::superFunction($apiParams, [], $query);
+        $data = $this->service->superFunction($apiParams, [], $query);
         self::$langsCache = array_column($data, null, 'code');
 
         return self::$langsCache;
     }
 
-    public static function getQidsForList(array $list): array
+    public function getQidsForList(array $list): array
     {
         $sqQids = self::getQids();
 
@@ -136,31 +142,31 @@ class TitlesTable
 
 function getTitlesInfos()
 {
-    return TitlesTable::getTitlesInfos();
+    return (new TitlesTable())->getTitlesInfos();
 }
 
 function getProjects()
 {
-    return TitlesTable::getProjects();
+    return (new TitlesTable())->getProjects();
 }
 
 function getQids()
 {
-    return TitlesTable::getQids();
+    return (new TitlesTable())->getQids();
 }
 
 
 function getTranslateType(): array
 {
-    return TitlesTable::getTranslateType();
+    return (new TitlesTable())->getTranslateType();
 }
 
 function getLangs()
 {
-    return TitlesTable::getLangs();
+    return (new TitlesTable())->getLangs();
 }
 
 function getQidsForList($list)
 {
-    return TitlesTable::getQidsForList($list);
+    return (new TitlesTable())->getQidsForList($list);
 }

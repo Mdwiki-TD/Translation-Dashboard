@@ -25,13 +25,13 @@ class ApiOrSqlTablesTest extends TestCase
 
     public function testSettingsTableEndpoint(): void
     {
-        $this->assertEquals("https://mdwikicx.toolforge.org/w/index.php", SettingsTable::getEndpoint());
+        $this->assertEquals("https://mdwikicx.toolforge.org/w/index.php", (new SettingsTable())->getEndpoint());
         $this->assertEquals("https://mdwikicx.toolforge.org/w/index.php", \App\SQLorAPI\getEndpoint());
     }
 
     public function testLeaderboardTableMakeSqlQuery(): void
     {
-        $res = LeaderboardTable::makeSqlQuery('2023', 'admin', 'RTT');
+        $res = (new LeaderboardTable())->makeSqlQuery('2023', 'admin', 'RTT');
         $this->assertStringContainsString('u.user_group = ?', $res['query']);
         $this->assertStringContainsString('YEAR(p.pupdate) = ?', $res['query']);
         $this->assertStringContainsString('p.cat = ?', $res['query']);
@@ -40,7 +40,7 @@ class ApiOrSqlTablesTest extends TestCase
 
     public function testLeaderboardTableMakeApiParams(): void
     {
-        $params = LeaderboardTable::makeApiParams('2023', 'admin', 'RTT');
+        $params = (new LeaderboardTable())->makeApiParams('2023', 'admin', 'RTT');
         $this->assertEquals([
             'get' => 'leaderboard_table',
             'year' => '2023',
@@ -51,17 +51,17 @@ class ApiOrSqlTablesTest extends TestCase
 
     public function testLeaderboardTableTopQuery(): void
     {
-        $queryUser = LeaderboardTable::topQuery('user');
+        $queryUser = (new LeaderboardTable())->topQuery('user');
         $this->assertStringContainsString('SELECT', $queryUser);
         $this->assertStringContainsString('p.user', $queryUser);
 
-        $queryLang = LeaderboardTable::topQuery('lang');
+        $queryLang = (new LeaderboardTable())->topQuery('lang');
         $this->assertStringContainsString('p.lang', $queryLang);
     }
 
     public function testTitlesTableGetQids(): void
     {
-        $res = TitlesTable::getQidsForList(['nonexistent_title_xyz']);
+        $res = (new TitlesTable())->getQidsForList(['nonexistent_title_xyz']);
         $this->assertArrayHasKey('with_qids', $res);
         $this->assertArrayHasKey('no_qids', $res);
         $this->assertContains('nonexistent_title_xyz', $res['no_qids']);

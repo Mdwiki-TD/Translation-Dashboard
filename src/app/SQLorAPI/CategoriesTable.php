@@ -11,6 +11,12 @@ class CategoriesTable
     private static array $countMembersCache = [];
     private static array $staticsCache = [];
 
+    private ApiOrSqlService $service;
+    public function __construct(?ApiOrSqlService $service = null)
+    {
+        $this->service = $service ?? new ApiOrSqlService();
+    }
+
     public static function resetCache(): void
     {
         self::$categoriesCache = [];
@@ -19,7 +25,7 @@ class CategoriesTable
         self::$staticsCache = [];
     }
 
-    public static function getCategories(): array
+    public function getCategories(): array
     {
         if (!empty(self::$categoriesCache)) {
             return self::$categoriesCache;
@@ -28,23 +34,23 @@ class CategoriesTable
         $apiParams = ['get' => 'categories'];
         $query = "select id, category, category2, campaign, depth, is_default from categories";
 
-        $categories = ApiOrSqlService::superFunction($apiParams, [], $query);
+        $categories = $this->service->superFunction($apiParams, [], $query);
         self::$categoriesCache = $categories;
 
         return self::$categoriesCache;
     }
 
-    public static function getCategoriesMembers(mixed $category): array
+    public function getCategoriesMembers(mixed $category): array
     {
         $apiParams = ['get' => 'category_members', 'cat' => $category];
         $query = "SELECT article_id FROM category_members where category = ?";
 
-        $data = ApiOrSqlService::superFunction($apiParams, [$category], $query);
+        $data = $this->service->superFunction($apiParams, [$category], $query);
 
         return array_column($data, 'article_id');
     }
 
-    public static function getCampsToCat(): array
+    public function getCampsToCat(): array
     {
         if (!empty(self::$campsToCatCache)) {
             return self::$campsToCatCache;
@@ -56,7 +62,7 @@ class CategoriesTable
         return self::$campsToCatCache;
     }
 
-    public static function countCategoryMembers(mixed $category): array
+    public function countCategoryMembers(mixed $category): array
     {
         if ($category === null) {
             $category = "RTT";
@@ -77,13 +83,13 @@ class CategoriesTable
 
         $params = [$category];
 
-        $uData = ApiOrSqlService::superFunction([], $params, $query);
+        $uData = $this->service->superFunction([], $params, $query);
         self::$countMembersCache[$key] = $uData;
 
         return self::$countMembersCache[$key];
     }
 
-    public static function missingByLangAndCategory(mixed $langCode, mixed $category): array
+    public function missingByLangAndCategory(mixed $langCode, mixed $category): array
     {
         $apiParams = ['get' => 'missing_by_lang_and_category', 'category' => $category, 'lang' => $langCode];
 
@@ -118,10 +124,10 @@ class CategoriesTable
 
         $params = [$langCode, $category, $langCode];
 
-        return ApiOrSqlService::superFunction($apiParams, $params, $query);
+        return $this->service->superFunction($apiParams, $params, $query);
     }
 
-    public static function existsByLangAndCategory(mixed $langCode, mixed $category): array
+    public function existsByLangAndCategory(mixed $langCode, mixed $category): array
     {
         $apiParams = ['get' => 'exists_by_lang_and_category', 'category' => $category, 'lang' => $langCode];
 
@@ -157,10 +163,10 @@ class CategoriesTable
 
         $params = [$langCode, $category, $langCode];
 
-        return ApiOrSqlService::superFunction($apiParams, $params, $query);
+        return $this->service->superFunction($apiParams, $params, $query);
     }
 
-    public static function staticsByCategory(mixed $category): array
+    public function staticsByCategory(mixed $category): array
     {
         if ($category === null) {
             $category = "RTT";
@@ -192,7 +198,7 @@ class CategoriesTable
 
         $params = [$category];
 
-        $uData = ApiOrSqlService::superFunction($apiParams, $params, $query);
+        $uData = $this->service->superFunction($apiParams, $params, $query);
         self::$staticsCache[$key] = $uData;
 
         return self::$staticsCache[$key];
@@ -201,35 +207,35 @@ class CategoriesTable
 
 function missingByLangAndCategory($langCode, $category)
 {
-    return CategoriesTable::missingByLangAndCategory($langCode, $category);
+    return (new CategoriesTable())->missingByLangAndCategory($langCode, $category);
 }
 
 function existsByLangAndCategory($langCode, $category)
 {
-    return CategoriesTable::existsByLangAndCategory($langCode, $category);
+    return (new CategoriesTable())->existsByLangAndCategory($langCode, $category);
 }
 
 function countCategoryMembers($category)
 {
-    return CategoriesTable::countCategoryMembers($category);
+    return (new CategoriesTable())->countCategoryMembers($category);
 }
 
 function staticsByCategory($category)
 {
-    return CategoriesTable::staticsByCategory($category);
+    return (new CategoriesTable())->staticsByCategory($category);
 }
 
 function getCategoriesMembers($category)
 {
-    return CategoriesTable::getCategoriesMembers($category);
+    return (new CategoriesTable())->getCategoriesMembers($category);
 }
 
 function getCategories()
 {
-    return CategoriesTable::getCategories();
+    return (new CategoriesTable())->getCategories();
 }
 
 function getCampsToCat()
 {
-    return CategoriesTable::getCampsToCat();
+    return (new CategoriesTable())->getCampsToCat();
 }

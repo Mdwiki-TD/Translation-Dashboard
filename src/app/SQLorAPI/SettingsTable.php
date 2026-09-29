@@ -8,12 +8,18 @@ class SettingsTable
 {
     private static array $sqlSettingsCache = [];
 
+    private ApiOrSqlService $service;
+    public function __construct(?ApiOrSqlService $service = null)
+    {
+        $this->service = $service ?? new ApiOrSqlService();
+    }
+
     public static function resetCache(): void
     {
         self::$sqlSettingsCache = [];
     }
 
-    public static function getSettings(): array
+    public function getSettings(): array
     {
         if (!empty(self::$sqlSettingsCache)) {
             return self::$sqlSettingsCache;
@@ -22,12 +28,12 @@ class SettingsTable
         $query = "select id, title, displayed, value, Type from settings";
         $apiParams = ['get' => 'settings'];
 
-        self::$sqlSettingsCache = ApiOrSqlService::superFunction($apiParams, [], $query);
+        self::$sqlSettingsCache = $this->service->superFunction($apiParams, [], $query);
 
         return self::$sqlSettingsCache;
     }
 
-    public static function getEndpointOld(): string
+    public function getEndpointOld(): string
     {
         $settings1 = self::getSettings();
         $settings1Map = array_column($settings1, 'value', 'title');
@@ -43,7 +49,7 @@ class SettingsTable
         return $endpoint;
     }
 
-    public static function getEndpoint(): string
+    public function getEndpoint(): string
     {
         return "https://mdwikicx.toolforge.org/w/index.php";
     }
@@ -51,15 +57,10 @@ class SettingsTable
 
 function getSettings()
 {
-    return SettingsTable::getSettings();
-}
-
-function getEndpointOld()
-{
-    return SettingsTable::getEndpointOld();
+    return (new SettingsTable())->getSettings();
 }
 
 function getEndpoint()
 {
-    return SettingsTable::getEndpoint();
+    return (new SettingsTable())->getEndpoint();
 }

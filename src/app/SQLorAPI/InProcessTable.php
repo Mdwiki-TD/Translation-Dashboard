@@ -12,6 +12,12 @@ class InProcessTable
     private static array $langYearProcessCache = [];
     private static array $langProcessCache = [];
 
+    private ApiOrSqlService $service;
+    public function __construct(?ApiOrSqlService $service = null)
+    {
+        $this->service = $service ?? new ApiOrSqlService();
+    }
+
     public static function resetCache(): void
     {
         self::$processAllCache = [];
@@ -21,7 +27,7 @@ class InProcessTable
         self::$langProcessCache = [];
     }
 
-    public static function getProcessData(): array
+    public function getProcessData(): array
     {
         if (!empty(self::$processAllCache)) {
             return self::$processAllCache;
@@ -30,12 +36,12 @@ class InProcessTable
         $apiParams = ['get' => 'in_process', 'limit' => "100", "order" => 'add_date'];
         $sql_t = "select * from in_process ORDER BY add_date DESC limit 100";
 
-        self::$processAllCache = ApiOrSqlService::superFunction($apiParams, [], $sql_t);
+        self::$processAllCache = $this->service->superFunction($apiParams, [], $sql_t);
 
         return self::$processAllCache;
     }
 
-    public static function getUserProcessNew(string $user, string $yearY = "all"): array
+    public function getUserProcessNew(string $user, string $yearY = "all"): array
     {
         if (!empty(self::$userProcessCache[$user] ?? [])) {
             return self::$userProcessCache[$user];
@@ -51,13 +57,13 @@ class InProcessTable
             $apiParams['year'] = $yearY;
         }
 
-        $data = ApiOrSqlService::superFunction($apiParams, $params, $query, true);
+        $data = $this->service->superFunction($apiParams, $params, $query, true);
         self::$userProcessCache[$user] = $data;
 
         return $data;
     }
 
-    public static function getUsersProcessNew(): array
+    public function getUsersProcessNew(): array
     {
         if (!empty(self::$usersProcessCache)) {
             return self::$usersProcessCache;
@@ -66,13 +72,13 @@ class InProcessTable
         $apiParams = ['get' => 'in_process', 'distinct' => 'true', "select" => 'user', 'group' => 'user', "order" => '2', "count" => '*'];
         $sql_t = 'select DISTINCT user, count(*) as count from in_process group by user order by count desc';
 
-        $tab = ApiOrSqlService::superFunction($apiParams, [], $sql_t);
+        $tab = $this->service->superFunction($apiParams, [], $sql_t);
         self::$usersProcessCache = array_column($tab, 'count', 'user');
 
         return self::$usersProcessCache;
     }
 
-    public static function getLangInProcessByYear(mixed $code, string $yearY = "all"): array
+    public function getLangInProcessByYear(mixed $code, string $yearY = "all"): array
     {
         $codeStr = (string)$code;
         if (!empty(self::$langYearProcessCache[$codeStr][$yearY] ?? [])) {
@@ -89,13 +95,13 @@ class InProcessTable
             $apiParams['year'] = $yearY;
         }
 
-        $data = ApiOrSqlService::superFunction($apiParams, $params, $query);
+        $data = $this->service->superFunction($apiParams, $params, $query);
         self::$langYearProcessCache[$codeStr][$yearY] = $data;
 
         return self::$langYearProcessCache[$codeStr][$yearY];
     }
 
-    public static function getLangInProcess(mixed $code): array
+    public function getLangInProcess(mixed $code): array
     {
         $codeStr = (string)$code;
         if (!empty(self::$langProcessCache[$codeStr] ?? [])) {
@@ -106,7 +112,7 @@ class InProcessTable
         $apiParams = ['get' => 'in_process', 'lang' => $codeStr];
         $params = [$codeStr];
 
-        $data = ApiOrSqlService::superFunction($apiParams, $params, $query);
+        $data = $this->service->superFunction($apiParams, $params, $query);
         self::$langProcessCache[$codeStr] = $data;
 
         return $data;
@@ -115,25 +121,25 @@ class InProcessTable
 
 function getProcessData(): array
 {
-    return InProcessTable::getProcessData();
+    return (new InProcessTable())->getProcessData();
 }
 
 function getUserProcessNew(string $user, string $year_y = "all")
 {
-    return InProcessTable::getUserProcessNew($user, $year_y);
+    return (new InProcessTable())->getUserProcessNew($user, $year_y);
 }
 
 function getUsersProcessNew(): array
 {
-    return InProcessTable::getUsersProcessNew();
+    return (new InProcessTable())->getUsersProcessNew();
 }
 
 function getLangInProcessByYear($code, $year_y = "all"): array
 {
-    return InProcessTable::getLangInProcessByYear($code, $year_y);
+    return (new InProcessTable())->getLangInProcessByYear($code, $year_y);
 }
 
 function getLangInProcess($code): array
 {
-    return InProcessTable::getLangInProcess($code);
+    return (new InProcessTable())->getLangInProcess($code);
 }

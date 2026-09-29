@@ -11,6 +11,12 @@ class ViewsTable
     private static array $langViewsCache = [];
     private static array $graphDataCache = [];
 
+    private ApiOrSqlService $service;
+    public function __construct(?ApiOrSqlService $service = null)
+    {
+        $this->service = $service ?? new ApiOrSqlService();
+    }
+
     public static function resetCache(): void
     {
         self::$viewsCache = [];
@@ -19,7 +25,7 @@ class ViewsTable
         self::$graphDataCache = [];
     }
 
-    public static function getViews(mixed $year, mixed $lang): array
+    public function getViews(mixed $year, mixed $lang): array
     {
         $key = (string)$year . (string)$lang;
         if (!empty(self::$viewsCache[$key] ?? [])) {
@@ -57,13 +63,13 @@ class ViewsTable
             $query2 .= " WHERE " . implode(" AND ", $queryComplate);
         }
 
-        $data = ApiOrSqlService::superFunction($apiParams, $sqlParams, $query2);
+        $data = $this->service->superFunction($apiParams, $sqlParams, $query2);
         self::$viewsCache[$key] = $data;
 
         return $data;
     }
 
-    public static function getUserViews(mixed $user, mixed $yearY, mixed $langY): array
+    public function getUserViews(mixed $user, mixed $yearY, mixed $langY): array
     {
         $key = 'user_views_' . $user . '_' . $yearY . '_' . $langY;
         if (!empty(self::$userViewsCache[$key] ?? [])) {
@@ -88,7 +94,7 @@ class ViewsTable
             $sqlParams[] = $yearY;
         }
 
-        $uData = ApiOrSqlService::superFunction($apiParams, $sqlParams, $query2);
+        $uData = $this->service->superFunction($apiParams, $sqlParams, $query2);
 
         $tableOfViews = [];
 
@@ -109,7 +115,7 @@ class ViewsTable
         return $tableOfViews;
     }
 
-    public static function getLangViews(mixed $mainlang, mixed $yearY): array
+    public function getLangViews(mixed $mainlang, mixed $yearY): array
     {
         $key = 'lang_views_' . $mainlang . '_' . $yearY;
         if (!empty(self::$langViewsCache[$key] ?? [])) {
@@ -134,7 +140,7 @@ class ViewsTable
             $sqlParams[] = $yearY;
         }
 
-        $uData = ApiOrSqlService::superFunction($apiParams, $sqlParams, $query2);
+        $uData = $this->service->superFunction($apiParams, $sqlParams, $query2);
 
         $tableOfViews = [];
 
@@ -149,7 +155,7 @@ class ViewsTable
         return $tableOfViews;
     }
 
-    public static function getGraphData(): array
+    public function getGraphData(): array
     {
         if (!empty(self::$graphDataCache)) {
             return self::$graphDataCache;
@@ -164,7 +170,7 @@ class ViewsTable
             ORDER BY LEFT(pupdate, 7) ASC;
         SQL;
 
-        $uData = ApiOrSqlService::superFunction($apiParams, [], $query);
+        $uData = $this->service->superFunction($apiParams, [], $query);
         self::$graphDataCache = $uData;
 
         return self::$graphDataCache;
@@ -173,21 +179,21 @@ class ViewsTable
 
 function getViews($year, $lang)
 {
-    return ViewsTable::getViews($year, $lang);
+    return (new ViewsTable())->getViews($year, $lang);
 }
 
 function getGraphData()
 {
-    return ViewsTable::getGraphData();
+    return (new ViewsTable())->getGraphData();
 }
 
 function getUserViews($user, $year_y, $lang_y)
 {
-    return ViewsTable::getUserViews($user, $year_y, $lang_y);
+    return (new ViewsTable())->getUserViews($user, $year_y, $lang_y);
 }
 
 function getLangViews($mainlang, $year_y)
 {
-    return ViewsTable::getLangViews($mainlang, $year_y);
+    return (new ViewsTable())->getLangViews($mainlang, $year_y);
 }
 

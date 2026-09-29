@@ -14,6 +14,12 @@ class PagesTable
     private static array $userCampsCache = [];
     private static array $langYearsCache = [];
 
+    private ApiOrSqlService $service;
+    public function __construct(?ApiOrSqlService $service = null)
+    {
+        $this->service = $service ?? new ApiOrSqlService();
+    }
+
     public static function resetCache(): void
     {
         self::$pagesCache = [];
@@ -25,7 +31,7 @@ class PagesTable
         self::$langYearsCache = [];
     }
 
-    public static function getLangPagesByCat(mixed $lang, mixed $cat): array
+    public function getLangPagesByCat(mixed $lang, mixed $cat): array
     {
         // http://localhost:9001/api.php?get=pages&lang=ar&cat=RTT
         $key = (string)$lang . (string)$cat;
@@ -37,13 +43,13 @@ class PagesTable
         $query = "select * from pages p where p.lang = ? and p.cat = ?";
         $params = [$lang, $cat];
 
-        $uData = ApiOrSqlService::superFunction($apiParams, $params, $query);
+        $uData = $this->service->superFunction($apiParams, $params, $query);
         self::$pagesCache[$key] = $uData;
 
         return $uData;
     }
 
-    public static function getUserPages(mixed $userMain, mixed $yearY, mixed $langY): array
+    public function getUserPages(mixed $userMain, mixed $yearY, mixed $langY): array
     {
         $key = $userMain . '_' . $yearY . '_' . $langY;
         if (!empty(self::$pagesCache[$key] ?? [])) {
@@ -76,13 +82,13 @@ class PagesTable
             $apiParams['lang'] = $langY;
         }
 
-        $uData = ApiOrSqlService::superFunction($apiParams, $sqlParams, $query);
+        $uData = $this->service->superFunction($apiParams, $sqlParams, $query);
         self::$pagesCache[$key] = $uData;
 
         return $uData;
     }
 
-    public static function getPagesWithPupdate(): array
+    public function getPagesWithPupdate(): array
     {
         if (!empty(self::$pupdateCache)) {
             return self::$pupdateCache;
@@ -91,7 +97,7 @@ class PagesTable
         $apiParams = ['get' => 'pages', 'distinct' => "1", 'select' => 'year', 'pupdate' => 'not_empty'];
         $query = "SELECT DISTINCT YEAR(pupdate) AS year FROM pages WHERE pupdate <> ''";
 
-        $uData = ApiOrSqlService::superFunction($apiParams, [], $query);
+        $uData = $this->service->superFunction($apiParams, [], $query);
         $uData = array_map('current', $uData);
 
         self::$pupdateCache = $uData;
@@ -99,7 +105,7 @@ class PagesTable
         return self::$pupdateCache;
     }
 
-    public static function getLangPages(mixed $lang, mixed $yearY): array
+    public function getLangPages(mixed $lang, mixed $yearY): array
     {
         $key = (string)$lang . (string)$yearY;
         if (!empty(self::$pagesCache[$key] ?? [])) {
@@ -116,13 +122,13 @@ class PagesTable
             $apiParams['year'] = $yearY;
         }
 
-        $uData = ApiOrSqlService::superFunction($apiParams, $params, $query);
+        $uData = $this->service->superFunction($apiParams, $params, $query);
         self::$pagesCache[$key] = $uData;
 
         return $uData;
     }
 
-    public static function getLangYears(mixed $mainlang): array
+    public function getLangYears(mixed $mainlang): array
     {
         $key = (string)$mainlang;
         if (!empty(self::$langYearsCache[$key] ?? [])) {
@@ -134,7 +140,7 @@ class PagesTable
         $query = "SELECT DISTINCT YEAR(p.pupdate) AS year FROM pages p WHERE p.lang = ?";
         $params = [$mainlang];
 
-        $uData = ApiOrSqlService::superFunction($apiParams, $params, $query);
+        $uData = $this->service->superFunction($apiParams, $params, $query);
 
         $uData = array_map('current', $uData);
 
@@ -146,7 +152,7 @@ class PagesTable
         return self::$langYearsCache[$key];
     }
 
-    public static function getUserYears(mixed $user): array
+    public function getUserYears(mixed $user): array
     {
         $key = (string)$user;
         if (!empty(self::$userYearsCache[$key] ?? [])) {
@@ -157,7 +163,7 @@ class PagesTable
         $query = "SELECT DISTINCT YEAR(p.date) AS year FROM pages p WHERE p.user = ?";
         $params = [$user];
 
-        $uData = ApiOrSqlService::superFunction($apiParams, $params, $query);
+        $uData = $this->service->superFunction($apiParams, $params, $query);
         $uData = array_map('current', $uData);
 
         // remove empty or null years
@@ -173,7 +179,7 @@ class PagesTable
         return self::$userYearsCache[$key];
     }
 
-    public static function getUserLangs(mixed $user): array
+    public function getUserLangs(mixed $user): array
     {
         $key = (string)$user;
         if (!empty(self::$userLangsCache[$key] ?? [])) {
@@ -184,7 +190,7 @@ class PagesTable
         $query = "SELECT DISTINCT p.lang FROM pages p WHERE p.user = ?";
         $params = [$user];
 
-        $uData = ApiOrSqlService::superFunction($apiParams, $params, $query);
+        $uData = $this->service->superFunction($apiParams, $params, $query);
         $uData = array_map('current', $uData);
 
         // remove empty or null years
@@ -197,7 +203,7 @@ class PagesTable
         return self::$userLangsCache[$key];
     }
 
-    public static function getUserCamps(mixed $user): array
+    public function getUserCamps(mixed $user): array
     {
         $key = (string)$user;
         if (!empty(self::$userCampsCache[$key] ?? [])) {
@@ -213,7 +219,7 @@ class PagesTable
         ";
         $params = [$user];
 
-        $uData = ApiOrSqlService::superFunction($apiParams, $params, $query);
+        $uData = $this->service->superFunction($apiParams, $params, $query);
         $uData = array_map('current', $uData);
 
         // remove empty or null years
@@ -226,7 +232,7 @@ class PagesTable
         return self::$userCampsCache[$key];
     }
 
-    public static function getCountPages(): array
+    public function getCountPages(): array
     {
         if (!empty(self::$countPagesCache)) {
             return self::$countPagesCache;
@@ -235,7 +241,7 @@ class PagesTable
         $apiParams = ['get' => 'count_pages'];
         $query = "SELECT DISTINCT user, count(target) as count from pages group by user order by count desc";
 
-        $data = ApiOrSqlService::superFunction($apiParams, [], $query);
+        $data = $this->service->superFunction($apiParams, [], $query);
         $data = array_column($data, 'count', 'user');
 
         arsort($data);
@@ -250,45 +256,45 @@ class PagesTable
 
 function getCountPages()
 {
-    return PagesTable::getCountPages();
+    return (new PagesTable())->getCountPages();
 }
 
 function getLangPagesByCat($lang, $cat)
 {
-    return PagesTable::getLangPagesByCat($lang, $cat);
+    return (new PagesTable())->getLangPagesByCat($lang, $cat);
 }
 
 function getUserPages($userMain, $year_y, $lang_y)
 {
-    return PagesTable::getUserPages($userMain, $year_y, $lang_y);
+    return (new PagesTable())->getUserPages($userMain, $year_y, $lang_y);
 }
 
 function getPagesWithPupdate()
 {
-    return PagesTable::getPagesWithPupdate();
+    return (new PagesTable())->getPagesWithPupdate();
 }
 
 function getLangPages($lang, $year_y)
 {
-    return PagesTable::getLangPages($lang, $year_y);
+    return (new PagesTable())->getLangPages($lang, $year_y);
 }
 
 function getLangYears($mainlang)
 {
-    return PagesTable::getLangYears($mainlang);
+    return (new PagesTable())->getLangYears($mainlang);
 }
 
 function getUserYears($user)
 {
-    return PagesTable::getUserYears($user);
+    return (new PagesTable())->getUserYears($user);
 }
 
 function getUserLangs($user)
 {
-    return PagesTable::getUserLangs($user);
+    return (new PagesTable())->getUserLangs($user);
 }
 
 function getUserCamps($user)
 {
-    return PagesTable::getUserCamps($user);
+    return (new PagesTable())->getUserCamps($user);
 }
