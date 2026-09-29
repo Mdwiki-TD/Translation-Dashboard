@@ -18,56 +18,65 @@ function fetch_query(string $sqlQuery, ?array $params = null): array
     return $results;
 };
 
-function use_td_api_or_sql(): bool
+class ApiOrSqlService
 {
-    static $useTdApi = null;
-    if ($useTdApi === null) {
-        // var_dump(json_encode($settingsTabe, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
-        // "{ "allow_type_of_translate": 0, "translation_button_in_progress_table": 1, "fix_ref_in_text": 0, "use_td_api": 1, "use_mdwikicx": 1}"
-        $apiResults = get_td_api(['get' => 'settings']);
-        $data = $apiResults['results'] ?? [];
+    private static ?bool $useTdApi = null;
 
-        $settingsTabe = array_column($data, 'value', 'title');
-
-        $useTdApi  = (($settingsTabe['use_td_api'] ?? "") == "1") ? true : false;
+    public static function resetCache(): void
+    {
+        self::$useTdApi = null;
     }
-    return $useTdApi;
-}
 
-function isValid($str)
-{
-    return !empty($str) && strtolower($str) != "all";
-}
+    public static function useTdApiOrSql(): bool
+    {
+        if (self::$useTdApi === null) {
+            // var_dump(json_encode($settingsTabe, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+            // "{ "allow_type_of_translate": 0, "translation_button_in_progress_table": 1, "fix_ref_in_text": 0, "use_td_api": 1, "use_mdwikicx": 1}"
+            $apiResults = get_td_api(['get' => 'settings']);
+            $data = $apiResults['results'] ?? [];
 
-function superFunction(
-    array $apiParams,
-    array $sqlParams,
-    string $sqlQuery,
-    bool $noRefind = false
-): array {
-    $apiData = [];
+            $settingsTabe = array_column($data, 'value', 'title');
 
-    $useTdApi = use_td_api_or_sql();
-    if ($useTdApi) {
-        $apiResults = get_td_api($apiParams);
-
-        $apiData = $apiResults['results'] ?? [];
-
-        $length = $apiResults['length'] ?? null;
-
-        if ($length === 0) {
-            // API return empty list. no need to check sql.
-            return $apiData;
+            self::$useTdApi = (($settingsTabe['use_td_api'] ?? "") == "1");
         }
+        return self::$useTdApi;
     }
 
-    if (empty($apiData) && (getenv('APP_ENV') === 'testing' || defined('PHPUNIT_RUNNING'))) {
-        return [];
+    public static function isValid(mixed $str): bool
+    {
+        return !empty($str) && strtolower((string)$str) != "all";
     }
 
-    if (empty($apiData) && !$noRefind) {
-        $apiData = fetch_query($sqlQuery, $sqlParams);
-    }
+    public static function superFunction(
+        array $apiParams,
+        array $sqlParams,
+        string $sqlQuery,
+        bool $noRefind = false
+    ): array {
+        $apiData = [];
 
-    return $apiData;
+        $useTdApi = self::useTdApiOrSql();
+        if ($useTdApi) {
+            $apiResults = get_td_api($apiParams);
+
+            $apiData = $apiResults['results'] ?? [];
+
+            $length = $apiResults['length'] ?? null;
+
+            if ($length === 0) {
+                // API return empty list. no need to check sql.
+                return $apiData;
+            }
+        }
+
+        if (empty($apiData) && (getenv('APP_ENV') === 'testing' || defined('PHPUNIT_RUNNING'))) {
+            return [];
+        }
+
+        if (empty($apiData) && !$noRefind) {
+            $apiData = fetch_query($sqlQuery, $sqlParams);
+        }
+
+        return $apiData;
+    }
 }
