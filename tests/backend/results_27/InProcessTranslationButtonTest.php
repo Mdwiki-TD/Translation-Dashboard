@@ -7,8 +7,7 @@ namespace Tests;
 use PHPUnit\Framework\TestCase;
 
 use function App\Results\Helps\make_translate_urls;
-use App\Results\GetResults27\Rows\InProcessRowBuilder;
-use function App\Results\ResultsTableHtml\make_table_start;
+use App\Results27\Rows\InProcessRowBuilder;
 use function App\Leaderboard\Subs\LeadHelp\make_td_fo_user;
 
 class InProcessTranslationButtonTest extends TestCase
@@ -28,7 +27,6 @@ class InProcessTranslationButtonTest extends TestCase
             'Mr. Ibrahem',
             false,
             false, // $login_user_is_the_translator
-            'https://mdwikicx.toolforge.org/w/index.php'
         );
 
         $this::assertSame('', $tab);
@@ -50,7 +48,6 @@ class InProcessTranslationButtonTest extends TestCase
             'Mr. Ibrahem',
             false,
             true,  // $login_user_is_the_translator
-            'https://mdwikicx.toolforge.org/w/index.php'
         );
 
         $this::assertStringContainsString('Translate', $tab);
@@ -88,7 +85,6 @@ class InProcessTranslationButtonTest extends TestCase
             false,
             'Mr. Ibrahem', // $global_username
             $titleData,
-            'https://mdwikicx.toolforge.org/w/index.php',
             true // $user_coord
         );
 
@@ -128,7 +124,6 @@ class InProcessTranslationButtonTest extends TestCase
             false,
             '', // empty $global_username
             $titleData,
-            'https://mdwikicx.toolforge.org/w/index.php',
             false
         );
 
@@ -167,7 +162,6 @@ class InProcessTranslationButtonTest extends TestCase
             false,
             'Mr. Ibrahem',
             $titleData,
-            'https://mdwikicx.toolforge.org/w/index.php',
             false // $user_coord
         );
 
@@ -207,7 +201,6 @@ class InProcessTranslationButtonTest extends TestCase
             false,
             'Mr. Ibrahem',
             $titleData,
-            'https://mdwikicx.toolforge.org/w/index.php',
             false
         );
 
@@ -215,12 +208,6 @@ class InProcessTranslationButtonTest extends TestCase
         $this::assertStringContainsString('OtherUser', $html);
     }
 
-    public function testMakeTableStartIncludesTranslateAndTypeHeaderForInProcess(): void
-    {
-        $headerHtml = make_table_start(true, '0');
-        $this::assertStringContainsString('<th><span>Translate</span></th>', $headerHtml);
-        $this::assertStringContainsString('>Type</th>', $headerHtml);
-    }
 
     public function testMakeTdFoUserIncludesTypeCell(): void
     {
@@ -243,8 +230,7 @@ class InProcessTranslationButtonTest extends TestCase
             'users',
             'pending',
             true,
-            [],
-            'https://mdwikicx.toolforge.org/w/index.php'
+            []
         );
 
         $this::assertStringContainsString('data-content="Type" data-filter="lead"', $rowHtml);

@@ -1,18 +1,40 @@
 <?php
 
-include_once dirname(__DIR__) . '/include_all.php';
+include_once dirname(__DIR__) . '/bootstrap.php';
 
+use App\Logger;
 use App\User\CurrentUser;
+use App\MdwikiSql\Database;
+
 use function App\Results\TrLink\make_ContentTranslation_url;
-use function App\TranslateMed\Inserter\insertPage_inprocess;
 use function App\SQLorAPI\GetDataTab\get_td_or_sql_users_no_inprocess;
 use function App\SQLorAPI\GetDataTab\get_td_or_sql_categories;
-use function App\SQLorAPI\GetDataTab\get_endpoint;
 
-function go_to_translate_url($title_o, $coden, $tr_type, $cat, $camp, $endpoint)
+function insertPageInprocess($title, $word, $tr_type, $cat, $lang, $user): bool
 {
 
-    $test = $_GET['test'] ?? '';
+    $quae_new = <<<SQL
+        INSERT INTO in_process (title, user, lang, cat, translate_type, word, add_date)
+        SELECT ?, ?, ?, ?, ?, ?, DATE(NOW())
+        WHERE NOT EXISTS
+            (SELECT 1
+            FROM in_process
+            WHERE title = ?
+            AND lang = ?
+            AND user = ?
+        )
+    SQL;
+
+    $params = [$title, $user, $lang, $cat, $tr_type, $word, $title, $lang, $user];
+
+    $db = new Database();
+    Logger::debug($quae_new);
+
+    return $db->executequery($quae_new, $params);
+};
+
+function go_to_translate_url($title_o, $coden, $tr_type, $cat, $camp)
+{
 
     $url = make_ContentTranslation_url(
         $title_o,
@@ -20,7 +42,6 @@ function go_to_translate_url($title_o, $coden, $tr_type, $cat, $camp, $endpoint)
         $cat,
         $camp,
         $tr_type,
-        $endpoint
     );
 
     echo <<<HTML
@@ -30,17 +51,15 @@ function go_to_translate_url($title_o, $coden, $tr_type, $cat, $camp, $endpoint)
         </h2>
     HTML;
 
-    if (empty($test)) {
-        echo <<<HTML
-            <script type='text/javascript'>
-            window.open('$url', '_self');
-            </script>
+    echo <<<HTML
+        <script type='text/javascript'>
+        window.open('$url', '_self');
+        </script>
+        <meta http-equiv='refresh' content='0; url=$url'>
+        <noscript>
             <meta http-equiv='refresh' content='0; url=$url'>
-            <noscript>
-                <meta http-equiv='refresh' content='0; url=$url'>
-            </noscript>
-        HTML;
-    }
+        </noscript>
+    HTML;
 }
 
 $currentUser = CurrentUser::getInstance();
@@ -100,10 +119,8 @@ if (!empty($title_o) && !empty($coden)) {
 
     $camp    = rawurldecode($camp);
     if (($users_no_inprocess[$useree] ?? 0) != 1) {
-        insertPage_inprocess($title_o, $word, $tr_type, $cat, $coden, $user_decoded);
+        insertPageInprocess($title_o, $word, $tr_type, $cat, $coden, $user_decoded);
     }
-
-    $endpoint = get_endpoint();
 
     go_to_translate_url(
         $title_o,
@@ -111,7 +128,6 @@ if (!empty($title_o) && !empty($coden)) {
         $tr_type,
         $cat,
         $camp,
-        $endpoint
     );
 }
 

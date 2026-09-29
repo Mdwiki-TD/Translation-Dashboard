@@ -5,18 +5,15 @@ declare(strict_types=1);
 namespace Tests;
 
 use PHPUnit\Framework\TestCase;
-use App\Results\GetResults27\Data\ResultsFetcher;
-use App\Results\GetResults27\Helpers\CardRenderer;
-use App\Results\GetResults27\Helpers\TranslateTypeLoader;
-use App\Results\GetResults27\Rows\ExistsRowBuilder;
-use App\Results\GetResults27\Rows\InProcessRowBuilder;
-use App\Results\GetResults27\Rows\MissingRowBuilder;
-use App\Results\GetResults27\Tables\ExistsTable;
-use App\Results\GetResults27\Tables\InProcessTable;
-use App\Results\GetResults27\Tables\MissingTable;
-use App\Results\GetResults27\ResultsLoader;
+use App\Results27\Data\ResultsFetcher;
+use App\Results27\Helpers\CardRenderer;
+use App\Results27\Rows\ExistsRowBuilder;
+use App\Results27\Rows\InProcessRowBuilder;
+use App\Results27\Rows\MissingRowBuilder;
+use App\Results27\Tables\ExistsTable;
+use App\Results27\Tables\InProcessTable;
+use App\Results27\Tables\MissingTable;
 
-use function App\Results\GetResults27\results_loader_27;
 
 class Results27Test extends TestCase
 {
@@ -182,7 +179,6 @@ class Results27Test extends TestCase
             $titleDataBefore,
             'StandardUser',
             false, // non-coordinator
-            'https://mdwikicx.toolforge.org/w/index.php'
         );
 
         $this->assertStringNotContainsString('Translate', $htmlBefore);
@@ -224,7 +220,6 @@ class Results27Test extends TestCase
             false, // fullTrUser
             'TranslatorUser', // globalUsername
             $titleData,
-            'https://mdwikicx.toolforge.org/w/index.php',
             false // userCoord
         );
 
@@ -247,7 +242,6 @@ class Results27Test extends TestCase
             false,
             'TranslatorUser',
             $titleData,
-            'https://mdwikicx.toolforge.org/w/index.php',
             false
         );
         $this->assertStringNotContainsString('1.Full', $htmlVideo);
@@ -331,7 +325,6 @@ class Results27Test extends TestCase
             'Campaign1',
             'CoordUser',
             true,
-            'https://mdwikicx.toolforge.org/w/index.php'
         );
 
         $html = $table->render($items);
@@ -386,7 +379,6 @@ class Results27Test extends TestCase
             false,
             'User1',
             $titlesInfos,
-            'https://mdwikicx.toolforge.org/w/index.php',
             false
         );
 
@@ -412,31 +404,4 @@ class Results27Test extends TestCase
         $this->assertArrayHasKey('missing', $results);
     }
 
-    /**
-     * Test ResultsLoader and wrapper functions.
-     */
-    public function testResultsLoaderAndWrappers(): void
-    {
-        // 2. ResultsLoader class & results_loader_27 function
-        $loader = new ResultsLoader();
-        $inputData = [
-            'camp' => 'TestCamp',
-            'code' => 'ar',
-            'cat' => 'RTT',
-            'show_exists' => true,
-            'global_username' => 'TestUser',
-            'in_progress_translation_button' => false,
-            'tra_type' => 'lead',
-            'user_coord' => false,
-            'test' => true,
-            'code_lang_name' => 'Arabic'
-        ];
-
-        $html = $loader->load($inputData);
-        $this->assertStringContainsString('code:ar', $html);
-        $this->assertStringContainsString('code_lang_name:Arabic', $html);
-
-        $htmlFromFunc = results_loader_27($inputData);
-        $this->assertNotEmpty($htmlFromFunc);
-    }
 }

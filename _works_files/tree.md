@@ -1,131 +1,126 @@
 ```
 src/
 ├── app/
-│   ├── backend/
-│   │   ├── api_calls/
-│   │   │   └── wiki_api.php
-│   │   ├── api_or_sql/
-│   │   │   ├── data_tab.php
-│   │   │   ├── funcs.php
-│   │   │   ├── get_lead.php
-│   │   │   ├── index.php
-│   │   │   ├── new_sql_tables.php
-│   │   │   ├── process_data.php
-│   │   │   └── top.php
-│   │   ├── include_first/
-│   │   │   ├── include.php
-│   │   │   ├── tables_dir.php
-│   │   │   └── test_print.php
-│   │   ├── MdwikiSql/
-│   │   │   ├── Database.php
-│   │   │   ├── db_insert.php
-│   │   │   └── mdwiki_sql.php
-│   │   ├── others/
-│   │   │   ├── helps.php
-│   │   │   └── tr_link.php
-│   │   ├── results_2026/
-│   │   │   ├── include.php
-│   │   │   ├── index.php
-│   │   │   ├── results_table.php
-│   │   │   ├── results_table_exists.php
-│   │   │   ├── results_table_inprocess.php
-│   │   │   └── ResultsLoader.php
-│   │   ├── results_27/
-│   │   │   ├── Data/
-│   │   │   │   └── ResultsFetcher.php
-│   │   │   ├── Helpers/
-│   │   │   │   ├── CardRenderer.php
-│   │   │   │   └── TranslateTypeLoader.php
-│   │   │   ├── Rows/
-│   │   │   │   ├── ExistsRowBuilder.php
-│   │   │   │   ├── InProcessRowBuilder.php
-│   │   │   │   └── MissingRowBuilder.php
-│   │   │   ├── Tables/
-│   │   │   │   ├── AbstractResultsTable.php
-│   │   │   │   ├── ExistsTable.php
-│   │   │   │   ├── InProcessTable.php
-│   │   │   │   └── MissingTable.php
-│   │   │   ├── include.php
-│   │   │   ├── index.php
-│   │   │   ├── README.md
-│   │   │   └── ResultsLoader.php
-│   │   ├── tables/
-│   │   │   ├── lang_names.json
-│   │   │   └── langcode.php
-│   │   ├── td_api_wrap/
-│   │   │   └── td_api.php
+│   ├── Controllers/
+│   │   ├── AppRouter.php
+│   │   ├── MissingController.php
+│   │   └── SiteLinksController.php
+│   ├── Leaderboard/
+│   │   ├── Controllers/
+│   │   │   ├── LeaderboardController.php
+│   │   │   └── LeaderboardJsController.php
+│   │   ├── helpers/
+│   │   │   ├── Camps/
+│   │   │   │   ├── camps.php
+│   │   │   │   └── camps_text.php
+│   │   │   ├── Filters/
+│   │   │   │   ├── filter_form.php
+│   │   │   │   ├── lead_help.php
+│   │   │   │   └── leader_filter.php
+│   │   │   ├── Graph/
+│   │   │   │   ├── graph.php
+│   │   │   │   ├── graph_api.php
+│   │   │   │   └── lang_user_graph.php
+│   │   │   ├── Langs/
+│   │   │   │   ├── langs_sub.php
+│   │   │   │   └── leader_tables_langs.php
+│   │   │   ├── Users/
+│   │   │   │   ├── leader_tables_users.php
+│   │   │   │   └── users_sub.php
+│   │   │   └── bootstrap.php
+│   │   ├── bootstrap.php
+│   │   ├── LangsLeaderboard.php
+│   │   ├── MainLeaderboard.php
+│   │   └── UsersLeaderboard.php
+│   ├── MdwikiSql/
+│   │   └── Database.php
+│   ├── Results27/
+│   │   ├── Data/
+│   │   │   └── ResultsFetcher.php
+│   │   ├── Helpers/
+│   │   │   ├── CardRenderer.php
+│   │   │   └── TranslateTypeLoader.php
+│   │   ├── Rows/
+│   │   │   ├── ExistsRowBuilder.php
+│   │   │   ├── InProcessRowBuilder.php
+│   │   │   └── MissingRowBuilder.php
+│   │   ├── Tables/
+│   │   │   ├── AbstractResultsTable.php
+│   │   │   ├── ExistsTable.php
+│   │   │   ├── InProcessTable.php
+│   │   │   └── MissingTable.php
+│   │   ├── bootstrap.php
+│   │   └── ResultsLoader.php
+│   ├── SQLorAPI/
+│   │   ├── bootstrap.php
+│   │   ├── data_tab.php
+│   │   ├── funcs.php
+│   │   ├── Get.php
+│   │   ├── get_lead.php
+│   │   ├── new_sql_tables.php
+│   │   ├── process_data.php
+│   │   ├── td_api.php
+│   │   └── top.php
+│   ├── Templates/
+│   │   ├── Missing/
+│   │   │   └── missing.php
+│   │   ├── SiteLinks/
+│   │   │   └── sitelinks.php
+│   │   └── TemplateRenderer.php
+│   ├── User/
+│   │   ├── AccessKeyRepository.php
+│   │   ├── bootstrap.php
+│   │   ├── CoordinatorRepository.php
 │   │   ├── CurrentUser.php
-│   │   ├── include.php
-│   │   ├── README.md
-│   │   └── settings.php
-│   ├── frontend/
+│   │   ├── SessionManager.php
+│   │   └── UserCookieService.php
+│   ├── Utils/
+│   │   ├── helps.php
 │   │   ├── html.php
-│   │   ├── include.php
-│   │   ├── README.md
-│   │   └── results_table_html.php
-│   ├── leaderboard/
-│   │   ├── others/
-│   │   │   ├── camps_text.php
-│   │   │   ├── graph_api.php
-│   │   │   └── index.php
-│   │   ├── subs/
-│   │   │   ├── filter_form.php
-│   │   │   ├── langs_sub.php
-│   │   │   ├── lead_help.php
-│   │   │   └── users_sub.php
-│   │   ├── camps.php
-│   │   ├── graph.php
-│   │   ├── include.php
-│   │   ├── index.php
-│   │   ├── index_js.php
-│   │   ├── lang_user_graph.php
-│   │   ├── langs.php
-│   │   ├── leader_filter.php
-│   │   ├── leader_tables.php
-│   │   ├── leader_tables_users.php
-│   │   ├── main.php
-│   │   ├── README.md
-│   │   └── users.php
-│   ├── include_all.php
-│   ├── index.php
-│   ├── missing.php
-│   └── sitelinks.php
+│   │   ├── lang_names.json
+│   │   ├── langcode.php
+│   │   ├── tables_dir.php
+│   │   ├── tr_link.php
+│   │   └── wiki_api.php
+│   ├── bootstrap.php
+│   ├── Logger.php
+│   └── Settings.php
 ├── css/
 │   ├── dashboard_new1.css
 │   ├── mobile_format.css
-│   ├── README.md
 │   ├── Responsive_Table.css
 │   ├── styles.css
 │   └── theme.css
 ├── js/
 │   ├── autocomplate.js
-│   ├── c.js
+│   ├── card-widget.js
 │   ├── codes.js
 │   ├── color-modes.js
 │   ├── footer.js
-│   ├── g.js
 │   ├── graph_api.js
+│   ├── graph_js.js
+│   ├── leaderboard_index_js.js
 │   ├── leadtable.js
 │   ├── main.js
-│   ├── README.md
 │   ├── sorttable.js
 │   ├── theme.js
 │   └── to.js
-├── static/
-│   └── xtools.svg
-├── templates/
-│   ├── include.php
+├── Layout/
+│   ├── bootstrap.php
 │   ├── PageFooter.php
 │   ├── PageHead.php
-│   └── PageHeader.php
+│   ├── PageHeader.php
+│   └── PageRunner.php
+├── static/
+│   └── xtools.svg
 ├── translate/
 │   └── medwiki.php
 ├── translate_med/
 │   ├── index.php
-│   ├── medwiki.php
-│   └── README.md
+│   └── medwiki.php
 ├── 404.php
 ├── auth.php
+├── bootstrap.php
 ├── coordinator.php
 ├── favicon.svg
 ├── include_all.php
@@ -133,7 +128,6 @@ src/
 ├── leaderboard.php
 ├── leaderboard_js.php
 ├── missing.php
-├── README.md
 ├── sitelinks.php
 ├── tools.php
 └── translate.php

@@ -29,7 +29,7 @@ The `src/` directory is the root of the WikiProjectMed Translation Dashboard app
 
 ```
 src/
-├── include_all.php                 # Central bootstrap (autoloaded via composer.json)
+├── bootstrap.php                 # Central bootstrap (autoloaded via composer.json)
 ├── load_env.php                    # Development environment config
 ├── index.php                       # Main translation selection page
 ├── header.php                      # Site-wide navigation bar
@@ -76,7 +76,7 @@ The application follows a **procedural page-controller pattern** with layered mo
     v
 [Entry Point]       index.php, leaderboard.php, missing.php, etc.
     |
-    ├── include_all.php          # Bootstrap: loads ALL modules
+    ├── bootstrap.php          # Bootstrap: loads ALL modules
     ├── header.php               # Auth + navigation + HTML head
     |   ├── userinfos_wrap.php   # Cookie-based OAuth auth
     |   └── head.php             # CSS/JS includes
@@ -88,17 +88,17 @@ The application follows a **procedural page-controller pattern** with layered mo
 
 ### Bootstrap Chain
 
-`include_all.php` is the central bootstrap, autoloaded via `composer.json`:
+`bootstrap.php` is the central bootstrap, autoloaded via `composer.json`:
 
 1. Loads `load_env.php` (development only)
 2. Requires Composer autoloader (`vendor/autoload.php`)
-3. Includes `frontend/include.php` (HTML helpers)
+3. Includes `frontend/bootstrap.php` (HTML helpers)
 4. Includes `backend/settings.php` (config singleton)
-5. Includes `backend/include_first/include.php` (utilities)
+5. Includes `backend/include_first/bootstrap.php` (utilities)
 6. **Glob-includes** all PHP from `backend/api_calls/`, `backend/td_api_wrap/`, `backend/api_or_sql/`, `backend/others/`
 7. Includes `backend/tables/langcode.php`
-8. Includes `leaderboard/include.php`
-9. Includes `results/include.php`
+8. Includes `leaderboard/bootstrap.php`
+9. Includes `results/bootstrap.php`
 
 ### Design Patterns
 

@@ -29,7 +29,7 @@ The `src/js/` directory contains the application's client-side JavaScript. It ha
 src/js/
 ├── theme.js                        # Theme switching (custom)
 ├── color-modes.js                  # Theme switching (Bootstrap)
-├── g.js                            # Chart.js graph functions
+├── graph_js.js                            # Chart.js graph functions
 ├── graph_api.js                    # API-driven graph data fetch
 ├── leadtable.js                    # DataTables leaderboard init
 ├── to.js                           # Page view counter
@@ -46,7 +46,7 @@ src/js/
 |------|------|---------|--------------|
 | `theme.js` | Medium | Custom theme switcher with dropdown | Vanilla JS |
 | `color-modes.js` | Small | Bootstrap color mode toggler | Bootstrap 5 |
-| `g.js` | Small | Chart.js rendering functions | jQuery, Chart.js |
+| `graph_js.js` | Small | Chart.js rendering functions | jQuery, Chart.js |
 | `graph_api.js` | Small | Fetch graph data from API | jQuery, Fetch API |
 | `leadtable.js` | Small | DataTables leaderboard init | jQuery, DataTables |
 | `to.js` | Small | Page view counter | jQuery, Fetch API |
@@ -96,7 +96,7 @@ Flat structure with one file per concern. No build system or module bundler.
 4. **Debug output** -- `console.log()` in `graph_api.js` (lines 13, 36, 37)
 5. **Global scope pollution** -- All functions attached to `window`
 6. **Unused file** -- `main.js` not loaded by `head.php`
-7. **Chart.js v2 API** -- `g.js` uses deprecated v2 scales format
+7. **Chart.js v2 API** -- `graph_js.js` uses deprecated v2 scales format
 
 ---
 
@@ -130,7 +130,7 @@ JavaScript files run in the browser and don't directly access databases or serve
 
 ### Medium-Term
 1. Consolidate `theme.js` and `color-modes.js` into one theme system
-2. Update `g.js` to Chart.js v3+ API
+2. Update `graph_js.js` to Chart.js v3+ API
 3. Remove or integrate `main.js`
 
 ### Long-Term
@@ -151,7 +151,7 @@ Scripts are loaded via `src/head.php`:
 
 <!-- Application scripts -->
 <script src="/Translation_Dashboard/js/to.js"></script>
-<script src="/Translation_Dashboard/js/g.js"></script>
+<script src="/Translation_Dashboard/js/graph_js.js"></script>
 <script src="/Translation_Dashboard/js/theme.js"></script>
 <script src="/Translation_Dashboard/js/c.js"></script>
 <script type="module" src="/Translation_Dashboard/js/color-modes.js"></script>

@@ -1,21 +1,9 @@
-<?PHP
+<?php
+// src/sitelinks.php
 
+use App\Layout\PageRunner;
+use App\SiteLinks\SiteLinksController;
 
-use App\Templates\PageHeader;
-use App\Templates\PageFooter;
-use App\User\CurrentUser;
+require_once __DIR__ . '/bootstrap.php';
 
-include_once __DIR__ . '/app/include_all.php';
-include_once __DIR__ . '/templates/include.php';
-
-$currentUser = CurrentUser::getInstance();
-
-$pageHeader = new PageHeader($currentUser);
-$pageHeader->render();
-
-include_once __DIR__ . '/app/sitelinks.php';
-
-$timeStart = $pageHeader->getLoadStartTime();
-
-$pageFooter = new PageFooter($currentUser);
-$pageFooter->render($timeStart);
+PageRunner::run(SiteLinksController::class);
