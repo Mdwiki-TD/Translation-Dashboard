@@ -3,7 +3,7 @@
 # SQLorAPI
 include_once __DIR__ . '/td_api.php';
 include_once __DIR__ . '/funcs.php';
-include_once __DIR__ . '/index.php';
+include_once __DIR__ . '/Get.php';
 include_once __DIR__ . '/process_data.php';
 
 include_once __DIR__ . '/data_tab.php';

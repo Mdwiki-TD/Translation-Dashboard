@@ -62,7 +62,7 @@ src/
 │   │   ├── process_data.php
 │   │   ├── td_api.php
 │   │   └── top.php
-│   ├── templates/
+│   ├── Templates/
 │   │   ├── Missing/
 │   │   │   └── missing.php
 │   │   ├── SiteLinks/

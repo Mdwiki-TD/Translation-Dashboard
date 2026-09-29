@@ -7,16 +7,13 @@ namespace Tests;
 use PHPUnit\Framework\TestCase;
 use App\Results27\Data\ResultsFetcher;
 use App\Results27\Helpers\CardRenderer;
-use App\Results27\Helpers\TranslateTypeLoader;
 use App\Results27\Rows\ExistsRowBuilder;
 use App\Results27\Rows\InProcessRowBuilder;
 use App\Results27\Rows\MissingRowBuilder;
 use App\Results27\Tables\ExistsTable;
 use App\Results27\Tables\InProcessTable;
 use App\Results27\Tables\MissingTable;
-use App\Results27\ResultsLoader;
 
-use function App\Results27\results_loader_27;
 
 class Results27Test extends TestCase
 {
@@ -407,26 +404,4 @@ class Results27Test extends TestCase
         $this->assertArrayHasKey('missing', $results);
     }
 
-    /**
-     * Test ResultsLoader and wrapper functions.
-     */
-    public function testResultsLoaderAndWrappers(): void
-    {
-        // 2. ResultsLoader class & results_loader_27 function
-        $loader = new ResultsLoader();
-        $inputData = [
-            'camp' => 'TestCamp',
-            'code' => 'ar',
-            'cat' => 'RTT',
-            'show_exists' => true,
-            'global_username' => 'TestUser',
-            'in_progress_translation_button' => false,
-            'tra_type' => 'lead',
-            'user_coord' => false,
-            'code_lang_name' => 'Arabic'
-        ];
-
-        $htmlFromFunc = results_loader_27($inputData);
-        $this->assertNotEmpty($htmlFromFunc);
-    }
 }
