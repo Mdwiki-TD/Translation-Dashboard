@@ -1,5 +1,5 @@
 <?php
-// src/templates/PageFooter.php
+// src/Layout/PageFooter.php
 
 namespace App\Layout;
 
