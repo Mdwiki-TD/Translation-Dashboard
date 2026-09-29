@@ -264,7 +264,7 @@ function get_td_or_sql_langs()
     return $langs;
 }
 
-function get_qids($list)
+function getQidsForList($list)
 {
 
     $sq_qids = get_td_or_sql_qids();
