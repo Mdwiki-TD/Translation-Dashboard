@@ -2,6 +2,7 @@
 
 include_once dirname(__DIR__) . '/bootstrap.php';
 
+use App\Logger;
 use App\User\CurrentUser;
 use App\MdwikiSql\Database;
 
@@ -27,7 +28,7 @@ function insertPageInprocess($title, $word, $tr_type, $cat, $lang, $user): bool
     $params = [$title, $user, $lang, $cat, $tr_type, $word, $title, $lang, $user];
 
     $db = new Database();
-    $db->testPrint($quae_new);
+    Logger::debug($quae_new);
 
     return $db->executequery($quae_new, $params);
 };

@@ -3,21 +3,8 @@
 namespace App\APICalls\TDApi;
 
 use App\Settings;
+use App\Logger;
 
-function test_print_z($s): void
-{
-    if (isset($_COOKIE['test']) && $_COOKIE['test'] == 'x') {
-        return;
-    }
-    $print_t = (isset($_REQUEST['test']) || isset($_COOKIE['test'])) ? true : false;
-
-    if ($print_t && is_string($s)) {
-        echo "\n<br>\n$s";
-    } elseif ($print_t) {
-        echo "\n<br>\n";
-        print_r($s);
-    }
-}
 
 function post_url(string $ServerUrl, array $params = []): string
 {
@@ -49,20 +36,20 @@ function post_url(string $ServerUrl, array $params = []): string
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
     if ($httpCode !== 200) {
-        test_print_z('post_url: Error: API request failed with status code ' . $httpCode);
+        Logger::debug('post_url: Error: API request failed with status code ' . $httpCode);
     }
 
     $executionTime = (microtime(true) - $timeStart);
     $executionTime = round($executionTime, 4);
 
-    test_print_z("post_url (time: $executionTime s): (http_code: $httpCode) $url2");
+    Logger::debug("post_url (time: $executionTime s): (http_code: $httpCode) $url2");
 
     if ($output === FALSE) {
-        test_print_z("post_url: cURL Error: " . curl_error($ch));
+        Logger::debug("post_url: cURL Error: " . curl_error($ch));
     }
 
     if (curl_errno($ch)) {
-        test_print_z('post_url: Error:' . curl_error($ch));
+        Logger::debug('post_url: Error:' . curl_error($ch));
     }
 
     curl_close($ch);
@@ -86,7 +73,7 @@ function get_td_api(array $params): array
     $result = $apiResults['results'] ?? [];
 
     if (isset($result['error'])) {
-        test_print_z('Error:' . json_encode($result['error'], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        Logger::debug('Error:' . json_encode($result['error'], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
     }
 
     return $apiResults;

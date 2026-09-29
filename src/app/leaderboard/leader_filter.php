@@ -114,9 +114,6 @@ function leaderboard_filter($year, $month, $user_group, $camp, $action = "leader
         $monthDropdown = make_month_dropdown($month, $graph_data);
     };
 
-    $test_line = (isset($_REQUEST['test']) != '') ? '<input type="hidden" name="test" value="1" />' : "";
-    $test_line .= (isset($_GET['use_td_api']) != '') ? "<input type='hidden' name='use_td_api' value='" . htmlspecialchars($_GET['use_td_api'], ENT_QUOTES, 'UTF-8') . "'/>" : "";
-
     return <<<HTML
         <form method="get" action="$action" id="leaderboard_filter">
             <div class="row g-3">
@@ -142,7 +139,6 @@ function leaderboard_filter($year, $month, $user_group, $camp, $action = "leader
                     </div>
                 </div>
                 <div class="aligncenter col-md-1 col-sm-3">
-                    $test_line
                     <input class='btn btn-outline-primary' type='submit' value='Filter' />
                 </div>
             </div>

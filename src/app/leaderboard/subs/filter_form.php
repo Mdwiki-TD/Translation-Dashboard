@@ -76,11 +76,8 @@ function make_filter_html($data, $filter_page)
         $hidden = "<input type='hidden' name='get' value='langs' /><input type='hidden' name='langcode' value='$lang' />";
     }
 
-    $test_line = (isset($_REQUEST['test']) != '') ? '<input type="hidden" name="test" value="1" />' : "";
-
     return <<<HTML
         <form method="get" action="leaderboard.php" class="border rounded">
-            $test_line
             $hidden
             <div class='container mt-3'>
                 <div class='row g-1'>

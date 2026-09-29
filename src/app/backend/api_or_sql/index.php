@@ -30,10 +30,6 @@ function use_td_api_or_sql(): bool
         $settingsTabe = array_column($data, 'value', 'title');
 
         $useTdApi  = (($settingsTabe['use_td_api'] ?? "") == "1") ? true : false;
-
-        if (isset($_GET['use_td_api'])) {
-            $useTdApi  = $_GET['use_td_api'] != "x";
-        }
     }
     return $useTdApi;
 }

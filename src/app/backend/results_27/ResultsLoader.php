@@ -66,10 +66,6 @@ class ResultsLoader
         $missingHtml = $missingTable->render($results["missing"]);
         $resLine = " Results: (" . count($results["missing"]) . ")";
 
-        if ($fetcher->debug) {
-            $resLine .= " test:";
-        }
-
         $html .= CardRenderer::render($resLine, $missingHtml, $results["ix"]);
 
         // ----- In-process table -----

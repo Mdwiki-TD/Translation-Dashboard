@@ -29,8 +29,6 @@ class LangsLeaderboard
         $dd_Pending = $u_tables['dd_Pending'];
         $table_of_views = $u_tables['table_of_views'];
 
-        $count_new = count($dd);
-
         [$table1, $main_table] = make_langs_lead(
             $dd,
             'translations',
@@ -40,19 +38,11 @@ class LangsLeaderboard
             $cats_data,
         );
 
-        $man = $langname;
-
-        $cat_link = "";
-
-        if (getenv('APP_ENV') !== 'production' || (isset($_REQUEST['test']) || isset($_COOKIE['test']))) {
-            $cat_link = '<br><a target="_blank" href="http://' . $mainlang . '.wikipedia.org/wiki/Category:Translated_from_MDWiki">(cat)</a>';
-        };
-
         $graph = graph_data_new($dd);
 
         $filter_data = ["user" => "", "lang" => $mainlang, "year" => $year_y, "camp" => $camp];
 
-        $output .= lead_row($table1, $graph, "<h4 class='text-center'>Language: $man ($mainlang) $cat_link</h4>", $filter_data, "lang");
+        $output .= lead_row($table1, $graph, "<h4 class='text-center'>Language: $langname ($mainlang)</h4>", $filter_data, "lang");
 
         $output .= <<<HTML
             <div class='card mt-1'>

@@ -423,13 +423,8 @@ class Results27Test extends TestCase
             'in_progress_translation_button' => false,
             'tra_type' => 'lead',
             'user_coord' => false,
-            'test' => true,
             'code_lang_name' => 'Arabic'
         ];
-
-        $html = $loader->load($inputData);
-        $this->assertStringContainsString('code:ar', $html);
-        $this->assertStringContainsString('code_lang_name:Arabic', $html);
 
         $htmlFromFunc = results_loader_27($inputData);
         $this->assertNotEmpty($htmlFromFunc);

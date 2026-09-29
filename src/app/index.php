@@ -268,10 +268,6 @@ class AppRouter
         $camp_ch = htmlspecialchars($camp, ENT_QUOTES);
         $camp_input = $this->makeDrop($campaigns_input_list, $camp_ch);
 
-        if ($camp === "test") {
-            $camp_input .= "<option value='test' selected>test</option>";
-        };
-
         $langs_table = get_td_or_sql_langs();
         $lang_list = $this->printFormStart1($langs_table, $code);
 
