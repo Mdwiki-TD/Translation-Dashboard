@@ -5,7 +5,7 @@ namespace App\SQLorAPI\GetLead;
 use function App\SQLorAPI\Get\superFunction;
 use function App\SQLorAPI\Get\isvalid;
 
-function makeSqlQuery($year, $user_group, $cat)
+function makeSqlQuery($year, $userGroup, $cat)
 {
     $params = [];
 
@@ -20,9 +20,9 @@ function makeSqlQuery($year, $user_group, $cat)
         WHERE p.target != ''
     ";
 
-    if (isvalid($user_group)) {
+    if (isvalid($userGroup)) {
         $query .= " AND u.user_group = ?";
-        $params[] = $user_group;
+        $params[] = $userGroup;
     }
 
     if (isvalid($year)) {
@@ -44,7 +44,7 @@ function makeSqlQuery($year, $user_group, $cat)
     ];
 }
 
-function makeApiParams($year, $user_group, $cat)
+function makeApiParams($year, $userGroup, $cat)
 {
 
     $apiParams = ['get' => 'leaderboard_table'];
@@ -53,8 +53,8 @@ function makeApiParams($year, $user_group, $cat)
         $apiParams['year'] = $year;
     }
 
-    if (isvalid($user_group)) {
-        $apiParams['user_group'] = $user_group;
+    if (isvalid($userGroup)) {
+        $apiParams['user_group'] = $userGroup;
     }
 
     if (isvalid($cat)) {
@@ -65,17 +65,17 @@ function makeApiParams($year, $user_group, $cat)
 }
 
 # @deprecated
-function getLeaderboardTable($year, $user_group, $cat)
+function getLeaderboardTable($year, $userGroup, $cat)
 {
 
-    $apiParams = makeApiParams($year, $user_group, $cat);
+    $apiParams = makeApiParams($year, $userGroup, $cat);
 
-    $qua_data = makeSqlQuery($year, $user_group, $cat);
+    $quaData = makeSqlQuery($year, $userGroup, $cat);
 
-    $qua_query = $qua_data['query'];
-    $qua_params = $qua_data['params'];
+    $quaQuery = $quaData['query'];
+    $quaParams = $quaData['params'];
 
-    $data = superFunction($apiParams, $qua_params, $qua_query);
+    $data = superFunction($apiParams, $quaParams, $quaQuery);
 
     return $data;
 }

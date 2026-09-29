@@ -8,18 +8,18 @@ use function App\SQLorAPI\Get\isvalid;
 function getProcessData(): array
 {
 
-    static $process_all = [];
+    static $processAll = [];
 
-    if (!empty($process_all)) {
-        return $process_all;
+    if (!empty($processAll)) {
+        return $processAll;
     }
 
     $apiParams = ['get' => 'in_process', 'limit' => "100", "order" => 'add_date'];
     $sql_t = "select * from in_process ORDER BY add_date DESC limit 100";
 
-    $process_all = superFunction($apiParams, [], $sql_t);
+    $processAll = superFunction($apiParams, [], $sql_t);
 
-    return $process_all;
+    return $processAll;
 }
 
 function getUserProcessNew(string $user, string $year_y = "all")

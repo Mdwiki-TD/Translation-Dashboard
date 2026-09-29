@@ -4,10 +4,10 @@ namespace App\SQLorAPI\Funcs;
 
 use function App\SQLorAPI\Get\superFunction;
 
-function missingByLangAndCategory($lang_code, $category)
+function missingByLangAndCategory($langCode, $category)
 {
 
-    $apiParams = ['get' => 'missing_by_lang_and_category', 'category' => $category, 'lang' => $lang_code];
+    $apiParams = ['get' => 'missing_by_lang_and_category', 'category' => $category, 'lang' => $langCode];
 
     $query = <<<SQL
         SELECT
@@ -38,17 +38,17 @@ function missingByLangAndCategory($lang_code, $category)
         AND EXISTS ( SELECT 1 FROM langs la WHERE la.code = ? )
     SQL;
 
-    $params = [$lang_code, $category, $lang_code];
+    $params = [$langCode, $category, $langCode];
 
-    $u_data = superFunction($apiParams, $params, $query);
+    $uData = superFunction($apiParams, $params, $query);
 
-    return $u_data;
+    return $uData;
 }
 
-function existsByLangAndCategory($lang_code, $category)
+function existsByLangAndCategory($langCode, $category)
 {
 
-    $apiParams = ['get' => 'exists_by_lang_and_category', 'category' => $category, 'lang' => $lang_code];
+    $apiParams = ['get' => 'exists_by_lang_and_category', 'category' => $category, 'lang' => $langCode];
 
     $query = <<<SQL
         SELECT
@@ -80,11 +80,11 @@ function existsByLangAndCategory($lang_code, $category)
         AND EXISTS ( SELECT 1 FROM langs la WHERE la.code = ? )
     SQL;
 
-    $params = [$lang_code, $category, $lang_code];
+    $params = [$langCode, $category, $langCode];
 
-    $u_data = superFunction($apiParams, $params, $query);
+    $uData = superFunction($apiParams, $params, $query);
 
-    return $u_data;
+    return $uData;
 }
 
 function countCategoryMembers($category)
@@ -110,11 +110,11 @@ function countCategoryMembers($category)
 
     $params = [$category];
 
-    $u_data = superFunction([], $params, $query);
+    $uData = superFunction([], $params, $query);
 
-    $data2[$category] = $u_data;
+    $data2[$category] = $uData;
 
-    return $u_data;
+    return $uData;
 }
 
 
@@ -151,9 +151,9 @@ function staticsByCategory($category)
 
     $params = [$category];
 
-    $u_data = superFunction($apiParams, $params, $query);
+    $uData = superFunction($apiParams, $params, $query);
 
-    $data2[$category] = $u_data;
+    $data2[$category] = $uData;
 
-    return $u_data;
+    return $uData;
 }

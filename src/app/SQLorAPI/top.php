@@ -5,20 +5,20 @@ namespace App\SQLorAPI\TopData;
 use function App\SQLorAPI\Get\superFunction;
 use function App\SQLorAPI\Get\isvalid;
 
-function getTopLangOfUsers($users_original)
+function getTopLangOfUsers($usersOriginal)
 {
 
-    $users = (count($users_original) > 50) ? [] : $users_original;
+    $users = (count($usersOriginal) > 50) ? [] : $usersOriginal;
 
     $apiParams = ['get' => 'top_lang_of_users', 'users' => $users];
 
-    $query_params = [];
-    $query_line = "";
+    $queryParams = [];
+    $queryLine = "";
 
     if (!empty($users) && is_array($users)) {
         $placeholders = rtrim(str_repeat('?,', count($users)), ',');
-        $query_line = " AND p.user IN ($placeholders)";
-        $query_params = $users;
+        $queryLine = " AND p.user IN ($placeholders)";
+        $queryParams = $users;
     }
 
     $query = <<<SQL
@@ -29,40 +29,40 @@ function getTopLangOfUsers($users_original)
             FROM pages p
             WHERE p.target != ''
             AND p.target IS NOT NULL
-            $query_line
+            $queryLine
             GROUP BY p.user, p.lang
         ) AS ranked
         WHERE rn = 1
         ORDER BY cnt DESC;
     SQL;
 
-    $data = superFunction($apiParams, $query_params, $query);
+    $data = superFunction($apiParams, $queryParams, $query);
 
     // [{"user":"Subas Chandra Rout","lang":"or","cnt":1906},{"user":"Pranayraj1985","lang":"te","cnt":401} ...
     // var_export(json_encode($data));
 
-    if ($users != $users_original) {
-        $data = array_filter($data, function ($item) use ($users_original) {
-            return in_array($item['user'], $users_original);
+    if ($users != $usersOriginal) {
+        $data = array_filter($data, function ($item) use ($usersOriginal) {
+            return in_array($item['user'], $usersOriginal);
         });
     }
 
     return $data;
 }
 
-function addTopParams($query, $params, $to_add)
+function addTopParams($query, $params, $toAdd)
 {
-    $top_params = [
+    $topParams = [
         "year" => "YEAR(p.pupdate)",
         "month" => "MONTH(p.pupdate)",
         "user_group" => "u.user_group",
         "cat" => "p.cat"
     ];
 
-    foreach ($top_params as $key => $column) {
-        if (isvalid($to_add[$key] ?? '')) {
+    foreach ($topParams as $key => $column) {
+        if (isvalid($toAdd[$key] ?? '')) {
             $query .= " AND $column = ?";
-            $params[] = $to_add[$key];
+            $params[] = $toAdd[$key];
         }
     }
 
@@ -72,11 +72,11 @@ function addTopParams($query, $params, $to_add)
 function topQuery($select)
 {
 
-    $select_field = ($select === 'user') ? 'p.user' : 'p.lang';
+    $selectField = ($select === 'user') ? 'p.user' : 'p.lang';
 
     $query = <<<SQL
         SELECT
-            $select_field,
+            $selectField,
             COUNT(p.target) AS targets,
             SUM(CASE
                 WHEN p.word IS NOT NULL AND p.word != 0 AND p.word != '' THEN p.word
@@ -109,12 +109,12 @@ function topQuery($select)
     return $query;
 }
 
-function getTopUsers($year, $user_group, $cat, $month = null)
+function getTopUsers($year, $userGroup, $cat, $month = null)
 {
 
-    $to_add = [
+    $toAdd = [
         "year" => $year,
-        "user_group" => $user_group,
+        "user_group" => $userGroup,
         "cat" => $cat,
         "month" => $month,
     ];
@@ -122,35 +122,35 @@ function getTopUsers($year, $user_group, $cat, $month = null)
     $apiParams = [
         'get' => 'top_users',
         'year' => $year,
-        'user_group' => $user_group,
+        'user_group' => $userGroup,
         'cat' => $cat,
         'month' => $month,
     ];
 
     $query = topQuery('user');
 
-    [$query, $params] = addTopParams($query, [], $to_add);
+    [$query, $params] = addTopParams($query, [], $toAdd);
 
     $query .= " GROUP BY p.user ORDER BY 2 DESC";
 
     $data = superFunction($apiParams, $params, $query);
 
-    $new_data = [];
+    $newData = [];
 
     foreach ($data as $item) {
         $item["count"] = intval($item["targets"]);
-        $new_data[$item['user']] = $item;
+        $newData[$item['user']] = $item;
     }
 
-    return $new_data;
+    return $newData;
 }
 
-function getTopLangs($year, $user_group, $cat, $month = null): array
+function getTopLangs($year, $userGroup, $cat, $month = null): array
 {
 
-    $to_add = [
+    $toAdd = [
         "year" => $year,
-        "user_group" => $user_group,
+        "user_group" => $userGroup,
         "cat" => $cat,
         'month' => $month,
     ];
@@ -158,35 +158,35 @@ function getTopLangs($year, $user_group, $cat, $month = null): array
     $apiParams = [
         'get' => 'top_langs',
         'year' => $year,
-        'user_group' => $user_group,
+        'user_group' => $userGroup,
         'cat' => $cat,
         'month' => $month,
     ];
 
     $query = topQuery('lang');
 
-    [$query, $params] = addTopParams($query, [], $to_add);
+    [$query, $params] = addTopParams($query, [], $toAdd);
 
     $query .= " GROUP BY p.lang ORDER BY 2 DESC";
 
     $data = superFunction($apiParams, $params, $query);
 
-    $new_data = [];
+    $newData = [];
 
     foreach ($data as $item) {
         $item["count"] = intval($item["targets"]);
-        $new_data[$item['lang']] = $item;
+        $newData[$item['lang']] = $item;
     }
 
-    return $new_data;
+    return $newData;
 }
 
-function getStatus($year, $user_group, $cat): array
+function getStatus($year, $userGroup, $cat): array
 {
 
-    $to_add = ["year" => $year, "user_group" => $user_group, "cat" => $cat];
+    $toAdd = ["year" => $year, "user_group" => $userGroup, "cat" => $cat];
 
-    $apiParams = ['get' => 'status', 'year' => $year, 'user_group' => $user_group, 'cat' => $cat];
+    $apiParams = ['get' => 'status', 'year' => $year, 'user_group' => $userGroup, 'cat' => $cat];
 
     $query = <<<SQL
         SELECT LEFT(p.pupdate, 7) as date, COUNT(*) as count
@@ -200,7 +200,7 @@ function getStatus($year, $user_group, $cat): array
 
     SQL;
 
-    [$query, $params] = addTopParams($query, [], $to_add);
+    [$query, $params] = addTopParams($query, [], $toAdd);
 
     $query .= " GROUP BY 1 ORDER BY 1 ASC";
 
@@ -210,11 +210,11 @@ function getStatus($year, $user_group, $cat): array
     // echo $query . "<br>";
     // var_export(json_encode($data));
 
-    $new_data = [];
+    $newData = [];
 
     foreach ($data as $item) {
-        $new_data[$item['date']] = intval($item["count"]);
+        $newData[$item['date']] = intval($item["count"]);
     }
 
-    return $new_data;
+    return $newData;
 }

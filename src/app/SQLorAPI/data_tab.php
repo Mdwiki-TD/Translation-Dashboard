@@ -60,29 +60,29 @@ function getViews($year, $lang)
             AND p.lang = v.lang
     SQL;
 
-    $query_complate = [];
+    $queryComplate = [];
 
-    $sql_params = [];
+    $sqlParams = [];
 
     if (isvalid($lang)) {
         $apiParams['lang'] = $lang;
-        $sql_params[] = $lang;
+        $sqlParams[] = $lang;
 
-        $query_complate[] = " v.lang = ? ";
+        $queryComplate[] = " v.lang = ? ";
     }
 
     if (isvalid($year)) {
         $apiParams['year'] = $year;
-        $sql_params[] = $year;
+        $sqlParams[] = $year;
 
-        $query_complate[] = " YEAR(p.pupdate) = ? ";
+        $queryComplate[] = " YEAR(p.pupdate) = ? ";
     }
 
-    if (!empty($query_complate)) {
-        $query2 .= " WHERE " . implode(" AND ", $query_complate);
+    if (!empty($queryComplate)) {
+        $query2 .= " WHERE " . implode(" AND ", $queryComplate);
     }
 
-    $data = superFunction($apiParams, $sql_params, $query2);
+    $data = superFunction($apiParams, $sqlParams, $query2);
 
     $cache[$year . $lang] = $data;
 
@@ -92,36 +92,36 @@ function getViews($year, $lang)
 function getSettings()
 {
 
-    static $sql_settings = [];
+    static $sqlSettings = [];
 
-    if (!empty($sql_settings)) {
-        return $sql_settings;
+    if (!empty($sqlSettings)) {
+        return $sqlSettings;
     }
 
     $query = "select id, title, displayed, value, Type from settings";
 
     $apiParams = ['get' => 'settings'];
 
-    $sql_settings = superFunction($apiParams, [], $query);
+    $sqlSettings = superFunction($apiParams, [], $query);
 
-    return $sql_settings;
+    return $sqlSettings;
 }
 
 function getProjects()
 {
 
-    static $user_groups = [];
+    static $userGroups = [];
 
-    if (!empty($user_groups ?? [])) {
-        return $user_groups;
+    if (!empty($userGroups ?? [])) {
+        return $userGroups;
     }
 
     $apiParams = ['get' => 'projects'];
     $query = "select g_id, g_title from projects";
 
-    $user_groups = superFunction($apiParams, [], $query);
+    $userGroups = superFunction($apiParams, [], $query);
 
-    return $user_groups;
+    return $userGroups;
 }
 
 function getCategories()
@@ -156,17 +156,17 @@ function getCategoriesMembers($category)
 function getQids()
 {
 
-    static $sql_td_qids = [];
+    static $sqlTdQids = [];
 
-    if (!empty($sql_td_qids)) return $sql_td_qids;
+    if (!empty($sqlTdQids)) return $sqlTdQids;
 
     $apiParams = ['get' => 'qids'];
     $query = "SELECT title, qid FROM qids";
     $data = superFunction($apiParams, [], $query);
 
-    $sql_td_qids = array_column($data, 'qid', 'title');
+    $sqlTdQids = array_column($data, 'qid', 'title');
 
-    return $sql_td_qids;
+    return $sqlTdQids;
 }
 
 function getUsersNoInprocess()
@@ -186,28 +186,28 @@ function getUsersNoInprocess()
 function getFullTranslators($column = null)
 {
 
-    static $full_tr = [];
+    static $fullTr = [];
 
-    if (!empty($full_tr)) return $full_tr;
+    if (!empty($fullTr)) return $fullTr;
 
     $apiParams = ['get' => 'full_translators'];
     $query = "SELECT id, user, is_active FROM full_translators";
-    $full_tr = superFunction($apiParams, [], $query);
+    $fullTr = superFunction($apiParams, [], $query);
 
     if ($column) {
-        return array_column($full_tr, $column);
+        return array_column($fullTr, $column);
     }
 
-    return $full_tr;
+    return $fullTr;
 }
 
 function getTranslateType(): array
 {
 
-    static $translate_type = [];
+    static $translateType = [];
 
-    if (!empty($translate_type ?? [])) {
-        return $translate_type;
+    if (!empty($translateType ?? [])) {
+        return $translateType;
     }
 
     $apiParams = ['get' => 'translate_type'];
@@ -215,7 +215,7 @@ function getTranslateType(): array
 
     $data = superFunction($apiParams, [], $query);
 
-    $translate_type = $data;
+    $translateType = $data;
 
     return $data;
 }
@@ -223,10 +223,10 @@ function getTranslateType(): array
 function getCountPages()
 {
 
-    static $count_pages = [];
+    static $countPages = [];
 
-    if (!empty($count_pages ?? [])) {
-        return $count_pages;
+    if (!empty($countPages ?? [])) {
+        return $countPages;
     }
 
     $apiParams = ['get' => 'count_pages'];
@@ -242,7 +242,7 @@ function getCountPages()
 
     // print_r($data);
 
-    $count_pages = $data;
+    $countPages = $data;
 
     return $data;
 }
@@ -267,32 +267,32 @@ function getLangs()
 function getQidsForList($list)
 {
 
-    $sq_qids = getQids();
+    $sqQids = getQids();
 
-    $with_qids = [];
-    $no_qids = [];
+    $withQids = [];
+    $noQids = [];
 
     foreach ($list as $member) {
-        $qid = $sq_qids[$member] ?? 0;
+        $qid = $sqQids[$member] ?? 0;
         if ($qid) {
-            $with_qids[$member] = $qid;
+            $withQids[$member] = $qid;
         } else {
-            $no_qids[] = $member;
+            $noQids[] = $member;
         }
     }
 
     return [
-        "with_qids" => $with_qids,
-        "no_qids" => $no_qids,
+        "with_qids" => $withQids,
+        "no_qids" => $noQids,
     ];
 }
 function getCampsToCat()
 {
-    static $s_camp_to_cat = [];
-    if (!empty($s_camp_to_cat)) return $s_camp_to_cat;
+    static $sCampToCat = [];
+    if (!empty($sCampToCat)) return $sCampToCat;
 
-    $categories_tab = getCategories();
-    $s_camp_to_cat = array_column($categories_tab, "category", 'campaign');
+    $categoriesTab = getCategories();
+    $sCampToCat = array_column($categoriesTab, "category", 'campaign');
 
-    return $s_camp_to_cat;
+    return $sCampToCat;
 }
