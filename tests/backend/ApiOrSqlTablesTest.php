@@ -3,15 +3,15 @@
 namespace Tests\Backend\ApiOrSql;
 
 use PHPUnit\Framework\TestCase;
-use App\SQLorAPI\Get\ApiOrSqlService;
-use App\SQLorAPI\Pages\PagesTable;
-use App\SQLorAPI\Views\ViewsTable;
-use App\SQLorAPI\Categories\CategoriesTable;
-use App\SQLorAPI\InProcess\InProcessTable;
-use App\SQLorAPI\Users\UsersTable;
-use App\SQLorAPI\Leaderboard\LeaderboardTable;
-use App\SQLorAPI\Settings\SettingsTable;
-use App\SQLorAPI\Titles\TitlesTable;
+use App\SQLorAPI\ApiOrSqlService;
+use App\SQLorAPI\PagesTable;
+use App\SQLorAPI\ViewsTable;
+use App\SQLorAPI\CategoriesTable;
+use App\SQLorAPI\InProcessTable;
+use App\SQLorAPI\UsersTable;
+use App\SQLorAPI\LeaderboardTable;
+use App\SQLorAPI\SettingsTable;
+use App\SQLorAPI\TitlesTable;
 
 class ApiOrSqlTablesTest extends TestCase
 {

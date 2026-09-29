@@ -2,7 +2,7 @@
 
 namespace App\SQLorAPI;
 
-use App\SQLorAPI\Get\ApiOrSqlService;
+use App\SQLorAPI\ApiOrSqlService;
 
 class LeaderboardTable
 {
