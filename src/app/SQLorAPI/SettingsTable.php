@@ -17,7 +17,7 @@ function getSettings()
 
     $apiParams = ['get' => 'settings'];
 
-    $sqlSettings = superFunction($apiParams, [], $query);
+    $sqlSettings = ApiOrSqlService::superFunction($apiParams, [], $query);
 
     return $sqlSettings;
 }

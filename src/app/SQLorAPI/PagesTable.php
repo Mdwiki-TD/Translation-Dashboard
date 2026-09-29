@@ -19,7 +19,7 @@ function getLangPagesByCat($lang, $cat)
     $query = "select * from pages p where p.lang = ? and p.cat = ?";
     $params = [$lang, $cat];
 
-    $uData = superFunction($apiParams, $params, $query);
+    $uData = ApiOrSqlService::superFunction($apiParams, $params, $query);
 
     $data[$lang . $cat] = $uData;
 
@@ -51,21 +51,21 @@ function getUserPages($userMain, $year_y, $lang_y)
 
     $sqlParams = [$userMain];
 
-    if (isValid($year_y)) {
+    if (ApiOrSqlService::isValid($year_y)) {
         $query .= " and YEAR(p.date) = ?";
         $sqlParams[] = $year_y;
 
         $apiParams['year'] = $year_y;
     };
 
-    if (isValid($lang_y)) {
+    if (ApiOrSqlService::isValid($lang_y)) {
         $query .= " and p.lang = ?";
         $sqlParams[] = $lang_y;
 
         $apiParams['lang'] = $lang_y;
     };
 
-    $uData = superFunction($apiParams, $sqlParams, $query);
+    $uData = ApiOrSqlService::superFunction($apiParams, $sqlParams, $query);
 
     $data[$key] = $uData;
 
@@ -85,7 +85,7 @@ function getPagesWithPupdate()
 
     $query = "SELECT DISTINCT YEAR(pupdate) AS year FROM pages WHERE pupdate <> ''";
 
-    $uData = superFunction($apiParams, [], $query);
+    $uData = ApiOrSqlService::superFunction($apiParams, [], $query);
 
     $uData = array_map('current', $uData);
 
@@ -108,14 +108,14 @@ function getLangPages($lang, $year_y)
     $query = "select * from pages p where p.lang = ?";
     $params = [$lang];
 
-    if (isValid($year_y)) {
+    if (ApiOrSqlService::isValid($year_y)) {
         $query .= " and YEAR(p.date) = ?";
         $params[] = $year_y;
 
         $apiParams['year'] = $year_y;
     };
 
-    $uData = superFunction($apiParams, $params, $query);
+    $uData = ApiOrSqlService::superFunction($apiParams, $params, $query);
 
     $data[$lang . $year_y] = $uData;
 
@@ -137,7 +137,7 @@ function getLangYears($mainlang)
     $query = "SELECT DISTINCT YEAR(p.pupdate) AS year FROM pages p WHERE p.lang = ?";
     $params = [$mainlang];
 
-    $uData = superFunction($apiParams, $params, $query);
+    $uData = ApiOrSqlService::superFunction($apiParams, $params, $query);
 
     $uData = array_map('current', $uData);
 
@@ -164,7 +164,7 @@ function getUserYears($user)
 
     $params = [$user];
 
-    $uData = superFunction($apiParams, $params, $query);
+    $uData = ApiOrSqlService::superFunction($apiParams, $params, $query);
 
     $uData = array_map('current', $uData);
 
@@ -195,7 +195,7 @@ function getUserLangs($user)
     $query = "SELECT DISTINCT p.lang FROM pages p WHERE p.user = ?";
     $params = [$user];
 
-    $uData = superFunction($apiParams, $params, $query);
+    $uData = ApiOrSqlService::superFunction($apiParams, $params, $query);
 
     $uData = array_map('current', $uData);
 
@@ -228,7 +228,7 @@ function getUserCamps($user)
     ";
     $params = [$user];
 
-    $uData = superFunction($apiParams, $params, $query);
+    $uData = ApiOrSqlService::superFunction($apiParams, $params, $query);
 
     $uData = array_map('current', $uData);
 
@@ -240,38 +240,6 @@ function getUserCamps($user)
     $data[$user] = $uData;
 
     return $uData;
-}
-
-function getUsersNoInprocess()
-{
-
-    static $users = [];
-
-    if (!empty($users)) return $users;
-
-    $apiParams = ['get' => 'users_no_inprocess'];
-    $query = "SELECT id, user, is_active FROM users_no_inprocess order by id";
-    $users = superFunction($apiParams, [], $query);
-
-    return $users;
-}
-
-function getFullTranslators($column = null)
-{
-
-    static $fullTr = [];
-
-    if (!empty($fullTr)) return $fullTr;
-
-    $apiParams = ['get' => 'full_translators'];
-    $query = "SELECT id, user, is_active FROM full_translators";
-    $fullTr = superFunction($apiParams, [], $query);
-
-    if ($column) {
-        return array_column($fullTr, $column);
-    }
-
-    return $fullTr;
 }
 
 function getCountPages()
@@ -288,7 +256,7 @@ function getCountPages()
         SELECT DISTINCT user, count(target) as count from pages group by user order by count desc
     SQL;
 
-    $data = superFunction($apiParams, [], $query);
+    $data = ApiOrSqlService::superFunction($apiParams, [], $query);
 
     $data = array_column($data, 'count', 'user');
 
