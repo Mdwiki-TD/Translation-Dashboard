@@ -218,3 +218,18 @@ function staticsByCategory($category)
 {
     return CategoriesTable::staticsByCategory($category);
 }
+
+function getCategoriesMembers($category)
+{
+    return CategoriesTable::getCategoriesMembers($category);
+}
+
+function getCategories()
+{
+    return CategoriesTable::getCategories();
+}
+
+function getCampsToCat()
+{
+    return CategoriesTable::getCampsToCat();
+}
