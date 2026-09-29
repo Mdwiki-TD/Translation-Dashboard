@@ -10,7 +10,7 @@ function get_articles_to_camps()
 
     if (!empty($articles_to_camps)) return $articles_to_camps;
 
-    $categories_tab = (new CategoriesTable())->getCategories();
+    $categories_tab = (CategoriesTable::getInstance())->getCategories();
     $cats_data = array_column($categories_tab, "campaign", "category");
 
     if (isset($cats_data['RTT'])) {
@@ -20,7 +20,7 @@ function get_articles_to_camps()
 
     foreach ($cats_data as $cat => $camp) {
 
-        $members = (new CategoriesTable())->getCategoriesMembers($cat);
+        $members = (CategoriesTable::getInstance())->getCategoriesMembers($cat);
 
         foreach ($members as $member) {
 

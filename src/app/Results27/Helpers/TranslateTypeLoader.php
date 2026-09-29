@@ -17,7 +17,7 @@ class TranslateTypeLoader
     private static function init(): void
     {
         if (!self::$loaded) {
-            $rows = (new TitlesTable())->getTranslateType();
+            $rows = (TitlesTable::getInstance())->getTranslateType();
             self::loadData($rows);
         }
     }

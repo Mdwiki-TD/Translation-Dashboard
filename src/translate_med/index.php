@@ -89,10 +89,10 @@ $useree = $currentUser->getUsername();
 
 if (!empty($title_o) && !empty($coden)) {
 
-    $categories_tab = (new CategoriesTable())->getCategories();
+    $categories_tab = (CategoriesTable::getInstance())->getCategories();
     $cats_data = array_column($categories_tab, "campaign", "category");
 
-    $users_no_inprocess = (new UsersTable())->getUsersNoInprocess();
+    $users_no_inprocess = (UsersTable::getInstance())->getUsersNoInprocess();
     $users_no_inprocess = array_column($users_no_inprocess, 'is_active', 'user');
 
     $title_o = trim($title_o);

@@ -43,7 +43,7 @@ class MissingController
 	{
 		$length = 0;
 
-		foreach ((new CategoriesTable())->countCategoryMembers($category) as $row) {
+		foreach ((CategoriesTable::getInstance())->countCategoryMembers($category) as $row) {
 			$length = (int)($row['members'] ?? 0);
 		}
 
@@ -59,8 +59,8 @@ class MissingController
 	 */
 	private function buildRows(string $category, int $totalPages): array
 	{
-		$stats	 = (new CategoriesTable())->staticsByCategory($category);
-		$langsData = (new TitlesTable())->getLangs();
+		$stats	 = (CategoriesTable::getInstance())->staticsByCategory($category);
+		$langsData = (TitlesTable::getInstance())->getLangs();
 
 		$rows = [];
 		$num  = 0;

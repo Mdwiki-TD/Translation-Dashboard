@@ -10,9 +10,19 @@ class RecentTable
     private static array $RecentPagesUsersCache = [];
 
     private ApiOrSqlService $service;
+    private static ?self $instance = null;
     public function __construct(?ApiOrSqlService $service = null)
     {
         $this->service = $service ?? new ApiOrSqlService();
+    }
+
+    public static function getInstance(): self
+    {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
     }
 
     public static function resetCache(): void
@@ -155,16 +165,16 @@ class RecentTable
 
 function getRecentPagesWithViews(string $lang): array
 {
-    return (new RecentTable())->getRecentPagesWithViews($lang);
+    return (RecentTable::getInstance())->getRecentPagesWithViews($lang);
 }
 
 function getRecentPagesUsers(string $lang): array
 {
-    return (new RecentTable())->getRecentPagesUsers($lang);
+    return (RecentTable::getInstance())->getRecentPagesUsers($lang);
 }
 
 function getRecentTranslated(string $lang, string $table, int $limit, int $offset): array
 {
-    return (new RecentTable())->getRecentTranslated($lang, $table, $limit, $offset);
+    return (RecentTable::getInstance())->getRecentTranslated($lang, $table, $limit, $offset);
 }
 

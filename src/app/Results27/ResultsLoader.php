@@ -31,7 +31,7 @@ class ResultsLoader
         $userCoord    = (bool)($data["user_coord"] ?? false);
 
         // Full translator check
-        $fullTranslators = (new UsersTable())->getFullTranslators();
+        $fullTranslators = (UsersTable::getInstance())->getFullTranslators();
         $fullTranslators = array_column($fullTranslators, "is_active", "user");
         $fullTrUser = ($fullTranslators[$globalUser] ?? 0) == 1;
 
@@ -40,7 +40,7 @@ class ResultsLoader
         $results = $fetcher->get($cat, $code);
 
         // Helper data
-        $titlesInfos      = array_column((new TitlesTable())->getTitlesInfos(), null, "title");
+        $titlesInfos      = array_column((TitlesTable::getInstance())->getTitlesInfos(), null, "title");
         $noLeadTranslates = TranslateTypeLoader::load("no");
         $fullTranslates   = TranslateTypeLoader::load("full");
 

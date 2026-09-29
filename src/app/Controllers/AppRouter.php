@@ -151,9 +151,9 @@ class AppRouter
         // Load Config
         // =======================
 
-        $settings = (new SettingsTable())->getSettings();
+        $settings = (SettingsTable::getInstance())->getSettings();
 
-        $categories_tab = (new CategoriesTable())->getCategories();
+        $categories_tab = (CategoriesTable::getInstance())->getCategories();
 
         $camps_data = array_column($categories_tab, null, 'campaign');
         $cats_data = array_column($categories_tab, "campaign", "category");
@@ -268,7 +268,7 @@ class AppRouter
         $camp_ch = htmlspecialchars($camp, ENT_QUOTES);
         $camp_input = $this->makeDrop($campaigns_input_list, $camp_ch);
 
-        $langs_table = (new TitlesTable())->getLangs();
+        $langs_table = (TitlesTable::getInstance())->getLangs();
         $lang_list = $this->printFormStart1($langs_table, $code);
 
         // Login Button

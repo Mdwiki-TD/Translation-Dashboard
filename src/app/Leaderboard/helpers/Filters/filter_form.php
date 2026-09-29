@@ -36,9 +36,9 @@ function make_filter_html($data, $filter_page)
     $camp     = $data['camp'];
 
     if ($filter_page == 'user') {
-        $years = (new PagesTable())->getUserYears($user);
-        $langs = (new PagesTable())->getUserLangs($user);
-        $camps = (new PagesTable())->getUserCamps($user);
+        $years = (PagesTable::getInstance())->getUserYears($user);
+        $langs = (PagesTable::getInstance())->getUserLangs($user);
+        $camps = (PagesTable::getInstance())->getUserCamps($user);
 
         $langsDropdown = DropdownNew('Lang', $langs, $lang, 'lang');
         $yearDropdown  = DropdownNew('Year', $years, $year, 'year');
@@ -58,7 +58,7 @@ function make_filter_html($data, $filter_page)
         $hidden = "<input type='hidden' name='get' value='users' /><input type='hidden' name='user' value='$user' />";
 
     } else {
-        $years = (new PagesTable())->getLangYears($lang);
+        $years = (PagesTable::getInstance())->getLangYears($lang);
 
         $yearDropdown = DropdownNew('Year', $years, $year, 'year');
 

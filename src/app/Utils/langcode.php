@@ -408,7 +408,7 @@ function load_langs_tables()
     }
     $already_loaded = true;
 
-    $langs_table = (new TitlesTable())->getLangs();
+    $langs_table = (TitlesTable::getInstance())->getLangs();
 
     foreach ($langs_table as $_ => $lang_tab) {
         $lang_code = $lang_tab['code'] ?? "";

@@ -42,8 +42,8 @@ class LeaderboardController
         $month_y  = filter_input(INPUT_GET, 'month', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
         $camp     = filter_input(INPUT_GET, 'camp', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'All';
 
-        $_titles_infos   = (new TitlesTable())->getTitlesInfos();
-        $categories_tab = (new CategoriesTable())->getCategories();
+        $_titles_infos   = (TitlesTable::getInstance())->getTitlesInfos();
+        $categories_tab = (CategoriesTable::getInstance())->getCategories();
 
         $lead_words_table = array_column($_titles_infos, 'w_lead_words', 'title');
         $cats_data = array_column($categories_tab, "campaign", "category");
@@ -76,7 +76,7 @@ class LeaderboardController
         } elseif (!empty($_GET['graph'] ?? '')) {
             // http://localhost:9001/Translation_Dashboard/leaderboard.php?graph=1
 
-            $data = (new ViewsTable())->getGraphData();
+            $data = (ViewsTable::getInstance())->getGraphData();
             echo print_graph_tab($data);
         } elseif (!empty($_GET['graph_api'] ?? '')) {
             // http://localhost:9001/Translation_Dashboard/leaderboard.php?graph_api=1
@@ -88,7 +88,7 @@ class LeaderboardController
                 ?? filter_input(INPUT_GET, 'user_group', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
                 ?? 'all';
 
-            $langs_data = (new TitlesTable())->getLangs();
+            $langs_data = (TitlesTable::getInstance())->getLangs();
 
             $settings = Settings::getInstance();
             $addcat = !$settings->isProduction() && (isset($_GET['nocat']));

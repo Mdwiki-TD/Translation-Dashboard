@@ -12,9 +12,19 @@ class ViewsTable
     private static array $graphDataCache = [];
 
     private ApiOrSqlService $service;
+    private static ?self $instance = null;
     public function __construct(?ApiOrSqlService $service = null)
     {
         $this->service = $service ?? new ApiOrSqlService();
+    }
+
+    public static function getInstance(): self
+    {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
     }
 
     public static function resetCache(): void

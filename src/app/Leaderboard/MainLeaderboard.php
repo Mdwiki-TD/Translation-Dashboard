@@ -25,9 +25,9 @@ class MainLeaderboard
         $addcat,
         $month
     ): string {
-        $users = (new LeaderboardTable())->getTopUsers($year, $user_group, $cat, $month);
+        $users = (LeaderboardTable::getInstance())->getTopUsers($year, $user_group, $cat, $month);
 
-        $lang_table = (new LeaderboardTable())->getTopLangs($year, $user_group, $cat, $month);
+        $lang_table = (LeaderboardTable::getInstance())->getTopLangs($year, $user_group, $cat, $month);
 
         $articles_all = number_format(array_sum(array_column($users, 'count')));
 
@@ -44,7 +44,7 @@ class MainLeaderboard
             $all_views
         );
 
-        $graph_data = (new LeaderboardTable())->getStatus($year, $user_group, $cat);
+        $graph_data = (LeaderboardTable::getInstance())->getStatus($year, $user_group, $cat);
 
         $graph_html = print_graph_for_table($graph_data, $no_card = false);
 
@@ -54,7 +54,7 @@ class MainLeaderboard
 
         $users = array_keys($users);
 
-        $users_tab = (new LeaderboardTable())->getTopLangOfUsers($users);
+        $users_tab = (LeaderboardTable::getInstance())->getTopLangOfUsers($users);
 
         $copy_module = module_copy_data($users_tab);
 
@@ -80,7 +80,7 @@ class MainLeaderboard
 
     public function render($year, $camp, $user_group, $langs_data, $addcat, $month): string
     {
-        $s_camp_to_cat = (new CategoriesTable())->getCampsToCat();
+        $s_camp_to_cat = (CategoriesTable::getInstance())->getCampsToCat();
 
         $cat = $s_camp_to_cat[$camp] ?? '';
 

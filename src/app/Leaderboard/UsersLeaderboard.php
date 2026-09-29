@@ -27,7 +27,7 @@ class UsersLeaderboard
         $mainlang = rawurldecode(str_replace("_", " ", $mainlang));
 
         // '[{"user":"Mr. Ibrahem","lang":"ar","cnt":14}]'
-        $user_most_langs = (new LeaderboardTable())->getTopLangOfUsers([$user_to_curl]);
+        $user_most_langs = (LeaderboardTable::getInstance())->getTopLangOfUsers([$user_to_curl]);
 
         $user_langs = $user_most_langs[0]['lang'] ?? "";
 
