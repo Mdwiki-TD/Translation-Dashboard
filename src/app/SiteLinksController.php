@@ -2,8 +2,8 @@
 
 namespace App\SiteLinks;
 
+use App\Logger;
 use App\Render\TemplateRenderer;
-use function App\Render\TestPrint\test_print;
 use function App\Tables\TablesDir\open_td_tables_file;
 use App\Settings;
 
@@ -78,8 +78,8 @@ class SiteLinksController
 		// Sort QIDs by number of sitelinks (descending)
 		uasort($qids, fn($a, $b) => count($b['sitelinks']) <=> count($a['sitelinks']));
 
-		test_print("jsons/sitelinks.json: qids_all: " . count($qids));
-		test_print("jsons/sitelinks.json: heads_all: " . count($heads));
+		Logger::debug("jsons/sitelinks.json: qids_all: " . count($qids));
+		Logger::debug("jsons/sitelinks.json: heads_all: " . count($heads));
 
 		return ['heads' => $heads, 'qids' => $qids];
 	}

@@ -35,8 +35,6 @@ function insertPageInprocess($title, $word, $tr_type, $cat, $lang, $user): bool
 function go_to_translate_url($title_o, $coden, $tr_type, $cat, $camp)
 {
 
-    $test = $_GET['test'] ?? '';
-
     $url = make_ContentTranslation_url(
         $title_o,
         $coden,
@@ -52,17 +50,15 @@ function go_to_translate_url($title_o, $coden, $tr_type, $cat, $camp)
         </h2>
     HTML;
 
-    if (empty($test)) {
-        echo <<<HTML
-            <script type='text/javascript'>
-            window.open('$url', '_self');
-            </script>
+    echo <<<HTML
+        <script type='text/javascript'>
+        window.open('$url', '_self');
+        </script>
+        <meta http-equiv='refresh' content='0; url=$url'>
+        <noscript>
             <meta http-equiv='refresh' content='0; url=$url'>
-            <noscript>
-                <meta http-equiv='refresh' content='0; url=$url'>
-            </noscript>
-        HTML;
-    }
+        </noscript>
+    HTML;
 }
 
 $currentUser = CurrentUser::getInstance();

@@ -30,7 +30,6 @@ class ResultsLoader
         $inProgressButton = (bool)($data["in_progress_translation_button"] ?? false);
         $traType      = $data["tra_type"] ?? "lead";
         $userCoord    = (bool)($data["user_coord"] ?? false);
-        $test         = !empty($data["test"]);
 
         // Full translator check
         $fullTranslators = get_td_or_sql_full_translators();
@@ -38,7 +37,7 @@ class ResultsLoader
         $fullTrUser = ($fullTranslators[$globalUser] ?? 0) == 1;
 
         // Fetch data
-        $fetcher = new ResultsFetcher($test);
+        $fetcher = new ResultsFetcher();
         $results = $fetcher->get($cat, $code);
 
         // Helper data
@@ -48,7 +47,7 @@ class ResultsLoader
 
         $html = "";
 
-        if ($test) {
+        if ($fetcher->debug) {
             $html .= "code:{$code}<br>code_lang_name:" . ($data["code_lang_name"] ?? "") . "<br>";
         }
 
@@ -66,7 +65,8 @@ class ResultsLoader
 
         $missingHtml = $missingTable->render($results["missing"]);
         $resLine = " Results: (" . count($results["missing"]) . ")";
-        if ($test) {
+
+        if ($fetcher->debug) {
             $resLine .= " test:";
         }
 

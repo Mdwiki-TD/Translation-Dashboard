@@ -1,7 +1,6 @@
 <?PHP
 
-include_once __DIR__ . '/include_first/tables_dir.php';
-include_once __DIR__ . '/include_first/test_print.php';
+include_once __DIR__ . '/tables_dir.php';
 
 # api_calls
 include_once __DIR__ . '/api_calls/wiki_api.php';

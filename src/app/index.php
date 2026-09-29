@@ -40,7 +40,6 @@ class AppRouter
     ) {
         $errors = [];
 
-        $test = htmlspecialchars($_GET["test"] ?? "", ENT_QUOTES, "UTF-8");
         $doit = htmlspecialchars($_GET["doit"] ?? "", ENT_QUOTES, "UTF-8");
         $code = htmlspecialchars($_GET["code"] ?? "", ENT_QUOTES, "UTF-8");
         $filter_sparql = !empty($_GET["filter_sparql"] ?? "") ? true : false;
@@ -92,7 +91,6 @@ class AppRouter
         }
 
         return [
-            "test" => !empty($test),
             "doit" => $doit,
             "code" => $code,
             "cat" => $cat,
@@ -188,7 +186,6 @@ class AppRouter
             $cats_data
         );
 
-        $test           = $req['test'] ?? '';
         $code           = $req['code'] ?? '';
         $tra_type       = $req['tra_type'] ?? '';
         $filter_sparql  = $req['filter_sparql'] ?? false;
@@ -221,7 +218,6 @@ class AppRouter
             $tra_type,
             $filter_sparql,
             $code_lang_name,
-            $test,
             $settings
         );
     }
@@ -372,7 +368,6 @@ HTML;
         $tra_type,
         $filter_sparql,
         $code_lang_name,
-        $test,
         $settings
     ): void {
         echo "<div class='container-fluid'>";
@@ -401,7 +396,6 @@ HTML;
 
                 "show_exists" => $show_exists,
                 "in_progress_translation_button" => $in_progress_translation_button,
-                "test" => $test
             ];
 
             $loader = new ResultsLoader();

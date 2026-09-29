@@ -71,6 +71,7 @@ if (file_exists($vendorAutoload)) {
 // Load security module first
 include_once __DIR__ . '/User/bootstrap.php';
 include_once __DIR__ . '/Settings.php';
+include_once __DIR__ . '/Logger.php';
 
 # MdwikiSql
 include_once __DIR__ . '/MdwikiSql/Database.php';

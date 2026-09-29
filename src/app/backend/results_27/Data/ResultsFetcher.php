@@ -2,12 +2,12 @@
 
 namespace App\Results\GetResults27\Data;
 
+use App\Logger;
 use function App\Utils\Html\make_mdwiki_cat_url;
 use function App\SQLorAPI\Funcs\get_lang_pages_by_cat;
 use function App\SQLorAPI\Process\get_lang_in_process;
 use function App\SQLorAPI\Funcs\missing_by_lang_and_category;
 use function App\SQLorAPI\Funcs\exists_by_lang_and_category;
-use function App\Render\TestPrint\test_print;
 
 /**
  * Responsible for fetching and preparing all result data
@@ -15,7 +15,7 @@ use function App\Render\TestPrint\test_print;
  */
 class ResultsFetcher
 {
-    private bool $debug;
+    public bool $debug;
 
     public function __construct(bool $debug = false)
     {
@@ -143,6 +143,6 @@ class ResultsFetcher
         }
 
         $text = $value !== null ? "{$message}: {$value}" : $message;
-        test_print($text);
+        Logger::debug($text);
     }
 }
