@@ -4,6 +4,7 @@
 use App\Templates\PageHeader;
 use App\Templates\PageFooter;
 use App\User\CurrentUser;
+use App\SiteLinks\SiteLinksController;
 
 include_once __DIR__ . '/app/include_all.php';
 include_once __DIR__ . '/templates/include.php';
@@ -13,7 +14,7 @@ $currentUser = CurrentUser::getInstance();
 $pageHeader = new PageHeader($currentUser);
 $pageHeader->render();
 
-include_once __DIR__ . '/app/sitelinks.php';
+(new SiteLinksController())->handleRequest();
 
 $timeStart = $pageHeader->getLoadStartTime();
 
