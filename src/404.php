@@ -1,13 +1,13 @@
 <?PHP
 http_response_code(404);
 
-include_once __DIR__ . '/app/include_all.php';
+include_once __DIR__ . '/app/bootstrap.php';
 
 use App\Layout\PageHeader;
 use App\Layout\PageFooter;
 use App\User\CurrentUser;
 
-include_once __DIR__ . '/Layout/include.php';
+include_once __DIR__ . '/Layout/bootstrap.php';
 
 $currentUser = CurrentUser::getInstance();
 

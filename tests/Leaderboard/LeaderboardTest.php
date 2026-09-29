@@ -8,8 +8,8 @@ use PHPUnit\Framework\TestCase;
 use App\Leaderboard\MainLeaderboard;
 use App\Leaderboard\UsersLeaderboard;
 use App\Leaderboard\LangsLeaderboard;
-use App\Leaderboard\IndexJsLeaderboard;
-use App\Leaderboard\LeaderboardRouter;
+use App\Leaderboard\LeaderboardJsController;
+use App\Leaderboard\LeaderboardController;
 
 class LeaderboardTest extends TestCase
 {
@@ -61,10 +61,10 @@ class LeaderboardTest extends TestCase
 
     public function testIndexJsLeaderboardRender(): void
     {
-        $indexJs = new IndexJsLeaderboard();
+        $indexJs = new LeaderboardJsController();
 
         ob_start();
-        $indexJs->render();
+        $indexJs->handleRequest();
         $output = ob_get_clean();
 
         $this->assertStringContainsString('Topusers', $output);
@@ -76,7 +76,7 @@ class LeaderboardTest extends TestCase
         $_GET['get'] = 'camps';
         $_GET['camps'] = '1';
 
-        $router = new LeaderboardRouter();
+        $router = new LeaderboardController();
 
         ob_start();
         $router->handleRequest();

@@ -8,6 +8,8 @@
 
 namespace App\MdwikiSql;
 
+use App\Logger;
+
 use PDO;
 use PDOException;
 use RuntimeException;
@@ -80,7 +82,7 @@ class Database
         if (!$this->hasValidCredentials()) {
             $this->db = null;
             error_log('Database credentials are not fully configured; skipping DB connection.');
-            $this->testPrint('Database credentials are not fully configured; skipping DB connection.');
+            Logger::debug('Database credentials are not fully configured; skipping DB connection.');
             return;
         }
 
@@ -90,7 +92,7 @@ class Database
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
             $this->db = null;
-            $this->testPrint($e->getMessage());
+            Logger::debug($e->getMessage());
             // Log the error message
             error_log($e->getMessage());
             if ($this->appEnv === 'testing') {
@@ -101,22 +103,6 @@ class Database
             throw new \RuntimeException('Database connection failed');
         }
     }
-    public function testPrint($s)
-    {
-        if (isset($_COOKIE['test']) && $_COOKIE['test'] == 'x') {
-            return;
-        }
-
-        $print_t = (isset($_REQUEST['test']) || isset($_COOKIE['test'])) ? true : false;
-
-        if ($print_t && is_string($s)) {
-            echo "\n<br>\n$s";
-        } elseif ($print_t) {
-            echo "\n<br>\n";
-            print_r($s);
-        }
-    }
-
     public function disableFullGroupByMode(string $sqlQuery): void
     {
         if ($this->db === null) {
@@ -158,7 +144,7 @@ class Database
             return $result;
         } catch (PDOException $e) {
             error_log("SQL Error in fetchquery: " . $e->getMessage() . " | Query: " . $sqlQuery);
-            $this->testPrint("SQL Error in fetchquery: " . $e->getMessage() . " | Query: " . $sqlQuery);
+            Logger::debug("SQL Error in fetchquery: " . $e->getMessage() . " | Query: " . $sqlQuery);
             // In testing mode, re-throw to allow tests to skip
             if ($this->appEnv === 'testing') {
                 throw $e;
@@ -185,7 +171,7 @@ class Database
             return true;
         } catch (PDOException $e) {
             error_log("SQL Error in executequery: " . $e->getMessage() . " | Query: " . $sqlQuery);
-            $this->testPrint("SQL Error in executequery: " . $e->getMessage() . " | Query: " . $sqlQuery);
+            Logger::debug("SQL Error in executequery: " . $e->getMessage() . " | Query: " . $sqlQuery);
             // In testing mode, re-throw to allow tests to skip
             if ($this->appEnv === 'testing') {
                 throw $e;

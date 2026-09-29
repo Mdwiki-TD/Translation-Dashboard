@@ -1,0 +1,67 @@
+<?php
+
+namespace App\Results27\Tables;
+
+function make_table_start(bool $inprocess): string
+{
+
+    $type_th = ($inprocess) ? '<th class="spannowrap" style="text-align:center">Type</th>' : '';
+
+    $inprocess_first = ($inprocess) ? '<th>user</th><th>date</th>' : '';
+
+    return <<<HTML
+        <table class="table compact table-striped table_100 table_text_left display table_responsive_main">
+            <thead>
+                <tr>
+                    <th class="num">
+                        #
+                    </th>
+                    <th class="spannowrap" style="text-align:center">
+                        Title
+                    </th>
+                    <th>
+                        <span>Translate</span>
+                    </th>
+                    $type_th
+                    <th class="spannowrap" style="text-align:center">
+                        <span data-bs-toggle="tooltip"
+                            data-bs-title="Page views in last month in English Wikipedia">Views</span>
+                    </th>
+                    <th class="spannowrap" style="text-align:center">
+                        <span data-bs-toggle="tooltip"
+                            data-bs-title="Page important from medicine project in English Wikipedia">Importance</span>
+                    </th>
+                    <th class="spannowrap" style="text-align:center">
+                        <span data-bs-toggle="tooltip" data-bs-title="number of words of the article in mdwiki.org">Words</span>
+                    </th>
+                    <th class="spannowrap" style="text-align:center">
+                        <span data-bs-toggle="tooltip"
+                            data-bs-title="number of references of the article in mdwiki.org">Refs.</span>
+                    </th>
+                    <th class="spannowrap" style="text-align:center">
+                        <span data-bs-toggle="tooltip" data-bs-title="Wikidata identifier">Qid</span>
+                    </th>
+                    $inprocess_first
+                </tr>
+            </thead>
+            <tbody>
+    HTML;
+}
+
+/**
+ * Base class for all result tables.
+ */
+abstract class AbstractResultsTable
+{
+    protected function startTable(bool $isInProcess = false): string
+    {
+        return make_table_start($isInProcess);
+    }
+
+    protected function endTable(): string
+    {
+        return "</tbody></table>";
+    }
+
+    abstract public function render(array $items): string;
+}

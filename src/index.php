@@ -1,26 +1,9 @@
 <?php
 // src/index.php
 
-use App\Layout\PageHeader;
-use App\Layout\PageFooter;
-
-use App\User\CurrentUser;
+use App\Layout\PageRunner;
 use App\AppRouter;
 
-include_once __DIR__ . '/app/include_all.php';
-include_once __DIR__ . '/app/index.php'; // AppRouter
-include_once __DIR__ . '/Layout/include.php';
+require_once __DIR__ . '/bootstrap.php';
 
-$currentUser = CurrentUser::getInstance();
-
-$pageHeader = new PageHeader($currentUser);
-$pageHeader->render();
-
-// Instantiate and execute application router
-$router = new AppRouter($currentUser);
-$router->handleRequest();
-
-$timeStart = $pageHeader->getLoadStartTime();
-
-$pageFooter = new PageFooter($currentUser);
-$pageFooter->render($timeStart);
+PageRunner::run(AppRouter::class);
