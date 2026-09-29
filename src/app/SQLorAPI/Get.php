@@ -34,7 +34,7 @@ function use_td_api_or_sql(): bool
     return $useTdApi;
 }
 
-function isvalid($str)
+function isValid($str)
 {
     return !empty($str) && strtolower($str) != "all";
 }

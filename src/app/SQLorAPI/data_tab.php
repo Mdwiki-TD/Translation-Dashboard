@@ -3,7 +3,7 @@
 namespace App\SQLorAPI\GetDataTab;
 
 use function App\SQLorAPI\Get\superFunction;
-use function App\SQLorAPI\Get\isvalid;
+use function App\SQLorAPI\Get\isValid;
 
 function getTitlesInfos()
 {
@@ -64,14 +64,14 @@ function getViews($year, $lang)
 
     $sqlParams = [];
 
-    if (isvalid($lang)) {
+    if (isValid($lang)) {
         $apiParams['lang'] = $lang;
         $sqlParams[] = $lang;
 
         $queryComplate[] = " v.lang = ? ";
     }
 
-    if (isvalid($year)) {
+    if (isValid($year)) {
         $apiParams['year'] = $year;
         $sqlParams[] = $year;
 

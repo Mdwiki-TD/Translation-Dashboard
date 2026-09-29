@@ -3,7 +3,7 @@
 namespace App\SQLorAPI\GetLead;
 
 use function App\SQLorAPI\Get\superFunction;
-use function App\SQLorAPI\Get\isvalid;
+use function App\SQLorAPI\Get\isValid;
 
 function makeSqlQuery($year, $userGroup, $cat)
 {
@@ -20,17 +20,17 @@ function makeSqlQuery($year, $userGroup, $cat)
         WHERE p.target != ''
     ";
 
-    if (isvalid($userGroup)) {
+    if (isValid($userGroup)) {
         $query .= " AND u.user_group = ?";
         $params[] = $userGroup;
     }
 
-    if (isvalid($year)) {
+    if (isValid($year)) {
         $query .= " AND YEAR(p.pupdate) = ? ";
         $params[] = $year;
     }
 
-    if (isvalid($cat)) {
+    if (isValid($cat)) {
         $query .= " AND p.cat = ? ";
         $params[] = $cat;
     }
@@ -49,15 +49,15 @@ function makeApiParams($year, $userGroup, $cat)
 
     $apiParams = ['get' => 'leaderboard_table'];
     // ----
-    if (isvalid($year)) {
+    if (isValid($year)) {
         $apiParams['year'] = $year;
     }
 
-    if (isvalid($userGroup)) {
+    if (isValid($userGroup)) {
         $apiParams['user_group'] = $userGroup;
     }
 
-    if (isvalid($cat)) {
+    if (isValid($cat)) {
         $apiParams['cat'] = $cat;
     }
 

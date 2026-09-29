@@ -3,7 +3,7 @@
 namespace App\SQLorAPI\TopData;
 
 use function App\SQLorAPI\Get\superFunction;
-use function App\SQLorAPI\Get\isvalid;
+use function App\SQLorAPI\Get\isValid;
 
 function getTopLangOfUsers($usersOriginal)
 {
@@ -60,7 +60,7 @@ function addTopParams($query, $params, $toAdd)
     ];
 
     foreach ($topParams as $key => $column) {
-        if (isvalid($toAdd[$key] ?? '')) {
+        if (isValid($toAdd[$key] ?? '')) {
             $query .= " AND $column = ?";
             $params[] = $toAdd[$key];
         }

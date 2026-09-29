@@ -3,7 +3,7 @@
 namespace App\SQLorAPI\Funcs;
 
 use function App\SQLorAPI\Get\superFunction;
-use function App\SQLorAPI\Get\isvalid;
+use function App\SQLorAPI\Get\isValid;
 
 function getLangPagesByCat($lang, $cat)
 {
@@ -71,14 +71,14 @@ function getUserPages($userMain, $year_y, $lang_y)
 
     $sqlParams = [$userMain];
 
-    if (isvalid($year_y)) {
+    if (isValid($year_y)) {
         $query .= " and YEAR(p.date) = ?";
         $sqlParams[] = $year_y;
 
         $apiParams['year'] = $year_y;
     };
 
-    if (isvalid($lang_y)) {
+    if (isValid($lang_y)) {
         $query .= " and p.lang = ?";
         $sqlParams[] = $lang_y;
 
@@ -152,7 +152,7 @@ function getLangPages($lang, $year_y)
     $query = "select * from pages p where p.lang = ?";
     $params = [$lang];
 
-    if (isvalid($year_y)) {
+    if (isValid($year_y)) {
         $query .= " and YEAR(p.date) = ?";
         $params[] = $year_y;
 
@@ -190,7 +190,7 @@ function getUserViews($user, $year_y, $lang_y)
 
     $sqlParams = [$user];
 
-    if (isvalid($year_y)) {
+    if (isValid($year_y)) {
         $query2 .= " and YEAR(p.pupdate) = ?";
         $sqlParams[] = $year_y;
     }
@@ -241,7 +241,7 @@ function getLangViews($mainlang, $year_y)
 
     $sqlParams = [$mainlang];
 
-    if (isvalid($year_y)) {
+    if (isValid($year_y)) {
         $query2 .= " and YEAR(p.pupdate) = ?";
         $sqlParams[] = $year_y;
     };
