@@ -8,9 +8,8 @@ use App\Results27\Helpers\TranslateTypeLoader;
 use App\Results27\Tables\MissingTable;
 use App\Results27\Tables\ExistsTable;
 use App\Results27\Tables\InProcessTable;
-
-use function App\SQLorAPI\getFullTranslators;
-use function App\SQLorAPI\getTitlesInfos;
+use App\SQLorAPI\UsersTable;
+use App\SQLorAPI\TitlesTable;
 
 /**
  * Main entry point for the 2026 results module.
@@ -32,7 +31,7 @@ class ResultsLoader
         $userCoord    = (bool)($data["user_coord"] ?? false);
 
         // Full translator check
-        $fullTranslators = getFullTranslators();
+        $fullTranslators = (new UsersTable())->getFullTranslators();
         $fullTranslators = array_column($fullTranslators, "is_active", "user");
         $fullTrUser = ($fullTranslators[$globalUser] ?? 0) == 1;
 
@@ -41,7 +40,7 @@ class ResultsLoader
         $results = $fetcher->get($cat, $code);
 
         // Helper data
-        $titlesInfos      = array_column(getTitlesInfos(), null, "title");
+        $titlesInfos      = array_column((new TitlesTable())->getTitlesInfos(), null, "title");
         $noLeadTranslates = TranslateTypeLoader::load("no");
         $fullTranslates   = TranslateTypeLoader::load("full");
 

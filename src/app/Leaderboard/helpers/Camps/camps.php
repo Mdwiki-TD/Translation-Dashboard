@@ -2,10 +2,7 @@
 
 namespace App\Leaderboard\Camps;
 
-
-
-use function App\SQLorAPI\getCategoriesMembers;
-use function App\SQLorAPI\getCategories;
+use App\SQLorAPI\CategoriesTable;
 
 function get_articles_to_camps()
 {
@@ -13,7 +10,7 @@ function get_articles_to_camps()
 
     if (!empty($articles_to_camps)) return $articles_to_camps;
 
-    $categories_tab = getCategories();
+    $categories_tab = (new CategoriesTable())->getCategories();
     $cats_data = array_column($categories_tab, "campaign", "category");
 
     if (isset($cats_data['RTT'])) {
@@ -23,7 +20,7 @@ function get_articles_to_camps()
 
     foreach ($cats_data as $cat => $camp) {
 
-        $members = getCategoriesMembers($cat);
+        $members = (new CategoriesTable())->getCategoriesMembers($cat);
 
         foreach ($members as $member) {
 

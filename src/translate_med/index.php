@@ -5,10 +5,10 @@ include_once dirname(__DIR__) . '/bootstrap.php';
 use App\Logger;
 use App\User\CurrentUser;
 use App\MdwikiSql\Database;
+use App\SQLorAPI\UsersTable;
+use App\SQLorAPI\CategoriesTable;
 
 use function App\Results\TrLink\make_ContentTranslation_url;
-use function App\SQLorAPI\getUsersNoInprocess;
-use function App\SQLorAPI\getCategories;
 
 function insertPageInprocess($title, $word, $tr_type, $cat, $lang, $user): bool
 {
@@ -89,11 +89,10 @@ $useree = $currentUser->getUsername();
 
 if (!empty($title_o) && !empty($coden)) {
 
-    // use function App\SQLorAPI\get_categories;
-    $categories_tab = getCategories();
+    $categories_tab = (new CategoriesTable())->getCategories();
     $cats_data = array_column($categories_tab, "campaign", "category");
 
-    $users_no_inprocess = getUsersNoInprocess();
+    $users_no_inprocess = (new UsersTable())->getUsersNoInprocess();
     $users_no_inprocess = array_column($users_no_inprocess, 'is_active', 'user');
 
     $title_o = trim($title_o);

@@ -8,14 +8,14 @@ use App\Leaderboard\MainLeaderboard;
 use App\Leaderboard\LangsLeaderboard;
 use App\Leaderboard\UsersLeaderboard;
 
+use App\SQLorAPI\ViewsTable;
+
 use function App\Leaderboard\Graph\print_graph_tab;
 use function App\Leaderboard\Graph2\print_graph_tab_2_new;
 use function App\Leaderboard\CampText\echo_html;
 
-use function App\SQLorAPI\getTitlesInfos;
-use function App\SQLorAPI\getCategories;
-use function App\SQLorAPI\getLangs;
-use function App\SQLorAPI\getGraphData;
+use App\SQLorAPI\CategoriesTable;
+use App\SQLorAPI\TitlesTable;
 
 class LeaderboardController
 {
@@ -42,8 +42,8 @@ class LeaderboardController
         $month_y  = filter_input(INPUT_GET, 'month', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
         $camp     = filter_input(INPUT_GET, 'camp', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'All';
 
-        $_titles_infos   = getTitlesInfos();
-        $categories_tab = getCategories();
+        $_titles_infos   = (new TitlesTable())->getTitlesInfos();
+        $categories_tab = (new CategoriesTable())->getCategories();
 
         $lead_words_table = array_column($_titles_infos, 'w_lead_words', 'title');
         $cats_data = array_column($categories_tab, "campaign", "category");
@@ -76,7 +76,7 @@ class LeaderboardController
         } elseif (!empty($_GET['graph'] ?? '')) {
             // http://localhost:9001/Translation_Dashboard/leaderboard.php?graph=1
 
-            $data = getGraphData();
+            $data = (new ViewsTable())->getGraphData();
             echo print_graph_tab($data);
         } elseif (!empty($_GET['graph_api'] ?? '')) {
             // http://localhost:9001/Translation_Dashboard/leaderboard.php?graph_api=1
@@ -88,7 +88,7 @@ class LeaderboardController
                 ?? filter_input(INPUT_GET, 'user_group', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
                 ?? 'all';
 
-            $langs_data = getLangs();
+            $langs_data = (new TitlesTable())->getLangs();
 
             $settings = Settings::getInstance();
             $addcat = !$settings->isProduction() && (isset($_GET['nocat']));

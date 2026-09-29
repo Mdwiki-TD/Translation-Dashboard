@@ -2,7 +2,7 @@
 
 namespace App\Results\TrLink;
 
-use function App\SQLorAPI\getSettings;
+use App\SQLorAPI\SettingsTable;
 
 function get_endpoint_old()
 {
@@ -10,7 +10,7 @@ function get_endpoint_old()
     static $settings1 = [];
 
     if (empty($settings1)) {
-        $settings1 = getSettings();
+        $settings1 = (new SettingsTable())->getSettings();
         $settings1 = array_column($settings1, 'value', 'title');
     }
 

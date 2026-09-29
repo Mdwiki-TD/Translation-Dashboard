@@ -2,16 +2,14 @@
 
 namespace App\Leaderboard\Subs\SubLangs;
 
-
-
-use function App\SQLorAPI\getLangPages;
-use function App\SQLorAPI\getLangInProcessByYear;
+use App\SQLorAPI\PagesTable;
+use App\SQLorAPI\InProcessTable;
 use function App\Leaderboard\Subs\LeadHelp\make_key;
 
 function add_inp($dd_Pending, $mainlang, $year_y)
 {
 
-    $to_add = getLangInProcessByYear($mainlang, $year_y);
+    $to_add = (new InProcessTable())->getLangInProcessByYear($mainlang, $year_y);
 
     foreach ($to_add as $_ => $Taab) {
 
@@ -31,7 +29,7 @@ function pages_tables($mainlang, $year_y)
     $dd = [];
     $dd_Pending = [];
 
-    $sql_result = getLangPages($mainlang, $year_y);
+    $sql_result = (new PagesTable())->getLangPages($mainlang, $year_y);
 
     foreach ($sql_result as $yhu => $tabb) {
 

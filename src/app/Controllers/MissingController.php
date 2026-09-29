@@ -3,9 +3,8 @@
 namespace App\Missing;
 
 use App\Render\TemplateRenderer;
-use function App\SQLorAPI\staticsByCategory;
-use function App\SQLorAPI\countCategoryMembers;
-use function App\SQLorAPI\getLangs;
+use App\SQLorAPI\CategoriesTable;
+use App\SQLorAPI\TitlesTable;
 
 class MissingController
 {
@@ -44,7 +43,7 @@ class MissingController
 	{
 		$length = 0;
 
-		foreach (countCategoryMembers($category) as $row) {
+		foreach ((new CategoriesTable())->countCategoryMembers($category) as $row) {
 			$length = (int)($row['members'] ?? 0);
 		}
 
@@ -60,8 +59,8 @@ class MissingController
 	 */
 	private function buildRows(string $category, int $totalPages): array
 	{
-		$stats	 = staticsByCategory($category);
-		$langsData = getLangs();
+		$stats	 = (new CategoriesTable())->staticsByCategory($category);
+		$langsData = (new TitlesTable())->getLangs();
 
 		$rows = [];
 		$num  = 0;

@@ -2,6 +2,9 @@
 
 namespace App\Leaderboard;
 
+use App\SQLorAPI\LeaderboardTable;
+use App\SQLorAPI\CategoriesTable;
+
 use function App\Utils\Html\makeColSm4;
 use function App\Utils\Html\makeCol;
 use function App\Leaderboard\Graph\print_graph_for_table;
@@ -10,11 +13,6 @@ use function App\Leaderboard\LeaderTables\makeLangTable;
 use function App\Leaderboard\LeaderTabUsers\makeUsersTable;
 use function App\Leaderboard\LeaderTabUsers\module_copy_data;
 use function App\Leaderboard\Filter\leaderboard_filter;
-use function App\SQLorAPI\getTopLangOfUsers;
-use function App\SQLorAPI\getTopLangs;
-use function App\SQLorAPI\getTopUsers;
-use function App\SQLorAPI\getStatus;
-use function App\SQLorAPI\getCampsToCat;
 
 class MainLeaderboard
 {
@@ -27,9 +25,9 @@ class MainLeaderboard
         $addcat,
         $month
     ): string {
-        $users = getTopUsers($year, $user_group, $cat, $month);
+        $users = (new LeaderboardTable())->getTopUsers($year, $user_group, $cat, $month);
 
-        $lang_table = getTopLangs($year, $user_group, $cat, $month);
+        $lang_table = (new LeaderboardTable())->getTopLangs($year, $user_group, $cat, $month);
 
         $articles_all = number_format(array_sum(array_column($users, 'count')));
 
@@ -46,7 +44,7 @@ class MainLeaderboard
             $all_views
         );
 
-        $graph_data = getStatus($year, $user_group, $cat);
+        $graph_data = (new LeaderboardTable())->getStatus($year, $user_group, $cat);
 
         $graph_html = print_graph_for_table($graph_data, $no_card = false);
 
@@ -56,7 +54,7 @@ class MainLeaderboard
 
         $users = array_keys($users);
 
-        $users_tab = getTopLangOfUsers($users);
+        $users_tab = (new LeaderboardTable())->getTopLangOfUsers($users);
 
         $copy_module = module_copy_data($users_tab);
 
@@ -82,7 +80,7 @@ class MainLeaderboard
 
     public function render($year, $camp, $user_group, $langs_data, $addcat, $month): string
     {
-        $s_camp_to_cat = getCampsToCat();
+        $s_camp_to_cat = (new CategoriesTable())->getCampsToCat();
 
         $cat = $s_camp_to_cat[$camp] ?? '';
 

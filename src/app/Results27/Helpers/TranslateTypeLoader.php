@@ -2,7 +2,7 @@
 
 namespace App\Results27\Helpers;
 
-use function App\SQLorAPI\getTranslateType;
+use App\SQLorAPI\TitlesTable;
 
 /**
  * Loads and caches lists of titles that require full translation
@@ -17,7 +17,7 @@ class TranslateTypeLoader
     private static function init(): void
     {
         if (!self::$loaded) {
-            $rows = getTranslateType();
+            $rows = (new TitlesTable())->getTranslateType();
             self::loadData($rows);
         }
     }

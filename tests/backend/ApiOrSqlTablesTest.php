@@ -26,7 +26,6 @@ class ApiOrSqlTablesTest extends TestCase
     public function testSettingsTableEndpoint(): void
     {
         $this->assertEquals("https://mdwikicx.toolforge.org/w/index.php", (new SettingsTable())->getEndpoint());
-        $this->assertEquals("https://mdwikicx.toolforge.org/w/index.php", \App\SQLorAPI\getEndpoint());
     }
 
     public function testLeaderboardTableMakeSqlQuery(): void
