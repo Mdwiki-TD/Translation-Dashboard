@@ -80,11 +80,9 @@ include_once __DIR__ . '/backend/bootstrap.php';
 
 include_once __DIR__ . '/Utils/html.php';
 
-include_once __DIR__ . '/LeaderboardRoutes/bootstrap.php';
-
-include_once __DIR__ . '/leaderboard/bootstrap.php';
+include_once __DIR__ . '/Leaderboard/bootstrap.php';
 
 # Controllers
-include_once __DIR__ . '/index.php'; // AppRouter
-include_once __DIR__ . '/SiteLinksController.php';
-include_once __DIR__ . '/MissingController.php';
+include_once __DIR__ . '/Controllers/AppRouter.php'; // AppRouter
+include_once __DIR__ . '/Controllers/SiteLinksController.php';
+include_once __DIR__ . '/Controllers/MissingController.php';

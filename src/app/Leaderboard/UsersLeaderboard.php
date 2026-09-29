@@ -37,8 +37,6 @@ class UsersLeaderboard
         $dd_Pending = $u_tables['dd_Pending'];
         $table_of_views = $u_tables['table_of_views'];
 
-        $count_new = count($dd);
-
         $user_is_global_username = ($global_username === $user_to_curl) ? true : false;
 
         [$table1, $main_table] = make_users_lead(

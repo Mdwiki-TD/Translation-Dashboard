@@ -13,8 +13,6 @@ src/
 │   │   │   ├── process_data.php
 │   │   │   └── top.php
 │   │   ├── include_first/
-│   │   │   ├── tables_dir.php
-│   │   │   └── test_print.php
 │   │   ├── others/
 │   │   │   ├── helps.php
 │   │   │   └── tr_link.php
@@ -42,7 +40,11 @@ src/
 │   │   ├── td_api_wrap/
 │   │   │   └── td_api.php
 │   │   ├── bootstrap.php
-│   │   └── results_2026.7z
+│   │   └── tables_dir.php
+│   ├── Controllers/
+│   │   ├── AppRouter.php
+│   │   ├── MissingController.php
+│   │   └── SiteLinksController.php
 │   ├── leaderboard/
 │   │   ├── others/
 │   │   │   ├── camps_text.php
@@ -85,10 +87,8 @@ src/
 │   ├── Utils/
 │   │   └── html.php
 │   ├── bootstrap.php
-│   ├── index.php
-│   ├── MissingController.php
-│   ├── Settings.php
-│   └── SiteLinksController.php
+│   ├── Logger.php
+│   └── Settings.php
 ├── css/
 │   ├── dashboard_new1.css
 │   ├── mobile_format.css
