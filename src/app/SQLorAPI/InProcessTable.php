@@ -51,7 +51,7 @@ class InProcessTable
         $query = "select * from in_process where user = ?";
         $params = [$user];
 
-        if (ApiOrSqlService::isValid($yearY)) {
+        if ($this->service->isValid($yearY)) {
             $query .= " AND YEAR(add_date) = ?";
             $params[] = $yearY;
             $apiParams['year'] = $yearY;
@@ -99,7 +99,7 @@ class InProcessTable
         $apiParams = ['get' => 'in_process', 'lang' => $codeStr];
         $params = [$codeStr];
 
-        if (ApiOrSqlService::isValid($yearY)) {
+        if ($this->service->isValid($yearY)) {
             $query .= " AND YEAR(add_date) = ?";
             $params[] = $yearY;
             $apiParams['year'] = $yearY;

@@ -27,17 +27,17 @@ class LeaderboardTable
             WHERE p.target != ''
         ";
 
-        if (ApiOrSqlService::isValid($userGroup)) {
+        if ($this->service->isValid($userGroup)) {
             $query .= " AND u.user_group = ?";
             $params[] = $userGroup;
         }
 
-        if (ApiOrSqlService::isValid($year)) {
+        if ($this->service->isValid($year)) {
             $query .= " AND YEAR(p.pupdate) = ? ";
             $params[] = $year;
         }
 
-        if (ApiOrSqlService::isValid($cat)) {
+        if ($this->service->isValid($cat)) {
             $query .= " AND p.cat = ? ";
             $params[] = $cat;
         }
@@ -55,15 +55,15 @@ class LeaderboardTable
     {
         $apiParams = ['get' => 'leaderboard_table'];
 
-        if (ApiOrSqlService::isValid($year)) {
+        if ($this->service->isValid($year)) {
             $apiParams['year'] = $year;
         }
 
-        if (ApiOrSqlService::isValid($userGroup)) {
+        if ($this->service->isValid($userGroup)) {
             $apiParams['user_group'] = $userGroup;
         }
 
-        if (ApiOrSqlService::isValid($cat)) {
+        if ($this->service->isValid($cat)) {
             $apiParams['cat'] = $cat;
         }
 
@@ -132,7 +132,7 @@ class LeaderboardTable
         ];
 
         foreach ($topParams as $key => $column) {
-            if (ApiOrSqlService::isValid($toAdd[$key] ?? '')) {
+            if ($this->service->isValid($toAdd[$key] ?? '')) {
                 $query .= " AND $column = ?";
                 $params[] = $toAdd[$key];
             }

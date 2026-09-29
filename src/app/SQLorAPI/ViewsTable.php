@@ -45,14 +45,14 @@ class ViewsTable
 
         $sqlParams = [];
 
-        if (ApiOrSqlService::isValid($lang)) {
+        if ($this->service->isValid($lang)) {
             $apiParams['lang'] = $lang;
             $sqlParams[] = $lang;
 
             $queryComplate[] = " v.lang = ? ";
         }
 
-        if (ApiOrSqlService::isValid($year)) {
+        if ($this->service->isValid($year)) {
             $apiParams['year'] = $year;
             $sqlParams[] = $year;
 
@@ -89,7 +89,7 @@ class ViewsTable
 
         $sqlParams = [$user];
 
-        if (ApiOrSqlService::isValid($yearY)) {
+        if ($this->service->isValid($yearY)) {
             $query2 .= " and YEAR(p.pupdate) = ?";
             $sqlParams[] = $yearY;
         }
@@ -135,7 +135,7 @@ class ViewsTable
 
         $sqlParams = [$mainlang];
 
-        if (ApiOrSqlService::isValid($yearY)) {
+        if ($this->service->isValid($yearY)) {
             $query2 .= " and YEAR(p.pupdate) = ?";
             $sqlParams[] = $yearY;
         }

@@ -72,13 +72,13 @@ class PagesTable
 
         $sqlParams = [$userMain];
 
-        if (ApiOrSqlService::isValid($yearY)) {
+        if ($this->service->isValid($yearY)) {
             $query .= " and YEAR(p.date) = ?";
             $sqlParams[] = $yearY;
             $apiParams['year'] = $yearY;
         }
 
-        if (ApiOrSqlService::isValid($langY)) {
+        if ($this->service->isValid($langY)) {
             $query .= " and p.lang = ?";
             $sqlParams[] = $langY;
             $apiParams['lang'] = $langY;
@@ -118,7 +118,7 @@ class PagesTable
         $query = "select * from pages p where p.lang = ?";
         $params = [$lang];
 
-        if (ApiOrSqlService::isValid($yearY)) {
+        if ($this->service->isValid($yearY)) {
             $query .= " and YEAR(p.date) = ?";
             $params[] = $yearY;
             $apiParams['year'] = $yearY;

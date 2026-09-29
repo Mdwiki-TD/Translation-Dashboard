@@ -8,7 +8,6 @@ class TitlesTable
 {
     private static array $titlesInfosCache = [];
     private static array $projectsCache = [];
-    private static array $qidsCache = [];
     private static array $translateTypeCache = [];
     private static array $langsCache = [];
 
@@ -22,7 +21,6 @@ class TitlesTable
     {
         self::$titlesInfosCache = [];
         self::$projectsCache = [];
-        self::$qidsCache = [];
         self::$translateTypeCache = [];
         self::$langsCache = [];
     }
@@ -111,21 +109,6 @@ class TitlesTable
         return self::$projectsCache;
     }
 
-    public function getQids(): array
-    {
-        if (!empty(self::$qidsCache)) {
-            return self::$qidsCache;
-        }
-
-        $apiParams = ['get' => 'qids'];
-        $query = "SELECT title, qid FROM qids";
-        $data = $this->service->superFunction($apiParams, [], $query);
-
-        self::$qidsCache = array_column($data, 'qid', 'title');
-
-        return self::$qidsCache;
-    }
-
     public function getTranslateType(): array
     {
         if (!empty(self::$translateTypeCache)) {
@@ -154,40 +137,12 @@ class TitlesTable
 
         return self::$langsCache;
     }
-
-    public function getQidsForList(array $list): array
-    {
-        $sqQids = self::getQids();
-
-        $withQids = [];
-        $noQids = [];
-
-        foreach ($list as $member) {
-            $qid = $sqQids[$member] ?? 0;
-            if ($qid) {
-                $withQids[$member] = $qid;
-            } else {
-                $noQids[] = $member;
-            }
-        }
-
-        return [
-            "with_qids" => $withQids,
-            "no_qids" => $noQids,
-        ];
-    }
 }
 
 function getProjects()
 {
     return (new TitlesTable())->getProjects();
 }
-
-function getQids()
-{
-    return (new TitlesTable())->getQids();
-}
-
 
 function getTranslateType(): array
 {
@@ -197,9 +152,4 @@ function getTranslateType(): array
 function getLangs()
 {
     return (new TitlesTable())->getLangs();
-}
-
-function getQidsForList($list)
-{
-    return (new TitlesTable())->getQidsForList($list);
 }
