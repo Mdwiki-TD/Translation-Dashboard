@@ -12,7 +12,3 @@ include_once __DIR__ . '/UsersTable.php';
 include_once __DIR__ . '/ViewsTable.php';
 
 include_once __DIR__ . '/td_api.php';
-include_once __DIR__ . '/funcs.php';
-include_once __DIR__ . '/Get.php';
-
-include_once __DIR__ . '/data_tab.php';
