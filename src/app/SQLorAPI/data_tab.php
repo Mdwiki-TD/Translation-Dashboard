@@ -9,67 +9,62 @@ use App\SQLorAPI\Categories\CategoriesTable;
 use App\SQLorAPI\Users\UsersTable;
 use App\SQLorAPI\Pages\PagesTable;
 
-function get_td_or_sql_titles_infos()
+function get_titles_infos()
 {
-    return TitlesTable::getTdOrSqlTitlesInfos();
+    return TitlesTable::getTitlesInfos();
 }
 
-function get_td_or_sql_views($year, $lang)
+function get_views($year, $lang)
 {
-    return ViewsTable::getTdOrSqlViews($year, $lang);
+    return ViewsTable::getViews($year, $lang);
 }
 
-function get_td_or_sql_settings()
+function get_settings()
 {
-    return SettingsTable::getTdOrSqlSettings();
+    return SettingsTable::getSettings();
 }
 
-function get_td_or_sql_projects()
+function get_projects()
 {
-    return TitlesTable::getTdOrSqlProjects();
+    return TitlesTable::getProjects();
 }
 
-function get_td_or_sql_categories()
+function get_categories()
 {
-    return CategoriesTable::getTdOrSqlCategories();
+    return CategoriesTable::getCategories();
 }
 
-function get_td_or_sql_categories_members($category)
+function get_categories_members($category)
 {
-    return CategoriesTable::getTdOrSqlCategoriesMembers($category);
+    return CategoriesTable::getCategoriesMembers($category);
 }
 
-function get_td_or_sql_qids()
+function get_users_no_inprocess()
 {
-    return TitlesTable::getTdOrSqlQids();
+    return UsersTable::getUsersNoInprocess();
 }
 
-function get_td_or_sql_users_no_inprocess()
+function get_full_translators($column = null)
 {
-    return UsersTable::getTdOrSqlUsersNoInprocess();
+    return UsersTable::getFullTranslators($column);
 }
 
-function get_td_or_sql_full_translators($column = null)
+function get_translate_type(): array
 {
-    return UsersTable::getTdOrSqlFullTranslators($column);
+    return TitlesTable::getTranslateType();
 }
 
-function get_td_or_sql_translate_type(): array
-{
-    return TitlesTable::getTdOrSqlTranslateType();
-}
-
-function get_td_or_sql_count_pages()
+function get_count_pages()
 {
     return PagesTable::getCountPages();
 }
 
-function get_td_or_sql_langs()
+function get_langs()
 {
-    return TitlesTable::getTdOrSqlLangs();
+    return TitlesTable::getLangs();
 }
 
-function get_qids($list)
+function get_qids($list = null)
 {
     return TitlesTable::getQids($list);
 }

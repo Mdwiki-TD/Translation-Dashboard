@@ -13,7 +13,7 @@ class SettingsTable
         self::$sqlSettingsCache = [];
     }
 
-    public static function getTdOrSqlSettings(): array
+    public static function getSettings(): array
     {
         if (!empty(self::$sqlSettingsCache)) {
             return self::$sqlSettingsCache;
@@ -29,7 +29,7 @@ class SettingsTable
 
     public static function getEndpointOld(): string
     {
-        $settings1 = self::getTdOrSqlSettings();
+        $settings1 = self::getSettings();
         $settings1Map = array_column($settings1, 'value', 'title');
 
         $useMdwikicx = $settings1Map['use_mdwikicx'] ?? '0';

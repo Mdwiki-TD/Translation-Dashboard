@@ -2,7 +2,6 @@
 
 namespace App\SQLorAPI\Get;
 
-use function App\MdwikiSql\fetch_query;
 use function App\APICalls\TDApi\get_td_api;
 
 class ApiOrSqlService

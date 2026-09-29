@@ -21,7 +21,7 @@ class TitlesTable
         self::$langsCache = [];
     }
 
-    public static function getTdOrSqlTitlesInfos(): array
+    public static function getTitlesInfos(): array
     {
         if (!empty(self::$titlesInfosCache)) {
             return self::$titlesInfosCache;
@@ -52,7 +52,7 @@ class TitlesTable
         return self::$titlesInfosCache;
     }
 
-    public static function getTdOrSqlProjects(): array
+    public static function getProjects(): array
     {
         if (!empty(self::$projectsCache)) {
             return self::$projectsCache;
@@ -66,53 +66,21 @@ class TitlesTable
         return self::$projectsCache;
     }
 
-    public static function getTdOrSqlQids(): array
+    public static function getQids(?array $list = null): array
     {
-        if (!empty(self::$qidsCache)) {
+        if (empty(self::$qidsCache)) {
+            $apiParams = ['get' => 'qids'];
+            $query = "SELECT title, qid FROM qids";
+            $data = ApiOrSqlService::superFunction($apiParams, [], $query);
+
+            self::$qidsCache = array_column($data, 'qid', 'title');
+        }
+
+        if ($list === null) {
             return self::$qidsCache;
         }
 
-        $apiParams = ['get' => 'qids'];
-        $query = "SELECT title, qid FROM qids";
-        $data = ApiOrSqlService::superFunction($apiParams, [], $query);
-
-        self::$qidsCache = array_column($data, 'qid', 'title');
-
-        return self::$qidsCache;
-    }
-
-    public static function getTdOrSqlTranslateType(): array
-    {
-        if (!empty(self::$translateTypeCache)) {
-            return self::$translateTypeCache;
-        }
-
-        $apiParams = ['get' => 'translate_type'];
-        $query = "SELECT tt_title, tt_lead, tt_full FROM translate_type";
-
-        self::$translateTypeCache = ApiOrSqlService::superFunction($apiParams, [], $query);
-
-        return self::$translateTypeCache;
-    }
-
-    public static function getTdOrSqlLangs(): array
-    {
-        if (!empty(self::$langsCache)) {
-            return self::$langsCache;
-        }
-
-        $apiParams = ['get' => 'langs'];
-        $query = "SELECT code, autonym, name, redirects FROM langs";
-
-        $data = ApiOrSqlService::superFunction($apiParams, [], $query);
-        self::$langsCache = array_column($data, null, 'code');
-
-        return self::$langsCache;
-    }
-
-    public static function getQids(array $list): array
-    {
-        $sqQids = self::getTdOrSqlQids();
+        $sqQids = self::$qidsCache;
 
         $withQids = [];
         $noQids = [];
@@ -130,5 +98,34 @@ class TitlesTable
             "with_qids" => $withQids,
             "no_qids" => $noQids,
         ];
+    }
+
+    public static function getTranslateType(): array
+    {
+        if (!empty(self::$translateTypeCache)) {
+            return self::$translateTypeCache;
+        }
+
+        $apiParams = ['get' => 'translate_type'];
+        $query = "SELECT tt_title, tt_lead, tt_full FROM translate_type";
+
+        self::$translateTypeCache = ApiOrSqlService::superFunction($apiParams, [], $query);
+
+        return self::$translateTypeCache;
+    }
+
+    public static function getLangs(): array
+    {
+        if (!empty(self::$langsCache)) {
+            return self::$langsCache;
+        }
+
+        $apiParams = ['get' => 'langs'];
+        $query = "SELECT code, autonym, name, redirects FROM langs";
+
+        $data = ApiOrSqlService::superFunction($apiParams, [], $query);
+        self::$langsCache = array_column($data, null, 'code');
+
+        return self::$langsCache;
     }
 }

@@ -10,10 +10,10 @@ use function App\Leaderboard\LeaderTables\makeLangTable;
 use function App\Leaderboard\LeaderTabUsers\makeUsersTable;
 use function App\Leaderboard\LeaderTabUsers\module_copy_data;
 use function App\Leaderboard\Filter\leaderboard_filter;
-use function App\SQLorAPI\TopData\get_td_or_sql_top_lang_of_users;
-use function App\SQLorAPI\TopData\get_td_or_sql_top_langs;
-use function App\SQLorAPI\TopData\get_td_or_sql_top_users;
-use function App\SQLorAPI\TopData\get_td_or_sql_status;
+use function App\SQLorAPI\TopData\get_top_lang_of_users;
+use function App\SQLorAPI\TopData\get_top_langs;
+use function App\SQLorAPI\TopData\get_top_users;
+use function App\SQLorAPI\TopData\get_status;
 use function App\SQLorAPI\GetDataTab\get_camps_to_cat;
 
 class MainLeaderboard
@@ -27,9 +27,9 @@ class MainLeaderboard
         $addcat,
         $month
     ): string {
-        $users = get_td_or_sql_top_users($year, $user_group, $cat, $month);
+        $users = get_top_users($year, $user_group, $cat, $month);
 
-        $lang_table = get_td_or_sql_top_langs($year, $user_group, $cat, $month);
+        $lang_table = get_top_langs($year, $user_group, $cat, $month);
 
         $articles_all = number_format(array_sum(array_column($users, 'count')));
 
@@ -46,7 +46,7 @@ class MainLeaderboard
             $all_views
         );
 
-        $graph_data = get_td_or_sql_status($year, $user_group, $cat);
+        $graph_data = get_status($year, $user_group, $cat);
 
         $graph_html = print_graph_for_table($graph_data, $no_card = false);
 
@@ -56,7 +56,7 @@ class MainLeaderboard
 
         $users = array_keys($users);
 
-        $users_tab = get_td_or_sql_top_lang_of_users($users);
+        $users_tab = get_top_lang_of_users($users);
 
         $copy_module = module_copy_data($users_tab);
 

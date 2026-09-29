@@ -19,7 +19,7 @@ class ViewsTable
         self::$graphDataCache = [];
     }
 
-    public static function getTdOrSqlViews(mixed $year, mixed $lang): array
+    public static function getViews(mixed $year, mixed $lang): array
     {
         $key = (string)$year . (string)$lang;
         if (!empty(self::$viewsCache[$key] ?? [])) {

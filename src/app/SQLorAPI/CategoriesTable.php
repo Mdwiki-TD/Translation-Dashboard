@@ -19,7 +19,7 @@ class CategoriesTable
         self::$staticsCache = [];
     }
 
-    public static function getTdOrSqlCategories(): array
+    public static function getCategories(): array
     {
         if (!empty(self::$categoriesCache)) {
             return self::$categoriesCache;
@@ -34,7 +34,7 @@ class CategoriesTable
         return self::$categoriesCache;
     }
 
-    public static function getTdOrSqlCategoriesMembers(mixed $category): array
+    public static function getCategoriesMembers(mixed $category): array
     {
         $apiParams = ['get' => 'category_members', 'cat' => $category];
         $query = "SELECT article_id FROM category_members where category = ?";
@@ -50,7 +50,7 @@ class CategoriesTable
             return self::$campsToCatCache;
         }
 
-        $categoriesTab = self::getTdOrSqlCategories();
+        $categoriesTab = self::getCategories();
         self::$campsToCatCache = array_column($categoriesTab, "category", 'campaign');
 
         return self::$campsToCatCache;

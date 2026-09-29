@@ -3,6 +3,7 @@
     "description": "This tool looks for Wikidata items that have a page on mdwiki.org but not in another wikipedia language",
     "autoload": {
         "psr-4": {
+            "App\\": "src/app/",
             "TD\\": "src/",
             "TD\\Render\\": "src/renders/",
             "Actions\\": [

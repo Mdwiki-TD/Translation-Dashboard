@@ -7,8 +7,8 @@ use App\User\CurrentUser;
 use App\MdwikiSql\Database;
 
 use function App\Results\TrLink\make_ContentTranslation_url;
-use function App\SQLorAPI\GetDataTab\get_td_or_sql_users_no_inprocess;
-use function App\SQLorAPI\GetDataTab\get_td_or_sql_categories;
+use function App\SQLorAPI\GetDataTab\get_users_no_inprocess;
+use function App\SQLorAPI\GetDataTab\get_categories;
 
 function insertPageInprocess($title, $word, $tr_type, $cat, $lang, $user): bool
 {
@@ -89,11 +89,11 @@ $useree = $currentUser->getUsername();
 
 if (!empty($title_o) && !empty($coden)) {
 
-    // use function App\SQLorAPI\GetDataTab\get_td_or_sql_categories;
-    $categories_tab = get_td_or_sql_categories();
+    // use function App\SQLorAPI\GetDataTab\get_categories;
+    $categories_tab = get_categories();
     $cats_data = array_column($categories_tab, "campaign", "category");
 
-    $users_no_inprocess = get_td_or_sql_users_no_inprocess();
+    $users_no_inprocess = get_users_no_inprocess();
     $users_no_inprocess = array_column($users_no_inprocess, 'is_active', 'user');
 
     $title_o = trim($title_o);

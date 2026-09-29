@@ -31,7 +31,7 @@ class UsersTable
         return self::$coordinatorsCache;
     }
 
-    public static function getTdOrSqlUsersNoInprocess(): array
+    public static function getUsersNoInprocess(): array
     {
         if (!empty(self::$usersNoInprocessCache)) {
             return self::$usersNoInprocessCache;
@@ -45,7 +45,7 @@ class UsersTable
         return self::$usersNoInprocessCache;
     }
 
-    public static function getTdOrSqlFullTranslators(mixed $column = null): array
+    public static function getFullTranslators(mixed $column = null): array
     {
         if (empty(self::$fullTranslatorsCache)) {
             $apiParams = ['get' => 'full_translators'];

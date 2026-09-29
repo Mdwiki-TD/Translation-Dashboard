@@ -72,7 +72,7 @@ class LeaderboardTable
         return ApiOrSqlService::superFunction($apiParams, $quaData['params'], $quaData['query']);
     }
 
-    public static function getTdOrSqlTopLangOfUsers(array $usersOriginal): array
+    public static function getTopLangOfUsers(array $usersOriginal): array
     {
         $users = (count($usersOriginal) > 50) ? [] : $usersOriginal;
 
@@ -169,7 +169,7 @@ class LeaderboardTable
             SQL;
     }
 
-    public static function getTdOrSqlTopUsers(mixed $year, mixed $userGroup, mixed $cat, mixed $month = null): array
+    public static function getTopUsers(mixed $year, mixed $userGroup, mixed $cat, mixed $month = null): array
     {
         $toAdd = [
             "year" => $year,
@@ -201,7 +201,7 @@ class LeaderboardTable
         return $newData;
     }
 
-    public static function getTdOrSqlTopLangs(mixed $year, mixed $userGroup, mixed $cat, mixed $month = null): array
+    public static function getTopLangs(mixed $year, mixed $userGroup, mixed $cat, mixed $month = null): array
     {
         $toAdd = [
             "year" => $year,
@@ -233,7 +233,7 @@ class LeaderboardTable
         return $newData;
     }
 
-    public static function getTdOrSqlStatus(mixed $year, mixed $userGroup, mixed $cat): array
+    public static function getStatus(mixed $year, mixed $userGroup, mixed $cat): array
     {
         $toAdd = ["year" => $year, "user_group" => $userGroup, "cat" => $cat];
         $apiParams = ['get' => 'status', 'year' => $year, 'user_group' => $userGroup, 'cat' => $cat];

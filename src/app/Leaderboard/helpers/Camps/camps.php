@@ -4,8 +4,8 @@ namespace App\Leaderboard\Camps;
 
 
 
-use function App\SQLorAPI\GetDataTab\get_td_or_sql_categories_members;
-use function App\SQLorAPI\GetDataTab\get_td_or_sql_categories;
+use function App\SQLorAPI\GetDataTab\get_categories_members;
+use function App\SQLorAPI\GetDataTab\get_categories;
 
 function get_articles_to_camps()
 {
@@ -13,7 +13,7 @@ function get_articles_to_camps()
 
     if (!empty($articles_to_camps)) return $articles_to_camps;
 
-    $categories_tab = get_td_or_sql_categories();
+    $categories_tab = get_categories();
     $cats_data = array_column($categories_tab, "campaign", "category");
 
     if (isset($cats_data['RTT'])) {
@@ -23,7 +23,7 @@ function get_articles_to_camps()
 
     foreach ($cats_data as $cat => $camp) {
 
-        $members = get_td_or_sql_categories_members($cat);
+        $members = get_categories_members($cat);
 
         foreach ($members as $member) {
 
