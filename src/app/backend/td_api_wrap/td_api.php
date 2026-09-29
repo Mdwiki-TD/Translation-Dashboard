@@ -2,7 +2,7 @@
 
 namespace App\APICalls\TDApi;
 
-use App\Settings\Settings;
+use App\Settings;
 
 function test_print_z($s): void
 {

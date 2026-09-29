@@ -3,7 +3,7 @@
 namespace App\Leaderboard;
 
 use App\User\CurrentUser;
-use App\Settings\Settings;
+use App\Settings;
 use App\Leaderboard\Index\MainLeaderboard;
 use App\Leaderboard\Langs\LangsLeaderboard;
 use App\Leaderboard\Users\UsersLeaderboard;

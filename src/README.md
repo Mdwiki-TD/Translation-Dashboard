@@ -152,7 +152,7 @@ The application follows a **procedural page-controller pattern** with layered mo
 ```php
 putenv('TOOL_TOOLSDB_PASSWORD=root11');
 putenv('COOKIE_KEY=hex_value_here');
-putenv('DECRYPT_KEY=hex_value_here');
+putenv('CRYPTO_KEY=hex_value_here');
 ```
 
 Development credentials committed to repository. Should use `.env` files excluded from version control.
@@ -272,8 +272,7 @@ TOOL_TOOLSDB_PASSWORD=password
 CONSUMER_KEY=oauth_key
 CONSUMER_SECRET=oauth_secret
 COOKIE_KEY=encryption_key
-DECRYPT_KEY=decryption_key
-JWT_KEY=jwt_secret
+CRYPTO_KEY=decryption_key
 TABLES_PATH=/path/to/tables
 ```
 
