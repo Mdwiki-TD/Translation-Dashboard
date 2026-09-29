@@ -1,6 +1,6 @@
 <?php
 
-namespace App\SQLorAPI\InProcess;
+namespace App\SQLorAPI;
 
 use App\SQLorAPI\Get\ApiOrSqlService;
 

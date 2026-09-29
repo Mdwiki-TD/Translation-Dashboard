@@ -1,6 +1,6 @@
 <?php
 
-namespace App\SQLorAPI\Titles;
+namespace App\SQLorAPI;
 
 use App\SQLorAPI\Get\ApiOrSqlService;
 

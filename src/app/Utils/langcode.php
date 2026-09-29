@@ -34,7 +34,7 @@ https://db-names.toolforge.org/
 "zh-yue" : "yue"
 */
 
-use function App\SQLorAPI\GetDataTab\getLangs;
+use function App\SQLorAPI\Titles\getLangs;
 
 $L_code_to_wikiname = [
     "aa"    =>    "Afar",

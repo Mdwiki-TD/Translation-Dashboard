@@ -14,7 +14,7 @@ use function App\Leaderboard\CampText\echo_html;
 
 use function App\SQLorAPI\GetDataTab\getTitlesInfos;
 use function App\SQLorAPI\GetDataTab\getCategories;
-use function App\SQLorAPI\GetDataTab\getLangs;
+use function App\SQLorAPI\Titles\getLangs;
 use function App\SQLorAPI\Funcs\getGraphData;
 
 class LeaderboardController

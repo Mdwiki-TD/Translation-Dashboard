@@ -1,6 +1,6 @@
 <?php
 
-namespace App\SQLorAPI\Users;
+namespace App\SQLorAPI;
 
 use App\SQLorAPI\Get\ApiOrSqlService;
 

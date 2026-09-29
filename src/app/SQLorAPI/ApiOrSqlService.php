@@ -1,6 +1,6 @@
 <?php
 
-namespace App\SQLorAPI\Get;
+namespace App\SQLorAPI;
 
 use App\MdwikiSql\Database;
 use function App\APICalls\TDApi\get_td_api;
