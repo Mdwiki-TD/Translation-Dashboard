@@ -5,9 +5,9 @@ namespace App;
 
 use App\User\CurrentUser;
 use App\Results27\ResultsLoader;
-use function App\SQLorAPI\GetDataTab\get_categories;
-use function App\SQLorAPI\GetDataTab\get_settings;
-use function App\SQLorAPI\GetDataTab\get_langs;
+use function App\SQLorAPI\GetDataTab\getCategories;
+use function App\SQLorAPI\GetDataTab\getSettings;
+use function App\SQLorAPI\GetDataTab\getLangs;
 
 use function App\Tables\Langs\get_lang_code;
 use function App\Tables\Langs\get_lang_title;
@@ -151,9 +151,9 @@ class AppRouter
         // Load Config
         // =======================
 
-        $settings = get_settings();
+        $settings = getSettings();
 
-        $categories_tab = get_categories();
+        $categories_tab = getCategories();
 
         $camps_data = array_column($categories_tab, null, 'campaign');
         $cats_data = array_column($categories_tab, "campaign", "category");
@@ -268,7 +268,7 @@ class AppRouter
         $camp_ch = htmlspecialchars($camp, ENT_QUOTES);
         $camp_input = $this->makeDrop($campaigns_input_list, $camp_ch);
 
-        $langs_table = get_langs();
+        $langs_table = getLangs();
         $lang_list = $this->printFormStart1($langs_table, $code);
 
         // Login Button

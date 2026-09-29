@@ -5,7 +5,7 @@ namespace App\SQLorAPI\Funcs;
 use function App\SQLorAPI\Get\super_function;
 use function App\SQLorAPI\Get\isvalid;
 
-function get_lang_pages_by_cat($lang, $cat)
+function getLangPagesByCat($lang, $cat)
 {
 
     // http://localhost:9001/api.php?get=pages&lang=ar&cat=RTT
@@ -27,7 +27,7 @@ function get_lang_pages_by_cat($lang, $cat)
     return $u_data;
 }
 
-function get_coordinators()
+function getCoordinators()
 {
 
     static $coordinators = [];
@@ -46,7 +46,7 @@ function get_coordinators()
     return $coordinators;
 }
 
-function get_user_pages($user_main, $year_y, $lang_y)
+function getUserPages($user_main, $year_y, $lang_y)
 {
 
     static $data = [];
@@ -92,7 +92,7 @@ function get_user_pages($user_main, $year_y, $lang_y)
     return $u_data;
 }
 
-function get_pages_with_pupdate()
+function getPagesWithPupdate()
 {
 
     static $data = [];
@@ -114,7 +114,7 @@ function get_pages_with_pupdate()
     return $u_data;
 }
 
-function get_graph_data()
+function getGraphData()
 {
 
     static $graph_data = [];
@@ -138,7 +138,7 @@ function get_graph_data()
     return $u_data;
 }
 
-function get_lang_pages($lang, $year_y)
+function getLangPages($lang, $year_y)
 {
 
     static $data = [];
@@ -166,7 +166,7 @@ function get_lang_pages($lang, $year_y)
     return $u_data;
 }
 
-function get_user_views($user, $year_y, $lang_y)
+function getUserViews($user, $year_y, $lang_y)
 {
 
     static $data = [];
@@ -217,7 +217,7 @@ function get_user_views($user, $year_y, $lang_y)
     return $table_of_views;
 }
 
-function get_lang_views($mainlang, $year_y)
+function getLangViews($mainlang, $year_y)
 {
 
     static $data = [];
@@ -263,7 +263,7 @@ function get_lang_views($mainlang, $year_y)
     return $table_of_views;
 }
 
-function get_lang_years($mainlang)
+function getLangYears($mainlang)
 {
 
     static $data = [];
@@ -289,7 +289,7 @@ function get_lang_years($mainlang)
     return $u_data;
 }
 
-function get_user_years($user)
+function getUserYears($user)
 {
 
     static $data = [];
@@ -321,7 +321,7 @@ function get_user_years($user)
     return $u_data;
 }
 
-function get_user_langs($user)
+function getUserLangs($user)
 {
 
     static $data = [];
@@ -350,7 +350,7 @@ function get_user_langs($user)
 }
 
 
-function get_user_camps($user)
+function getUserCamps($user)
 {
 
     static $data = [];

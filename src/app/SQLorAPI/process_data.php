@@ -5,7 +5,7 @@ namespace App\SQLorAPI\Process;
 use function App\SQLorAPI\Get\super_function;
 use function App\SQLorAPI\Get\isvalid;
 
-function get_process_data(): array
+function getProcessData(): array
 {
 
     static $process_all = [];
@@ -22,7 +22,7 @@ function get_process_data(): array
     return $process_all;
 }
 
-function get_user_process_new(string $user, string $year_y = "all")
+function getUserProcessNew(string $user, string $year_y = "all")
 {
 
     static $cache = [];
@@ -50,7 +50,7 @@ function get_user_process_new(string $user, string $year_y = "all")
     return $data;
 }
 
-function get_users_process_new(): array
+function getUsersProcessNew(): array
 {
 
     static $processNew = [];
@@ -72,7 +72,7 @@ function get_users_process_new(): array
     return $processNew;
 }
 
-function get_lang_in_process_by_year($code, $year_y = "all"): array
+function getLangInProcessByYear($code, $year_y = "all"): array
 {
 
     static $cache = [];
@@ -98,7 +98,7 @@ function get_lang_in_process_by_year($code, $year_y = "all"): array
     return $cache[$code][$year_y];
 }
 
-function get_lang_in_process($code): array
+function getLangInProcess($code): array
 {
 
     static $cache = [];

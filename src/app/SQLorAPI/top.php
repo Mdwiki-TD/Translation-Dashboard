@@ -5,7 +5,7 @@ namespace App\SQLorAPI\TopData;
 use function App\SQLorAPI\Get\super_function;
 use function App\SQLorAPI\Get\isvalid;
 
-function get_top_lang_of_users($users_original)
+function getTopLangOfUsers($users_original)
 {
 
     $users = (count($users_original) > 50) ? [] : $users_original;
@@ -50,7 +50,7 @@ function get_top_lang_of_users($users_original)
     return $data;
 }
 
-function add_top_params($query, $params, $to_add)
+function addTopParams($query, $params, $to_add)
 {
     $top_params = [
         "year" => "YEAR(p.pupdate)",
@@ -69,7 +69,7 @@ function add_top_params($query, $params, $to_add)
     return [$query, $params];
 }
 
-function top_query($select)
+function topQuery($select)
 {
 
     $select_field = ($select === 'user') ? 'p.user' : 'p.lang';
@@ -109,7 +109,7 @@ function top_query($select)
     return $query;
 }
 
-function get_top_users($year, $user_group, $cat, $month = null)
+function getTopUsers($year, $user_group, $cat, $month = null)
 {
 
     $to_add = [
@@ -127,9 +127,9 @@ function get_top_users($year, $user_group, $cat, $month = null)
         'month' => $month,
     ];
 
-    $query = top_query('user');
+    $query = topQuery('user');
 
-    [$query, $params] = add_top_params($query, [], $to_add);
+    [$query, $params] = addTopParams($query, [], $to_add);
 
     $query .= " GROUP BY p.user ORDER BY 2 DESC";
 
@@ -145,7 +145,7 @@ function get_top_users($year, $user_group, $cat, $month = null)
     return $new_data;
 }
 
-function get_top_langs($year, $user_group, $cat, $month = null): array
+function getTopLangs($year, $user_group, $cat, $month = null): array
 {
 
     $to_add = [
@@ -163,9 +163,9 @@ function get_top_langs($year, $user_group, $cat, $month = null): array
         'month' => $month,
     ];
 
-    $query = top_query('lang');
+    $query = topQuery('lang');
 
-    [$query, $params] = add_top_params($query, [], $to_add);
+    [$query, $params] = addTopParams($query, [], $to_add);
 
     $query .= " GROUP BY p.lang ORDER BY 2 DESC";
 
@@ -181,7 +181,7 @@ function get_top_langs($year, $user_group, $cat, $month = null): array
     return $new_data;
 }
 
-function get_status($year, $user_group, $cat): array
+function getStatus($year, $user_group, $cat): array
 {
 
     $to_add = ["year" => $year, "user_group" => $user_group, "cat" => $cat];
@@ -200,7 +200,7 @@ function get_status($year, $user_group, $cat): array
 
     SQL;
 
-    [$query, $params] = add_top_params($query, [], $to_add);
+    [$query, $params] = addTopParams($query, [], $to_add);
 
     $query .= " GROUP BY 1 ORDER BY 1 ASC";
 

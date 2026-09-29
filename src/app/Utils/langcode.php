@@ -34,7 +34,7 @@ https://db-names.toolforge.org/
 "zh-yue" : "yue"
 */
 
-use function App\SQLorAPI\GetDataTab\get_langs;
+use function App\SQLorAPI\GetDataTab\getLangs;
 
 $L_code_to_wikiname = [
     "aa"    =>    "Afar",
@@ -408,7 +408,7 @@ function load_langs_tables()
     }
     $already_loaded = true;
 
-    $langs_table = get_langs();
+    $langs_table = getLangs();
 
     foreach ($langs_table as $_ => $lang_tab) {
         $lang_code = $lang_tab['code'] ?? "";

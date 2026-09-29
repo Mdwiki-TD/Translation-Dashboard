@@ -65,7 +65,7 @@ function makeApiParams($year, $user_group, $cat)
 }
 
 # @deprecated
-function get_leaderboard_table($year, $user_group, $cat)
+function getLeaderboardTable($year, $user_group, $cat)
 {
 
     $apiParams = makeApiParams($year, $user_group, $cat);

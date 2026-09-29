@@ -3,11 +3,11 @@
 namespace App\Leaderboard\Filter;
 
 use function App\Utils\Html\makeDropdown;
-use function App\SQLorAPI\Funcs\get_pages_with_pupdate;
-use function App\SQLorAPI\TopData\get_status;
-use function App\SQLorAPI\GetDataTab\get_projects;
-use function App\SQLorAPI\GetDataTab\get_categories;
-use function App\SQLorAPI\GetDataTab\get_camps_to_cat;
+use function App\SQLorAPI\Funcs\getPagesWithPupdate;
+use function App\SQLorAPI\TopData\getStatus;
+use function App\SQLorAPI\GetDataTab\getProjects;
+use function App\SQLorAPI\GetDataTab\getCategories;
+use function App\SQLorAPI\GetDataTab\getCampsToCat;
 
 function input_group($title, $rows): string
 {
@@ -24,7 +24,7 @@ function input_group($title, $rows): string
 function make_camp_dropdown($camp): string
 {
 
-    $categories_tab = get_categories();
+    $categories_tab = getCategories();
     $categories_tab = array_column($categories_tab, 'campaign');
 
     $y1 = makeDropdown($categories_tab, $camp, 'camp', 'all');
@@ -37,7 +37,7 @@ function make_camp_dropdown($camp): string
 function make_project_dropdown($user_group): string
 {
 
-    $projects_tab = get_projects();
+    $projects_tab = getProjects();
 
     $user_groups = array_column($projects_tab, 'g_title');
 
@@ -54,7 +54,7 @@ function make_project_dropdown($user_group): string
 function make_year_dropdown($year): string
 {
 
-    $m_years2 = get_pages_with_pupdate();
+    $m_years2 = getPagesWithPupdate();
 
     // sort $m_years2 from biggest to smallest
     rsort($m_years2);
@@ -103,13 +103,13 @@ function leaderboard_filter($year, $month, $user_group, $camp, $action = "leader
 
     $yearDropdown = make_year_dropdown($year);
 
-    $s_camp_to_cat = get_camps_to_cat();
+    $s_camp_to_cat = getCampsToCat();
     $cat = $s_camp_to_cat[$camp] ?? '';
 
     $monthDropdown = "";
 
     if ($year !== 'all') {
-        $graph_data = get_status($year, $user_group, $cat);
+        $graph_data = getStatus($year, $user_group, $cat);
 
         $monthDropdown = make_month_dropdown($month, $graph_data);
     };

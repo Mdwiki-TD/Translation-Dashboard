@@ -4,10 +4,10 @@ namespace App\Leaderboard\Subs\FilterForm;
 
 
 
-use function App\SQLorAPI\Funcs\get_lang_years;
-use function App\SQLorAPI\Funcs\get_user_years;
-use function App\SQLorAPI\Funcs\get_user_langs;
-use function App\SQLorAPI\Funcs\get_user_camps;
+use function App\SQLorAPI\Funcs\getLangYears;
+use function App\SQLorAPI\Funcs\getUserYears;
+use function App\SQLorAPI\Funcs\getUserLangs;
+use function App\SQLorAPI\Funcs\getUserCamps;
 
 function DropdownNew($title, $tab, $cat, $id)
 {
@@ -41,9 +41,9 @@ function make_filter_html($data, $filter_page)
     $camp     = $data['camp'];
 
     if ($filter_page == 'user') {
-        $years = get_user_years($user);
-        $langs = get_user_langs($user);
-        $camps = get_user_camps($user);
+        $years = getUserYears($user);
+        $langs = getUserLangs($user);
+        $camps = getUserCamps($user);
 
         $langsDropdown = DropdownNew('Lang', $langs, $lang, 'lang');
         $yearDropdown  = DropdownNew('Year', $years, $year, 'year');
@@ -63,7 +63,7 @@ function make_filter_html($data, $filter_page)
         $hidden = "<input type='hidden' name='get' value='users' /><input type='hidden' name='user' value='$user' />";
 
     } else {
-        $years = get_lang_years($lang);
+        $years = getLangYears($lang);
 
         $yearDropdown = DropdownNew('Year', $years, $year, 'year');
 

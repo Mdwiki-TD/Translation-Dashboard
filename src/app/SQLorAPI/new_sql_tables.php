@@ -45,7 +45,7 @@ function missing_by_lang_and_category($lang_code, $category)
     return $u_data;
 }
 
-function exists_by_lang_and_category($lang_code, $category)
+function existsByLangAndCategory($lang_code, $category)
 {
 
     $apiParams = ['get' => 'exists_by_lang_and_category', 'category' => $category, 'lang' => $lang_code];
@@ -87,7 +87,7 @@ function exists_by_lang_and_category($lang_code, $category)
     return $u_data;
 }
 
-function count_category_members($category)
+function countCategoryMembers($category)
 {
 
     if ($category === null) {
@@ -118,7 +118,7 @@ function count_category_members($category)
 }
 
 
-function statics_by_category($category)
+function staticsByCategory($category)
 {
 
     if ($category === null) {

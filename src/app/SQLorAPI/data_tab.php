@@ -5,7 +5,7 @@ namespace App\SQLorAPI\GetDataTab;
 use function App\SQLorAPI\Get\super_function;
 use function App\SQLorAPI\Get\isvalid;
 
-function get_titles_infos()
+function getTitlesInfos()
 {
 
     static $titlesinfos = [];
@@ -41,7 +41,7 @@ function get_titles_infos()
     return $titlesinfos;
 }
 
-function get_views($year, $lang)
+function getViews($year, $lang)
 {
 
     static $cache = [];
@@ -89,7 +89,7 @@ function get_views($year, $lang)
     return $data;
 }
 
-function get_settings()
+function getSettings()
 {
 
     static $sql_settings = [];
@@ -107,7 +107,7 @@ function get_settings()
     return $sql_settings;
 }
 
-function get_projects()
+function getProjects()
 {
 
     static $user_groups = [];
@@ -124,7 +124,7 @@ function get_projects()
     return $user_groups;
 }
 
-function get_categories()
+function getCategories()
 {
 
     static $categories = [];
@@ -141,7 +141,7 @@ function get_categories()
     return $categories;
 }
 
-function get_categories_members($category)
+function getCategoriesMembers($category)
 {
 
     $apiParams = ['get' => 'category_members', 'cat' => $category];
@@ -153,7 +153,7 @@ function get_categories_members($category)
 
     return $result;
 }
-function get_qids()
+function getQids()
 {
 
     static $sql_td_qids = [];
@@ -169,7 +169,7 @@ function get_qids()
     return $sql_td_qids;
 }
 
-function get_users_no_inprocess()
+function getUsersNoInprocess()
 {
 
     static $users = [];
@@ -183,7 +183,7 @@ function get_users_no_inprocess()
     return $users;
 }
 
-function get_full_translators($column = null)
+function getFullTranslators($column = null)
 {
 
     static $full_tr = [];
@@ -201,7 +201,7 @@ function get_full_translators($column = null)
     return $full_tr;
 }
 
-function get_translate_type(): array
+function getTranslateType(): array
 {
 
     static $translate_type = [];
@@ -220,7 +220,7 @@ function get_translate_type(): array
     return $data;
 }
 
-function get_count_pages()
+function getCountPages()
 {
 
     static $count_pages = [];
@@ -247,7 +247,7 @@ function get_count_pages()
     return $data;
 }
 
-function get_langs()
+function getLangs()
 {
 
     static $langs = [];
@@ -267,7 +267,7 @@ function get_langs()
 function getQidsForList($list)
 {
 
-    $sq_qids = get_qids();
+    $sq_qids = getQids();
 
     $with_qids = [];
     $no_qids = [];
@@ -286,12 +286,12 @@ function getQidsForList($list)
         "no_qids" => $no_qids,
     ];
 }
-function get_camps_to_cat()
+function getCampsToCat()
 {
     static $s_camp_to_cat = [];
     if (!empty($s_camp_to_cat)) return $s_camp_to_cat;
 
-    $categories_tab = get_categories();
+    $categories_tab = getCategories();
     $s_camp_to_cat = array_column($categories_tab, "category", 'campaign');
 
     return $s_camp_to_cat;
