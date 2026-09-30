@@ -90,11 +90,13 @@ include_once __DIR__ . '/Controllers/AppRouter.php'; // AppRouter
 include_once __DIR__ . '/Controllers/SiteLinksController.php';
 include_once __DIR__ . '/Controllers/MissingController.php';
 
+# Tables
+include_once __DIR__ . '/Tables/langcode.php';
+
 # Utils
 include_once __DIR__ . '/Utils/html.php';
 // include_once __DIR__ . '/Utils/html2.php';
 include_once __DIR__ . '/Utils/htmlUrls.php';
 include_once __DIR__ . '/Utils/wiki_api.php';
-include_once __DIR__ . '/Utils/langcode.php';
 include_once __DIR__ . '/Utils/helps.php';
 include_once __DIR__ . '/Utils/tr_link.php';
