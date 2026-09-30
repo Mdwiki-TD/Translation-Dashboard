@@ -6,6 +6,7 @@ use App\SQLorAPI\BaseTable;
 
 class PagesTable extends BaseTable
 {
+    private static array $langPagesCache = [];
     private static array $pagesCache = [];
     private static array $pupdateCache = [];
     private static array $countPagesCache = [];
@@ -28,6 +29,7 @@ class PagesTable extends BaseTable
 
     public static function resetCache(): void
     {
+        self::$langPagesCache = [];
         self::$pagesCache = [];
         self::$pupdateCache = [];
         self::$countPagesCache = [];
@@ -42,8 +44,8 @@ class PagesTable extends BaseTable
     {
         // http://localhost:9001/api.php?get=pages&lang=ar&cat=RTT
         $key = (string)$lang . (string)$cat;
-        if (!empty(self::$pagesCache[$key] ?? [])) {
-            return self::$pagesCache[$key];
+        if (!empty(self::$langPagesCache[$key] ?? [])) {
+            return self::$langPagesCache[$key];
         }
 
         $apiParams = ['get' => 'pages', 'lang' => $lang, 'cat' => $cat];
@@ -51,7 +53,7 @@ class PagesTable extends BaseTable
         $params = [$lang, $cat];
 
         $uData = $this->service->superFunction($apiParams, $params, $query);
-        self::$pagesCache[$key] = $uData;
+        self::$langPagesCache[$key] = $uData;
 
         return $uData;
     }

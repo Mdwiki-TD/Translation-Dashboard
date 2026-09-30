@@ -119,6 +119,7 @@ class RecentTable extends BaseTable
 
     public function getRecentTranslated(string $lang, string $table, int $limit, int $offset): array
     {
+        $table = in_array($table, ['pages', 'pages_users'], true) ? $table : 'pages';
 
         $sqlParams = [];
         $apiParams = ['get' => $table, "order" => 'pupdate', 'limit' => $limit, 'offset' => $offset];

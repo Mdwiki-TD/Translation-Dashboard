@@ -34,7 +34,7 @@ class ResultsFetcher
     public function get(string $cat, string $code): array
     {
         // Pages that already exist via Translation Dashboard
-        $existsViaTd = (PagesTable::getInstance())->getLangPages($code, $cat);
+        $existsViaTd = (PagesTable::getInstance())->getLangPagesByCat($code, $cat);
         $existsViaTd = array_column($existsViaTd, null, "title");
         $this->log("exists_via_td", count($existsViaTd));
 

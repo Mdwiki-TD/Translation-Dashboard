@@ -66,8 +66,7 @@ function postUrl(string $ServerUrl, array $params = []): string
         Logger::debug('postUrl: Error:' . curl_error($ch));
     }
 
-    // curl_close($ch);
-    return $output;
+    return $output === false ? '' : $output;
 }
 
 class ApiOrSqlService

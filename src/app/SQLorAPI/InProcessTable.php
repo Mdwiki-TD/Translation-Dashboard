@@ -48,8 +48,12 @@ class InProcessTable extends BaseTable
 
     public function getUserProcessNew(string $user, string $yearY = "all"): array
     {
-        if (!empty(self::$userProcessCache[$user] ?? [])) {
-            return self::$userProcessCache[$user];
+        $key = $this->service->isValid($yearY)
+            ? "{$user}_{$yearY}"
+            : $user;
+
+        if (!empty(self::$userProcessCache[$key] ?? [])) {
+            return self::$userProcessCache[$key];
         }
 
         $apiParams = ['get' => 'in_process', 'user' => $user];
@@ -63,7 +67,7 @@ class InProcessTable extends BaseTable
         }
 
         $data = $this->service->superFunction($apiParams, $params, $query, true);
-        self::$userProcessCache[$user] = $data;
+        self::$userProcessCache[$key] = $data;
 
         return $data;
     }
