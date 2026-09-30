@@ -4,7 +4,7 @@ namespace App\Results27\Rows;
 
 use function App\Utils\Html\make_mdwiki_href;
 use function App\Utils\Html\make_wikidata_url_blank;
-use function App\Results\TrLink\make_tr_link_medwiki;
+use function App\Results\TrLink\makeTrLinkMedwiki;
 
 /**
  * Builds a single row for the Missing results table.
@@ -61,8 +61,8 @@ class MissingRowBuilder
             HTML;
         } else {
             $fullWords = $titleData["w_all_words"] ?? 0;
-            $fullUrl = make_tr_link_medwiki($title, $langCode, $cat, $camp, "all", $fullWords);
-            $leadUrl = make_tr_link_medwiki($title, $langCode, $cat, $camp, $traType, $words);
+            $fullUrl = makeTrLinkMedwiki($title, $langCode, $cat, $camp, "all", $fullWords);
+            $leadUrl = makeTrLinkMedwiki($title, $langCode, $cat, $camp, $traType, $words);
 
             if ($fullTrUser && !$isVideo) {
                 $buttons = <<<HTML

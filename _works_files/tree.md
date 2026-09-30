@@ -87,7 +87,6 @@ src/
 │   │   ├── html.php
 │   │   ├── lang_names.json
 │   │   ├── langcode.php
-│   │   ├── tables_dir.php
 │   │   ├── tr_link.php
 │   │   └── wiki_api.php
 │   ├── bootstrap.php

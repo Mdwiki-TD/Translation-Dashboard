@@ -8,7 +8,7 @@ use App\MdwikiSql\Database;
 use App\SQLorAPI\UsersTable;
 use App\SQLorAPI\CategoriesTable;
 
-use function App\Results\TrLink\make_ContentTranslation_url;
+use function App\Results\TrLink\makeContentTranslationUrl;
 
 function insertPageInprocess($title, $word, $tr_type, $cat, $lang, $user): bool
 {
@@ -36,7 +36,7 @@ function insertPageInprocess($title, $word, $tr_type, $cat, $lang, $user): bool
 function go_to_translate_url($title_o, $coden, $tr_type, $cat, $camp)
 {
 
-    $url = make_ContentTranslation_url(
+    $url = makeContentTranslationUrl(
         $title_o,
         $coden,
         $cat,

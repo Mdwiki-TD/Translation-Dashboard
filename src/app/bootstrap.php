@@ -94,7 +94,6 @@ include_once __DIR__ . '/Controllers/MissingController.php';
 include_once __DIR__ . '/Utils/html.php';
 // include_once __DIR__ . '/Utils/html2.php';
 include_once __DIR__ . '/Utils/htmlUrls.php';
-include_once __DIR__ . '/Utils/tables_dir.php';
 include_once __DIR__ . '/Utils/wiki_api.php';
 include_once __DIR__ . '/Utils/langcode.php';
 include_once __DIR__ . '/Utils/helps.php';
