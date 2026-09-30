@@ -22,9 +22,12 @@ final class PageRunner
         $pageHeader = new PageHeader($currentUser);
         $pageHeader->render();
 
+        // Instantiate and execute application router
         (new $controllerClass())->handleRequest();
 
+        $timeStart = $pageHeader->getLoadStartTime();
+
         $pageFooter = new PageFooter($currentUser);
-        $pageFooter->render($pageHeader->getLoadStartTime());
+        $pageFooter->render($timeStart);
     }
 }

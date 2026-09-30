@@ -40,13 +40,12 @@ class PageHeader
 	 */
 	private function buildCoordToolsLink(): string
 	{
-		$coord_tools = "";
+		$isCoordinator = $this->currentUser->isCoordinator();
 
-		// Check if current user is a coordinator
-		if ($this->currentUser->isCoordinator()) {
-			$coord_tools = '<a href="/tdc/index.php" class="nav-link py-2 px-0 px-lg-2"><span class="navtitles"></span> <i class="bi bi-tools me-1"></i> Coordinator Tools</a>';
-		}
-		return $coord_tools;
+		$href  = $isCoordinator ? '/tdc/index.php' : 'tools.php';
+		$label = $isCoordinator ? 'Coordinator Tools' : 'Tools';
+
+		return '<a href="' . $href . '" class="nav-link py-2 px-0 px-lg-2"><span class="navtitles"></span><i class="bi bi-tools me-1"></i> ' . $label . '</a>';
 	}
 	/**
 	 * Builds the user menu (login link, or username + logout)
@@ -84,7 +83,7 @@ class PageHeader
 	 * Renders the full page header: <head>, alert (if any),
 	 * <body> tag, navigation, and opening of the main container.
 	 */
-	public function render(): void
+	public function render(bool $hideNav = false): void
 	{
 		// When ?nonav is passed, the navbar is skipped entirely
 		// instead of being rendered and then hidden with JS.
@@ -98,11 +97,15 @@ class PageHeader
 
 		echo "<body>";
 
-		// Output HTML header and navigation
-		echo $this->pageHead->write_body(
-			$this->buildCoordToolsLink(),
-			$this->buildUserMenu()
-		);
+		if (!$hideNav) {
+			// Output HTML header and navigation
+			echo $this->pageHead->write_body(
+				$this->buildCoordToolsLink(),
+				$this->buildUserMenu()
+			);
+		} else {
+			echo "<header class='mb-3 border-bottom'> </header>";
+		}
 
 		echo "<main id='body'><div id='maindiv' class='container-fluid'>";
 	}
