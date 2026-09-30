@@ -1,5 +1,7 @@
 ```
 app/
+├── ApiClients/
+│   └── wiki_api.php
 ├── Controllers/
 │   ├── AppRouter.php
 │   ├── MissingController.php
@@ -91,8 +93,7 @@ app/
 │   ├── helps.php
 │   ├── html.php
 │   ├── htmlUrls.php
-│   ├── tr_link.php
-│   └── wiki_api.php
+│   └── tr_link.php
 ├── bootstrap.php
 ├── Logger.php
 └── Settings.php
