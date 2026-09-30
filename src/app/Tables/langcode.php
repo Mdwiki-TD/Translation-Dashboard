@@ -38,82 +38,72 @@ use App\SQLorAPI\TitlesTable;
 
 class LangsTables
 {
-    public static $L_skip_codes = [];
-    public static $LChangeCodes = [];
+    public static $already_loaded = false;
+    public static $L_skip_codes = ["commons", "species", "ary", "arz", "meta", "en", "simple"];
+    public static $LChangeCodes = [
+        "gsw" => "als",
+        "sgs" => "bat-smg",
+        "nb"    =>    "no",
+        "bat_smg"    =>    "bat-smg",
+        "be-x-old"    =>    "be-tarask",
+        "be_x_old"    =>    "be-tarask",
+        "cbk_zam"    =>    "cbk-zam",
+        "vro"    =>    "fiu-vro",
+        "fiu_vro"    =>    "fiu-vro",
+        "map_bms"    =>    "map-bms",
+        "nds_nl"    =>    "nds-nl",
+        "roa_rup"    =>    "roa-rup",
+        "zh_classical"    =>    "zh-classical",
+        "zh_min_nan"    =>    "zh-min-nan",
+        "zh_yue"    =>    "zh-yue",
+        "yue"    =>    "zh-yue",
+    ];
     public static $L_code_to_lang_name = [];
     public static $L_lang_to_code = [];
     public static $LCodeToLang = [];
-}
 
-LangsTables::$L_skip_codes = ["commons", "species", "ary", "arz", "meta", "en", "simple"];
-/*
-bh	        bho
-*/
-
-LangsTables::$LChangeCodes = [
-    "gsw" => "als",
-    "sgs" => "bat-smg",
-    "nb"    =>    "no",
-    "bat_smg"    =>    "bat-smg",
-    "be-x-old"    =>    "be-tarask",
-    "be_x_old"    =>    "be-tarask",
-    "cbk_zam"    =>    "cbk-zam",
-    "vro"    =>    "fiu-vro",
-    "fiu_vro"    =>    "fiu-vro",
-    "map_bms"    =>    "map-bms",
-    "nds_nl"    =>    "nds-nl",
-    "roa_rup"    =>    "roa-rup",
-    "zh_classical"    =>    "zh-classical",
-    "zh_min_nan"    =>    "zh-min-nan",
-    "zh_yue"    =>    "zh-yue",
-    "yue"    =>    "zh-yue",
-];
-
-function load_langs_tables()
-{
-    static $already_loaded = false;
-    if ($already_loaded) {
-        return;
-    }
-    $already_loaded = true;
-
-    $langs_table = (TitlesTable::getInstance())->getLangs();
-
-    foreach ($langs_table as $_ => $langTab) {
-        $langCode = $langTab['code'] ?? "";
-        $langName = $langTab['autonym'] ?? "";
-
-        if (empty($langCode)) continue;
-        if (isset(LangsTables::$LChangeCodes[$langCode]) && isset(LangsTables::$LCodeToLang[LangsTables::$LChangeCodes[$langCode]])) {
-            continue;
+    private static function load(): void
+    {
+        if (self::$already_loaded) {
+            return;
         }
+        self::$already_loaded = true;
 
-        $langTitle = "($langCode) $langName";
+        $langs_table = (TitlesTable::getInstance())->getLangs();
 
-        LangsTables::$LCodeToLang[$langCode] = $langTitle;
-        LangsTables::$L_code_to_lang_name[$langCode] = $langName;
-        LangsTables::$L_lang_to_code[$langTitle] = $langCode;
+        foreach ($langs_table as $_ => $langTab) {
+            $langCode = $langTab['code'] ?? "";
+            $langName = $langTab['autonym'] ?? "";
+
+            if (empty($langCode)) continue;
+            if (isset(self::$LChangeCodes[$langCode]) && isset(self::$LCodeToLang[self::$LChangeCodes[$langCode]])) {
+                continue;
+            }
+
+            $langTitle = "($langCode) $langName";
+
+            self::$LCodeToLang[$langCode] = $langTitle;
+            self::$L_code_to_lang_name[$langCode] = $langName;
+            self::$L_lang_to_code[$langTitle] = $langCode;
+        }
     }
-}
 
-function get_lang_title($lang_code)
-{
-    load_langs_tables();
+    public static function get_lang_title($lang_code)
+    {
+        self::load();
+        return self::$LCodeToLang[$lang_code] ?? null;
+    }
 
-    return LangsTables::$LCodeToLang[$lang_code] ?? null;
-}
-
-function get_lang_name($code)
-{
-    load_langs_tables();
-
-    return LangsTables::$L_code_to_lang_name[$code] ?? null;
-}
+    public static function get_lang_name($code)
+    {
+        self::load();
+        return self::$L_code_to_lang_name[$code] ?? null;
+    }
 
 
-function get_lang_code($lang_title)
-{
-    load_langs_tables();
-
-    return LangsTables::$L_lang_to_code[$lang_title] ?? null;
+    public static function get_lang_code($lang_title)
+    {
+        self::load();
+        return self::$L_lang_to_code[$lang_title] ?? null;
+    }
 }

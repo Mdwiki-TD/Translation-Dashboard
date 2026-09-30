@@ -8,9 +8,7 @@ use App\Results27\ResultsLoader;
 use App\SQLorAPI\CategoriesTable;
 use App\SQLorAPI\SettingsTable;
 use App\SQLorAPI\TitlesTable;
-
-use function App\Tables\Langs\get_lang_code;
-use function App\Tables\Langs\get_lang_title;
+use App\Tables\Langs\LangsTables;
 
 /**
  * Class AppRouter
@@ -48,8 +46,8 @@ class AppRouter
 
         $code = trim($code);
 
-        $code = get_lang_code($code) ?? $code;
-        $code_lang_name = get_lang_title($code) ?? "";
+        $code = LangsTables::get_lang_code($code) ?? $code;
+        $code_lang_name = LangsTables::get_lang_title($code) ?? "";
 
         $cat = htmlspecialchars($_GET["cat"] ?? "", ENT_QUOTES, "UTF-8");
         if ($cat == "undefined") $cat = "";
