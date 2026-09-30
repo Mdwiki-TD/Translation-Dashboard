@@ -60,15 +60,21 @@ src/
 │   │   └── ResultsLoader.php
 │   ├── SQLorAPI/
 │   │   ├── ApiOrSqlService.php
+│   │   ├── BaseTable.php
 │   │   ├── bootstrap.php
 │   │   ├── CategoriesTable.php
 │   │   ├── InProcessTable.php
 │   │   ├── LeaderboardTable.php
 │   │   ├── PagesTable.php
+│   │   ├── QidsTable.php
+│   │   ├── RecentTable.php
 │   │   ├── SettingsTable.php
 │   │   ├── TitlesTable.php
 │   │   ├── UsersTable.php
 │   │   └── ViewsTable.php
+│   ├── Tables/
+│   │   ├── lang_names.json
+│   │   └── langcode.php
 │   ├── Templates/
 │   │   ├── Missing/
 │   │   │   └── missing.php
@@ -85,8 +91,7 @@ src/
 │   ├── Utils/
 │   │   ├── helps.php
 │   │   ├── html.php
-│   │   ├── lang_names.json
-│   │   ├── langcode.php
+│   │   ├── htmlUrls.php
 │   │   ├── tr_link.php
 │   │   └── wiki_api.php
 │   ├── bootstrap.php
