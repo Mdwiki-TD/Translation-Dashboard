@@ -6,7 +6,7 @@ use function App\Leaderboard\Subs\LeadHelp\make_langs_lead;
 use function App\Leaderboard\Subs\SubLangs\get_langs_tables;
 use function App\Leaderboard\SubGraph\graph_data_new;
 use function App\Leaderboard\Subs\FilterForm\lead_row;
-use function App\Tables\Langs\get_lang_name;
+use App\Tables\Langs\LangsTables;
 
 class LangsLeaderboard
 {
@@ -21,7 +21,7 @@ class LangsLeaderboard
 
         $mainlang = rawurldecode(str_replace("_", " ", $mainlang));
 
-        $langname = get_lang_name($mainlang) ?? $mainlang;
+        $langname = LangsTables::get_lang_name($mainlang) ?? $mainlang;
 
         $u_tables = get_langs_tables($mainlang, $year_y);
 

@@ -3,11 +3,10 @@
 namespace App\Results27\Data;
 
 use App\Logger;
+use App\SQLorAPI\PagesTable;
+use App\SQLorAPI\CategoriesTable;
+use App\SQLorAPI\InProcessTable;
 use function App\Utils\Html\make_mdwiki_cat_url;
-use function App\SQLorAPI\Funcs\get_lang_pages_by_cat;
-use function App\SQLorAPI\Process\get_lang_in_process;
-use function App\SQLorAPI\Funcs\missing_by_lang_and_category;
-use function App\SQLorAPI\Funcs\exists_by_lang_and_category;
 
 /**
  * Responsible for fetching and preparing all result data
@@ -35,18 +34,18 @@ class ResultsFetcher
     public function get(string $cat, string $code): array
     {
         // Pages that already exist via Translation Dashboard
-        $existsViaTd = get_lang_pages_by_cat($code, $cat);
+        $existsViaTd = (PagesTable::getInstance())->getLangPagesByCat($code, $cat);
         $existsViaTd = array_column($existsViaTd, null, "title");
         $this->log("exists_via_td", count($existsViaTd));
 
         // Missing pages
         // { "title": "Alpha-gal syndrome", "category": "RTT", "importance": "Mid", "r_lead_refs": 0, "r_all_refs": 0, "en_views": 15, "w_lead_words": 0, "w_all_words": 0, "qid": "Q16242785" }
-        $itemsMissing = missing_by_lang_and_category($code, $cat);
+        $itemsMissing = (CategoriesTable::getInstance())->missingByLangAndCategory($code, $cat);
         $this->log("Items missing", count($itemsMissing));
 
         // Existing pages
         // { "title": "11p deletion syndrome", "category": "RTT", "importance": "", "r_lead_refs": 5, "r_all_refs": 14, "en_views": 838, "w_lead_words": 221, "w_all_words": 547, "qid": "Q1892153", "target": "متلازمة واجر" }
-        $itemsExists = exists_by_lang_and_category($code, $cat);
+        $itemsExists = (CategoriesTable::getInstance())->existsByLangAndCategory($code, $cat);
         $itemsExists = array_column($itemsExists, null, "title");
 
         // Mark origin of each existing page
@@ -97,7 +96,7 @@ class ResultsFetcher
      */
     private function getInProcess(array $missingTitles, string $code): array
     {
-        $res = get_lang_in_process($code);
+        $res = (InProcessTable::getInstance())->getLangInProcess($code);
         $result = [];
 
         foreach ($res as $row) {

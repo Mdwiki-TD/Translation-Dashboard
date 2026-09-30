@@ -36,10 +36,6 @@ src/app/backend/results_27/
 namespace App\Results\GetResults27\Data;
 
 use function App\Render\Html\make_mdwiki_cat_url;
-use function App\SQLorAPI\Funcs\get_lang_pages_by_cat;
-use function App\SQLorAPI\Process\get_lang_in_process;
-use function App\SQLorAPI\Funcs\missing_by_lang_and_category;
-use function App\SQLorAPI\Funcs\exists_by_lang_and_category;
 use function App\Render\TestPrint\test_print;
 
 /**
@@ -185,7 +181,6 @@ class ResultsFetcher
 
 namespace App\Results\GetResults27\Helpers;
 
-use function App\SQLorAPI\GetDataTab\get_td_or_sql_translate_type;
 
 /**
  * Loads and caches lists of titles that require full translation
@@ -212,7 +207,7 @@ class TranslateTypeLoader
 
     private static function loadData(): void
     {
-        $rows = get_td_or_sql_translate_type();
+        $rows = get_translate_type();
 
         foreach ($rows as $tab) {
             if (($tab["tt_full"] ?? 0) == 1) {
@@ -306,7 +301,7 @@ namespace App\Results\GetResults27\Rows;
 
 use function App\Render\Html\make_mdwiki_href;
 use function App\Render\Html\make_wikidata_url_blank;
-use function App\Results\TrLink\make_tr_link_medwiki;
+use function App\Results\TrLink\makeTrLinkMedwiki;
 
 /**
  * Builds a single row for the Missing results table.
@@ -361,8 +356,8 @@ class MissingRowBuilder
                 </a>
             HTML;
         } else {
-            $fullUrl = make_tr_link_medwiki($title, $langCode, $cat, $camp, "all", $words);
-            $leadUrl = make_tr_link_medwiki($title, $langCode, $cat, $camp, $traType, $words);
+            $fullUrl = makeTrLinkMedwiki($title, $langCode, $cat, $camp, "all", $words);
+            $leadUrl = makeTrLinkMedwiki($title, $langCode, $cat, $camp, $traType, $words);
 
             if ($fullTrUser && !$isVideo) {
                 $buttons = <<<HTML
@@ -528,7 +523,7 @@ class MissingTable extends AbstractResultsTable
 
 namespace App\Results\GetResults27\Rows;
 
-use function App\Results\TrLink\make_ContentTranslation_url;
+use function App\Results\TrLink\makeContentTranslationUrl;
 use function App\Render\Html\make_mdwiki_article_url_blank;
 use function App\Render\Html\make_wikipedia_url_blank;
 use function App\Render\Html\make_wikidata_url_blank;
@@ -570,7 +565,7 @@ class ExistsRowBuilder
 
         $translateButton = '';
         if (!empty($globalUsername) && $userCoord) {
-            $translateUrl = make_ContentTranslation_url(
+            $translateUrl = makeContentTranslationUrl(
                 $title,
                 $langCode,
                 $cat,
@@ -917,9 +912,6 @@ use App\Results\GetResults27\Tables\MissingTable;
 use App\Results\GetResults27\Tables\ExistsTable;
 use App\Results\GetResults27\Tables\InProcessTable;
 
-use function App\SQLorAPI\GetDataTab\get_td_or_sql_full_translators;
-use function App\SQLorAPI\GetDataTab\get_td_or_sql_titles_infos;
-use function App\SQLorAPI\GetDataTab\get_endpoint;
 
 /**
  * Main entry point for the 2026 results module.
@@ -942,7 +934,7 @@ class ResultsLoader
         $test         = !empty($data["test"]);
 
         // Full translator check
-        $fullTranslators = get_td_or_sql_full_translators();
+        $fullTranslators = get_full_translators();
         $fullTranslators = array_column($fullTranslators, "is_active", "user");
         $fullTrUser = ($fullTranslators[$globalUser] ?? 0) == 1;
 
@@ -951,7 +943,7 @@ class ResultsLoader
         $results = $fetcher->get($cat, $code);
 
         // Helper data
-        $titlesInfos     = array_column(get_td_or_sql_titles_infos(), null, "title");
+        $titlesInfos     = array_column(get_titles_infos(), null, "title");
         $noLeadTranslates = TranslateTypeLoader::load("no");
         $fullTranslates   = TranslateTypeLoader::load("full");
         $endpoint         = get_endpoint();

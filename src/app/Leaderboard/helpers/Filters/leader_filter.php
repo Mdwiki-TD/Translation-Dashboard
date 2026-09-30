@@ -2,12 +2,12 @@
 
 namespace App\Leaderboard\Filter;
 
+use App\SQLorAPI\LeaderboardTable;
+use App\SQLorAPI\TitlesTable;
+use App\SQLorAPI\CategoriesTable;
+use App\SQLorAPI\PagesTable;
+
 use function App\Utils\Html\makeDropdown;
-use function App\SQLorAPI\Funcs\get_pages_with_pupdate;
-use function App\SQLorAPI\TopData\get_td_or_sql_status;
-use function App\SQLorAPI\GetDataTab\get_td_or_sql_projects;
-use function App\SQLorAPI\GetDataTab\get_td_or_sql_categories;
-use function App\SQLorAPI\GetDataTab\get_camps_to_cat;
 
 function input_group($title, $rows): string
 {
@@ -24,7 +24,7 @@ function input_group($title, $rows): string
 function make_camp_dropdown($camp): string
 {
 
-    $categories_tab = get_td_or_sql_categories();
+    $categories_tab = (CategoriesTable::getInstance())->getCategories();
     $categories_tab = array_column($categories_tab, 'campaign');
 
     $y1 = makeDropdown($categories_tab, $camp, 'camp', 'all');
@@ -37,7 +37,7 @@ function make_camp_dropdown($camp): string
 function make_project_dropdown($user_group): string
 {
 
-    $projects_tab = get_td_or_sql_projects();
+    $projects_tab = (TitlesTable::getInstance())->getProjects();
 
     $user_groups = array_column($projects_tab, 'g_title');
 
@@ -54,7 +54,7 @@ function make_project_dropdown($user_group): string
 function make_year_dropdown($year): string
 {
 
-    $m_years2 = get_pages_with_pupdate();
+    $m_years2 = (PagesTable::getInstance())->getPagesWithPupdate();
 
     // sort $m_years2 from biggest to smallest
     rsort($m_years2);
@@ -103,13 +103,13 @@ function leaderboard_filter($year, $month, $user_group, $camp, $action = "leader
 
     $yearDropdown = make_year_dropdown($year);
 
-    $s_camp_to_cat = get_camps_to_cat();
+    $s_camp_to_cat = (CategoriesTable::getInstance())->getCampsToCat();
     $cat = $s_camp_to_cat[$camp] ?? '';
 
     $monthDropdown = "";
 
     if ($year !== 'all') {
-        $graph_data = get_td_or_sql_status($year, $user_group, $cat);
+        $graph_data = (LeaderboardTable::getInstance())->getStatus($year, $user_group, $cat);
 
         $monthDropdown = make_month_dropdown($month, $graph_data);
     };

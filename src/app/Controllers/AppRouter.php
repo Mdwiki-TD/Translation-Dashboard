@@ -1,16 +1,14 @@
 <?php
-// src/app/index.php
+// src/app/AppRouter.php
 
 namespace App;
 
 use App\User\CurrentUser;
 use App\Results27\ResultsLoader;
-use function App\SQLorAPI\GetDataTab\get_td_or_sql_categories;
-use function App\SQLorAPI\GetDataTab\get_td_or_sql_settings;
-use function App\SQLorAPI\GetDataTab\get_td_or_sql_langs;
-
-use function App\Tables\Langs\get_lang_code;
-use function App\Tables\Langs\get_lang_title;
+use App\SQLorAPI\CategoriesTable;
+use App\SQLorAPI\SettingsTable;
+use App\SQLorAPI\TitlesTable;
+use App\Tables\Langs\LangsTables;
 
 /**
  * Class AppRouter
@@ -48,8 +46,8 @@ class AppRouter
 
         $code = trim($code);
 
-        $code = get_lang_code($code) ?? $code;
-        $code_lang_name = get_lang_title($code) ?? "";
+        $code = LangsTables::get_lang_code($code) ?? $code;
+        $code_lang_name = LangsTables::get_lang_title($code) ?? "";
 
         $cat = htmlspecialchars($_GET["cat"] ?? "", ENT_QUOTES, "UTF-8");
         if ($cat == "undefined") $cat = "";
@@ -151,9 +149,9 @@ class AppRouter
         // Load Config
         // =======================
 
-        $settings = get_td_or_sql_settings();
+        $settings = (SettingsTable::getInstance())->getSettings();
 
-        $categories_tab = get_td_or_sql_categories();
+        $categories_tab = (CategoriesTable::getInstance())->getCategories();
 
         $camps_data = array_column($categories_tab, null, 'campaign');
         $cats_data = array_column($categories_tab, "campaign", "category");
@@ -268,7 +266,7 @@ class AppRouter
         $camp_ch = htmlspecialchars($camp, ENT_QUOTES);
         $camp_input = $this->makeDrop($campaigns_input_list, $camp_ch);
 
-        $langs_table = get_td_or_sql_langs();
+        $langs_table = (TitlesTable::getInstance())->getLangs();
         $lang_list = $this->printFormStart1($langs_table, $code);
 
         // Login Button

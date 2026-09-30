@@ -4,15 +4,15 @@
 parameters:
     level: 5
 
-    parallel:
-        maximumNumberOfProcesses: 1
+    # parallel:
+    #     maximumNumberOfProcesses: 1
 
     paths:
-        - src
+        - src/
 
     excludePaths:
+        - vendor
         - src_/*
-        - src/app/backend/results/sparql_bots/*
 
     # Treat phpdoc types as assertions for runtime safety
     treatPhpDocTypesAsCertain: true

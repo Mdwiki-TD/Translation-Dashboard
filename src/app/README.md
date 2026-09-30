@@ -17,6 +17,13 @@ app/
 │   │   │   ├── lead_help.php
 │   │   │   └── leader_filter.php
 │   │   ├── Graph/
+│   │   │   ├── Controllers/
+│   │   │   ├── helpers/
+│   │   │   │   ├── Camps/
+│   │   │   │   ├── Filters/
+│   │   │   │   ├── Graph/
+│   │   │   │   ├── Langs/
+│   │   │   │   └── Users/
 │   │   │   ├── graph.php
 │   │   │   ├── graph_api.php
 │   │   │   └── lang_user_graph.php
@@ -51,15 +58,16 @@ app/
 │   ├── bootstrap.php
 │   └── ResultsLoader.php
 ├── SQLorAPI/
+│   ├── ApiOrSqlService.php
 │   ├── bootstrap.php
-│   ├── data_tab.php
-│   ├── funcs.php
-│   ├── Get.php
-│   ├── get_lead.php
-│   ├── new_sql_tables.php
-│   ├── process_data.php
-│   ├── td_api.php
-│   └── top.php
+│   ├── CategoriesTable.php
+│   ├── InProcessTable.php
+│   ├── LeaderboardTable.php
+│   ├── PagesTable.php
+│   ├── SettingsTable.php
+│   ├── TitlesTable.php
+│   ├── UsersTable.php
+│   └── ViewsTable.php
 ├── Templates/
 │   ├── Missing/
 │   │   └── missing.php
@@ -78,7 +86,6 @@ app/
 │   ├── html.php
 │   ├── lang_names.json
 │   ├── langcode.php
-│   ├── tables_dir.php
 │   ├── tr_link.php
 │   └── wiki_api.php
 ├── bootstrap.php

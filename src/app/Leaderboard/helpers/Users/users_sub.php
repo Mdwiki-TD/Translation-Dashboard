@@ -2,16 +2,14 @@
 
 namespace App\Leaderboard\Subs\SubUsers;
 
-
-
-use function App\SQLorAPI\Funcs\get_user_pages;
-use function App\SQLorAPI\Process\get_user_process_new;
+use App\SQLorAPI\PagesTable;
+use App\SQLorAPI\InProcessTable;
 use function App\Leaderboard\Subs\LeadHelp\make_key;
 
 function add_inp($dd_Pending, $user, $year_y)
 {
 
-    $to_add = get_user_process_new($user, $year_y);
+    $to_add = (InProcessTable::getInstance())->getUserProcessNew($user, $year_y);
 
     foreach ($to_add as $_ => $Taab) {
 
@@ -31,7 +29,7 @@ function pages_tables($user_main, $year_y, $lang_y)
     $dd = [];
     $dd_Pending = [];
 
-    $sql_result = get_user_pages($user_main, $year_y, $lang_y);
+    $sql_result = (PagesTable::getInstance())->getUserPages($user_main, $year_y, $lang_y);
 
     foreach ($sql_result as $yhu => $tabb) {
 

@@ -4,9 +4,9 @@ namespace App\Results\Helps;
 
 
 
-use function App\Results\TrLink\make_tr_link_medwiki;
+use function App\Results\TrLink\makeTrLinkMedwiki;
 use function App\Utils\Html\make_mdwiki_href;
-use function App\Results\TrLink\make_ContentTranslation_url;
+use function App\Results\TrLink\makeContentTranslationUrl;
 
 function sort_py_pageviews_rows($items, $en_views_tab)
 {
@@ -81,14 +81,14 @@ function make_translate_urls(
 
     if ($inprocess) {
         // links directly to ContentTranslation
-        $full_translate_url = make_ContentTranslation_url(
+        $full_translate_url = makeContentTranslationUrl(
             $title,
             $langcode,
             $cat,
             $camp,
             'all',
         );
-        $translate_url = make_ContentTranslation_url(
+        $translate_url = makeContentTranslationUrl(
             $title,
             $langcode,
             $cat,
@@ -97,8 +97,8 @@ function make_translate_urls(
         );
     } else {
         // links to translate_med/index.php
-        $full_translate_url = make_tr_link_medwiki($title, $langcode, $cat, $camp, "all", $words);
-        $translate_url = make_tr_link_medwiki($title, $langcode, $cat, $camp, $tra_type, $words);
+        $full_translate_url = makeTrLinkMedwiki($title, $langcode, $cat, $camp, "all", $words);
+        $translate_url = makeTrLinkMedwiki($title, $langcode, $cat, $camp, $tra_type, $words);
     }
 
     $buttons = "<a href='$translate_url' class='btn btn-outline-primary btn-sm' target='_blank'>Translate</a>";

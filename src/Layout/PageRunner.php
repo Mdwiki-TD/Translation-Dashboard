@@ -17,14 +17,19 @@ final class PageRunner
             throw new InvalidArgumentException("Controller not found: {$controllerClass}");
         }
 
+        $hideNav = isset($_GET['nonav']);
+
         $currentUser = CurrentUser::getInstance();
 
         $pageHeader = new PageHeader($currentUser);
-        $pageHeader->render();
+        $pageHeader->render($hideNav);
 
+        // Instantiate and execute application router
         (new $controllerClass())->handleRequest();
 
+        $timeStart = $pageHeader->getLoadStartTime();
+
         $pageFooter = new PageFooter($currentUser);
-        $pageFooter->render($pageHeader->getLoadStartTime());
+        $pageFooter->render($timeStart);
     }
 }

@@ -2,13 +2,13 @@
 
 namespace App\Leaderboard;
 
+use App\SQLorAPI\LeaderboardTable;
 use function App\Leaderboard\Subs\LeadHelp\make_users_lead;
 use function App\Utils\Html\make_mdwiki_user_url;
 use function App\Utils\Html\make_wikipedia_url_blank;
 use function App\Leaderboard\Subs\SubUsers\get_users_tables;
 use function App\Leaderboard\SubGraph\graph_data_new;
 use function App\Leaderboard\Subs\FilterForm\lead_row;
-use function App\SQLorAPI\TopData\get_td_or_sql_top_lang_of_users;
 
 class UsersLeaderboard
 {
@@ -27,7 +27,7 @@ class UsersLeaderboard
         $mainlang = rawurldecode(str_replace("_", " ", $mainlang));
 
         // '[{"user":"Mr. Ibrahem","lang":"ar","cnt":14}]'
-        $user_most_langs = get_td_or_sql_top_lang_of_users([$user_to_curl]);
+        $user_most_langs = (LeaderboardTable::getInstance())->getTopLangOfUsers([$user_to_curl]);
 
         $user_langs = $user_most_langs[0]['lang'] ?? "";
 

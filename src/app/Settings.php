@@ -37,7 +37,7 @@ final class Settings
 
     private static ?self $instance = null;
 
-    private function __construct()
+    public function __construct()
     {
         $this->domain    = $_SERVER['SERVER_NAME'] ?? 'localhost';
         $this->ServerUrl = $this->generateServerUrl();
@@ -71,6 +71,14 @@ final class Settings
         $this->cryptKey       = $cryptKey ? Key::loadFromAsciiSafeString($cryptKey) : null;
 
         $this->TablesPath = $TablesPath;
+    }
+
+    // Prevent cloning and unserialization of the singleton instance
+    private function __clone() {}
+
+    public function __wakeup(): void
+    {
+        throw new \RuntimeException('Cannot unserialize a singleton.');
     }
 
     /**
@@ -212,11 +220,34 @@ final class Settings
             return "";
         }
     }
-    // Prevent cloning and unserialization of the singleton instance
-    private function __clone() {}
-
-    public function __wakeup(): void
+    public function OpenTablesPathFile(string $filePath): array
     {
-        throw new \RuntimeException('Cannot unserialize a singleton.');
+        // remove right / from filePath
+        $filePath = rtrim($filePath, '/');
+        $path = "{$this->TablesPath}/$filePath";
+
+        if (!is_file($path)) {
+            Logger::debug("---- OpenTablesPathFile: file $filePath does not exist");
+            return [];
+        }
+        $contents = file_get_contents($filePath);
+
+        if ($contents === false) {
+            Logger::debug("---- Failed to read file contents from $filePath");
+            return [];
+        }
+
+        $result = json_decode($contents, true);
+
+        if ($result === null || $result === false) {
+            Logger::debug("---- Failed to decode JSON from $filePath");
+            return [];
+        }
+
+        $len = count($result);
+        if (isset($result['list'])) $len = count($result['list']);
+        Logger::debug("---- OpenTablesPathFile File: $filePath: Exists size: $len");
+
+        return $result;
     }
 }

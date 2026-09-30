@@ -4,7 +4,6 @@ namespace App\SiteLinks;
 
 use App\Logger;
 use App\Render\TemplateRenderer;
-use function App\Tables\TablesDir\open_td_tables_file;
 use App\Settings;
 
 class SiteLinksController
@@ -68,8 +67,7 @@ class SiteLinksController
 
 	private function loadData(): array
 	{
-		$tablesPath = Settings::getInstance()->TablesPath;
-		$data = open_td_tables_file("$tablesPath/jsons/sitelinks.json");
+		$data = Settings::getInstance()->OpenTablesPathFile("jsons/sitelinks.json");
 
 		// "commons" is not a Wikipedia edition, so exclude it
 		$heads = array_diff($data['heads'] ?? [], ['commons']);

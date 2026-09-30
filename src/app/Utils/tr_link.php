@@ -2,46 +2,18 @@
 
 namespace App\Results\TrLink;
 
-use function App\SQLorAPI\GetDataTab\get_td_or_sql_settings;
+use App\SQLorAPI\SettingsTable;
 
-function get_endpoint_old()
-{
-
-    static $settings1 = [];
-
-    if (empty($settings1)) {
-        $settings1 = get_td_or_sql_settings();
-        $settings1 = array_column($settings1, 'value', 'title');
-    }
-
-    $use_mdwikicx = $settings1['use_mdwikicx'] ?? '0';
-
-    $endpoint = "https://medwiki.toolforge.org/w/index.php";
-
-    if ($use_mdwikicx != '0') {
-        $endpoint = "https://mdwikicx.toolforge.org/w/index.php";
-    };
-
-    return $endpoint;
-}
-
-function get_endpoint()
-{
-    return "https://mdwikicx.toolforge.org/w/index.php";
-}
-
-function make_ContentTranslation_url(
-    $title,
-    $cod,
-    $cat,
-    $campaign,
-    $tra_type,
-    $endpoint = ""
+function makeContentTranslationUrl(
+    string $title,
+    string $cod,
+    string $cat,
+    string $campaign,
+    string $tra_type,
+    string $endpoint = ""
 ): string {
-
-    // ?title=Special:ContentTranslation&from=mdwiki&to=ary&campaign=contributionsmenu&page=Dracunculiasis&targettitle=Dracunculiasis
     if (!$endpoint) {
-        $endpoint = get_endpoint();
+        $endpoint = (SettingsTable::getInstance())->getEndpoint();
     };
     $title = str_replace('%20', '_', $title);
 
@@ -59,11 +31,16 @@ function make_ContentTranslation_url(
     return $url;
 }
 
-function make_tr_link_medwiki($title, $cod, $cat, $camp, $tra_type, $word)
-{
-
+function makeTrLinkMedwiki(
+    string $title,
+    string $cod,
+    string $cat,
+    string $campaign,
+    string $tra_type,
+    int|string $word
+): string {
     $cat2   = rawurlEncode($cat);
-    $camp2  = rawurlEncode($camp);
+    $camp2  = rawurlEncode($campaign);
     $title2 = rawurlEncode($title);
 
     $params = array(

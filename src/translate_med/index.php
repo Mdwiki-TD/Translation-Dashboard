@@ -5,10 +5,10 @@ include_once dirname(__DIR__) . '/bootstrap.php';
 use App\Logger;
 use App\User\CurrentUser;
 use App\MdwikiSql\Database;
+use App\SQLorAPI\UsersTable;
+use App\SQLorAPI\CategoriesTable;
 
-use function App\Results\TrLink\make_ContentTranslation_url;
-use function App\SQLorAPI\GetDataTab\get_td_or_sql_users_no_inprocess;
-use function App\SQLorAPI\GetDataTab\get_td_or_sql_categories;
+use function App\Results\TrLink\makeContentTranslationUrl;
 
 function insertPageInprocess($title, $word, $tr_type, $cat, $lang, $user): bool
 {
@@ -36,7 +36,7 @@ function insertPageInprocess($title, $word, $tr_type, $cat, $lang, $user): bool
 function go_to_translate_url($title_o, $coden, $tr_type, $cat, $camp)
 {
 
-    $url = make_ContentTranslation_url(
+    $url = makeContentTranslationUrl(
         $title_o,
         $coden,
         $cat,
@@ -89,11 +89,10 @@ $useree = $currentUser->getUsername();
 
 if (!empty($title_o) && !empty($coden)) {
 
-    // use function App\SQLorAPI\GetDataTab\get_td_or_sql_categories;
-    $categories_tab = get_td_or_sql_categories();
+    $categories_tab = (CategoriesTable::getInstance())->getCategories();
     $cats_data = array_column($categories_tab, "campaign", "category");
 
-    $users_no_inprocess = get_td_or_sql_users_no_inprocess();
+    $users_no_inprocess = (UsersTable::getInstance())->getUsersNoInprocess();
     $users_no_inprocess = array_column($users_no_inprocess, 'is_active', 'user');
 
     $title_o = trim($title_o);

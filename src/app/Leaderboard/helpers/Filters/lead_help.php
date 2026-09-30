@@ -8,7 +8,7 @@ use function App\APICalls\WikiApi\make_view_by_number;
 use function App\Utils\Html\make_mdwiki_cat_url;
 use function App\Utils\Html\make_mdwiki_article_url_blank;
 use function App\Utils\Html\make_wikipedia_url_blank;
-use function App\Results\TrLink\make_ContentTranslation_url;
+use function App\Results\TrLink\makeContentTranslationUrl;
 use function App\Leaderboard\Camps\get_articles_to_camps;
 
 function make_key($Taab)
@@ -123,7 +123,7 @@ function make_td_fo_user(
         $target_link = 'Pending';
         $td_views = '';
 
-        $tralink = make_ContentTranslation_url(
+        $tralink = makeContentTranslationUrl(
             $mdtitle,
             $lang,
             $cat,
