@@ -93,7 +93,7 @@ function load_langs_tables()
         LangsTables::$LCodeToLang[$langCode] = $langTitle;
         LangsTables::$L_code_to_lang_name[$langCode] = $langName;
         LangsTables::$L_lang_to_code[$langTitle] = $langCode;
-    };
+    }
 }
 
 function get_lang_title($lang_code)
