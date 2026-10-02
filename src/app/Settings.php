@@ -230,7 +230,7 @@ final class Settings
             Logger::debug("---- OpenTablesPathFile: file $filePath does not exist");
             return [];
         }
-        $contents = file_get_contents($filePath);
+        $contents = file_get_contents($path);
 
         if ($contents === false) {
             Logger::debug("---- Failed to read file contents from $filePath");
