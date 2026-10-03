@@ -3,12 +3,11 @@
 namespace App\Leaderboard;
 
 use App\SQLorAPI\LeaderboardTable;
-use function App\Leaderboard\Subs\LeadHelp\make_users_lead;
-use function App\Utils\Html\make_mdwiki_user_url;
-use function App\Utils\Html\make_wikipedia_url_blank;
-use function App\Leaderboard\Subs\SubUsers\get_users_tables;
-use function App\Leaderboard\SubGraph\graph_data_new;
-use function App\Leaderboard\Subs\FilterForm\lead_row;
+use App\Utils\HtmlUrls;
+use App\Leaderboard\Helpers\Filters\LeadHelp;
+use App\Leaderboard\Helpers\Filters\FilterForm;
+use App\Leaderboard\Helpers\Users\UsersSub;
+use App\Leaderboard\Helpers\Graph\LangUserGraph;
 
 class UsersLeaderboard
 {
@@ -31,7 +30,7 @@ class UsersLeaderboard
 
         $user_langs = $user_most_langs[0]['lang'] ?? "";
 
-        $u_tables = get_users_tables($user_to_curl, $year_y, $mainlang);
+        $u_tables = UsersSub::get_users_tables($user_to_curl, $year_y, $mainlang);
 
         $dd = $u_tables['dd'];
         $dd_Pending = $u_tables['dd_Pending'];
@@ -39,7 +38,7 @@ class UsersLeaderboard
 
         $user_is_global_username = ($global_username === $user_to_curl) ? true : false;
 
-        [$table1, $main_table] = make_users_lead(
+        [$table1, $main_table] = LeadHelp::make_users_lead(
             $dd,
             'translations',
             $table_of_views,
@@ -48,7 +47,7 @@ class UsersLeaderboard
             $cats_data
         );
 
-        $user_link = ($user_langs) ? make_wikipedia_url_blank("User:$user_to_curl", $user_langs, $user_to_html) : make_mdwiki_user_url($user_to_html);
+        $user_link = ($user_langs) ? HtmlUrls::make_wikipedia_url_blank("User:$user_to_curl", $user_langs, $user_to_html) : HtmlUrls::make_mdwiki_user_url($user_to_html);
 
         $filter_data = ["user" => $user_to_curl, "lang" => $mainlang, "year" => $year_y, "camp" => $camp];
 
@@ -69,9 +68,9 @@ class UsersLeaderboard
             </span>
         HTML;
 
-        $graph = graph_data_new($dd);
+        $graph = LangUserGraph::graph_data_new($dd);
 
-        $output .= lead_row($table1, $graph, $user_div, $filter_data, "user");
+        $output .= FilterForm::lead_row($table1, $graph, $user_div, $filter_data, "user");
 
         $output .= <<<HTML
             <div class='card mt-1'>
@@ -81,7 +80,7 @@ class UsersLeaderboard
             </div>
         HTML;
 
-        [$_, $table_pnd] = make_users_lead(
+        [$_, $table_pnd] = LeadHelp::make_users_lead(
             $dd_Pending,
             'pending',
             $table_of_views,

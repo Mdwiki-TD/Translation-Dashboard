@@ -68,13 +68,3 @@ if (file_exists($vendorAutoload)) {
 }
 
 include_once __DIR__ . '/autoload.php';
-
-# Leaderboard helpers
-include_once __DIR__ . '/Leaderboard/helpers/bootstrap.php';
-
-# Utils
-include_once __DIR__ . '/Utils/html.php';
-// include_once __DIR__ . '/Utils/html2.php';
-include_once __DIR__ . '/Utils/htmlUrls.php';
-include_once __DIR__ . '/Utils/helps.php';
-include_once __DIR__ . '/Utils/tr_link.php';

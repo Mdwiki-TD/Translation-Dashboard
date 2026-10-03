@@ -2,7 +2,7 @@
 
 namespace App\Leaderboard;
 
-use function App\Leaderboard\Filter\leaderboard_filter;
+use App\Leaderboard\Helpers\Filters\LeaderFilter;
 
 class LeaderboardJsController
 {
@@ -18,7 +18,7 @@ class LeaderboardJsController
 
         $user_group = strtolower($user_group);
 
-        return leaderboard_filter($year, $month, $user_group, $camp, 'x.php');
+        return LeaderFilter::leaderboard_filter($year, $month, $user_group, $camp, 'x.php');
     }
 
     public function renderNumbersCard(): string

@@ -7,13 +7,10 @@ use App\Settings;
 use App\Leaderboard\MainLeaderboard;
 use App\Leaderboard\LangsLeaderboard;
 use App\Leaderboard\UsersLeaderboard;
-
 use App\SQLorAPI\ViewsTable;
-
-use function App\Leaderboard\Graph\print_graph_tab;
-use function App\Leaderboard\Graph2\print_graph_tab_2_new;
-use function App\Leaderboard\CampText\echo_html;
-
+use App\Leaderboard\Helpers\Graph\Graph;
+use App\Leaderboard\Helpers\Graph\GraphApi;
+use App\Leaderboard\Helpers\Camps\CampsText;
 use App\SQLorAPI\CategoriesTable;
 use App\SQLorAPI\TitlesTable;
 
@@ -72,16 +69,16 @@ class LeaderboardController
         } elseif (!empty($_GET['camps'] ?? '')) {
             // http://localhost:9001/Translation_Dashboard/leaderboard.php?camps=1
 
-            echo echo_html();
+            echo CampsText::echo_html();
         } elseif (!empty($_GET['graph'] ?? '')) {
             // http://localhost:9001/Translation_Dashboard/leaderboard.php?graph=1
 
             $data = (ViewsTable::getInstance())->getGraphData();
-            echo print_graph_tab($data);
+            echo Graph::print_graph_tab($data);
         } elseif (!empty($_GET['graph_api'] ?? '')) {
             // http://localhost:9001/Translation_Dashboard/leaderboard.php?graph_api=1
 
-            echo print_graph_tab_2_new();
+            echo GraphApi::print_graph_tab_2_new();
         } else {
 
             $user_group = filter_input(INPUT_GET, 'project', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
