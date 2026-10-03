@@ -59,7 +59,7 @@ class SettingsTable extends BaseTable
         return "https://mdwikicx.toolforge.org/w/index.php";
     }
 
-    function getLanguageSettings(): array
+    public function getLanguageSettings(): array
     {
 
         // language_settings (lang_code, move_dots, expend, add_en_lang)

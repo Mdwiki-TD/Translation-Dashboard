@@ -6,20 +6,6 @@ use App\MdwikiSql\Database;
 use App\Settings;
 use App\Logger;
 
-function fetchQuery(string $sqlQuery, ?array $params = null): array
-{
-    // Create a new database object
-    $db = new Database();
-
-    // Execute a SQL query
-    $results = $db->fetchquery($sqlQuery, $params);
-
-    // Destroy the database object
-    $db = null;
-    return $results;
-};
-
-
 function postUrl(string $ServerUrl, array $params = []): string
 {
     if (empty($params)) return "";
@@ -71,10 +57,13 @@ function postUrl(string $ServerUrl, array $params = []): string
 
 class ApiOrSqlService
 {
+    private Database $db;
+
     public static ?bool $useTdApi = null;
 
-    public function __construct(?bool $useTdApi = null)
+    public function __construct(Database $db, ?bool $useTdApi = null)
     {
+        $this->db = $db;
         self::$useTdApi = $useTdApi;
     }
 
@@ -147,7 +136,7 @@ class ApiOrSqlService
         }
 
         if (empty($apiData) && !$noRefind) {
-            $apiData = fetchQuery($sqlQuery, $sqlParams);
+            $apiData = $this->db->fetchQuery($sqlQuery, $sqlParams);
         }
 
         return $apiData;

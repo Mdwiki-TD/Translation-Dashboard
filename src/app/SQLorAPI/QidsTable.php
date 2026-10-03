@@ -137,4 +137,37 @@ class QidsTable extends BaseTable
         return $data;
     }
 
+    /**
+     * Fetches a single qid row by column ('qid' or 'title') from 'qids' or 'qids_others'.
+     *
+     * @param string $column 'qid' or 'title'
+     * @param string $value
+     * @param string $table 'qids' or 'qids_others'
+     * @return array<string, mixed>|null
+     */
+    public function get_qid_row(string $column, string $value, string $table = 'qids'): ?array
+    {
+        $allowedColumns = ['qid', 'title'];
+        $allowedTables = ['qids', 'qids_others'];
+
+        if (!in_array($column, $allowedColumns, true) || !in_array($table, $allowedTables, true) || empty($value)) {
+            return null;
+        }
+
+        $result = $this->db->fetchQuery("SELECT * FROM {$table} WHERE {$column} = ?", [$value]);
+        return $result[0] ?? null;
+    }
+
+    /**
+     * Fetches qid string value by title from 'qids' or 'qids_others'.
+     *
+     * @param string $title
+     * @param string $table 'qids' or 'qids_others'
+     * @return string|null
+     */
+    public function get_qid_by_title(string $title, string $table = 'qids'): ?string
+    {
+        $row = $this->get_qid_row('title', $title, $table);
+        return isset($row['qid']) ? (string) $row['qid'] : null;
+    }
 }

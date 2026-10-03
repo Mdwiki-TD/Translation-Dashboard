@@ -23,7 +23,7 @@ class CoordinatorRepository
         }
 
         $query = "SELECT id, username, is_active FROM coordinators order by id";
-        $dbResult = $this->db->fetchquery($query);
+        $dbResult = $this->db->fetchQuery($query);
 
         $coordinators = array_column($dbResult, "is_active", "username");
 

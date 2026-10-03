@@ -36,7 +36,7 @@ class AccessKeyRepository
             WHERE user_name = ? or user_name_hash = ?;
         SQL;
 
-        $result = $this->db->fetchquery($query, [$user, $this->hashUsername($user)]);
+        $result = $this->db->fetchQuery($query, [$user, $this->hashUsername($user)]);
 
         if (!$result) {
             return [];
@@ -56,7 +56,7 @@ class AccessKeyRepository
             WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = ?)
         SQL;
 
-        return $this->db->executequery($query, [$userName, $userName]);
+        return $this->db->executeQuery($query, [$userName, $userName]);
     }
 
     public function upsertAccess(string $user, string $accessKey, string $accessSecret): bool
@@ -82,7 +82,7 @@ class AccessKeyRepository
                 updated_at = NOW();
         SQL;
 
-        return $this->db->executequery($query, $params);
+        return $this->db->executeQuery($query, $params);
     }
 
     /**
