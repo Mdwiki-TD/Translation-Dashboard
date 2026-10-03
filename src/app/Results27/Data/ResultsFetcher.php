@@ -6,7 +6,7 @@ use App\Logger;
 use App\SQLorAPI\PagesTable;
 use App\SQLorAPI\CategoriesTable;
 use App\SQLorAPI\InProcessTable;
-use function App\Utils\Html\make_mdwiki_cat_url;
+use App\Utils\HtmlUrls;
 
 /**
  * Responsible for fetching and preparing all result data
@@ -120,7 +120,7 @@ class ResultsFetcher
     ): string {
         $total  = $lenExists + $lenMissing + $lenInProcess;
         // Prepare category URL
-        $catUrl = make_mdwiki_cat_url($cat, "Category");
+        $catUrl = HtmlUrls::make_mdwiki_cat_url($cat, "Category");
 
         // Generate summary message
         return sprintf(
