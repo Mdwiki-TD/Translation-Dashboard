@@ -4,7 +4,7 @@ namespace App\Leaderboard\Subs\LeadHelp;
 
 
 
-use function App\APICalls\WikiApi\make_view_by_number;
+use App\ApiClients\WikiApi;
 use function App\Utils\Html\make_mdwiki_cat_url;
 use function App\Utils\Html\make_mdwiki_article_url_blank;
 use function App\Utils\Html\make_wikipedia_url_blank;
@@ -136,7 +136,7 @@ function make_td_fo_user(
 
         $view = "-";
         if ($deleted == 0) {
-            $view = make_view_by_number($target, $view_number, $lang, $pupdate);
+            $view = WikiApi::make_view_by_number($target, $view_number, $lang, $pupdate);
         }
 
         $target_link = make_wikipedia_url_blank($target, $lang, "", $deleted);
