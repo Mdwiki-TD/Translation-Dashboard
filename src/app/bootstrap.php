@@ -67,6 +67,7 @@ if (file_exists($vendorAutoload)) {
     die("Vendor autoload not found. Please run 'composer install' in the project root.");
 }
 
+// include_once __DIR__ . '/autoload.php';
 
 // Load security module first
 include_once __DIR__ . '/User/bootstrap.php';
