@@ -72,12 +72,6 @@ include_once __DIR__ . '/autoload.php';
 # Leaderboard helpers
 include_once __DIR__ . '/Leaderboard/helpers/bootstrap.php';
 
-# ApiClients
-include_once __DIR__ . '/ApiClients/wiki_api.php';
-
-# Tables
-include_once __DIR__ . '/Tables/langcode.php';
-
 # Utils
 include_once __DIR__ . '/Utils/html.php';
 // include_once __DIR__ . '/Utils/html2.php';
