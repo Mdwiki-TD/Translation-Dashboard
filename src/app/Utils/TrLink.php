@@ -14,7 +14,7 @@ function makeContentTranslationUrl(
 ): string {
     if (!$endpoint) {
         $endpoint = (SettingsTable::getInstance())->getEndpoint();
-    };
+    }
     $title = str_replace('%20', '_', $title);
 
     $params = [

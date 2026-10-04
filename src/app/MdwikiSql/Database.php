@@ -127,7 +127,7 @@ class Database
         if ($this->db === null) {
             error_log("Database connection is not established.");
             return [];
-        };
+        }
         Logger::debug("fetchQuery: | Query: " . $sqlQuery);
 
         try {
@@ -158,7 +158,7 @@ class Database
         if ($this->db === null) {
             error_log("Database connection is not established.");
             return false;
-        };
+        }
         Logger::debug("executeQuery: | Query: " . $sqlQuery);
 
         try {
