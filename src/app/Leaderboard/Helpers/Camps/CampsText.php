@@ -23,6 +23,7 @@ class CampsText
         HTML;
 
         foreach ($articles_to_camps as $member => $camps) {
+
             sort($camps);
 
             $count = count($camps);
@@ -62,7 +63,7 @@ class CampsText
 
         foreach ($articles_to_camps as $article => $camps) {
             $camps = array_unique($camps);
-            sort($camps);
+            sort($camps); // ترتيب أبجدي لضمان تطابق المفاتيح
             $pair_key = implode(', ', $camps);
 
             if (!isset($shared_counts[$pair_key])) {
@@ -71,8 +72,11 @@ class CampsText
             $shared_counts[$pair_key]++;
         }
 
+
+        // sort shared_counts by value
         arsort($shared_counts);
 
+        // بناء الجدول
         $table = <<<HTML
             <table class='table table-striped ttxx'>
                 <thead>

@@ -63,7 +63,7 @@ class LangsSub
 
         $dd_Pending = self::add_inp($dd_Pending, $mainlang, $year_y);
 
-        $table_of_views = [];
+        $table_of_views = []; //get_lang_views($mainlang, $year_y);
 
         $result['dd'] = $dd;
         $result['dd_Pending'] = $dd_Pending;

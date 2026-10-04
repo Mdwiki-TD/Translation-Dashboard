@@ -55,8 +55,14 @@ class Helps
         $full_tr_user,
         $login_user_is_the_translator,
     ) {
+
+        // if $inprocess and $tra_btn is 1 then show the translate button for
+
+        // $mdwiki_url = "//mdwiki.org/wiki/" . str_replace('+', '_', rawurlencode($title));
         $mdwiki_url = HtmlUrls::make_mdwiki_href($title);
 
+        // if lower $title startswith video
+        // $tra_type = "lead";
         if (empty($tra_type)) {
             $tra_type = 'lead';
         }
@@ -114,6 +120,8 @@ class Helps
 
     public static function get_item_properties($title, $tra_type, $title_data)
     {
+
+        // inprocess_table = { "title": "Andes virus infection", "user": "Mr. Ibrahem", "lang": "ar", "cat": "RTT", "translate_type": "all", "word": 0, "add_date": "2026-05-21 00:00:00", "campaign": "Main", "autonym": "العربية" }
         $word     = $title_data['w_lead_words'] ?? 0;
         $refs     = $title_data['r_lead_refs'] ?? 0;
         $asse     = $title_data['importance'] ?? "";
@@ -141,9 +149,13 @@ class Helps
 
     public static function normalizeItems(array $items): array
     {
+        // If it's an indexed array (0..n-1), return it as-is
         if (array_keys($items) === range(0, count($items) - 1)) {
             return $items;
         }
+        // Otherwise, build a list that includes:
+        //  - each integer-keyed item’s value
+        //  - each associative key whose value is itself an array
         $normalized = [];
         foreach ($items as $key => $value) {
             if (is_int($key)) {

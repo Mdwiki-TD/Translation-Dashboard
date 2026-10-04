@@ -11,6 +11,7 @@ class LeaderTablesUsers
         $lal = "<textarea cols='55' rows='10' id='users_targets' name='users_targets'>";
 
         foreach ($users_tab as $tab) {
+            // get first item in $langs
             $user = $tab['user'];
             $lang = $tab['lang'];
 
@@ -28,6 +29,7 @@ class LeaderTablesUsers
 
     public static function makeUsersTable($users, $min = 2)
     {
+        // sort new_data by [lang][count]
         uasort($users, function ($a, $b) {
             return $b["count"] <=> $a["count"];
         });
@@ -36,13 +38,20 @@ class LeaderTablesUsers
         $trs = "";
 
         foreach ($users as $user => $tab) {
+            // if ($usercount < $min && $numb > 15) continue;
             $numb += 1;
+
+            // type of $usercount // integer
 
             $usercount = number_format($tab['count'] ?? 0);
             $views = number_format($tab['views'] ?? 0);
 
             $words = $tab['words'] ?? 0;
 
+            // type of $words // string
+            // echo gettype($words) . "<br>";
+
+            // make words str from float
             $words = number_format($words);
 
             $use = rawurlencode($user);

@@ -59,7 +59,7 @@ class Database
         $this->dbname = $this->envVar($dbnameVar);
 
         // Build the PDO Data Source Name (DSN) string for MySQL connection
-        return "mysql:host={$this->host};dbname={$this->dbname}";
+        return "mysql:host={$this->host};dbname={$this->dbname};charset=utf8mb4";
     }
 
     private function hasValidCredentials(): bool

@@ -107,7 +107,6 @@ src/
 │   ├── theme.js
 │   └── to.js
 ├── Layout/
-│   ├── bootstrap.php
 │   ├── PageFooter.php
 │   ├── PageHead.php
 │   ├── PageHeader.php

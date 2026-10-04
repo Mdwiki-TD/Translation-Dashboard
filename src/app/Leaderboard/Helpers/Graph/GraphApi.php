@@ -17,6 +17,7 @@ class GraphApi
         $graph = <<<HTML
             <div class="card">
                 <div class="card-header aligncenter" style="font-weight:bold;">
+                    <!-- <a href="/Translation_Dashboard/leaderboard.php?graph=1">Translation by month</a> -->
                     Translation by month
                 </div>
                 <div class="card-body1 card5px">

@@ -29,16 +29,24 @@ class FilterForm
 
     public static function make_filter_html($data, $filter_page)
     {
+
+        // $filter_data = ["user" => "", "lang" => $mainlang, "year" => $year_y];
+
         $lang     = $data['lang'];
         $year     = $data['year'];
         $user     = $data['user'];
+        $camp     = $data['camp'];
 
         if ($filter_page == 'user') {
             $years = (PagesTable::getInstance())->getUserYears($user);
             $langs = (PagesTable::getInstance())->getUserLangs($user);
+            $camps = (PagesTable::getInstance())->getUserCamps($user);
 
             $langsDropdown = self::DropdownNew('Lang', $langs, $lang, 'lang');
             $yearDropdown  = self::DropdownNew('Year', $years, $year, 'year');
+
+            // $campDropdown  = DropdownNew('Camp', $camps, $camp, 'camp');
+            // <!-- <div class="col-4"> $campDropdown </div> -->
 
             $Dropdown = <<<HTML
                 <div class="col-6">
@@ -81,6 +89,8 @@ class FilterForm
 
     public static function make_table1_html($table1)
     {
+
+        // $table1 = ['total_articles' => $total_articles, 'total_words' => $total_words, 'total_views' => $total_views];
         $total_articles = number_format($table1['total_articles']);
         $total_words = number_format($table1['total_words']);
         $total_views = number_format($table1['total_views']);

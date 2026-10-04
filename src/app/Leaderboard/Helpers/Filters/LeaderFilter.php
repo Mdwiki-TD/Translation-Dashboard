@@ -38,6 +38,9 @@ class LeaderFilter
 
         $user_groups = array_column($projects_tab, 'g_title');
 
+        // '["Benevity","Hearing","McMaster","OLI","ProZ","Shani","TWB","TWB\\/WikiMed (Arabic)","Uncategorized","Wiki"]'
+        // var_export(json_encode($user_groups));
+
         $y2 = Html::makeDropdown($user_groups, $user_group, 'user_group', 'all');
 
         return self::input_group('Translators', $y2);
@@ -47,6 +50,8 @@ class LeaderFilter
     {
         $m_years2 = (PagesTable::getInstance())->getPagesWithPupdate();
 
+
+        // sort $m_years2 from biggest to smallest
         rsort($m_years2);
 
         $y3 = Html::makeDropdown($m_years2, $year, 'year', 'all');
@@ -56,6 +61,11 @@ class LeaderFilter
 
     public static function make_month_dropdown($month, $graph_data): string
     {
+
+        // array ( '2024-01' => 92, '2024-02' => 222, '2024-03' => 231, '2024-04' => 160, '2024-05' => 214, '2024-06' => 146, '2024-07' => 145, '2024-08' => 73, '2024-09' => 503, '2024-10' => 359, '2024-11' => 207, '2024-12' => 204, )
+
+        // 2024-01 > 01
+
         $months_list = array_unique(array_map(
             fn($item) => date(
                 'm',
@@ -64,10 +74,12 @@ class LeaderFilter
             array_keys($graph_data)
         ));
 
+        // sort $m_months from biggest to smallest
         rsort($months_list);
 
         $y3 = Html::makeDropdown($months_list, $month, 'month', 'All');
 
+        // $monthDropdown = input_group('Month', $y3);
         return <<<HTML
             <div class="input-group w-50">
                 $y3
