@@ -12,7 +12,7 @@ app/
 │   ├── lang_names.json
 │   └── LangsTables.php
 ├── Leaderboard/
-│   ├── helpers/
+│   ├── Helpers/
 │   │   ├── Camps/
 │   │   │   ├── Camps.php
 │   │   │   └── CampsText.php
