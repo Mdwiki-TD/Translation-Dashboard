@@ -92,7 +92,7 @@ class RecentTable extends BaseTable
             $langLine = "and lang = ?";
             $sqlParams[] = $lang;
             $apiParams['lang'] = $lang;
-        };
+        }
 
         $qua = <<<SQL
             select * #id, date, user, lang, title, cat, word, target, pupdate, add_date

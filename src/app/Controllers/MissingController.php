@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Missing;
+namespace App\Controllers;
 
-use App\Render\TemplateRenderer;
+use App\Templates\TemplateRenderer;
 use App\SQLorAPI\CategoriesTable;
 use App\SQLorAPI\TitlesTable;
 

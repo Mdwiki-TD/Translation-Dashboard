@@ -6,16 +6,16 @@ namespace Tests;
 
 use PHPUnit\Framework\TestCase;
 
-use function App\Results\Helps\make_translate_urls;
+use App\Utils\Helps;
 use App\Results27\Rows\InProcessRowBuilder;
-use function App\Leaderboard\Subs\LeadHelp\make_td_fo_user;
+use App\Leaderboard\Helpers\Filters\LeadHelp;
 
 class InProcessTranslationButtonTest extends TestCase
 {
     public function testMakeTranslateUrlsWhenInProcessAndButtonDisabledForNonTranslator(): void
     {
         // When inprocess is true, in_progress_translation_button is 0, and user is NOT translator/coordinator
-        [$tab, $translate_url, $full_translate_url] = make_translate_urls(
+        [$tab, $translate_url, $full_translate_url] = Helps::make_translate_urls(
             'Cardiovascular disease',
             'lead',
             100,
@@ -36,7 +36,7 @@ class InProcessTranslationButtonTest extends TestCase
     public function testMakeTranslateUrlsWhenInProcessAndUserIsTranslatorEvenIfButtonDisabled(): void
     {
         // When inprocess is true, in_progress_translation_button is 0, BUT user IS translator/coordinator
-        [$tab, $translate_url, $full_translate_url] = make_translate_urls(
+        [$tab, $translate_url, $full_translate_url] = Helps::make_translate_urls(
             'Cardiovascular disease',
             'lead',
             100,
@@ -222,7 +222,7 @@ class InProcessTranslationButtonTest extends TestCase
             'target' => 'أمراض القلب'
         ];
 
-        $rowHtml = make_td_fo_user(
+        $rowHtml = LeadHelp::make_td_fo_user(
             $tabb,
             1,
             100,

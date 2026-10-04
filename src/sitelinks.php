@@ -2,7 +2,7 @@
 // src/sitelinks.php
 
 use App\Layout\PageRunner;
-use App\SiteLinks\SiteLinksController;
+use App\Controllers\SiteLinksController;
 
 require_once __DIR__ . '/bootstrap.php';
 

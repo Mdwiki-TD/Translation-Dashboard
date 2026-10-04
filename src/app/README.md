@@ -1,42 +1,35 @@
 ```
 app/
 ├── ApiClients/
-│   └── wiki_api.php
+│   └── WikiApi.php
 ├── Controllers/
 │   ├── AppRouter.php
+│   ├── LeaderboardController.php
+│   ├── LeaderboardJsController.php
 │   ├── MissingController.php
 │   └── SiteLinksController.php
+├── Langs/
+│   ├── lang_names.json
+│   └── LangsTables.php
 ├── Leaderboard/
-│   ├── Controllers/
-│   │   ├── LeaderboardController.php
-│   │   └── LeaderboardJsController.php
-│   ├── helpers/
+│   ├── Helpers/
 │   │   ├── Camps/
-│   │   │   ├── camps.php
-│   │   │   └── camps_text.php
+│   │   │   ├── Camps.php
+│   │   │   └── CampsText.php
 │   │   ├── Filters/
-│   │   │   ├── filter_form.php
-│   │   │   ├── lead_help.php
-│   │   │   └── leader_filter.php
+│   │   │   ├── FilterForm.php
+│   │   │   ├── LeaderFilter.php
+│   │   │   └── LeadHelp.php
 │   │   ├── Graph/
-│   │   │   ├── Controllers/
-│   │   │   ├── helpers/
-│   │   │   │   ├── Camps/
-│   │   │   │   ├── Filters/
-│   │   │   │   ├── Graph/
-│   │   │   │   ├── Langs/
-│   │   │   │   └── Users/
-│   │   │   ├── graph.php
-│   │   │   ├── graph_api.php
-│   │   │   └── lang_user_graph.php
+│   │   │   ├── Graph.php
+│   │   │   ├── GraphApi.php
+│   │   │   └── LangUserGraph.php
 │   │   ├── Langs/
-│   │   │   ├── langs_sub.php
-│   │   │   └── leader_tables_langs.php
-│   │   ├── Users/
-│   │   │   ├── leader_tables_users.php
-│   │   │   └── users_sub.php
-│   │   └── bootstrap.php
-│   ├── bootstrap.php
+│   │   │   ├── LangsSub.php
+│   │   │   └── LeaderTablesLangs.php
+│   │   └── Users/
+│   │       ├── LeaderTablesUsers.php
+│   │       └── UsersSub.php
 │   ├── LangsLeaderboard.php
 │   ├── MainLeaderboard.php
 │   └── UsersLeaderboard.php
@@ -57,12 +50,10 @@ app/
 │   │   ├── ExistsTable.php
 │   │   ├── InProcessTable.php
 │   │   └── MissingTable.php
-│   ├── bootstrap.php
 │   └── ResultsLoader.php
 ├── SQLorAPI/
 │   ├── ApiOrSqlService.php
 │   ├── BaseTable.php
-│   ├── bootstrap.php
 │   ├── CategoriesTable.php
 │   ├── InProcessTable.php
 │   ├── LeaderboardTable.php
@@ -73,9 +64,6 @@ app/
 │   ├── TitlesTable.php
 │   ├── UsersTable.php
 │   └── ViewsTable.php
-├── Tables/
-│   ├── lang_names.json
-│   └── langcode.php
 ├── Templates/
 │   ├── Missing/
 │   │   └── missing.php
@@ -84,16 +72,16 @@ app/
 │   └── TemplateRenderer.php
 ├── User/
 │   ├── AccessKeyRepository.php
-│   ├── bootstrap.php
 │   ├── CoordinatorRepository.php
 │   ├── CurrentUser.php
 │   ├── SessionManager.php
 │   └── UserCookieService.php
 ├── Utils/
-│   ├── helps.php
-│   ├── html.php
-│   ├── htmlUrls.php
-│   └── tr_link.php
+│   ├── Helps.php
+│   ├── Html.php
+│   ├── HtmlUrls.php
+│   └── TrLink.php
+├── autoload.php
 ├── bootstrap.php
 ├── Logger.php
 └── Settings.php

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Render;
+namespace App\Templates;
 
 use RuntimeException;
 use Throwable;
