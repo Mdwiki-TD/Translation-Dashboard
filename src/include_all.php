@@ -1,4 +1,4 @@
-<?PHP
+<?php
 /*
  * Keep this file. its used in local vendor files.
 */

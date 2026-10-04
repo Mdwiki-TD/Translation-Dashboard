@@ -1,4 +1,4 @@
-<?PHP
+<?php
 
 namespace App\Leaderboard\Helpers\Langs\LeaderTablesLangs;
 
