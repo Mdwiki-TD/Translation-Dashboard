@@ -55,7 +55,7 @@ function makeUsersTable($users, $min = 2)
         // make words str from float
         $words = number_format($words);
 
-        $use = rawurlEncode($user);
+        $use = rawurlencode($user);
         $use = str_replace('+', '_', $use);
 
         $trs .= <<<HTML

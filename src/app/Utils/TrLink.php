@@ -39,9 +39,9 @@ function makeTrLinkMedwiki(
     string $tra_type,
     int|string $word
 ): string {
-    $cat2   = rawurlEncode($cat);
-    $camp2  = rawurlEncode($campaign);
-    $title2 = rawurlEncode($title);
+    $cat2   = rawurlencode($cat);
+    $camp2  = rawurlencode($campaign);
+    $title2 = rawurlencode($title);
 
     $params = array(
         "title" => $title2,

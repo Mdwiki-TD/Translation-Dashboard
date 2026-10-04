@@ -3,7 +3,7 @@
 namespace App\Leaderboard;
 
 use App\SQLorAPI\LeaderboardTable;
-use function App\Leaderboard\Helpers\Filters\LeadHelp\make_users_lead;
+use App\Leaderboard\Helpers\Filters\LeadHelp;
 use function App\Utils\Html\make_mdwiki_user_url;
 use function App\Utils\Html\make_wikipedia_url_blank;
 use function App\Leaderboard\Subs\SubUsers\get_users_tables;
@@ -39,7 +39,7 @@ class UsersLeaderboard
 
         $user_is_global_username = ($global_username === $user_to_curl) ? true : false;
 
-        [$table1, $main_table] = make_users_lead(
+        [$table1, $main_table] = LeadHelp::make_users_lead(
             $dd,
             'translations',
             $table_of_views,
@@ -81,7 +81,7 @@ class UsersLeaderboard
             </div>
         HTML;
 
-        [$_, $table_pnd] = make_users_lead(
+        [$_, $table_pnd] = LeadHelp::make_users_lead(
             $dd_Pending,
             'pending',
             $table_of_views,

@@ -2,7 +2,7 @@
 
 namespace App\Leaderboard;
 
-use function App\Leaderboard\Helpers\Filters\LeadHelp\make_langs_lead;
+use App\Leaderboard\Helpers\Filters\LeadHelp;
 use function App\Leaderboard\Helpers\Langs\LangsSub\get_langs_tables;
 use function App\Leaderboard\Helpers\Graph\LangUserGraph\graph_data_new;
 use function App\Leaderboard\Helpers\Filters\FilterForm\lead_row;
@@ -29,7 +29,7 @@ class LangsLeaderboard
         $dd_Pending = $u_tables['dd_Pending'];
         $table_of_views = $u_tables['table_of_views'];
 
-        [$table1, $main_table] = make_langs_lead(
+        [$table1, $main_table] = LeadHelp::make_langs_lead(
             $dd,
             'translations',
             $table_of_views,
@@ -52,7 +52,7 @@ class LangsLeaderboard
             </div>
         HTML;
 
-        [$_, $table_pnd] = make_langs_lead(
+        [$_, $table_pnd] = LeadHelp::make_langs_lead(
             $dd_Pending,
             'pending',
             $table_of_views,

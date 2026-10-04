@@ -4,7 +4,7 @@ namespace App\Leaderboard\Subs\SubUsers;
 
 use App\SQLorAPI\PagesTable;
 use App\SQLorAPI\InProcessTable;
-use function App\Leaderboard\Helpers\Filters\LeadHelp\make_key;
+use App\Leaderboard\Helpers\Filters\LeadHelp;
 
 function add_inp($dd_Pending, $user, $year_y)
 {
@@ -13,7 +13,7 @@ function add_inp($dd_Pending, $user, $year_y)
 
     foreach ($to_add as $_ => $Taab) {
 
-        $kry = make_key($Taab);
+        $kry = LeadHelp::make_key($Taab);
 
         if (!in_array($kry, array_keys($dd_Pending))) {
             $dd_Pending[$kry] = $Taab;
@@ -33,7 +33,7 @@ function pages_tables($user_main, $year_y, $lang_y)
 
     foreach ($sql_result as $yhu => $tabb) {
 
-        $kry = make_key($tabb);
+        $kry = LeadHelp::make_key($tabb);
 
         if (!empty($tabb['target'] ?? '')) {
             $dd[$kry] = $tabb;

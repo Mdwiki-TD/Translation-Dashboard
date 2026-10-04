@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 use function App\Utils\Helps\make_translate_urls;
 use App\Results27\Rows\InProcessRowBuilder;
-use function App\Leaderboard\Helpers\Filters\LeadHelp\make_td_fo_user;
+use App\Leaderboard\Helpers\Filters\LeadHelp;
 
 class InProcessTranslationButtonTest extends TestCase
 {
@@ -222,7 +222,7 @@ class InProcessTranslationButtonTest extends TestCase
             'target' => 'أمراض القلب'
         ];
 
-        $rowHtml = make_td_fo_user(
+        $rowHtml = LeadHelp::make_td_fo_user(
             $tabb,
             1,
             100,

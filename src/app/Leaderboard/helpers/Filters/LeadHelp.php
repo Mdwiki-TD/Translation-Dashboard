@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Leaderboard\Helpers\Filters\LeadHelp;
+namespace App\Leaderboard\Helpers\Filters;
 
 use function App\ApiClients\WikiApi\make_view_by_number;
 use function App\Utils\Html\make_mdwiki_cat_url;
@@ -9,321 +9,318 @@ use function App\Utils\Html\make_wikipedia_url_blank;
 use function App\Utils\TrLink\makeContentTranslationUrl;
 use function App\Leaderboard\Helpers\Camps\Camps\get_articles_to_camps;
 
-function make_key($Taab)
+class LeadHelp
 {
-    $dat = '';
+	public static function make_key($Taab)
+	{
+		$dat = '';
 
-    foreach (['pupdate', 'date', 'add_date'] as $key) {
-        if (!empty($Taab[$key])) {
-            $dat = $Taab[$key];
-            break;
-        }
-    }
+		foreach (['pupdate', 'date', 'add_date'] as $key) {
+			if (!empty($Taab[$key])) {
+				$dat = $Taab[$key];
+				break;
+			}
+		}
 
-    // if $_date_ has : then split before first space
-    if (strpos($dat, ':') !== false) {
-        $dat = explode(' ', $dat)[0];
-    };
+		// if $_date_ has : then split before first space
+		if (strpos($dat, ':') !== false) {
+			$dat = explode(' ', $dat)[0];
+		}
 
-    $urt = '';
+		$urt = '';
 
-    if (!empty($dat)) {
-        $urt = str_replace('-', '', $dat) . ':';
-    };
+		if (!empty($dat)) {
+			$urt = str_replace('-', '', $dat) . ':';
+		}
 
-    $kry = $urt . $Taab['lang'] . ':' . $Taab['title'];
+		return $urt . $Taab['lang'] . ':' . $Taab['title'];
+	}
 
-    return $kry;
-}
+	public static function make_td_fo_user(
+		$tabb,
+		$number,
+		$view_number,
+		$word,
+		$page_type,
+		$tab_ty,
+		$user_is_global_username,
+		$new_camps,
+	): string {
 
-function make_td_fo_user(
-    $tabb,
-    $number,
-    $view_number,
-    $word,
-    $page_type,
-    $tab_ty,
-    $user_is_global_username,
-    $new_camps,
-): string {
+		// $page_type = 'users' or 'langs' only
+		if ($page_type != 'users' && $page_type != 'langs') {
+			$page_type = 'users';
+		}
 
-    // $page_type = 'users' or 'langs' only
-    if ($page_type != 'users' && $page_type != 'langs') {
-        $page_type = 'users';
-    };
+		$mdtitle  = trim($tabb['title']);
+		$user     = $tabb['user'] ?? "";
+		$lang     = $tabb['lang'] ?? "";
+		$cat      = $tabb['cat'] ?? "";
+		$deleted  = $tabb['deleted'] ?? "";
+		$pupdate  = $tabb['pupdate'] ?? "";
+		$campaign = $tabb['campaign'] ?? "";
 
-    $mdtitle  = trim($tabb['title']);
-    $user     = $tabb['user'] ?? "";
-    $lang     = $tabb['lang'] ?? "";
-    $cat      = $tabb['cat'] ?? "";
-    $deleted  = $tabb['deleted'] ?? "";
-    $pupdate  = $tabb['pupdate'] ?? "";
-    $campaign = $tabb['campaign'] ?? "";
+		$date    = $tabb['date'] ?? $tabb['add_date'] ?? "";
 
-    $date    = $tabb['date'] ?? $tabb['add_date'] ?? "";
+		// if $_date_ has : then split before first space
+		if (strpos($date, ':') !== false) {
+			$date = explode(' ', $date)[0];
+		}
 
-    // if $_date_ has : then split before first space
-    if (strpos($date, ':') !== false) {
-        $date = explode(' ', $date)[0];
-    };
+		$word = number_format($word);
 
-    $word = number_format($word);
+		$mdwiki_url = make_mdwiki_article_url_blank($mdtitle);
 
-    $mdwiki_url = make_mdwiki_article_url_blank($mdtitle);
+		$cat_or_camp_link = make_mdwiki_cat_url($cat);
 
-    $cat_or_camp_link = make_mdwiki_cat_url($cat);
+		$campaign_data = $campaign;
 
+		// 2023-08-22
+		if (count($new_camps) > 0) {
+			$campaign_data = "";
+			$cat_or_camp_link = "";
+			foreach ($new_camps as $camp) {
+				$cat_or_camp_link .= "<a href='leaderboard.php?camp=$camp' style='white-space: nowrap;'>$camp</a><br>";
+				$campaign_data .= "$camp, ";
+			}
+			// remove last <br>
+			$cat_or_camp_link = substr($cat_or_camp_link, 0, -4);
+		} else {
+			// echo "No campaigns for $mdtitle<br>";
+			if (!empty($campaign)) {
+				$cat_or_camp_link = "<a href='leaderboard.php?camp=$campaign'>$campaign</a>";
+			}
+		}
 
-    $campaign_data = $campaign;
+		$tran_type = $tabb['translate_type'] ?? '';
 
-    // 2023-08-22
-    if (count($new_camps) > 0) {
-        $campaign_data = "";
-        $cat_or_camp_link = "";
-        foreach ($new_camps as $camp) {
-            $cat_or_camp_link .= "<a href='leaderboard.php?camp=$camp' style='white-space: nowrap;'>$camp</a><br>";
-            $campaign_data .= "$camp, ";
-        }
-        // remove last <br>
-        $cat_or_camp_link = substr($cat_or_camp_link, 0, -4);
-    } else {
-        // echo "No campaigns for $mdtitle<br>";
-        if (!empty($campaign)) {
-            $cat_or_camp_link = "<a href='leaderboard.php?camp=$campaign'>$campaign</a>";
-        };
-    };
+		$usr_or_lang = ($page_type == 'users') ? "Lang" : "User";
 
-    $tran_type = $tabb['translate_type'] ?? '';
+		$urll_data = '';
 
-    $usr_or_lang = ($page_type == 'users') ? "Lang" : "User";
+		if ($page_type == 'users') {
+			$urll = "<a href='leaderboard.php?get=langs&langcode=$lang'><span style='white-space: nowrap;'>$lang</span></a>";
+			$urll_data = $lang;
+		} else {
+			$use = rawurlencode($user);
+			$use = str_replace('+', '_', $use);
 
-    $urll_data = '';
+			$urll = "<a href='leaderboard.php?get=users&user=$use'><span style='white-space: nowrap;'>$user</span></a>";
+			$urll_data = $user;
+		}
 
-    if ($page_type == 'users') {
-        $urll = "<a href='leaderboard.php?get=langs&langcode=$lang'><span style='white-space: nowrap;'>$lang</span></a>";
-        $urll_data = $lang;
-    } else {
-        $use = rawurlEncode($user);
-        $use = str_replace('+', '_', $use);
+		$udate = $pupdate;
+		$complete   = '';
 
-        $urll = "<a href='leaderboard.php?get=users&user=$use'><span style='white-space: nowrap;'>$user</span></a>";
-        $urll_data = $user;
+		$target = "";
 
-    };
+		if ($tab_ty == 'pending') {
+			$udate = $date;
+			$target_link = 'Pending';
+			$td_views = '';
 
-    $udate = $pupdate;
-    $complete   = '';
+			$tralink = makeContentTranslationUrl(
+				$mdtitle,
+				$lang,
+				$cat,
+				$campaign,
+				$tran_type,
+			);
+			$complete   = ($user_is_global_username) ? "<td data-content='complete'><a target='_blank' href='$tralink'>complete</a></td>" : '';
+		} else {
+			$target  = trim($tabb['target']);
 
-    $target = "";
+			$view = "-";
+			if ($deleted == 0) {
+				$view = make_view_by_number($target, $view_number, $lang, $pupdate);
+			}
 
-    if ($tab_ty == 'pending') {
-        $udate = $date;
-        $target_link = 'Pending';
-        $td_views = '';
+			$target_link = make_wikipedia_url_blank($target, $lang, "", $deleted);
 
-        $tralink = makeContentTranslationUrl(
-            $mdtitle,
-            $lang,
-            $cat,
-            $campaign,
-            $tran_type,
-        );
-        $complete   = ($user_is_global_username) ? "<td data-content='complete'><a target='_blank' href='$tralink'>complete</a></td>" : '';
-    } else {
-        $target  = trim($tabb['target']);
+			$td_views = "<td data-content='Views' data-sort='$view_number' data-filter='$view_number'>$view</td>";
+		}
 
-        $view = "-";
-        if ($deleted == 0) {
-            $view = make_view_by_number($target, $view_number, $lang, $pupdate);
-        }
+		$year = substr($udate, 0, 4);
 
-        $target_link = make_wikipedia_url_blank($target, $lang, "", $deleted);
+		$laly = <<<HTML
+			<!-- <tr class='filterDiv show2 $year'> -->
+			<tr>
+				<th data-content="#">
+					$number
+				</th>
+				<td data-content="$usr_or_lang" data-filter="$urll_data">
+					$urll
+				</td>
+				<td data-content="Title" data-filter="$mdtitle">
+					$mdwiki_url
+				</td>
+				<td data-content="Campaign" data-filter="$campaign_data">
+					$cat_or_camp_link
+				</td>
+				<td data-content="Type" data-filter="$tran_type">
+					$tran_type
+				</td>
+				<td data-content="Words" data-filter="$word">
+					$word
+				</td>
+				<td data-content="Translated" data-filter="$target">
+					$target_link
+				</td>
+				<td data-content="Date" class='spannowrap' data-filter="$year">
+					$udate
+				</td>
+				$td_views
+				$complete
+			</tr>
+			HTML;
 
-        $td_views = "<td data-content='Views' data-sort='$view_number' data-filter='$view_number'>$view</td>";
-    };
+		return $laly;
+	}
 
-    $year = substr($udate, 0, 4);
+	public static function make_table_lead(
+		$dd,
+		$tab_type,
+		$views_table,
+		$page_type,
+		$user_is_global_username,
+		$lead_words_table,
+		$cats_data,
+	): array {
+		$total_words = 0;
+		$total_views = 0;
 
-    $laly = <<<HTML
-        <!-- <tr class='filterDiv show2 $year'> -->
-        <tr>
-            <th data-content="#">
-                $number
-            </th>
-            <td data-content="$usr_or_lang" data-filter="$urll_data">
-                $urll
-            </td>
-            <td data-content="Title" data-filter="$mdtitle">
-                $mdwiki_url
-            </td>
-            <td data-content="Campaign" data-filter="$campaign_data">
-                $cat_or_camp_link
-            </td>
-            <td data-content="Type" data-filter="$tran_type">
-                $tran_type
-            </td>
-            <td data-content="Words" data-filter="$word">
-                $word
-            </td>
-            <td data-content="Translated" data-filter="$target">
-                $target_link
-            </td>
-            <td data-content="Date" class='spannowrap' data-filter="$year">
-                $udate
-            </td>
-            $td_views
-            $complete
-        </tr>
-        HTML;
+		// if $views_table is not array
+		if (!is_array($views_table)) {
+			$views_table = [];
+		}
 
-    return $laly;
+		$user_or_lang = ($page_type == 'users') ? 'Lang.' : 'User';
 
-};
+		$tab_views  = ($tab_type == 'pending') ? '' : '<th>Views</th>';
+		$th_Date    = ($tab_type == 'pending') ? 'Start date' : 'Date';
+		$complete   = ($tab_type == 'pending' && $user_is_global_username) ? '<th>complete!</th>' : '';
 
-function make_table_lead(
-    $dd,
-    $tab_type,
-    $views_table,
-    $page_type,
-    $user_is_global_username,
-    $lead_words_table,
-    $cats_data,
-): array {
-    $total_words = 0;
-    $total_views = 0;
+		$leadtable = ($tab_type == 'pending') ? 'leadtable2' : 'leadtable';
 
-    // if $views_table is not array
-    if (!is_array($views_table)) {
-        $views_table = [];
-    }
+		// table-mobile-responsive
+		$table2 = <<<HTML
+			<table class='table table-striped compact table_text_left table_responsive' id='$leadtable'>
+				<thead>
+					<tr>
+						<th>#</th>
+						<th data-priority="1">$user_or_lang</th>
+						<th data-priority="2">Title</th>
+						<th>Campaign</th>
+						<th>Type</th>
+						<th>Words</th>
+						<th data-priority="3">Translated</th>
+						<th>$th_Date</th>
+						$tab_views
+						$complete
+					</tr>
+				</thead>
+				<tbody>
+			HTML;
 
-    $user_or_lang = ($page_type == 'users') ? 'Lang.' : 'User';
+		$total_articles = count($dd);
+		$noo = 0;
 
-    $tab_views  = ($tab_type == 'pending') ? '' : '<th>Views</th>';
-    $th_Date    = ($tab_type == 'pending') ? 'Start date' : 'Date';
-    $complete   = ($tab_type == 'pending' && $user_is_global_username) ? '<th>complete!</th>' : '';
+		$articlesto_camps = get_articles_to_camps();
 
-    $leadtable = ($tab_type == 'pending') ? 'leadtable2' : 'leadtable';
+		foreach ($dd as $tat => $tabe) {
 
-    // table-mobile-responsive
-    $table2 = <<<HTML
-        <table class='table table-striped compact table_text_left table_responsive' id='$leadtable'>
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th data-priority="1">$user_or_lang</th>
-                    <th data-priority="2">Title</th>
-                    <th>Campaign</th>
-                    <th>Type</th>
-                    <th>Words</th>
-                    <th data-priority="3">Translated</th>
-                    <th>$th_Date</th>
-                    $tab_views
-                    $complete
-                </tr>
-            </thead>
-            <tbody>
-        HTML;
+			$noo += 1;
 
-    $total_articles = count($dd);
-    $noo = 0;
+			$deleted = $tabe['deleted'] ?? 0;
+			$target  = $tabe['target'] ?? "";
+			$lange   = $tabe['lang'] ?? "";
 
-    $articlesto_camps = get_articles_to_camps();
+			$view_number  = $tabe['views'] ?? 0;
 
-    foreach ($dd as $tat => $tabe) {
+			if ($view_number == 0) $view_number = $views_table[$lange][$target] ?? 0;
 
-        $noo += 1;
+			if ($deleted == 1) {
+				$view_number = 0;
+			}
 
-        $deleted = $tabe['deleted'] ?? 0;
-        $target  = $tabe['target'] ?? "";
-        $lange   = $tabe['lang'] ?? "";
+			$total_views += $view_number;
 
-        $view_number  = $tabe['views'] ?? 0;
+			$mdtitle = $tabe['title'] ?? "";
+			$word2 = $lead_words_table[$mdtitle] ?? 0;
+			$word = $tabe['word'] ?? 0;
 
-        if ($view_number == 0) $view_number = $views_table[$lange][$target] ?? 0;
+			if ($word < 1) $word = $word2;
 
-        if ($deleted == 1) {
-            $view_number = 0;
-        }
+			$total_words += $word;
 
-        $total_views += $view_number;
+			$category = $tabe['cat'] ?? "";
+			$tabe["campaign"] = $cats_data[$category] ?? '';
 
-        $mdtitle = $tabe['title'] ?? "";
-        $word2 = $lead_words_table[$mdtitle] ?? 0;
-        $word = $tabe['word'] ?? 0;
+			$new_camps = $articlesto_camps[trim($mdtitle)] ?? [];
 
-        if ($word < 1) $word = $word2;
+			$table2 .= self::make_td_fo_user(
+				$tabe,
+				$noo,
+				$view_number,
+				$word,
+				$page_type,
+				$tab_type,
+				$user_is_global_username,
+				$new_camps,
+			);
+		}
 
-        $total_words += $word;
+		$table2 .= <<<HTML
+			</tbody>
+			<tfoot>
+			</tfoot>
+		</table>
+		HTML;
 
-        $category = $tabe['cat'] ?? "";
-        $tabe["campaign"] = $cats_data[$category] ?? '';
+		$table1 = ['total_articles' => $total_articles, 'total_words' => $total_words, 'total_views' => $total_views];
 
-        $new_camps = $articlesto_camps[trim($mdtitle)] ?? [];
+		return [$table1, $table2];
+	}
 
-        $table2 .= make_td_fo_user(
-            $tabe,
-            $noo,
-            $view_number,
-            $word,
-            $page_type,
-            $tab_type,
-            $user_is_global_username,
-            $new_camps,
-        );
-    };
+	public static function make_users_lead(
+		$tab,
+		$tab_type,
+		$views_table,
+		$user_is_global_username,
+		$lead_words_table,
+		$cats_data,
+	) {
+		[$_, $table_pnd] = self::make_table_lead(
+			$tab,
+			$tab_type,
+			$views_table,
+			'users',
+			$user_is_global_username,
+			$lead_words_table,
+			$cats_data,
+		);
 
-    $table2 .= <<<HTML
-        </tbody>
-        <tfoot>
-        </tfoot>
-    </table>
-    HTML;
+		return [$_, $table_pnd];
+	}
 
-    $table1 = ['total_articles' => $total_articles, 'total_words' => $total_words, 'total_views' => $total_views];
+	public static function make_langs_lead(
+		$tab,
+		$tab_type,
+		$views_table,
+		$lang,
+		$lead_words_table,
+		$cats_data,
+	): array {
+		[$_, $table_pnd] = self::make_table_lead(
+			$tab,
+			$tab_type,
+			$views_table,
+			'langs',
+			false,
+			$lead_words_table,
+			$cats_data,
+		);
 
-    return [$table1, $table2];
-}
-
-function make_users_lead(
-    $tab,
-    $tab_type,
-    $views_table,
-    $user_is_global_username,
-    $lead_words_table,
-    $cats_data,
-) {
-
-    [$_, $table_pnd] = make_table_lead(
-        $tab,
-        $tab_type,
-        $views_table,
-        'users',
-        $user_is_global_username,
-        $lead_words_table,
-        $cats_data,
-    );
-
-    return [$_, $table_pnd];
-}
-
-function make_langs_lead(
-    $tab,
-    $tab_type,
-    $views_table,
-    $lang,
-    $lead_words_table,
-    $cats_data,
-): array {
-    [$_, $table_pnd] = make_table_lead(
-        $tab,
-        $tab_type,
-        $views_table,
-        'langs',
-        false,
-        $lead_words_table,
-        $cats_data,
-    );
-
-    return [$_, $table_pnd];
+		return [$_, $table_pnd];
+	}
 }

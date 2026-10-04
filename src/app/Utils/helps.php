@@ -61,7 +61,7 @@ function make_translate_urls(
 
     // if $inprocess and $tra_btn is 1 then show the translate button for
 
-    // $mdwiki_url = "//mdwiki.org/wiki/" . str_replace('+', '_', rawurlEncode($title));
+    // $mdwiki_url = "//mdwiki.org/wiki/" . str_replace('+', '_', rawurlencode($title));
     $mdwiki_url = make_mdwiki_href($title);
 
     // if lower $title startswith video
