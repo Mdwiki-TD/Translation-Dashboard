@@ -1,6 +1,6 @@
 <?PHP
 
-namespace App\Leaderboard\Filter;
+namespace App\Leaderboard\helpers\Filters\LeaderFilter;
 
 use App\SQLorAPI\LeaderboardTable;
 use App\SQLorAPI\TitlesTable;

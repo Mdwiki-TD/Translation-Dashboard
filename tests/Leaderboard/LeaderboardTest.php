@@ -8,8 +8,8 @@ use PHPUnit\Framework\TestCase;
 use App\Leaderboard\MainLeaderboard;
 use App\Leaderboard\UsersLeaderboard;
 use App\Leaderboard\LangsLeaderboard;
-use App\Leaderboard\LeaderboardJsController;
-use App\Leaderboard\LeaderboardController;
+use App\Controllers\LeaderboardJsController;
+use App\Controllers\LeaderboardController;
 
 class LeaderboardTest extends TestCase
 {

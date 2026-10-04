@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Leaderboard\Subs\SubLangs;
+namespace App\Leaderboard\Helpers\Langs\LangsSub;
 
 use App\SQLorAPI\PagesTable;
 use App\SQLorAPI\InProcessTable;
-use function App\Leaderboard\Subs\LeadHelp\make_key;
+use function App\Leaderboard\helpers\Filters\LeadHelp\make_key;
 
 function add_inp($dd_Pending, $mainlang, $year_y)
 {

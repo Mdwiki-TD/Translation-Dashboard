@@ -1,14 +1,14 @@
 <?php
 // src/app/AppRouter.php
 
-namespace App;
+namespace App\Controllers;
 
 use App\User\CurrentUser;
 use App\Results27\ResultsLoader;
 use App\SQLorAPI\CategoriesTable;
 use App\SQLorAPI\SettingsTable;
 use App\SQLorAPI\TitlesTable;
-use App\Tables\Langs\LangsTables;
+use App\Langs\LangsTables;
 
 /**
  * Class AppRouter

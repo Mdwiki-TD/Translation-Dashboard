@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Leaderboard;
+namespace App\Controllers;
 
-use function App\Leaderboard\Filter\leaderboard_filter;
+use function App\Leaderboard\helpers\Filters\LeaderFilter\leaderboard_filter;
 
 class LeaderboardJsController
 {

@@ -1,6 +1,6 @@
 <?PHP
 
-namespace App\Leaderboard\Graph;
+namespace App\Leaderboard\Helpers\Graph\Graph;
 
 
 

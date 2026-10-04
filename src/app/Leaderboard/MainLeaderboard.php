@@ -7,12 +7,12 @@ use App\SQLorAPI\CategoriesTable;
 
 use function App\Utils\Html\makeColSm4;
 use function App\Utils\Html\makeCol;
-use function App\Leaderboard\Graph\print_graph_for_table;
-use function App\Leaderboard\LeaderTables\createNumbersTable;
-use function App\Leaderboard\LeaderTables\makeLangTable;
+use function App\Leaderboard\Helpers\Graph\Graph\print_graph_for_table;
+use function App\Leaderboard\Helpers\Langs\LeaderTablesLangs\createNumbersTable;
+use function App\Leaderboard\Helpers\Langs\LeaderTablesLangs\makeLangTable;
 use function App\Leaderboard\LeaderTabUsers\makeUsersTable;
 use function App\Leaderboard\LeaderTabUsers\module_copy_data;
-use function App\Leaderboard\Filter\leaderboard_filter;
+use function App\Leaderboard\helpers\Filters\LeaderFilter\leaderboard_filter;
 
 class MainLeaderboard
 {

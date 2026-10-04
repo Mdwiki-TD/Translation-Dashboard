@@ -1,10 +1,10 @@
 <?PHP
 
-namespace App\Leaderboard\CampText;
+namespace App\Leaderboard\helpers\Camps\CampsText;
 
 
 
-use function App\Leaderboard\Camps\get_articles_to_camps;
+use function App\Leaderboard\helpers\Camps\Camps\get_articles_to_camps;
 
 function camps_list()
 {

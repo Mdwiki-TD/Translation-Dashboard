@@ -7,8 +7,6 @@ use App\Layout\PageHeader;
 use App\Layout\PageFooter;
 use App\User\CurrentUser;
 
-include_once __DIR__ . '/Layout/bootstrap.php';
-
 $currentUser = CurrentUser::getInstance();
 
 $pageHeader = new PageHeader($currentUser);

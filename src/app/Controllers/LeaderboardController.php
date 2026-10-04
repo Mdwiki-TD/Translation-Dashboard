@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Leaderboard;
+namespace App\Controllers;
 
 use App\User\CurrentUser;
 use App\Settings;
@@ -10,9 +10,9 @@ use App\Leaderboard\UsersLeaderboard;
 
 use App\SQLorAPI\ViewsTable;
 
-use function App\Leaderboard\Graph\print_graph_tab;
-use function App\Leaderboard\Graph2\print_graph_tab_2_new;
-use function App\Leaderboard\CampText\echo_html;
+use function App\Leaderboard\Helpers\Graph\Graph\print_graph_tab;
+use function App\Leaderboard\Helpers\Graph\Graph2\print_graph_tab_2_new;
+use function App\Leaderboard\helpers\Camps\CampsText\echo_html;
 
 use App\SQLorAPI\CategoriesTable;
 use App\SQLorAPI\TitlesTable;

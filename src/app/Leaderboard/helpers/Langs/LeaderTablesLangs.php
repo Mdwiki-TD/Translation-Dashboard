@@ -1,6 +1,6 @@
 <?PHP
 
-namespace App\Leaderboard\LeaderTables;
+namespace App\Leaderboard\Helpers\Langs\LeaderTablesLangs;
 
 
 

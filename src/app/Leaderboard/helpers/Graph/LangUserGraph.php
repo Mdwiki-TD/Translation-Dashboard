@@ -1,6 +1,6 @@
 <?PHP
 
-namespace App\Leaderboard\SubGraph;
+namespace App\Leaderboard\Helpers\Graph\LangUserGraph;
 
 
 function make_table($data, $len)

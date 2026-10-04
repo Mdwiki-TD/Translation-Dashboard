@@ -1,9 +1,9 @@
 <?php
 
-namespace App\SiteLinks;
+namespace App\Controllers;
 
 use App\Logger;
-use App\Render\TemplateRenderer;
+use App\Templates\TemplateRenderer;
 use App\Settings;
 
 class SiteLinksController
