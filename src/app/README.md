@@ -27,10 +27,9 @@ app/
 │   │   ├── Langs/
 │   │   │   ├── LangsSub.php
 │   │   │   └── LeaderTablesLangs.php
-│   │   ├── Users/
-│   │   │   ├── LeaderTablesUsers.php
-│   │   │   └── UsersSub.php
-│   │   └── bootstrap.php
+│   │   └── Users/
+│   │       ├── LeaderTablesUsers.php
+│   │       └── UsersSub.php
 │   ├── LangsLeaderboard.php
 │   ├── MainLeaderboard.php
 │   └── UsersLeaderboard.php
