@@ -30,7 +30,7 @@ function insertPageInprocess($title, $word, $tr_type, $cat, $lang, $user): bool
     Logger::debug($quae_new);
 
     return $db->executeQuery($quae_new, $params);
-};
+}
 
 function go_to_translate_url($title_o, $coden, $tr_type, $cat, $camp)
 {
