@@ -39,7 +39,7 @@ function camps_list()
 
         foreach ($camps as $camp) {
             $table .= "<li>$camp</li>";
-        };
+        }
 
         $table .= <<<HTML
                     </ul>
@@ -47,7 +47,7 @@ function camps_list()
             </tr>
         HTML;
 
-    };
+    }
 
     $table .= <<<HTML
             </tbody>

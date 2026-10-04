@@ -67,7 +67,7 @@ function makeUsersTable($users, $min = 2)
                 <td>$views</td>
             </tr>
             HTML;
-    };
+    }
 
     $text = <<<HTML
         <table class='table compact table-striped sortable table_text_left leaderboard_tables' style='margin-top: 0px !important;margin-bottom: 0px !important'>

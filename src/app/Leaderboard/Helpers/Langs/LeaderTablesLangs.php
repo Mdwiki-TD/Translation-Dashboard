@@ -25,7 +25,7 @@ function createNumbersTable($c_user, $c_articles, $c_words, $c_langs, $c_views)
     HTML;
 
     return $Numbers_table;
-};
+}
 
 function makeLangTable(
     $lang_table,
@@ -82,7 +82,7 @@ function makeLangTable(
                 $cach
             </tr>
         HTML;
-    };
+    }
 
     $text .= <<<HTML
         </tbody>

@@ -16,7 +16,7 @@ function DropdownNew($title, $tab, $cat, $id)
         $options .= <<<HTML
             <option value='$dd' $se>$dd</option>
         HTML;
-    };
+    }
 
     return <<<HTML
         <select dir="ltr" id="$id" name="$id" class="form-select" data-bs-theme="auto">

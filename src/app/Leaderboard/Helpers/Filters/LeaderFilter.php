@@ -112,7 +112,7 @@ function leaderboard_filter($year, $month, $user_group, $camp, $action = "leader
         $graph_data = (LeaderboardTable::getInstance())->getStatus($year, $user_group, $cat);
 
         $monthDropdown = make_month_dropdown($month, $graph_data);
-    };
+    }
 
     return <<<HTML
         <form method="get" action="$action" id="leaderboard_filter">

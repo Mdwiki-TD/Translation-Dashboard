@@ -30,7 +30,7 @@ function get_articles_to_camps()
 
             $articles_to_camps[$member][] = $camp;
         }
-    };
+    }
 
     return $articles_to_camps;
 }

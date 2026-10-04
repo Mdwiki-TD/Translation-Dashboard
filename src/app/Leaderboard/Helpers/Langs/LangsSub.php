@@ -17,8 +17,8 @@ function add_inp($dd_Pending, $mainlang, $year_y)
 
         if (!in_array($kry, array_keys($dd_Pending))) {
             $dd_Pending[$kry] = $Taab;
-        };
-    };
+        }
+    }
 
     return $dd_Pending;
 }
@@ -36,7 +36,7 @@ function pages_tables($mainlang, $year_y)
         if (empty($tabb["lang"] ?? '')) {
             error_log("Missing 'lang' field in entry: " . $yhu);
             continue;
-        };
+        }
 
         $kry = LeadHelp::make_key($tabb);
 
@@ -44,8 +44,8 @@ function pages_tables($mainlang, $year_y)
             $dd[$kry] = $tabb;
         } else {
             $dd_Pending[$kry] = $tabb;
-        };
-    };
+        }
+    }
 
     return ['dd' => $dd, 'dd_Pending' => $dd_Pending];
 }
@@ -57,7 +57,7 @@ function get_langs_tables($mainlang, $year_y)
 
     if (empty($mainlang)) {
         return $result;
-    };
+    }
 
     $p_tables = pages_tables($mainlang, $year_y);
 

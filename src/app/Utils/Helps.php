@@ -75,7 +75,7 @@ function make_translate_urls(
     if (strtolower(substr($title, 0, 6)) == 'video:') {
         $is_video = true;
         $tra_type = 'all';
-    };
+    }
 
     if ($inprocess) {
         // links directly to ContentTranslation
@@ -115,8 +115,8 @@ function make_translate_urls(
             $buttons = '';
             $translate_url = $mdwiki_url;
             $full_translate_url = $mdwiki_url;
-        };
-    };
+        }
+    }
 
     return [$buttons, $translate_url, $full_translate_url];
 }
