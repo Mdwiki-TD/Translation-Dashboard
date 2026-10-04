@@ -2,7 +2,7 @@
 
 namespace App\Leaderboard\helpers\Filters\LeadHelp;
 
-use function App\APICalls\WikiApi\make_view_by_number;
+use function App\ApiClients\WikiApi\make_view_by_number;
 use function App\Utils\Html\make_mdwiki_cat_url;
 use function App\Utils\Html\make_mdwiki_article_url_blank;
 use function App\Utils\Html\make_wikipedia_url_blank;

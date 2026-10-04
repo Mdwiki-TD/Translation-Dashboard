@@ -1,6 +1,6 @@
 <?php
 
-namespace App\APICalls\WikiApi;
+namespace App\ApiClients\WikiApi;
 
 
 function make_view_by_number($target, $numb, $lang, $pupdate)
