@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Leaderboard;
+namespace App\Controllers;
 
 use App\User\CurrentUser;
 use App\Settings;
