@@ -4,15 +4,11 @@ namespace App\Leaderboard;
 
 use App\SQLorAPI\LeaderboardTable;
 use App\SQLorAPI\CategoriesTable;
-
-use function App\Utils\Html\makeColSm4;
-use function App\Utils\Html\makeCol;
-use function App\Leaderboard\Helpers\Graph\Graph\print_graph_for_table;
-use function App\Leaderboard\Helpers\Langs\LeaderTablesLangs\createNumbersTable;
-use function App\Leaderboard\Helpers\Langs\LeaderTablesLangs\makeLangTable;
-use function App\Leaderboard\LeaderTabUsers\makeUsersTable;
-use function App\Leaderboard\LeaderTabUsers\module_copy_data;
-use function App\Leaderboard\Helpers\Filters\LeaderFilter\leaderboard_filter;
+use App\Utils\Html;
+use App\Leaderboard\Helpers\Graph\Graph;
+use App\Leaderboard\Helpers\Langs\LeaderTablesLangs;
+use App\Leaderboard\Helpers\Users\LeaderTablesUsers;
+use App\Leaderboard\Helpers\Filters\LeaderFilter;
 
 class MainLeaderboard
 {
@@ -36,7 +32,7 @@ class MainLeaderboard
 
         $all_views = number_format(array_sum(array_column($users, 'views')));
 
-        $numbersTable = createNumbersTable(
+        $numbersTable = LeaderTablesLangs::createNumbersTable(
             count($users),
             $articles_all,
             $all_Words,
@@ -46,17 +42,17 @@ class MainLeaderboard
 
         $graph_data = (LeaderboardTable::getInstance())->getStatus($year, $user_group, $cat);
 
-        $graph_html = print_graph_for_table($graph_data, $no_card = false);
+        $graph_html = Graph::print_graph_for_table($graph_data, $no_card = false);
 
-        $numbersCol = makeCol('Numbers', $numbersTable, $graph_html);
+        $numbersCol = Html::makeCol('Numbers', $numbersTable, $graph_html);
 
-        $usersTable = makeUsersTable($users);
+        $usersTable = LeaderTablesUsers::makeUsersTable($users);
 
         $users = array_keys($users);
 
         $users_tab = (LeaderboardTable::getInstance())->getTopLangOfUsers($users);
 
-        $copy_module = module_copy_data($users_tab);
+        $copy_module = LeaderTablesUsers::module_copy_data($users_tab);
 
         $modal_a = <<<HTML
             <button type="button" class="btn-tool" href="#" data-bs-toggle="modal" data-bs-target="#targets">
@@ -64,10 +60,10 @@ class MainLeaderboard
             </button>
         HTML;
 
-        $usersCol = makeColSm4('Top users by number of translation', $usersTable, 5, $copy_module, $modal_a);
+        $usersCol = Html::makeColSm4('Top users by number of translation', $usersTable, 5, $copy_module, $modal_a);
 
-        $languagesTable = makeLangTable($lang_table, $langs_data, $addcat);
-        $languagesCol = makeColSm4('Top languages by number of Articles', $languagesTable, 4);
+        $languagesTable = LeaderTablesLangs::makeLangTable($lang_table, $langs_data, $addcat);
+        $languagesCol = Html::makeColSm4('Top languages by number of Articles', $languagesTable, 4);
 
         return <<<HTML
             <div class="row g-3">
@@ -84,7 +80,7 @@ class MainLeaderboard
 
         $cat = $s_camp_to_cat[$camp] ?? '';
 
-        $filter_form = leaderboard_filter($year, $month, $user_group, $camp);
+        $filter_form = LeaderFilter::leaderboard_filter($year, $month, $user_group, $camp);
 
         $uux = $this->printCatTable($year, $user_group, $camp, $cat, $langs_data, $addcat, $month);
 

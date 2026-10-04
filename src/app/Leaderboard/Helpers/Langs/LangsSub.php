@@ -1,76 +1,74 @@
 <?php
 
-namespace App\Leaderboard\Helpers\Langs\LangsSub;
+namespace App\Leaderboard\Helpers\Langs;
 
 use App\SQLorAPI\PagesTable;
 use App\SQLorAPI\InProcessTable;
 use App\Leaderboard\Helpers\Filters\LeadHelp;
 
-function add_inp($dd_Pending, $mainlang, $year_y)
+class LangsSub
 {
+    public static function add_inp($dd_Pending, $mainlang, $year_y)
+    {
+        $to_add = (InProcessTable::getInstance())->getLangInProcessByYear($mainlang, $year_y);
 
-    $to_add = (InProcessTable::getInstance())->getLangInProcessByYear($mainlang, $year_y);
+        foreach ($to_add as $_ => $Taab) {
+            $kry = LeadHelp::make_key($Taab);
 
-    foreach ($to_add as $_ => $Taab) {
-
-        $kry = LeadHelp::make_key($Taab);
-
-        if (!in_array($kry, array_keys($dd_Pending))) {
-            $dd_Pending[$kry] = $Taab;
+            if (!in_array($kry, array_keys($dd_Pending))) {
+                $dd_Pending[$kry] = $Taab;
+            }
         }
+
+        return $dd_Pending;
     }
 
-    return $dd_Pending;
-}
+    public static function pages_tables($mainlang, $year_y)
+    {
+        $dd = [];
+        $dd_Pending = [];
 
-function pages_tables($mainlang, $year_y)
-{
+        $sql_result = (PagesTable::getInstance())->getLangPages($mainlang, $year_y);
 
-    $dd = [];
-    $dd_Pending = [];
+        foreach ($sql_result as $yhu => $tabb) {
+            if (empty($tabb["lang"] ?? '')) {
+                error_log("Missing 'lang' field in entry: " . $yhu);
+                continue;
+            }
 
-    $sql_result = (PagesTable::getInstance())->getLangPages($mainlang, $year_y);
+            $kry = LeadHelp::make_key($tabb);
 
-    foreach ($sql_result as $yhu => $tabb) {
-
-        if (empty($tabb["lang"] ?? '')) {
-            error_log("Missing 'lang' field in entry: " . $yhu);
-            continue;
+            if (!empty($tabb['target'] ?? '')) {
+                $dd[$kry] = $tabb;
+            } else {
+                $dd_Pending[$kry] = $tabb;
+            }
         }
 
-        $kry = LeadHelp::make_key($tabb);
-
-        if (!empty($tabb['target'] ?? '')) {
-            $dd[$kry] = $tabb;
-        } else {
-            $dd_Pending[$kry] = $tabb;
-        }
+        return ['dd' => $dd, 'dd_Pending' => $dd_Pending];
     }
 
-    return ['dd' => $dd, 'dd_Pending' => $dd_Pending];
-}
+    public static function get_langs_tables($mainlang, $year_y)
+    {
+        $result = ['dd' => [], 'dd_Pending' => [], 'table_of_views' => []];
 
-function get_langs_tables($mainlang, $year_y)
-{
+        if (empty($mainlang)) {
+            return $result;
+        }
 
-    $result = ['dd' => [], 'dd_Pending' => [], 'table_of_views' => []];
+        $p_tables = self::pages_tables($mainlang, $year_y);
 
-    if (empty($mainlang)) {
+        $dd = $p_tables['dd'];
+        $dd_Pending = $p_tables['dd_Pending'];
+
+        $dd_Pending = self::add_inp($dd_Pending, $mainlang, $year_y);
+
+        $table_of_views = []; //get_lang_views($mainlang, $year_y);
+
+        $result['dd'] = $dd;
+        $result['dd_Pending'] = $dd_Pending;
+        $result['table_of_views'] = $table_of_views;
+
         return $result;
     }
-
-    $p_tables = pages_tables($mainlang, $year_y);
-
-    $dd = $p_tables['dd'];
-    $dd_Pending = $p_tables['dd_Pending'];
-
-    $dd_Pending = add_inp($dd_Pending, $mainlang, $year_y);
-
-    $table_of_views = []; //get_lang_views($mainlang, $year_y);
-
-    $result['dd'] = $dd;
-    $result['dd_Pending'] = $dd_Pending;
-    $result['table_of_views'] = $table_of_views;
-
-    return $result;
 }

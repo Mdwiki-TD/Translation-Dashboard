@@ -3,9 +3,9 @@
 namespace App\Leaderboard;
 
 use App\Leaderboard\Helpers\Filters\LeadHelp;
-use function App\Leaderboard\Helpers\Langs\LangsSub\get_langs_tables;
-use function App\Leaderboard\Helpers\Graph\LangUserGraph\graph_data_new;
-use function App\Leaderboard\Helpers\Filters\FilterForm\lead_row;
+use App\Leaderboard\Helpers\Langs\LangsSub;
+use App\Leaderboard\Helpers\Graph\LangUserGraph;
+use App\Leaderboard\Helpers\Filters\FilterForm;
 use App\Langs\LangsTables;
 
 class LangsLeaderboard
@@ -23,7 +23,7 @@ class LangsLeaderboard
 
         $langname = LangsTables::get_lang_name($mainlang) ?? $mainlang;
 
-        $u_tables = get_langs_tables($mainlang, $year_y);
+        $u_tables = LangsSub::get_langs_tables($mainlang, $year_y);
 
         $dd = $u_tables['dd'];
         $dd_Pending = $u_tables['dd_Pending'];
@@ -38,11 +38,11 @@ class LangsLeaderboard
             $cats_data,
         );
 
-        $graph = graph_data_new($dd);
+        $graph = LangUserGraph::graph_data_new($dd);
 
         $filter_data = ["user" => "", "lang" => $mainlang, "year" => $year_y, "camp" => $camp];
 
-        $output .= lead_row($table1, $graph, "<h4 class='text-center'>Language: $langname ($mainlang)</h4>", $filter_data, "lang");
+        $output .= FilterForm::lead_row($table1, $graph, "<h4 class='text-center'>Language: $langname ($mainlang)</h4>", $filter_data, "lang");
 
         $output .= <<<HTML
             <div class='card mt-1'>

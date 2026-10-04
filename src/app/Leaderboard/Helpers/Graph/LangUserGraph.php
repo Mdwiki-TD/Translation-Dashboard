@@ -1,88 +1,81 @@
 <?php
 
-namespace App\Leaderboard\Helpers\Graph\LangUserGraph;
+namespace App\Leaderboard\Helpers\Graph;
 
-
-function make_table($data, $len)
+class LangUserGraph
 {
+    public static function make_table($data, $len)
+    {
+        $table = [];
 
-    $table = [];
-
-    if (count($data) == 0) {
-        return ["" => 0, " " => 0];
-    }
-
-    foreach ($data as $tat => $row) {
-
-        $pupdate = $row['pupdate'] ?? "";
-        $year = substr($pupdate, 0, $len);
-
-        if (isset($table[$year])) {
-            $table[$year] += 1;
-        } else {
-            $table[$year] = 1;
+        if (count($data) == 0) {
+            return ["" => 0, " " => 0];
         }
+
+        foreach ($data as $tat => $row) {
+            $pupdate = $row['pupdate'] ?? "";
+            $year = substr($pupdate, 0, $len);
+
+            if (isset($table[$year])) {
+                $table[$year] += 1;
+            } else {
+                $table[$year] = 1;
+            }
+        }
+
+        if (count($table) == 1) {
+            $table[""] = 0;
+        }
+
+        ksort($table);
+
+        return $table;
     }
 
-    if (count($table) == 1) {
-        $table[""] = 0;
+    public static function make_graph_data($data)
+    {
+        $table = self::make_table($data, -3);
+
+        if (count($table) > 15 && (!isset($_GET['g']))) {
+            $table = self::make_table($data, 4);
+        }
+
+        $ms = "";
+        $cs = "";
+
+        foreach ($table as $key => $value) {
+            $ms .= "'$key',";
+            $cs .= "$value,";
+        }
+
+        $ms = substr($ms, 0, -1);
+        $cs = substr($cs, 0, -1);
+
+        return [$ms, $cs, count($table)];
     }
 
-    // sort $table by keys
-    ksort($table);
+    public static function graph_data_new($dd)
+    {
+        $graph_id = 'chart_' . uniqid();
 
-    // var_export($table);
+        [$keys, $values, $count] = self::make_graph_data($dd);
 
-    return $table;
-}
+        $text = <<<HTML
+            <canvas id="$graph_id" height="100" width="200" class="invert-on-dark"></canvas>
+        HTML;
 
-function make_graph_data($data)
-{
+        if ($count > 0) {
+            $text .= <<<HTML
+            <script>
+                graph_js(
+                    [$keys],
+                    [$values],
+                    "$graph_id"
+                )
+            </script>
+        HTML;
+        }
 
-    $table = make_table($data, -3);
-
-    if (count($table) > 15 && (!isset($_GET['g']))) {
-        $table = make_table($data, 4);
+        return $text;
     }
-
-    $ms = "";
-    $cs = "";
-
-    foreach ($table as $key => $value) {
-
-        $ms .= "'$key',";
-        $cs .= "$value,";
-    }
-
-    $ms = substr($ms, 0, -1);
-    $cs = substr($cs, 0, -1);
-
-    return [$ms, $cs, count($table)];
-}
-
-function graph_data_new($dd)
-{
-
-    $graph_id = 'chart_' . uniqid();
-
-    [$keys, $values, $count] = make_graph_data($dd);
-
-    $text = <<<HTML
-        <canvas id="$graph_id" height="100" width="200" class="invert-on-dark"></canvas>
-    HTML;
-
-    if ($count > 0) {
-
-        $text .= <<<HTML
-        <script>
-            graph_js(
-                [$keys],
-                [$values],
-                "$graph_id"
-            )
-        </script>
-    HTML;
-    }
-
-    return $text;
 }

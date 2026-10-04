@@ -2,10 +2,8 @@
 
 namespace App\Results27\Rows;
 
-use function App\Utils\TrLink\makeContentTranslationUrl;
-use function App\Utils\Html\make_mdwiki_article_url_blank;
-use function App\Utils\Html\make_wikipedia_url_blank;
-use function App\Utils\Html\make_wikidata_url_blank;
+use App\Utils\TrLink;
+use App\Utils\HtmlUrls;
 
 /**
  * Builds a single row for the Exists results table.
@@ -29,23 +27,23 @@ class ExistsRowBuilder
         $target     = $titleData["target"] ?? "";
         $via        = $titleData["via"] ?? "before";
 
-        $mdwikiLink = make_mdwiki_article_url_blank($title);
-        $qidUrl     = make_wikidata_url_blank($qid);
+        $mdwikiLink = HtmlUrls::make_mdwiki_article_url_blank($title);
+        $qidUrl     = HtmlUrls::make_wikidata_url_blank($qid);
 
         $targetTd   = "";
         $targetTd2  = "";
 
         if ($target) {
             if ($via === "td") {
-                $targetTd = make_wikipedia_url_blank($target, $langCode);
+                $targetTd = HtmlUrls::make_wikipedia_url_blank($target, $langCode);
             } else {
-                $targetTd2 = make_wikipedia_url_blank($target, $langCode);
+                $targetTd2 = HtmlUrls::make_wikipedia_url_blank($target, $langCode);
             }
         }
 
         $translateButton = "";
         if (!empty($globalUsername) && $userCoord) {
-            $translateUrl = makeContentTranslationUrl(
+            $translateUrl = TrLink::makeContentTranslationUrl(
                 $title,
                 $langCode,
                 $cat,

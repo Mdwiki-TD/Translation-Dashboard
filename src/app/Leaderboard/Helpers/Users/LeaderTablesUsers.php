@@ -1,92 +1,90 @@
 <?php
 
-namespace App\Leaderboard\LeaderTabUsers;
+namespace App\Leaderboard\Helpers\Users;
 
+use App\Utils\Html;
 
-
-use function App\Utils\Html\make_modal_fade;
-
-function module_copy_data($users_tab)
+class LeaderTablesUsers
 {
-    $lal = "<textarea cols='55' rows='10' id='users_targets' name='users_targets'>";
+    public static function module_copy_data($users_tab)
+    {
+        $lal = "<textarea cols='55' rows='10' id='users_targets' name='users_targets'>";
 
-    foreach ($users_tab as $tab) {
-        // get first item in $langs
-        $user = $tab['user'];
-        $lang = $tab['lang'];
+        foreach ($users_tab as $tab) {
+            // get first item in $langs
+            $user = $tab['user'];
+            $lang = $tab['lang'];
 
-        if (empty($lang) || empty($user)) continue;
+            if (empty($lang) || empty($user)) continue;
 
-        $lal .= "#{{#target:User:$user|$lang.wikipedia.org}}\n";
+            $lal .= "#{{#target:User:$user|$lang.wikipedia.org}}\n";
+        }
+
+        $lal .= '</textarea>';
+
+        $modal = Html::make_modal_fade('', $lal, 'targets', '<a class="btn btn-outline-primary" onclick="copy_target_text(\'users_targets\')">Copy</a>');
+
+        return $modal;
     }
 
-    $lal .= '</textarea>';
+    public static function makeUsersTable($users, $min = 2)
+    {
+        // sort new_data by [lang][count]
+        uasort($users, function ($a, $b) {
+            return $b["count"] <=> $a["count"];
+        });
 
-    $modal = make_modal_fade('', $lal, 'targets', '<a class="btn btn-outline-primary" onclick="copy_target_text(\'users_targets\')">Copy</a>');
+        $numb = 0;
+        $trs = "";
 
-    return $modal;
-}
+        foreach ($users as $user => $tab) {
+            // if ($usercount < $min && $numb > 15) continue;
+            $numb += 1;
 
-function makeUsersTable($users, $min = 2)
-{
+            // type of $usercount // integer
 
-    // sort new_data by [lang][count]
-    uasort($users, function ($a, $b) {
-        return $b["count"] <=> $a["count"];
-    });
+            $usercount = number_format($tab['count'] ?? 0);
+            $views = number_format($tab['views'] ?? 0);
 
-    $numb = 0;
-    $trs = "";
+            $words = $tab['words'] ?? 0;
 
-    foreach ($users as $user => $tab) {
-        // if ($usercount < $min && $numb > 15) continue;
-        $numb += 1;
+            // type of $words // string
+            // echo gettype($words) . "<br>";
 
-        // type of $usercount // integer
+            // make words str from float
+            $words = number_format($words);
 
-        $usercount = number_format($tab['count'] ?? 0);
-        $views = number_format($tab['views'] ?? 0);
+            $use = rawurlencode($user);
+            $use = str_replace('+', '_', $use);
 
-        $words = $tab['words'] ?? 0;
-
-        // type of $words // string
-        // echo gettype($words) . "<br>";
-
-        // make words str from float
-        $words = number_format($words);
-
-        $use = rawurlencode($user);
-        $use = str_replace('+', '_', $use);
-
-        $trs .= <<<HTML
-            <tr>
-                <td>$numb</td>
-                <td><a href='leaderboard.php?get=users&user=$use'>$user</a></td>
-                <td>$usercount</td>
-                <td>$words</td>
-                <td>$views</td>
-            </tr>
-            HTML;
-    }
-
-    $text = <<<HTML
-        <table class='table compact table-striped sortable table_text_left leaderboard_tables' style='margin-top: 0px !important;margin-bottom: 0px !important'>
-            <thead>
+            $trs .= <<<HTML
                 <tr>
-                    <th class="spannowrap">#</th>
-                    <th class="spannowrap">User</th>
-                    <th>Number</th>
-                    <th>Words</th>
-                    <th>Pageviews</th>
+                    <td>$numb</td>
+                    <td><a href='leaderboard.php?get=users&user=$use'>$user</a></td>
+                    <td>$usercount</td>
+                    <td>$words</td>
+                    <td>$views</td>
                 </tr>
-            </thead>
-            <tbody>
-                $trs
-            </tbody>
-            <tfoot>
-            </tfoot>
-        </table>
-    HTML;
+                HTML;
+        }
 
-    return $text;
+        return <<<HTML
+            <table class='table compact table-striped sortable table_text_left leaderboard_tables' style='margin-top: 0px !important;margin-bottom: 0px !important'>
+                <thead>
+                    <tr>
+                        <th class="spannowrap">#</th>
+                        <th class="spannowrap">User</th>
+                        <th>Number</th>
+                        <th>Words</th>
+                        <th>Pageviews</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    $trs
+                </tbody>
+                <tfoot>
+                </tfoot>
+            </table>
+        HTML;
+    }
 }

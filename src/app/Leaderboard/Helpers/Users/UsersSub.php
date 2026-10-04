@@ -1,78 +1,76 @@
 <?php
 
-namespace App\Leaderboard\Subs\SubUsers;
+namespace App\Leaderboard\Helpers\Users;
 
 use App\SQLorAPI\PagesTable;
 use App\SQLorAPI\InProcessTable;
 use App\Leaderboard\Helpers\Filters\LeadHelp;
 
-function add_inp($dd_Pending, $user, $year_y)
+class UsersSub
 {
+    public static function add_inp($dd_Pending, $user, $year_y)
+    {
+        $to_add = (InProcessTable::getInstance())->getUserProcessNew($user, $year_y);
 
-    $to_add = (InProcessTable::getInstance())->getUserProcessNew($user, $year_y);
+        foreach ($to_add as $_ => $Taab) {
+            $kry = LeadHelp::make_key($Taab);
 
-    foreach ($to_add as $_ => $Taab) {
+            if (!in_array($kry, array_keys($dd_Pending))) {
+                $dd_Pending[$kry] = $Taab;
+            }
+        }
 
-        $kry = LeadHelp::make_key($Taab);
+        return $dd_Pending;
+    }
 
-        if (!in_array($kry, array_keys($dd_Pending))) {
-            $dd_Pending[$kry] = $Taab;
-        };
-    };
+    public static function pages_tables($user_main, $year_y, $lang_y)
+    {
+        $dd = [];
+        $dd_Pending = [];
 
-    return $dd_Pending;
-}
+        $sql_result = (PagesTable::getInstance())->getUserPages($user_main, $year_y, $lang_y);
 
-function pages_tables($user_main, $year_y, $lang_y)
-{
+        foreach ($sql_result as $yhu => $tabb) {
+            $kry = LeadHelp::make_key($tabb);
 
-    $dd = [];
-    $dd_Pending = [];
+            if (!empty($tabb['target'] ?? '')) {
+                $dd[$kry] = $tabb;
+            } else {
+                $dd_Pending[$kry] = $tabb;
+            }
+        }
 
-    $sql_result = (PagesTable::getInstance())->getUserPages($user_main, $year_y, $lang_y);
+        return ['dd' => $dd, 'dd_Pending' => $dd_Pending];
+    }
 
-    foreach ($sql_result as $yhu => $tabb) {
+    public static function get_users_tables($mainuser, $year_y, $lang_y)
+    {
+        $result = ['dd' => [], 'dd_Pending' => [], 'table_of_views' => []];
 
-        $kry = LeadHelp::make_key($tabb);
+        if (empty($mainuser)) {
+            return $result;
+        }
 
-        if (!empty($tabb['target'] ?? '')) {
-            $dd[$kry] = $tabb;
-        } else {
-            $dd_Pending[$kry] = $tabb;
-        };
-    };
+        $user_main = $mainuser;
+        $user_main = rawurldecode(str_replace("_", " ", $user_main));
 
-    return ['dd' => $dd, 'dd_Pending' => $dd_Pending];
-}
+        $p_tables = self::pages_tables($user_main, $year_y, $lang_y);
 
-function get_users_tables($mainuser, $year_y, $lang_y)
-{
+        $dd = $p_tables['dd'];
+        $dd_Pending = $p_tables['dd_Pending'];
 
-    $result = ['dd' => [], 'dd_Pending' => [], 'table_of_views' => []];
+        $dd_Pending = self::add_inp($dd_Pending, $user_main, $year_y);
 
-    if (empty($mainuser)) {
+        krsort($dd);
+
+        krsort($dd_Pending);
+
+        $table_of_views = [];
+
+        $result['dd'] = $dd;
+        $result['dd_Pending'] = $dd_Pending;
+        $result['table_of_views'] = $table_of_views;
+
         return $result;
-    };
-
-    $user_main = $mainuser;
-    $user_main = rawurldecode(str_replace("_", " ", $user_main));
-
-    $p_tables = pages_tables($user_main, $year_y, $lang_y);
-
-    $dd = $p_tables['dd'];
-    $dd_Pending = $p_tables['dd_Pending'];
-
-    $dd_Pending = add_inp($dd_Pending, $user_main, $year_y);
-
-    krsort($dd);
-
-    krsort($dd_Pending);
-
-    $table_of_views = []; //get_user_views($user_main, $year_y, $lang_y);
-
-    $result['dd'] = $dd;
-    $result['dd_Pending'] = $dd_Pending;
-    $result['table_of_views'] = $table_of_views;
-
-    return $result;
+    }
 }

@@ -2,9 +2,8 @@
 
 namespace App\Results27\Rows;
 
-use function App\Utils\Html\make_mdwiki_href;
-use function App\Utils\Html\make_wikidata_url_blank;
-use function App\Utils\Helps\make_translate_urls;
+use App\Utils\HtmlUrls;
+use App\Utils\Helps;
 
 /**
  * Builds a single row for the In-process results table.
@@ -46,12 +45,12 @@ class InProcessRowBuilder
             $importance = "Unknown";
         }
 
-        $qidUrl    = make_wikidata_url_blank($qid);
-        $mdwikiUrl = make_mdwiki_href($title);
+        $qidUrl    = HtmlUrls::make_wikidata_url_blank($qid);
+        $mdwikiUrl = HtmlUrls::make_mdwiki_href($title);
 
         $loginUserIsTranslator = (!empty($globalUsername) && $user === $globalUsername) || $userCoord;
 
-        [$buttons, $_, $_] = make_translate_urls(
+        [$buttons, $_, $_] = Helps::make_translate_urls(
             $title,
             $traType,
             $words,

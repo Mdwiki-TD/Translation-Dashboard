@@ -3,11 +3,9 @@
 namespace App\Leaderboard\Helpers\Filters;
 
 use App\ApiClients\WikiApi;
-use function App\Utils\Html\make_mdwiki_cat_url;
-use function App\Utils\Html\make_mdwiki_article_url_blank;
-use function App\Utils\Html\make_wikipedia_url_blank;
-use function App\Utils\TrLink\makeContentTranslationUrl;
-use function App\Leaderboard\Helpers\Camps\Camps\get_articles_to_camps;
+use App\Utils\HtmlUrls;
+use App\Utils\TrLink;
+use App\Leaderboard\Helpers\Camps\Camps;
 
 class LeadHelp
 {
@@ -53,14 +51,14 @@ class LeadHelp
 		}
 
 		$mdtitle  = trim($tabb['title']);
-		$user     = $tabb['user'] ?? "";
-		$lang     = $tabb['lang'] ?? "";
-		$cat      = $tabb['cat'] ?? "";
+		$user	 = $tabb['user'] ?? "";
+		$lang	 = $tabb['lang'] ?? "";
+		$cat	  = $tabb['cat'] ?? "";
 		$deleted  = $tabb['deleted'] ?? "";
 		$pupdate  = $tabb['pupdate'] ?? "";
 		$campaign = $tabb['campaign'] ?? "";
 
-		$date    = $tabb['date'] ?? $tabb['add_date'] ?? "";
+		$date	= $tabb['date'] ?? $tabb['add_date'] ?? "";
 
 		// if $_date_ has : then split before first space
 		if (strpos($date, ':') !== false) {
@@ -69,9 +67,9 @@ class LeadHelp
 
 		$word = number_format($word);
 
-		$mdwiki_url = make_mdwiki_article_url_blank($mdtitle);
+		$mdwiki_url = HtmlUrls::make_mdwiki_article_url_blank($mdtitle);
 
-		$cat_or_camp_link = make_mdwiki_cat_url($cat);
+		$cat_or_camp_link = HtmlUrls::make_mdwiki_cat_url($cat);
 
 		$campaign_data = $campaign;
 
@@ -119,7 +117,7 @@ class LeadHelp
 			$target_link = 'Pending';
 			$td_views = '';
 
-			$tralink = makeContentTranslationUrl(
+			$tralink = TrLink::makeContentTranslationUrl(
 				$mdtitle,
 				$lang,
 				$cat,
@@ -135,7 +133,7 @@ class LeadHelp
 				$view = WikiApi::make_view_by_number($target, $view_number, $lang, $pupdate);
 			}
 
-			$target_link = make_wikipedia_url_blank($target, $lang, "", $deleted);
+			$target_link = HtmlUrls::make_wikipedia_url_blank($target, $lang, "", $deleted);
 
 			$td_views = "<td data-content='Views' data-sort='$view_number' data-filter='$view_number'>$view</td>";
 		}
@@ -225,7 +223,7 @@ class LeadHelp
 		$total_articles = count($dd);
 		$noo = 0;
 
-		$articlesto_camps = get_articles_to_camps();
+		$articlesto_camps = Camps::get_articles_to_camps();
 
 		foreach ($dd as $tat => $tabe) {
 
