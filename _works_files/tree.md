@@ -20,13 +20,6 @@ src/
 │   │   │   │   ├── lead_help.php
 │   │   │   │   └── leader_filter.php
 │   │   │   ├── Graph/
-│   │   │   │   ├── Controllers/
-│   │   │   │   ├── helpers/
-│   │   │   │   │   ├── Camps/
-│   │   │   │   │   ├── Filters/
-│   │   │   │   │   ├── Graph/
-│   │   │   │   │   ├── Langs/
-│   │   │   │   │   └── Users/
 │   │   │   │   ├── graph.php
 │   │   │   │   ├── graph_api.php
 │   │   │   │   └── lang_user_graph.php
@@ -95,6 +88,7 @@ src/
 │   │   ├── html.php
 │   │   ├── htmlUrls.php
 │   │   └── tr_link.php
+│   ├── autoload.php
 │   ├── bootstrap.php
 │   ├── Logger.php
 │   └── Settings.php
