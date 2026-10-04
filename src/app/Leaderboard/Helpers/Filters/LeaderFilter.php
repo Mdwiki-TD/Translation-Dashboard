@@ -10,7 +10,7 @@ use App\Utils\Html;
 
 class LeaderFilter
 {
-    public static function input_group($title, $rows): string
+    public static function input_group(string $title, string $rows): string
     {
         $d33 = <<<HTML
             <div class="input-group">
@@ -22,7 +22,7 @@ class LeaderFilter
         return sprintf($d33, $title, $rows);
     }
 
-    public static function make_camp_dropdown($camp): string
+    public static function make_camp_dropdown(string $camp): string
     {
         $categories_tab = (CategoriesTable::getInstance())->getCategories();
         $categories_tab = array_column($categories_tab, 'campaign');
@@ -32,7 +32,7 @@ class LeaderFilter
         return self::input_group('Campaign', $y1);
     }
 
-    public static function make_project_dropdown($user_group): string
+    public static function make_project_dropdown(?string $user_group): string
     {
         $projects_tab = (TitlesTable::getInstance())->getProjects();
 
@@ -41,12 +41,12 @@ class LeaderFilter
         // '["Benevity","Hearing","McMaster","OLI","ProZ","Shani","TWB","TWB\\/WikiMed (Arabic)","Uncategorized","Wiki"]'
         // var_export(json_encode($user_groups));
 
-        $y2 = Html::makeDropdown($user_groups, $user_group, 'user_group', 'all');
+        $y2 = Html::makeDropdown($user_groups, (string)$user_group, 'user_group', 'all');
 
         return self::input_group('Translators', $y2);
     }
 
-    public static function make_year_dropdown($year): string
+    public static function make_year_dropdown(int|string $year): string
     {
         $m_years2 = (PagesTable::getInstance())->getPagesWithPupdate();
 
@@ -54,12 +54,12 @@ class LeaderFilter
         // sort $m_years2 from biggest to smallest
         rsort($m_years2);
 
-        $y3 = Html::makeDropdown($m_years2, $year, 'year', 'all');
+        $y3 = Html::makeDropdown($m_years2, (string)$year, 'year', 'all');
 
         return self::input_group('Year', $y3);
     }
 
-    public static function make_month_dropdown($month, $graph_data): string
+    public static function make_month_dropdown(int|string|null $month, array $graph_data): string
     {
 
         // array ( '2024-01' => 92, '2024-02' => 222, '2024-03' => 231, '2024-04' => 160, '2024-05' => 214, '2024-06' => 146, '2024-07' => 145, '2024-08' => 73, '2024-09' => 503, '2024-10' => 359, '2024-11' => 207, '2024-12' => 204, )
@@ -77,7 +77,7 @@ class LeaderFilter
         // sort $m_months from biggest to smallest
         rsort($months_list);
 
-        $y3 = Html::makeDropdown($months_list, $month, 'month', 'All');
+        $y3 = Html::makeDropdown($months_list, (string)$month, 'month', 'All');
 
         // $monthDropdown = input_group('Month', $y3);
         return <<<HTML
@@ -87,7 +87,7 @@ class LeaderFilter
         HTML;
     }
 
-    public static function leaderboard_filter($year, $month, $user_group, $camp, $action = "leaderboard.php"): string
+    public static function leaderboard_filter(int|string $year, int|string|null $month, ?string $user_group, string $camp, string $action = "leaderboard.php"): string
     {
         $campDropdown = self::make_camp_dropdown($camp);
 
@@ -100,7 +100,7 @@ class LeaderFilter
 
         $monthDropdown = "";
 
-        if ($year !== 'all') {
+        if ((string)$year !== 'all') {
             $graph_data = (LeaderboardTable::getInstance())->getStatus($year, $user_group, $cat);
 
             $monthDropdown = self::make_month_dropdown($month, $graph_data);

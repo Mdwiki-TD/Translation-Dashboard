@@ -38,9 +38,9 @@ use App\SQLorAPI\TitlesTable;
 
 class LangsTables
 {
-    private static $already_loaded = false;
-    public static $L_skip_codes = ["commons", "species", "ary", "arz", "meta", "en", "simple"];
-    private static $LChangeCodes = [
+    private static bool $already_loaded = false;
+    public static array $L_skip_codes = ["commons", "species", "ary", "arz", "meta", "en", "simple"];
+    private static array $LChangeCodes = [
         "gsw" => "als",
         "sgs" => "bat-smg",
         "nb"    =>    "no",
@@ -58,9 +58,9 @@ class LangsTables
         "zh_yue"    =>    "zh-yue",
         "yue"    =>    "zh-yue",
     ];
-    private static $L_code_to_lang_name = [];
-    private static $L_lang_to_code = [];
-    private static $LCodeToLang = [];
+    private static array $L_code_to_lang_name = [];
+    private static array $L_lang_to_code = [];
+    private static array $LCodeToLang = [];
 
     private static function load(): void
     {
@@ -88,20 +88,19 @@ class LangsTables
         }
     }
 
-    public static function get_lang_title(string $lang_code)
+    public static function get_lang_title(string $lang_code): ?string
     {
         self::load();
         return self::$LCodeToLang[$lang_code] ?? null;
     }
 
-    public static function get_lang_name(string $code)
+    public static function get_lang_name(string $code): ?string
     {
         self::load();
         return self::$L_code_to_lang_name[$code] ?? null;
     }
 
-
-    public static function get_lang_code(string $lang_title)
+    public static function get_lang_code(string $lang_title): ?string
     {
         self::load();
         return self::$L_lang_to_code[$lang_title] ?? null;

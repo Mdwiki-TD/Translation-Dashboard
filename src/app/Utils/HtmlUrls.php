@@ -4,7 +4,7 @@ namespace App\Utils;
 
 class HtmlUrls
 {
-    public static function make_mdwiki_href($title)
+    public static function make_mdwiki_href(?string $title): ?string
     {
         if (empty($title)) return $title;
 
@@ -28,7 +28,7 @@ class HtmlUrls
         return $user;
     }
 
-    public static function make_mdwiki_article_url_blank($title, $name = null)
+    public static function make_mdwiki_article_url_blank(?string $title, ?string $name = null): ?string
     {
         if (empty($title)) return $title;
 
@@ -39,7 +39,7 @@ class HtmlUrls
         return "<a target='_blank' href='https://mdwiki.org/wiki/$encoded_title'>$displayName</a>";
     }
 
-    public static function make_mdwiki_cat_url($category, $name = null)
+    public static function make_mdwiki_cat_url(?string $category, ?string $name = null): ?string
     {
         if (empty($category)) return $category;
 
@@ -52,7 +52,7 @@ class HtmlUrls
         return "<a target='_blank' href='https://mdwiki.org/wiki/Category:$encoded_category'>$displayName</a>";
     }
 
-    public static function make_wikipedia_url_blank($target, $lang, $name = '', $deleted = false)
+    public static function make_wikipedia_url_blank(?string $target, string $lang, string $name = '', bool|int $deleted = false): ?string
     {
         if (empty($target)) return $target;
 
@@ -69,7 +69,7 @@ class HtmlUrls
         return $link;
     }
 
-    public static function make_wikidata_url_blank($qid, $name = '', $default = '')
+    public static function make_wikidata_url_blank(?string $qid, string $name = '', string $default = ''): string
     {
         if (empty($qid)) return $default;
 

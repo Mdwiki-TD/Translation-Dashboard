@@ -16,7 +16,7 @@ class LeaderboardTable extends BaseTable
 
         return self::$instance;
     }
-    public function makeSqlQuery(mixed $year, mixed $userGroup, mixed $cat): array
+    public function makeSqlQuery(int|string $year, ?string $userGroup, ?string $cat): array
     {
         $params = [];
 
@@ -55,7 +55,7 @@ class LeaderboardTable extends BaseTable
         ];
     }
 
-    public function makeApiParams(mixed $year, mixed $userGroup, mixed $cat): array
+    public function makeApiParams(int|string $year, ?string $userGroup, ?string $cat): array
     {
         $apiParams = ['get' => 'leaderboard_table'];
 
@@ -74,7 +74,7 @@ class LeaderboardTable extends BaseTable
         return $apiParams;
     }
 
-    public function getLeaderboardTable(mixed $year, mixed $userGroup, mixed $cat): array
+    public function getLeaderboardTable(int|string $year, ?string $userGroup, ?string $cat): array
     {
         $apiParams = self::makeApiParams($year, $userGroup, $cat);
         $quaData = self::makeSqlQuery($year, $userGroup, $cat);
@@ -182,7 +182,7 @@ class LeaderboardTable extends BaseTable
             SQL;
     }
 
-    public function getTopUsers(mixed $year, mixed $userGroup, mixed $cat, mixed $month = null): array
+    public function getTopUsers(int|string $year, ?string $userGroup, ?string $cat, int|string|null $month = null): array
     {
         $toAdd = [
             "year" => $year,
@@ -214,7 +214,7 @@ class LeaderboardTable extends BaseTable
         return $newData;
     }
 
-    public function getTopLangs(mixed $year, mixed $userGroup, mixed $cat, mixed $month = null): array
+    public function getTopLangs(int|string $year, ?string $userGroup, ?string $cat, int|string|null $month = null): array
     {
         $toAdd = [
             "year" => $year,
@@ -246,7 +246,7 @@ class LeaderboardTable extends BaseTable
         return $newData;
     }
 
-    public function getStatus(mixed $year, mixed $userGroup, mixed $cat): array
+    public function getStatus(int|string $year, ?string $userGroup, ?string $cat): array
     {
         $toAdd = ["year" => $year, "user_group" => $userGroup, "cat" => $cat];
         $apiParams = ['get' => 'status', 'year' => $year, 'user_group' => $userGroup, 'cat' => $cat];

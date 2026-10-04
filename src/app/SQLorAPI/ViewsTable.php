@@ -29,7 +29,7 @@ class ViewsTable extends BaseTable
         self::$graphDataCache = [];
     }
 
-    public function getViews(mixed $year, mixed $lang): array
+    public function getViews(int|string $year, string $lang): array
     {
         $key = (string)$year . (string)$lang;
         if (!empty(self::$viewsCache[$key] ?? [])) {
@@ -73,7 +73,7 @@ class ViewsTable extends BaseTable
         return $data;
     }
 
-    public function getUserViews(mixed $user, mixed $yearY, mixed $langY): array
+    public function getUserViews(string $user, int|string $yearY, string $langY): array
     {
         $key = 'user_views_' . $user . '_' . $yearY . '_' . $langY;
         if (!empty(self::$userViewsCache[$key] ?? [])) {
@@ -119,7 +119,7 @@ class ViewsTable extends BaseTable
         return $tableOfViews;
     }
 
-    public function getLangViews(mixed $mainlang, mixed $yearY): array
+    public function getLangViews(string $mainlang, int|string $yearY): array
     {
         $key = 'lang_views_' . $mainlang . '_' . $yearY;
         if (!empty(self::$langViewsCache[$key] ?? [])) {

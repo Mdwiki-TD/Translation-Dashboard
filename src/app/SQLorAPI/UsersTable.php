@@ -56,7 +56,7 @@ class UsersTable extends BaseTable
         return self::$usersNoInprocessCache;
     }
 
-    public function getFullTranslators(mixed $column = null): array
+    public function getFullTranslators(?string $column = null): array
     {
         if (empty(self::$fullTranslatorsCache)) {
             $apiParams = ['get' => 'full_translators'];

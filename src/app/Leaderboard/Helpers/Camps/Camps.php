@@ -6,7 +6,7 @@ use App\SQLorAPI\CategoriesTable;
 
 class Camps
 {
-    public static function get_articles_to_camps()
+    public static function get_articles_to_camps(): array
     {
         static $articles_to_camps = [];
 

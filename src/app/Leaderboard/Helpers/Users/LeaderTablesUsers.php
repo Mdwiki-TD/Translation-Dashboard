@@ -6,7 +6,7 @@ use App\Utils\Html;
 
 class LeaderTablesUsers
 {
-    public static function module_copy_data($users_tab)
+    public static function module_copy_data(array $users_tab): string
     {
         $lal = "<textarea cols='55' rows='10' id='users_targets' name='users_targets'>";
 
@@ -27,7 +27,7 @@ class LeaderTablesUsers
         return $modal;
     }
 
-    public static function makeUsersTable($users, $min = 2)
+    public static function makeUsersTable(array $users, int $min = 2): string
     {
         // sort new_data by [lang][count]
         uasort($users, function ($a, $b) {
@@ -52,7 +52,7 @@ class LeaderTablesUsers
             // echo gettype($words) . "<br>";
 
             // make words str from float
-            $words = number_format($words);
+            $words = number_format((float)$words);
 
             $use = rawurlencode($user);
             $use = str_replace('+', '_', $use);

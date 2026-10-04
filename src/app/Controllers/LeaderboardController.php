@@ -69,7 +69,7 @@ class LeaderboardController
         } elseif (!empty($_GET['camps'] ?? '')) {
             // http://localhost:9001/Translation_Dashboard/leaderboard.php?camps=1
 
-            echo CampsText::echo_html();
+            CampsText::echo_html();
         } elseif (!empty($_GET['graph'] ?? '')) {
             // http://localhost:9001/Translation_Dashboard/leaderboard.php?graph=1
 

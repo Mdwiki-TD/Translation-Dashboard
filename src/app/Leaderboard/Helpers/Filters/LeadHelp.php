@@ -9,7 +9,7 @@ use App\Leaderboard\Helpers\Camps\Camps;
 
 class LeadHelp
 {
-	public static function make_key($Taab)
+	public static function make_key(array $Taab): string
 	{
 		$dat = '';
 
@@ -35,14 +35,14 @@ class LeadHelp
 	}
 
 	public static function make_td_fo_user(
-		$tabb,
-		$number,
-		$view_number,
-		$word,
-		$page_type,
-		$tab_ty,
-		$user_is_global_username,
-		$new_camps,
+		array $tabb,
+		int $number,
+		int|float $view_number,
+		int|float|string $word,
+		string $page_type,
+		string $tab_ty,
+		bool $user_is_global_username,
+		array $new_camps,
 	): string {
 
 		// $page_type = 'users' or 'langs' only
@@ -65,7 +65,7 @@ class LeadHelp
 			$date = explode(' ', $date)[0];
 		}
 
-		$word = number_format($word);
+		$word = number_format((float)$word);
 
 		$mdwiki_url = HtmlUrls::make_mdwiki_article_url_blank($mdtitle);
 
@@ -176,21 +176,16 @@ class LeadHelp
 	}
 
 	public static function make_table_lead(
-		$dd,
-		$tab_type,
-		$views_table,
-		$page_type,
-		$user_is_global_username,
-		$lead_words_table,
-		$cats_data,
+		array $dd,
+		string $tab_type,
+		array $views_table,
+		string $page_type,
+		bool $user_is_global_username,
+		array $lead_words_table,
+		array $cats_data,
 	): array {
 		$total_words = 0;
 		$total_views = 0;
-
-		// if $views_table is not array
-		if (!is_array($views_table)) {
-			$views_table = [];
-		}
 
 		$user_or_lang = ($page_type == 'users') ? 'Lang.' : 'User';
 
@@ -281,13 +276,13 @@ class LeadHelp
 	}
 
 	public static function make_users_lead(
-		$tab,
-		$tab_type,
-		$views_table,
-		$user_is_global_username,
-		$lead_words_table,
-		$cats_data,
-	) {
+		array $tab,
+		string $tab_type,
+		array $views_table,
+		bool $user_is_global_username,
+		array $lead_words_table,
+		array $cats_data,
+	): array {
 		[$_, $table_pnd] = self::make_table_lead(
 			$tab,
 			$tab_type,
@@ -302,12 +297,12 @@ class LeadHelp
 	}
 
 	public static function make_langs_lead(
-		$tab,
-		$tab_type,
-		$views_table,
-		$lang,
-		$lead_words_table,
-		$cats_data,
+		array $tab,
+		string $tab_type,
+		array $views_table,
+		string $lang,
+		array $lead_words_table,
+		array $cats_data,
 	): array {
 		[$_, $table_pnd] = self::make_table_lead(
 			$tab,

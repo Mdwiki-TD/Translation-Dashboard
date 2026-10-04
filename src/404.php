@@ -13,7 +13,7 @@ $pageHeader = new PageHeader($currentUser);
 $pageHeader->render();
 
 
-function print_h3_title($h3_title)
+function print_h3_title(string $h3_title): void
 {
 	echo <<<HTML
     <div class="card-header aligncenter" style="font-weight:bold;">

@@ -12,14 +12,14 @@ use App\Leaderboard\Helpers\Graph\LangUserGraph;
 class UsersLeaderboard
 {
     public function render(
-        $mainlang,
-        $year_y,
-        $camp,
-        $user_to_curl,
-        $user_to_html,
-        $global_username,
-        $lead_words_table,
-        $cats_data,
+        string $mainlang,
+        int|string $year_y,
+        string $camp,
+        string $user_to_curl,
+        string $user_to_html,
+        string $global_username,
+        array $lead_words_table,
+        array $cats_data,
     ): string {
         $output = '';
 

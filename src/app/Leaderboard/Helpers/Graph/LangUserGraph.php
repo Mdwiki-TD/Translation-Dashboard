@@ -4,7 +4,7 @@ namespace App\Leaderboard\Helpers\Graph;
 
 class LangUserGraph
 {
-    public static function make_table($data, $len)
+    public static function make_table(array $data, int $len): array
     {
         $table = [];
 
@@ -32,7 +32,7 @@ class LangUserGraph
         return $table;
     }
 
-    public static function make_graph_data($data)
+    public static function make_graph_data(array $data): array
     {
         $table = self::make_table($data, -3);
 
@@ -54,7 +54,7 @@ class LangUserGraph
         return [$ms, $cs, count($table)];
     }
 
-    public static function graph_data_new($dd)
+    public static function graph_data_new(array $dd): string
     {
         $graph_id = 'chart_' . uniqid();
 

@@ -25,13 +25,13 @@ use RuntimeException;
 class Database
 {
 
-    private $db;
-    private $host;
-    private $user;
-    private $password;
-    private $dbname;
-    private $appEnv;
-    private $groupByModeDisabled = false;
+    private ?PDO $db = null;
+    private string $host = "";
+    private string $user = "";
+    private string $password = "";
+    private string $dbname = "";
+    private string $appEnv = "";
+    private bool $groupByModeDisabled = false;
 
     public function __construct(string $dbnameVar = 'DB_NAME')
     {
@@ -39,7 +39,7 @@ class Database
         $this->setDb($dbnameVar);
     }
 
-    private function envVar(string $key)
+    private function envVar(string $key): string
     {
         $value = getenv($key);
         if ($value !== false) {
@@ -52,6 +52,7 @@ class Database
 
         return "";
     }
+
     private function buildDsn(string $dbnameVar): string
     {
         // Load host and database name from environment variables, falling back to a default host
@@ -68,7 +69,7 @@ class Database
         return !empty($this->host) && !empty($this->dbname) && !empty($this->user) && !empty($this->password);
     }
 
-    private function setDb(string $dbnameVar)
+    private function setDb(string $dbnameVar): void
     {
         // Build the DSN and populate $this->host / $this->dbname along the way
         $dsn = $this->buildDsn($dbnameVar);
@@ -103,6 +104,7 @@ class Database
             throw new \RuntimeException('Database connection failed');
         }
     }
+
     public function disableFullGroupByMode(string $sqlQuery): void
     {
         if ($this->db === null) {
@@ -153,6 +155,7 @@ class Database
             return [];
         }
     }
+
     public function executeQuery(string $sqlQuery, ?array $params = null): bool
     {
         if ($this->db === null) {
