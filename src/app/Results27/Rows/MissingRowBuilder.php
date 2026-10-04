@@ -4,7 +4,7 @@ namespace App\Results27\Rows;
 
 use function App\Utils\Html\make_mdwiki_href;
 use function App\Utils\Html\make_wikidata_url_blank;
-use function App\Results\TrLink\makeTrLinkMedwiki;
+use function App\Utils\TrLink\makeTrLinkMedwiki;
 
 /**
  * Builds a single row for the Missing results table.

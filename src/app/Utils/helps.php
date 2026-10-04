@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Results\Helps;
+namespace App\Utils\Helps;
 
-
-
-use function App\Results\TrLink\makeTrLinkMedwiki;
+use function App\Utils\TrLink\makeTrLinkMedwiki;
 use function App\Utils\Html\make_mdwiki_href;
-use function App\Results\TrLink\makeContentTranslationUrl;
+use function App\Utils\TrLink\makeContentTranslationUrl;
 
 function sort_py_pageviews_rows($items, $en_views_tab)
 {

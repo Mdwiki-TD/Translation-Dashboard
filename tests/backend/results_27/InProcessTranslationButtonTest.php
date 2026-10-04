@@ -6,7 +6,7 @@ namespace Tests;
 
 use PHPUnit\Framework\TestCase;
 
-use function App\Results\Helps\make_translate_urls;
+use function App\Utils\Helps\make_translate_urls;
 use App\Results27\Rows\InProcessRowBuilder;
 use function App\Leaderboard\Helpers\Filters\LeadHelp\make_td_fo_user;
 

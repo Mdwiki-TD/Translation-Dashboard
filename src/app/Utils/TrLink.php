@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Results\TrLink;
+namespace App\Utils\TrLink;
 
 use App\SQLorAPI\SettingsTable;
 

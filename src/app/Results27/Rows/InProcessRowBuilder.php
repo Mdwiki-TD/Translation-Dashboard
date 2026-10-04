@@ -4,7 +4,7 @@ namespace App\Results27\Rows;
 
 use function App\Utils\Html\make_mdwiki_href;
 use function App\Utils\Html\make_wikidata_url_blank;
-use function App\Results\Helps\make_translate_urls;
+use function App\Utils\Helps\make_translate_urls;
 
 /**
  * Builds a single row for the In-process results table.
