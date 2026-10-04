@@ -7,7 +7,6 @@ use App\User\CurrentUser;
 use App\MdwikiSql\Database;
 use App\SQLorAPI\UsersTable;
 use App\SQLorAPI\CategoriesTable;
-
 use App\Utils\TrLink;
 
 function insertPageInprocess($title, $word, $tr_type, $cat, $lang, $user): bool
