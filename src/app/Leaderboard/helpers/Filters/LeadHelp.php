@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Leaderboard\helpers\Filters\LeadHelp;
+namespace App\Leaderboard\Helpers\Filters\LeadHelp;
 
 use function App\ApiClients\WikiApi\make_view_by_number;
 use function App\Utils\Html\make_mdwiki_cat_url;
 use function App\Utils\Html\make_mdwiki_article_url_blank;
 use function App\Utils\Html\make_wikipedia_url_blank;
 use function App\Results\TrLink\makeContentTranslationUrl;
-use function App\Leaderboard\helpers\Camps\Camps\get_articles_to_camps;
+use function App\Leaderboard\Helpers\Camps\Camps\get_articles_to_camps;
 
 function make_key($Taab)
 {

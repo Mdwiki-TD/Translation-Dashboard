@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Leaderboard\helpers\Filters\FilterForm;
+namespace App\Leaderboard\Helpers\Filters\FilterForm;
 
 use App\SQLorAPI\PagesTable;
 

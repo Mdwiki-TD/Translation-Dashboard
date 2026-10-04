@@ -2,10 +2,10 @@
 
 namespace App\Leaderboard;
 
-use function App\Leaderboard\helpers\Filters\LeadHelp\make_langs_lead;
+use function App\Leaderboard\Helpers\Filters\LeadHelp\make_langs_lead;
 use function App\Leaderboard\Helpers\Langs\LangsSub\get_langs_tables;
 use function App\Leaderboard\Helpers\Graph\LangUserGraph\graph_data_new;
-use function App\Leaderboard\helpers\Filters\FilterForm\lead_row;
+use function App\Leaderboard\Helpers\Filters\FilterForm\lead_row;
 use App\Langs\LangsTables;
 
 class LangsLeaderboard

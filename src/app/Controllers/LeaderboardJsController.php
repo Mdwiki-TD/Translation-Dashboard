@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use function App\Leaderboard\helpers\Filters\LeaderFilter\leaderboard_filter;
+use function App\Leaderboard\Helpers\Filters\LeaderFilter\leaderboard_filter;
 
 class LeaderboardJsController
 {

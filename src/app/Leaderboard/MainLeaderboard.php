@@ -12,7 +12,7 @@ use function App\Leaderboard\Helpers\Langs\LeaderTablesLangs\createNumbersTable;
 use function App\Leaderboard\Helpers\Langs\LeaderTablesLangs\makeLangTable;
 use function App\Leaderboard\LeaderTabUsers\makeUsersTable;
 use function App\Leaderboard\LeaderTabUsers\module_copy_data;
-use function App\Leaderboard\helpers\Filters\LeaderFilter\leaderboard_filter;
+use function App\Leaderboard\Helpers\Filters\LeaderFilter\leaderboard_filter;
 
 class MainLeaderboard
 {

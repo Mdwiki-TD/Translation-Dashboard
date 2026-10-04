@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Leaderboard\helpers\Camps\Camps;
+namespace App\Leaderboard\Helpers\Camps\Camps;
 
 use App\SQLorAPI\CategoriesTable;
 

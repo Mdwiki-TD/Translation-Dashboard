@@ -4,7 +4,7 @@ namespace App\Leaderboard\Subs\SubUsers;
 
 use App\SQLorAPI\PagesTable;
 use App\SQLorAPI\InProcessTable;
-use function App\Leaderboard\helpers\Filters\LeadHelp\make_key;
+use function App\Leaderboard\Helpers\Filters\LeadHelp\make_key;
 
 function add_inp($dd_Pending, $user, $year_y)
 {
