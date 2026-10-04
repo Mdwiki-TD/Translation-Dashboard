@@ -15,14 +15,14 @@ src/
 │   ├── Leaderboard/
 │   │   ├── helpers/
 │   │   │   ├── Camps/
-│   │   │   │   ├── camps.php
+│   │   │   │   ├── Camps.php
 │   │   │   │   └── CampsText.php
 │   │   │   ├── Filters/
 │   │   │   │   ├── FilterForm.php
 │   │   │   │   ├── LeaderFilter.php
 │   │   │   │   └── LeadHelp.php
 │   │   │   ├── Graph/
-│   │   │   │   ├── graph.php
+│   │   │   │   ├── Graph.php
 │   │   │   │   ├── GraphApi.php
 │   │   │   │   └── LangUserGraph.php
 │   │   │   ├── Langs/
