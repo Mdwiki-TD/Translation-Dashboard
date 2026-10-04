@@ -135,7 +135,7 @@ class ResultsFetcher
         );
     }
 
-    private function log(string $message, $value = null): void
+    private function log(string $message, mixed $value = null): void
     {
         if (!$this->debug) {
             return;

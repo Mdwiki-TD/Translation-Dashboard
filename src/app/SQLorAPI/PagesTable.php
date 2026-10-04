@@ -40,10 +40,10 @@ class PagesTable extends BaseTable
         self::$langYearsCache = [];
     }
 
-    public function getLangPagesByCat(mixed $lang, mixed $cat): array
+    public function getLangPagesByCat(string $lang, string $cat): array
     {
         // http://localhost:9001/api.php?get=pages&lang=ar&cat=RTT
-        $key = (string)$lang . (string)$cat;
+        $key = $lang . $cat;
         if (!empty(self::$langPagesCache[$key] ?? [])) {
             return self::$langPagesCache[$key];
         }
@@ -58,7 +58,7 @@ class PagesTable extends BaseTable
         return $uData;
     }
 
-    public function getUserPages(mixed $userMain, mixed $yearY, mixed $langY): array
+    public function getUserPages(string $userMain, int|string $yearY, string $langY): array
     {
         $key = $userMain . '_' . $yearY . '_' . $langY;
         if (!empty(self::$pagesCache[$key] ?? [])) {
@@ -114,7 +114,7 @@ class PagesTable extends BaseTable
         return self::$pupdateCache;
     }
 
-    public function getLangPages(mixed $lang, mixed $yearY): array
+    public function getLangPages(string $lang, int|string $yearY): array
     {
         $key = (string)$lang . (string)$yearY;
         if (!empty(self::$pagesCache[$key] ?? [])) {
@@ -137,7 +137,7 @@ class PagesTable extends BaseTable
         return $uData;
     }
 
-    public function getLangYears(mixed $mainlang): array
+    public function getLangYears(string $mainlang): array
     {
         $key = (string)$mainlang;
         if (!empty(self::$langYearsCache[$key] ?? [])) {
@@ -161,7 +161,7 @@ class PagesTable extends BaseTable
         return self::$langYearsCache[$key];
     }
 
-    public function getUserYears(mixed $user): array
+    public function getUserYears(string $user): array
     {
         $key = (string)$user;
         if (!empty(self::$userYearsCache[$key] ?? [])) {
@@ -188,7 +188,7 @@ class PagesTable extends BaseTable
         return self::$userYearsCache[$key];
     }
 
-    public function getUserLangs(mixed $user): array
+    public function getUserLangs(string $user): array
     {
         $key = (string)$user;
         if (!empty(self::$userLangsCache[$key] ?? [])) {
@@ -212,7 +212,7 @@ class PagesTable extends BaseTable
         return self::$userLangsCache[$key];
     }
 
-    public function getUserCamps(mixed $user): array
+    public function getUserCamps(string $user): array
     {
         $key = (string)$user;
         if (!empty(self::$userCampsCache[$key] ?? [])) {
@@ -346,7 +346,7 @@ class PagesTable extends BaseTable
         return $data;
     }
 
-    public function getTotalTranslationsCount($lang, $cand): int
+    public function getTotalTranslationsCount(?string $lang, string $cand): int
     {
 
         $table = in_array($cand, ['pages', 'pages_users'], true) ? $cand : 'pages';
@@ -369,7 +369,7 @@ class PagesTable extends BaseTable
         return $result;
     }
 
-    public function getPagesUsersToMain($lang): array
+    public function getPagesUsersToMain(?string $lang): array
     {
         static $cache = [];
 

@@ -4,7 +4,7 @@ namespace App\Leaderboard\Helpers\Graph;
 
 class Graph
 {
-    public static function graph_html($keys, $values, $no_card = false)
+    public static function graph_html(string $keys, string $values, bool $no_card = false): string
     {
         $graph_id = 'chart_' . uniqid();
 
@@ -44,7 +44,7 @@ class Graph
         return $graph;
     }
 
-    public static function print_graph_for_table($table, $no_card = false)
+    public static function print_graph_for_table(array $table, bool $no_card = false): string
     {
         ksort($table);
 
@@ -61,7 +61,7 @@ class Graph
         return self::graph_html($ms, $cs, $no_card);
     }
 
-    public static function print_graph_from_sql($data)
+    public static function print_graph_from_sql(array $data): string
     {
         $ms = "";
         $cs = "";
@@ -79,7 +79,7 @@ class Graph
         return self::graph_html($ms, $cs);
     }
 
-    public static function print_graph_tab($data)
+    public static function print_graph_tab(array $data): string
     {
         $g = self::print_graph_from_sql($data);
         return <<<HTML

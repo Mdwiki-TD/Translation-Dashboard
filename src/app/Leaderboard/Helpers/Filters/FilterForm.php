@@ -6,7 +6,7 @@ use App\SQLorAPI\PagesTable;
 
 class FilterForm
 {
-    public static function DropdownNew($title, $tab, $cat, $id)
+    public static function DropdownNew(string $title, array $tab, string $cat, string $id): string
     {
         $options = "";
 
@@ -27,7 +27,7 @@ class FilterForm
         HTML;
     }
 
-    public static function make_filter_html($data, $filter_page)
+    public static function make_filter_html(array $data, string $filter_page): string
     {
 
         // $filter_data = ["user" => "", "lang" => $mainlang, "year" => $year_y];
@@ -87,7 +87,7 @@ class FilterForm
         HTML;
     }
 
-    public static function make_table1_html($table1)
+    public static function make_table1_html(array $table1): string
     {
 
         // $table1 = ['total_articles' => $total_articles, 'total_words' => $total_words, 'total_views' => $total_views];
@@ -104,7 +104,7 @@ class FilterForm
             HTML;
     }
 
-    public static function lead_row($table1, $graph, $main_title, $filter_data, $filter_page)
+    public static function lead_row(array $table1, string $graph, string $main_title, array $filter_data, string $filter_page): string
     {
         $table1_html = self::make_table1_html($table1);
         $filter_form = self::make_filter_html($filter_data, $filter_page);

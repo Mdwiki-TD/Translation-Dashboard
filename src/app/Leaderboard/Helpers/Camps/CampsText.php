@@ -6,7 +6,7 @@ use App\Leaderboard\Helpers\Camps\Camps;
 
 class CampsText
 {
-    public static function camps_list()
+    public static function camps_list(): void
     {
         $articles_to_camps = Camps::get_articles_to_camps();
 
@@ -55,7 +55,7 @@ class CampsText
         echo $table;
     }
 
-    public static function camps_list2()
+    public static function camps_list2(): string
     {
         $articles_to_camps = Camps::get_articles_to_camps();
 
@@ -122,7 +122,7 @@ class CampsText
         HTML;
     }
 
-    public static function campaigns_with_articles_table()
+    public static function campaigns_with_articles_table(): string
     {
         $articles_to_camps = Camps::get_articles_to_camps();
 
@@ -189,7 +189,7 @@ class CampsText
         return $table;
     }
 
-    public static function echo_html()
+    public static function echo_html(): void
     {
         echo self::camps_list2();
 

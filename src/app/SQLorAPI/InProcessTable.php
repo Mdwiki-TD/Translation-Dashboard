@@ -88,7 +88,7 @@ class InProcessTable extends BaseTable
         return self::$usersProcessCache;
     }
 
-    public function getLangInProcessByYear(mixed $code, string $yearY = "all"): array
+    public function getLangInProcessByYear(string $code, string $yearY = "all"): array
     {
         $codeStr = (string)$code;
         if (!empty(self::$langYearProcessCache[$codeStr][$yearY] ?? [])) {
@@ -120,7 +120,7 @@ class InProcessTable extends BaseTable
         return self::$langYearProcessCache[$codeStr][$yearY];
     }
 
-    public function getLangInProcess(mixed $code): array
+    public function getLangInProcess(string $code): array
     {
         $codeStr = (string)$code;
         if (!empty(self::$langProcessCache[$codeStr] ?? [])) {

@@ -4,7 +4,7 @@ namespace App\Leaderboard\Helpers\Graph;
 
 class GraphApi
 {
-    public static function graph_new_html($params, $no_card = false)
+    public static function graph_new_html(array $params, bool $no_card = false): string
     {
         $graph_id = 'chart_' . uniqid();
 
@@ -37,12 +37,12 @@ class GraphApi
         return "\n" . $graph . "\n";
     }
 
-    public static function print_graph_api($tab, $no_card = false)
+    public static function print_graph_api(array $tab, bool $no_card = false): string
     {
         return self::graph_new_html($tab, $no_card);
     }
 
-    public static function print_graph_tab_2_new()
+    public static function print_graph_tab_2_new(): string
     {
         $g = self::graph_new_html([]);
 

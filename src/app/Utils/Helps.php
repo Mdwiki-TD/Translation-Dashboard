@@ -4,7 +4,7 @@ namespace App\Utils;
 
 class Helps
 {
-    public static function sort_py_pageviews_rows($items, $en_views_tab)
+    public static function sort_py_pageviews_rows(array $items, array $en_views_tab): array
     {
         $dd = [];
         foreach ($items as $t) {
@@ -16,7 +16,7 @@ class Helps
         return $dd;
     }
 
-    public static function sort_py_importance($items, $Assessment_table)
+    public static function sort_py_importance(array $items, array $Assessment_table): array
     {
         $Assessment_fff = [
             'Top' => 1,
@@ -43,18 +43,18 @@ class Helps
     }
 
     public static function make_translate_urls(
-        $title,
-        $tra_type,
-        $words,
-        $langcode,
-        $cat,
-        $camp,
-        $inprocess,
-        $in_progress_translation_button,
-        $_user_,
-        $full_tr_user,
-        $login_user_is_the_translator,
-    ) {
+        string $title,
+        string $tra_type,
+        int|string $words,
+        string $langcode,
+        string $cat,
+        string $camp,
+        bool|int|string $inprocess,
+        bool|int|string $in_progress_translation_button,
+        string $_user_,
+        bool $full_tr_user,
+        bool $login_user_is_the_translator,
+    ): array {
 
         // if $inprocess and $tra_btn is 1 then show the translate button for
 
@@ -118,7 +118,7 @@ class Helps
         return [$buttons, $translate_url, $full_translate_url];
     }
 
-    public static function get_item_properties($title, $tra_type, $title_data)
+    public static function get_item_properties(string $title, string $tra_type, array $title_data): array
     {
 
         // inprocess_table = { "title": "Andes virus infection", "user": "Mr. Ibrahem", "lang": "ar", "cat": "RTT", "translate_type": "all", "word": 0, "add_date": "2026-05-21 00:00:00", "campaign": "Main", "autonym": "العربية" }

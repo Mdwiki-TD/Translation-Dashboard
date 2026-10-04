@@ -43,7 +43,7 @@ class CategoriesTable extends BaseTable
         return self::$categoriesCache;
     }
 
-    public function getCategoriesMembers(mixed $category): array
+    public function getCategoriesMembers(string $category): array
     {
         $apiParams = ['get' => 'category_members', 'cat' => $category];
         $query = "SELECT article_id FROM category_members where category = ?";
@@ -65,7 +65,7 @@ class CategoriesTable extends BaseTable
         return self::$campsToCatCache;
     }
 
-    public function countCategoryMembers(mixed $category): array
+    public function countCategoryMembers(?string $category): array
     {
         if ($category === null) {
             $category = "RTT";
@@ -92,7 +92,7 @@ class CategoriesTable extends BaseTable
         return self::$countMembersCache[$key];
     }
 
-    public function missingByLangAndCategory(mixed $langCode, mixed $category): array
+    public function missingByLangAndCategory(string $langCode, string $category): array
     {
         $apiParams = ['get' => 'missing_by_lang_and_category', 'category' => $category, 'lang' => $langCode];
 
@@ -130,7 +130,7 @@ class CategoriesTable extends BaseTable
         return $this->service->superFunction($apiParams, $params, $query);
     }
 
-    public function existsByLangAndCategory(mixed $langCode, mixed $category): array
+    public function existsByLangAndCategory(string $langCode, string $category): array
     {
         $apiParams = ['get' => 'exists_by_lang_and_category', 'category' => $category, 'lang' => $langCode];
 
@@ -169,7 +169,7 @@ class CategoriesTable extends BaseTable
         return $this->service->superFunction($apiParams, $params, $query);
     }
 
-    public function staticsByCategory(mixed $category): array
+    public function staticsByCategory(?string $category): array
     {
         if ($category === null) {
             $category = "RTT";

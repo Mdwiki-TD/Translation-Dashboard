@@ -17,8 +17,8 @@ use App\Tables\LangsTables;
 class AppRouter
 {
 	private CurrentUser $currentUser;
-    private $global_username;
-    private $user_is_coordinator;
+    private string $global_username;
+    private bool $user_is_coordinator;
 
     public function __construct(?CurrentUser $currentUser = null)
     {
@@ -31,11 +31,11 @@ class AppRouter
      * Parses and validates the incoming GET request.
      */
     private function loadRequest(
-        $campaigns_input_list,
-        $allow_whole_translate,
-        $camps_data,
-        $cats_data
-    ) {
+        array $campaigns_input_list,
+        string $allow_whole_translate,
+        array $camps_data,
+        array $cats_data
+    ): array {
         $errors = [];
 
         $doit = htmlspecialchars($_GET["doit"] ?? "", ENT_QUOTES, "UTF-8");
@@ -103,7 +103,7 @@ class AppRouter
     /**
      * Builds an <option> list from a simple name => code map.
      */
-    private function makeDrop($uxutable, $code)
+    private function makeDrop(array $uxutable, string $code): string
     {
         $options = "";
 
@@ -121,7 +121,7 @@ class AppRouter
     /**
      * Builds the language <option> list.
      */
-    private function printFormStart1($Lang_tables, $code)
+    private function printFormStart1(array $Lang_tables, string $code): string
     {
         $lang_list = '';
 
@@ -224,12 +224,12 @@ class AppRouter
      * Renders the search/filter form header block.
      */
     private function renderHeader(
-        $campaigns_input_list,
-        $allow_whole_translate,
-        $tra_type,
-        $camp,
-        $code,
-        $errors
+        array $campaigns_input_list,
+        string $allow_whole_translate,
+        string $tra_type,
+        string $camp,
+        string $code,
+        array $errors
     ): void {
         // Form
         $in_typ = '<input type="hidden" name="type" value="lead" />';
@@ -355,14 +355,14 @@ HTML;
      * Loads and renders the results section, when a campaign and language code are set.
      */
     private function renderResults(
-        $camp,
-        $code,
-        $camps_data,
-        $cat,
-        $tra_type,
-        $filter_sparql,
-        $code_lang_name,
-        $settings
+        string $camp,
+        string $code,
+        array $camps_data,
+        string $cat,
+        string $tra_type,
+        bool $filter_sparql,
+        string $code_lang_name,
+        array $settings
     ): void {
         echo "<div class='container-fluid'>";
 

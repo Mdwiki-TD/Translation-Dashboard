@@ -11,11 +11,11 @@ use App\Tables\LangsTables;
 class LangsLeaderboard
 {
     public function render(
-        $mainlang,
-        $year_y,
-        $camp,
-        $lead_words_table,
-        $cats_data,
+        string $mainlang,
+        int|string $year_y,
+        string $camp,
+        array $lead_words_table,
+        array $cats_data,
     ): string {
         $output = '';
 

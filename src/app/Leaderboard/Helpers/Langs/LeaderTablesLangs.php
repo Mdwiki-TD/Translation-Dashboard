@@ -4,7 +4,7 @@ namespace App\Leaderboard\Helpers\Langs;
 
 class LeaderTablesLangs
 {
-    public static function createNumbersTable($c_user, $c_articles, $c_words, $c_langs, $c_views)
+    public static function createNumbersTable(int|string $c_user, int|string $c_articles, int|string $c_words, int|string $c_langs, int|string $c_views): string
     {
         return <<<HTML
         <table class='table compact table-striped'>
@@ -26,10 +26,10 @@ class LeaderTablesLangs
     }
 
     public static function makeLangTable(
-        $lang_table,
-        $langs_data,
-        $addcat
-    ) {
+        array $lang_table,
+        array $langs_data,
+        bool $addcat
+    ): string {
         uasort($lang_table, function ($a, $b) {
             return $b["count"] <=> $a["count"];
         });

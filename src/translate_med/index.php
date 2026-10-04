@@ -9,7 +9,7 @@ use App\SQLorAPI\UsersTable;
 use App\SQLorAPI\CategoriesTable;
 use App\Utils\TrLink;
 
-function insertPageInprocess($title, $word, $tr_type, $cat, $lang, $user): bool
+function insertPageInprocess(string $title, int $word, string $tr_type, string $cat, string $lang, string $user): bool
 {
 
     $quae_new = <<<SQL
@@ -32,7 +32,7 @@ function insertPageInprocess($title, $word, $tr_type, $cat, $lang, $user): bool
     return $db->executeQuery($quae_new, $params);
 }
 
-function go_to_translate_url($title_o, $coden, $tr_type, $cat, $camp)
+function go_to_translate_url(string $title_o, string $coden, string $tr_type, string $cat, string $camp): void
 {
 
     $url = TrLink::makeContentTranslationUrl(
@@ -103,9 +103,9 @@ if (!empty($title_o) && !empty($coden)) {
 
     $tr_type = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? filter_input(INPUT_GET, 'tr_type', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'lead';
 
-    $word = filter_input(INPUT_GET, 'word', FILTER_VALIDATE_INT, [
+    $word = (int)(filter_input(INPUT_GET, 'word', FILTER_VALIDATE_INT, [
         'options' => ['default' => 0, 'min_range' => 0]
-    ]);
+    ]) ?? 0);
 
     if (empty($camp) && !empty($cat)) {
         $camp = $cats_data[$cat] ?? "";

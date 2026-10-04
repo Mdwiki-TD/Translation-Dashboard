@@ -107,7 +107,7 @@ class Html
         HTML;
     }
 
-    public static function makeCol($title, $table, $table2)
+    public static function makeCol(string $title, string $table, string $table2): string
     {
         return <<<HTML
             <div class="col-lg-3 col-md-12 col-sm-12">

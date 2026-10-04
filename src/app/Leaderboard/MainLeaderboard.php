@@ -13,13 +13,13 @@ use App\Leaderboard\Helpers\Filters\LeaderFilter;
 class MainLeaderboard
 {
     public function printCatTable(
-        $year,
-        $user_group,
-        $camp,
-        $cat,
-        $langs_data,
-        $addcat,
-        $month
+        int|string $year,
+        ?string $user_group,
+        string $camp,
+        string $cat,
+        array $langs_data,
+        bool $addcat,
+        int|string|null $month
     ): string {
         $users = (LeaderboardTable::getInstance())->getTopUsers($year, $user_group, $cat, $month);
 
@@ -74,7 +74,7 @@ class MainLeaderboard
         HTML;
     }
 
-    public function render($year, $camp, $user_group, $langs_data, $addcat, $month): string
+    public function render(int|string $year, string $camp, ?string $user_group, array $langs_data, bool $addcat, int|string|null $month): string
     {
         $s_camp_to_cat = (CategoriesTable::getInstance())->getCampsToCat();
 
