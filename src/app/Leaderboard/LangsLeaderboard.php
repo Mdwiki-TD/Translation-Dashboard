@@ -6,7 +6,7 @@ use App\Leaderboard\Helpers\Filters\LeadHelp;
 use App\Leaderboard\Helpers\Langs\LangsSub;
 use App\Leaderboard\Helpers\Graph\LangUserGraph;
 use App\Leaderboard\Helpers\Filters\FilterForm;
-use App\Langs\LangsTables;
+use App\Tables\LangsTables;
 
 class LangsLeaderboard
 {

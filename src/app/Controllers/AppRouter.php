@@ -8,7 +8,7 @@ use App\Results27\ResultsLoader;
 use App\SQLorAPI\CategoriesTable;
 use App\SQLorAPI\SettingsTable;
 use App\SQLorAPI\TitlesTable;
-use App\Langs\LangsTables;
+use App\Tables\LangsTables;
 
 /**
  * Class AppRouter
