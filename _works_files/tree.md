@@ -79,9 +79,9 @@ src/
 │   │   ├── SessionManager.php
 │   │   └── UserCookieService.php
 │   ├── Utils/
-│   │   ├── helps.php
-│   │   ├── html.php
-│   │   ├── htmlUrls.php
+│   │   ├── Helps.php
+│   │   ├── Html.php
+│   │   ├── HtmlUrls.php
 │   │   └── TrLink.php
 │   ├── autoload.php
 │   ├── bootstrap.php
