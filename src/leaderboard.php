@@ -2,7 +2,7 @@
 // src/leaderboard.php
 
 use App\Layout\PageRunner;
-use App\Leaderboard\LeaderboardController;
+use App\Controllers\LeaderboardController;
 
 require_once __DIR__ . '/bootstrap.php';
 

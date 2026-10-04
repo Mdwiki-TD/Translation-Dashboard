@@ -1,14 +1,14 @@
 <?php
 // src/app/AppRouter.php
 
-namespace App;
+namespace App\Controllers;
 
 use App\User\CurrentUser;
 use App\Results27\ResultsLoader;
 use App\SQLorAPI\CategoriesTable;
 use App\SQLorAPI\SettingsTable;
 use App\SQLorAPI\TitlesTable;
-use App\Tables\Langs\LangsTables;
+use App\Langs\LangsTables;
 
 /**
  * Class AppRouter
@@ -113,7 +113,7 @@ class AppRouter
             $options .= <<<HTML
 		    <option value='$cod' $cdcdc>$name</option>
 		HTML;
-        };
+        }
 
         return $options;
     }
@@ -136,7 +136,7 @@ class AppRouter
             $lang_list .= <<<HTML
             <option data-tokens='$lang_code' value='$lang_code' $selected>$lang_title</option>
         HTML;
-        };
+        }
         return $lang_list;
     }
 
@@ -171,8 +171,8 @@ class AppRouter
                 $is_default = $tab['is_default'];
                 if ($is_default == 1 || $is_default == '1') $main_cat = $tab['category'];
                 if ($is_default == 1 || $is_default == '1') $main_camp = $tab['campaign'];
-            };
-        };
+            }
+        }
 
         // =======================
         // Load Request
@@ -242,7 +242,7 @@ class AppRouter
             if ($tra_type == 'all') {
                 $lead_checked = "";
                 $all_checked = "checked";
-            };
+            }
 
             $in_typ = <<<HTML
         <div class='col-10'>
@@ -261,7 +261,7 @@ class AppRouter
             </div>
         </div>
     HTML;
-        };
+        }
 
         $camp_ch = htmlspecialchars($camp, ENT_QUOTES);
         $camp_input = $this->makeDrop($campaigns_input_list, $camp_ch);
