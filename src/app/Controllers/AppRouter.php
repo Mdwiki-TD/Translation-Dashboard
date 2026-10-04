@@ -1,7 +1,7 @@
 <?php
 // src/app/AppRouter.php
 
-namespace App;
+namespace App\Controllers;
 
 use App\User\CurrentUser;
 use App\Results27\ResultsLoader;
