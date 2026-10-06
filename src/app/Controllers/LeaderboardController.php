@@ -32,8 +32,7 @@ class LeaderboardController
         $langcode = filter_input(INPUT_GET, 'langcode', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
         $mainlang = filter_input(INPUT_GET, 'lang', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'All';
 
-        $user_to_html = filter_input(INPUT_GET, 'user', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
-        $user_to_curl = filter_input(INPUT_GET, 'user', FILTER_UNSAFE_RAW) ?? '';
+        $username = filter_input(INPUT_GET, 'user', FILTER_UNSAFE_RAW) ?? '';
 
         $year_y   = filter_input(INPUT_GET, 'year', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'All';
         $month_y  = filter_input(INPUT_GET, 'month', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
@@ -45,14 +44,15 @@ class LeaderboardController
         $lead_words_table = array_column($_titles_infos, 'w_lead_words', 'title');
         $cats_data = array_column($categories_tab, "campaign", "category");
 
-        if ($get == 'users' || !empty($user_to_curl)) {
+        if ($get == 'users' || !empty($username)) {
 
-            echo (new UsersLeaderboard())->render(
+            // Pass the username to the constructor
+            $usersLeaderboard = new UsersLeaderboard($username);
+
+            echo $usersLeaderboard->render(
                 $mainlang,
                 $year_y,
                 $camp,
-                $user_to_curl,
-                $user_to_html,
                 $global_username,
                 $lead_words_table,
                 $cats_data
@@ -67,16 +67,16 @@ class LeaderboardController
                 $cats_data
             );
         } elseif (!empty($_GET['camps'] ?? '')) {
-            // http://localhost:9001/Translation_Dashboard/leaderboard.php?camps=1
+            // Example endpoint: http://localhost:9001/Translation_Dashboard/leaderboard.php?camps=1
 
             CampsText::echo_html();
         } elseif (!empty($_GET['graph'] ?? '')) {
-            // http://localhost:9001/Translation_Dashboard/leaderboard.php?graph=1
+            // Example endpoint: http://localhost:9001/Translation_Dashboard/leaderboard.php?graph=1
 
             $data = (ViewsTable::getInstance())->getGraphData();
             echo Graph::print_graph_tab($data);
         } elseif (!empty($_GET['graph_api'] ?? '')) {
-            // http://localhost:9001/Translation_Dashboard/leaderboard.php?graph_api=1
+            // Example endpoint: http://localhost:9001/Translation_Dashboard/leaderboard.php?graph_api=1
 
             echo GraphApi::print_graph_tab_2_new();
         } else {
