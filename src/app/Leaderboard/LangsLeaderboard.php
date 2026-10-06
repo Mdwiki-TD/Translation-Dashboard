@@ -31,7 +31,7 @@ class LangsLeaderboard
         $langname = LangsTables::get_lang_name($this->langcode) ?? $this->langcode;
 
         // Fetch language specific data tables
-        $u_tables = (new LangsSub())->getTables($this->langcode, $year_y);
+        $u_tables = (new LangsSub($this->langcode, $year_y))->getTables();
 
         $dd = $u_tables['dd'];
         $dd_Pending = $u_tables['dd_Pending'];

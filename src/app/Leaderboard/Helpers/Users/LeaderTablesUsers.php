@@ -27,15 +27,17 @@ class LeaderTablesUsers
         return $modal;
     }
 
-    public static function makeUsersTable(array $users, int $min = 2): string
-    {
+    public static function makeUsersTable(
+        array $users,
+        int $min = 2
+    ): string {
         // sort new_data by [lang][count]
-        uasort($users, function ($a, $b) {
+        uasort($users, function ($a, $b): int {
             return $b["count"] <=> $a["count"];
         });
 
         $numb = 0;
-        $trs = "";
+        $text = "";
 
         foreach ($users as $user => $tab) {
             // if ($usercount < $min && $numb > 15) continue;
@@ -57,7 +59,7 @@ class LeaderTablesUsers
             $use = rawurlencode($user);
             $use = str_replace('+', '_', $use);
 
-            $trs .= <<<HTML
+            $text .= <<<HTML
                 <tr>
                     <td>$numb</td>
                     <td><a href='leaderboard.php?get=users&user=$use'>$user</a></td>
@@ -80,10 +82,8 @@ class LeaderTablesUsers
                     </tr>
                 </thead>
                 <tbody>
-                    $trs
+                    {$text}
                 </tbody>
-                <tfoot>
-                </tfoot>
             </table>
         HTML;
     }

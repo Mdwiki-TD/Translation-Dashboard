@@ -8,6 +8,22 @@ use App\Leaderboard\Helpers\Filters\LeadHelp;
 
 class UsersSub
 {
+    private string $langcode;
+    private string $username;
+    private string|int $year;
+
+    public function __construct(
+        string $username,
+        int|string $year,
+        string $langcode
+    ) {
+        // Sanitize and format the language code input
+        $this->langcode = rawurldecode(str_replace("_", " ", $langcode));
+
+        $this->username = rawurldecode(str_replace("_", " ", $username));
+        $this->year = $year;
+    }
+
     private function add_inp(array $dd_Pending, array $to_add): array
     {
 
@@ -22,14 +38,15 @@ class UsersSub
         return $dd_Pending;
     }
 
-    private function pages_tables(string $user_main, int|string $year_y, string $lang_y): array
+    private function pages_tables(): array
     {
         $dd = [];
         $dd_Pending = [];
 
-        $sql_result = (PagesTable::getInstance())->getUserPages($user_main, $year_y, $lang_y);
+        $sql_result = (PagesTable::getInstance())->getUserPages($this->username, $this->year, $this->langcode);
 
         foreach ($sql_result as $yhu => $tabb) {
+
             $kry = LeadHelp::make_key($tabb);
 
             if (!empty($tabb['target'] ?? '')) {
@@ -42,7 +59,7 @@ class UsersSub
         return ['dd' => $dd, 'dd_Pending' => $dd_Pending];
     }
 
-    public function getTables(string $mainuser, int|string $year_y, string $lang_y): array
+    public function getTables(): array
     {
         $result = [
             'dd' => [],
@@ -50,27 +67,23 @@ class UsersSub
             'table_of_views' => []
         ];
 
-        if (empty($mainuser)) {
+        if (empty($this->username)) {
             return $result;
         }
 
-        $user_main = $mainuser;
-        $user_main = rawurldecode(str_replace("_", " ", $user_main));
-
-        $p_tables = $this->pages_tables($user_main, $year_y, $lang_y);
+        $p_tables = $this->pages_tables();
 
         $dd = $p_tables['dd'];
         $dd_Pending = $p_tables['dd_Pending'];
 
-        $to_add = (InProcessTable::getInstance())->getUserProcessNew($user_main, (string)$year_y);
+        $to_add = (InProcessTable::getInstance())->getUserProcessNew($this->username, (string)$this->year);
 
         $dd_Pending = $this->add_inp($dd_Pending, $to_add);
 
         krsort($dd);
-
         krsort($dd_Pending);
 
-        $table_of_views = [];
+        $table_of_views = []; //get_user_views($this->username, $this->year);
 
         $result['dd'] = $dd;
         $result['dd_Pending'] = $dd_Pending;

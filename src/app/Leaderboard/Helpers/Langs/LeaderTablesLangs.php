@@ -4,8 +4,13 @@ namespace App\Leaderboard\Helpers\Langs;
 
 class LeaderTablesLangs
 {
-    public static function createNumbersTable(int|string $c_user, int|string $c_articles, int|string $c_words, int|string $c_langs, int|string $c_views): string
-    {
+    public static function createNumbersTable(
+        int|string $c_user,
+        int|string $c_articles,
+        int|string $c_words,
+        int|string $c_langs,
+        int|string $c_views
+    ): string {
         return <<<HTML
         <table class='table compact table-striped'>
             <thead>
@@ -30,27 +35,13 @@ class LeaderTablesLangs
         array $langs_data,
         bool $addcat
     ): string {
-        uasort($lang_table, function ($a, $b) {
+        uasort($lang_table, function ($a, $b): int {
             return $b["count"] <=> $a["count"];
         });
 
-        $cac = ($addcat == true) ? '<th>cat</th>' : '';
-
-        $text = <<<HTML
-        <table class='table compact table-striped sortable table_text_left leaderboard_tables' style='margin-top: 0px !important;margin-bottom: 0px !important'>
-        <thead>
-            <tr>
-                <th>#</th>
-                <th class='spannowrap'>Language</th>
-                <th>Count</th>
-                <th>Pageviews</th>
-                $cac
-            </tr>
-        </thead>
-        <tbody>
-        HTML;
-
         $numb = 0;
+        $text = "";
+        $cac = ($addcat == true) ? '<th>cat</th>' : '';
 
         foreach ($lang_table as $langcode => $tab) {
             $comp = $tab['count'];
@@ -79,11 +70,21 @@ class LeaderTablesLangs
             HTML;
         }
 
-        $text .= <<<HTML
-            </tbody>
+        return <<<HTML
+            <table class='table compact table-striped sortable table_text_left leaderboard_tables' style='margin-top: 0px !important;margin-bottom: 0px !important'>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th class='spannowrap'>Language</th>
+                        <th>Count</th>
+                        <th>Pageviews</th>
+                        $cac
+                    </tr>
+                </thead>
+                <tbody>
+                    {$text}
+                </tbody>
             </table>
         HTML;
-
-        return $text;
     }
 }

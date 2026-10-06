@@ -41,7 +41,7 @@ class UsersLeaderboard
         $user_langs = $user_most_langs[0]['lang'] ?? "";
 
         // Fetch user specific tables
-        $u_tables = (new UsersSub())->getTables($this->username, $year_y, $this->langcode);
+        $u_tables = (new UsersSub($this->username, $year_y, $this->langcode))->getTables();
 
         $dd = $u_tables['dd'];
         $dd_Pending = $u_tables['dd_Pending'];
