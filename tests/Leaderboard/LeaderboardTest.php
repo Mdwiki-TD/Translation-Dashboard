@@ -27,13 +27,11 @@ class LeaderboardTest extends TestCase
 
     public function testUsersLeaderboardRender(): void
     {
-        $usersLeaderboard = new UsersLeaderboard();
+        $usersLeaderboard = new UsersLeaderboard('TestUser');
         $html = $usersLeaderboard->render(
             'en',
             '2024',
             'all',
-            'TestUser',
-            'TestUser',
             'TestUser',
             [],
             []
@@ -46,11 +44,10 @@ class LeaderboardTest extends TestCase
 
     public function testLangsLeaderboardRender(): void
     {
-        $langsLeaderboard = new LangsLeaderboard();
+        $langsLeaderboard = new LangsLeaderboard('all');
         $html = $langsLeaderboard->render(
             'en',
             '2024',
-            'all',
             [],
             []
         );

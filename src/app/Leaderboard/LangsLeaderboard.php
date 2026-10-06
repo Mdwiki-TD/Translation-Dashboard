@@ -11,20 +11,27 @@ use App\Leaderboard\Helpers\Filters\FilterForm;
 
 class LangsLeaderboard
 {
+    private string $langcode;
+
+    public function __construct(string $langcode)
+    {
+        // Sanitize and format the language code input
+        $this->langcode = rawurldecode(str_replace("_", " ", $langcode));
+    }
+
     public function render(
-        string $mainlang,
         int|string $year_y,
         string $camp,
         array $lead_words_table,
-        array $cats_data,
+        array $cats_data
     ): string {
         $output = '';
 
-        $mainlang = rawurldecode(str_replace("_", " ", $mainlang));
+        // Fetch display language name or fallback to code
+        $langname = LangsTables::get_lang_name($this->langcode) ?? $this->langcode;
 
-        $langname = LangsTables::get_lang_name($mainlang) ?? $mainlang;
-
-        $u_tables = LangsSub::get_langs_tables($mainlang, $year_y);
+        // Fetch language specific data tables
+        $u_tables = LangsSub::get_langs_tables($this->langcode, $year_y);
 
         $dd = $u_tables['dd'];
         $dd_Pending = $u_tables['dd_Pending'];
@@ -34,19 +41,29 @@ class LangsLeaderboard
             $dd,
             'translations',
             $table_of_views,
-            $mainlang,
+            $this->langcode,
             $lead_words_table,
-            $cats_data,
+            $cats_data
         );
 
+        $filter_data = [
+            "user" => "",
+            "lang" => $this->langcode,
+            "year" => $year_y,
+            "camp" => $camp
+        ];
 
-        $filter_data = ["user" => "", "lang" => $mainlang, "year" => $year_y, "camp" => $camp];
-
-        $graphData = (ViewsTable::getInstance())->getGraphData($mainlang, null, $year_y);
-
+        // Fetch graph data for the specific language
+        $graphData = (ViewsTable::getInstance())->getGraphData($this->langcode, null, $year_y);
         $graph = LangUserGraph::graphData($graphData);
 
-        $output .= FilterForm::lead_row($table1, $graph, "<h4 class='text-center'>Language: $langname ($mainlang)</h4>", $filter_data, "lang");
+        $output .= FilterForm::lead_row(
+            $table1,
+            $graph,
+            "<h4 class='text-center'>Language: $langname ({$this->langcode})</h4>",
+            $filter_data,
+            "lang"
+        );
 
         $output .= <<<HTML
             <div class='card mt-1'>
@@ -60,9 +77,9 @@ class LangsLeaderboard
             $dd_Pending,
             'pending',
             $table_of_views,
-            $mainlang,
+            $this->langcode,
             $lead_words_table,
-            $cats_data,
+            $cats_data
         );
 
         $output .= <<<HTML

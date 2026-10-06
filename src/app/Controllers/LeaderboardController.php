@@ -58,9 +58,10 @@ class LeaderboardController
                 $cats_data
             );
         } elseif ($get == 'langs' || !empty($langcode)) {
+            // Pass the language code directly to the constructor
+            $langsLeaderboard = new LangsLeaderboard($langcode);
 
-            echo (new LangsLeaderboard())->render(
-                $langcode,
+            echo $langsLeaderboard->render(
                 $year_y,
                 $camp,
                 $lead_words_table,
@@ -91,7 +92,14 @@ class LeaderboardController
             $addcat = !$settings->isProduction() && (isset($_GET['nocat']));
 
             $controller = new MainLeaderboard();
-            echo $controller->render($year_y, $camp, $user_group, $langs_data, $addcat, $month_y);
+            echo $controller->render(
+                $year_y,
+                $camp,
+                $user_group,
+                $langs_data,
+                $addcat,
+                $month_y
+            );
         }
     }
 }
