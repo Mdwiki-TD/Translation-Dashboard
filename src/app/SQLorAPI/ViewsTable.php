@@ -9,7 +9,6 @@ class ViewsTable extends BaseTable
     private static array $viewsCache = [];
     private static array $userViewsCache = [];
     private static array $langViewsCache = [];
-    private static array $graphDataCache = [];
 
 
     private static ?self $instance = null;
@@ -26,7 +25,6 @@ class ViewsTable extends BaseTable
         self::$viewsCache = [];
         self::$userViewsCache = [];
         self::$langViewsCache = [];
-        self::$graphDataCache = [];
     }
 
     public function getViews(int|string $year, string $lang): array
@@ -159,24 +157,44 @@ class ViewsTable extends BaseTable
         return $tableOfViews;
     }
 
-    public function getGraphData(): array
+    public function getGraphData(?string $lang = null, ?string $user = null, ?string $year = null): array
     {
-        if (!empty(self::$graphDataCache)) {
-            return self::$graphDataCache;
+        $apiParams = ['get' => 'graph_data'];
+        $sqlParams = [];
+        $query = "SELECT LEFT(p.pupdate, 7) as date, COUNT(*) as count
+            FROM pages p
+            WHERE p.target != ''
+        ";
+
+        if ($this->service->isValid($lang)) {
+            $query .= " AND p.lang = ? ";
+
+            $apiParams['lang'] = $lang;
+            $sqlParams[] = $lang;
+        }
+        if ($this->service->isValid($user)) {
+            $query .= " AND p.user = ? ";
+
+            $apiParams['user'] = $user;
+            $sqlParams[] = $user;
+        }
+        if ($this->service->isValid($year)) {
+            $query .= " YEAR(p.pupdate) = ? ";
+            $apiParams['year'] = $year;
+            $sqlParams[] = $year;
         }
 
-        $apiParams = ['get' => 'graph_data'];
-        $query = <<<SQL
-            SELECT LEFT(pupdate, 7) as m, COUNT(*) as c
-            FROM pages
-            WHERE target != ''
-            GROUP BY LEFT(pupdate, 7)
-            ORDER BY LEFT(pupdate, 7) ASC;
+        $query .= <<<SQL
+            GROUP BY LEFT(p.pupdate, 7)
+            ORDER BY LEFT(p.pupdate, 7) ASC
         SQL;
 
-        $uData = $this->service->superFunction($apiParams, [], $query);
-        self::$graphDataCache = $uData;
+        $uData = $this->service->superFunction($apiParams, $sqlParams, $query);
 
-        return self::$graphDataCache;
+        $result = [
+            'labels' => array_column($uData, 'date'),
+            'counts' => array_column($uData, 'count'),
+        ];
+        return $result;
     }
 }

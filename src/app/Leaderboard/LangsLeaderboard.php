@@ -2,11 +2,12 @@
 
 namespace App\Leaderboard;
 
+use App\Tables\LangsTables;
+use App\SQLorAPI\ViewsTable;
 use App\Leaderboard\Helpers\Filters\LeadHelp;
 use App\Leaderboard\Helpers\Langs\LangsSub;
 use App\Leaderboard\Helpers\Graph\LangUserGraph;
 use App\Leaderboard\Helpers\Filters\FilterForm;
-use App\Tables\LangsTables;
 
 class LangsLeaderboard
 {
@@ -38,9 +39,12 @@ class LangsLeaderboard
             $cats_data,
         );
 
-        $graph = LangUserGraph::graph_data_new($dd);
 
         $filter_data = ["user" => "", "lang" => $mainlang, "year" => $year_y, "camp" => $camp];
+
+        $graphData = (ViewsTable::getInstance())->getGraphData($mainlang, null, $year_y);
+
+        $graph = LangUserGraph::graphData($graphData);
 
         $output .= FilterForm::lead_row($table1, $graph, "<h4 class='text-center'>Language: $langname ($mainlang)</h4>", $filter_data, "lang");
 

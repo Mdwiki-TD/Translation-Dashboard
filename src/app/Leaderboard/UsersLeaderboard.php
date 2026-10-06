@@ -3,6 +3,7 @@
 namespace App\Leaderboard;
 
 use App\SQLorAPI\LeaderboardTable;
+use App\SQLorAPI\ViewsTable;
 use App\Utils\HtmlUrls;
 use App\Leaderboard\Helpers\Filters\LeadHelp;
 use App\Leaderboard\Helpers\Filters\FilterForm;
@@ -11,6 +12,10 @@ use App\Leaderboard\Helpers\Graph\LangUserGraph;
 
 class UsersLeaderboard
 {
+    public string $username;
+    public function __construct(string $username) {
+        $this->username = $username;
+    }
     public function render(
         string $mainlang,
         int|string $year_y,
@@ -47,9 +52,9 @@ class UsersLeaderboard
             $cats_data
         );
 
-        $user_link = ($user_langs) ? HtmlUrls::make_wikipedia_url_blank("User:$user_to_curl", $user_langs, $user_to_html) : HtmlUrls::make_mdwiki_user_url($user_to_html);
-
-        $filter_data = ["user" => $user_to_curl, "lang" => $mainlang, "year" => $year_y, "camp" => $camp];
+        $user_link = ($user_langs)
+            ? HtmlUrls::make_wikipedia_url_blank("User:$user_to_curl", $user_langs, $user_to_html)
+            : HtmlUrls::make_mdwiki_user_url($user_to_html);
 
         $xtools = <<<HTML
             <!-- <div class="d-flex align-items-center justify-content-between"> -->
@@ -68,7 +73,11 @@ class UsersLeaderboard
             </span>
         HTML;
 
-        $graph = LangUserGraph::graph_data_new($dd);
+        $filter_data = ["user" => $user_to_curl, "lang" => $mainlang, "year" => $year_y, "camp" => $camp];
+
+        $graphData = (ViewsTable::getInstance())->getGraphData($mainlang, $user_to_curl, $year_y);
+
+        $graph = LangUserGraph::graphData($graphData);
 
         $output .= FilterForm::lead_row($table1, $graph, $user_div, $filter_data, "user");
 

@@ -99,7 +99,7 @@ class FilterForm
             <div class="text-muted">
                 Articles: <strong>$total_articles</strong> &nbsp;
                 Words: <strong>$total_words</strong> &nbsp;
-                Pageviews: <strong><span id="hrefjsontoadd">$total_views</span></strong>
+                Pageviews: <strong><span id="hrefjsontoaddzz">$total_views</span></strong>
             </div>
             HTML;
     }

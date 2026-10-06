@@ -59,7 +59,7 @@ class LeaderFilter
         return self::input_group('Year', $y3);
     }
 
-    public static function make_month_dropdown(int|string|null $month, array $graph_data): string
+    public static function make_month_dropdown(int|string|null $month, array $months): string
     {
 
         // array ( '2024-01' => 92, '2024-02' => 222, '2024-03' => 231, '2024-04' => 160, '2024-05' => 214, '2024-06' => 146, '2024-07' => 145, '2024-08' => 73, '2024-09' => 503, '2024-10' => 359, '2024-11' => 207, '2024-12' => 204, )
@@ -71,7 +71,7 @@ class LeaderFilter
                 'm',
                 strtotime($item)
             ),
-            array_keys($graph_data)
+            $months
         ));
 
         // sort $m_months from biggest to smallest
@@ -101,9 +101,11 @@ class LeaderFilter
         $monthDropdown = "";
 
         if ((string)$year !== 'all') {
-            $graph_data = (LeaderboardTable::getInstance())->getStatus($year, $user_group, $cat);
 
-            $monthDropdown = self::make_month_dropdown($month, $graph_data);
+            $graph_data = (LeaderboardTable::getInstance())->getStatus($year, $user_group, $cat);
+            $months = array_keys($graph_data);
+
+            $monthDropdown = self::make_month_dropdown($month, $months);
         }
 
         return <<<HTML
