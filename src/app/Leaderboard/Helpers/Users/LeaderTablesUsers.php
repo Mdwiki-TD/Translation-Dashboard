@@ -6,32 +6,11 @@ use App\Utils\Html;
 
 class LeaderTablesUsers
 {
-    public static function module_copy_data(array $users_tab): string
-    {
-        $lal = "<textarea cols='55' rows='10' id='users_targets' name='users_targets'>";
-
-        foreach ($users_tab as $tab) {
-            // get first item in $langs
-            $user = $tab['user'];
-            $lang = $tab['lang'];
-
-            if (empty($lang) || empty($user)) continue;
-
-            $lal .= "#{{#target:User:$user|$lang.wikipedia.org}}\n";
-        }
-
-        $lal .= '</textarea>';
-
-        $modal = Html::make_modal_fade('', $lal, 'targets', '<a class="btn btn-outline-primary" onclick="copy_target_text(\'users_targets\')">Copy</a>');
-
-        return $modal;
-    }
-
     public static function makeUsersTable(
         array $users,
         int $min = 2
     ): string {
-        // sort new_data by [lang][count]
+        // sort data by [item][count]
         uasort($users, function ($a, $b): int {
             return $b["count"] <=> $a["count"];
         });
@@ -86,5 +65,25 @@ class LeaderTablesUsers
                 </tbody>
             </table>
         HTML;
+    }
+    public static function module_copy_data(array $users_tab): string
+    {
+        $lal = "<textarea cols='55' rows='10' id='users_targets' name='users_targets'>";
+
+        foreach ($users_tab as $tab) {
+            // get first item in $langs
+            $user = $tab['user'];
+            $lang = $tab['lang'];
+
+            if (empty($lang) || empty($user)) continue;
+
+            $lal .= "#{{#target:User:$user|$lang.wikipedia.org}}\n";
+        }
+
+        $lal .= '</textarea>';
+
+        $modal = Html::make_modal_fade('', $lal, 'targets', '<a class="btn btn-outline-primary" onclick="copy_target_text(\'users_targets\')">Copy</a>');
+
+        return $modal;
     }
 }

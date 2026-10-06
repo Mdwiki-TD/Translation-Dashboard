@@ -29,6 +29,31 @@ class MainLeaderboard
         $this->month = $month;
     }
 
+    public static function createNumbersTable(
+        int|string $c_user,
+        int|string $c_articles,
+        int|string $c_words,
+        int|string $c_langs,
+        int|string $c_views
+    ): string {
+        return <<<HTML
+        <table class='table compact table-striped'>
+            <thead>
+                <tr>
+                    <th class="spannowrap">Type</th>
+                    <th>Number</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><b>Users</b></td><td>$c_user</td></tr>
+                <tr><td><b>Articles</b></td><td>$c_articles</td></tr>
+                <tr><td><b>Words</b></td><td>$c_words</td></tr>
+                <tr><td><b>Languages</b></td><td>$c_langs</td></tr>
+                <tr><td><b>Pageviews</b></td><td>$c_views</td></tr>
+            </tbody>
+        </table>
+        HTML;
+    }
     public function printCatTable(
         string $cat,
         array $langs_data,
@@ -44,7 +69,7 @@ class MainLeaderboard
         $all_Words = number_format(array_sum(array_column($users, 'words')));
         $all_views = number_format(array_sum(array_column($users, 'views')));
 
-        $numbersTable = LeaderTablesLangs::createNumbersTable(
+        $numbersTable = self::createNumbersTable(
             count($users),
             $articles_all,
             $all_Words,
@@ -71,7 +96,13 @@ class MainLeaderboard
 
         $usersCol = Html::makeColSm4('Top users by number of translation', $usersTable, 5, $copy_module, $modal_a);
 
-        $languagesTable = LeaderTablesLangs::makeLangTable($lang_table, $langs_data, $addcat);
+        // Update lang_name in $lang_table
+        foreach ($lang_table as $langcode => $tab) {
+            $langname = $tab['lang_name'] ?? $langs_data[$langcode]['name'];
+            $lang_table[$langcode]['lang_name'] = $langname;
+        }
+
+        $languagesTable = LeaderTablesLangs::makeLangTable($lang_table, $addcat);
         $languagesCol = Html::makeColSm4('Top languages by number of Articles', $languagesTable, 4);
 
         return <<<HTML

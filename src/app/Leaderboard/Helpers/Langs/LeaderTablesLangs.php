@@ -4,37 +4,11 @@ namespace App\Leaderboard\Helpers\Langs;
 
 class LeaderTablesLangs
 {
-    public static function createNumbersTable(
-        int|string $c_user,
-        int|string $c_articles,
-        int|string $c_words,
-        int|string $c_langs,
-        int|string $c_views
-    ): string {
-        return <<<HTML
-        <table class='table compact table-striped'>
-            <thead>
-                <tr>
-                    <th class="spannowrap">Type</th>
-                    <th>Number</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr><td><b>Users</b></td><td>$c_user</td></tr>
-                <tr><td><b>Articles</b></td><td>$c_articles</td></tr>
-                <tr><td><b>Words</b></td><td>$c_words</td></tr>
-                <tr><td><b>Languages</b></td><td>$c_langs</td></tr>
-                <tr><td><b>Pageviews</b></td><td>$c_views</td></tr>
-            </tbody>
-        </table>
-        HTML;
-    }
-
     public static function makeLangTable(
         array $lang_table,
-        array $langs_data,
         bool $addcat
     ): string {
+        // sort data by [item][count]
         uasort($lang_table, function ($a, $b): int {
             return $b["count"] <=> $a["count"];
         });
@@ -46,7 +20,7 @@ class LeaderTablesLangs
         foreach ($lang_table as $langcode => $tab) {
             $comp = $tab['count'];
             $views = $tab['views'];
-            $langname = $tab['lang_name'] ?? $langs_data[$langcode]['name'] ?? $langcode;
+            $langname = $tab['lang_name'] ?? $langcode;
 
             if ($comp < 1) continue;
             $comp = number_format($comp);
