@@ -6,19 +6,24 @@ use App\Utils\Html;
 
 class LeaderTablesUsers
 {
-    public static function makeUsersTable(
-        array $users,
-        int $min = 2
-    ): string {
+    private array $data;
+
+    public function __construct(array $data)
+    {
         // sort data by [item][count]
-        uasort($users, function ($a, $b): int {
+        uasort($data, function ($a, $b): int {
             return $b["count"] <=> $a["count"];
         });
+
+        $this->data = $data;
+    }
+    public function makeUsersTable(int $min = 2): string
+    {
 
         $numb = 0;
         $text = "";
 
-        foreach ($users as $user => $tab) {
+        foreach ($this->data as $user => $tab) {
             // if ($usercount < $min && $numb > 15) continue;
             $numb += 1;
 

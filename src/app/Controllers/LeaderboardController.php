@@ -7,8 +7,6 @@ use App\Settings;
 use App\Leaderboard\MainLeaderboard;
 use App\Leaderboard\LangsLeaderboard;
 use App\Leaderboard\UsersLeaderboard;
-use App\SQLorAPI\ViewsTable;
-use App\Leaderboard\Helpers\Graph\Graph;
 use App\Leaderboard\Helpers\Graph\GraphApi;
 use App\Leaderboard\Helpers\Camps\CampsText;
 use App\SQLorAPI\CategoriesTable;
@@ -70,15 +68,10 @@ class LeaderboardController
             // Example endpoint: http://localhost:9001/Translation_Dashboard/leaderboard.php?camps=1
 
             CampsText::echo_html();
-        } elseif (!empty($_GET['graph'] ?? '')) {
-            // Example endpoint: http://localhost:9001/Translation_Dashboard/leaderboard.php?graph=1
-
-            $data = (ViewsTable::getInstance())->getGraphData();
-            echo Graph::print_graph_tab($data);
         } elseif (!empty($_GET['graph_api'] ?? '')) {
             // Example endpoint: http://localhost:9001/Translation_Dashboard/leaderboard.php?graph_api=1
 
-            echo GraphApi::print_graph_tab_2_new();
+            echo GraphApi::renderGraph();
         } else {
 
             $user_group = filter_input(INPUT_GET, 'project', FILTER_SANITIZE_FULL_SPECIAL_CHARS)

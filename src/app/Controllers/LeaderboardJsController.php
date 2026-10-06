@@ -18,7 +18,13 @@ class LeaderboardJsController
 
         $user_group = strtolower($user_group);
 
-        return LeaderFilter::leaderboard_filter($year, $month, $user_group, $camp, 'x.php');
+        return LeaderFilter::leaderboard_filter(
+            $year,
+            $month,
+            $user_group,
+            $camp,
+            'leaderboard_js.php'
+        );
     }
 
     public function renderNumbersCard(): string
@@ -177,8 +183,6 @@ class LeaderboardJsController
         $topLangsCardHtml           = $this->renderTopLangsCard();
 
         echo <<<HTML
-            <script src="/Translation_Dashboard/js/graph_js.js"></script>
-            <script src="/Translation_Dashboard/js/graph_api.js"></script>
             {$filterFormHtml}
             <hr />
             <div class="container-fluid">
@@ -195,7 +199,6 @@ class LeaderboardJsController
                     </div>
                 </div>
             </div>
-            <script src="/Translation_Dashboard/js/leaderboard_index_js.js"></script>
             <script>
                 // when page ready
                 $(document).ready(async function() {

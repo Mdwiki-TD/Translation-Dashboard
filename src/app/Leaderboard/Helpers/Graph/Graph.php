@@ -4,7 +4,7 @@ namespace App\Leaderboard\Helpers\Graph;
 
 class Graph
 {
-    public static function graph_html(string $keys, string $values, bool $no_card = false): string
+    public static function graph_html(string $keys, string $values): string
     {
         $graph_id = 'chart_' . uniqid();
 
@@ -28,10 +28,6 @@ class Graph
             </div>
         HTML;
 
-        if ($no_card) {
-            $graph = $canvas;
-        }
-
         $graph .= <<<HTML
             <script>
                 graph_js(
@@ -44,7 +40,7 @@ class Graph
         return $graph;
     }
 
-    public static function print_graph_for_table(array $table, bool $no_card = false): string
+    public static function print_graph_for_table(array $table): string
     {
         ksort($table);
 
@@ -58,36 +54,6 @@ class Graph
         $ms = substr($ms, 0, -1);
         $cs = substr($cs, 0, -1);
 
-        return self::graph_html($ms, $cs, $no_card);
-    }
-
-    public static function print_graph_from_sql(array $data): string
-    {
-        $ms = "";
-        $cs = "";
-
-        foreach ($data as $yhu => $Taab) {
-            $m = $Taab['m'] ?? "";
-            $c = $Taab['c'] ?? "";
-
-            $ms .= "'$m',";
-            $cs .= "$c,";
-        }
-        $ms = substr($ms, 0, -1);
-        $cs = substr($cs, 0, -1);
-
         return self::graph_html($ms, $cs);
-    }
-
-    public static function print_graph_tab(array $data): string
-    {
-        $g = self::print_graph_from_sql($data);
-        return <<<HTML
-            <div class="container">
-                <div class="col-md-10">
-                    $g
-                </div>
-            </div>
-        HTML;
     }
 }

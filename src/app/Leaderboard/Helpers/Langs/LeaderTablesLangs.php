@@ -4,20 +4,25 @@ namespace App\Leaderboard\Helpers\Langs;
 
 class LeaderTablesLangs
 {
-    public static function makeLangTable(
-        array $lang_table,
-        bool $addcat
-    ): string {
+    private array $data;
+
+    public function __construct(array $data)
+    {
         // sort data by [item][count]
-        uasort($lang_table, function ($a, $b): int {
+        uasort($data, function ($a, $b): int {
             return $b["count"] <=> $a["count"];
         });
+
+        $this->data = $data;
+    }
+    public function makeLangTable(bool $addcat): string
+    {
 
         $numb = 0;
         $text = "";
         $cac = ($addcat == true) ? '<th>cat</th>' : '';
 
-        foreach ($lang_table as $langcode => $tab) {
+        foreach ($this->data as $langcode => $tab) {
             $comp = $tab['count'];
             $views = $tab['views'];
             $langname = $tab['lang_name'] ?? $langcode;

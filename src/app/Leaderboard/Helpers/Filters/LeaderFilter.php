@@ -87,8 +87,13 @@ class LeaderFilter
         HTML;
     }
 
-    public static function leaderboard_filter(int|string $year, int|string|null $month, ?string $user_group, string $camp, string $action = "leaderboard.php"): string
-    {
+    public static function leaderboard_filter(
+        int|string $year,
+        int|string|null $month,
+        ?string $user_group,
+        string $camp,
+        string $action = "leaderboard.php"
+    ): string {
         $campDropdown = self::make_camp_dropdown($camp);
 
         $projectDropdown = self::make_project_dropdown($user_group);

@@ -78,13 +78,13 @@ class MainLeaderboard
         );
 
         $graph_data = (LeaderboardTable::getInstance())->getStatus($this->year, $this->userGroup, $cat);
-        $graph_html = Graph::print_graph_for_table($graph_data, $no_card = false);
+        $graph_html = Graph::print_graph_for_table($graph_data);
 
         $numbersCol = Html::makeCol('Numbers', $numbersTable, $graph_html);
 
-        $usersTable = LeaderTablesUsers::makeUsersTable($users);
-        $users_list = array_keys($users);
+        $usersTable = (new LeaderTablesUsers($users))->makeUsersTable();
 
+        $users_list = array_keys($users);
         $users_tab = (LeaderboardTable::getInstance())->getTopLangOfUsers($users_list);
         $copy_module = LeaderTablesUsers::module_copy_data($users_tab);
 
@@ -97,12 +97,13 @@ class MainLeaderboard
         $usersCol = Html::makeColSm4('Top users by number of translation', $usersTable, 5, $copy_module, $modal_a);
 
         // Update lang_name in $lang_table
-        foreach ($lang_table as $langcode => $tab) {
-            $langname = $tab['lang_name'] ?? $langs_data[$langcode]['name'];
-            $lang_table[$langcode]['lang_name'] = $langname;
+        foreach ($lang_table as $langcode => &$tab) {
+            $tab['lang_name'] = $tab['lang_name'] ?? $langs_data[$langcode]['name'] ?? $langcode;
         }
+        unset($tab); // Break the reference with the last element
 
-        $languagesTable = LeaderTablesLangs::makeLangTable($lang_table, $addcat);
+        $languagesTable = (new LeaderTablesLangs($lang_table))->makeLangTable($addcat);
+
         $languagesCol = Html::makeColSm4('Top languages by number of Articles', $languagesTable, 4);
 
         return <<<HTML
