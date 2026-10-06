@@ -52,8 +52,12 @@ class HtmlUrls
         return "<a target='_blank' href='https://mdwiki.org/wiki/Category:$encoded_category'>$displayName</a>";
     }
 
-    public static function make_wikipedia_url_blank(?string $target, string $lang, string $name = '', bool|int $deleted = false): ?string
-    {
+    public static function make_wikipedia_url_blank(
+        ?string $target,
+        string $lang,
+        string $name = '',
+        bool|int $deleted = false
+    ): ?string {
         if (empty($target)) return $target;
 
         $displayName = (!empty($name)) ? $name : $target;

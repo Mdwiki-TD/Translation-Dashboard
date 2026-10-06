@@ -47,10 +47,9 @@ class LeaderboardController
         if ($get == 'users' || !empty($username)) {
 
             // Pass the username to the constructor
-            $usersLeaderboard = new UsersLeaderboard($username);
+            $usersLeaderboard = new UsersLeaderboard($username, $mainlang);
 
             echo $usersLeaderboard->render(
-                $mainlang,
                 $year_y,
                 $camp,
                 $global_username,
@@ -91,15 +90,14 @@ class LeaderboardController
             $settings = Settings::getInstance();
             $addcat = !$settings->isProduction() && (isset($_GET['nocat']));
 
-            $controller = new MainLeaderboard();
-            echo $controller->render(
+            // Initialize MainLeaderboard with options passed to constructor
+            $controller = new MainLeaderboard(
                 $year_y,
                 $camp,
                 $user_group,
-                $langs_data,
-                $addcat,
                 $month_y
             );
+            echo $controller->render($langs_data, $addcat);
         }
     }
 }

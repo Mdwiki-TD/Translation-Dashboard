@@ -279,9 +279,9 @@ class LeadHelp
 		array $tab,
 		string $tab_type,
 		array $views_table,
-		bool $user_is_global_username,
 		array $lead_words_table,
 		array $cats_data,
+		bool $user_is_global_username,
 	): array {
 		[$_, $table_pnd] = self::make_table_lead(
 			$tab,
@@ -300,7 +300,6 @@ class LeadHelp
 		array $tab,
 		string $tab_type,
 		array $views_table,
-		string $lang,
 		array $lead_words_table,
 		array $cats_data,
 	): array {

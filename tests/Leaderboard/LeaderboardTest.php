@@ -16,8 +16,8 @@ class LeaderboardTest extends TestCase
 
     public function testMainLeaderboardRender(): void
     {
-        $mainLeaderboard = new MainLeaderboard();
-        $html = $mainLeaderboard->render('all', 'all', 'all', [], false, '');
+        $mainLeaderboard = new MainLeaderboard('all', 'all', 'all', '');
+        $html = $mainLeaderboard->render([], false);
 
         $this->assertStringContainsString('Leaderboard', $html);
         $this->assertStringContainsString('Numbers', $html);
@@ -27,11 +27,10 @@ class LeaderboardTest extends TestCase
 
     public function testUsersLeaderboardRender(): void
     {
-        $usersLeaderboard = new UsersLeaderboard('TestUser');
+        $usersLeaderboard = new UsersLeaderboard('TestUser', 'all');
         $html = $usersLeaderboard->render(
             'en',
             '2024',
-            'all',
             'TestUser',
             [],
             []

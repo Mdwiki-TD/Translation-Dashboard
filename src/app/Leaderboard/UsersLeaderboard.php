@@ -12,17 +12,21 @@ use App\Leaderboard\Helpers\Graph\LangUserGraph;
 
 class UsersLeaderboard
 {
+    private string $langcode;
     private string $username;
     private string $userToHtml;
 
-    public function __construct(string $username)
+    public function __construct(string $username, string $langcode)
     {
+        // Sanitize and format the language code input
+        $this->langcode = rawurldecode(str_replace("_", " ", $langcode));
+
         $this->username = $username;
         // Prepare username for safe rendering in HTML and links
         $this->userToHtml = htmlspecialchars($username, ENT_QUOTES, 'UTF-8');
     }
+
     public function render(
-        string $mainlang,
         int|string $year_y,
         string $camp,
         string $global_username,
@@ -31,15 +35,13 @@ class UsersLeaderboard
     ): string {
         $output = '';
 
-        $mainlang = rawurldecode(str_replace("_", " ", $mainlang));
-
         // Fetch user's primary languages
         // '[{"user":"Mr. Ibrahem","lang":"ar","cnt":14}]'
         $user_most_langs = (LeaderboardTable::getInstance())->getTopLangOfUsers([$this->username]);
         $user_langs = $user_most_langs[0]['lang'] ?? "";
 
         // Fetch user specific tables
-        $u_tables = UsersSub::get_users_tables($this->username, $year_y, $mainlang);
+        $u_tables = (new UsersSub())->getTables($this->username, $year_y, $this->langcode);
 
         $dd = $u_tables['dd'];
         $dd_Pending = $u_tables['dd_Pending'];
@@ -51,9 +53,9 @@ class UsersLeaderboard
             $dd,
             'translations',
             $table_of_views,
-            $user_is_global_username,
             $lead_words_table,
-            $cats_data
+            $cats_data,
+            $user_is_global_username
         );
 
         $user_link = ($user_langs)
@@ -66,25 +68,31 @@ class UsersLeaderboard
             </a>
         HTML;
 
-        $user_div = <<<HTML
-            <span class='h4 text-center'>
-                User: $user_link
-                <br>
-                $xtools
-            </span>
-        HTML;
+        // Create div for leaderboard header
+        $item_div = "<span class='h4 text-center'>User: {$user_link}<br>{$xtools}</span>";
 
         $filter_data = [
             "user" => $this->username,
-            "lang" => $mainlang,
+            "lang" => $this->langcode,
             "year" => $year_y,
             "camp" => $camp
         ];
 
-        $graphData = (ViewsTable::getInstance())->getGraphData($mainlang, $this->username, $year_y);
+        // Fetch graph data for the specific user
+        $graphData = (ViewsTable::getInstance())->getGraphData(
+            $this->langcode,
+            $this->username,
+            $year_y
+        );
         $graph = LangUserGraph::graphData($graphData);
 
-        $output .= FilterForm::lead_row($table1, $graph, $user_div, $filter_data, "user");
+        $output .= FilterForm::lead_row(
+            $table1,
+            $graph,
+            $item_div,
+            $filter_data,
+            "user"
+        );
 
         $output .= <<<HTML
             <div class='card mt-1'>
@@ -98,9 +106,9 @@ class UsersLeaderboard
             $dd_Pending,
             'pending',
             $table_of_views,
-            $user_is_global_username,
             $lead_words_table,
-            $cats_data
+            $cats_data,
+            $user_is_global_username
         );
 
         $output .= <<<HTML

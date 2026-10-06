@@ -8,9 +8,8 @@ use App\Leaderboard\Helpers\Filters\LeadHelp;
 
 class LangsSub
 {
-    public static function add_inp(array $dd_Pending, string $mainlang, int|string $year_y): array
+    private function add_inp(array $dd_Pending, array $to_add): array
     {
-        $to_add = (InProcessTable::getInstance())->getLangInProcessByYear($mainlang, (string)$year_y);
 
         foreach ($to_add as $_ => $Taab) {
             $kry = LeadHelp::make_key($Taab);
@@ -23,7 +22,7 @@ class LangsSub
         return $dd_Pending;
     }
 
-    public static function pages_tables(string $mainlang, int|string $year_y): array
+    private function pages_tables(string $mainlang, int|string $year_y): array
     {
         $dd = [];
         $dd_Pending = [];
@@ -48,20 +47,26 @@ class LangsSub
         return ['dd' => $dd, 'dd_Pending' => $dd_Pending];
     }
 
-    public static function get_langs_tables(string $mainlang, int|string $year_y): array
+    public function getTables(string $mainlang, int|string $year_y): array
     {
-        $result = ['dd' => [], 'dd_Pending' => [], 'table_of_views' => []];
+        $result = [
+            'dd' => [],
+            'dd_Pending' => [],
+            'table_of_views' => []
+        ];
 
         if (empty($mainlang)) {
             return $result;
         }
 
-        $p_tables = self::pages_tables($mainlang, $year_y);
+        $p_tables = $this->pages_tables($mainlang, $year_y);
 
         $dd = $p_tables['dd'];
         $dd_Pending = $p_tables['dd_Pending'];
 
-        $dd_Pending = self::add_inp($dd_Pending, $mainlang, $year_y);
+        $to_add = (InProcessTable::getInstance())->getLangInProcessByYear($mainlang, (string)$year_y);
+
+        $dd_Pending = $this->add_inp($dd_Pending, $to_add);
 
         $table_of_views = []; //get_lang_views($mainlang, $year_y);
 

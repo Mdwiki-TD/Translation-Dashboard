@@ -31,7 +31,7 @@ class LangsLeaderboard
         $langname = LangsTables::get_lang_name($this->langcode) ?? $this->langcode;
 
         // Fetch language specific data tables
-        $u_tables = LangsSub::get_langs_tables($this->langcode, $year_y);
+        $u_tables = (new LangsSub())->getTables($this->langcode, $year_y);
 
         $dd = $u_tables['dd'];
         $dd_Pending = $u_tables['dd_Pending'];
@@ -41,10 +41,12 @@ class LangsLeaderboard
             $dd,
             'translations',
             $table_of_views,
-            $this->langcode,
             $lead_words_table,
             $cats_data
         );
+
+        // Create div for leaderboard header
+        $item_div = "<h4 class='text-center'>Language: $langname ({$this->langcode})</h4>";
 
         $filter_data = [
             "user" => "",
@@ -54,13 +56,17 @@ class LangsLeaderboard
         ];
 
         // Fetch graph data for the specific language
-        $graphData = (ViewsTable::getInstance())->getGraphData($this->langcode, null, $year_y);
+        $graphData = (ViewsTable::getInstance())->getGraphData(
+            $this->langcode,
+            null,
+            $year_y
+        );
         $graph = LangUserGraph::graphData($graphData);
 
         $output .= FilterForm::lead_row(
             $table1,
             $graph,
-            "<h4 class='text-center'>Language: $langname ({$this->langcode})</h4>",
+            $item_div,
             $filter_data,
             "lang"
         );
@@ -77,7 +83,6 @@ class LangsLeaderboard
             $dd_Pending,
             'pending',
             $table_of_views,
-            $this->langcode,
             $lead_words_table,
             $cats_data
         );

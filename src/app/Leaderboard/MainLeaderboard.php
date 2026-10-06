@@ -12,24 +12,36 @@ use App\Leaderboard\Helpers\Filters\LeaderFilter;
 
 class MainLeaderboard
 {
+    private int|string $year;
+    private string $camp;
+    private ?string $userGroup;
+    private int|string|null $month;
+
+    public function __construct(
+        int|string $year = 'All',
+        string $camp = 'All',
+        ?string $userGroup = 'all',
+        int|string|null $month = null
+    ) {
+        $this->year = $year;
+        $this->camp = $camp;
+        $this->userGroup = $userGroup;
+        $this->month = $month;
+    }
+
     public function printCatTable(
-        int|string $year,
-        ?string $user_group,
-        string $camp,
         string $cat,
         array $langs_data,
-        bool $addcat,
-        int|string|null $month
+        bool $addcat
     ): string {
-        $users = (LeaderboardTable::getInstance())->getTopUsers($year, $user_group, $cat, $month);
-
-        $lang_table = (LeaderboardTable::getInstance())->getTopLangs($year, $user_group, $cat, $month);
+        // Fetch top users and languages using class parameters
+        $users = (LeaderboardTable::getInstance())->getTopUsers($this->year, $this->userGroup, $cat, $this->month);
+        $lang_table = (LeaderboardTable::getInstance())->getTopLangs($this->year, $this->userGroup, $cat, $this->month);
 
         $articles_all = number_format(array_sum(array_column($users, 'count')));
 
-        // sum all $users[user]["words"] values
+        // Sum all $users[user]["words"] values
         $all_Words = number_format(array_sum(array_column($users, 'words')));
-
         $all_views = number_format(array_sum(array_column($users, 'views')));
 
         $numbersTable = LeaderTablesLangs::createNumbersTable(
@@ -40,18 +52,15 @@ class MainLeaderboard
             $all_views
         );
 
-        $graph_data = (LeaderboardTable::getInstance())->getStatus($year, $user_group, $cat);
-
+        $graph_data = (LeaderboardTable::getInstance())->getStatus($this->year, $this->userGroup, $cat);
         $graph_html = Graph::print_graph_for_table($graph_data, $no_card = false);
 
         $numbersCol = Html::makeCol('Numbers', $numbersTable, $graph_html);
 
         $usersTable = LeaderTablesUsers::makeUsersTable($users);
+        $users_list = array_keys($users);
 
-        $users = array_keys($users);
-
-        $users_tab = (LeaderboardTable::getInstance())->getTopLangOfUsers($users);
-
+        $users_tab = (LeaderboardTable::getInstance())->getTopLangOfUsers($users_list);
         $copy_module = LeaderTablesUsers::module_copy_data($users_tab);
 
         $modal_a = <<<HTML
@@ -74,24 +83,21 @@ class MainLeaderboard
         HTML;
     }
 
-    public function render(int|string $year, string $camp, ?string $user_group, array $langs_data, bool $addcat, int|string|null $month): string
+    public function render(array $langs_data, bool $addcat): string
     {
         $s_camp_to_cat = (CategoriesTable::getInstance())->getCampsToCat();
+        $cat = $s_camp_to_cat[$this->camp] ?? '';
 
-        $cat = $s_camp_to_cat[$camp] ?? '';
+        $filter_form = LeaderFilter::leaderboard_filter($this->year, $this->month, $this->userGroup, $this->camp);
 
-        $filter_form = LeaderFilter::leaderboard_filter($year, $month, $user_group, $camp);
+        $uux = $this->printCatTable($cat, $langs_data, $addcat);
 
-        $uux = $this->printCatTable($year, $user_group, $camp, $cat, $langs_data, $addcat, $month);
-
-        $board = <<<HTML
+        return <<<HTML
             $filter_form
             <hr/>
             <div class="container-fluid">
                 $uux
             </div>
         HTML;
-
-        return $board;
     }
 }
