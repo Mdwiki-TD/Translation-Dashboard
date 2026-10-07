@@ -8,7 +8,6 @@ class SettingsTable extends BaseTable
 {
     private static array $sqlSettingsCache = [];
 
-
     private static ?self $instance = null;
     public static function getInstance(): self
     {

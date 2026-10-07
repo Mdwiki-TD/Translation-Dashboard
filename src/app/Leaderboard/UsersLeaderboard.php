@@ -41,10 +41,18 @@ class UsersLeaderboard
     ): string {
         $output = '';
 
+        $usersTable = UsersLeaderboardTable::getInstance();
+        $gData = $usersTable->getUserNewFilterData($this->username);
+
+        // "langs": { "ar": 14, "nr": 1, "mg": 2 }
+        // TODO: use $gData["langs"] key with max value
+        $langs = $gData["langs"] ?? [];
+        $userLang = !empty($langs) ? array_search(max($langs), $langs) : '';
+
         // Fetch user's primary languages
         // '[{"user":"Mr. Ibrahem","lang":"ar","cnt":14}]'
-        $user_most_langs = (LeaderboardTable::getInstance())->getTopLangOfUsers([$this->username]);
-        $user_langs = $user_most_langs[0]['lang'] ?? "";
+        // $user_most_langs = (LeaderboardTable::getInstance())->getTopLangOfUsers([$this->username]);
+        // $userLang = $user_most_langs[0]['lang'] ?? "";
 
         // Fetch user specific tables
         $service = new UsersSub($this->username, $this->year, $this->langcode);
@@ -62,8 +70,8 @@ class UsersLeaderboard
             $user_is_global_username
         );
 
-        $user_link = ($user_langs)
-            ? HtmlUrls::make_wikipedia_url_blank("User:{$this->username}", $user_langs, $this->userToHtml)
+        $user_link = ($userLang)
+            ? HtmlUrls::make_wikipedia_url_blank("User:{$this->username}", $userLang, $this->userToHtml)
             : HtmlUrls::make_mdwiki_user_url($this->userToHtml);
 
         $xtools = HtmlUrls::XtoolsLink($this->userToHtml);
@@ -85,9 +93,6 @@ class UsersLeaderboard
             $this->year
         );
         $graph = LangUserGraph::graphDataHtml($graphData);
-
-        $usersTable = UsersLeaderboardTable::getInstance();
-        $gData = $usersTable->getUserNewFilterData($this->username);
 
         $output .= FilterForm::leadRow(
             $table1,
