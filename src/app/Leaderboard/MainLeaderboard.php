@@ -4,6 +4,9 @@ namespace App\Leaderboard;
 
 use App\SQLorAPI\LeaderboardTable;
 use App\SQLorAPI\CategoriesTable;
+use App\SQLorAPI\TitlesTable;
+use App\SQLorAPI\PagesTable;
+
 use App\Utils\Html;
 use App\Leaderboard\Helpers\Graph\LangUserGraph;
 use App\Leaderboard\Helpers\Langs\LeaderTablesLangs;
@@ -55,6 +58,7 @@ class MainLeaderboard
         HTML;
     }
     public function printCatTable(
+        array $graphData,
         string $category,
         array $langs_data,
         bool $addcat
@@ -89,14 +93,6 @@ class MainLeaderboard
             $all_views
         );
 
-        // Fetch graph data
-        $graphData = $leaderboardService->getGraphDataMainLeaderboard(
-            $this->year,
-            $this->month,
-            $category,
-            $this->campaign,
-            $this->userGroup,
-        );
         $graph_html = LangUserGraph::graphDataHtmlCard($graphData);
 
         $numbersCol = Html::makeCol('Numbers', $numbersTable, $graph_html);
@@ -136,12 +132,52 @@ class MainLeaderboard
 
     public function render(array $langs_data, bool $addcat): string
     {
-        $s_camp_to_cat = (CategoriesTable::getInstance())->getCampsToCat();
-        $category = $s_camp_to_cat[$this->campaign] ?? '';
+        $campsToCat = (CategoriesTable::getInstance())->getCampsToCat();
+        $category = $campsToCat[$this->campaign] ?? '';
 
-        $filter_form = LeaderFilter::leaderboard_filter($this->year, $this->month, $this->userGroup, $this->campaign);
+        $leaderboardService = LeaderboardTable::getInstance();
 
-        $uux = $this->printCatTable($category, $langs_data, $addcat);
+        // Fetch graph data
+        $graphData = $leaderboardService->getGraphDataMainLeaderboard(
+            $this->year,
+            $this->month,
+            $category,
+            $this->campaign,
+            $this->userGroup,
+        );
+
+        $months = [];
+        if ($this->year && strtolower((string)$this->year) !== 'all') {
+            // $months = $graphData['labels'] keys if key start with "{$this->year}-"
+            $months = array_filter($graphData['labels'], function ($month): bool {
+                return str_starts_with($month, "{$this->year}-");
+            });
+        }
+
+        $years = (PagesTable::getInstance())->getPagesWithPupdate();
+        $categories_tab = (CategoriesTable::getInstance())->getCategories();
+        $campaignsList = array_column($categories_tab, 'campaign');
+
+        $projects = (TitlesTable::getInstance())->getProjects();
+        $userGroups = array_column($projects, 'g_title');
+
+        $filter_form = LeaderFilter::leaderboardFilter(
+            $this->year,
+            $this->month,
+            $this->userGroup,
+            $this->campaign,
+            $years,
+            $campaignsList,
+            $userGroups,
+            $months
+        );
+
+        $uux = $this->printCatTable(
+            $graphData,
+            $category,
+            $langs_data,
+            $addcat
+        );
 
         return <<<HTML
             $filter_form

@@ -2,6 +2,9 @@
 
 namespace App\Controllers;
 
+use App\SQLorAPI\TitlesTable;
+use App\SQLorAPI\CategoriesTable;
+use App\SQLorAPI\PagesTable;
 use App\Leaderboard\Helpers\Filters\LeaderFilter;
 
 class LeaderboardJsController
@@ -17,12 +20,28 @@ class LeaderboardJsController
             ?? 'all';
 
         $user_group = strtolower($user_group);
+        $months = [];
 
-        return LeaderFilter::leaderboard_filter(
+        if ($year && strtolower((string)$year) !== 'all') {
+            $months = ["{$year}-01"];
+        }
+
+        $years = (PagesTable::getInstance())->getPagesWithPupdate();
+        $categories_tab = (CategoriesTable::getInstance())->getCategories();
+        $campaignsList = array_column($categories_tab, 'campaign');
+
+        $projects = (TitlesTable::getInstance())->getProjects();
+        $userGroups = array_column($projects, 'g_title');
+
+        return LeaderFilter::leaderboardFilter(
             $year,
             $month,
             $user_group,
             $campaign,
+            $years,
+            $campaignsList,
+            $userGroups,
+            $months,
             'leaderboard_js.php'
         );
     }

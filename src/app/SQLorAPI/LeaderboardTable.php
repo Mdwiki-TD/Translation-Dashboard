@@ -253,12 +253,8 @@ class LeaderboardTable extends BaseTable
 
         $query = <<<SQL
             SELECT LEFT(p.pupdate, 7) as date, COUNT(*) as count
-
             FROM pages p
-
-            LEFT JOIN users u
-                ON p.user = u.username
-
+            LEFT JOIN users u ON p.user = u.username
             WHERE p.target != ''
 
         SQL;
