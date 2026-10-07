@@ -12,7 +12,7 @@ class InProcessTable extends AbstractResultsTable
     private InProcessRowBuilder $rowBuilder;
     private string $langCode;
     private string $cat;
-    private string $campaignaign;
+    private string $campaign;
     private bool $inProgressButton;
     private bool $fullTrUser;
     private ?string $globalUsername;

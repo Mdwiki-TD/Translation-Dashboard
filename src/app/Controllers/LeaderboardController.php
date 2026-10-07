@@ -23,44 +23,58 @@ class LeaderboardController
 
     public function handleRequest(): void
     {
-        $global_username = $this->currentUser->getUsername();
+        // -----
 
         $get = filter_input(INPUT_GET, 'get', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
 
-        $langcode = filter_input(INPUT_GET, 'langcode', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
-        $mainlang = filter_input(INPUT_GET, 'lang', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'All';
+        $langcode = filter_input(INPUT_GET, 'langcode', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
+            ?? filter_input(INPUT_GET, 'lang', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
+            ?? 'all';
 
         $username = filter_input(INPUT_GET, 'user', FILTER_UNSAFE_RAW) ?? '';
 
-        $year_y   = filter_input(INPUT_GET, 'year', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'All';
-        $month_y  = filter_input(INPUT_GET, 'month', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
-        $campaign     = filter_input(INPUT_GET, 'camp', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'All';
+        $year       = filter_input(INPUT_GET, 'year', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'All';
+        $month      = filter_input(INPUT_GET, 'month', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
+        $campaign   = filter_input(INPUT_GET, 'camp', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'All';
 
-        $_titles_infos   = (TitlesTable::getInstance())->getTitlesInfos();
-        $categories_tab = (CategoriesTable::getInstance())->getCategories();
+        $userGroup = filter_input(INPUT_GET, 'project', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
+            ?? filter_input(INPUT_GET, 'user_group', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
+            ?? 'all';
+
+        // -----
+
+        $global_username  = $this->currentUser->getUsername();
+
+        $_titles_infos    = (TitlesTable::getInstance())->getTitlesInfos();
+        $categories_tab   = (CategoriesTable::getInstance())->getCategories();
 
         $lead_words_table = array_column($_titles_infos, 'w_lead_words', 'title');
-        $cats_data = array_column($categories_tab, "campaign", "category");
+        $cats_data        = array_column($categories_tab, "campaign", "category");
 
         if ($get == 'users' || !empty($username)) {
 
             // Pass the username to the constructor
-            $usersLeaderboard = new UsersLeaderboard($username, $mainlang);
+            $usersLeaderboard = new UsersLeaderboard(
+                $username,
+                $langcode,
+                $year,
+                $campaign,
+            );
 
             echo $usersLeaderboard->render(
-                $year_y,
-                $campaign,
                 $global_username,
                 $lead_words_table,
                 $cats_data
             );
         } elseif ($get == 'langs' || !empty($langcode)) {
             // Pass the language code directly to the constructor
-            $langsLeaderboard = new LangsLeaderboard($langcode);
+            $langsLeaderboard = new LangsLeaderboard(
+                $langcode,
+                $year,
+                $campaign,
+            );
 
             echo $langsLeaderboard->render(
-                $year_y,
-                $campaign,
                 $lead_words_table,
                 $cats_data
             );
@@ -74,10 +88,6 @@ class LeaderboardController
             echo GraphApi::renderGraph();
         } else {
 
-            $user_group = filter_input(INPUT_GET, 'project', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
-                ?? filter_input(INPUT_GET, 'user_group', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
-                ?? 'all';
-
             $langs_data = (TitlesTable::getInstance())->getLangs();
 
             $settings = Settings::getInstance();
@@ -85,10 +95,10 @@ class LeaderboardController
 
             // Initialize MainLeaderboard with options passed to constructor
             $controller = new MainLeaderboard(
-                $year_y,
+                $year,
                 $campaign,
-                $user_group,
-                $month_y
+                $userGroup,
+                $month
             );
             echo $controller->render($langs_data, $addcat);
         }

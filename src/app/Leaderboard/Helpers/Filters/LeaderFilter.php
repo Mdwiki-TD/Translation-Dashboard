@@ -6,7 +6,24 @@ use App\Utils\Html;
 
 class LeaderFilter
 {
-    public static function FilterForm(
+    private int|string $year;
+    private int|string|null $month;
+    private ?string $userGroup;
+    private string $campaign;
+
+    public function __construct(
+        int|string $year,
+        int|string|null $month,
+        ?string $userGroup,
+        string $campaign,
+    ) {
+        $this->year = $year;
+        $this->month = $month;
+        $this->userGroup = $userGroup;
+        $this->campaign = $campaign;
+    }
+
+    private function FilterForm(
         string $action,
         string $campDropdown,
         string $projectDropdown,
@@ -44,7 +61,7 @@ class LeaderFilter
             </form>
         HTML;
     }
-    public static function inputGroup(string $title, string $rows): string
+    private function inputGroup(string $title, string $rows): string
     {
         $d33 = <<<HTML
             <div class="input-group">
@@ -56,33 +73,33 @@ class LeaderFilter
         return sprintf($d33, $title, $rows);
     }
 
-    public static function makeCampDropdown(string $campaign, array $campaignsList): string
+    private function makeCampDropdown(string $campaign, array $campaignsList): string
     {
 
         $y1 = Html::makeDropdown($campaignsList, $campaign, 'camp', 'all');
 
-        return self::inputGroup('Campaign', $y1);
+        return $this->inputGroup('Campaign', $y1);
     }
 
-    public static function makeUserGroupDropdown(?string $user_group, array $userGroups): string
+    private function makeUserGroupDropdown(?string $userGroup, array $userGroups): string
     {
 
-        $y2 = Html::makeDropdown($userGroups, (string)$user_group, 'user_group', 'all');
+        $y2 = Html::makeDropdown($userGroups, (string)$userGroup, 'user_group', 'all');
 
-        return self::inputGroup('Translators', $y2);
+        return $this->inputGroup('Translators', $y2);
     }
 
-    public static function makeYearDropdown(int|string $year, array $years): string
+    private function makeYearDropdown(int|string $year, array $years): string
     {
         // sort $m_years2 DESC
         rsort($years);
 
         $y3 = Html::makeDropdown($years, (string)$year, 'year', 'all');
 
-        return self::inputGroup('Year', $y3);
+        return $this->inputGroup('Year', $y3);
     }
 
-    public static function makeMonthDropdown(int|string|null $month, array $months): string
+    private function makeMonthDropdown(int|string|null $month, array $months): string
     {
 
         // array ( '2024-01' => 92, '2024-02' => 222, '2024-03' => 231, '2024-04' => 160, '2024-05' => 214, '2024-06' => 146, '2024-07' => 145, '2024-08' => 73, '2024-09' => 503, '2024-10' => 359, '2024-11' => 207, '2024-12' => 204, )
@@ -111,12 +128,7 @@ class LeaderFilter
         HTML;
     }
 
-    public static function leaderboardFilter(
-        int|string $year,
-        int|string|null $month,
-        ?string $user_group,
-        string $campaign,
-
+    public function leaderboardFilter(
         array $years,
         array $campaignsList,
         array $userGroups,
@@ -124,16 +136,16 @@ class LeaderFilter
         ?array $months = null,
         string $action = "leaderboard.php"
     ): string {
-        $campDropdown = self::makeCampDropdown($campaign, $campaignsList);
-        $projectDropdown = self::makeUserGroupDropdown($user_group, $userGroups);
-        $yearDropdown = self::makeYearDropdown($year, $years);
+        $campDropdown = $this->makeCampDropdown($this->campaign, $campaignsList);
+        $projectDropdown = $this->makeUserGroupDropdown($this->userGroup, $userGroups);
+        $yearDropdown = $this->makeYearDropdown($this->year, $years);
 
         $monthDropdown = "";
         if (is_array($months) && !empty($months)) {
-            $monthDropdown = self::makeMonthDropdown($month, $months);
+            $monthDropdown = $this->makeMonthDropdown($this->month, $months);
         }
 
-        return self::FilterForm(
+        return $this->FilterForm(
             $action,
             $campDropdown,
             $projectDropdown,

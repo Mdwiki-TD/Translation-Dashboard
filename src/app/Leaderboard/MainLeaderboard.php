@@ -21,8 +21,8 @@ class MainLeaderboard
     private int|string|null $month;
 
     public function __construct(
-        int|string $year = 'All',
-        string $campaign = 'All',
+        int|string $year = 'all',
+        string $campaign = 'all',
         ?string $userGroup = 'all',
         int|string|null $month = null
     ) {
@@ -161,11 +161,13 @@ class MainLeaderboard
         $projects = (TitlesTable::getInstance())->getProjects();
         $userGroups = array_column($projects, 'g_title');
 
-        $filter_form = LeaderFilter::leaderboardFilter(
+        $leaderFilter = new LeaderFilter(
             $this->year,
             $this->month,
             $this->userGroup,
             $this->campaign,
+        );
+        $filterForm = $leaderFilter->leaderboardFilter(
             $years,
             $campaignsList,
             $userGroups,
@@ -180,7 +182,7 @@ class MainLeaderboard
         );
 
         return <<<HTML
-            $filter_form
+            $filterForm
             <hr/>
             <div class="container-fluid">
                 $uux

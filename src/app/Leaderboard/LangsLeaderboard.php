@@ -3,6 +3,7 @@
 namespace App\Leaderboard;
 
 use App\Tables\LangsTables;
+use App\SQLorAPI\PagesTable;
 use App\SQLorAPI\LeaderboardTable;
 use App\Leaderboard\Helpers\Filters\LeadHelp;
 use App\Leaderboard\Helpers\Langs\LangsSub;
@@ -12,16 +13,21 @@ use App\Leaderboard\Helpers\Filters\FilterForm;
 class LangsLeaderboard
 {
     private string $langcode;
+    private string $year;
+    private string $campaign;
 
-    public function __construct(string $langcode)
-    {
+    public function __construct(
+        string $langcode,
+        int|string $year,
+        string $campaign
+    ) {
         // Sanitize and format the language code input
         $this->langcode = rawurldecode(str_replace("_", " ", $langcode));
+        $this->year = $year;
+        $this->campaign = $campaign;
     }
 
     public function render(
-        int|string $year_y,
-        string $campaign,
         array $lead_words_table,
         array $cats_data
     ): string {
@@ -31,7 +37,7 @@ class LangsLeaderboard
         $langname = LangsTables::get_lang_name($this->langcode) ?? $this->langcode;
 
         // Fetch language specific data tables
-        $u_tables = (new LangsSub($this->langcode, $year_y))->getTables();
+        $u_tables = (new LangsSub($this->langcode, $this->year))->getTables();
 
         $dd = $u_tables['dd'];
         $dd_Pending = $u_tables['dd_Pending'];
@@ -48,26 +54,30 @@ class LangsLeaderboard
         // Create div for leaderboard header
         $item_div = "<h4 class='text-center'>Language: $langname ({$this->langcode})</h4>";
 
-        $filter_data = [
+        $filterData = [
             "user" => "",
             "lang" => $this->langcode,
-            "year" => $year_y,
-            "camp" => $campaign
+            "year" => $this->year,
+            "camp" => $this->campaign
         ];
 
         // Fetch graph data for the specific language
         $graphData = (LeaderboardTable::getInstance())->getGraphData(
             $this->langcode,
             null,
-            $year_y
+            $this->year
         );
         $graph = LangUserGraph::graphDataHtml($graphData);
 
-        $output .= FilterForm::lead_row(
+        $pagesTable = PagesTable::getInstance();
+        $gData = ["years" => $pagesTable->getLangYears($this->langcode)];
+
+        $output .= FilterForm::leadRow(
             $table1,
             $graph,
             $item_div,
-            $filter_data,
+            $filterData,
+            $gData,
             "lang"
         );
 

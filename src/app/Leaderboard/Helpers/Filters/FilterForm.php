@@ -2,9 +2,6 @@
 
 namespace App\Leaderboard\Helpers\Filters;
 
-use App\SQLorAPI\PagesTable;
-use App\SQLorAPI\UsersLeaderboardTable;
-
 class FilterForm
 {
     public static function DropdownNew(string $title, array $tab, string $cat, string $id): string
@@ -28,21 +25,23 @@ class FilterForm
         HTML;
     }
 
-    public static function make_filter_html(array $data, string $filter_page, ?bool $addcampDropdown = null): string
-    {
+    public static function makeFilterHtml(
+        array $filterData,
+        array $gData,
+        string $filterPage,
+        ?bool $addcampDropdown = null
+    ): string {
         // Extract array values safely using null coalescing operator to prevent undefined index notices
-        $lang     = $data['lang'] ?? '';
-        $year     = $data['year'] ?? '';
-        $user     = $data['user'] ?? '';
-        $campaign = $data['camp'] ?? '';
+        $lang     = $filterData['lang'] ?? '';
+        $user     = $filterData['user'] ?? '';
+        $year     = $filterData['year'] ?? '';
+        $campaign = $filterData['camp'] ?? '';
 
-        $usersTable = UsersLeaderboardTable::getInstance();
+        $yearDropdown = self::DropdownNew('Year', $gData["years"], $year, 'year');
 
-        if ($filter_page === 'user') {
-            $userData = $usersTable->getUserFilterData($user);
+        if ($filterPage === 'user') {
 
-            $langsDropdown = self::DropdownNew('Lang', $userData["langs"], $lang, 'lang');
-            $yearDropdown  = self::DropdownNew('Year', $userData["years"], $year, 'year');
+            $langsDropdown = self::DropdownNew('Lang', $gData["langs"], $lang, 'lang');
 
             $Dropdown = <<<HTML
                 <div class="col-6">
@@ -54,7 +53,7 @@ class FilterForm
             HTML;
 
             if ($addcampDropdown) {
-                $campDropdown  = self::DropdownNew('Camp', $userData["camps"], $campaign, 'camp');
+                $campDropdown  = self::DropdownNew('Camp', $gData["camps"], $campaign, 'camp');
                 $Dropdown .= <<<HTML
                     <div class="col-4">
                         $campDropdown
@@ -68,10 +67,6 @@ class FilterForm
                 <input type="hidden" name="user" value="$user" />
             HTML;
         } else {
-            $pagesTable = PagesTable::getInstance();
-            $years = $pagesTable->getLangYears($lang);
-
-            $yearDropdown = self::DropdownNew('Year', $years, $year, 'year');
 
             $Dropdown = <<<HTML
                 <div class="col-12">
@@ -101,26 +96,29 @@ class FilterForm
         HTML;
     }
 
-    public static function make_table1_html(array $table1): string
-    // $table1 = ['total_articles' => $total_articles, 'total_words' => $total_words, 'total_views' => $total_views];
-    {
+    public static function leadRow(
+        array $table1,
+        string $graph,
+        string $mainTitle,
+        array $filterData,
+        array $gData,
+        string $filterPage
+    ): string {
+        // $table1 = ['total_articles' => $total_articles, 'total_words' => $total_words, 'total_views' => $total_views];
+
         $total_articles = number_format($table1['total_articles'] ?? 0);
         $total_words    = number_format($table1['total_words'] ?? 0);
         $total_views    = number_format($table1['total_views'] ?? 0);
 
-        return <<<HTML
+        $table1_html = <<<HTML
             <div class="text-muted">
                 Articles: <strong>$total_articles</strong> &nbsp;
                 Words: <strong>$total_words</strong> &nbsp;
                 Pageviews: <strong><span id="hrefjsontoaddzz">$total_views</span></strong>
             </div>
         HTML;
-    }
 
-    public static function lead_row(array $table1, string $graph, string $main_title, array $filter_data, string $filter_page): string
-    {
-        $table1_html = self::make_table1_html($table1);
-        $filter_form = self::make_filter_html($filter_data, $filter_page);
+        $filterForm = self::makeFilterHtml($filterData, $gData, $filterPage);
 
         return <<<HTML
             <div class='container-fluid'>
@@ -128,7 +126,7 @@ class FilterForm
                     <div class='col-lg-4 col-md-12 border_debug border rounded'>
                         <div class="d-flex align-items-center justify-content-center" style="height: 100%">
                             <div class="list-group">
-                                $main_title
+                                $mainTitle
                                 <div class="d-flex align-items-center justify-content-center " style="height: 100%">
                                     $table1_html
                                 </div>
@@ -141,7 +139,7 @@ class FilterForm
                         </div>
                     </div>
                     <div class='col-lg-3 col-md-6 border_debug'>
-                        $filter_form
+                        $filterForm
                     </div>
                 </div>
             </div>

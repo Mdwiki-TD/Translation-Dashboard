@@ -270,7 +270,7 @@ class PagesTable extends BaseTable
 
         $query = "select COUNT(*) AS count from $table where target != ''";
 
-        if (!empty($lang) && $lang != 'All') {
+        if ($this->service->isValid($lang)) {
             $query .= " AND lang = ?";
             $sqlParams[] = $lang;
             $apiParams['lang'] = $lang;
@@ -296,7 +296,7 @@ class PagesTable extends BaseTable
         $sqlParams = [];
         $apiParams = array('get' => "pages_users_to_main");
 
-        if (!empty($lang) && $lang != 'All') {
+        if ($this->service->isValid($lang)) {
             $query .= " AND pu.lang = ?";
             $sqlParams[] = $lang;
             $apiParams['lang'] = $lang;

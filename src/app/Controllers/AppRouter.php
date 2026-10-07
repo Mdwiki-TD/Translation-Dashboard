@@ -239,7 +239,7 @@ class AppRouter
             $lead_checked = "checked";
             $all_checked = "";
 
-            if ($tra_type == 'all') {
+            if (strtolower($tra_type) === 'all') {
                 $lead_checked = "";
                 $all_checked = "checked";
             }

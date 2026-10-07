@@ -278,7 +278,7 @@ class LeaderboardTable extends BaseTable
         ?string $month = null,
         ?string $category = null,
         ?string $campaign = null,
-        ?string $user_group = null,
+        ?string $userGroup = null,
     ): array {
         // api supported_params: [ "lang", "user", "year", "month", "category", "campaign" ]
         $apiParams = [
@@ -289,7 +289,7 @@ class LeaderboardTable extends BaseTable
             'month' => $month,
             'category' => $category,
             'campaign' => $campaign,
-            'user_group' => $user_group,
+            'user_group' => $userGroup,
         ];
         $sqlParams = [];
 
@@ -325,9 +325,9 @@ class LeaderboardTable extends BaseTable
             $query .= " ca.campaign = ? ";
             $sqlParams[] = $campaign;
         }
-        if ($this->service->isValid($user_group)) {
+        if ($this->service->isValid($userGroup)) {
             $query .= " u.user_group = ? ";
-            $sqlParams[] = $user_group;
+            $sqlParams[] = $userGroup;
         }
 
         $query .= <<<SQL
@@ -348,7 +348,7 @@ class LeaderboardTable extends BaseTable
         ?string $month = null,
         ?string $category = null,
         ?string $campaign = null,
-        ?string $user_group = null,
+        ?string $userGroup = null,
     ): array {
         return $this->getGraphData(
             null,
@@ -357,7 +357,7 @@ class LeaderboardTable extends BaseTable
             $month,
             $category,
             $campaign,
-            $user_group
+            $userGroup
         );
     }
 }

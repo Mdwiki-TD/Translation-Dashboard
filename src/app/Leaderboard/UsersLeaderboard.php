@@ -3,7 +3,7 @@
 namespace App\Leaderboard;
 
 use App\SQLorAPI\LeaderboardTable;
-use App\SQLorAPI\LeaderboardTable;
+use App\SQLorAPI\UsersLeaderboardTable;
 use App\Utils\HtmlUrls;
 use App\Leaderboard\Helpers\Filters\LeadHelp;
 use App\Leaderboard\Helpers\Filters\FilterForm;
@@ -15,11 +15,19 @@ class UsersLeaderboard
     private string $langcode;
     private string $username;
     private string $userToHtml;
+    private string $year;
+    private string $campaign;
 
-    public function __construct(string $username, string $langcode)
-    {
+    public function __construct(
+        string $username,
+        string $langcode,
+        int|string $year,
+        string $campaign
+    ) {
         // Sanitize and format the language code input
         $this->langcode = rawurldecode(str_replace("_", " ", $langcode));
+        $this->year = $year;
+        $this->campaign = $campaign;
 
         $this->username = $username;
         // Prepare username for safe rendering in HTML and links
@@ -27,8 +35,6 @@ class UsersLeaderboard
     }
 
     public function render(
-        int|string $year_y,
-        string $campaign,
         string $global_username,
         array $lead_words_table,
         array $cats_data
@@ -41,7 +47,7 @@ class UsersLeaderboard
         $user_langs = $user_most_langs[0]['lang'] ?? "";
 
         // Fetch user specific tables
-        $u_tables = (new UsersSub($this->username, $year_y, $this->langcode))->getTables();
+        $u_tables = (new UsersSub($this->username, $this->year, $this->langcode))->getTables();
 
         $dd = $u_tables['dd'];
         $dd_Pending = $u_tables['dd_Pending'];
@@ -71,26 +77,30 @@ class UsersLeaderboard
         // Create div for leaderboard header
         $item_div = "<span class='h4 text-center'>User: {$user_link}<br>{$xtools}</span>";
 
-        $filter_data = [
+        $filterData = [
             "user" => $this->username,
             "lang" => $this->langcode,
-            "year" => $year_y,
-            "camp" => $campaign
+            "year" => $this->year,
+            "camp" => $this->campaign
         ];
 
         // Fetch graph data for the specific user
         $graphData = (LeaderboardTable::getInstance())->getGraphData(
             $this->langcode,
             $this->username,
-            $year_y
+            $this->year
         );
         $graph = LangUserGraph::graphDataHtml($graphData);
 
-        $output .= FilterForm::lead_row(
+        $usersTable = UsersLeaderboardTable::getInstance();
+        $gData = $usersTable->getUserFilterData($this->username);
+
+        $output .= FilterForm::leadRow(
             $table1,
             $graph,
             $item_div,
-            $filter_data,
+            $filterData,
+            $gData,
             "user"
         );
 

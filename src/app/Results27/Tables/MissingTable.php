@@ -42,7 +42,7 @@ class MissingTable extends AbstractResultsTable
 
     public function render(array $items): string
     {
-        $isFullMode = ($this->traType === 'all');
+        $isFullMode = (strtolower($this->traType) === 'all');
 
         // Sort by English page views (descending)
         usort($items, static function (array $a, array $b): int {

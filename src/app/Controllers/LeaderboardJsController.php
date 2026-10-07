@@ -11,15 +11,14 @@ class LeaderboardJsController
 {
     public function renderFilterForm(): string
     {
-        $year  = strtolower(filter_input(INPUT_GET, 'year', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'all');
-        $month = strtolower(filter_input(INPUT_GET, 'month', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '');
-        $campaign  = strtolower(filter_input(INPUT_GET, 'camp', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'all');
+        $year       = filter_input(INPUT_GET, 'year', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'all';
+        $month      = filter_input(INPUT_GET, 'month', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
+        $campaign   = filter_input(INPUT_GET, 'camp', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'all';
 
-        $user_group = filter_input(INPUT_GET, 'project', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
+        $userGroup = filter_input(INPUT_GET, 'project', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
             ?? filter_input(INPUT_GET, 'user_group', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
             ?? 'all';
 
-        $user_group = strtolower($user_group);
         $months = [];
 
         if ($year && strtolower((string)$year) !== 'all') {
@@ -33,11 +32,13 @@ class LeaderboardJsController
         $projects = (TitlesTable::getInstance())->getProjects();
         $userGroups = array_column($projects, 'g_title');
 
-        return LeaderFilter::leaderboardFilter(
+        $leaderFilter = new LeaderFilter(
             $year,
             $month,
-            $user_group,
+            $userGroup,
             $campaign,
+        );
+        return $leaderFilter->leaderboardFilter(
             $years,
             $campaignsList,
             $userGroups,
