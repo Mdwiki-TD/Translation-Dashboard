@@ -29,7 +29,7 @@ class LeaderboardController
 
         $langcode = filter_input(INPUT_GET, 'langcode', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
             ?? filter_input(INPUT_GET, 'lang', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
-            ?? 'all';
+            ?? '';
 
         $username = filter_input(INPUT_GET, 'user', FILTER_UNSAFE_RAW) ?? '';
 
@@ -52,7 +52,6 @@ class LeaderboardController
         $cats_data        = array_column($categories_tab, "campaign", "category");
 
         if ($get == 'users' || !empty($username)) {
-
             // Pass the username to the constructor
             $usersLeaderboard = new UsersLeaderboard(
                 $username,
