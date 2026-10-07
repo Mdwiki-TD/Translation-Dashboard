@@ -119,7 +119,9 @@ class UsersLeaderboardTable extends BaseTable
                 $uData[$bucket][$key] ??= 0;
                 $uData[$bucket][$key] += 1;
             }
-        }
+        };
+        // { "years": { "2021": 6, ... }, "langs": { "ar": 14, ... }, "camps": { "Main": 12, ... } }
+
         return $uData;
     }
 

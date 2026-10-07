@@ -27,7 +27,7 @@ class FilterForm
 
     public static function makeFilterHtml(
         array $filterData,
-        array $gData,
+        array $filterLists,
         string $filterPage,
         ?bool $addcampDropdown = null
     ): string {
@@ -37,11 +37,14 @@ class FilterForm
         $year     = $filterData['year'] ?? '';
         $campaign = $filterData['camp'] ?? '';
 
-        $yearDropdown = self::DropdownNew('Year', $gData["years"], $year, 'year');
+        $yearDropdown = self::DropdownNew('Year', $filterLists["years"], $year, 'year');
+
+        $userAttr = htmlspecialchars((string)$user, ENT_QUOTES, 'UTF-8');
+        $langAttr = htmlspecialchars((string)$lang, ENT_QUOTES, 'UTF-8');
 
         if ($filterPage === 'user') {
 
-            $langsDropdown = self::DropdownNew('Lang', $gData["langs"], $lang, 'lang');
+            $langsDropdown = self::DropdownNew('Lang', $filterLists["langs"], $lang, 'lang');
 
             $Dropdown = <<<HTML
                 <div class="col-6">
@@ -53,7 +56,7 @@ class FilterForm
             HTML;
 
             if ($addcampDropdown) {
-                $campDropdown  = self::DropdownNew('Camp', $gData["camps"], $campaign, 'camp');
+                $campDropdown  = self::DropdownNew('Camp', $filterLists["camps"], $campaign, 'camp');
                 $Dropdown .= <<<HTML
                     <div class="col-4">
                         $campDropdown
@@ -64,7 +67,7 @@ class FilterForm
             // Hidden inputs are required for GET forms to preserve query parameters
             $hidden = <<<HTML
                 <input type="hidden" name="get" value="users" />
-                <input type="hidden" name="user" value="$user" />
+                <input type="hidden" name="user" value="$userAttr" />
             HTML;
         } else {
 
@@ -77,7 +80,7 @@ class FilterForm
             // Hidden inputs are required for GET forms to preserve query parameters
             $hidden = <<<HTML
                 <input type="hidden" name="get" value="langs" />
-                <input type="hidden" name="langcode" value="$lang" />
+                <input type="hidden" name="langcode" value="$langAttr" />
             HTML;
         }
 
@@ -98,10 +101,10 @@ class FilterForm
 
     public static function leadRow(
         array $table1,
-        string $graph,
+        string $graphHtml,
         string $mainTitle,
         array $filterData,
-        array $gData,
+        array $filterLists,
         string $filterPage
     ): string {
         // $table1 = ['total_articles' => $total_articles, 'total_words' => $total_words, 'total_views' => $total_views];
@@ -110,7 +113,7 @@ class FilterForm
         $total_words    = number_format($table1['total_words'] ?? 0);
         $total_views    = number_format($table1['total_views'] ?? 0);
 
-        $table1_html = <<<HTML
+        $table1Html = <<<HTML
             <div class="text-muted">
                 Articles: <strong>$total_articles</strong> &nbsp;
                 Words: <strong>$total_words</strong> &nbsp;
@@ -118,7 +121,7 @@ class FilterForm
             </div>
         HTML;
 
-        $filterForm = self::makeFilterHtml($filterData, $gData, $filterPage);
+        $filterForm = self::makeFilterHtml($filterData, $filterLists, $filterPage);
 
         return <<<HTML
             <div class='container-fluid'>
@@ -128,14 +131,14 @@ class FilterForm
                             <div class="list-group">
                                 $mainTitle
                                 <div class="d-flex align-items-center justify-content-center " style="height: 100%">
-                                    $table1_html
+                                    $table1Html
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class='col-lg-5 col-md-6'>
                         <div class="position-relative py-1 border rounded">
-                            $graph
+                            $graphHtml
                         </div>
                     </div>
                     <div class='col-lg-3 col-md-6 border_debug'>

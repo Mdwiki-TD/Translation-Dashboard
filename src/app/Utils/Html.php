@@ -54,7 +54,8 @@ class Html
         $options = "";
 
         foreach ($tab as $data) {
-            if (empty($data)) continue;
+            // Keep the "0" option. dont use empty()
+            if ($data === '') continue;
 
             // $se = ($cat === $data) ? 'selected' : '';
             $se = (strtolower((string)$cat) === strtolower((string)$data)) ? 'selected' : '';

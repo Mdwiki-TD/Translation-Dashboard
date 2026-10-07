@@ -45,7 +45,7 @@ class UsersLeaderboard
         $gData = $usersTable->getUserNewFilterData($this->username);
 
         // "langs": { "ar": 14, "nr": 1, "mg": 2 }
-        // TODO: use $gData["langs"] key with max value
+        // use $gData["langs"] key with max value
         $langs = $gData["langs"] ?? [];
         $userLang = !empty($langs) ? array_search(max($langs), $langs) : '';
 
@@ -94,12 +94,19 @@ class UsersLeaderboard
         );
         $graph = LangUserGraph::graphDataHtml($graphData);
 
+        $filterLists = [
+            "years" => array_keys($gData["years"] ?? []),
+            "langs" => array_keys($gData["langs"] ?? []),
+            "camps" => array_keys($gData["camps"] ?? []),
+        ];
+        rsort($filterLists["years"]);
+
         $output .= FilterForm::leadRow(
             $table1,
             $graph,
             $item_div,
             $filterData,
-            $gData,
+            $filterLists,
             "user"
         );
 

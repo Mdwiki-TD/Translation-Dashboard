@@ -110,22 +110,36 @@ class PagesTable extends BaseTable
 
     public function getLangPages(string $lang, int|string $yearY): array
     {
+        if (!$this->service->isValid($lang)) {
+            return [];
+        }
+
         $key = (string)$lang . (string)$yearY;
+
         if (!empty(self::$pagesCache[$key] ?? [])) {
             return self::$pagesCache[$key];
         }
 
         $apiParams = ['get' => 'pages_by_user_or_lang', 'lang' => $lang];
-        $query = "select * from pages p where p.lang = ?";
+
+        $query = <<<SQL
+            SELECT DISTINCT p.title, p.word, p.translate_type, p.cat, p.lang, p.user,
+                p.target, p.date, p.pupdate, p.add_date, p.deleted, v.views
+            FROM pages p
+            LEFT JOIN views_new_all v ON p.target = v.target AND p.lang = v.lang
+            where p.lang = ?
+        SQL;
+
         $params = [$lang];
 
         if ($this->service->isValid($yearY)) {
-            $query .= " and YEAR(p.date) = ?";
+            $query .= " and ? IN (YEAR(p.date), YEAR(p.pupdate), YEAR(p.add_date))";
             $params[] = $yearY;
             $apiParams['year'] = $yearY;
         }
 
         $uData = $this->service->superFunction($apiParams, $params, $query);
+
         self::$pagesCache[$key] = $uData;
 
         return $uData;

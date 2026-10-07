@@ -284,24 +284,24 @@ class LeaderboardTable extends BaseTable
             $sqlParams[] = $user;
         }
         if ($this->service->isValid($year)) {
-            $query .= " YEAR(p.pupdate) = ? ";
+            $query .= " AND YEAR(p.pupdate) = ? ";
             $sqlParams[] = $year;
         }
         if ($this->service->isValid($month)) {
-            $query .= " MONTH(p.pupdate) = ? ";
+            $query .= " AND MONTH(p.pupdate) = ? ";
             $sqlParams[] = $month;
         }
 
         // applyCampaignCategory
         if ($this->service->isValid($category)) {
-            $query .= " p.cat = ? ";
+            $query .= " AND p.cat = ? ";
             $sqlParams[] = $category;
         } elseif ($this->service->isValid($campaign)) {
-            $query .= " ca.campaign = ? ";
+            $query .= " AND ca.campaign = ? ";
             $sqlParams[] = $campaign;
         }
         if ($this->service->isValid($userGroup)) {
-            $query .= " u.user_group = ? ";
+            $query .= " AND u.user_group = ? ";
             $sqlParams[] = $userGroup;
         }
 
