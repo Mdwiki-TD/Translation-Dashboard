@@ -8,68 +8,94 @@ use App\Leaderboard\Helpers\Filters\LeadHelp;
 
 class UsersSub
 {
-    public static function add_inp(array $dd_Pending, string $user, int|string $year_y): array
+    private string $langcode;
+    private string $username;
+    private string|int $year;
+
+    public function __construct(
+        string $username,
+        int|string $year,
+        string $langcode
+    ) {
+        // Sanitize and format the language code input
+        $this->langcode = rawurldecode(str_replace("_", " ", $langcode));
+
+        $this->username = rawurldecode(str_replace("_", " ", $username));
+        $this->year = $year;
+    }
+
+    private function add_inp(array $pendingItems, array $to_add): array
     {
-        $to_add = (InProcessTable::getInstance())->getUserProcessNew($user, (string)$year_y);
 
         foreach ($to_add as $_ => $Taab) {
             $kry = LeadHelp::make_key($Taab);
 
-            if (!in_array($kry, array_keys($dd_Pending))) {
-                $dd_Pending[$kry] = $Taab;
+            if (!in_array($kry, array_keys($pendingItems))) {
+                $pendingItems[$kry] = $Taab;
             }
         }
 
-        return $dd_Pending;
+        return $pendingItems;
     }
 
-    public static function pages_tables(string $user_main, int|string $year_y, string $lang_y): array
+    private function pagesTables(array $lead_words_table, array $cats_data): array
     {
-        $dd = [];
-        $dd_Pending = [];
+        $missingItems = [];
+        $pendingItems = [];
 
-        $sql_result = (PagesTable::getInstance())->getUserPages($user_main, $year_y, $lang_y);
+        $sql_result = (PagesTable::getInstance())->getUserPages($this->username, $this->year, $this->langcode);
 
         foreach ($sql_result as $yhu => $tabb) {
+
+            // Ensure the campaign is set
+            $category = $tabb['cat'] ?? "";
+            if (!empty($category) && empty($tabb['campaign'] ?? "")) {
+                $tabb["campaign"] = $cats_data[$category] ?? '';
+            }
+
+            // Ensure the word count is set
+            $word = $tabb['word'] ?? 0;
+            if ($word < 1) {
+                $tabb['word'] = $lead_words_table[$tabb['title']] ?? 0;
+            }
+
             $kry = LeadHelp::make_key($tabb);
 
             if (!empty($tabb['target'] ?? '')) {
-                $dd[$kry] = $tabb;
+                $missingItems[$kry] = $tabb;
             } else {
-                $dd_Pending[$kry] = $tabb;
+                $pendingItems[$kry] = $tabb;
             }
         }
 
-        return ['dd' => $dd, 'dd_Pending' => $dd_Pending];
+        return ['missingItems' => $missingItems, 'pendingItems' => $pendingItems];
     }
 
-    public static function get_users_tables(string $mainuser, int|string $year_y, string $lang_y): array
+    public function getTables(array $lead_words_table, array $cats_data): array
     {
-        $result = ['dd' => [], 'dd_Pending' => [], 'table_of_views' => []];
+        $result = [
+            'missingItems' => [],
+            'pendingItems' => [],
+        ];
 
-        if (empty($mainuser)) {
+        if (empty($this->username)) {
             return $result;
         }
 
-        $user_main = $mainuser;
-        $user_main = rawurldecode(str_replace("_", " ", $user_main));
+        $p_tables = $this->pagesTables($lead_words_table, $cats_data);
 
-        $p_tables = self::pages_tables($user_main, $year_y, $lang_y);
+        $missingItems = $p_tables['missingItems'];
+        $pendingItems = $p_tables['pendingItems'];
 
-        $dd = $p_tables['dd'];
-        $dd_Pending = $p_tables['dd_Pending'];
+        $to_add = (InProcessTable::getInstance())->getUserProcessNew($this->username, (string)$this->year);
 
-        $dd_Pending = self::add_inp($dd_Pending, $user_main, $year_y);
+        $pendingItems = $this->add_inp($pendingItems, $to_add);
 
-        krsort($dd);
+        krsort($missingItems);
+        krsort($pendingItems);
 
-        krsort($dd_Pending);
-
-        $table_of_views = [];
-
-        $result['dd'] = $dd;
-        $result['dd_Pending'] = $dd_Pending;
-        $result['table_of_views'] = $table_of_views;
+        $result['missingItems'] = $missingItems;
+        $result['pendingItems'] = $pendingItems;
 
         return $result;
     }

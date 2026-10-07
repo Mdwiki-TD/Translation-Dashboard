@@ -8,27 +8,39 @@ use App\Leaderboard\Helpers\Filters\LeadHelp;
 
 class LangsSub
 {
-    public static function add_inp(array $dd_Pending, string $mainlang, int|string $year_y): array
+    private string $langcode;
+    private string|int $year;
+
+    public function __construct(
+        string $langcode,
+        int|string $year
+    ) {
+        // Sanitize and format the language code input
+        $this->langcode = rawurldecode(str_replace("_", " ", $langcode));
+
+        $this->year = $year;
+    }
+
+    private function add_inp(array $pendingItems, array $to_add): array
     {
-        $to_add = (InProcessTable::getInstance())->getLangInProcessByYear($mainlang, (string)$year_y);
 
         foreach ($to_add as $_ => $Taab) {
             $kry = LeadHelp::make_key($Taab);
 
-            if (!in_array($kry, array_keys($dd_Pending))) {
-                $dd_Pending[$kry] = $Taab;
+            if (!in_array($kry, array_keys($pendingItems))) {
+                $pendingItems[$kry] = $Taab;
             }
         }
 
-        return $dd_Pending;
+        return $pendingItems;
     }
 
-    public static function pages_tables(string $mainlang, int|string $year_y): array
+    private function pagesTables(array $lead_words_table, array $cats_data): array
     {
-        $dd = [];
-        $dd_Pending = [];
+        $missingItems = [];
+        $pendingItems = [];
 
-        $sql_result = (PagesTable::getInstance())->getLangPages($mainlang, $year_y);
+        $sql_result = (PagesTable::getInstance())->getLangPages($this->langcode, $this->year);
 
         foreach ($sql_result as $yhu => $tabb) {
             if (empty($tabb["lang"] ?? '')) {
@@ -36,38 +48,55 @@ class LangsSub
                 continue;
             }
 
+            // Ensure the campaign is set
+            $category = $tabb['cat'] ?? "";
+            if (!empty($category) && empty($tabb['campaign'] ?? "")) {
+                $tabb["campaign"] = $cats_data[$category] ?? '';
+            }
+
+            // Ensure the word count is set
+            $word = $tabb['word'] ?? 0;
+            if ($word < 1) {
+                $tabb['word'] = $lead_words_table[$tabb['title']] ?? 0;
+            }
+
             $kry = LeadHelp::make_key($tabb);
 
             if (!empty($tabb['target'] ?? '')) {
-                $dd[$kry] = $tabb;
+                $missingItems[$kry] = $tabb;
             } else {
-                $dd_Pending[$kry] = $tabb;
+                $pendingItems[$kry] = $tabb;
             }
         }
 
-        return ['dd' => $dd, 'dd_Pending' => $dd_Pending];
+        return ['missingItems' => $missingItems, 'pendingItems' => $pendingItems];
     }
 
-    public static function get_langs_tables(string $mainlang, int|string $year_y): array
+    public function getTables(array $lead_words_table, array $cats_data): array
     {
-        $result = ['dd' => [], 'dd_Pending' => [], 'table_of_views' => []];
+        $result = [
+            'missingItems' => [],
+            'pendingItems' => [],
+        ];
 
-        if (empty($mainlang)) {
+        if (empty($this->langcode)) {
             return $result;
         }
 
-        $p_tables = self::pages_tables($mainlang, $year_y);
+        $p_tables = $this->pagesTables($lead_words_table, $cats_data);
 
-        $dd = $p_tables['dd'];
-        $dd_Pending = $p_tables['dd_Pending'];
+        $missingItems = $p_tables['missingItems'];
+        $pendingItems = $p_tables['pendingItems'];
 
-        $dd_Pending = self::add_inp($dd_Pending, $mainlang, $year_y);
+        $to_add = (InProcessTable::getInstance())->getLangInProcessByYear($this->langcode, (string)$this->year);
 
-        $table_of_views = []; //get_lang_views($mainlang, $year_y);
+        $pendingItems = $this->add_inp($pendingItems, $to_add);
 
-        $result['dd'] = $dd;
-        $result['dd_Pending'] = $dd_Pending;
-        $result['table_of_views'] = $table_of_views;
+        krsort($missingItems);
+        krsort($pendingItems);
+
+        $result['missingItems'] = $missingItems;
+        $result['pendingItems'] = $pendingItems;
 
         return $result;
     }

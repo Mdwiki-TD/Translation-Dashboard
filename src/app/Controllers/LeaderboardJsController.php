@@ -2,23 +2,50 @@
 
 namespace App\Controllers;
 
+use App\SQLorAPI\TitlesTable;
+use App\SQLorAPI\CategoriesTable;
+use App\SQLorAPI\PagesTable;
 use App\Leaderboard\Helpers\Filters\LeaderFilter;
 
 class LeaderboardJsController
 {
     public function renderFilterForm(): string
     {
-        $year  = strtolower(filter_input(INPUT_GET, 'year', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'all');
-        $month = strtolower(filter_input(INPUT_GET, 'month', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '');
-        $camp  = strtolower(filter_input(INPUT_GET, 'camp', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'all');
+        $year       = filter_input(INPUT_GET, 'year', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'all';
+        $month      = filter_input(INPUT_GET, 'month', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
+        $campaign   = filter_input(INPUT_GET, 'camp', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'all';
 
-        $user_group = filter_input(INPUT_GET, 'project', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
+        $userGroup = filter_input(INPUT_GET, 'project', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
             ?? filter_input(INPUT_GET, 'user_group', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
             ?? 'all';
 
-        $user_group = strtolower($user_group);
+        $months = [];
 
-        return LeaderFilter::leaderboard_filter($year, $month, $user_group, $camp, 'x.php');
+        if ($year && strtolower((string)$year) !== 'all') {
+            // TODO: Add months within js code `leaderboard_index_js.js`
+            $months = ["{$year}-01"];
+        }
+
+        $years = (PagesTable::getInstance())->getPagesWithPupdate();
+        $categories_tab = (CategoriesTable::getInstance())->getCategories();
+        $campaignsList = array_column($categories_tab, 'campaign');
+
+        $projects = (TitlesTable::getInstance())->getProjects();
+        $userGroups = array_column($projects, 'g_title');
+
+        $leaderFilter = new LeaderFilter(
+            $year,
+            $month,
+            $userGroup,
+            $campaign,
+        );
+        return $leaderFilter->leaderboardFilter(
+            $years,
+            $campaignsList,
+            $userGroups,
+            $months,
+            'leaderboard_js.php'
+        );
     }
 
     public function renderNumbersCard(): string
@@ -177,8 +204,6 @@ class LeaderboardJsController
         $topLangsCardHtml           = $this->renderTopLangsCard();
 
         echo <<<HTML
-            <script src="/Translation_Dashboard/js/graph_js.js"></script>
-            <script src="/Translation_Dashboard/js/graph_api.js"></script>
             {$filterFormHtml}
             <hr />
             <div class="container-fluid">
@@ -195,7 +220,6 @@ class LeaderboardJsController
                     </div>
                 </div>
             </div>
-            <script src="/Translation_Dashboard/js/leaderboard_index_js.js"></script>
             <script>
                 // when page ready
                 $(document).ready(async function() {

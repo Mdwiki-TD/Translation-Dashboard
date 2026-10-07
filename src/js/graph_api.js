@@ -1,4 +1,8 @@
 
+/**
+ * @param {any} id
+ * @param {{ campaign: any; camp: any; }} params
+ */
 function graph_js_params(id, params) {
 
 
@@ -21,8 +25,8 @@ function graph_js_params(id, params) {
             var results = data.results
             // { "date": "2022-01", "count": "1" }, { "date": "2022-02", "count": "1" }, ....
 
-            const labels = results.map(result => result.date);
-            const dat = results.map(result => result.count);
+            const labels = results.map((/** @type {{ date: any; }} */ result) => result.date);
+            const dat = results.map((/** @type {{ count: any; }} */ result) => result.count);
             /*
 
             var labels = []
@@ -36,6 +40,7 @@ function graph_js_params(id, params) {
             console.log(JSON.stringify(labels))
             console.log(JSON.stringify(dat))
 
+            // @ts-ignore
             graph_js(labels, dat, id)
         })
 }

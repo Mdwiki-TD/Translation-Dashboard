@@ -6,14 +6,14 @@ class Helps
 {
     public static function sort_py_pageviews_rows(array $items, array $en_views_tab): array
     {
-        $dd = [];
+        $data = [];
         foreach ($items as $t) {
             $t = str_replace("_", " ", $t);
             $kry = $en_views_tab[$t] ?? 0;
-            $dd[$t] = $kry;
+            $data[$t] = $kry;
         }
-        arsort($dd);
-        return $dd;
+        arsort($data);
+        return $data;
     }
 
     public static function sort_py_importance(array $items, array $Assessment_table): array
@@ -28,7 +28,7 @@ class Helps
         ];
 
         $empty = $Assessment_fff['Unknown'];
-        $dd = [];
+        $data = [];
         foreach ($items as $t) {
             $t = str_replace("_", " ", $t);
             $aa = $Assessment_table[$t] ?? null;
@@ -36,10 +36,10 @@ class Helps
             if (isset($aa)) {
                 $kry = $Assessment_fff[$aa] ?? $empty;
             }
-            $dd[$t] = $kry;
+            $data[$t] = $kry;
         }
-        arsort($dd);
-        return $dd;
+        arsort($data);
+        return $data;
     }
 
     public static function make_translate_urls(
@@ -48,7 +48,7 @@ class Helps
         int|string $words,
         string $langcode,
         string $cat,
-        string $camp,
+        string $campaign,
         bool|int|string $inprocess,
         bool|int|string $in_progress_translation_button,
         string $_user_,
@@ -80,20 +80,20 @@ class Helps
                 $title,
                 $langcode,
                 $cat,
-                $camp,
+                $campaign,
                 'all',
             );
             $translate_url = TrLink::makeContentTranslationUrl(
                 $title,
                 $langcode,
                 $cat,
-                $camp,
+                $campaign,
                 $tra_type,
             );
         } else {
             // links to translate_med/index.php
-            $full_translate_url = TrLink::makeTrLinkMedwiki($title, $langcode, $cat, $camp, "all", $words);
-            $translate_url = TrLink::makeTrLinkMedwiki($title, $langcode, $cat, $camp, $tra_type, $words);
+            $full_translate_url = TrLink::makeTrLinkMedwiki($title, $langcode, $cat, $campaign, "all", $words);
+            $translate_url = TrLink::makeTrLinkMedwiki($title, $langcode, $cat, $campaign, $tra_type, $words);
         }
 
         $buttons = "<a href='$translate_url' class='btn btn-outline-primary btn-sm' target='_blank'>Translate</a>";

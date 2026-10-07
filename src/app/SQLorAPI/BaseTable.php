@@ -13,6 +13,6 @@ class BaseTable
     {
         $this->db = new Database();
         // set $useTdApi to null in td repo
-        $this->service = $service ?? new ApiOrSqlService($this->db);
+        $this->service = $service ?? ApiOrSqlService::getInstance($this->db);
     }
 }

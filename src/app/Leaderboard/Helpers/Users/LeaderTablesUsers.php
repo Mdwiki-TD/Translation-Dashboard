@@ -6,38 +6,24 @@ use App\Utils\Html;
 
 class LeaderTablesUsers
 {
-    public static function module_copy_data(array $users_tab): string
+    private array $data;
+
+    public function __construct(array $data)
     {
-        $lal = "<textarea cols='55' rows='10' id='users_targets' name='users_targets'>";
-
-        foreach ($users_tab as $tab) {
-            // get first item in $langs
-            $user = $tab['user'];
-            $lang = $tab['lang'];
-
-            if (empty($lang) || empty($user)) continue;
-
-            $lal .= "#{{#target:User:$user|$lang.wikipedia.org}}\n";
-        }
-
-        $lal .= '</textarea>';
-
-        $modal = Html::make_modal_fade('', $lal, 'targets', '<a class="btn btn-outline-primary" onclick="copy_target_text(\'users_targets\')">Copy</a>');
-
-        return $modal;
-    }
-
-    public static function makeUsersTable(array $users, int $min = 2): string
-    {
-        // sort new_data by [lang][count]
-        uasort($users, function ($a, $b) {
+        // sort data by [item][count]
+        uasort($data, function ($a, $b): int {
             return $b["count"] <=> $a["count"];
         });
 
-        $numb = 0;
-        $trs = "";
+        $this->data = $data;
+    }
+    public function makeUsersTable(int $min = 2): string
+    {
 
-        foreach ($users as $user => $tab) {
+        $numb = 0;
+        $text = "";
+
+        foreach ($this->data as $user => $tab) {
             // if ($usercount < $min && $numb > 15) continue;
             $numb += 1;
 
@@ -57,7 +43,7 @@ class LeaderTablesUsers
             $use = rawurlencode($user);
             $use = str_replace('+', '_', $use);
 
-            $trs .= <<<HTML
+            $text .= <<<HTML
                 <tr>
                     <td>$numb</td>
                     <td><a href='leaderboard.php?get=users&user=$use'>$user</a></td>
@@ -80,11 +66,29 @@ class LeaderTablesUsers
                     </tr>
                 </thead>
                 <tbody>
-                    $trs
+                    {$text}
                 </tbody>
-                <tfoot>
-                </tfoot>
             </table>
         HTML;
+    }
+    public static function module_copy_data(array $users_tab): string
+    {
+        $lal = "<textarea cols='55' rows='10' id='users_targets' name='users_targets'>";
+
+        foreach ($users_tab as $tab) {
+            // get first item in $langs
+            $user = $tab['user'];
+            $lang = $tab['lang'];
+
+            if (empty($lang) || empty($user)) continue;
+
+            $lal .= "#{{#target:User:$user|$lang.wikipedia.org}}\n";
+        }
+
+        $lal .= '</textarea>';
+
+        $modal = Html::make_modal_fade('', $lal, 'targets', '<a class="btn btn-outline-primary" onclick="copy_target_text(\'users_targets\')">Copy</a>');
+
+        return $modal;
     }
 }

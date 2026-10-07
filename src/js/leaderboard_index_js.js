@@ -1,13 +1,13 @@
 
 async function get_categories() {
-    const campaign_to_categories = {};
+    const campaigns = {};
     const response = await fetch('/api.php?get=categories');
     const data = await response.json();
 
     data.results.forEach(item => {
-        campaign_to_categories[item.campaign] = item.category;
+        campaigns[item.campaign] = item.category;
     });
-    return campaign_to_categories;
+    return campaigns;
 }
 
 async function renderJsLeaderboard() {

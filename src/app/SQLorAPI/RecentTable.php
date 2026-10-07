@@ -44,7 +44,7 @@ class RecentTable extends BaseTable
             'limit' => '250',
         ];
 
-        if (!empty($lang) && $lang != 'All') {
+        if ($this->service->isValid($lang)) {
             $langLine = "and p.lang = ?";
             $sqlParams[] = $lang;
 
@@ -88,7 +88,7 @@ class RecentTable extends BaseTable
 
         $langLine = '';
 
-        if (!empty($lang) && $lang != 'All') {
+        if ($this->service->isValid($lang)) {
             $langLine = "and lang = ?";
             $sqlParams[] = $lang;
             $apiParams['lang'] = $lang;
@@ -126,7 +126,7 @@ class RecentTable extends BaseTable
 
         $query = "SELECT * FROM $table WHERE target != ''";
 
-        if (!empty($lang) && $lang != 'All') {
+        if ($this->service->isValid($lang)) {
             $query .= " AND lang = ?";
             $sqlParams[] = $lang;
             $apiParams['lang'] = $lang;
@@ -147,14 +147,13 @@ class RecentTable extends BaseTable
             // $sqlParams[] = $offset;
         }
 
-        $dd = $this->service->superFunction($apiParams, $sqlParams, $query);
+        $data = $this->service->superFunction($apiParams, $sqlParams, $query);
 
         // sort the table by add_date
-        usort($dd, function ($a, $b) {
+        usort($data, function ($a, $b) {
             return strtotime($b['add_date']) - strtotime($a['add_date']);
         });
 
-        return $dd;
+        return $data;
     }
-
 }

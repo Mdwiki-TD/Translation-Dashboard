@@ -7,8 +7,6 @@ use App\Settings;
 use App\Leaderboard\MainLeaderboard;
 use App\Leaderboard\LangsLeaderboard;
 use App\Leaderboard\UsersLeaderboard;
-use App\SQLorAPI\ViewsTable;
-use App\Leaderboard\Helpers\Graph\Graph;
 use App\Leaderboard\Helpers\Graph\GraphApi;
 use App\Leaderboard\Helpers\Camps\CampsText;
 use App\SQLorAPI\CategoriesTable;
@@ -25,73 +23,83 @@ class LeaderboardController
 
     public function handleRequest(): void
     {
-        $global_username = $this->currentUser->getUsername();
+        // -----
 
         $get = filter_input(INPUT_GET, 'get', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
 
-        $langcode = filter_input(INPUT_GET, 'langcode', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
-        $mainlang = filter_input(INPUT_GET, 'lang', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'All';
+        $langcode = filter_input(INPUT_GET, 'langcode', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
+            ?? filter_input(INPUT_GET, 'lang', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
+            ?? '';
 
-        $user_to_html = filter_input(INPUT_GET, 'user', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
-        $user_to_curl = filter_input(INPUT_GET, 'user', FILTER_UNSAFE_RAW) ?? '';
+        $username = filter_input(INPUT_GET, 'user', FILTER_UNSAFE_RAW) ?? '';
 
-        $year_y   = filter_input(INPUT_GET, 'year', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'All';
-        $month_y  = filter_input(INPUT_GET, 'month', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
-        $camp     = filter_input(INPUT_GET, 'camp', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'All';
+        $year       = filter_input(INPUT_GET, 'year', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'All';
+        $month      = filter_input(INPUT_GET, 'month', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
+        $campaign   = filter_input(INPUT_GET, 'camp', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'All';
 
-        $_titles_infos   = (TitlesTable::getInstance())->getTitlesInfos();
-        $categories_tab = (CategoriesTable::getInstance())->getCategories();
+        $userGroup = filter_input(INPUT_GET, 'project', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
+            ?? filter_input(INPUT_GET, 'user_group', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
+            ?? 'all';
+
+        // -----
+
+        $global_username  = $this->currentUser->getUsername();
+
+        $_titles_infos    = (TitlesTable::getInstance())->getTitlesInfos();
+        $categories_tab   = (CategoriesTable::getInstance())->getCategories();
 
         $lead_words_table = array_column($_titles_infos, 'w_lead_words', 'title');
-        $cats_data = array_column($categories_tab, "campaign", "category");
+        $cats_data        = array_column($categories_tab, "campaign", "category");
 
-        if ($get == 'users' || !empty($user_to_curl)) {
+        if ($get == 'users' || !empty($username)) {
+            // Pass the username to the constructor
+            $usersLeaderboard = new UsersLeaderboard(
+                $username,
+                $langcode,
+                $year,
+                $campaign,
+            );
 
-            echo (new UsersLeaderboard())->render(
-                $mainlang,
-                $year_y,
-                $camp,
-                $user_to_curl,
-                $user_to_html,
+            echo $usersLeaderboard->render(
                 $global_username,
                 $lead_words_table,
                 $cats_data
             );
         } elseif ($get == 'langs' || !empty($langcode)) {
-
-            echo (new LangsLeaderboard())->render(
+            // Pass the language code directly to the constructor
+            $langsLeaderboard = new LangsLeaderboard(
                 $langcode,
-                $year_y,
-                $camp,
+                $year,
+                $campaign,
+            );
+
+            echo $langsLeaderboard->render(
                 $lead_words_table,
                 $cats_data
             );
         } elseif (!empty($_GET['camps'] ?? '')) {
-            // http://localhost:9001/Translation_Dashboard/leaderboard.php?camps=1
+            // Example endpoint: http://localhost:9001/Translation_Dashboard/leaderboard.php?camps=1
 
             CampsText::echo_html();
-        } elseif (!empty($_GET['graph'] ?? '')) {
-            // http://localhost:9001/Translation_Dashboard/leaderboard.php?graph=1
-
-            $data = (ViewsTable::getInstance())->getGraphData();
-            echo Graph::print_graph_tab($data);
         } elseif (!empty($_GET['graph_api'] ?? '')) {
-            // http://localhost:9001/Translation_Dashboard/leaderboard.php?graph_api=1
+            // Example endpoint: http://localhost:9001/Translation_Dashboard/leaderboard.php?graph_api=1
 
-            echo GraphApi::print_graph_tab_2_new();
+            echo GraphApi::renderGraph();
         } else {
-
-            $user_group = filter_input(INPUT_GET, 'project', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
-                ?? filter_input(INPUT_GET, 'user_group', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
-                ?? 'all';
 
             $langs_data = (TitlesTable::getInstance())->getLangs();
 
             $settings = Settings::getInstance();
             $addcat = !$settings->isProduction() && (isset($_GET['nocat']));
 
-            $controller = new MainLeaderboard();
-            echo $controller->render($year_y, $camp, $user_group, $langs_data, $addcat, $month_y);
+            // Initialize MainLeaderboard with options passed to constructor
+            $controller = new MainLeaderboard(
+                $year,
+                $campaign,
+                $userGroup,
+                $month
+            );
+            echo $controller->render($langs_data, $addcat);
         }
     }
 }

@@ -20,7 +20,7 @@ class Camps
             $cats_data['RTT'] = 'Main';
         }
 
-        foreach ($cats_data as $cat => $camp) {
+        foreach ($cats_data as $cat => $campaign) {
             $members = (CategoriesTable::getInstance())->getCategoriesMembers($cat);
 
             foreach ($members as $member) {
@@ -28,7 +28,7 @@ class Camps
 
                 if (!isset($articles_to_camps[$member])) $articles_to_camps[$member] = [];
 
-                $articles_to_camps[$member][] = $camp;
+                $articles_to_camps[$member][] = $campaign;
             }
         }
 

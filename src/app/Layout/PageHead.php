@@ -38,6 +38,7 @@ class PageHead
             "/Translation_Dashboard/css/theme.css",
         ];
 
+        // TODO: MOVE JS SCRIPTS TO Footer
         $this->scripts = [
             "$hoste/ajax/libs/jquery/3.7.0/jquery.min.js",
             "$hoste/ajax/libs/popper.js/2.11.8/umd/popper.min.js",
@@ -56,6 +57,8 @@ class PageHead
             "/Translation_Dashboard/js/to.js",
             "/td/plugins/chart.js/Chart.min.js",
             "/Translation_Dashboard/js/graph_js.js",
+            "/Translation_Dashboard/js/leaderboard_index_js.js",
+            "/Translation_Dashboard/js/graph_api.js",
             "/Translation_Dashboard/js/theme.js",
         ];
 

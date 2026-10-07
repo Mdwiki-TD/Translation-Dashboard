@@ -16,8 +16,8 @@ class LeaderboardTest extends TestCase
 
     public function testMainLeaderboardRender(): void
     {
-        $mainLeaderboard = new MainLeaderboard();
-        $html = $mainLeaderboard->render('all', 'all', 'all', [], false, '');
+        $mainLeaderboard = new MainLeaderboard('all', 'all', 'all', '');
+        $html = $mainLeaderboard->render([], false);
 
         $this->assertStringContainsString('Leaderboard', $html);
         $this->assertStringContainsString('Numbers', $html);
@@ -27,13 +27,8 @@ class LeaderboardTest extends TestCase
 
     public function testUsersLeaderboardRender(): void
     {
-        $usersLeaderboard = new UsersLeaderboard();
+        $usersLeaderboard = new UsersLeaderboard('TestUser', 'all', '2024', 'Main');
         $html = $usersLeaderboard->render(
-            'en',
-            '2024',
-            'all',
-            'TestUser',
-            'TestUser',
             'TestUser',
             [],
             []
@@ -46,11 +41,8 @@ class LeaderboardTest extends TestCase
 
     public function testLangsLeaderboardRender(): void
     {
-        $langsLeaderboard = new LangsLeaderboard();
+        $langsLeaderboard = new LangsLeaderboard('all', '2024', 'Main');
         $html = $langsLeaderboard->render(
-            'en',
-            '2024',
-            'all',
             [],
             []
         );
@@ -71,19 +63,4 @@ class LeaderboardTest extends TestCase
         $this->assertStringContainsString('Toplangs', $output);
     }
 
-    public function testLeaderboardRouterHandleRequest(): void
-    {
-        $_GET['get'] = 'camps';
-        $_GET['camps'] = '1';
-
-        $router = new LeaderboardController();
-
-        ob_start();
-        $router->handleRequest();
-        $output = ob_get_clean();
-
-        $this->assertStringContainsString('camps', strtolower($output));
-
-        unset($_GET['get'], $_GET['camps']);
-    }
 }

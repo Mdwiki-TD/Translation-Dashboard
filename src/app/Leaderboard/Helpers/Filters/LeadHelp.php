@@ -77,9 +77,9 @@ class LeadHelp
 		if (count($new_camps) > 0) {
 			$campaign_data = "";
 			$cat_or_camp_link = "";
-			foreach ($new_camps as $camp) {
-				$cat_or_camp_link .= "<a href='leaderboard.php?camp=$camp' style='white-space: nowrap;'>$camp</a><br>";
-				$campaign_data .= "$camp, ";
+			foreach ($new_camps as $campaign) {
+				$cat_or_camp_link .= "<a href='leaderboard.php?camp=$campaign' style='white-space: nowrap;'>$campaign</a><br>";
+				$campaign_data .= "$campaign, ";
 			}
 			// remove last <br>
 			$cat_or_camp_link = substr($cat_or_camp_link, 0, -4);
@@ -176,13 +176,10 @@ class LeadHelp
 	}
 
 	public static function make_table_lead(
-		array $dd,
+		array $missingItems,
 		string $tab_type,
-		array $views_table,
 		string $page_type,
 		bool $user_is_global_username,
-		array $lead_words_table,
-		array $cats_data,
 	): array {
 		$total_words = 0;
 		$total_views = 0;
@@ -215,22 +212,18 @@ class LeadHelp
 				<tbody>
 			HTML;
 
-		$total_articles = count($dd);
+		$total_articles = count($missingItems);
 		$noo = 0;
 
-		$articlesto_camps = Camps::get_articles_to_camps();
+		// $articlesto_camps = []; // Camps::get_articles_to_camps();
 
-		foreach ($dd as $tat => $tabe) {
+		foreach ($missingItems as $tat => $tabe) {
 
 			$noo += 1;
 
 			$deleted = $tabe['deleted'] ?? 0;
-			$target  = $tabe['target'] ?? "";
-			$lange   = $tabe['lang'] ?? "";
 
 			$view_number  = $tabe['views'] ?? 0;
-
-			if ($view_number == 0) $view_number = $views_table[$lange][$target] ?? 0;
 
 			if ($deleted == 1) {
 				$view_number = 0;
@@ -238,18 +231,12 @@ class LeadHelp
 
 			$total_views += $view_number;
 
-			$mdtitle = $tabe['title'] ?? "";
-			$word2 = $lead_words_table[$mdtitle] ?? 0;
 			$word = $tabe['word'] ?? 0;
-
-			if ($word < 1) $word = $word2;
 
 			$total_words += $word;
 
-			$category = $tabe['cat'] ?? "";
-			$tabe["campaign"] = $cats_data[$category] ?? '';
-
-			$new_camps = $articlesto_camps[trim($mdtitle)] ?? [];
+			// $mdtitle = $tabe['title'] ?? "";
+			$new_camps = []; // $articlesto_camps[trim($mdtitle)] ?? [];
 
 			$table2 .= self::make_td_fo_user(
 				$tabe,
@@ -278,19 +265,13 @@ class LeadHelp
 	public static function make_users_lead(
 		array $tab,
 		string $tab_type,
-		array $views_table,
 		bool $user_is_global_username,
-		array $lead_words_table,
-		array $cats_data,
 	): array {
 		[$_, $table_pnd] = self::make_table_lead(
 			$tab,
 			$tab_type,
-			$views_table,
 			'users',
 			$user_is_global_username,
-			$lead_words_table,
-			$cats_data,
 		);
 
 		return [$_, $table_pnd];
@@ -299,19 +280,12 @@ class LeadHelp
 	public static function make_langs_lead(
 		array $tab,
 		string $tab_type,
-		array $views_table,
-		string $lang,
-		array $lead_words_table,
-		array $cats_data,
 	): array {
 		[$_, $table_pnd] = self::make_table_lead(
 			$tab,
 			$tab_type,
-			$views_table,
 			'langs',
 			false,
-			$lead_words_table,
-			$cats_data,
 		);
 
 		return [$_, $table_pnd];

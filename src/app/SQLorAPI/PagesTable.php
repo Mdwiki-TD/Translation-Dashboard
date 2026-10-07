@@ -11,9 +11,6 @@ class PagesTable extends BaseTable
     private static array $pupdateCache = [];
     private static array $countPagesCache = [];
     private static array $countPagesCacheNotEmpty = [];
-    private static array $userYearsCache = [];
-    private static array $userLangsCache = [];
-    private static array $userCampsCache = [];
     private static array $langYearsCache = [];
 
 
@@ -34,9 +31,6 @@ class PagesTable extends BaseTable
         self::$pupdateCache = [];
         self::$countPagesCache = [];
         self::$countPagesCacheNotEmpty = [];
-        self::$userYearsCache = [];
-        self::$userLangsCache = [];
-        self::$userCampsCache = [];
         self::$langYearsCache = [];
     }
 
@@ -116,22 +110,36 @@ class PagesTable extends BaseTable
 
     public function getLangPages(string $lang, int|string $yearY): array
     {
+        if (!$this->service->isValid($lang)) {
+            return [];
+        }
+
         $key = (string)$lang . (string)$yearY;
+
         if (!empty(self::$pagesCache[$key] ?? [])) {
             return self::$pagesCache[$key];
         }
 
         $apiParams = ['get' => 'pages_by_user_or_lang', 'lang' => $lang];
-        $query = "select * from pages p where p.lang = ?";
+
+        $query = <<<SQL
+            SELECT DISTINCT p.title, p.word, p.translate_type, p.cat, p.lang, p.user,
+                p.target, p.date, p.pupdate, p.add_date, p.deleted, v.views
+            FROM pages p
+            LEFT JOIN views_new_all v ON p.target = v.target AND p.lang = v.lang
+            where p.lang = ?
+        SQL;
+
         $params = [$lang];
 
         if ($this->service->isValid($yearY)) {
-            $query .= " and YEAR(p.date) = ?";
+            $query .= " and ? IN (YEAR(p.date), YEAR(p.pupdate), YEAR(p.add_date))";
             $params[] = $yearY;
             $apiParams['year'] = $yearY;
         }
 
         $uData = $this->service->superFunction($apiParams, $params, $query);
+
         self::$pagesCache[$key] = $uData;
 
         return $uData;
@@ -144,7 +152,7 @@ class PagesTable extends BaseTable
             return self::$langYearsCache[$key];
         }
 
-        $apiParams = ['get' => 'user_lang_status', 'select' => 'year', 'lang' => $mainlang];
+        $apiParams = ['get' => 'get_lang_years', 'lang' => $mainlang];
 
         $query = "SELECT DISTINCT YEAR(p.pupdate) AS year FROM pages p WHERE p.lang = ?";
         $params = [$mainlang];
@@ -159,86 +167,6 @@ class PagesTable extends BaseTable
         self::$langYearsCache[$key] = $uData;
 
         return self::$langYearsCache[$key];
-    }
-
-    public function getUserYears(string $user): array
-    {
-        $key = (string)$user;
-        if (!empty(self::$userYearsCache[$key] ?? [])) {
-            return self::$userYearsCache[$key];
-        }
-
-        $apiParams = ['get' => 'user_status', 'select' => 'year', 'user' => $user];
-        $query = "SELECT DISTINCT YEAR(p.date) AS year FROM pages p WHERE p.user = ?";
-        $params = [$user];
-
-        $uData = $this->service->superFunction($apiParams, $params, $query);
-        $uData = array_map('current', $uData);
-
-        // remove empty or null years
-        $uData = array_filter($uData, function ($value) {
-            return !empty($value);
-        });
-
-        // sort years
-        rsort($uData);
-
-        self::$userYearsCache[$key] = $uData;
-
-        return self::$userYearsCache[$key];
-    }
-
-    public function getUserLangs(string $user): array
-    {
-        $key = (string)$user;
-        if (!empty(self::$userLangsCache[$key] ?? [])) {
-            return self::$userLangsCache[$key];
-        }
-
-        $apiParams = ['get' => 'user_status', 'select' => 'lang', 'user' => $user];
-        $query = "SELECT DISTINCT p.lang FROM pages p WHERE p.user = ?";
-        $params = [$user];
-
-        $uData = $this->service->superFunction($apiParams, $params, $query);
-        $uData = array_map('current', $uData);
-
-        // remove empty or null years
-        $uData = array_filter($uData, function ($value) {
-            return !empty($value);
-        });
-
-        self::$userLangsCache[$key] = $uData;
-
-        return self::$userLangsCache[$key];
-    }
-
-    public function getUserCamps(string $user): array
-    {
-        $key = (string)$user;
-        if (!empty(self::$userCampsCache[$key] ?? [])) {
-            return self::$userCampsCache[$key];
-        }
-
-        $apiParams = ['get' => 'user_status', 'select' => 'campaign', 'user' => $user];
-        $query = "SELECT DISTINCT ca.campaign
-            FROM pages p
-            LEFT JOIN categories ca
-            ON p.cat = ca.category
-            WHERE p.user = ?
-        ";
-        $params = [$user];
-
-        $uData = $this->service->superFunction($apiParams, $params, $query);
-        $uData = array_map('current', $uData);
-
-        // remove empty or null years
-        $uData = array_filter($uData, function ($value) {
-            return !empty($value);
-        });
-
-        self::$userCampsCache[$key] = $uData;
-
-        return self::$userCampsCache[$key];
     }
 
     public function getCountPages(): array
@@ -356,15 +284,15 @@ class PagesTable extends BaseTable
 
         $query = "select COUNT(*) AS count from $table where target != ''";
 
-        if (!empty($lang) && $lang != 'All') {
+        if ($this->service->isValid($lang)) {
             $query .= " AND lang = ?";
             $sqlParams[] = $lang;
             $apiParams['lang'] = $lang;
         }
 
-        $dd = $this->service->superFunction($apiParams, $sqlParams, $query);
+        $data = $this->service->superFunction($apiParams, $sqlParams, $query);
 
-        $result = (int)($dd[0]['count'] ?? 0);
+        $result = (int)($data[0]['count'] ?? 0);
 
         return $result;
     }
@@ -382,16 +310,16 @@ class PagesTable extends BaseTable
         $sqlParams = [];
         $apiParams = array('get' => "pages_users_to_main");
 
-        if (!empty($lang) && $lang != 'All') {
+        if ($this->service->isValid($lang)) {
             $query .= " AND pu.lang = ?";
             $sqlParams[] = $lang;
             $apiParams['lang'] = $lang;
         }
 
-        $dd = $this->service->superFunction($apiParams, $sqlParams, $query);
+        $data = $this->service->superFunction($apiParams, $sqlParams, $query);
 
-        $cache[$lang] = $dd;
+        $cache[$lang] = $data;
 
-        return $dd;
+        return $data;
     }
 }

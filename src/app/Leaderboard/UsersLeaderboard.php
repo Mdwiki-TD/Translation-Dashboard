@@ -3,7 +3,7 @@
 namespace App\Leaderboard;
 
 use App\SQLorAPI\LeaderboardTable;
-use App\SQLorAPI\ViewsTable;
+use App\SQLorAPI\UsersLeaderboardTable;
 use App\Utils\HtmlUrls;
 use App\Leaderboard\Helpers\Filters\LeadHelp;
 use App\Leaderboard\Helpers\Filters\FilterForm;
@@ -12,74 +12,103 @@ use App\Leaderboard\Helpers\Graph\LangUserGraph;
 
 class UsersLeaderboard
 {
-    public string $username;
-    public function __construct(string $username) {
+    private string $langcode;
+    private string $username;
+    private string $userToHtml;
+    private string $year;
+    private string $campaign;
+
+    public function __construct(
+        string $username,
+        string $langcode,
+        int|string $year,
+        string $campaign
+    ) {
+        // Sanitize and format the language code input
+        $this->langcode = rawurldecode(str_replace("_", " ", $langcode));
+        $this->year = $year;
+        $this->campaign = $campaign;
+
         $this->username = $username;
+        // Prepare username for safe rendering in HTML and links
+        $this->userToHtml = htmlspecialchars($username, ENT_QUOTES, 'UTF-8');
     }
+
     public function render(
-        string $mainlang,
-        int|string $year_y,
-        string $camp,
-        string $user_to_curl,
-        string $user_to_html,
         string $global_username,
         array $lead_words_table,
-        array $cats_data,
+        array $cats_data
     ): string {
         $output = '';
 
-        $mainlang = rawurldecode(str_replace("_", " ", $mainlang));
+        $usersTable = UsersLeaderboardTable::getInstance();
+        $gData = $usersTable->getUserNewFilterData($this->username);
 
+        // "langs": { "ar": 14, "nr": 1, "mg": 2 }
+        // use $gData["langs"] key with max value
+        $langs = $gData["langs"] ?? [];
+        $userLang = !empty($langs) ? array_search(max($langs), $langs) : '';
+
+        // Fetch user's primary languages
         // '[{"user":"Mr. Ibrahem","lang":"ar","cnt":14}]'
-        $user_most_langs = (LeaderboardTable::getInstance())->getTopLangOfUsers([$user_to_curl]);
+        // $user_most_langs = (LeaderboardTable::getInstance())->getTopLangOfUsers([$this->username]);
+        // $userLang = $user_most_langs[0]['lang'] ?? "";
 
-        $user_langs = $user_most_langs[0]['lang'] ?? "";
+        // Fetch user specific tables
+        $service = new UsersSub($this->username, $this->year, $this->langcode);
 
-        $u_tables = UsersSub::get_users_tables($user_to_curl, $year_y, $mainlang);
+        $u_tables = $service->getTables($lead_words_table, $cats_data);
 
-        $dd = $u_tables['dd'];
-        $dd_Pending = $u_tables['dd_Pending'];
-        $table_of_views = $u_tables['table_of_views'];
+        $missingItems = $u_tables['missingItems'];
+        $pendingItems = $u_tables['pendingItems'];
 
-        $user_is_global_username = ($global_username === $user_to_curl) ? true : false;
+        $user_is_global_username = ($global_username === $this->username);
 
         [$table1, $main_table] = LeadHelp::make_users_lead(
-            $dd,
+            $missingItems,
             'translations',
-            $table_of_views,
-            $user_is_global_username,
-            $lead_words_table,
-            $cats_data
+            $user_is_global_username
         );
 
-        $user_link = ($user_langs)
-            ? HtmlUrls::make_wikipedia_url_blank("User:$user_to_curl", $user_langs, $user_to_html)
-            : HtmlUrls::make_mdwiki_user_url($user_to_html);
+        $user_link = ($userLang)
+            ? HtmlUrls::make_wikipedia_url_blank("User:{$this->username}", $userLang, $this->userToHtml)
+            : HtmlUrls::make_mdwiki_user_url($this->userToHtml);
 
-        $xtools = <<<HTML
-            <!-- <div class="d-flex align-items-center justify-content-between"> -->
-                <a href='https://xtools.wmflabs.org/globalcontribs/$user_to_html' target='_blank'>
-                    <img class="splash-logo" src="/Translation_Dashboard/static/xtools.svg" alt="XTools" width="80" height="35" title="Xtools">
-                    <!-- <span class='h4'>(XTools)</span> -->
-                </a>
-            <!-- </div> -->
-        HTML;
+        $xtools = HtmlUrls::XtoolsLink($this->userToHtml);
 
-        $user_div = <<<HTML
-            <span class='h4 text-center'>
-                User: $user_link
-                <br>
-                $xtools
-            </span>
-        HTML;
+        // Create div for leaderboard header
+        $item_div = "<span class='h4 text-center'>User: {$user_link}<br>{$xtools}</span>";
 
-        $filter_data = ["user" => $user_to_curl, "lang" => $mainlang, "year" => $year_y, "camp" => $camp];
+        $filterData = [
+            "user" => $this->username,
+            "lang" => $this->langcode,
+            "year" => $this->year,
+            "camp" => $this->campaign
+        ];
 
-        $graphData = (ViewsTable::getInstance())->getGraphData($mainlang, $user_to_curl, $year_y);
+        // Fetch graph data for the specific user
+        $graphData = (LeaderboardTable::getInstance())->getGraphData(
+            $this->langcode,
+            $this->username,
+            $this->year
+        );
+        $graph = LangUserGraph::graphDataHtml($graphData);
 
-        $graph = LangUserGraph::graphData($graphData);
+        $filterLists = [
+            "years" => array_keys($gData["years"] ?? []),
+            "langs" => array_keys($gData["langs"] ?? []),
+            "camps" => array_keys($gData["camps"] ?? []),
+        ];
+        rsort($filterLists["years"]);
 
-        $output .= FilterForm::lead_row($table1, $graph, $user_div, $filter_data, "user");
+        $output .= FilterForm::leadRow(
+            $table1,
+            $graph,
+            $item_div,
+            $filterData,
+            $filterLists,
+            "user"
+        );
 
         $output .= <<<HTML
             <div class='card mt-1'>
@@ -90,12 +119,9 @@ class UsersLeaderboard
         HTML;
 
         [$_, $table_pnd] = LeadHelp::make_users_lead(
-            $dd_Pending,
+            $pendingItems,
             'pending',
-            $table_of_views,
-            $user_is_global_username,
-            $lead_words_table,
-            $cats_data
+            $user_is_global_username
         );
 
         $output .= <<<HTML

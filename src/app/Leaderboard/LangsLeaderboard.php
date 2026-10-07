@@ -3,7 +3,8 @@
 namespace App\Leaderboard;
 
 use App\Tables\LangsTables;
-use App\SQLorAPI\ViewsTable;
+use App\SQLorAPI\PagesTable;
+use App\SQLorAPI\LeaderboardTable;
 use App\Leaderboard\Helpers\Filters\LeadHelp;
 use App\Leaderboard\Helpers\Langs\LangsSub;
 use App\Leaderboard\Helpers\Graph\LangUserGraph;
@@ -11,42 +12,72 @@ use App\Leaderboard\Helpers\Filters\FilterForm;
 
 class LangsLeaderboard
 {
+    private string $langcode;
+    private string $year;
+    private string $campaign;
+
+    public function __construct(
+        string $langcode,
+        int|string $year,
+        string $campaign
+    ) {
+        // Sanitize and format the language code input
+        $this->langcode = rawurldecode(str_replace("_", " ", $langcode));
+        $this->year = $year;
+        $this->campaign = $campaign;
+    }
+
     public function render(
-        string $mainlang,
-        int|string $year_y,
-        string $camp,
         array $lead_words_table,
-        array $cats_data,
+        array $cats_data
     ): string {
         $output = '';
 
-        $mainlang = rawurldecode(str_replace("_", " ", $mainlang));
+        // Fetch display language name or fallback to code
+        $langname = LangsTables::get_lang_name($this->langcode) ?? $this->langcode;
 
-        $langname = LangsTables::get_lang_name($mainlang) ?? $mainlang;
+        // Fetch language specific data tables
+        $service = new LangsSub($this->langcode, $this->year);
 
-        $u_tables = LangsSub::get_langs_tables($mainlang, $year_y);
+        $u_tables = $service->getTables($lead_words_table, $cats_data);
 
-        $dd = $u_tables['dd'];
-        $dd_Pending = $u_tables['dd_Pending'];
-        $table_of_views = $u_tables['table_of_views'];
+        $missingItems = $u_tables['missingItems'];
+        $pendingItems = $u_tables['pendingItems'];
 
         [$table1, $main_table] = LeadHelp::make_langs_lead(
-            $dd,
+            $missingItems,
             'translations',
-            $table_of_views,
-            $mainlang,
-            $lead_words_table,
-            $cats_data,
         );
 
+        // Create div for leaderboard header
+        $item_div = "<h4 class='text-center'>Language: $langname ({$this->langcode})</h4>";
 
-        $filter_data = ["user" => "", "lang" => $mainlang, "year" => $year_y, "camp" => $camp];
+        $filterData = [
+            "user" => "",
+            "lang" => $this->langcode,
+            "year" => $this->year,
+            "camp" => $this->campaign
+        ];
 
-        $graphData = (ViewsTable::getInstance())->getGraphData($mainlang, null, $year_y);
+        // Fetch graph data for the specific language
+        $graphData = (LeaderboardTable::getInstance())->getGraphData(
+            $this->langcode,
+            null,
+            $this->year
+        );
+        $graph = LangUserGraph::graphDataHtml($graphData);
 
-        $graph = LangUserGraph::graphData($graphData);
+        $pagesTable = PagesTable::getInstance();
+        $gData = ["years" => $pagesTable->getLangYears($this->langcode)];
 
-        $output .= FilterForm::lead_row($table1, $graph, "<h4 class='text-center'>Language: $langname ($mainlang)</h4>", $filter_data, "lang");
+        $output .= FilterForm::leadRow(
+            $table1,
+            $graph,
+            $item_div,
+            $filterData,
+            $gData,
+            "lang"
+        );
 
         $output .= <<<HTML
             <div class='card mt-1'>
@@ -57,12 +88,8 @@ class LangsLeaderboard
         HTML;
 
         [$_, $table_pnd] = LeadHelp::make_langs_lead(
-            $dd_Pending,
+            $pendingItems,
             'pending',
-            $table_of_views,
-            $mainlang,
-            $lead_words_table,
-            $cats_data,
         );
 
         $output .= <<<HTML

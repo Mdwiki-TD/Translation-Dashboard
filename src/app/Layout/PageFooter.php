@@ -60,15 +60,13 @@ class PageFooter
         </main>
 
         <script src="/Translation_Dashboard/js/footer.js"></script>
-
-        <!-- Common JavaScript -->
         <script src="/Translation_Dashboard/js/card-widget.js"></script>
         </body>
-
         </html>
         HTML;
 	}
-	private function cokkieMsg(): string {
+	private function cokkieMsg(): string
+	{
 		return <<<HTML
             <div id="cookie-alert" class="alert alert-dismissible fade show" role="alert">
                 <div class="d-flex align-items-center justify-content-center text-center fixed-bottom">

@@ -17,7 +17,7 @@ $fields = [
 
 <!-- Filter form -->
 <div style="box-sizing:border-box;">
-    <form class="form-inline" action="sitelinks.php" method="get">
+    <form class="form-inline" action="sitelinks.php" method="GET">
         <div class="row">
             <?php foreach ($fields as $name => $type): ?>
                 <div class="col-md-3">

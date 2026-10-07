@@ -52,8 +52,12 @@ class HtmlUrls
         return "<a target='_blank' href='https://mdwiki.org/wiki/Category:$encoded_category'>$displayName</a>";
     }
 
-    public static function make_wikipedia_url_blank(?string $target, string $lang, string $name = '', bool|int $deleted = false): ?string
-    {
+    public static function make_wikipedia_url_blank(
+        ?string $target,
+        string $lang,
+        string $name = '',
+        bool|int $deleted = false
+    ): ?string {
         if (empty($target)) return $target;
 
         $displayName = (!empty($name)) ? $name : $target;
@@ -78,5 +82,13 @@ class HtmlUrls
         $url = "https://wikidata.org/wiki/" . rawurlencode(str_replace(' ', '_', $qid));
 
         return "<a class='inline' target='_blank' href='$url'>$displayName</a>";
+    }
+    public static function XtoolsLink(string $username): string
+    {
+        return <<<HTML
+            <a href='https://xtools.wmflabs.org/globalcontribs/{$username}' target='_blank'>
+                <img class="splash-logo" src="/Translation_Dashboard/static/xtools.svg" alt="XTools" width="80" height="35" title="Xtools">
+            </a>
+        HTML;
     }
 }

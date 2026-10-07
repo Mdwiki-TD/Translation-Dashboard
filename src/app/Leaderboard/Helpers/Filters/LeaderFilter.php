@@ -2,114 +2,36 @@
 
 namespace App\Leaderboard\Helpers\Filters;
 
-use App\SQLorAPI\LeaderboardTable;
-use App\SQLorAPI\TitlesTable;
-use App\SQLorAPI\CategoriesTable;
-use App\SQLorAPI\PagesTable;
 use App\Utils\Html;
 
 class LeaderFilter
 {
-    public static function input_group(string $title, string $rows): string
-    {
-        $d33 = <<<HTML
-            <div class="input-group">
-                <span class="input-group-text">%s</span>
-                %s
-            </div>
-        HTML;
+    private int|string $year;
+    private int|string|null $month;
+    private ?string $userGroup;
+    private string $campaign;
 
-        return sprintf($d33, $title, $rows);
+    public function __construct(
+        int|string $year,
+        int|string|null $month,
+        ?string $userGroup,
+        string $campaign,
+    ) {
+        $this->year = $year;
+        $this->month = $month;
+        $this->userGroup = $userGroup;
+        $this->campaign = $campaign;
     }
 
-    public static function make_camp_dropdown(string $camp): string
-    {
-        $categories_tab = (CategoriesTable::getInstance())->getCategories();
-        $categories_tab = array_column($categories_tab, 'campaign');
-
-        $y1 = Html::makeDropdown($categories_tab, $camp, 'camp', 'all');
-
-        return self::input_group('Campaign', $y1);
-    }
-
-    public static function make_project_dropdown(?string $user_group): string
-    {
-        $projects_tab = (TitlesTable::getInstance())->getProjects();
-
-        $user_groups = array_column($projects_tab, 'g_title');
-
-        // '["Benevity","Hearing","McMaster","OLI","ProZ","Shani","TWB","TWB\\/WikiMed (Arabic)","Uncategorized","Wiki"]'
-        // var_export(json_encode($user_groups));
-
-        $y2 = Html::makeDropdown($user_groups, (string)$user_group, 'user_group', 'all');
-
-        return self::input_group('Translators', $y2);
-    }
-
-    public static function make_year_dropdown(int|string $year): string
-    {
-        $m_years2 = (PagesTable::getInstance())->getPagesWithPupdate();
-
-
-        // sort $m_years2 from biggest to smallest
-        rsort($m_years2);
-
-        $y3 = Html::makeDropdown($m_years2, (string)$year, 'year', 'all');
-
-        return self::input_group('Year', $y3);
-    }
-
-    public static function make_month_dropdown(int|string|null $month, array $months): string
-    {
-
-        // array ( '2024-01' => 92, '2024-02' => 222, '2024-03' => 231, '2024-04' => 160, '2024-05' => 214, '2024-06' => 146, '2024-07' => 145, '2024-08' => 73, '2024-09' => 503, '2024-10' => 359, '2024-11' => 207, '2024-12' => 204, )
-
-        // 2024-01 > 01
-
-        $months_list = array_unique(array_map(
-            fn($item) => date(
-                'm',
-                strtotime($item)
-            ),
-            $months
-        ));
-
-        // sort $m_months from biggest to smallest
-        rsort($months_list);
-
-        $y3 = Html::makeDropdown($months_list, (string)$month, 'month', 'All');
-
-        // $monthDropdown = input_group('Month', $y3);
+    private function FilterForm(
+        string $action,
+        string $campDropdown,
+        string $projectDropdown,
+        string $yearDropdown,
+        string $monthDropdown
+    ): string {
         return <<<HTML
-            <div class="input-group w-50">
-                $y3
-            </div>
-        HTML;
-    }
-
-    public static function leaderboard_filter(int|string $year, int|string|null $month, ?string $user_group, string $camp, string $action = "leaderboard.php"): string
-    {
-        $campDropdown = self::make_camp_dropdown($camp);
-
-        $projectDropdown = self::make_project_dropdown($user_group);
-
-        $yearDropdown = self::make_year_dropdown($year);
-
-        $s_camp_to_cat = (CategoriesTable::getInstance())->getCampsToCat();
-        $cat = $s_camp_to_cat[$camp] ?? '';
-
-        $monthDropdown = "";
-
-        if ((string)$year !== 'all') {
-
-            $graph_data = (LeaderboardTable::getInstance())->getStatus($year, $user_group, $cat);
-            $months = array_keys($graph_data);
-
-            $monthDropdown = self::make_month_dropdown($month, $months);
-        }
-
-        return <<<HTML
-            <form method="get" action="$action" id="leaderboard_filter">
+            <form method="GET" action="$action" id="leaderboard_filter">
                 <div class="row g-3">
                     <div class="col-md-3">
                         <span align="center">
@@ -138,5 +60,97 @@ class LeaderFilter
                 </div>
             </form>
         HTML;
+    }
+    private function inputGroup(string $title, string $rows): string
+    {
+        $d33 = <<<HTML
+            <div class="input-group">
+                <span class="input-group-text">%s</span>
+                %s
+            </div>
+        HTML;
+
+        return sprintf($d33, $title, $rows);
+    }
+
+    private function makeCampDropdown(string $campaign, array $campaignsList): string
+    {
+
+        $y1 = Html::makeDropdown($campaignsList, $campaign, 'camp', 'all');
+
+        return $this->inputGroup('Campaign', $y1);
+    }
+
+    private function makeUserGroupDropdown(?string $userGroup, array $userGroups): string
+    {
+
+        $y2 = Html::makeDropdown($userGroups, (string)$userGroup, 'user_group', 'all');
+
+        return $this->inputGroup('Translators', $y2);
+    }
+
+    private function makeYearDropdown(int|string $year, array $years): string
+    {
+        // sort $m_years2 DESC
+        rsort($years);
+
+        $y3 = Html::makeDropdown($years, (string)$year, 'year', 'all');
+
+        return $this->inputGroup('Year', $y3);
+    }
+
+    private function makeMonthDropdown(int|string|null $month, array $months): string
+    {
+
+        // array ( '2024-01' => 92, '2024-02' => 222, '2024-03' => 231, '2024-04' => 160, '2024-05' => 214, '2024-06' => 146, '2024-07' => 145, '2024-08' => 73, '2024-09' => 503, '2024-10' => 359, '2024-11' => 207, '2024-12' => 204, )
+
+        // 2024-01 > 01
+
+        $months_list = $months;
+        $months_list = array_unique(array_map(
+            fn($item) => date(
+                'm',
+                strtotime($item)
+            ),
+            $months
+        ));
+
+        // sort $m_months ASC
+        asort($months_list);
+
+        $y3 = Html::makeDropdown($months_list, (string)$month, 'month', 'All');
+
+        // $monthDropdown = inputGroup('Month', $y3);
+        return <<<HTML
+            <div class="input-group w-50">
+                $y3
+            </div>
+        HTML;
+    }
+
+    public function leaderboardFilter(
+        array $years,
+        array $campaignsList,
+        array $userGroups,
+
+        ?array $months = null,
+        string $action = "leaderboard.php"
+    ): string {
+        $campDropdown = $this->makeCampDropdown($this->campaign, $campaignsList);
+        $projectDropdown = $this->makeUserGroupDropdown($this->userGroup, $userGroups);
+        $yearDropdown = $this->makeYearDropdown($this->year, $years);
+
+        $monthDropdown = "";
+        if (is_array($months) && !empty($months)) {
+            $monthDropdown = $this->makeMonthDropdown($this->month, $months);
+        }
+
+        return $this->FilterForm(
+            $action,
+            $campDropdown,
+            $projectDropdown,
+            $yearDropdown,
+            $monthDropdown
+        );
     }
 }

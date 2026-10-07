@@ -4,58 +4,28 @@ namespace App\Leaderboard\Helpers\Langs;
 
 class LeaderTablesLangs
 {
-    public static function createNumbersTable(int|string $c_user, int|string $c_articles, int|string $c_words, int|string $c_langs, int|string $c_views): string
-    {
-        return <<<HTML
-        <table class='table compact table-striped'>
-            <thead>
-                <tr>
-                    <th class="spannowrap">Type</th>
-                    <th>Number</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr><td><b>Users</b></td><td>$c_user</td></tr>
-                <tr><td><b>Articles</b></td><td>$c_articles</td></tr>
-                <tr><td><b>Words</b></td><td>$c_words</td></tr>
-                <tr><td><b>Languages</b></td><td>$c_langs</td></tr>
-                <tr><td><b>Pageviews</b></td><td>$c_views</td></tr>
-            </tbody>
-        </table>
-        HTML;
-    }
+    private array $data;
 
-    public static function makeLangTable(
-        array $lang_table,
-        array $langs_data,
-        bool $addcat
-    ): string {
-        uasort($lang_table, function ($a, $b) {
+    public function __construct(array $data)
+    {
+        // sort data by [item][count]
+        uasort($data, function ($a, $b): int {
             return $b["count"] <=> $a["count"];
         });
 
-        $cac = ($addcat == true) ? '<th>cat</th>' : '';
-
-        $text = <<<HTML
-        <table class='table compact table-striped sortable table_text_left leaderboard_tables' style='margin-top: 0px !important;margin-bottom: 0px !important'>
-        <thead>
-            <tr>
-                <th>#</th>
-                <th class='spannowrap'>Language</th>
-                <th>Count</th>
-                <th>Pageviews</th>
-                $cac
-            </tr>
-        </thead>
-        <tbody>
-        HTML;
+        $this->data = $data;
+    }
+    public function makeLangTable(bool $addcat): string
+    {
 
         $numb = 0;
+        $text = "";
+        $cac = ($addcat == true) ? '<th>cat</th>' : '';
 
-        foreach ($lang_table as $langcode => $tab) {
+        foreach ($this->data as $langcode => $tab) {
             $comp = $tab['count'];
             $views = $tab['views'];
-            $langname = $tab['lang_name'] ?? $langs_data[$langcode]['name'] ?? $langcode;
+            $langname = $tab['lang_name'] ?? $langcode;
 
             if ($comp < 1) continue;
             $comp = number_format($comp);
@@ -79,11 +49,21 @@ class LeaderTablesLangs
             HTML;
         }
 
-        $text .= <<<HTML
-            </tbody>
+        return <<<HTML
+            <table class='table compact table-striped sortable table_text_left leaderboard_tables' style='margin-top: 0px !important;margin-bottom: 0px !important'>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th class='spannowrap'>Language</th>
+                        <th>Count</th>
+                        <th>Pageviews</th>
+                        $cac
+                    </tr>
+                </thead>
+                <tbody>
+                    {$text}
+                </tbody>
             </table>
         HTML;
-
-        return $text;
     }
 }

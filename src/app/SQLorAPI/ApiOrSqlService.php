@@ -67,6 +67,15 @@ class ApiOrSqlService
         self::$useTdApi = $useTdApi;
     }
 
+    private static ?self $instance = null;
+    public static function getInstance(Database $db): self
+    {
+        if (self::$instance === null) {
+            self::$instance = new self($db);
+        }
+
+        return self::$instance;
+    }
     public static function getTdApi(array $params): array
     {
         $settings = Settings::getInstance();
@@ -118,11 +127,9 @@ class ApiOrSqlService
         $apiData = [];
 
         $useTdApi = self::useTdApiOrSql();
-        if ($useTdApi) {
+        if ($useTdApi && $apiParams) {
             $apiResults = self::getTdApi($apiParams);
-
             $apiData = $apiResults['results'] ?? [];
-
             $length = $apiResults['length'] ?? null;
 
             if ($length === 0) {
@@ -135,7 +142,7 @@ class ApiOrSqlService
             return [];
         }
 
-        if (empty($apiData) && !$noRefind) {
+        if (empty($apiData) && !$noRefind && $sqlQuery) {
             $apiData = $this->db->fetchQuery($sqlQuery, $sqlParams);
         }
 

@@ -16,7 +16,7 @@ class MissingRowBuilder
         int $counter,
         string $langCode,
         string $cat,
-        string $camp,
+        string $campaign,
         bool $isFullRow,
         bool $fullTrUser,
         ?string $globalUsername,
@@ -60,8 +60,8 @@ class MissingRowBuilder
             HTML;
         } else {
             $fullWords = $titleData["w_all_words"] ?? 0;
-            $fullUrl = TrLink::makeTrLinkMedwiki($title, $langCode, $cat, $camp, "all", $fullWords);
-            $leadUrl = TrLink::makeTrLinkMedwiki($title, $langCode, $cat, $camp, $traType, $words);
+            $fullUrl = TrLink::makeTrLinkMedwiki($title, $langCode, $cat, $campaign, "all", $fullWords);
+            $leadUrl = TrLink::makeTrLinkMedwiki($title, $langCode, $cat, $campaign, $traType, $words);
 
             if ($fullTrUser && !$isVideo) {
                 $buttons = <<<HTML

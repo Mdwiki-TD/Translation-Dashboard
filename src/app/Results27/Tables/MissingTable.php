@@ -12,7 +12,7 @@ class MissingTable extends AbstractResultsTable
     private MissingRowBuilder $rowBuilder;
     private string $langCode;
     private string $cat;
-    private string $camp;
+    private string $campaign;
     private string $traType;
     private bool $fullTrUser;
     private ?string $globalUsername;
@@ -22,7 +22,7 @@ class MissingTable extends AbstractResultsTable
     public function __construct(
         string $langCode,
         string $cat,
-        string $camp,
+        string $campaign,
         string $traType,
         bool $fullTrUser,
         ?string $globalUsername,
@@ -32,7 +32,7 @@ class MissingTable extends AbstractResultsTable
         $this->rowBuilder       = new MissingRowBuilder();
         $this->langCode         = $langCode;
         $this->cat              = $cat;
-        $this->camp             = $camp;
+        $this->campaign             = $campaign;
         $this->traType          = $traType;
         $this->fullTrUser       = $fullTrUser;
         $this->globalUsername   = $globalUsername;
@@ -42,7 +42,7 @@ class MissingTable extends AbstractResultsTable
 
     public function render(array $items): string
     {
-        $isFullMode = ($this->traType === 'all');
+        $isFullMode = (strtolower($this->traType) === 'all');
 
         // Sort by English page views (descending)
         usort($items, static function (array $a, array $b): int {
@@ -68,7 +68,7 @@ class MissingTable extends AbstractResultsTable
                 $counter,
                 $this->langCode,
                 $this->cat,
-                $this->camp,
+                $this->campaign,
                 false,
                 $this->fullTrUser,
                 $this->globalUsername,
@@ -103,7 +103,7 @@ class MissingTable extends AbstractResultsTable
                     $counter,
                     $this->langCode,
                     $this->cat,
-                    $this->camp,
+                    $this->campaign,
                     true,
                     $this->fullTrUser,
                     $this->globalUsername,

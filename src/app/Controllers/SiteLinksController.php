@@ -104,7 +104,7 @@ class SiteLinksController
 			// Only items that have no sitelinks at all
 			$heads = [];
 			$qids  = array_filter($qidsAll, fn($tab) => count($tab['sitelinks']) === 0);
-		} elseif ($site !== 'all') {
+		} elseif (strtolower($site) !== 'all') {
 			// Single-site mode: show the article title for that site
 			$notitle = false;
 			$heads   = [$site];
@@ -123,5 +123,4 @@ class SiteLinksController
 			'notitle'		=> $notitle,
 		];
 	}
-
 }
