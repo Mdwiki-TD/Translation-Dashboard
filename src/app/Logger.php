@@ -4,24 +4,24 @@ namespace App;
 
 class Logger
 {
-    private static ?bool $isDebugEnabled = null;
+    private static ?bool $debug = null;
 
     /**
      * Check and cache the debug status.
      *
      * @return bool
      */
-    private static function isDebugEnabled(): bool
+    private static function isDebug(): bool
     {
-        if (self::$isDebugEnabled === null) {
+        if (self::$debug === null) {
             if (isset($_COOKIE['test']) && $_COOKIE['test'] === 'x') {
-                self::$isDebugEnabled = false;
+                self::$debug = false;
             } else {
-                self::$isDebugEnabled = isset($_REQUEST['test']) || isset($_COOKIE['test']);
+                self::$debug = isset($_REQUEST['test']) || isset($_COOKIE['test']);
             }
         }
 
-        return self::$isDebugEnabled;
+        return self::$debug;
     }
 
     /**
@@ -32,7 +32,7 @@ class Logger
      */
     public static function debug(mixed $s): void
     {
-        if (!self::isDebugEnabled()) {
+        if (!self::isDebug()) {
             return;
         }
 
