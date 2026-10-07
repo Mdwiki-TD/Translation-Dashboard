@@ -52,16 +52,16 @@ class AppRouter
         $cat = htmlspecialchars($_GET["cat"] ?? "", ENT_QUOTES, "UTF-8");
         if ($cat == "undefined") $cat = "";
 
-        $camp = htmlspecialchars($_GET["camp"] ?? "", ENT_QUOTES, "UTF-8");
+        $campaign = htmlspecialchars($_GET["camp"] ?? "", ENT_QUOTES, "UTF-8");
 
-        $camp = trim($camp);
+        $campaign = trim($campaign);
 
-        if (empty($cat) && !empty($camp)) {
-            $cat = $camps_data[$camp]["category"] ?? $cat;
+        if (empty($cat) && !empty($campaign)) {
+            $cat = $camps_data[$campaign]["category"] ?? $cat;
         }
 
-        if (!empty($cat) && empty($camp)) {
-            $camp = $cats_data[$cat] ?? $camp;
+        if (!empty($cat) && empty($campaign)) {
+            $campaign = $cats_data[$cat] ?? $campaign;
         }
 
         $tra_type = filter_input(INPUT_GET, "type", FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? "";
@@ -79,9 +79,9 @@ class AppRouter
             $_SESSION["code"] = $code;
         }
 
-        if ($camp && !in_array($camp, $campaigns_input_list)) {
-            $errors[] = "camp ($camp) not valid.";
-            $camp = "";
+        if ($campaign && !in_array($campaign, $campaigns_input_list)) {
+            $errors[] = "camp ($campaign) not valid.";
+            $campaign = "";
         }
 
         if ($allow_whole_translate == "0") {
@@ -92,7 +92,7 @@ class AppRouter
             "doit" => $doit,
             "code" => $code,
             "cat" => $cat,
-            "camp" => $camp,
+            "camp" => $campaign,
             "tra_type" => $tra_type,
             "filter_sparql" => $filter_sparql,
             "code_lang_name" => $code_lang_name,
@@ -191,7 +191,7 @@ class AppRouter
         $errors         = $req['errors'];
 
         $cat  = $req['cat']  ?: $main_cat;
-        $camp = $req['camp'] ?: $main_camp;
+        $campaign = $req['camp'] ?: $main_camp;
 
         // =======================
         // UI
@@ -200,7 +200,7 @@ class AppRouter
             $campaigns_input_list,
             $allow_whole_translate,
             $tra_type,
-            $camp,
+            $campaign,
             $code,
             $errors
         );
@@ -209,7 +209,7 @@ class AppRouter
         // Results
         // =======================
         $this->renderResults(
-            $camp,
+            $campaign,
             $code,
             $camps_data,
             $cat,
@@ -227,7 +227,7 @@ class AppRouter
         array $campaigns_input_list,
         string $allow_whole_translate,
         string $tra_type,
-        string $camp,
+        string $campaign,
         string $code,
         array $errors
     ): void {
@@ -263,7 +263,7 @@ class AppRouter
     HTML;
         }
 
-        $camp_ch = htmlspecialchars($camp, ENT_QUOTES);
+        $camp_ch = htmlspecialchars($campaign, ENT_QUOTES);
         $camp_input = $this->makeDrop($campaigns_input_list, $camp_ch);
 
         $langs_table = (TitlesTable::getInstance())->getLangs();
@@ -355,7 +355,7 @@ HTML;
      * Loads and renders the results section, when a campaign and language code are set.
      */
     private function renderResults(
-        string $camp,
+        string $campaign,
         string $code,
         array $camps_data,
         string $cat,
@@ -366,16 +366,16 @@ HTML;
     ): void {
         echo "<div class='container-fluid'>";
 
-        if ($camp && $code) {
+        if ($campaign && $code) {
             $show_exists = ($this->user_is_coordinator || isset($_GET['exists']));
 
             $in_progress_translation_button = $settings['translation_button_in_progress_table'] ?? '0';
 
-            $depth     = $camps_data[$camp]["depth"] ?? 1;
-            $category2 = $camps_data[$camp]["category2"] ?? "";
+            $depth     = $camps_data[$campaign]["depth"] ?? 1;
+            $category2 = $camps_data[$campaign]["category2"] ?? "";
 
             $data = [
-                "camp" => $camp,
+                "camp" => $campaign,
                 "code" => $code,
 
                 "depth" => $depth,

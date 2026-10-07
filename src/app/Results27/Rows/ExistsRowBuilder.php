@@ -15,7 +15,7 @@ class ExistsRowBuilder
         int $counter,
         string $langCode,
         string $cat,
-        string $camp,
+        string $campaign,
         array $titleData,
         ?string $globalUsername,
         bool $userCoord,
@@ -47,7 +47,7 @@ class ExistsRowBuilder
                 $title,
                 $langCode,
                 $cat,
-                $camp,
+                $campaign,
                 "lead",
             );
             $translateButton = <<<HTML

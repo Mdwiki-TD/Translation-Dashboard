@@ -157,44 +157,4 @@ class ViewsTable extends BaseTable
         return $tableOfViews;
     }
 
-    public function getGraphData(?string $lang = null, ?string $user = null, ?string $year = null): array
-    {
-        $apiParams = ['get' => 'graph_data'];
-        $sqlParams = [];
-        $query = "SELECT LEFT(p.pupdate, 7) as date, COUNT(*) as count
-            FROM pages p
-            WHERE p.target != ''
-        ";
-
-        if ($this->service->isValid($lang)) {
-            $query .= " AND p.lang = ? ";
-
-            $apiParams['lang'] = $lang;
-            $sqlParams[] = $lang;
-        }
-        if ($this->service->isValid($user)) {
-            $query .= " AND p.user = ? ";
-
-            $apiParams['user'] = $user;
-            $sqlParams[] = $user;
-        }
-        if ($this->service->isValid($year)) {
-            $query .= " YEAR(p.pupdate) = ? ";
-            $apiParams['year'] = $year;
-            $sqlParams[] = $year;
-        }
-
-        $query .= <<<SQL
-            GROUP BY LEFT(p.pupdate, 7)
-            ORDER BY LEFT(p.pupdate, 7) ASC
-        SQL;
-
-        $uData = $this->service->superFunction($apiParams, $sqlParams, $query);
-
-        $result = [
-            'labels' => array_column($uData, 'date'),
-            'counts' => array_column($uData, 'count'),
-        ];
-        return $result;
-    }
 }

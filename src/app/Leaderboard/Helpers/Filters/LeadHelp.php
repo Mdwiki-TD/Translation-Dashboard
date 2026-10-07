@@ -77,9 +77,9 @@ class LeadHelp
 		if (count($new_camps) > 0) {
 			$campaign_data = "";
 			$cat_or_camp_link = "";
-			foreach ($new_camps as $camp) {
-				$cat_or_camp_link .= "<a href='leaderboard.php?camp=$camp' style='white-space: nowrap;'>$camp</a><br>";
-				$campaign_data .= "$camp, ";
+			foreach ($new_camps as $campaign) {
+				$cat_or_camp_link .= "<a href='leaderboard.php?camp=$campaign' style='white-space: nowrap;'>$campaign</a><br>";
+				$campaign_data .= "$campaign, ";
 			}
 			// remove last <br>
 			$cat_or_camp_link = substr($cat_or_camp_link, 0, -4);

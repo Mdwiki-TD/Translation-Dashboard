@@ -21,7 +21,7 @@ class ResultsLoader
      */
     public function load(array $data): string
     {
-        $camp         = $data["camp"] ?? "";
+        $campaign         = $data["camp"] ?? "";
         $code         = $data["code"] ?? "";
         $cat          = $data["cat"] ?? "";
         $showExists   = (bool)($data["show_exists"] ?? false);
@@ -54,7 +54,7 @@ class ResultsLoader
         $missingTable = new MissingTable(
             $code,
             $cat,
-            $camp,
+            $campaign,
             $traType,
             $fullTrUser,
             $globalUser,
@@ -75,7 +75,7 @@ class ResultsLoader
             $inProcessTable = new InProcessTable(
                 $code,
                 $cat,
-                $camp,
+                $campaign,
                 $inProgressButton,
                 $fullTrUser,
                 $globalUser,
@@ -95,7 +95,7 @@ class ResultsLoader
             $existsTable = new ExistsTable(
                 $code,
                 $cat,
-                $camp,
+                $campaign,
                 $globalUser,
                 $userCoord,
             );

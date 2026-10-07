@@ -12,21 +12,21 @@ class ExistsTable extends AbstractResultsTable
     private ExistsRowBuilder $rowBuilder;
     private string $langCode;
     private string $cat;
-    private string $camp;
+    private string $campaign;
     private ?string $globalUsername;
     private bool $userCoord;
 
     public function __construct(
         string $langCode,
         string $cat,
-        string $camp,
+        string $campaign,
         ?string $globalUsername,
         bool $userCoord,
     ) {
         $this->rowBuilder     = new ExistsRowBuilder();
         $this->langCode       = $langCode;
         $this->cat            = $cat;
-        $this->camp           = $camp;
+        $this->campaign           = $campaign;
         $this->globalUsername = $globalUsername;
         $this->userCoord      = $userCoord;
     }
@@ -56,7 +56,7 @@ class ExistsTable extends AbstractResultsTable
                 $counter,
                 $this->langCode,
                 $this->cat,
-                $this->camp,
+                $this->campaign,
                 $data,
                 $this->globalUsername,
                 $this->userCoord,

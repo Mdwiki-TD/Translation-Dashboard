@@ -32,14 +32,14 @@ function insertPageInprocess(string $title, int $word, string $tr_type, string $
     return $db->executeQuery($quae_new, $params);
 }
 
-function go_to_translate_url(string $title_o, string $coden, string $tr_type, string $cat, string $camp): void
+function go_to_translate_url(string $title_o, string $coden, string $tr_type, string $cat, string $campaign): void
 {
 
     $url = TrLink::makeContentTranslationUrl(
         $title_o,
         $coden,
         $cat,
-        $camp,
+        $campaign,
         $tr_type,
     );
 
@@ -99,7 +99,7 @@ if (!empty($title_o) && !empty($coden)) {
     //  title=COVID-19&code=ady&cat=RTTCovid&camp=COVID&type=lead
 
     $cat = filter_input(INPUT_GET, 'cat', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
-    $camp = filter_input(INPUT_GET, 'camp', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
+    $campaign = filter_input(INPUT_GET, 'camp', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
 
     $tr_type = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? filter_input(INPUT_GET, 'tr_type', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'lead';
 
@@ -107,15 +107,15 @@ if (!empty($title_o) && !empty($coden)) {
         'options' => ['default' => 0, 'min_range' => 0]
     ]) ?? 0);
 
-    if (empty($camp) && !empty($cat)) {
-        $camp = $cats_data[$cat] ?? "";
+    if (empty($campaign) && !empty($cat)) {
+        $campaign = $cats_data[$cat] ?? "";
     }
 
     $user_decoded  = rawurldecode($useree);
     $cat     = rawurldecode($cat);
     $title_o = rawurldecode($title_o);
 
-    $camp    = rawurldecode($camp);
+    $campaign    = rawurldecode($campaign);
     if (($users_no_inprocess[$useree] ?? 0) != 1) {
         insertPageInprocess($title_o, $word, $tr_type, $cat, $coden, $user_decoded);
     }
@@ -125,7 +125,7 @@ if (!empty($title_o) && !empty($coden)) {
         $coden,
         $tr_type,
         $cat,
-        $camp,
+        $campaign,
     );
 }
 

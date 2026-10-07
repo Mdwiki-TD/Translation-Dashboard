@@ -12,7 +12,7 @@ class InProcessTable extends AbstractResultsTable
     private InProcessRowBuilder $rowBuilder;
     private string $langCode;
     private string $cat;
-    private string $camp;
+    private string $campaignaign;
     private bool $inProgressButton;
     private bool $fullTrUser;
     private ?string $globalUsername;
@@ -22,7 +22,7 @@ class InProcessTable extends AbstractResultsTable
     public function __construct(
         string $langCode,
         string $cat,
-        string $camp,
+        string $campaign,
         bool $inProgressButton,
         bool $fullTrUser,
         ?string $globalUsername,
@@ -32,7 +32,7 @@ class InProcessTable extends AbstractResultsTable
         $this->rowBuilder       = new InProcessRowBuilder();
         $this->langCode         = $langCode;
         $this->cat              = $cat;
-        $this->camp             = $camp;
+        $this->campaign             = $campaign;
         $this->inProgressButton = $inProgressButton;
         $this->fullTrUser       = $fullTrUser;
         $this->globalUsername   = $globalUsername;
@@ -70,7 +70,7 @@ class InProcessTable extends AbstractResultsTable
                 $counter,
                 $this->langCode,
                 $this->cat,
-                $this->camp,
+                $this->campaign,
                 $inProcessData,
                 $this->inProgressButton,
                 $isFull,

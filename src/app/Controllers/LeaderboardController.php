@@ -34,7 +34,7 @@ class LeaderboardController
 
         $year_y   = filter_input(INPUT_GET, 'year', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'All';
         $month_y  = filter_input(INPUT_GET, 'month', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
-        $camp     = filter_input(INPUT_GET, 'camp', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'All';
+        $campaign     = filter_input(INPUT_GET, 'camp', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'All';
 
         $_titles_infos   = (TitlesTable::getInstance())->getTitlesInfos();
         $categories_tab = (CategoriesTable::getInstance())->getCategories();
@@ -49,7 +49,7 @@ class LeaderboardController
 
             echo $usersLeaderboard->render(
                 $year_y,
-                $camp,
+                $campaign,
                 $global_username,
                 $lead_words_table,
                 $cats_data
@@ -60,7 +60,7 @@ class LeaderboardController
 
             echo $langsLeaderboard->render(
                 $year_y,
-                $camp,
+                $campaign,
                 $lead_words_table,
                 $cats_data
             );
@@ -86,7 +86,7 @@ class LeaderboardController
             // Initialize MainLeaderboard with options passed to constructor
             $controller = new MainLeaderboard(
                 $year_y,
-                $camp,
+                $campaign,
                 $user_group,
                 $month_y
             );

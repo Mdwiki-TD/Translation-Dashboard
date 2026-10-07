@@ -3,7 +3,7 @@
 namespace App\Leaderboard;
 
 use App\Tables\LangsTables;
-use App\SQLorAPI\ViewsTable;
+use App\SQLorAPI\LeaderboardTable;
 use App\Leaderboard\Helpers\Filters\LeadHelp;
 use App\Leaderboard\Helpers\Langs\LangsSub;
 use App\Leaderboard\Helpers\Graph\LangUserGraph;
@@ -21,7 +21,7 @@ class LangsLeaderboard
 
     public function render(
         int|string $year_y,
-        string $camp,
+        string $campaign,
         array $lead_words_table,
         array $cats_data
     ): string {
@@ -52,16 +52,16 @@ class LangsLeaderboard
             "user" => "",
             "lang" => $this->langcode,
             "year" => $year_y,
-            "camp" => $camp
+            "camp" => $campaign
         ];
 
         // Fetch graph data for the specific language
-        $graphData = (ViewsTable::getInstance())->getGraphData(
+        $graphData = (LeaderboardTable::getInstance())->getGraphData(
             $this->langcode,
             null,
             $year_y
         );
-        $graph = LangUserGraph::graphData($graphData);
+        $graph = LangUserGraph::graphDataHtml($graphData);
 
         $output .= FilterForm::lead_row(
             $table1,

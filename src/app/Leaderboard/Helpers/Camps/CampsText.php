@@ -36,8 +36,8 @@ class CampsText
                         <ul>
             HTML;
 
-            foreach ($camps as $camp) {
-                $table .= "<li>$camp</li>";
+            foreach ($camps as $campaign) {
+                $table .= "<li>$campaign</li>";
             }
 
             $table .= <<<HTML

@@ -48,7 +48,7 @@ class Helps
         int|string $words,
         string $langcode,
         string $cat,
-        string $camp,
+        string $campaign,
         bool|int|string $inprocess,
         bool|int|string $in_progress_translation_button,
         string $_user_,
@@ -80,20 +80,20 @@ class Helps
                 $title,
                 $langcode,
                 $cat,
-                $camp,
+                $campaign,
                 'all',
             );
             $translate_url = TrLink::makeContentTranslationUrl(
                 $title,
                 $langcode,
                 $cat,
-                $camp,
+                $campaign,
                 $tra_type,
             );
         } else {
             // links to translate_med/index.php
-            $full_translate_url = TrLink::makeTrLinkMedwiki($title, $langcode, $cat, $camp, "all", $words);
-            $translate_url = TrLink::makeTrLinkMedwiki($title, $langcode, $cat, $camp, $tra_type, $words);
+            $full_translate_url = TrLink::makeTrLinkMedwiki($title, $langcode, $cat, $campaign, "all", $words);
+            $translate_url = TrLink::makeTrLinkMedwiki($title, $langcode, $cat, $campaign, $tra_type, $words);
         }
 
         $buttons = "<a href='$translate_url' class='btn btn-outline-primary btn-sm' target='_blank'>Translate</a>";

@@ -3,7 +3,7 @@
 namespace App\Leaderboard;
 
 use App\SQLorAPI\LeaderboardTable;
-use App\SQLorAPI\ViewsTable;
+use App\SQLorAPI\LeaderboardTable;
 use App\Utils\HtmlUrls;
 use App\Leaderboard\Helpers\Filters\LeadHelp;
 use App\Leaderboard\Helpers\Filters\FilterForm;
@@ -28,7 +28,7 @@ class UsersLeaderboard
 
     public function render(
         int|string $year_y,
-        string $camp,
+        string $campaign,
         string $global_username,
         array $lead_words_table,
         array $cats_data
@@ -75,16 +75,16 @@ class UsersLeaderboard
             "user" => $this->username,
             "lang" => $this->langcode,
             "year" => $year_y,
-            "camp" => $camp
+            "camp" => $campaign
         ];
 
         // Fetch graph data for the specific user
-        $graphData = (ViewsTable::getInstance())->getGraphData(
+        $graphData = (LeaderboardTable::getInstance())->getGraphData(
             $this->langcode,
             $this->username,
             $year_y
         );
-        $graph = LangUserGraph::graphData($graphData);
+        $graph = LangUserGraph::graphDataHtml($graphData);
 
         $output .= FilterForm::lead_row(
             $table1,

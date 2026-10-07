@@ -35,7 +35,7 @@ class FilterForm
         $lang     = $data['lang'];
         $year     = $data['year'];
         $user     = $data['user'];
-        $camp     = $data['camp'];
+        $campaign     = $data['camp'];
 
         if ($filter_page == 'user') {
             $years = (PagesTable::getInstance())->getUserYears($user);
@@ -45,7 +45,7 @@ class FilterForm
             $langsDropdown = self::DropdownNew('Lang', $langs, $lang, 'lang');
             $yearDropdown  = self::DropdownNew('Year', $years, $year, 'year');
 
-            // $campDropdown  = DropdownNew('Camp', $camps, $camp, 'camp');
+            // $campDropdown  = DropdownNew('Camp', $camps, $campaign, 'camp');
             // <!-- <div class="col-4"> $campDropdown </div> -->
 
             $Dropdown = <<<HTML

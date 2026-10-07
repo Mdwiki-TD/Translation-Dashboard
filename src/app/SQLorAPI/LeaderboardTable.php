@@ -275,4 +275,93 @@ class LeaderboardTable extends BaseTable
 
         return $newData;
     }
+    public function getGraphData(
+        ?string $lang = null,
+        ?string $user = null,
+        ?string $year = null,
+        ?string $month = null,
+        ?string $category = null,
+        ?string $campaign = null,
+        ?string $user_group = null,
+    ): array {
+        // api supported_params: [ "lang", "user", "year", "month", "category", "campaign" ]
+        $apiParams = [
+            'get' => 'graph_data',
+            'lang' => $lang,
+            'user' => $user,
+            'year' => $year,
+            'month' => $month,
+            'category' => $category,
+            'campaign' => $campaign,
+            'user_group' => $user_group,
+        ];
+        $sqlParams = [];
+
+        $query = "SELECT DISTINCT LEFT(p.pupdate, 7) AS date, COUNT(*) AS count
+            FROM pages p
+            LEFT JOIN categories ca ON p.cat = ca.category
+            LEFT JOIN users u ON p.user = u.username
+            WHERE p.target != ''
+        ";
+
+        if ($this->service->isValid($lang)) {
+            $query .= " AND p.lang = ? ";
+            $sqlParams[] = $lang;
+        }
+        if ($this->service->isValid($user)) {
+            $query .= " AND p.user = ? ";
+            $sqlParams[] = $user;
+        }
+        if ($this->service->isValid($year)) {
+            $query .= " YEAR(p.pupdate) = ? ";
+            $sqlParams[] = $year;
+        }
+        if ($this->service->isValid($month)) {
+            $query .= " MONTH(p.pupdate) = ? ";
+            $sqlParams[] = $month;
+        }
+
+        // applyCampaignCategory
+        if ($this->service->isValid($category)) {
+            $query .= " p.cat = ? ";
+            $sqlParams[] = $category;
+        } elseif ($this->service->isValid($campaign)) {
+            $query .= " ca.campaign = ? ";
+            $sqlParams[] = $campaign;
+        }
+        if ($this->service->isValid($user_group)) {
+            $query .= " u.user_group = ? ";
+            $sqlParams[] = $user_group;
+        }
+
+        $query .= <<<SQL
+            GROUP BY LEFT(p.pupdate, 7)
+            ORDER BY LEFT(p.pupdate, 7) ASC
+        SQL;
+
+        $uData = $this->service->superFunction($apiParams, $sqlParams, $query);
+
+        $result = [
+            'labels' => array_column($uData, 'date'),
+            'counts' => array_column($uData, 'count'),
+        ];
+        return $result;
+    }
+    public function getGraphDataMainLeaderboard(
+        ?string $year = null,
+        ?string $month = null,
+        ?string $category = null,
+        ?string $campaign = null,
+        ?string $user_group = null,
+    ): array {
+        return $this->getGraphData(
+            null,
+            null,
+            $year,
+            $month,
+            $category,
+            $campaign,
+            $user_group
+        );
+    }
 }

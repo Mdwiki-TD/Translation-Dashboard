@@ -314,7 +314,7 @@ class MissingRowBuilder
         int $counter,
         string $langCode,
         string $cat,
-        string $camp,
+        string $campaign,
         bool $isFullRow,
         bool $fullTrUser,
         ?string $globalUsername,
@@ -356,8 +356,8 @@ class MissingRowBuilder
                 </a>
             HTML;
         } else {
-            $fullUrl = makeTrLinkMedwiki($title, $langCode, $cat, $camp, "all", $words);
-            $leadUrl = makeTrLinkMedwiki($title, $langCode, $cat, $camp, $traType, $words);
+            $fullUrl = makeTrLinkMedwiki($title, $langCode, $cat, $campaign, "all", $words);
+            $leadUrl = makeTrLinkMedwiki($title, $langCode, $cat, $campaign, $traType, $words);
 
             if ($fullTrUser && !$isVideo) {
                 $buttons = <<<HTML
@@ -410,7 +410,7 @@ class MissingTable extends AbstractResultsTable
     private MissingRowBuilder $rowBuilder;
     private string $langCode;
     private string $cat;
-    private string $camp;
+    private string $campaign;
     private string $traType;
     private bool $fullTrUser;
     private ?string $globalUsername;
@@ -420,7 +420,7 @@ class MissingTable extends AbstractResultsTable
     public function __construct(
         string $langCode,
         string $cat,
-        string $camp,
+        string $campaign,
         string $traType,
         bool $fullTrUser,
         ?string $globalUsername,
@@ -430,7 +430,7 @@ class MissingTable extends AbstractResultsTable
         $this->rowBuilder       = new MissingRowBuilder();
         $this->langCode         = $langCode;
         $this->cat              = $cat;
-        $this->camp             = $camp;
+        $this->campaign             = $campaign;
         $this->traType          = $traType;
         $this->fullTrUser       = $fullTrUser;
         $this->globalUsername   = $globalUsername;
@@ -465,7 +465,7 @@ class MissingTable extends AbstractResultsTable
                 $counter,
                 $this->langCode,
                 $this->cat,
-                $this->camp,
+                $this->campaign,
                 false,
                 $this->fullTrUser,
                 $this->globalUsername,
@@ -497,7 +497,7 @@ class MissingTable extends AbstractResultsTable
                     $counter,
                     $this->langCode,
                     $this->cat,
-                    $this->camp,
+                    $this->campaign,
                     true,
                     $this->fullTrUser,
                     $this->globalUsername,
@@ -538,7 +538,7 @@ class ExistsRowBuilder
         int $counter,
         string $langCode,
         string $cat,
-        string $camp,
+        string $campaign,
         array $titleData,
         ?string $globalUsername,
         bool $userCoord,
@@ -569,7 +569,7 @@ class ExistsRowBuilder
                 $title,
                 $langCode,
                 $cat,
-                $camp,
+                $campaign,
                 "lead",
                 $endpoint
             );
@@ -613,7 +613,7 @@ class ExistsTable extends AbstractResultsTable
     private ExistsRowBuilder $rowBuilder;
     private string $langCode;
     private string $cat;
-    private string $camp;
+    private string $campaign;
     private ?string $globalUsername;
     private bool $userCoord;
     private string $endpoint;
@@ -621,7 +621,7 @@ class ExistsTable extends AbstractResultsTable
     public function __construct(
         string $langCode,
         string $cat,
-        string $camp,
+        string $campaign,
         ?string $globalUsername,
         bool $userCoord,
         string $endpoint
@@ -629,7 +629,7 @@ class ExistsTable extends AbstractResultsTable
         $this->rowBuilder     = new ExistsRowBuilder();
         $this->langCode       = $langCode;
         $this->cat            = $cat;
-        $this->camp           = $camp;
+        $this->campaign           = $campaign;
         $this->globalUsername = $globalUsername;
         $this->userCoord      = $userCoord;
         $this->endpoint       = $endpoint;
@@ -660,7 +660,7 @@ class ExistsTable extends AbstractResultsTable
                 $counter,
                 $this->langCode,
                 $this->cat,
-                $this->camp,
+                $this->campaign,
                 $data,
                 $this->globalUsername,
                 $this->userCoord,
@@ -717,7 +717,7 @@ class InProcessRowBuilder
         int $counter,
         string $langCode,
         string $cat,
-        string $camp,
+        string $campaign,
         array $inProcessData,
         bool $inProgressButton,
         bool $isFullRow,
@@ -756,7 +756,7 @@ class InProcessRowBuilder
             $words,
             $langCode,
             $cat,
-            $camp,
+            $campaign,
             true,
             $inProgressButton,
             $user,
@@ -818,7 +818,7 @@ class InProcessTable extends AbstractResultsTable
     private InProcessRowBuilder $rowBuilder;
     private string $langCode;
     private string $cat;
-    private string $camp;
+    private string $campaign;
     private bool $inProgressButton;
     private bool $fullTrUser;
     private ?string $globalUsername;
@@ -829,7 +829,7 @@ class InProcessTable extends AbstractResultsTable
     public function __construct(
         string $langCode,
         string $cat,
-        string $camp,
+        string $campaign,
         bool $inProgressButton,
         bool $fullTrUser,
         ?string $globalUsername,
@@ -840,7 +840,7 @@ class InProcessTable extends AbstractResultsTable
         $this->rowBuilder       = new InProcessRowBuilder();
         $this->langCode         = $langCode;
         $this->cat              = $cat;
-        $this->camp             = $camp;
+        $this->campaign             = $campaign;
         $this->inProgressButton = $inProgressButton;
         $this->fullTrUser       = $fullTrUser;
         $this->globalUsername   = $globalUsername;
@@ -876,7 +876,7 @@ class InProcessTable extends AbstractResultsTable
                 $counter,
                 $this->langCode,
                 $this->cat,
-                $this->camp,
+                $this->campaign,
                 $inProcessData,
                 $this->inProgressButton,
                 $isFull,
@@ -923,7 +923,7 @@ class ResultsLoader
      */
     public function load(array $data): string
     {
-        $camp         = $data["camp"] ?? '';
+        $campaign         = $data["camp"] ?? '';
         $code         = $data["code"] ?? '';
         $cat          = $data["cat"] ?? '';
         $showExists   = (bool)($data["show_exists"] ?? false);
@@ -958,7 +958,7 @@ class ResultsLoader
         $missingTable = new MissingTable(
             $code,
             $cat,
-            $camp,
+            $campaign,
             $traType,
             $fullTrUser,
             $globalUser,
@@ -980,7 +980,7 @@ class ResultsLoader
             $inProcessTable = new InProcessTable(
                 $code,
                 $cat,
-                $camp,
+                $campaign,
                 $inProgressButton,
                 $fullTrUser,
                 $globalUser,
@@ -1001,7 +1001,7 @@ class ResultsLoader
             $existsTable = new ExistsTable(
                 $code,
                 $cat,
-                $camp,
+                $campaign,
                 $globalUser,
                 $userCoord,
                 $endpoint

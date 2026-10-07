@@ -22,12 +22,12 @@ class LeaderFilter
         return sprintf($d33, $title, $rows);
     }
 
-    public static function make_camp_dropdown(string $camp): string
+    public static function make_camp_dropdown(string $campaign): string
     {
         $categories_tab = (CategoriesTable::getInstance())->getCategories();
         $categories_tab = array_column($categories_tab, 'campaign');
 
-        $y1 = Html::makeDropdown($categories_tab, $camp, 'camp', 'all');
+        $y1 = Html::makeDropdown($categories_tab, $campaign, 'camp', 'all');
 
         return self::input_group('Campaign', $y1);
     }
@@ -91,17 +91,17 @@ class LeaderFilter
         int|string $year,
         int|string|null $month,
         ?string $user_group,
-        string $camp,
+        string $campaign,
         string $action = "leaderboard.php"
     ): string {
-        $campDropdown = self::make_camp_dropdown($camp);
+        $campDropdown = self::make_camp_dropdown($campaign);
 
         $projectDropdown = self::make_project_dropdown($user_group);
 
         $yearDropdown = self::make_year_dropdown($year);
 
         $s_camp_to_cat = (CategoriesTable::getInstance())->getCampsToCat();
-        $cat = $s_camp_to_cat[$camp] ?? '';
+        $cat = $s_camp_to_cat[$campaign] ?? '';
 
         $monthDropdown = "";
 
