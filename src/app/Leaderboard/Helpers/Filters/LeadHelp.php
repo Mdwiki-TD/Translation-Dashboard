@@ -215,7 +215,7 @@ class LeadHelp
 		$total_articles = count($missingItems);
 		$noo = 0;
 
-		$articlesto_camps = Camps::get_articles_to_camps();
+		// $articlesto_camps = []; // Camps::get_articles_to_camps();
 
 		foreach ($missingItems as $tat => $tabe) {
 
@@ -231,13 +231,12 @@ class LeadHelp
 
 			$total_views += $view_number;
 
-			$mdtitle = $tabe['title'] ?? "";
-
 			$word = $tabe['word'] ?? 0;
 
 			$total_words += $word;
 
-			$new_camps = $articlesto_camps[trim($mdtitle)] ?? [];
+			// $mdtitle = $tabe['title'] ?? "";
+			$new_camps = []; // $articlesto_camps[trim($mdtitle)] ?? [];
 
 			$table2 .= self::make_td_fo_user(
 				$tabe,
