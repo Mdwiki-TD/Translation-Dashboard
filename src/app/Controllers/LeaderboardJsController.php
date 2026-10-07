@@ -22,6 +22,7 @@ class LeaderboardJsController
         $months = [];
 
         if ($year && strtolower((string)$year) !== 'all') {
+            // TODO: Add months within js code `leaderboard_index_js.js`
             $months = ["{$year}-01"];
         }
 
