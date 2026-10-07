@@ -63,7 +63,12 @@ class FilterForm
                     </div>
                 HTML;
             }
-            $hidden = "<input type='hidden' name='get' value='users' /><input type='hidden' name='user' value='$user' />";
+
+            // Hidden inputs are required for GET forms to preserve query parameters
+            $hidden = <<<HTML
+                <input type="hidden" name="get" value="users" />
+                <input type="hidden" name="user" value="$user" />
+            HTML;
         } else {
             $years = $pagesTable->getLangYears($lang);
 
@@ -75,7 +80,11 @@ class FilterForm
                 </div>
             HTML;
 
-            $hidden = "<input type='hidden' name='get' value='langs' /><input type='hidden' name='langcode' value='$lang' />";
+            // Hidden inputs are required for GET forms to preserve query parameters
+            $hidden = <<<HTML
+                <input type="hidden" name="get" value="langs" />
+                <input type="hidden" name="langcode" value="$lang" />
+            HTML;
         }
 
         return <<<HTML
@@ -94,12 +103,11 @@ class FilterForm
     }
 
     public static function make_table1_html(array $table1): string
+    // $table1 = ['total_articles' => $total_articles, 'total_words' => $total_words, 'total_views' => $total_views];
     {
-
-        // $table1 = ['total_articles' => $total_articles, 'total_words' => $total_words, 'total_views' => $total_views];
-        $total_articles = number_format($table1['total_articles']);
-        $total_words = number_format($table1['total_words']);
-        $total_views = number_format($table1['total_views']);
+        $total_articles = number_format($table1['total_articles'] ?? 0);
+        $total_words    = number_format($table1['total_words'] ?? 0);
+        $total_views    = number_format($table1['total_views'] ?? 0);
 
         return <<<HTML
             <div class="text-muted">
@@ -107,7 +115,7 @@ class FilterForm
                 Words: <strong>$total_words</strong> &nbsp;
                 Pageviews: <strong><span id="hrefjsontoaddzz">$total_views</span></strong>
             </div>
-            HTML;
+        HTML;
     }
 
     public static function lead_row(array $table1, string $graph, string $main_title, array $filter_data, string $filter_page): string
