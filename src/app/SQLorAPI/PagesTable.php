@@ -138,7 +138,7 @@ class PagesTable extends BaseTable
             return self::$langYearsCache[$key];
         }
 
-        $apiParams = ['get' => 'user_lang_status', 'select' => 'year', 'lang' => $mainlang];
+        $apiParams = ['get' => 'get_lang_years', 'lang' => $mainlang];
 
         $query = "SELECT DISTINCT YEAR(p.pupdate) AS year FROM pages p WHERE p.lang = ?";
         $params = [$mainlang];
