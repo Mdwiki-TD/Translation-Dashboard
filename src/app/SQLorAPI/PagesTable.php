@@ -11,9 +11,6 @@ class PagesTable extends BaseTable
     private static array $pupdateCache = [];
     private static array $countPagesCache = [];
     private static array $countPagesCacheNotEmpty = [];
-    private static array $userYearsCache = [];
-    private static array $userLangsCache = [];
-    private static array $userCampsCache = [];
     private static array $langYearsCache = [];
 
 
@@ -34,9 +31,6 @@ class PagesTable extends BaseTable
         self::$pupdateCache = [];
         self::$countPagesCache = [];
         self::$countPagesCacheNotEmpty = [];
-        self::$userYearsCache = [];
-        self::$userLangsCache = [];
-        self::$userCampsCache = [];
         self::$langYearsCache = [];
     }
 
@@ -159,86 +153,6 @@ class PagesTable extends BaseTable
         self::$langYearsCache[$key] = $uData;
 
         return self::$langYearsCache[$key];
-    }
-
-    public function getUserYears(string $user): array
-    {
-        $key = (string)$user;
-        if (!empty(self::$userYearsCache[$key] ?? [])) {
-            return self::$userYearsCache[$key];
-        }
-
-        $apiParams = ['get' => 'user_status', 'select' => 'year', 'user' => $user];
-        $query = "SELECT DISTINCT YEAR(p.date) AS year FROM pages p WHERE p.user = ?";
-        $params = [$user];
-
-        $uData = $this->service->superFunction($apiParams, $params, $query);
-        $uData = array_map('current', $uData);
-
-        // remove empty or null years
-        $uData = array_filter($uData, function ($value) {
-            return !empty($value);
-        });
-
-        // sort years
-        rsort($uData);
-
-        self::$userYearsCache[$key] = $uData;
-
-        return self::$userYearsCache[$key];
-    }
-
-    public function getUserLangs(string $user): array
-    {
-        $key = (string)$user;
-        if (!empty(self::$userLangsCache[$key] ?? [])) {
-            return self::$userLangsCache[$key];
-        }
-
-        $apiParams = ['get' => 'user_status', 'select' => 'lang', 'user' => $user];
-        $query = "SELECT DISTINCT p.lang FROM pages p WHERE p.user = ?";
-        $params = [$user];
-
-        $uData = $this->service->superFunction($apiParams, $params, $query);
-        $uData = array_map('current', $uData);
-
-        // remove empty or null years
-        $uData = array_filter($uData, function ($value) {
-            return !empty($value);
-        });
-
-        self::$userLangsCache[$key] = $uData;
-
-        return self::$userLangsCache[$key];
-    }
-
-    public function getUserCamps(string $user): array
-    {
-        $key = (string)$user;
-        if (!empty(self::$userCampsCache[$key] ?? [])) {
-            return self::$userCampsCache[$key];
-        }
-
-        $apiParams = ['get' => 'user_status', 'select' => 'campaign', 'user' => $user];
-        $query = "SELECT DISTINCT ca.campaign
-            FROM pages p
-            LEFT JOIN categories ca
-            ON p.cat = ca.category
-            WHERE p.user = ?
-        ";
-        $params = [$user];
-
-        $uData = $this->service->superFunction($apiParams, $params, $query);
-        $uData = array_map('current', $uData);
-
-        // remove empty or null years
-        $uData = array_filter($uData, function ($value) {
-            return !empty($value);
-        });
-
-        self::$userCampsCache[$key] = $uData;
-
-        return self::$userCampsCache[$key];
     }
 
     public function getCountPages(): array

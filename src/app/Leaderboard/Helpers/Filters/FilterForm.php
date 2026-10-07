@@ -3,6 +3,7 @@
 namespace App\Leaderboard\Helpers\Filters;
 
 use App\SQLorAPI\PagesTable;
+use App\SQLorAPI\UsersLeaderboardTable;
 
 class FilterForm
 {
@@ -35,15 +36,13 @@ class FilterForm
         $user     = $data['user'] ?? '';
         $campaign = $data['camp'] ?? '';
 
-        // Store instance in a single variable to avoid repeated singleton calls
-        $pagesTable = PagesTable::getInstance();
+        $usersTable = UsersLeaderboardTable::getInstance();
 
         if ($filter_page === 'user') {
-            $years = $pagesTable->getUserYears($user);
-            $langs = $pagesTable->getUserLangs($user);
+            $userData = $usersTable->getUserFilterData($user);
 
-            $langsDropdown = self::DropdownNew('Lang', $langs, $lang, 'lang');
-            $yearDropdown  = self::DropdownNew('Year', $years, $year, 'year');
+            $langsDropdown = self::DropdownNew('Lang', $userData["langs"], $lang, 'lang');
+            $yearDropdown  = self::DropdownNew('Year', $userData["years"], $year, 'year');
 
             $Dropdown = <<<HTML
                 <div class="col-6">
@@ -55,8 +54,7 @@ class FilterForm
             HTML;
 
             if ($addcampDropdown) {
-                $camps = $pagesTable->getUserCamps($user);
-                $campDropdown  = self::DropdownNew('Camp', $camps, $campaign, 'camp');
+                $campDropdown  = self::DropdownNew('Camp', $userData["camps"], $campaign, 'camp');
                 $Dropdown .= <<<HTML
                     <div class="col-4">
                         $campDropdown
@@ -70,6 +68,7 @@ class FilterForm
                 <input type="hidden" name="user" value="$user" />
             HTML;
         } else {
+            $pagesTable = PagesTable::getInstance();
             $years = $pagesTable->getLangYears($lang);
 
             $yearDropdown = self::DropdownNew('Year', $years, $year, 'year');
@@ -88,7 +87,7 @@ class FilterForm
         }
 
         return <<<HTML
-            <form method="get" action="leaderboard.php" class="border rounded">
+            <form method="GET" action="leaderboard.php" class="border rounded">
                 $hidden
                 <div class='container mt-3'>
                     <div class='row g-1'>

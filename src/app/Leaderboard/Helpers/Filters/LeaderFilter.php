@@ -114,7 +114,7 @@ class LeaderFilter
         }
 
         return <<<HTML
-            <form method="get" action="$action" id="leaderboard_filter">
+            <form method="GET" action="$action" id="leaderboard_filter">
                 <div class="row g-3">
                     <div class="col-md-3">
                         <span align="center">
