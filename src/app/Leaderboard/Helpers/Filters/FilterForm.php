@@ -27,26 +27,23 @@ class FilterForm
         HTML;
     }
 
-    public static function make_filter_html(array $data, string $filter_page): string
+    public static function make_filter_html(array $data, string $filter_page, ?bool $addcampDropdown = null): string
     {
+        // Extract array values safely using null coalescing operator to prevent undefined index notices
+        $lang     = $data['lang'] ?? '';
+        $year     = $data['year'] ?? '';
+        $user     = $data['user'] ?? '';
+        $campaign = $data['camp'] ?? '';
 
-        // $filter_data = ["user" => "", "lang" => $mainlang, "year" => $year_y];
+        // Store instance in a single variable to avoid repeated singleton calls
+        $pagesTable = PagesTable::getInstance();
 
-        $lang     = $data['lang'];
-        $year     = $data['year'];
-        $user     = $data['user'];
-        $campaign     = $data['camp'];
-
-        if ($filter_page == 'user') {
-            $years = (PagesTable::getInstance())->getUserYears($user);
-            $langs = (PagesTable::getInstance())->getUserLangs($user);
-            $camps = (PagesTable::getInstance())->getUserCamps($user);
+        if ($filter_page === 'user') {
+            $years = $pagesTable->getUserYears($user);
+            $langs = $pagesTable->getUserLangs($user);
 
             $langsDropdown = self::DropdownNew('Lang', $langs, $lang, 'lang');
             $yearDropdown  = self::DropdownNew('Year', $years, $year, 'year');
-
-            // $campDropdown  = DropdownNew('Camp', $camps, $campaign, 'camp');
-            // <!-- <div class="col-4"> $campDropdown </div> -->
 
             $Dropdown = <<<HTML
                 <div class="col-6">
@@ -57,9 +54,18 @@ class FilterForm
                 </div>
             HTML;
 
+            if ($addcampDropdown) {
+                $camps = $pagesTable->getUserCamps($user);
+                $campDropdown  = self::DropdownNew('Camp', $camps, $campaign, 'camp');
+                $Dropdown .= <<<HTML
+                    <div class="col-4">
+                        $campDropdown
+                    </div>
+                HTML;
+            }
             $hidden = "<input type='hidden' name='get' value='users' /><input type='hidden' name='user' value='$user' />";
         } else {
-            $years = (PagesTable::getInstance())->getLangYears($lang);
+            $years = $pagesTable->getLangYears($lang);
 
             $yearDropdown = self::DropdownNew('Year', $years, $year, 'year');
 
