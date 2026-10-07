@@ -246,31 +246,6 @@ class LeaderboardTable extends BaseTable
         return $newData;
     }
 
-    public function getStatus(int|string $year, ?string $userGroup, ?string $cat): array
-    {
-        $toAdd = ["year" => $year, "user_group" => $userGroup, "cat" => $cat];
-        $apiParams = ['get' => 'status', 'year' => $year, 'user_group' => $userGroup, 'cat' => $cat];
-
-        $query = <<<SQL
-            SELECT LEFT(p.pupdate, 7) as date, COUNT(*) as count
-            FROM pages p
-            LEFT JOIN users u ON p.user = u.username
-            WHERE p.target != ''
-
-        SQL;
-
-        [$query, $params] = self::addTopParams($query, [], $toAdd);
-        $query .= " GROUP BY 1 ORDER BY 1 ASC";
-
-        $data = $this->service->superFunction($apiParams, $params, $query);
-
-        $newData = [];
-        foreach ($data as $item) {
-            $newData[$item['date']] = intval($item["count"]);
-        }
-
-        return $newData;
-    }
     public function getGraphData(
         ?string $lang = null,
         ?string $user = null,

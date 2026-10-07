@@ -21,24 +21,24 @@ class LangsSub
         $this->year = $year;
     }
 
-    private function add_inp(array $dd_Pending, array $to_add): array
+    private function add_inp(array $pendingItems, array $to_add): array
     {
 
         foreach ($to_add as $_ => $Taab) {
             $kry = LeadHelp::make_key($Taab);
 
-            if (!in_array($kry, array_keys($dd_Pending))) {
-                $dd_Pending[$kry] = $Taab;
+            if (!in_array($kry, array_keys($pendingItems))) {
+                $pendingItems[$kry] = $Taab;
             }
         }
 
-        return $dd_Pending;
+        return $pendingItems;
     }
 
-    private function pages_tables(): array
+    private function pagesTables(array $lead_words_table, array $cats_data): array
     {
-        $dd = [];
-        $dd_Pending = [];
+        $missingItems = [];
+        $pendingItems = [];
 
         $sql_result = (PagesTable::getInstance())->getLangPages($this->langcode, $this->year);
 
@@ -48,47 +48,55 @@ class LangsSub
                 continue;
             }
 
+            // Ensure the campaign is set
+            $category = $tabb['cat'] ?? "";
+            if (!empty($category) && empty($tabb['campaign'] ?? "")) {
+                $tabb["campaign"] = $cats_data[$category] ?? '';
+            }
+
+            // Ensure the word count is set
+            $word = $tabb['word'] ?? 0;
+            if ($word < 1) {
+                $tabb['word'] = $lead_words_table[$tabb['title']] ?? 0;
+            }
+
             $kry = LeadHelp::make_key($tabb);
 
             if (!empty($tabb['target'] ?? '')) {
-                $dd[$kry] = $tabb;
+                $missingItems[$kry] = $tabb;
             } else {
-                $dd_Pending[$kry] = $tabb;
+                $pendingItems[$kry] = $tabb;
             }
         }
 
-        return ['dd' => $dd, 'dd_Pending' => $dd_Pending];
+        return ['missingItems' => $missingItems, 'pendingItems' => $pendingItems];
     }
 
-    public function getTables(): array
+    public function getTables(array $lead_words_table, array $cats_data): array
     {
         $result = [
-            'dd' => [],
-            'dd_Pending' => [],
-            'table_of_views' => []
+            'missingItems' => [],
+            'pendingItems' => [],
         ];
 
         if (empty($this->langcode)) {
             return $result;
         }
 
-        $p_tables = $this->pages_tables();
+        $p_tables = $this->pagesTables($lead_words_table, $cats_data);
 
-        $dd = $p_tables['dd'];
-        $dd_Pending = $p_tables['dd_Pending'];
+        $missingItems = $p_tables['missingItems'];
+        $pendingItems = $p_tables['pendingItems'];
 
         $to_add = (InProcessTable::getInstance())->getLangInProcessByYear($this->langcode, (string)$this->year);
 
-        $dd_Pending = $this->add_inp($dd_Pending, $to_add);
+        $pendingItems = $this->add_inp($pendingItems, $to_add);
 
-        krsort($dd);
-        krsort($dd_Pending);
+        krsort($missingItems);
+        krsort($pendingItems);
 
-        $table_of_views = []; //get_lang_views($this->langcode, $this->year);
-
-        $result['dd'] = $dd;
-        $result['dd_Pending'] = $dd_Pending;
-        $result['table_of_views'] = $table_of_views;
+        $result['missingItems'] = $missingItems;
+        $result['pendingItems'] = $pendingItems;
 
         return $result;
     }

@@ -8,12 +8,12 @@ class FilterForm
     {
         $options = "";
 
-        foreach ($tab as $dd) {
-            if (empty($dd)) continue;
-            $se = ($cat == $dd) ? 'selected' : '';
+        foreach ($tab as $item) {
+            if (empty($item)) continue;
+            $se = ($cat == $item) ? 'selected' : '';
 
             $options .= <<<HTML
-                <option value='$dd' $se>$dd</option>
+                <option value='$item' $se>$item</option>
             HTML;
         }
 

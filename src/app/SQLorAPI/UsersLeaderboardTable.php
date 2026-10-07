@@ -102,5 +102,47 @@ class UsersLeaderboardTable extends BaseTable
 
         return $uData;
     }
+    private function formatResult(array $rows): array
+    {
+        $uData = [
+            "years" => [],
+            "langs" => [],
+            "camps" => [],
+        ];
 
+        foreach ($rows as $row) {
+            $year      = $row['year'] ?? '';
+            $lang      = $row['lang'] ?? '';
+            $campaign  = $row['campaign'] ?? '';
+
+            foreach (['years' => $year, 'langs' => $lang, 'camps' => $campaign] as $bucket => $key) {
+                $uData[$bucket][$key] ??= 0;
+                $uData[$bucket][$key] += 1;
+            }
+        }
+        return $uData;
+    }
+
+    public function getUserNewFilterData(string $user): array
+    {
+        $apiParams = ['get' => 'user_data_status', 'user' => $user];
+
+        $apiResult = $this->service->superFunction($apiParams, [], "");
+        // apiResult already formatted into years/langs/camps
+        if (!empty($apiResult)) {
+            return $apiResult;
+        }
+
+        $sql = "SELECT YEAR(p.pupdate) AS year, p.lang, ca.campaign
+            FROM pages p
+            LEFT JOIN categories ca ON p.cat = ca.category
+            WHERE p.user = ?
+        ";
+        $params = [$user];
+
+        $result = $this->service->superFunction([], $params, $sql);
+        // $result example: [ { "year": 2021, "lang": "ar", "campaign": "Main" }, ... ]
+
+        return $this->formatResult($result);
+    }
 }

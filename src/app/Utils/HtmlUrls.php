@@ -83,4 +83,12 @@ class HtmlUrls
 
         return "<a class='inline' target='_blank' href='$url'>$displayName</a>";
     }
+    public static function XtoolsLink(string $username): string
+    {
+        return <<<HTML
+            <a href='https://xtools.wmflabs.org/globalcontribs/{$username}' target='_blank'>
+                <img class="splash-logo" src="/Translation_Dashboard/static/xtools.svg" alt="XTools" width="80" height="35" title="Xtools">
+            </a>
+        HTML;
+    }
 }

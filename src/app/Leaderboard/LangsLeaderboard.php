@@ -37,18 +37,16 @@ class LangsLeaderboard
         $langname = LangsTables::get_lang_name($this->langcode) ?? $this->langcode;
 
         // Fetch language specific data tables
-        $u_tables = (new LangsSub($this->langcode, $this->year))->getTables();
+        $service = new LangsSub($this->langcode, $this->year);
 
-        $dd = $u_tables['dd'];
-        $dd_Pending = $u_tables['dd_Pending'];
-        $table_of_views = $u_tables['table_of_views'];
+        $u_tables = $service->getTables($lead_words_table, $cats_data);
+
+        $missingItems = $u_tables['missingItems'];
+        $pendingItems = $u_tables['pendingItems'];
 
         [$table1, $main_table] = LeadHelp::make_langs_lead(
-            $dd,
+            $missingItems,
             'translations',
-            $table_of_views,
-            $lead_words_table,
-            $cats_data
         );
 
         // Create div for leaderboard header
@@ -90,11 +88,8 @@ class LangsLeaderboard
         HTML;
 
         [$_, $table_pnd] = LeadHelp::make_langs_lead(
-            $dd_Pending,
+            $pendingItems,
             'pending',
-            $table_of_views,
-            $lead_words_table,
-            $cats_data
         );
 
         $output .= <<<HTML

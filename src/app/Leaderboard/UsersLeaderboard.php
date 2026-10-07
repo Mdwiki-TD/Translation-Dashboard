@@ -47,20 +47,18 @@ class UsersLeaderboard
         $user_langs = $user_most_langs[0]['lang'] ?? "";
 
         // Fetch user specific tables
-        $u_tables = (new UsersSub($this->username, $this->year, $this->langcode))->getTables();
+        $service = new UsersSub($this->username, $this->year, $this->langcode);
 
-        $dd = $u_tables['dd'];
-        $dd_Pending = $u_tables['dd_Pending'];
-        $table_of_views = $u_tables['table_of_views'];
+        $u_tables = $service->getTables($lead_words_table, $cats_data);
+
+        $missingItems = $u_tables['missingItems'];
+        $pendingItems = $u_tables['pendingItems'];
 
         $user_is_global_username = ($global_username === $this->username);
 
         [$table1, $main_table] = LeadHelp::make_users_lead(
-            $dd,
+            $missingItems,
             'translations',
-            $table_of_views,
-            $lead_words_table,
-            $cats_data,
             $user_is_global_username
         );
 
@@ -68,11 +66,7 @@ class UsersLeaderboard
             ? HtmlUrls::make_wikipedia_url_blank("User:{$this->username}", $user_langs, $this->userToHtml)
             : HtmlUrls::make_mdwiki_user_url($this->userToHtml);
 
-        $xtools = <<<HTML
-            <a href='https://xtools.wmflabs.org/globalcontribs/{$this->userToHtml}' target='_blank'>
-                <img class="splash-logo" src="/Translation_Dashboard/static/xtools.svg" alt="XTools" width="80" height="35" title="Xtools">
-            </a>
-        HTML;
+        $xtools = HtmlUrls::XtoolsLink($this->userToHtml);
 
         // Create div for leaderboard header
         $item_div = "<span class='h4 text-center'>User: {$user_link}<br>{$xtools}</span>";
@@ -93,7 +87,7 @@ class UsersLeaderboard
         $graph = LangUserGraph::graphDataHtml($graphData);
 
         $usersTable = UsersLeaderboardTable::getInstance();
-        $gData = $usersTable->getUserFilterData($this->username);
+        $gData = $usersTable->getUserNewFilterData($this->username);
 
         $output .= FilterForm::leadRow(
             $table1,
@@ -113,11 +107,8 @@ class UsersLeaderboard
         HTML;
 
         [$_, $table_pnd] = LeadHelp::make_users_lead(
-            $dd_Pending,
+            $pendingItems,
             'pending',
-            $table_of_views,
-            $lead_words_table,
-            $cats_data,
             $user_is_global_username
         );
 

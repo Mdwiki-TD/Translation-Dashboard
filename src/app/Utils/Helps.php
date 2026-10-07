@@ -6,14 +6,14 @@ class Helps
 {
     public static function sort_py_pageviews_rows(array $items, array $en_views_tab): array
     {
-        $dd = [];
+        $data = [];
         foreach ($items as $t) {
             $t = str_replace("_", " ", $t);
             $kry = $en_views_tab[$t] ?? 0;
-            $dd[$t] = $kry;
+            $data[$t] = $kry;
         }
-        arsort($dd);
-        return $dd;
+        arsort($data);
+        return $data;
     }
 
     public static function sort_py_importance(array $items, array $Assessment_table): array
@@ -28,7 +28,7 @@ class Helps
         ];
 
         $empty = $Assessment_fff['Unknown'];
-        $dd = [];
+        $data = [];
         foreach ($items as $t) {
             $t = str_replace("_", " ", $t);
             $aa = $Assessment_table[$t] ?? null;
@@ -36,10 +36,10 @@ class Helps
             if (isset($aa)) {
                 $kry = $Assessment_fff[$aa] ?? $empty;
             }
-            $dd[$t] = $kry;
+            $data[$t] = $kry;
         }
-        arsort($dd);
-        return $dd;
+        arsort($data);
+        return $data;
     }
 
     public static function make_translate_urls(

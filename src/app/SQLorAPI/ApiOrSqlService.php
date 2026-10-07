@@ -118,11 +118,9 @@ class ApiOrSqlService
         $apiData = [];
 
         $useTdApi = self::useTdApiOrSql();
-        if ($useTdApi) {
+        if ($useTdApi && $apiParams) {
             $apiResults = self::getTdApi($apiParams);
-
             $apiData = $apiResults['results'] ?? [];
-
             $length = $apiResults['length'] ?? null;
 
             if ($length === 0) {
@@ -135,7 +133,7 @@ class ApiOrSqlService
             return [];
         }
 
-        if (empty($apiData) && !$noRefind) {
+        if (empty($apiData) && !$noRefind && $sqlQuery) {
             $apiData = $this->db->fetchQuery($sqlQuery, $sqlParams);
         }
 

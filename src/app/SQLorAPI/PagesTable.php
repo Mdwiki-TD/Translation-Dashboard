@@ -276,9 +276,9 @@ class PagesTable extends BaseTable
             $apiParams['lang'] = $lang;
         }
 
-        $dd = $this->service->superFunction($apiParams, $sqlParams, $query);
+        $data = $this->service->superFunction($apiParams, $sqlParams, $query);
 
-        $result = (int)($dd[0]['count'] ?? 0);
+        $result = (int)($data[0]['count'] ?? 0);
 
         return $result;
     }
@@ -302,10 +302,10 @@ class PagesTable extends BaseTable
             $apiParams['lang'] = $lang;
         }
 
-        $dd = $this->service->superFunction($apiParams, $sqlParams, $query);
+        $data = $this->service->superFunction($apiParams, $sqlParams, $query);
 
-        $cache[$lang] = $dd;
+        $cache[$lang] = $data;
 
-        return $dd;
+        return $data;
     }
 }

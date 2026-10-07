@@ -53,13 +53,13 @@ class Html
     {
         $options = "";
 
-        foreach ($tab as $dd) {
-            if (empty($dd)) continue;
+        foreach ($tab as $data) {
+            if (empty($data)) continue;
 
-            // $se = ($cat === $dd) ? 'selected' : '';
-            $se = (strtolower((string)$cat) === strtolower((string)$dd)) ? 'selected' : '';
+            // $se = ($cat === $data) ? 'selected' : '';
+            $se = (strtolower((string)$cat) === strtolower((string)$data)) ? 'selected' : '';
 
-            $escaped = htmlspecialchars($dd, ENT_QUOTES, 'UTF-8');
+            $escaped = htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
             $options .= "<option value='{$escaped}' {$se}>{$escaped}</option>";
         }
 

@@ -147,13 +147,13 @@ class RecentTable extends BaseTable
             // $sqlParams[] = $offset;
         }
 
-        $dd = $this->service->superFunction($apiParams, $sqlParams, $query);
+        $data = $this->service->superFunction($apiParams, $sqlParams, $query);
 
         // sort the table by add_date
-        usort($dd, function ($a, $b) {
+        usort($data, function ($a, $b) {
             return strtotime($b['add_date']) - strtotime($a['add_date']);
         });
 
-        return $dd;
+        return $data;
     }
 }
