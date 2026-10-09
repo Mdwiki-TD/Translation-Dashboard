@@ -1,46 +1,82 @@
 <?php
+// src/app/Logger.php
+declare (strict_types = 1);
 
 namespace App;
 
-class Logger
+final class Logger
 {
+    /** @var (callable(string, string): void)|null */
+    private static $sink        = null;
     private static ?bool $debug = null;
 
     /**
-     * Check and cache the debug status.
+     * Replace the output sink. Pass null to restore the default (error_log).
      *
-     * @return bool
+     * @param (callable(string $level, string $message): void)|null $sink
      */
-    private static function isDebug(): bool
+    public static function setSink( ? callable $sink) : void
     {
-        if (self::$debug === null) {
-            if (isset($_COOKIE['test']) && $_COOKIE['test'] === 'x') {
-                self::$debug = false;
-            } else {
-                self::$debug = isset($_REQUEST['test']) || isset($_COOKIE['test']);
-            }
-        }
-
-        return self::$debug;
+        self::$sink = $sink;
     }
 
-    /**
-     * Print debug information if the test condition is met.
-     *
-     * @param mixed $s Data to be logged or printed.
-     * @return void
-     */
-    public static function debug(mixed $s): void
+    /** Reset cached state (useful in tests). */
+    public static function reset(): void
     {
-        if (!self::isDebug()) {
+        self::$sink  = null;
+        self::$debug = null;
+    }
+
+    public static function debug(mixed $message): void
+    {
+        if (self::isDebug()) {
+            self::write('debug', self::stringify($message));
+        }
+    }
+
+    public static function info(string $message): void
+    {
+        self::write('info', $message);
+    }
+
+    public static function warning(string $message): void
+    {
+        self::write('warning', $message);
+    }
+
+    public static function error(string $message): void
+    {
+        self::write('error', $message);
+    }
+
+    private static function write(string $level, string $message): void
+    {
+        if (self::$sink !== null) {
+            (self::$sink)($level, $message);
             return;
         }
 
-        if (is_string($s)) {
-            echo "\n<br>\n$s";
-        } else {
-            echo "\n<br>\n";
-            print_r($s);
+        // In CLI under "testing", stay silent unless a sink is installed.
+        if (self::env('APP_ENV') === 'testing') {
+            return;
         }
+
+        error_log($level === 'error' ? $message : "[$level] $message");
+    }
+
+    private static function isDebug(): bool
+    {
+        return self::$debug ??= (self::env('APP_ENV') === 'development');
+    }
+
+    private static function stringify(mixed $value): string
+    {
+        return is_string($value) ? $value : print_r($value, true);
+    }
+
+    private static function env(string $key): string
+    {
+        $value = getenv($key);
+        return $value !== false && $value !== '' ? $value : (string) ($_ENV[$key] ?? '');
     }
 }
