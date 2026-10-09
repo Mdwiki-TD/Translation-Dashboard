@@ -36,7 +36,7 @@ function postUrl(string $ServerUrl, array $params = []): string
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
     if ($httpCode !== 200) {
-        Logger::debug('postUrl: Error: API request failed with status code ' . $httpCode);
+        Logger::debug("postUrl: Error: ({$url2}) API request failed with status code " . $httpCode);
     }
 
     $executionTime = (microtime(true) - $timeStart);
