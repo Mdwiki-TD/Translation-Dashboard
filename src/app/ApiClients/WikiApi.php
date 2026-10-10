@@ -4,26 +4,30 @@ namespace App\ApiClients;
 
 class WikiApi
 {
-    public static function make_view_by_number(string $target, mixed $numb, string $lang, ?string $pupdate): string
-    {
+    public static function make_view_by_number(
+        string $target,
+        mixed $numb,
+        string $lang,
+        ?string $pupdate
+    ): string {
         // remove spaces and tab characters
         $target = trim($target);
         $numb2 = (!empty($numb)) ? $numb : "?";
         $start = !empty($pupdate) ? $pupdate : '2019-01-01';
         $end = date("Y-m-d", strtotime("yesterday"));
-
-        $url = 'https://pageviews.wmcloud.org/?' . http_build_query([
-            'project' => "$lang.wikipedia.org",
-            'platform' => 'all-access',
-            'agent' => 'all-agents',
-            'start' => $start,
-            'end' => $end,
+        $params = [
+            'project'   => "$lang.wikipedia.org",
+            'platform'  => 'all-access',
+            'agent'     => 'all-agents',
+            'start'     => $start,
+            'end'       => $end,
             // 'range' => 'all-time',
             'redirects' => '0',
-            'pages' => $target,
-        ], '', '&', PHP_QUERY_RFC3986);
+            'pages'     => $target,
+        ];
+        $url = 'https://pageviews.wmcloud.org/?' . http_build_query($params, '', '&', PHP_QUERY_RFC3986);
 
-        $numb3 = (is_numeric($numb2)) ? number_format((float)$numb2) : $numb2;
+        $numb3 = (is_numeric($numb2)) ? number_format((float) $numb2) : $numb2;
         $link = "<a target='_blank' href='$url'>$numb3</a>";
 
         if (is_numeric($numb2) && intval($numb2) > 0) {

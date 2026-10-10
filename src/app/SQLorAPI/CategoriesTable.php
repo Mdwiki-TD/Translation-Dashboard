@@ -43,7 +43,7 @@ class CategoriesTable extends BaseTable
         return self::$categoriesCache;
     }
 
-    public function getCategoriesMembers(string $category): array
+    public function getCategoriesMembers(mixed $category): array
     {
         $apiParams = ['get' => 'category_members', 'cat' => $category];
         $query = "SELECT article_id FROM category_members where category = ?";

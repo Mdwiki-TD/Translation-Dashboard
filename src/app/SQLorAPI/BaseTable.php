@@ -7,7 +7,7 @@ use App\MdwikiSql\Database;
 
 class BaseTable
 {
-    public Database $db;
+    public Database        $db;
     public ApiOrSqlService $service;
     public function __construct(?ApiOrSqlService $service = null)
     {

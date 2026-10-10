@@ -6,9 +6,9 @@ use App\SQLorAPI\BaseTable;
 
 class UsersTable extends BaseTable
 {
-    private static array $coordinatorsCache = [];
+    private static array $coordinatorsCache     = [];
     private static array $usersNoInprocessCache = [];
-    private static array $fullTranslatorsCache = [];
+    private static array $fullTranslatorsCache  = [];
 
 
     private static ?self $instance = null;

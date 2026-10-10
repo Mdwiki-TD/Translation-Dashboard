@@ -18,14 +18,15 @@ class TrLink
             $endpoint = (SettingsTable::getInstance())->getEndpoint();
         }
         $title = str_replace('%20', '_', $title);
+        $title = str_replace(' ', '_', $title);
 
         $params = [
-            'title' => 'Special:ContentTranslation',
-            'tr_type' => $tra_type,
-            'from' => 'mdwiki',
-            'to' => $cod,
+            'title'    => 'Special:ContentTranslation',
+            'tr_type'  => $tra_type,
+            'from'     => 'mdwiki',
+            'to'       => $cod,
             'campaign' => $campaign,
-            'page' => $title
+            'page'     => $title
         ];
 
         return $endpoint . "?" . http_build_query($params, '', '&', PHP_QUERY_RFC3986);
@@ -39,17 +40,14 @@ class TrLink
         string $tra_type,
         int|string $word
     ): string {
-        $cat2   = rawurlencode($cat);
-        $camp2  = rawurlencode($campaign);
-        $title2 = rawurlencode($title);
-
+        // Replace spaces with underscores before encoding
         $params = [
-            "title" => $title2,
-            "code" => $cod,
-            "cat" => $cat2,
-            "camp" => $camp2,
-            "word" => $word,
-            "type" => $tra_type
+            "title" => str_replace(' ', '_', $title),
+            "code"  => $cod,
+            "cat"   => str_replace(' ', '_', $cat),
+            "camp"  => str_replace(' ', '_', $campaign),
+            "word"  => $word,
+            "type"  => $tra_type
         ];
 
         return 'translate_med/index.php?' . http_build_query($params, '', '&', PHP_QUERY_RFC3986);

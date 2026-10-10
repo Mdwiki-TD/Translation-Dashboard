@@ -8,7 +8,8 @@ use App\Logger;
 
 function postUrl(string $ServerUrl, array $params = []): string
 {
-    if (empty($params)) return "";
+    if (empty($params))
+        return "";
 
     $timeStart = microtime(true);
     $usrAgent = "WikiProjectMed Translation Dashboard/1.0 (https://mdwiki.toolforge.org/; tools.mdwiki@toolforge.org)";
@@ -18,13 +19,13 @@ function postUrl(string $ServerUrl, array $params = []): string
     $url = "{$ServerUrl}?" . http_build_query($params, '', '&', PHP_QUERY_RFC3986);
 
     curl_setopt_array($ch, [
-        CURLOPT_URL => $url,
+        CURLOPT_URL            => $url,
         CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_USERAGENT => $usrAgent,
+        CURLOPT_USERAGENT      => $usrAgent,
         // CURLOPT_COOKIEJAR => "cookie.txt",
         // CURLOPT_COOKIEFILE => "cookie.txt",
         CURLOPT_CONNECTTIMEOUT => 10,
-        CURLOPT_TIMEOUT => 8,
+        CURLOPT_TIMEOUT        => 8,
     ]);
 
     $output = curl_exec($ch);
@@ -36,7 +37,7 @@ function postUrl(string $ServerUrl, array $params = []): string
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
     if ($httpCode !== 200) {
-        Logger::debug('postUrl: Error: API request failed with status code ' . $httpCode);
+        Logger::debug("postUrl: Error: ({$url2}) API request failed with status code " . $httpCode);
     }
 
     $executionTime = (microtime(true) - $timeStart);
@@ -68,10 +69,10 @@ class ApiOrSqlService
     }
 
     private static ?self $instance = null;
-    public static function getInstance(Database $db): self
+    public static function getInstance(Database $db, ?bool $useTdApi = null): self
     {
         if (self::$instance === null) {
-            self::$instance = new self($db);
+            self::$instance = new self($db, $useTdApi);
         }
 
         return self::$instance;
@@ -115,7 +116,7 @@ class ApiOrSqlService
 
     public static function isValid(mixed $str): bool
     {
-        return !empty($str) && strtolower((string)$str) != "all";
+        return !empty($str) && strtolower((string) $str) != "all";
     }
 
     public function superFunction(

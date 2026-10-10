@@ -6,9 +6,10 @@ use App\SQLorAPI\BaseTable;
 
 class ViewsTable extends BaseTable
 {
-    private static array $viewsCache = [];
+    private static array $viewsCache     = [];
     private static array $userViewsCache = [];
     private static array $langViewsCache = [];
+    private static array $graphDataCache = [];
 
 
     private static ?self $instance = null;
@@ -25,16 +26,17 @@ class ViewsTable extends BaseTable
         self::$viewsCache = [];
         self::$userViewsCache = [];
         self::$langViewsCache = [];
+        self::$graphDataCache = [];
     }
 
     public function getViews(int|string $year, string $lang): array
     {
-        $key = (string)$year . (string)$lang;
+        $key = (string) $year . (string) $lang;
         if (!empty(self::$viewsCache[$key] ?? [])) {
             return self::$viewsCache[$key];
         }
 
-        $apiParams = ['get' => 'views_new'];
+        $apiParams = ['get' => 'views'];
         $query2 = <<<SQL
             SELECT p.title, v.target, v.lang, v.views
             FROM views_new_all v
@@ -78,7 +80,7 @@ class ViewsTable extends BaseTable
             return self::$userViewsCache[$key];
         }
 
-        $apiParams = ['get' => 'user_views2', 'lang' => $langY, 'user' => $user, 'year' => $yearY];
+        $apiParams = ['get' => 'user_views', 'lang' => $langY, 'user' => $user, 'year' => $yearY];
 
         $query2 = <<<SQL
             SELECT v.target, v.lang, v.views
@@ -124,7 +126,7 @@ class ViewsTable extends BaseTable
             return self::$langViewsCache[$key];
         }
 
-        $apiParams = ['get' => 'lang_views2', 'lang' => $mainlang, 'year' => $yearY];
+        $apiParams = ['get' => 'lang_views', 'lang' => $mainlang, 'year' => $yearY];
 
         $query2 = <<<SQL
             SELECT v.target, v.lang, v.views
@@ -157,4 +159,24 @@ class ViewsTable extends BaseTable
         return $tableOfViews;
     }
 
+    public function getGraphData(): array
+    {
+        if (!empty(self::$graphDataCache)) {
+            return self::$graphDataCache;
+        }
+
+        $apiParams = ['get' => 'graph_data'];
+        $query = <<<SQL
+            SELECT LEFT(pupdate, 7) as m, COUNT(*) as c
+            FROM pages
+            WHERE target != ''
+            GROUP BY LEFT(pupdate, 7)
+            ORDER BY LEFT(pupdate, 7) ASC;
+        SQL;
+
+        $uData = $this->service->superFunction($apiParams, [], $query);
+        self::$graphDataCache = $uData;
+
+        return self::$graphDataCache;
+    }
 }

@@ -34,10 +34,10 @@ class PagesTable extends BaseTable
         self::$langYearsCache = [];
     }
 
-    public function getLangPagesByCat(string $lang, string $cat): array
+    public function getLangPagesByCat(mixed $lang, mixed $cat): array
     {
         // http://localhost:9001/api.php?get=pages&lang=ar&cat=RTT
-        $key = $lang . $cat;
+        $key = (string)$lang . (string)$cat;
         if (!empty(self::$langPagesCache[$key] ?? [])) {
             return self::$langPagesCache[$key];
         }

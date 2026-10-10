@@ -44,6 +44,7 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 	error_reporting(E_ALL);
 }
 
+include_once __DIR__ . '/autoload.php';
 
 // Configure secure session settings
 ini_set('session.use_strict_mode', '1');
@@ -66,5 +67,3 @@ if (file_exists($vendorAutoload)) {
 } else {
     die("Vendor autoload not found. Please run 'composer install' in the project root.");
 }
-
-include_once __DIR__ . '/autoload.php';
