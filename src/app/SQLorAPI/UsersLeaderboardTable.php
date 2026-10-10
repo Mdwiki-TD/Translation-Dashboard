@@ -84,7 +84,7 @@ class UsersLeaderboardTable extends BaseTable
 
     public function getUserFilterData(string $user): array
     {
-        $key = (string)$user;
+        $key = (string) $user;
         if (!empty(self::$userDataCache[$key] ?? [])) {
             return self::$userDataCache[$key];
         }
@@ -111,15 +111,16 @@ class UsersLeaderboardTable extends BaseTable
         ];
 
         foreach ($rows as $row) {
-            $year      = $row['year'] ?? '';
-            $lang      = $row['lang'] ?? '';
-            $campaign  = $row['campaign'] ?? '';
+            $year = $row['year'] ?? '';
+            $lang = $row['lang'] ?? '';
+            $campaign = $row['campaign'] ?? '';
 
             foreach (['years' => $year, 'langs' => $lang, 'camps' => $campaign] as $bucket => $key) {
                 $uData[$bucket][$key] ??= 0;
                 $uData[$bucket][$key] += 1;
             }
-        };
+        }
+        ;
         // { "years": { "2021": 6, ... }, "langs": { "ar": 14, ... }, "camps": { "Main": 12, ... } }
 
         return $uData;

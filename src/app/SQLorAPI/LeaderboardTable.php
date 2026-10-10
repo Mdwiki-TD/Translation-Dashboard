@@ -16,7 +16,7 @@ class LeaderboardTable extends BaseTable
 
         return self::$instance;
     }
-    public function makeSqlQuery(int|string $year, ?string $userGroup, ?string $cat): array
+    public function makeSqlQuery(mixed $year, mixed $userGroup, mixed $cat): array
     {
         $params = [];
 
@@ -50,12 +50,12 @@ class LeaderboardTable extends BaseTable
         $query .= " ORDER BY 1 DESC";
 
         return [
-            'query' => $query,
+            'query'  => $query,
             'params' => $params
         ];
     }
 
-    public function makeApiParams(int|string $year, ?string $userGroup, ?string $cat): array
+    public function makeApiParams(mixed $year, mixed $userGroup, mixed $cat): array
     {
         $apiParams = ['get' => 'leaderboard_table'];
 
@@ -74,7 +74,7 @@ class LeaderboardTable extends BaseTable
         return $apiParams;
     }
 
-    public function getLeaderboardTable(int|string $year, ?string $userGroup, ?string $cat): array
+    public function getLeaderboardTable(mixed $year, mixed $userGroup, mixed $cat): array
     {
         $apiParams = self::makeApiParams($year, $userGroup, $cat);
         $quaData = self::makeSqlQuery($year, $userGroup, $cat);
@@ -129,10 +129,10 @@ class LeaderboardTable extends BaseTable
     public function addTopParams(string $query, array $params, array $toAdd): array
     {
         $topParams = [
-            "year" => "YEAR(p.pupdate)",
-            "month" => "MONTH(p.pupdate)",
+            "year"       => "YEAR(p.pupdate)",
+            "month"      => "MONTH(p.pupdate)",
             "user_group" => "u.user_group",
-            "cat" => "p.cat"
+            "cat"        => "p.cat"
         ];
 
         foreach ($topParams as $key => $column) {
@@ -182,21 +182,21 @@ class LeaderboardTable extends BaseTable
             SQL;
     }
 
-    public function getTopUsers(int|string $year, ?string $userGroup, ?string $cat, int|string|null $month = null): array
+    public function getTopUsers(mixed $year, mixed $userGroup, mixed $cat, mixed $month = null): array
     {
         $toAdd = [
-            "year" => $year,
+            "year"       => $year,
             "user_group" => $userGroup,
-            "cat" => $cat,
-            "month" => $month,
+            "cat"        => $cat,
+            "month"      => $month,
         ];
 
         $apiParams = [
-            'get' => 'top_users',
-            'year' => $year,
+            'get'        => 'top_users',
+            'year'       => $year,
             'user_group' => $userGroup,
-            'cat' => $cat,
-            'month' => $month,
+            'cat'        => $cat,
+            'month'      => $month,
         ];
 
         $query = self::topQuery('user');
@@ -214,21 +214,21 @@ class LeaderboardTable extends BaseTable
         return $newData;
     }
 
-    public function getTopLangs(int|string $year, ?string $userGroup, ?string $cat, int|string|null $month = null): array
+    public function getTopLangs(mixed $year, mixed $userGroup, mixed $cat, mixed $month = null): array
     {
         $toAdd = [
-            "year" => $year,
+            "year"       => $year,
             "user_group" => $userGroup,
-            "cat" => $cat,
-            'month' => $month,
+            "cat"        => $cat,
+            'month'      => $month,
         ];
 
         $apiParams = [
-            'get' => 'top_langs',
-            'year' => $year,
+            'get'        => 'top_langs',
+            'year'       => $year,
             'user_group' => $userGroup,
-            'cat' => $cat,
-            'month' => $month,
+            'cat'        => $cat,
+            'month'      => $month,
         ];
 
         $query = self::topQuery('lang');
@@ -257,13 +257,13 @@ class LeaderboardTable extends BaseTable
     ): array {
         // api supported_params: [ "lang", "user", "year", "month", "category", "campaign" ]
         $apiParams = [
-            'get' => 'graph_data',
-            'lang' => $lang,
-            'user' => $user,
-            'year' => $year,
-            'month' => $month,
-            'category' => $category,
-            'campaign' => $campaign,
+            'get'        => 'graph_data',
+            'lang'       => $lang,
+            'user'       => $user,
+            'year'       => $year,
+            'month'      => $month,
+            'category'   => $category,
+            'campaign'   => $campaign,
             'user_group' => $userGroup,
         ];
         $sqlParams = [];

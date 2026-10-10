@@ -6,7 +6,7 @@ use App\SQLorAPI\BaseTable;
 
 class RecentTable extends BaseTable
 {
-    private static array $PagesWithViewsCache = [];
+    private static array $PagesWithViewsCache   = [];
     private static array $RecentPagesUsersCache = [];
 
 
@@ -38,10 +38,10 @@ class RecentTable extends BaseTable
         $sqlParams = [];
 
         $apiParams = [
-            'get' => 'pages_with_views',
+            'get'    => 'pages_with_views',
             'target' => 'not_empty',
-            "order" => 'pupdate_or_add_date',
-            'limit' => '250',
+            "order"  => 'pupdate_or_add_date',
+            'limit'  => '250',
         ];
 
         if ($this->service->isValid($lang)) {
@@ -80,10 +80,10 @@ class RecentTable extends BaseTable
         $sqlParams = [];
 
         $apiParams = [
-            'get' => 'pages_users',
+            'get'    => 'pages_users',
             'target' => 'not_empty',
-            "order" => 'pupdate',
-            'limit' => '100'
+            "order"  => 'pupdate',
+            'limit'  => '100'
         ];
 
         $langLine = '';

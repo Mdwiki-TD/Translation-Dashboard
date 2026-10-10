@@ -9,6 +9,7 @@ class ViewsTable extends BaseTable
     private static array $viewsCache     = [];
     private static array $userViewsCache = [];
     private static array $langViewsCache = [];
+    private static array $graphDataCache = [];
 
 
     private static ?self $instance = null;
@@ -25,6 +26,7 @@ class ViewsTable extends BaseTable
         self::$viewsCache = [];
         self::$userViewsCache = [];
         self::$langViewsCache = [];
+        self::$graphDataCache = [];
     }
 
     public function getViews(int|string $year, string $lang): array
@@ -157,4 +159,24 @@ class ViewsTable extends BaseTable
         return $tableOfViews;
     }
 
+    public function getGraphData(): array
+    {
+        if (!empty(self::$graphDataCache)) {
+            return self::$graphDataCache;
+        }
+
+        $apiParams = ['get' => 'graph_data'];
+        $query = <<<SQL
+            SELECT LEFT(pupdate, 7) as m, COUNT(*) as c
+            FROM pages
+            WHERE target != ''
+            GROUP BY LEFT(pupdate, 7)
+            ORDER BY LEFT(pupdate, 7) ASC;
+        SQL;
+
+        $uData = $this->service->superFunction($apiParams, [], $query);
+        self::$graphDataCache = $uData;
+
+        return self::$graphDataCache;
+    }
 }
