@@ -25,13 +25,13 @@ use RuntimeException;
 class Database
 {
 
-    private ?PDO $db = null;
-    private string $host = "";
-    private string $user = "";
-    private string $password = "";
-    private string $dbname = "";
-    private string $appEnv = "";
-    private bool $groupByModeDisabled = false;
+    private ?PDO   $db                  = null;
+    private string $host                = "";
+    private string $user                = "";
+    private string $password            = "";
+    private string $dbname              = "";
+    private string $appEnv              = "";
+    private bool   $groupByModeDisabled = false;
 
     public function __construct(string $dbnameVar = 'DB_NAME')
     {
@@ -56,7 +56,7 @@ class Database
     private function buildDsn(string $dbnameVar): string
     {
         // Load host and database name from environment variables, falling back to a default host
-        $this->host   = $this->envVar('DB_HOST_TOOLS') ?: 'tools.db.svc.wikimedia.cloud';
+        $this->host = $this->envVar('DB_HOST_TOOLS') ?: 'tools.db.svc.wikimedia.cloud';
         $this->dbname = $this->envVar($dbnameVar);
 
         // Build the PDO Data Source Name (DSN) string for MySQL connection
@@ -75,7 +75,7 @@ class Database
         $dsn = $this->buildDsn($dbnameVar);
 
         // Load remaining credentials from environment variables
-        $this->user     = $this->envVar('TOOL_TOOLSDB_USER');
+        $this->user = $this->envVar('TOOL_TOOLSDB_USER');
         $this->password = $this->envVar('TOOL_TOOLSDB_PASSWORD');
 
         // If any required credential is missing, skip the connection attempt entirely
