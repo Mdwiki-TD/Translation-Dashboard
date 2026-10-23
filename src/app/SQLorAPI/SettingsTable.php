@@ -30,12 +30,25 @@ class SettingsTable extends BaseTable
             return self::$sqlSettingsCache;
         }
 
-        $query = "select id, title, displayed, value, Type, ignored from settings";
+        $query = "select id, title, displayed, value, ignored from settings";
         $apiParams = ['get' => 'settings'];
 
         self::$sqlSettingsCache = $this->service->superFunction($apiParams, [], $query);
 
         return self::$sqlSettingsCache;
+    }
+
+    public function getSettingsByid(string $id): array
+    {
+        if (empty($id)) {
+            return [];
+        }
+
+        $query = "select id, title, displayed, value, ignored from settings where id = ?";
+
+        $data = $this->service->getSql($query, [$id]);
+
+        return array_values($data)[0] ?? [];
     }
 
     public function getEndpoint(): string
@@ -50,7 +63,8 @@ class SettingsTable extends BaseTable
         // language_settings (lang_code, move_dots, expend, add_en_lang)
         static $dataLangs = [];
 
-        if (!empty($dataLangs)) return $dataLangs;
+        if (!empty($dataLangs))
+            return $dataLangs;
 
         $sqlParams = [];
         $apiParams = ['get' => 'language_settings'];

@@ -149,4 +149,10 @@ class ApiOrSqlService
 
         return $apiData;
     }
+    public function getSql(
+        string $sqlQuery,
+        array $sqlParams = [],
+    ): array {
+        return $this->db->fetchQuery($sqlQuery, $sqlParams);
+    }
 }

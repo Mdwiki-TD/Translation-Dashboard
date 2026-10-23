@@ -1,21 +1,34 @@
 <?php
 
-/**
- * Seed test for: BaseTable
- * Source: src/app/SQLorAPI/BaseTable.php
- * TODO: write the actual tests.
- */
-
 declare(strict_types=1);
 
 namespace Tests\App\SQLorAPI;
 
+use App\MdwikiSql\Database;
+use App\SQLorAPI\ApiOrSqlService;
+use App\SQLorAPI\BaseTable;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
+#[CoversClass(BaseTable::class)]
 class BaseTableTest extends TestCase
 {
-    public function testPlaceholder(): void
+    public function testBaseTableInitializationWithService(): void
     {
-        $this->markTestIncomplete('Tests for BaseTable are not written yet.');
+        $db = new Database('NON_EXISTENT_DB');
+        $service = new ApiOrSqlService($db, false);
+
+        $baseTable = new BaseTable($service);
+
+        $this->assertInstanceOf(Database::class, $baseTable->db);
+        $this->assertSame($service, $baseTable->service);
+    }
+
+    public function testBaseTableInitializationDefault(): void
+    {
+        $baseTable = new BaseTable();
+
+        $this->assertInstanceOf(Database::class, $baseTable->db);
+        $this->assertInstanceOf(ApiOrSqlService::class, $baseTable->service);
     }
 }

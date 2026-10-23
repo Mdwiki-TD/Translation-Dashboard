@@ -29,4 +29,17 @@ class CoordinatorRepository
 
         return (($coordinators[$username] ?? 0) == 1);
     }
+    public function isAdmin(string $username): bool
+    {
+        if ($username === "") {
+            return false;
+        }
+
+        $query = "SELECT id, username, is_active FROM admins order by id";
+        $dbResult = $this->db->fetchQuery($query);
+
+        $admins = array_column($dbResult, "is_active", "username");
+
+        return (($admins[$username] ?? 0) == 1);
+    }
 }

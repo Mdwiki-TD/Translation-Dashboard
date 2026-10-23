@@ -4,7 +4,7 @@ namespace App\ApiClients;
 
 class WikiApi
 {
-    public static function make_view_by_number(
+    public static function makeViewByNumber(
         string $target,
         mixed $numb,
         string $lang,

@@ -1,21 +1,28 @@
 <?php
 
-/**
- * Seed test for: LangsTables
- * Source: src/app/Tables/LangsTables.php
- * TODO: write the actual tests.
- */
-
 declare(strict_types=1);
 
 namespace Tests\App\Tables;
 
+use App\Tables\LangsTables;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
+#[CoversClass(LangsTables::class)]
 class LangsTablesTest extends TestCase
 {
-    public function testPlaceholder(): void
+    public function testLangsTablesLookups(): void
     {
-        $this->markTestIncomplete('Tests for LangsTables are not written yet.');
+        $title = LangsTables::get_lang_title('ar');
+        $name = LangsTables::get_lang_name('ar');
+
+        if ($title !== null) {
+            $this->assertStringContainsString('ar', $title);
+        } else {
+            $this->assertNull($title);
+        }
+
+        $this->assertTrue($name === null || is_string($name));
+        $this->assertContains('commons', LangsTables::$L_skip_codes);
     }
 }

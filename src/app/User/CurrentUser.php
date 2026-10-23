@@ -28,6 +28,7 @@ class CurrentUser
 
     private string $username = "";
     private bool $isCoordinator = false;
+    private bool $isAdmin = false;
     private ?string $alertMessage = null;
 
     public function __construct(
@@ -74,6 +75,10 @@ class CurrentUser
     {
         return $this->isCoordinator;
     }
+    public function isAdmin(): bool
+    {
+        return $this->isAdmin;
+    }
 
     public function isLoggedIn(): bool
     {
@@ -105,6 +110,7 @@ class CurrentUser
         $this->cookies->clear();
         $this->username = "";
         $this->isCoordinator = false;
+        $this->isAdmin = false;
     }
 
     public function clearUserCookie(): void
@@ -137,6 +143,7 @@ class CurrentUser
     private function resolveCoordinatorStatus(): void
     {
         $this->isCoordinator = $this->coordinators->isCoordinator($this->username);
+        $this->isAdmin = $this->coordinators->isAdmin($this->username);
     }
 
     public function addUsernameToCookies(string $username): void
