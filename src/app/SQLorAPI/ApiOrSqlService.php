@@ -103,7 +103,7 @@ class ApiOrSqlService
     {
         if (self::$useTdApi === null) {
             // var_dump(json_encode($settingsTabe, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
-            // "{ "allow_type_of_translate": 0, "translation_button_in_progress_table": 1, "fix_ref_in_text": 0, "use_td_api": 1, "use_mdwikicx": 1}"
+            // "{ "allow_type_of_translate": 0, "translation_button_in_progress_table": 1, "fix_ref_in_text": 0, "use_td_api": 1}"
             $apiResults = self::getTdApi(['get' => 'settings']);
             $data = $apiResults['results'] ?? [];
 

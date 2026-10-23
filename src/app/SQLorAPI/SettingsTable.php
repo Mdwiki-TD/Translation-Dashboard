@@ -38,22 +38,6 @@ class SettingsTable extends BaseTable
         return self::$sqlSettingsCache;
     }
 
-    public function getEndpointOld(): string
-    {
-        $settings1 = self::getSettings();
-        $settings1Map = array_column($settings1, 'value', 'title');
-
-        $useMdwikicx = $settings1Map['use_mdwikicx'] ?? '0';
-
-        $endpoint = "https://medwiki.toolforge.org/w/index.php";
-
-        if ($useMdwikicx != '0') {
-            $endpoint = "https://mdwikicx.toolforge.org/w/index.php";
-        }
-
-        return $endpoint;
-    }
-
     public function getEndpoint(): string
     {
         // return "https://mdwikicx.toolforge.org/w/index.php";
