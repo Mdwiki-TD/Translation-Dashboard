@@ -53,8 +53,8 @@ class SettingsTable extends BaseTable
 
     public function getEndpoint(): string
     {
-        // return "https://mdwikicx.toolforge.org/w/index.php";
-        return "http://localhost:889/x/html/index.html";
+        // return "http://localhost:889/x/html/index.html";
+        return "https://mdwikicx.toolforge.org/w/index.php";
     }
 
     public function getLanguageSettings(): array

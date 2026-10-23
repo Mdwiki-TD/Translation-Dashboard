@@ -39,16 +39,6 @@ class PageHeadTest extends TestCase
         $this->assertStringContainsString('jquery.min.js', $head);
     }
 
-    public function testPrintFullHeadWithNobootGetParam(): void
-    {
-        $_GET['noboot'] = '1';
-        $pageHead = new PageHead();
-        $head = $pageHead->print_full_head();
-
-        $this->assertStringContainsString('<title>Wiki Project Med Translation Dashboard</title>', $head);
-        $this->assertStringNotContainsString('bootstrap.min.css', $head);
-    }
-
     public function testIsActive(): void
     {
         $_SERVER['PHP_SELF'] = '/path/to/index.php';

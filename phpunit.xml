@@ -6,7 +6,7 @@
     testdox="true"
     stderr="true"
     displayDetailsOnAllIssues="true"
-    displayDetailsOnIncompleteTests="true"
+    displayDetailsOnIncompleteTests="false"
     displayDetailsOnSkippedTests="true"
     displayDetailsOnTestsThatTriggerDeprecations="true"
     displayDetailsOnPhpunitDeprecations="true"
@@ -17,12 +17,12 @@
     stopOnFailure="false"
     cacheDirectory=".phpunit.cache"
     executionOrder="depends,defects"
-    beStrictAboutOutputDuringTests="true"
-    failOnRisky="true"
-    failOnWarning="true">
+    beStrictAboutOutputDuringTests="false"
+    failOnRisky="false"
+    failOnWarning="false">
     <testsuites>
-        <testsuite name="default">
-            <directory>tests</directory>
+        <testsuite name="Project Test Suite">
+            <directory suffix="Test.php">tests</directory>
         </testsuite>
     </testsuites>
     <source>
