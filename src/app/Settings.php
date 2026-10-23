@@ -39,23 +39,25 @@ final class Settings
 
     public function __construct()
     {
-        $this->domain    = $_SERVER['SERVER_NAME'] ?? 'localhost';
+        $this->domain = $_SERVER['SERVER_NAME'] ?? 'localhost';
         $this->ServerUrl = $this->generateServerUrl();
         $this->userAgent = 'mdwiki MediaWiki OAuth Client/1.0';
-        $this->oauthUrl  = 'https://meta.wikimedia.org/w/index.php?title=Special:OAuth';
-        $this->apiUrl    = preg_replace('/index\.php.*/', 'api.php', $this->oauthUrl);
+        $this->oauthUrl = 'https://meta.wikimedia.org/w/index.php?title=Special:OAuth';
+        $this->apiUrl = preg_replace('/index\.php.*/', 'api.php', $this->oauthUrl);
 
-        $appEnv         = $this->envVar('APP_ENV');
-        $consumerKey    = $this->envVar('CONSUMER_KEY');
+        $appEnv = $this->envVar('APP_ENV');
+        $consumerKey = $this->envVar('CONSUMER_KEY');
         $consumerSecret = $this->envVar('CONSUMER_SECRET');
-        $cookieKey      = $this->envVar('COOKIE_KEY');
-        $cryptKey       = $this->envVar('CRYPTO_KEY');
+        $cookieKey = $this->envVar('COOKIE_KEY');
+        $cryptKey = $this->envVar('CRYPTO_KEY');
         $TablesPath = $this->envVar('TABLES_PATH');
 
-        if ($appEnv === 'production' && (
-            empty($consumerKey) || empty($consumerSecret) ||
-            empty($cookieKey)   || empty($cryptKey)
-        )) {
+        if (
+            $appEnv === 'production' && (
+                empty($consumerKey) || empty($consumerSecret) ||
+                empty($cookieKey) || empty($cryptKey)
+            )
+        ) {
             http_response_code(500);
             error_log('Required configuration directives not found in environment variables!');
             echo 'Required configuration directives not found';
@@ -64,17 +66,19 @@ final class Settings
             throw new \RuntimeException('Required configuration directives not found in environment variables!');
         }
 
-        $this->appEnv    = $appEnv;
-        $this->consumerKey    = $consumerKey;
+        $this->appEnv = $appEnv;
+        $this->consumerKey = $consumerKey;
         $this->consumerSecret = $consumerSecret;
-        $this->cookieKey      = $cookieKey  ? Key::loadFromAsciiSafeString($cookieKey)  : null;
-        $this->cryptKey       = $cryptKey ? Key::loadFromAsciiSafeString($cryptKey) : null;
+        $this->cookieKey = $cookieKey ? Key::loadFromAsciiSafeString($cookieKey) : null;
+        $this->cryptKey = $cryptKey ? Key::loadFromAsciiSafeString($cryptKey) : null;
 
         $this->TablesPath = $TablesPath;
     }
 
     // Prevent cloning and unserialization of the singleton instance
-    private function __clone() {}
+    private function __clone()
+    {
+    }
 
     public function __wakeup(): void
     {
@@ -248,7 +252,8 @@ final class Settings
         }
 
         $len = count($result);
-        if (isset($result['list'])) $len = count($result['list']);
+        if (isset($result['list']))
+            $len = count($result['list']);
         Logger::debug("---- OpenTablesPathFile File: $filePath: Exists size: $len");
 
         return $result;

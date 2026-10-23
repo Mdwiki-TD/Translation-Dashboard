@@ -34,10 +34,9 @@ class UsersTable extends BaseTable
             return self::$coordinatorsCache;
         }
 
-        $apiParams = ['get' => 'coordinators'];
         $query = "SELECT id, username, is_active FROM coordinators order by id";
 
-        self::$coordinatorsCache = $this->service->superFunction($apiParams, [], $query);
+        self::$coordinatorsCache = $this->service->getSql($query);
 
         return self::$coordinatorsCache;
     }

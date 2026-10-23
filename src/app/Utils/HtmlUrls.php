@@ -6,7 +6,8 @@ class HtmlUrls
 {
     public static function make_mdwiki_href(?string $title): ?string
     {
-        if (empty($title)) return $title;
+        if (empty($title))
+            return $title;
 
         return "https://mdwiki.org/wiki/" . rawurlencode(str_replace(' ', '_', $title));
     }
@@ -30,9 +31,10 @@ class HtmlUrls
 
     public static function make_mdwiki_article_url_blank(?string $title, ?string $name = null): ?string
     {
-        if (empty($title)) return $title;
+        if (empty($title))
+            return $title;
 
-        $displayName = $name ? $name : $title;
+        $displayName = $name !== null && $name !== '' ? $name : $title;
 
         $encoded_title = rawurlencode(str_replace(' ', '_', $title));
 
@@ -41,11 +43,12 @@ class HtmlUrls
 
     public static function make_mdwiki_cat_url(?string $category, ?string $name = null): ?string
     {
-        if (empty($category)) return $category;
+        if (empty($category))
+            return $category;
 
         $new_cat = str_replace('Category:', '', $category);
 
-        $displayName = $name ? $name : $new_cat;
+        $displayName = $name !== null && $name !== '' ? $name : $new_cat;
 
         $encoded_category = rawurlencode(str_replace(' ', '_', $new_cat));
 
@@ -58,7 +61,8 @@ class HtmlUrls
         string $name = '',
         bool|int $deleted = false
     ): ?string {
-        if (empty($target)) return $target;
+        if (empty($target))
+            return $target;
 
         $displayName = (!empty($name)) ? $name : $target;
 
@@ -75,7 +79,8 @@ class HtmlUrls
 
     public static function make_wikidata_url_blank(?string $qid, string $name = '', string $default = ''): string
     {
-        if (empty($qid)) return $default;
+        if (empty($qid))
+            return $default;
 
         $displayName = (!empty($name)) ? $name : $qid;
 

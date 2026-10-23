@@ -58,17 +58,17 @@ class InProcessTranslationButtonTest extends TestCase
     public function testMakeOneRowNewInprocessShowsTranslateButtonAndTypeForCoordinator(): void
     {
         $inprocessTable = [
-            'user' => 'Mr. Ibrahem',
-            'date' => '2026-09-17',
+            'user'           => 'Mr. Ibrahem',
+            'date'           => '2026-09-17',
             'translate_type' => 'lead'
         ];
 
         $titleData = [
             'w_lead_words' => 361,
-            'r_lead_refs' => 12,
-            'importance' => 'Unknown',
-            'en_views' => 22158,
-            'qid' => 'Q389735'
+            'r_lead_refs'  => 12,
+            'importance'   => 'Unknown',
+            'en_views'     => 22158,
+            'qid'          => 'Q389735'
         ];
         $builder = new InProcessRowBuilder();
         // User is coordinator ($user_coord = true) and in_progress_translation_button = '0'
@@ -96,17 +96,17 @@ class InProcessTranslationButtonTest extends TestCase
     public function testMakeOneRowNewInprocessHidesTranslateButtonForLoggedOutUser(): void
     {
         $inprocessTable = [
-            'user' => 'Mr. Ibrahem',
-            'date' => '2026-09-17',
+            'user'           => 'Mr. Ibrahem',
+            'date'           => '2026-09-17',
             'translate_type' => 'lead'
         ];
 
         $titleData = [
             'w_lead_words' => 361,
-            'r_lead_refs' => 12,
-            'importance' => 'Unknown',
-            'en_views' => 22158,
-            'qid' => 'Q389735'
+            'r_lead_refs'  => 12,
+            'importance'   => 'Unknown',
+            'en_views'     => 22158,
+            'qid'          => 'Q389735'
         ];
 
         // Non-logged-in user ($global_username = '')
@@ -134,17 +134,17 @@ class InProcessTranslationButtonTest extends TestCase
     public function testMakeOneRowNewInprocessShowsTranslateButtonForSameTranslator(): void
     {
         $inprocessTable = [
-            'user' => 'Mr. Ibrahem',
-            'date' => '2026-09-17',
+            'user'           => 'Mr. Ibrahem',
+            'date'           => '2026-09-17',
             'translate_type' => 'lead'
         ];
 
         $titleData = [
             'w_lead_words' => 361,
-            'r_lead_refs' => 12,
-            'importance' => 'Unknown',
-            'en_views' => 22158,
-            'qid' => 'Q389735'
+            'r_lead_refs'  => 12,
+            'importance'   => 'Unknown',
+            'en_views'     => 22158,
+            'qid'          => 'Q389735'
         ];
 
         // User is same as translator ($_user_ == $global_username), not coord, setting = '0'
@@ -173,17 +173,17 @@ class InProcessTranslationButtonTest extends TestCase
     public function testMakeOneRowNewInprocessHidesTranslateButtonForOtherUserWhenDisabled(): void
     {
         $inprocessTable = [
-            'user' => 'OtherUser',
-            'date' => '2026-09-17',
+            'user'           => 'OtherUser',
+            'date'           => '2026-09-17',
             'translate_type' => 'lead'
         ];
 
         $titleData = [
             'w_lead_words' => 361,
-            'r_lead_refs' => 12,
-            'importance' => 'Unknown',
-            'en_views' => 22158,
-            'qid' => 'Q389735'
+            'r_lead_refs'  => 12,
+            'importance'   => 'Unknown',
+            'en_views'     => 22158,
+            'qid'          => 'Q389735'
         ];
 
         // Logged in as Mr. Ibrahem, item is assigned to OtherUser, not coord, setting = '0'
@@ -212,14 +212,14 @@ class InProcessTranslationButtonTest extends TestCase
     public function testMakeTdFoUserIncludesTypeCell(): void
     {
         $tabb = [
-            'title' => 'Cardiovascular disease',
-            'user' => 'Mr. Ibrahem',
-            'lang' => 'ar',
-            'cat' => 'RTT',
+            'title'          => 'Cardiovascular disease',
+            'user'           => 'Mr. Ibrahem',
+            'lang'           => 'ar',
+            'cat'            => 'RTT',
             'translate_type' => 'lead',
-            'word' => 361,
-            'date' => '2026-09-17',
-            'target' => 'أمراض القلب'
+            'word'           => 361,
+            'date'           => '2026-09-17',
+            'target'         => 'أمراض القلب'
         ];
 
         $rowHtml = LeadHelp::make_td_fo_user(

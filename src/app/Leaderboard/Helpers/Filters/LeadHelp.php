@@ -130,7 +130,7 @@ class LeadHelp
 
 			$view = "-";
 			if ($deleted == 0) {
-				$view = WikiApi::make_view_by_number($target, $view_number, $lang, $pupdate);
+				$view = WikiApi::makeViewByNumber($target, $view_number, $lang, $pupdate);
 			}
 
 			$target_link = HtmlUrls::make_wikipedia_url_blank($target, $lang, "", $deleted);

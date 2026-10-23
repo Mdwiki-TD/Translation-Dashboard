@@ -7,6 +7,7 @@ use App\SQLorAPI\BaseTable;
 class SettingsTable extends BaseTable
 {
     private static array $sqlSettingsCache = [];
+    private static array $languageSettingsCache = [];
 
 
     private static ?self $instance = null;
@@ -22,6 +23,7 @@ class SettingsTable extends BaseTable
     public static function resetCache(): void
     {
         self::$sqlSettingsCache = [];
+        self::$languageSettingsCache = [];
     }
 
     public function getSettings(): array
@@ -30,7 +32,7 @@ class SettingsTable extends BaseTable
             return self::$sqlSettingsCache;
         }
 
-        $query = "select id, title, displayed, value, Type, ignored from settings";
+        $query = "select id, title, displayed, value, ignored from settings";
         $apiParams = ['get' => 'settings'];
 
         self::$sqlSettingsCache = $this->service->superFunction($apiParams, [], $query);
@@ -38,24 +40,22 @@ class SettingsTable extends BaseTable
         return self::$sqlSettingsCache;
     }
 
-    public function getEndpointOld(): string
+    public function getSettingsByid(string $id): array
     {
-        $settings1 = self::getSettings();
-        $settings1Map = array_column($settings1, 'value', 'title');
-
-        $useMdwikicx = $settings1Map['use_mdwikicx'] ?? '0';
-
-        $endpoint = "https://medwiki.toolforge.org/w/index.php";
-
-        if ($useMdwikicx != '0') {
-            $endpoint = "https://mdwikicx.toolforge.org/w/index.php";
+        if (empty($id)) {
+            return [];
         }
 
-        return $endpoint;
+        $query = "select id, title, displayed, value, ignored from settings where id = ?";
+
+        $data = $this->service->getSql($query, [$id]);
+
+        return array_values($data)[0] ?? [];
     }
 
     public function getEndpoint(): string
     {
+        // return "http://localhost:889/x/html/index.html";
         return "https://mdwikicx.toolforge.org/w/index.php";
     }
 
@@ -63,17 +63,16 @@ class SettingsTable extends BaseTable
     {
 
         // language_settings (lang_code, move_dots, expend, add_en_lang)
-        static $dataLangs = [];
-
-        if (!empty($dataLangs)) return $dataLangs;
+        if (!empty(self::$languageSettingsCache))
+            return self::$languageSettingsCache;
 
         $sqlParams = [];
         $apiParams = ['get' => 'language_settings'];
         $query = "SELECT * FROM language_settings order by lang_code";
 
-        $dataLangs = $this->service->superFunction($apiParams, $sqlParams, $query);
+        self::$languageSettingsCache = $this->service->superFunction($apiParams, $sqlParams, $query);
 
-        return $dataLangs;
+        return self::$languageSettingsCache;
     }
 
 }

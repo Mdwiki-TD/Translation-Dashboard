@@ -1,5 +1,5 @@
 <?php
-// src/app/AppRouter.php
+// src/app/Controllers/AppRouter.php
 
 namespace App\Controllers;
 

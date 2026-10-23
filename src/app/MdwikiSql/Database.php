@@ -52,7 +52,6 @@ class Database
 
         return "";
     }
-
     private function buildDsn(string $dbnameVar): string
     {
         // Load host and database name from environment variables, falling back to a default host
@@ -104,7 +103,6 @@ class Database
             throw new \RuntimeException('Database connection failed');
         }
     }
-
     public function disableFullGroupByMode(string $sqlQuery): void
     {
         if ($this->db === null) {
@@ -155,7 +153,6 @@ class Database
             return [];
         }
     }
-
     public function executeQuery(string $sqlQuery, ?array $params = null): bool
     {
         if ($this->db === null) {

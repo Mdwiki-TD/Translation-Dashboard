@@ -1,21 +1,49 @@
 <?php
 
-/**
- * Seed test for: PageFooter
- * Source: src/app/Layout/PageFooter.php
- * TODO: write the actual tests.
- */
 
-declare(strict_types=1);
 
 namespace Tests\App\Layout;
 
+use App\Layout\PageFooter;
+use App\User\CurrentUser;
 use PHPUnit\Framework\TestCase;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+
+#[CoversClass(PageFooter::class)]
 class PageFooterTest extends TestCase
 {
-    public function testPlaceholder(): void
+    public function testRenderWithTimeStart(): void
     {
-        $this->markTestIncomplete('Tests for PageFooter are not written yet.');
+        $currentUser = $this->createMock(CurrentUser::class);
+        $currentUser->method('isLoggedIn')->willReturn(false);
+
+        $footer = new PageFooter($currentUser);
+        $startTime = microtime(true) - 0.5;
+
+        ob_start();
+        $footer->render($startTime);
+        $output = ob_get_clean();
+
+        $this->assertStringContainsString('<script>', $output);
+        $this->assertStringContainsString('Load Time:', $output);
+        $this->assertStringContainsString('card-widget.js', $output);
+        $this->assertStringContainsString('</html>', $output);
+    }
+
+    public function testRenderWithoutTimeStart(): void
+    {
+        $currentUser = $this->createMock(CurrentUser::class);
+        $currentUser->method('isLoggedIn')->willReturn(false);
+
+        $footer = new PageFooter($currentUser);
+
+        ob_start();
+        $footer->render(null);
+        $output = ob_get_clean();
+
+        $this->assertStringNotContainsString('Load Time:', $output);
+        $this->assertStringContainsString('card-widget.js', $output);
+        $this->assertStringContainsString('</html>', $output);
     }
 }

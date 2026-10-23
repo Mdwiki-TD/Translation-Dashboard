@@ -39,7 +39,11 @@ use App\SQLorAPI\TitlesTable;
 class LangsTables
 {
     private static bool $already_loaded = false;
+
+    /** @var array<int, string> */
     public static array $L_skip_codes = ["commons", "species", "ary", "arz", "meta", "en", "simple"];
+
+    /** @var array<string, string> */
     private static array $LChangeCodes = [
         "gsw" => "als",
         "sgs" => "bat-smg",
@@ -58,8 +62,14 @@ class LangsTables
         "zh_yue"    =>    "zh-yue",
         "yue"    =>    "zh-yue",
     ];
+
+    /** @var array<string, string> */
     private static array $L_code_to_lang_name = [];
+
+    /** @var array<string, string> */
     private static array $L_lang_to_code = [];
+
+    /** @var array<string, string> */
     private static array $LCodeToLang = [];
 
     private static function load(): void
