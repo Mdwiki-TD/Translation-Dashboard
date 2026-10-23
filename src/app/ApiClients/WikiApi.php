@@ -67,7 +67,7 @@ class WikiApi
     }
     public static function getViews(string $target, string $lang, ?string $pupdate): int
     {
-        if (empty($target))
+        if ($target === '')
             return 0;
         $start2 = !empty($pupdate) ? str_replace('-', '', $pupdate) : '20190101';
         $url = 'https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/' . $lang . '.wikipedia/all-access/all-agents/' . rawurlencode($target) . '/daily/' . $start2 . '/2030010100';

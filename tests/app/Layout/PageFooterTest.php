@@ -15,7 +15,10 @@ class PageFooterTest extends TestCase
 {
     public function testRenderWithTimeStart(): void
     {
-        $footer = new PageFooter(CurrentUser::getInstance());
+        $currentUser = $this->createMock(CurrentUser::class);
+        $currentUser->method('isLoggedIn')->willReturn(false);
+
+        $footer = new PageFooter($currentUser);
         $startTime = microtime(true) - 0.5;
 
         ob_start();
@@ -30,7 +33,10 @@ class PageFooterTest extends TestCase
 
     public function testRenderWithoutTimeStart(): void
     {
-        $footer = new PageFooter(CurrentUser::getInstance());
+        $currentUser = $this->createMock(CurrentUser::class);
+        $currentUser->method('isLoggedIn')->willReturn(false);
+
+        $footer = new PageFooter($currentUser);
 
         ob_start();
         $footer->render(null);

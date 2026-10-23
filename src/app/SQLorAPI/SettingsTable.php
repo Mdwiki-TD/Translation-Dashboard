@@ -7,6 +7,7 @@ use App\SQLorAPI\BaseTable;
 class SettingsTable extends BaseTable
 {
     private static array $sqlSettingsCache = [];
+    private static array $languageSettingsCache = [];
 
 
     private static ?self $instance = null;
@@ -22,6 +23,7 @@ class SettingsTable extends BaseTable
     public static function resetCache(): void
     {
         self::$sqlSettingsCache = [];
+        self::$languageSettingsCache = [];
     }
 
     public function getSettings(): array
@@ -61,18 +63,16 @@ class SettingsTable extends BaseTable
     {
 
         // language_settings (lang_code, move_dots, expend, add_en_lang)
-        static $dataLangs = [];
-
-        if (!empty($dataLangs))
-            return $dataLangs;
+        if (!empty(self::$languageSettingsCache))
+            return self::$languageSettingsCache;
 
         $sqlParams = [];
         $apiParams = ['get' => 'language_settings'];
         $query = "SELECT * FROM language_settings order by lang_code";
 
-        $dataLangs = $this->service->superFunction($apiParams, $sqlParams, $query);
+        self::$languageSettingsCache = $this->service->superFunction($apiParams, $sqlParams, $query);
 
-        return $dataLangs;
+        return self::$languageSettingsCache;
     }
 
 }

@@ -42,6 +42,7 @@
     },
     "require": {
         "php": "^8.2",
+        "ext-curl": "*",
         "defuse/php-encryption": "^2.4"
     }
 }
