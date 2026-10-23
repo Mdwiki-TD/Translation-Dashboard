@@ -5,6 +5,7 @@
 namespace Tests\App\Layout;
 
 use App\Layout\PageFooter;
+use App\User\CurrentUser;
 use PHPUnit\Framework\TestCase;
 
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -14,7 +15,7 @@ class PageFooterTest extends TestCase
 {
     public function testRenderWithTimeStart(): void
     {
-        $footer = new PageFooter();
+        $footer = new PageFooter(CurrentUser::getInstance());
         $startTime = microtime(true) - 0.5;
 
         ob_start();
@@ -29,7 +30,7 @@ class PageFooterTest extends TestCase
 
     public function testRenderWithoutTimeStart(): void
     {
-        $footer = new PageFooter();
+        $footer = new PageFooter(CurrentUser::getInstance());
 
         ob_start();
         $footer->render(null);

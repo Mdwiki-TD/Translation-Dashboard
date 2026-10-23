@@ -10,7 +10,9 @@ use PHPUnit\Framework\TestCase;
 
 class DummyController
 {
-    public function __construct(private $currentUser) {}
+    public function __construct()
+    {
+    }
     public function handleRequest(): void
     {
         echo "<div>Dummy Controller Output</div>";

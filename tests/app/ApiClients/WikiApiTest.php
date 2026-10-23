@@ -25,14 +25,14 @@ class WikiApiTest extends TestCase
 
     public function testGetViewsReturnsZeroForEmptyTarget(): void
     {
-        $views = WikiApi::get_views('', 'en', '2023-01-01');
+        $views = WikiApi::getViews('', 'en', '2023-01-01');
         $this->assertSame(0, $views);
     }
 
     public function testGetUrlResultCurl(): void
     {
         ob_start();
-        $output = WikiApi::get_url_result_curl('invalid_url_scheme://test');
+        $output = WikiApi::getUrlResultCurl('invalid_url_scheme://test');
         ob_end_clean();
 
         $this->assertSame('', $output);
